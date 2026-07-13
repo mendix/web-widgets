@@ -8,8 +8,6 @@ import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { CropArea } from "./CropArea";
 import { CropToolbar } from "./CropToolbar";
 import { ImageCropperContainerProps } from "../../typings/ImageCropperProps";
-import { useOriginalImage } from "../hooks/useOriginalImage";
-import { usePreviewSrc } from "../hooks/usePreviewSrc";
 import { ImageCropperStore } from "../stores/ImageCropperStore";
 
 export const ImageCropperContainer = observer(function ImageCropperContainer(
@@ -25,30 +23,15 @@ export const ImageCropperContainer = observer(function ImageCropperContainer(
 
     const imageRef = useRef<HTMLImageElement>(null);
 
-    const uri = props.image.status === ValueStatus.Available ? props.image.value?.uri : undefined;
-    const original = useOriginalImage(
-        uri,
-        props.image.status === ValueStatus.Available ? props.image.value?.name : undefined
-    );
-    // Live preview for baked rotations/reset: setValue defers the commit, so show a local
-    // blob URL until the bound uri catches up on Save.
-    const { previewSrc, showPreview } = usePreviewSrc(uri);
-
-    // Feed the store its imperative React-owned deps. getImage/getOriginal close over refs, so
-    // re-inject every render; assigning plain (non-observable) fields triggers no reactions.
+    // Feed the store the one React-owned dep it still needs: the live on-screen <img> used as
+    // the canvas draw source. It closes over a ref, so re-inject every render; assigning a
+    // plain (non-observable) field triggers no reactions. Fetch/preview/capture now live in the
+    // store, driven by its own reaction on the bound uri.
     useEffect(() => {
         store.setDeps({
-            getImage: () => imageRef.current,
-            showPreview,
-            markInternalChange: original.markInternalChange,
-            getOriginal: original.getOriginal
+            getImage: () => imageRef.current
         });
     });
-
-    // Inbound image sync: a new bound uri means the source changed — clear the crop and disarm.
-    useEffect(() => {
-        store.onImageChanged();
-    }, [uri, store]);
 
     if (props.image.status === ValueStatus.Loading) {
         return (
@@ -96,7 +79,7 @@ export const ImageCropperContainer = observer(function ImageCropperContainer(
     return (
         <div className={classNames("widget-image-cropper", props.class)} style={props.style} tabIndex={props.tabIndex}>
             <CropArea
-                src={previewSrc ?? props.image.value.uri}
+                src={store.previewSrc ?? props.image.value.uri}
                 crop={store.liveCrop}
                 onCropChange={crop => store.setLiveCrop(crop)}
                 onCropComplete={pixelCrop => store.commitCrop(pixelCrop)}
@@ -122,7 +105,7 @@ export const ImageCropperContainer = observer(function ImageCropperContainer(
                 showZoom={props.zoomEnabled && props.showZoomSlider}
                 showReset={props.showResetButton}
                 grayscale={store.grayscale}
-                canReset={original.canRestore}
+                canReset={store.canRestore}
                 zoom={store.zoom}
                 minZoom={Number(props.minZoom)}
                 maxZoom={Number(props.maxZoom)}

@@ -1,5 +1,5 @@
 import { ValueStatus } from "mendix";
-import { action, computed, makeObservable, observable, runInAction } from "mobx";
+import { action, computed, makeObservable, observable, reaction, runInAction } from "mobx";
 import { type Crop, type PixelCrop } from "react-image-crop";
 import { DerivedPropsGate, SetupComponent } from "@mendix/widget-plugin-mobx-kit/main";
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
@@ -12,23 +12,18 @@ import { rotateImage } from "../utils/rotateImage";
 const DEBOUNCE_MS = 400;
 
 /**
- * Imperative, React-owned dependencies the store needs but must not own itself:
- * a live DOM <img>, the blob-URL preview lifecycle, the original-image capture, and
- * the internal-change flag. All are stable except getImage/getOriginal, which read
- * refs — so they are re-injected each render via {@link ImageCropperStore.setDeps}.
+ * The one imperative, React-owned dependency the store still needs but must not own itself:
+ * the live on-screen DOM <img>, used as the canvas draw source for crop/rotate export. It
+ * reads a ref, so it is re-injected each render via {@link ImageCropperStore.setDeps}. The
+ * blob-URL preview, the original-image capture, and the internal-change flag were absorbed
+ * into the store (they are pure browser resources, not React-lifecycle-bound in practice).
  */
 export interface CropperDeps {
     getImage: () => HTMLImageElement | null;
-    showPreview: (file: File) => void;
-    markInternalChange: () => void;
-    getOriginal: () => File | undefined;
 }
 
 const NOOP_DEPS: CropperDeps = {
-    getImage: () => null,
-    showPreview: () => undefined,
-    markInternalChange: () => undefined,
-    getOriginal: () => undefined
+    getImage: () => null
 };
 
 /**
@@ -53,6 +48,13 @@ export class ImageCropperStore implements SetupComponent {
     // the image stays put while the box moves. Drives CropArea transformOrigin AND export.
     zoomAnchor: ZoomAnchor = CENTER_ANCHOR;
 
+    // Local blob: URL shown instead of the bound uri until the deferred setValue commits on
+    // Save, or undefined to use the bound uri. Read by the container JSX. (was usePreviewSrc)
+    previewSrc: string | undefined = undefined;
+    // Whether the original bytes were captured, so Reset can restore them. Drives the Reset
+    // button's enabled state. (was useOriginalImage's canRestore)
+    canRestore = false;
+
     private gate: DerivedPropsGate<ImageCropperContainerProps>;
     private deps: CropperDeps = NOOP_DEPS;
 
@@ -62,18 +64,35 @@ export class ImageCropperStore implements SetupComponent {
     private applyDebouncedFn: (() => void) | undefined = undefined;
     private abort: (() => void) | undefined = undefined;
 
+    // Image-capture / preview plumbing (was useOriginalImage + usePreviewSrc). Plain, not
+    // observable: blobUrl/originalFile are browser resources; internalChange/capturedUri are
+    // the fetch-dedupe gate that must not drive render.
+    private originalFile: File | undefined = undefined;
+    private blobUrl: string | undefined = undefined;
+    private internalChange = false;
+    // Bumped on every uri change so an in-flight fetch superseded by a newer uri is dropped
+    // when it resolves (the reactive analog of useOriginalImage's `cancelled` guard).
+    private fetchGeneration = 0;
+    // Disposer for the uri reaction, torn down alongside the debounce in setup().
+    private disposeUriEffect: (() => void) | undefined = undefined;
+
     constructor(gate: DerivedPropsGate<ImageCropperContainerProps>) {
         this.gate = gate;
         this.zoom = Number(gate.props.minZoom);
         // Explicit annotations (not makeAutoObservable): only the crop-domain working state is
         // observable; gate/deps and the imperative apply gate stay plain. Reference-typed crop
         // values use observable.ref (we always replace, never mutate in place).
-        makeObservable<this, "props" | "applyCrop" | "applyNow" | "applyDebounced" | "armed">(this, {
+        makeObservable<
+            this,
+            "props" | "applyCrop" | "applyNow" | "applyDebounced" | "armed" | "onUriChanged" | "revokePreview"
+        >(this, {
             liveCrop: observable.ref,
             committedCrop: observable.ref,
             zoom: observable,
             grayscale: observable,
             zoomAnchor: observable.ref,
+            previewSrc: observable,
+            canRestore: observable,
             props: computed,
             aspect: computed,
             setLiveCrop: action,
@@ -85,12 +104,17 @@ export class ImageCropperStore implements SetupComponent {
             reset: action,
             initFromImageLoad: action,
             onImageChanged: action,
+            showPreview: action,
+            // onUriChanged writes crop/preview/canRestore observables (fired by the reaction).
+            onUriChanged: action,
             // applyCrop/applyNow/applyDebounced/armed read or write only the non-observable
-            // apply gate (userInteracted); they are intentionally NOT actions.
+            // apply gate (userInteracted); revokePreview touches only the plain blobUrl.
+            // captureOriginal/markInternalChange wrap their own runInAction / touch plain state.
             applyCrop: false,
             applyNow: false,
             applyDebounced: false,
-            armed: false
+            armed: false,
+            revokePreview: false
         });
     }
 
@@ -112,12 +136,111 @@ export class ImageCropperStore implements SetupComponent {
         }, DEBOUNCE_MS);
         this.applyDebouncedFn = debounced;
         this.abort = abort;
-        return abort;
+
+        // React to the bound image's uri changing (was useOriginalImage's [uri,name] effect +
+        // the container's onImageChanged effect). The data fn reads the observable gate props,
+        // so it re-tracks each render; the effect only fires when the derived uri value changes.
+        this.disposeUriEffect = reaction(
+            () => {
+                const image = this.props.image;
+                const value = image.status === ValueStatus.Available ? image.value : undefined;
+                return { uri: value?.uri, name: value?.name };
+            },
+            ({ uri, name }) => this.onUriChanged(uri, name),
+            { fireImmediately: true }
+        );
+
+        // Combined teardown: stop the debounce, dispose the uri reaction, revoke any live blob.
+        return () => {
+            abort();
+            this.disposeUriEffect?.();
+            this.revokePreview();
+        };
     }
 
-    // Re-injected every render (getImage/getOriginal close over React refs).
+    // Handles an image-uri change. Two branches:
+    //  - internal bake (our own setValue): adopt the uri, don't refetch, keep the crop box;
+    //  - external swap (a genuinely new image): capture original bytes for Reset, clear the
+    //    crop + disarm, and drop any stale preview blob so the bound uri shows through.
+    // Called by the setup() reaction (also fires immediately for the initial image).
+    private onUriChanged(uri: string | undefined, name: string | undefined): void {
+        // A fresh committed uri means the previous local preview is superseded — drop it
+        // unconditionally (usePreviewSrc did this on ANY committed-uri change).
+        this.revokePreview();
+        this.previewSrc = undefined;
+
+        if (!uri) {
+            return;
+        }
+
+        if (this.internalChange) {
+            // Our own bake produced this uri — adopt it, keep the original + crop, skip fetch.
+            this.internalChange = false;
+            return;
+        }
+
+        // A genuinely new external image arrived. Invalidate any in-flight fetch, reset the
+        // capture state, clear the crop + disarm, then recapture the original bytes for Reset.
+        const generation = ++this.fetchGeneration;
+        this.originalFile = undefined;
+        this.canRestore = false;
+        this.onImageChanged();
+        void this.captureOriginal(uri, name, generation);
+    }
+
+    // Async original-bytes capture for Reset. Guarded by the generation token so a fetch
+    // superseded by a newer uri is discarded when it resolves. (was useOriginalImage's fetch)
+    private async captureOriginal(uri: string, name: string | undefined, generation: number): Promise<void> {
+        try {
+            const res = await fetch(uri);
+            if (!res.ok) {
+                throw new Error(`status ${res.status}`);
+            }
+            const blob = await res.blob();
+            if (generation !== this.fetchGeneration) {
+                return; // superseded by a newer uri — drop this result
+            }
+            runInAction(() => {
+                this.originalFile = new File([blob], name ?? "original", { type: blob.type || "image/png" });
+                this.canRestore = true;
+            });
+        } catch {
+            if (generation === this.fetchGeneration) {
+                runInAction(() => {
+                    this.canRestore = false;
+                });
+            }
+        }
+    }
+
+    // Re-injected every render (getImage closes over a React ref).
     setDeps(deps: CropperDeps): void {
         this.deps = deps;
+    }
+
+    // Show a baked File immediately via a local blob: URL, before the deferred setValue commit
+    // changes the bound uri. Revokes any prior URL first. (was usePreviewSrc.showPreview)
+    showPreview(file: File): void {
+        this.revokePreview();
+        const url = URL.createObjectURL(file);
+        this.blobUrl = url;
+        this.previewSrc = url;
+    }
+
+    // Revoke the live blob URL (browser resource cleanup). Called before the next showPreview,
+    // when the bound uri catches up, and on teardown. Does not touch previewSrc — callers that
+    // need the fallback-to-bound-uri behavior clear previewSrc themselves.
+    private revokePreview(): void {
+        if (this.blobUrl) {
+            URL.revokeObjectURL(this.blobUrl);
+            this.blobUrl = undefined;
+        }
+    }
+
+    // Flag the next uri change as our own bake so the uri effect adopts it without refetching.
+    // Called synchronously before every internal setValue. (was useOriginalImage.markInternalChange)
+    private markInternalChange(): void {
+        this.internalChange = true;
     }
 
     setLiveCrop(crop: Crop | undefined): void {
@@ -190,8 +313,8 @@ export class ImageCropperStore implements SetupComponent {
             // Show COLOR working pixels; CropArea reloads from this blob and rebuilds a fresh
             // crop against the swapped dimensions on its onLoad. The CSS grayscale filter from
             // this.grayscale still renders gray on screen.
-            this.deps.showPreview(working);
-            this.deps.markInternalChange();
+            this.showPreview(working);
+            this.markInternalChange();
             image.setValue(committed);
         } catch (err) {
             if (err instanceof CropError) {
@@ -208,12 +331,12 @@ export class ImageCropperStore implements SetupComponent {
         this.grayscale = false;
         this.armed(); // do not auto-apply the reset itself
         const image = this.props.image;
-        const file = this.deps.getOriginal();
+        const file = this.originalFile;
         if (file && !image.readOnly && image.status === ValueStatus.Available) {
             // Mirror rotate: setValue defers the commit, so drive the live preview with the
             // original bytes too — otherwise a stale rotated blob keeps rendering after Reset.
-            this.deps.showPreview(file);
-            this.deps.markInternalChange();
+            this.showPreview(file);
+            this.markInternalChange();
             image.setValue(file);
         }
         // Re-seed the default cropbox. If restoring original bytes changed the uri (e.g. after a
@@ -239,7 +362,8 @@ export class ImageCropperStore implements SetupComponent {
         this.armed(); // programmatic load must not auto-commit
     }
 
-    // Inbound sync: called from a React effect when the bound image uri changes.
+    // Inbound sync: clear the crop box and disarm the apply gate when the bound image changes.
+    // Called by onUriChanged's external-swap branch (was a React effect on the uri).
     onImageChanged(): void {
         this.liveCrop = undefined;
         this.committedCrop = undefined;
@@ -289,7 +413,7 @@ export class ImageCropperStore implements SetupComponent {
             if (this.props.outputSize === "viewport") {
                 image.setThumbnailSize(this.props.boundaryWidth, this.props.boundaryHeight);
             }
-            this.deps.markInternalChange();
+            this.markInternalChange();
             image.setValue(file);
             if (this.props.onCropAction?.canExecute) {
                 this.props.onCropAction.execute();
