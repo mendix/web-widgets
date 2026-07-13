@@ -1,7 +1,7 @@
 {
     "name": "@mendix/pusher-web",
     "widgetName": "Pusher",
-    "version": "2.0.0",
+    "version": "4.0.0",
     "description": "Pusher.com integration widget for real-time communication",
     "copyright": "© Mendix Technology BV 2026. All rights reserved.",
     "license": "Apache-2.0",
