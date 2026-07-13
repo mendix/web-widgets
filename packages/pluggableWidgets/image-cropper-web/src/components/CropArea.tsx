@@ -2,8 +2,8 @@ import { Dispatch, ReactElement, Ref, SetStateAction, SyntheticEvent, useCallbac
 import { default as ReactCrop, type Crop, type PixelCrop } from "react-image-crop";
 import { ZoomContainer } from "./ZoomContainer";
 import { WheelZoomModeEnum } from "../../typings/ImageCropperProps";
-import { CENTER_ANCHOR, type ZoomAnchor } from "../utils/cropImage";
 import { isStrayCrop, MIN_CROP_PX } from "../utils/cropGuard";
+import { CENTER_ANCHOR, type ZoomAnchor } from "../utils/cropImage";
 import { buildInitialCrop } from "../utils/initialCrop";
 import { safeImageUri } from "../utils/safeImageUri";
 
