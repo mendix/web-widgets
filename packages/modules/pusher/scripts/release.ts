@@ -1,6 +1,7 @@
 #!/usr/bin/env ts-node-script
 
 import {
+    addTestProjectWidgetsToMpk,
     addWidgetsToMpk,
     cloneTestProject,
     copyModuleLicense,
@@ -23,6 +24,7 @@ async function main(): Promise<void> {
             copyWidgetsToProject,
             createModuleMpk,
             addWidgetsToMpk,
+            addTestProjectWidgetsToMpk(["Pusher.mpk"]),
             moveModuleToDist
         ]
     });
