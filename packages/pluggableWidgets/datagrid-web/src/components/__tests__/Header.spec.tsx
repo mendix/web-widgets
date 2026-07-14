@@ -146,7 +146,7 @@ describe("Header", () => {
 
     it("renders the structure correctly when value is empty", () => {
         const columnsType = column("Column 1", col => {
-            col.header = dynamic(" ");
+            col.header = dynamic.available(" ");
         });
         const props = mockContainerProps({
             columns: [columnsType]

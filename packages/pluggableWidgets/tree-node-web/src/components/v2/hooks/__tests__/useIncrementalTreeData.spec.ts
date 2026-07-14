@@ -12,12 +12,10 @@ function makeConfig(overrides: Partial<TreeConfigRef> = {}): TreeConfigRef {
     return {
         headerType: "text",
         headerCaption: {
-            get: jest.fn((item: ObjectItem) => dynamic(String(item.id)))
+            get: jest.fn((item: ObjectItem) => dynamic.available(String(item.id)))
         } as any,
         headerContent: undefined,
-        parentAssociation: listReference(b =>
-            b.withGet((_item: ObjectItem) => dynamic(undefined as unknown as ObjectItem)).build()
-        ),
+        parentAssociation: listReference(b => b.withGet((_item: ObjectItem) => dynamic.unavailable()).build()),
         startExpanded: false,
         ...overrides
     };
@@ -30,14 +28,14 @@ function makeConfigWithParentMap(
     return {
         headerType: "text",
         headerCaption: {
-            get: jest.fn((item: ObjectItem) => dynamic(String(item.id)))
+            get: jest.fn((item: ObjectItem) => dynamic.available(String(item.id)))
         } as any,
         headerContent: undefined,
         parentAssociation: listReference(b =>
             b
                 .withGet((item: ObjectItem) => {
                     const parentId = parentMap[String(item.id)];
-                    return parentId ? dynamic(makeItem(parentId)) : dynamic(undefined as unknown as ObjectItem);
+                    return parentId ? dynamic.available(makeItem(parentId)) : dynamic.unavailable();
                 })
                 .build()
         ),

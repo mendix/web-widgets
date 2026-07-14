@@ -44,6 +44,13 @@ else
     pnpm exec prettier --write "$FILE_PATH" 2>/dev/null
 fi
 
+# Auto-fix eslint-fixable issues (import order, prefer-const, etc.) on the edited file.
+# This corrects fixable warnings that the report-only lint pass below would otherwise
+# leave in place (import/order is a warning, so it never fails lint but does clutter diffs).
+if [[ -n "$PACKAGE_DIR" ]]; then
+    (cd "$PACKAGE_DIR" && pnpm exec eslint --fix "$FILE_PATH" 2>/dev/null)
+fi
+
 # Run lint from the package directory using the project's lint setup
 if [[ -n "$PACKAGE_DIR" ]]; then
     LINT_OUTPUT=$(cd "$PACKAGE_DIR" && pnpm run lint 2>&1)

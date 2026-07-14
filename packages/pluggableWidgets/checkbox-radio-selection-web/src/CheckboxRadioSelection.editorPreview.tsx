@@ -1,18 +1,24 @@
-import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import type { DynamicValue } from "mendix";
 import { ReactElement, useMemo } from "react";
+import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { CheckboxRadioSelectionPreviewProps } from "../typings/CheckboxRadioSelectionProps";
+import { CheckboxSelection } from "./components/CheckboxSelection/CheckboxSelection";
 import { RadioSelection } from "./components/RadioSelection/RadioSelection";
-import { dynamic } from "@mendix/widget-plugin-test-utils";
-import { MultiSelector, SelectionBaseProps, SingleSelector } from "./helpers/types";
-import { StaticPreviewSelector } from "./helpers/Static/Preview/StaticPreviewSelector";
+import { AssociationPreviewSelector } from "./helpers/Association/Preview/AssociationPreviewSelector";
 import {
     DatabaseMultiPreviewSelector,
     DatabasePreviewSelector
 } from "./helpers/Database/Preview/DatabasePreviewSelector";
-import { AssociationPreviewSelector } from "./helpers/Association/Preview/AssociationPreviewSelector";
+import { StaticPreviewSelector } from "./helpers/Static/Preview/StaticPreviewSelector";
+import { MultiSelector, SelectionBaseProps, SingleSelector } from "./helpers/types";
 import "./ui/CheckboxRadioSelection.scss";
 import "./ui/CheckboxRadioSelectionPreview.scss";
-import { CheckboxSelection } from "./components/CheckboxSelection/CheckboxSelection";
+
+const available = <T,>(value: T): DynamicValue<T> =>
+    ({
+        status: "available",
+        value
+    }) as DynamicValue<T>;
 
 export const preview = (props: CheckboxRadioSelectionPreviewProps): ReactElement => {
     const id = generateUUID().toString();
@@ -21,9 +27,9 @@ export const preview = (props: CheckboxRadioSelectionPreviewProps): ReactElement
         inputId: id,
         labelId: `${id}-label`,
         readOnlyStyle: props.readOnlyStyle,
-        ariaRequired: dynamic(false),
-        ariaLabel: dynamic(""),
-        groupName: dynamic(`${id}-group`),
+        ariaRequired: available(false),
+        ariaLabel: available(""),
+        groupName: available(`${id}-group`),
         noOptionsText: "No options available"
     };
 

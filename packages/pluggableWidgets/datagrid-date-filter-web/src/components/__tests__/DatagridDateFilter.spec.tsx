@@ -3,7 +3,7 @@ import { DateInputFilterStore } from "@mendix/widget-plugin-filtering/stores/inp
 import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import {
     actionValue,
-    dynamicValue,
+    dynamic,
     EditableValueBuilder,
     ListAttributeValueBuilder
 } from "@mendix/widget-plugin-test-utils";
@@ -97,7 +97,7 @@ describe("Date Filter", () => {
                         {...commonProps}
                         onChange={action}
                         valueAttribute={attribute}
-                        placeholder={dynamicValue("Placeholder")}
+                        placeholder={dynamic.available("Placeholder")}
                     />
                 );
 
@@ -111,7 +111,7 @@ describe("Date Filter", () => {
                 it("initialize with defaultValue", async () => {
                     // 946684800000 = 01.01.2000
                     const date = new Date(946684800000);
-                    render(<DatagridDateFilter {...commonProps} defaultValue={dynamicValue<Date>(date)} />);
+                    render(<DatagridDateFilter {...commonProps} defaultValue={dynamic.available(date)} />);
                     expect(screen.getByRole("textbox")).toHaveValue("01/01/2000");
                 });
 
@@ -121,7 +121,7 @@ describe("Date Filter", () => {
                     const { rerender } = render(<DatagridDateFilter {...commonProps} defaultValue={undefined} />);
                     expect(screen.getByRole("textbox")).toHaveValue("");
 
-                    rerender(<DatagridDateFilter {...commonProps} defaultValue={dynamicValue<Date>(date)} />);
+                    rerender(<DatagridDateFilter {...commonProps} defaultValue={dynamic.available(date)} />);
                     expect(screen.getByRole("textbox")).toHaveValue("");
                 });
 
@@ -129,7 +129,7 @@ describe("Date Filter", () => {
                     // 946684800000 = 01.01.2000
                     const date = new Date(946684800000);
                     const { rerender } = render(
-                        <DatagridDateFilter {...commonProps} defaultValue={dynamicValue<Date>(date)} />
+                        <DatagridDateFilter {...commonProps} defaultValue={dynamic.available(date)} />
                     );
                     expect(screen.getByRole("textbox")).toHaveValue("01/01/2000");
 
@@ -271,7 +271,7 @@ describe("Date Filter", () => {
 
         it("has correct short week days for en-US", async () => {
             window.mx = createMXObjectMock("en_US", "en-US");
-            render(<DatagridDateFilter {...commonProps} defaultValue={dynamicValue(new Date("2021-12-10"))} />);
+            render(<DatagridDateFilter {...commonProps} defaultValue={dynamic.available(new Date("2021-12-10"))} />);
 
             const input = screen.getByRole("textbox");
             await act(async () => {
@@ -283,7 +283,7 @@ describe("Date Filter", () => {
 
         it("has correct short week days for en-US and starts week at Monday", async () => {
             window.mx = createMXObjectMock("en_US", "en-US", 1);
-            render(<DatagridDateFilter {...commonProps} defaultValue={dynamicValue(new Date("2021-12-10"))} />);
+            render(<DatagridDateFilter {...commonProps} defaultValue={dynamic.available(new Date("2021-12-10"))} />);
 
             const input = screen.getByRole("textbox");
             await act(async () => {
@@ -295,7 +295,7 @@ describe("Date Filter", () => {
 
         it("has correct short week days for pt-Br", async () => {
             window.mx = createMXObjectMock("pt_BR", "pt-BR");
-            render(<DatagridDateFilter {...commonProps} defaultValue={dynamicValue(new Date("2021-12-10"))} />);
+            render(<DatagridDateFilter {...commonProps} defaultValue={dynamic.available(new Date("2021-12-10"))} />);
 
             const input = screen.getByRole("textbox");
             await act(async () => {
@@ -307,7 +307,7 @@ describe("Date Filter", () => {
 
         it("has correct short week days for fi-FI and starts on monday", async () => {
             window.mx = createMXObjectMock("fi_FI", "fi-FI", 1);
-            render(<DatagridDateFilter {...commonProps} defaultValue={dynamicValue(new Date("2021-12-10"))} />);
+            render(<DatagridDateFilter {...commonProps} defaultValue={dynamic.available(new Date("2021-12-10"))} />);
 
             const input = screen.getByRole("textbox");
             await act(async () => {
@@ -319,7 +319,7 @@ describe("Date Filter", () => {
 
         it("has correct short week days for fi-FI", async () => {
             window.mx = createMXObjectMock("fi_FI", "fi-FI");
-            render(<DatagridDateFilter {...commonProps} defaultValue={dynamicValue(new Date("2021-12-10"))} />);
+            render(<DatagridDateFilter {...commonProps} defaultValue={dynamic.available(new Date("2021-12-10"))} />);
 
             const input = screen.getByRole("textbox");
             await act(async () => {

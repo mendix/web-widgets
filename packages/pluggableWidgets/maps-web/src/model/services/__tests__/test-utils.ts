@@ -4,12 +4,15 @@ import { MapsContainerProps } from "../../../../typings/MapsProps";
 import { mapsConfig } from "../../configs/Maps.config";
 import { MapsContainer } from "../../containers/Maps.container";
 import { RootContainer } from "../../containers/Root.container";
-import { CORE_TOKENS as CORE, MAPS_TOKENS as MAPS, GeocodeFunction } from "../../tokens";
+import { CORE_TOKENS as CORE, MAPS_TOKENS as MAPS, GeocodeFunction, GetLocationFunction } from "../../tokens";
+import { CurrentLocationService } from "../CurrentLocation.service";
 import { LocationResolverService } from "../LocationResolver.service";
 
 export interface TestContainerOptions {
     props: MapsContainerProps;
     geocodeFunction?: GeocodeFunction;
+    getLocationFunction?: GetLocationFunction;
+    skipSetup?: boolean;
 }
 
 /**
@@ -19,7 +22,7 @@ export interface TestContainerOptions {
 export function createTestContainer(
     options: TestContainerOptions
 ): [MapsContainer, LocationResolverService, GateProvider<MapsContainerProps>] {
-    const { props, geocodeFunction } = options;
+    const { props, geocodeFunction, getLocationFunction, skipSetup } = options;
 
     // Create root container
     const root = new RootContainer();
@@ -27,6 +30,11 @@ export function createTestContainer(
     // Override geocode function in root if provided
     if (geocodeFunction) {
         root.bind(CORE.geocodeFunction).toConstant(geocodeFunction);
+    }
+
+    // Override current location function in root if provided
+    if (getLocationFunction) {
+        root.bind(CORE.getLocationFunction).toConstant(getLocationFunction);
     }
 
     // Create config and gate provider
@@ -40,8 +48,9 @@ export function createTestContainer(
         mainGate: gateProvider.gate
     });
 
-    // Trigger setup lifecycle (in production this is done by useSetup hook)
-    container.get(CORE.setupService).setup();
+    if (!skipSetup) {
+        container.get(CORE.setupService).setup();
+    }
 
     // Get service (already initialized by postInit)
     const service = container.get(MAPS.locationResolver);
@@ -61,4 +70,11 @@ export async function waitForLocations(service: LocationResolverService, expecte
  */
 export function createMockGeocodeFunction(): jest.MockedFunction<GeocodeFunction> {
     return jest.fn().mockResolvedValue([]);
+}
+
+/**
+ * Resolves the CurrentLocationService from a test container.
+ */
+export function getCurrentLocationService(container: MapsContainer): CurrentLocationService {
+    return container.get(MAPS.currentLocation);
 }

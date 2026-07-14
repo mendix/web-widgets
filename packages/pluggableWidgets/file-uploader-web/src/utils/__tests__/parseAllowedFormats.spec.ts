@@ -1,4 +1,4 @@
-import { dynamicValue } from "@mendix/widget-plugin-test-utils";
+import { dynamic } from "@mendix/widget-plugin-test-utils";
 import { AllowedFileFormatsType } from "../../../typings/FileUploaderProps";
 import { parseAllowedFormats } from "../parseAllowedFormats";
 
@@ -7,28 +7,28 @@ describe("parseAllowedFormats", () => {
         const input: AllowedFileFormatsType[] = [
             {
                 configMode: "advanced",
-                typeFormatDescription: dynamicValue("test"),
+                typeFormatDescription: dynamic.available("test"),
                 predefinedType: "pdfFile",
                 mimeType: "image/jpeg",
                 extensions: ".jpg,.jpeg"
             },
             {
                 configMode: "advanced",
-                typeFormatDescription: dynamicValue("test2"),
+                typeFormatDescription: dynamic.available("test2"),
                 predefinedType: "pdfFile",
                 mimeType: "application/pdf",
                 extensions: ".pdf"
             },
             {
                 configMode: "advanced",
-                typeFormatDescription: dynamicValue("test"),
+                typeFormatDescription: dynamic.available("test"),
                 predefinedType: "pdfFile",
                 mimeType: "text/*",
                 extensions: ""
             },
             {
                 configMode: "advanced",
-                typeFormatDescription: dynamicValue("test2"),
+                typeFormatDescription: dynamic.available("test2"),
                 predefinedType: "pdfFile",
                 mimeType: "",
                 extensions: ".html,.txt"
@@ -56,14 +56,14 @@ describe("parseAllowedFormats", () => {
         const input: AllowedFileFormatsType[] = [
             {
                 configMode: "advanced",
-                typeFormatDescription: dynamicValue("test"),
+                typeFormatDescription: dynamic.available("test"),
                 predefinedType: "pdfFile",
                 mimeType: "image/*",
                 extensions: ".jpg"
             },
             {
                 configMode: "advanced",
-                typeFormatDescription: dynamicValue("test"),
+                typeFormatDescription: dynamic.available("test"),
                 predefinedType: "pdfFile",
                 mimeType: "image/*",
                 extensions: ".png"
@@ -84,7 +84,7 @@ describe("parseAllowedFormats", () => {
         const input: AllowedFileFormatsType[] = [
             {
                 configMode: "advanced",
-                typeFormatDescription: dynamicValue("test"),
+                typeFormatDescription: dynamic.available("test"),
                 predefinedType: "pdfFile",
                 mimeType: "application-pdf",
                 extensions: ".pdf"
@@ -99,7 +99,7 @@ describe("parseAllowedFormats", () => {
         const input: AllowedFileFormatsType[] = [
             {
                 configMode: "advanced",
-                typeFormatDescription: dynamicValue("special-extensions"),
+                typeFormatDescription: dynamic.available("special-extensions"),
                 predefinedType: "pdfFile",
                 mimeType: "application/x-custom",
                 extensions: ".tar-gz,.js-map,.c++"
@@ -117,7 +117,7 @@ describe("parseAllowedFormats", () => {
         const input: AllowedFileFormatsType[] = [
             {
                 configMode: "advanced",
-                typeFormatDescription: dynamicValue("test"),
+                typeFormatDescription: dynamic.available("test"),
                 predefinedType: "pdfFile",
                 mimeType: "text/*",
                 extensions: ".txt,pdf"
@@ -133,7 +133,7 @@ describe("parseAllowedFormats", () => {
         const input: AllowedFileFormatsType[] = [
             {
                 configMode: "advanced",
-                typeFormatDescription: dynamicValue("test"),
+                typeFormatDescription: dynamic.available("test"),
                 predefinedType: "pdfFile",
                 mimeType: "text/*",
                 extensions: ".txt,.cvs,abc"
@@ -149,7 +149,7 @@ describe("parseAllowedFormats", () => {
         const input: AllowedFileFormatsType[] = [
             {
                 configMode: "advanced",
-                typeFormatDescription: dynamicValue("test"),
+                typeFormatDescription: dynamic.available("test"),
                 predefinedType: "pdfFile",
                 mimeType: "text/*",
                 extensions: ".txt,.config.json"

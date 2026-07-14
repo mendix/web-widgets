@@ -1,12 +1,20 @@
 import { DynamicValue } from "mendix";
 import { Status } from "../constants.js";
 
-export function dynamic<T>(value?: T, loading = false): DynamicValue<T> {
-    if (value === undefined) {
-        return { status: Status.Unavailable, value: undefined };
-    }
-    return { status: loading ? Status.Loading : Status.Available, value };
+function available<T>(value: T): DynamicValue<T> {
+    return { status: Status.Available, value };
 }
 
-/** @deprecated renamed to {@link dynamic} */
-export const dynamicValue = dynamic;
+function loading<T>(value?: T): DynamicValue<T> {
+    return { status: Status.Loading, value };
+}
+
+function unavailable<T = unknown>(): DynamicValue<T> {
+    return { status: Status.Unavailable, value: undefined };
+}
+
+export const dynamic = {
+    available,
+    loading,
+    unavailable
+};

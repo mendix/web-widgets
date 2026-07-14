@@ -40,7 +40,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => new Big("1234.56"));
                 c.exportType = "number";
-                c.exportNumberFormat = dynamic("#,##0.00");
+                c.exportNumberFormat = dynamic.available("#,##0.00");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("n");
@@ -68,13 +68,116 @@ describe("cell-readers", () => {
             expect(cell.v).toBe(false);
         });
 
+        it("uses attribute number formatter when exportType is default", () => {
+            const attr = listAttribute(() => new Big("1234.56")) as any;
+            attr.formatter = { type: "number", config: { groupDigits: true, decimalPrecision: 2 } };
+            const col = column("Amount", c => {
+                c.showContentAs = "attribute";
+                c.attribute = attr;
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("n");
+            expect(cell.v).toBe(1234.56);
+            expect(cell.z).toBe("#,##0.00");
+        });
+
+        it("uses attribute date formatter when exportType is default", () => {
+            const testDate = new Date("2024-06-15T10:30:00Z");
+            const attr = listAttribute(() => testDate) as any;
+            attr.formatter = { type: "datetime", config: { type: "custom", pattern: "dd/MM/yyyy" } };
+            const col = column("Created", c => {
+                c.showContentAs = "attribute";
+                c.attribute = attr;
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("d");
+            expect(cell.v).toEqual(new Date(Date.UTC(2024, 5, 15)));
+            expect(cell.z).toBe("dd/mm/yyyy");
+        });
+
+        it("returns no format for default datetime with non-custom config", () => {
+            const testDate = new Date("2024-06-15T10:30:00Z");
+            const attr = listAttribute(() => testDate) as any;
+            attr.formatter = { type: "datetime", config: { type: "date" } };
+            const col = column("Created", c => {
+                c.showContentAs = "attribute";
+                c.attribute = attr;
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("d");
+            expect(cell.v).toEqual(new Date(Date.UTC(2024, 5, 15)));
+            expect(cell.z).toBe("dd-mm-yyyy");
+        });
+
+        it("uses attribute number formatter without decimals", () => {
+            const attr = listAttribute(() => new Big("42")) as any;
+            attr.formatter = { type: "number", config: { groupDigits: false, decimalPrecision: 0 } };
+            const col = column("Count", c => {
+                c.showContentAs = "attribute";
+                c.attribute = attr;
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("n");
+            expect(cell.v).toBe(42);
+            expect(cell.z).toBe("0");
+        });
+
+        it("mirrors the grid when number formatter config omits decimalPrecision (grouped)", () => {
+            // Real Mendix Decimal attributes only expose `groupDigits` at runtime, so the
+            // decimal count is derived from the value itself.
+            const attr = listAttribute(() => new Big("1234.56")) as any;
+            attr.formatter = { type: "number", config: { groupDigits: true } };
+            const col = column("Amount", c => {
+                c.showContentAs = "attribute";
+                c.attribute = attr;
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("n");
+            expect(cell.v).toBe(1234.56);
+            expect(cell.z).toBe("#,##0.00");
+        });
+
+        it("mirrors the grid when number formatter config omits decimalPrecision (ungrouped)", () => {
+            const attr = listAttribute(() => new Big("0.5")) as any;
+            attr.formatter = { type: "number", config: { groupDigits: false } };
+            const col = column("Amount", c => {
+                c.showContentAs = "attribute";
+                c.attribute = attr;
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("n");
+            expect(cell.v).toBe(0.5);
+            expect(cell.z).toBe("0.0");
+        });
+
+        it("uses no fractional format for a whole-number value (no trailing dot)", () => {
+            // Regression: a static `0.########` mask renders 1983 as "1983." in Excel.
+            const attr = listAttribute(() => new Big("1983")) as any;
+            attr.formatter = { type: "number", config: { groupDigits: false } };
+            const col = column("Birth year", c => {
+                c.showContentAs = "attribute";
+                c.attribute = attr;
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("n");
+            expect(cell.v).toBe(1983);
+            expect(cell.z).toBe("0");
+        });
+
         it("exports date attribute with format as date cell", () => {
             const testDate = new Date("2024-06-15T10:30:00Z");
             const col = column("Created", c => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => testDate);
                 c.exportType = "date";
-                c.exportDateFormat = dynamic("yyyy-mm-dd");
+                c.exportDateFormat = dynamic.available("yyyy-mm-dd");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("d");
@@ -164,7 +267,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "customContent";
                 c.exportValue = listExpression(() => "1234.56");
                 c.exportType = "number";
-                c.exportNumberFormat = dynamic("#,##0.00");
+                c.exportNumberFormat = dynamic.available("#,##0.00");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("n");
@@ -221,7 +324,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "customContent";
                 c.exportValue = listExpression(() => "2024-06-15T00:00:00.000Z");
                 c.exportType = "date";
-                c.exportDateFormat = dynamic("yyyy-mm-dd");
+                c.exportDateFormat = dynamic.available("yyyy-mm-dd");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("d");
@@ -246,7 +349,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "customContent";
                 c.exportValue = listExpression(() => "not-a-date");
                 c.exportType = "date";
-                c.exportDateFormat = dynamic("yyyy-mm-dd");
+                c.exportDateFormat = dynamic.available("yyyy-mm-dd");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("s");
@@ -258,7 +361,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "customContent";
                 c.exportValue = listExpression(() => "");
                 c.exportType = "date";
-                c.exportDateFormat = dynamic("yyyy-mm-dd");
+                c.exportDateFormat = dynamic.available("yyyy-mm-dd");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("s");
@@ -351,7 +454,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => new Big("9999999999999999999"));
                 c.exportType = "number";
-                c.exportNumberFormat = dynamic("0");
+                c.exportNumberFormat = dynamic.available("0");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("s");
@@ -376,7 +479,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => testDate);
                 c.exportType = "date";
-                c.exportDateFormat = dynamic("dd-mmm-yyyy");
+                c.exportDateFormat = dynamic.available("dd-mmm-yyyy");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("d");
@@ -390,7 +493,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => testDate);
                 c.exportType = "date";
-                c.exportDateFormat = dynamic("yyyy-mm-dd hh:mm:ss");
+                c.exportDateFormat = dynamic.available("yyyy-mm-dd hh:mm:ss");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("d");
@@ -402,7 +505,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "customContent";
                 c.exportValue = listExpression(() => "2024-06-15T10:30:00Z");
                 c.exportType = "date";
-                c.exportDateFormat = dynamic("dd-mmm-yyyy");
+                c.exportDateFormat = dynamic.available("dd-mmm-yyyy");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("d");
@@ -414,7 +517,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "customContent";
                 c.exportValue = listExpression(() => "2024-06-15T10:30:00Z");
                 c.exportType = "date";
-                c.exportDateFormat = dynamic("yyyy-mm-dd hh:mm:ss");
+                c.exportDateFormat = dynamic.available("yyyy-mm-dd hh:mm:ss");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("d");

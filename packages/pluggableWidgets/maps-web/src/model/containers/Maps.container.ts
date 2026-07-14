@@ -2,9 +2,13 @@ import { Container, injected } from "brandi";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { MapsContainerProps } from "../../../typings/MapsProps";
+import { apiKeyAtom } from "../atoms/apiKey.atom";
+import { geodecodeApiKeyAtom } from "../atoms/geodecodeApiKey.atom";
 import { MapsConfig } from "../configs/Maps.config";
+import { CurrentLocationService } from "../services/CurrentLocation.service";
 import { LocationResolverService } from "../services/LocationResolver.service";
 import { CORE_TOKENS as CORE, MAPS_TOKENS as MAPS } from "../tokens";
+import { LeafletMapViewModel } from "../viewmodels/LeafletMap.viewModel";
 
 interface InitDependencies {
     props: MapsContainerProps;
@@ -26,18 +30,25 @@ interface BindingGroup {
 
 const _01_coreBindings: BindingGroup = {
     inject() {
-        injected(LocationResolverService, CORE.setupService, CORE.mainGate, CORE.geocodeFunction);
+        injected(LocationResolverService, CORE.setupService, CORE.mainGate, CORE.geocodeFunction, CORE.geodecodeApiKey);
+        injected(CurrentLocationService, CORE.setupService, CORE.config, CORE.getLocationFunction);
+        injected(LeafletMapViewModel, CORE.mainGate, MAPS.locationResolver, MAPS.currentLocation, CORE.apiKey);
     },
     define(container) {
         container.bind(MAPS.locationResolver).toInstance(LocationResolverService).inSingletonScope();
+        container.bind(MAPS.currentLocation).toInstance(CurrentLocationService).inSingletonScope();
+        container.bind(MAPS.leafletMapVM).toInstance(LeafletMapViewModel).inSingletonScope();
     },
     init(container, { mainGate, config }) {
         container.bind(CORE.mainGate).toConstant(mainGate);
         container.bind(CORE.config).toConstant(config);
+        container.bind(CORE.apiKey).toConstant(apiKeyAtom(mainGate));
+        container.bind(CORE.geodecodeApiKey).toConstant(geodecodeApiKeyAtom(mainGate));
     },
     postInit(container) {
-        // Initialize service to trigger setup
+        // Initialize services to trigger setup
         container.get(MAPS.locationResolver);
+        container.get(MAPS.currentLocation);
     }
 };
 

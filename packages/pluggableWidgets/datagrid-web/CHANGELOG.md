@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added support for using the attribute's own formatting when exporting to Excel with the "Default" export type. Numbers now export as numeric cells that mirror the grid's decimals and thousands grouping, and dates export using their configured pattern, instead of unformatted values.
+
+### Fixed
+
+- We fixed an issue where export type and format properties were visible in Studio Pro for dynamic text columns, even though they have no effect.
+
 ## [3.11.1] - 2026-06-18
 
 ### Fixed
