@@ -186,7 +186,9 @@ export class ImageCropperStore implements SetupComponent {
         this.originalFile = undefined;
         this.canRestore = false;
         this.onImageChanged();
-        void this.captureOriginal(uri, name, generation);
+        // Fire-and-forget: captureOriginal never rejects (it handles its own errors below), so
+        // there's no floating-promise to await. Bare call keeps eslint's no-void rule happy.
+        this.captureOriginal(uri, name, generation);
     }
 
     // Async original-bytes capture for Reset. Guarded by the generation token so a fetch
