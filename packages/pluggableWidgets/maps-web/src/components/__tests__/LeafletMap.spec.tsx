@@ -13,10 +13,10 @@ function staticMarker(
 ): MarkersType {
     return {
         locationType: "latlng",
-        latitude: dynamic.available(latitude),
-        longitude: dynamic.available(longitude),
-        address: dynamic.available(""),
-        title: dynamic.available(opts?.title ?? ""),
+        latitude: dynamic(latitude),
+        longitude: dynamic(longitude),
+        address: dynamic(""),
+        title: dynamic(opts?.title ?? ""),
         markerStyle: opts?.customMarker ? "image" : "default",
         customMarker: opts?.customMarker ? ({ value: { uri: opts.customMarker } } as any) : undefined,
         onClick: opts?.onClick ? ({ canExecute: true, execute: opts.onClick } as any) : undefined
