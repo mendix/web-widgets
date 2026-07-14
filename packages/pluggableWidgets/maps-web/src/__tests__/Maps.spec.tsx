@@ -9,10 +9,10 @@ describe("Maps", () => {
     function staticMarker(latitude: string, longitude: string): MarkersType {
         return {
             locationType: "latlng",
-            latitude: dynamic.available(latitude),
-            longitude: dynamic.available(longitude),
-            address: dynamic.available(""),
-            title: dynamic.available("Static marker"),
+            latitude: dynamic(latitude),
+            longitude: dynamic(longitude),
+            address: dynamic(""),
+            title: dynamic("Static marker"),
             markerStyle: "default",
             customMarker: undefined,
             onClick: undefined
