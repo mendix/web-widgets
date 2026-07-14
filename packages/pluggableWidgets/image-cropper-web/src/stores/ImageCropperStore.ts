@@ -1,5 +1,6 @@
 import { ValueStatus } from "mendix";
 import { action, computed, makeObservable, observable, reaction, runInAction } from "mobx";
+import { type SetStateAction } from "react";
 import { type Crop, type PixelCrop } from "react-image-crop";
 import { DerivedPropsGate, SetupComponent } from "@mendix/widget-plugin-mobx-kit/main";
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
@@ -261,14 +262,18 @@ export class ImageCropperStore implements SetupComponent {
         }
     }
 
-    setZoom(next: number): void {
+    setZoom(next: SetStateAction<number>): void {
+        // Accept the React setState contract (value or updater). The wheel-zoom hook drives
+        // zoom with setZoom(prev => …), so the store — the owner of `zoom` — resolves the
+        // updater against its own value instead of leaking that into the container.
+        const value = typeof next === "function" ? next(this.zoom) : next;
         // Freeze the anchor at the current box center. Recomputing it only here (not while the
         // box moves) keeps the image stable during drags but still zooms into the box.
         const live = this.liveCrop;
         if (live && live.unit === "%") {
             this.zoomAnchor = { x: (live.x + live.width / 2) / 100, y: (live.y + live.height / 2) / 100 };
         }
-        this.zoom = next;
+        this.zoom = value;
         this.applyDebounced();
     }
 
