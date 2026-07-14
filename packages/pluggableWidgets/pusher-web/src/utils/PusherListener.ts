@@ -15,7 +15,6 @@ export interface EventBinding {
 export interface SubscriptionConfig {
     channelName: string;
     eventBindings: EventBinding[];
-    onError?: (error: Error) => void;
 }
 
 export class PusherListener {
@@ -24,7 +23,6 @@ export class PusherListener {
     private currentChannelName: string | null = null;
     private eventHandlersMap: Map<string, () => void> = new Map();
     private globalCallback: ((eventName: string, data: unknown) => void) | null = null;
-    private onError?: (error: Error) => void;
     private destroyed = false;
 
     constructor(private config: PusherConfig) {
@@ -70,7 +68,6 @@ export class PusherListener {
                     return;
                 }
                 console.error("[PusherListener] Subscription error:", error);
-                this.onError?.(new Error(`Subscription error: ${String(error)}`));
             });
         }
 
@@ -79,9 +76,6 @@ export class PusherListener {
         config.eventBindings.forEach(binding => {
             this.eventHandlersMap.set(binding.eventName, binding.onEvent);
         });
-
-        // Store error handler for reference
-        this.onError = config.onError;
     }
 
     /**
@@ -97,7 +91,6 @@ export class PusherListener {
         this.currentChannelName = null;
         this.globalCallback = null;
         this.eventHandlersMap.clear();
-        this.onError = undefined;
     }
 
     /**
