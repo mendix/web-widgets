@@ -1,6 +1,7 @@
 #!/usr/bin/env ts-node-script
+import { writeFile } from "fs/promises";
 import { join, resolve } from "path";
-import { addRemoteWithAuthentication } from "../src";
+import { addRemoteWithAuthentication, getWidgetChangelog } from "../src";
 import { updateChangelogsAndCreatePR } from "../src/changelog";
 import { gh } from "../src/github";
 import { getPublishedInfo } from "../src/package-info";
@@ -67,10 +68,22 @@ async function main(): Promise<void> {
     await addRemoteWithAuthentication(pkg.repository.url, remoteName);
 
     // Update CHANGELOG.md and create PR
-    console.log("Creating PR with updated CHANGELOG.md file...");
-    process.env.RELEASE_NOTES_FILE = notesFile;
-    const changelogBranch = await resolveChangelogBranch(releaseTag, remoteName);
-    await updateChangelogsAndCreatePR(pkg, changelogBranch, remoteName);
+    // If the version is already stamped (e.g. manually added in the initial widget PR),
+    // skip changelog promotion and write release notes directly from the existing entry.
+    const changelog = await getWidgetChangelog(path);
+    if (changelog.hasVersion(pkg.version)) {
+        console.log(
+            `Version ${version} already in CHANGELOG.md — skipping changelog PR, writing release notes directly.`
+        );
+        process.env.RELEASE_NOTES_FILE = notesFile;
+        const content = changelog.getLatestReleaseContent();
+        await writeFile(notesFile, content);
+    } else {
+        console.log("Creating PR with updated CHANGELOG.md file...");
+        process.env.RELEASE_NOTES_FILE = notesFile;
+        const changelogBranch = await resolveChangelogBranch(releaseTag, remoteName);
+        await updateChangelogsAndCreatePR(pkg, changelogBranch, remoteName);
+    }
 
     // Create release
     console.log("Creating Github release...");
