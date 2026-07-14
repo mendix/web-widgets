@@ -1,10 +1,11 @@
-import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { WebIcon } from "mendix";
 import { ReactElement } from "react";
+import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { ImagePreviewProps } from "../typings/ImageProps";
-import { Image as ImageComponent } from "./components/Image/Image";
 
 import ImagePlaceholder from "./assets/placeholder.svg";
+import { Image as ImageComponent } from "./components/Image/Image";
+import { constructStyleObject } from "./utils/helpers";
 
 declare function require(name: string): string;
 
@@ -39,10 +40,16 @@ export function preview(props: ImagePreviewProps): ReactElement | null {
             break;
     }
 
+    const type = props.datasource === "icon" && props.imageIcon ? props.imageIcon.type : "image";
+
+    const styleObject = type === "image" && constructStyleObject(props);
+
+    const imageStyle = { ...parseStyle(props.style), ...styleObject };
+
     return (
         <ImageComponent
-            class={props.className}
-            style={parseStyle(props.style)}
+            class={props.class}
+            style={imageStyle}
             widthUnit={props.widthUnit}
             width={props.width ?? 100}
             heightUnit={props.heightUnit}
@@ -51,7 +58,7 @@ export function preview(props: ImagePreviewProps): ReactElement | null {
             responsive={props.responsive}
             onClickType={props.onClickType}
             onClick={undefined}
-            type={props.datasource === "icon" && props.imageIcon ? props.imageIcon.type : "image"}
+            type={type}
             image={image}
             displayAs={props.displayAs}
             renderAsBackground={props.datasource !== "icon" && props.isBackgroundImage}
