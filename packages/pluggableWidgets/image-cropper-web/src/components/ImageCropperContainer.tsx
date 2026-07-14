@@ -1,114 +1,37 @@
 import classNames from "classnames";
 import { ValueStatus } from "mendix";
-import { ReactElement, SetStateAction, useCallback, useEffect, useRef } from "react";
-import { type Crop, type PixelCrop } from "react-image-crop";
+import { observer } from "mobx-react-lite";
+import { ReactElement, useEffect, useRef } from "react";
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/main";
+import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
+import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { CropArea } from "./CropArea";
-import { PreviewPane } from "./PreviewPane";
-import { ZoomSlider } from "./ZoomSlider";
+import { CropToolbar } from "./CropToolbar";
 import { ImageCropperContainerProps } from "../../typings/ImageCropperProps";
-import { useAutoApplyCrop } from "../hooks/useAutoApplyCrop";
-import { useImageCropperState } from "../hooks/useImageCropperState";
-import { resolveAspectRatio } from "../utils/aspectRatio";
-import { cropImage, CropError } from "../utils/cropImage";
+import { ImageCropperStore } from "../stores/ImageCropperStore";
 
-export function ImageCropperContainer(props: ImageCropperContainerProps): ReactElement | null {
-    const state = useImageCropperState(Number(props.minZoom));
+export const ImageCropperContainer = observer(function ImageCropperContainer(
+    props: ImageCropperContainerProps
+): ReactElement | null {
+    const gateProvider = useConst(() => new GateProvider<ImageCropperContainerProps>(props));
+    const store = useSetup(() => new ImageCropperStore(gateProvider.gate));
 
-    const { setZoom, setLiveCrop, setCommittedCrop } = state;
-
-    const committedCropRef = useRef<PixelCrop | undefined>(undefined);
-    committedCropRef.current = state.committedCrop;
-    const zoomRef = useRef(state.zoom);
-    zoomRef.current = state.zoom;
-
-    const applyCrop = useCallback(async () => {
-        const img = state.imageRef.current;
-        const committedCrop = committedCropRef.current;
-        if (
-            !img ||
-            !committedCrop ||
-            props.image.readOnly ||
-            props.image.status !== ValueStatus.Available ||
-            !props.image.value
-        ) {
-            return;
-        }
-        try {
-            const file = await cropImage({
-                image: img,
-                pixelCrop: committedCrop,
-                zoom: zoomRef.current,
-                outputFormat: props.outputFormat,
-                outputQuality: Number(props.outputQuality),
-                outputSize: props.outputSize,
-                cropShape: props.cropShape,
-                viewportWidth: props.boundaryWidth,
-                viewportHeight: props.boundaryHeight,
-                originalName: props.image.value.name
-            });
-            if (props.outputSize === "viewport") {
-                props.image.setThumbnailSize(props.boundaryWidth, props.boundaryHeight);
-            }
-            props.image.setValue(file);
-            if (props.onCropAction?.canExecute) {
-                props.onCropAction.execute();
-            }
-        } catch (err) {
-            if (err instanceof CropError) {
-                console.error("[image-cropper-web] CropError:", err.message);
-            } else {
-                console.error("[image-cropper-web] unexpected error:", err);
-                throw err;
-            }
-        }
-    }, [
-        state.imageRef,
-        props.image,
-        props.outputFormat,
-        props.outputQuality,
-        props.outputSize,
-        props.cropShape,
-        props.boundaryWidth,
-        props.boundaryHeight,
-        props.onCropAction
-    ]);
-
-    const auto = useAutoApplyCrop(applyCrop);
-    const { armed } = auto;
-
-    const handleImageLoad = useCallback(
-        (percentCrop: Crop, pixelCrop: PixelCrop) => {
-            setZoom(Number(props.minZoom));
-            setLiveCrop(percentCrop);
-            setCommittedCrop(pixelCrop);
-            armed();
-        },
-        [setZoom, setLiveCrop, setCommittedCrop, props.minZoom, armed]
-    );
-
-    const uri = props.image.status === ValueStatus.Available ? props.image.value?.uri : undefined;
+    // Push fresh Mendix props into the gate every render (config + image read live off it).
     useEffect(() => {
-        setLiveCrop(undefined);
-        setCommittedCrop(undefined);
-        armed();
-    }, [uri, setLiveCrop, setCommittedCrop, armed]);
+        gateProvider.setProps(props);
+    });
 
-    const handleCropComplete = useCallback(
-        (pixelCrop: PixelCrop) => {
-            committedCropRef.current = pixelCrop;
-            setCommittedCrop(pixelCrop);
-            auto.applyNow();
-        },
-        [setCommittedCrop, auto]
-    );
+    const imageRef = useRef<HTMLImageElement>(null);
 
-    const handleZoomChange = useCallback(
-        (next: SetStateAction<number>) => {
-            setZoom(next);
-            auto.applyDebounced();
-        },
-        [setZoom, auto]
-    );
+    // Feed the store the one React-owned dep it still needs: the live on-screen <img> used as
+    // the canvas draw source. It closes over a ref, so re-inject every render; assigning a
+    // plain (non-observable) field triggers no reactions. Fetch/preview/capture now live in the
+    // store, driven by its own reaction on the bound uri.
+    useEffect(() => {
+        store.setDeps({
+            getImage: () => imageRef.current
+        });
+    });
 
     if (props.image.status === ValueStatus.Loading) {
         return (
@@ -127,51 +50,79 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                 style={props.style}
                 tabIndex={props.tabIndex}
             >
-                No image
+                <svg
+                    className="widget-image-cropper__empty-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                    focusable="false"
+                >
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
+                    <line
+                        x1="12"
+                        y1="7.5"
+                        x2="12"
+                        y2="13"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                    />
+                    <circle cx="12" cy="16.25" r="0.9" fill="currentColor" />
+                </svg>
+                <span className="widget-image-cropper__empty-text">
+                    {props.noImageCaption?.value ?? "No uploaded image to crop"}
+                </span>
             </div>
         );
     }
 
-    const aspect = resolveAspectRatio(props.aspectRatio, props.customAspectWidth, props.customAspectHeight);
-
     return (
         <div className={classNames("widget-image-cropper", props.class)} style={props.style} tabIndex={props.tabIndex}>
             <CropArea
-                src={props.image.value.uri}
-                crop={state.liveCrop}
-                onCropChange={state.setLiveCrop}
-                onCropComplete={handleCropComplete}
-                aspect={aspect}
+                src={store.previewSrc ?? props.image.value.uri}
+                crop={store.liveCrop}
+                onCropChange={crop => store.setLiveCrop(crop)}
+                onCropComplete={pixelCrop => store.commitCrop(pixelCrop)}
+                onUserInteractStart={() => store.markUserDragged()}
+                aspect={store.aspect}
                 circular={props.cropShape === "circle"}
                 resizable={props.resizableEnabled}
                 boundaryWidth={props.boundaryWidth}
                 boundaryHeight={props.boundaryHeight}
-                onImageLoad={handleImageLoad}
-                zoom={state.zoom}
+                onImageLoad={(percentCrop, pixelCrop) => store.initFromImageLoad(percentCrop, pixelCrop)}
+                zoom={store.zoom}
                 minZoom={Number(props.minZoom)}
                 maxZoom={Number(props.maxZoom)}
-                setZoom={handleZoomChange}
+                setZoom={next => store.setZoom(next)}
+                zoomAnchor={store.zoomAnchor}
                 wheelZoomMode={props.zoomEnabled ? props.wheelZoomMode : "off"}
-                imageRef={state.imageRef}
+                grayscale={store.grayscale}
+                imageRef={imageRef}
             />
-            {props.zoomEnabled && props.showZoomSlider ? (
-                <ZoomSlider
-                    zoom={state.zoom}
-                    minZoom={Number(props.minZoom)}
-                    maxZoom={Number(props.maxZoom)}
-                    onChange={handleZoomChange}
-                />
-            ) : null}
-            {props.showPreview ? (
-                <PreviewPane
-                    image={state.imageRef.current}
-                    pixelCrop={state.committedCrop}
-                    zoom={state.zoom}
-                    width={props.previewWidth}
-                    height={props.previewHeight}
-                    circle={props.cropShape === "circle"}
-                />
-            ) : null}
+            <CropToolbar
+                showRotation={props.enableRotation}
+                showGrayscale={props.enableGrayscale}
+                showZoom={props.zoomEnabled && props.showZoomSlider}
+                showReset={props.showResetButton}
+                grayscale={store.grayscale}
+                canReset={store.canRestore}
+                zoom={store.zoom}
+                minZoom={Number(props.minZoom)}
+                maxZoom={Number(props.maxZoom)}
+                rotateLeftLabel={props.rotateLeftLabel?.value ?? "Rotate left"}
+                rotateRightLabel={props.rotateRightLabel?.value ?? "Rotate right"}
+                grayscaleCaption={props.grayscaleCaption?.value ?? "Grayscale"}
+                grayscaleAriaLabel={props.grayscaleAriaLabel?.value ?? "Grayscale"}
+                resetCaption={props.resetCaption?.value ?? "Reset"}
+                resetAriaLabel={props.resetAriaLabel?.value ?? "Reset crop"}
+                zoomCaption={props.zoomCaption?.value ?? "Zoom"}
+                zoomAriaLabel={props.zoomAriaLabel?.value ?? "Zoom"}
+                onZoomChange={zoom => store.setZoom(zoom)}
+                onRotateLeft={() => store.rotate(-90)}
+                onRotateRight={() => store.rotate(90)}
+                onToggleGrayscale={() => store.toggleGrayscale()}
+                onReset={() => store.reset()}
+            />
         </div>
     );
-}
+});
