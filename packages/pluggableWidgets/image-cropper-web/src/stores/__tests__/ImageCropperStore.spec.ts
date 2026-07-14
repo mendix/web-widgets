@@ -4,7 +4,6 @@ import { action, makeObservable, observable } from "mobx";
 import type { Crop, PixelCrop } from "react-image-crop";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import type { ImageCropperContainerProps } from "../../../typings/ImageCropperProps";
-import { CropperDeps, ImageCropperStore } from "../ImageCropperStore";
 
 // The store calls cropImage/rotateImage (async canvas work). Mock them so the spec asserts
 // orchestration (when/what is committed) without a real canvas.
@@ -24,6 +23,7 @@ jest.mock("../../utils/rotateImage", () => ({
 
 import { cropImage } from "../../utils/cropImage";
 import { rotateImage } from "../../utils/rotateImage";
+import { CropperDeps, ImageCropperStore } from "../ImageCropperStore";
 
 const PIXEL_CROP: PixelCrop = { unit: "px", x: 10, y: 10, width: 100, height: 100 };
 const PERCENT_CROP: Crop = { unit: "%", x: 20, y: 20, width: 40, height: 40 };
