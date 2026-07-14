@@ -12,20 +12,21 @@ export function usePusherSubscribe(subscription?: SubscriptionConfig): void {
 
     useEffect(() => {
         const controller = new AbortController();
-        let instance: PusherListener | null = null;
+        let listenerInstance: PusherListener | null = null;
 
         createPusherListener(controller.signal).then(result => {
             if (controller.signal.aborted) {
                 result?.destroy();
                 return;
             }
-            instance = result;
-            setListener(result);
+            listenerInstance = result;
+
+            setListener(listenerInstance);
         });
 
         return () => {
             controller.abort();
-            instance?.destroy();
+            listenerInstance?.destroy();
             setListener(null);
         };
     }, []);
@@ -34,14 +35,11 @@ export function usePusherSubscribe(subscription?: SubscriptionConfig): void {
         if (!listener) {
             return;
         }
+
         if (!subscription) {
             listener.unsubscribe();
-            return;
+        } else {
+            listener.subscribe(subscription);
         }
-
-        listener.subscribe(subscription);
-        return () => {
-            listener.unsubscribe();
-        };
     }, [listener, subscription]);
 }
