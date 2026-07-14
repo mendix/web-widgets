@@ -25,7 +25,7 @@ same attribute via `setValue`.
 #### Scenario: No image available
 
 - **WHEN** the bound image status is not `Available` or has no value
-- **THEN** the widget SHALL render an empty state reading "No image"
+- **THEN** the widget SHALL render an empty state showing the configurable `noImageCaption` (default "No uploaded image to crop")
 
 #### Scenario: Read-only attribute
 

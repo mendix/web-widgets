@@ -93,7 +93,7 @@ export const ImageCropperContainer = observer(function ImageCropperContainer(
                 zoom={store.zoom}
                 minZoom={Number(props.minZoom)}
                 maxZoom={Number(props.maxZoom)}
-                setZoom={next => store.setZoom(typeof next === "function" ? next(store.zoom) : next)}
+                setZoom={next => store.setZoom(next)}
                 zoomAnchor={store.zoomAnchor}
                 wheelZoomMode={props.zoomEnabled ? props.wheelZoomMode : "off"}
                 grayscale={store.grayscale}
