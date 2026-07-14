@@ -291,9 +291,9 @@ describe("<ImageCropper>", () => {
                 {...makeProps({
                     enableRotation: true,
                     showResetButton: true,
-                    resetCaption: dynamic("Herstellen"),
-                    resetAriaLabel: dynamic("Uitsnede herstellen"),
-                    rotateLeftLabel: dynamic("Naar links draaien")
+                    resetCaption: dynamic.available("Herstellen"),
+                    resetAriaLabel: dynamic.available("Uitsnede herstellen"),
+                    rotateLeftLabel: dynamic.available("Naar links draaien")
                 })}
             />
         );
