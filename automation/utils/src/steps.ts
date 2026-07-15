@@ -1,5 +1,6 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { dirname, join, parse, relative, resolve } from "path";
+import chalk from "chalk";
 import {
     CommonBuildConfig,
     getModuleConfigs,
@@ -13,7 +14,6 @@ import { createModuleMpkInDocker } from "./mpk";
 import { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info";
 import { addFilesToPackageXml, PackageType } from "./package-xml";
 import { chmod, cp, ensureFileExists, exec, find, mkdir, popd, pushd, rm, unzip, zip } from "./shell";
-import chalk from "chalk";
 
 type Step<Info, Config> = (params: { info: Info; config: Config }) => Promise<void>;
 
@@ -164,36 +164,63 @@ export async function createModuleMpk({ info, config }: ModuleStepParams): Promi
     );
 }
 
+async function insertWidgetsIntoMpk(
+    mpk: string,
+    widgetPaths: string[],
+    tmpDir: string,
+    additionalFiles?: Array<{ src: string; destRelative: string }>
+): Promise<void> {
+    const mpkEntry = parse(mpk);
+    const widgetsOut = join(tmpDir, "widgets");
+    const packageXml = join(tmpDir, "package.xml");
+    const packageFilePaths = widgetPaths.map(p => `widgets/${parse(p).base}`);
+
+    rm("-rf", tmpDir);
+    console.info("Unzip module mpk");
+    await unzip(mpk, tmpDir);
+    mkdir("-p", widgetsOut);
+    chmod("-R", "a+rw", tmpDir);
+
+    console.info(`Add ${widgetPaths.length} widgets to ${mpkEntry.base}`);
+    cp(widgetPaths, widgetsOut);
+
+    if (additionalFiles) {
+        for (const { src, destRelative } of additionalFiles) {
+            cp(src, join(tmpDir, destRelative));
+        }
+    }
+
+    console.info(`Add file entries to package.xml`);
+    await addFilesToPackageXml(packageXml, packageFilePaths, "modelerProject");
+    rm(mpk);
+
+    console.info("Create module zip archive");
+    await zip(tmpDir, mpk);
+    rm("-rf", tmpDir);
+}
+
 export async function addWidgetsToMpk({ config }: ModuleStepParams): Promise<void> {
     logStep("Add widgets to mpk");
 
     const mpk = config.output.files.modulePackage;
     const widgets = await getMpkPaths(config.dependencies);
-    const mpkEntry = parse(mpk);
-    const target = join(mpkEntry.dir, "tmp");
-    const widgetsOut = join(target, "widgets");
-    const packageXml = join(target, "package.xml");
-    const packageFilePaths = widgets.map(path => `widgets/${parse(path).base}`);
+    const tmpDir = join(parse(mpk).dir, "tmp");
 
-    rm("-rf", target);
+    await insertWidgetsIntoMpk(mpk, widgets, tmpDir, [
+        { src: join(config.paths.package, "LICENSE"), destRelative: "License.txt" }
+    ]);
+}
 
-    console.info("Unzip module mpk");
-    await unzip(mpk, target);
-    mkdir("-p", widgetsOut);
-    chmod("-R", "a+rw", target);
+export function addTestProjectWidgetsToMpk(widgetFileNames: string[]): (params: ModuleStepParams) => Promise<void> {
+    return async ({ config }) => {
+        logStep("Add test project widgets to mpk");
 
-    console.info(`Add ${widgets.length} widgets to ${mpkEntry.base}`);
-    cp(widgets, widgetsOut);
+        const mpk = config.output.files.modulePackage;
+        const widgetPaths = widgetFileNames.map(name => join(config.output.dirs.widgets, name));
+        const tmpDir = join(parse(mpk).dir, "tmp_local_widgets");
 
-    console.info(`Add file entries to package.xml`);
-    await addFilesToPackageXml(packageXml, packageFilePaths, "modelerProject");
-    console.log(`Copying License.txt...`);
-    cp(join(config.paths.package, "LICENSE"), join(target, "License.txt"));
-    rm(mpk);
-
-    console.info("Create module zip archive");
-    await zip(target, mpk);
-    rm("-rf", target);
+        await insertWidgetsIntoMpk(mpk, widgetPaths, tmpDir);
+    };
 }
 
 export async function moveModuleToDist({ info, config }: ModuleStepParams): Promise<void> {
