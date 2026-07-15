@@ -8,4 +8,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- Initial widget scaffolding
+- We created a new version of Pusher widget compatible with React client.
