@@ -16,6 +16,8 @@
 *.gitignore eol=lf
 
 packages/modules/web-actions/src/javascriptsource/**/*.js eol=crlf
+packages/modules/data-widgets/src/javascriptsource/**/*.js eol=crlf
+packages/modules/google-tag/src/javascriptsource/**/*.js eol=crlf
 
 # Denote all files that are truly binary and should not be modified.
 *.png binary

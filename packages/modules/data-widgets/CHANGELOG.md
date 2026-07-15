@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - We fixed an issue with Data Widgets not working in Dojo client in some cases.
+- We fixed an issue with unexpected changes in JavaScript actions of Data Widgets module.
 
 ## [3.11.1] DataWidgets - 2026-06-18
 
