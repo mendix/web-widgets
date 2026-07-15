@@ -25,7 +25,7 @@ async function main(): Promise<void> {
             createModuleMpk,
             addWidgetsToMpk,
             // Copy old legacy widget to the module, so we have both for easy migration.
-            // New widgets has different filename: com.mendix.widget.web.Pusher.mpk, they won't clash.
+            // New widget has a different filename: com.mendix.widget.web.Pusher.mpk, they won't clash.
             addTestProjectWidgetsToMpk(["Pusher.mpk"]),
             moveModuleToDist
         ]

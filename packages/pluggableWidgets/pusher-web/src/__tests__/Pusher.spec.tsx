@@ -1,3 +1,4 @@
+import { actionValue } from "@mendix/widget-plugin-test-utils";
 import { render } from "@testing-library/react";
 import { ActionValue, DynamicValue, ObjectItem } from "mendix";
 import { createElement } from "react";
@@ -15,10 +16,6 @@ const mockGetChannelName = getChannelNameModule.getChannelName as jest.MockedFun
 >;
 const mockUsePusherSubscribe = usePusherSubscribeModule.usePusherSubscribe as jest.Mock;
 
-function makeAction(canExecute = true): ActionValue {
-    return { canExecute, execute: jest.fn(), isExecuting: false } as unknown as ActionValue;
-}
-
 function makeProps(channelName: string | undefined, handlers: Array<{ actionName: string; action: ActionValue }>) {
     mockGetChannelName.mockReturnValue(channelName);
     return {
@@ -35,7 +32,7 @@ describe("Pusher", () => {
     });
 
     it("passes undefined subscription when channelName is undefined", () => {
-        render(createElement(Pusher, makeProps(undefined, [{ actionName: "update", action: makeAction() }])));
+        render(createElement(Pusher, makeProps(undefined, [{ actionName: "update", action: actionValue() }])));
 
         expect(mockUsePusherSubscribe).toHaveBeenCalledWith(undefined);
     });
@@ -47,7 +44,7 @@ describe("Pusher", () => {
     });
 
     it("passes subscription with correct channelName and eventBindings", () => {
-        const action = makeAction();
+        const action = actionValue();
         render(createElement(Pusher, makeProps("private-Entity.123", [{ actionName: "update", action }])));
 
         expect(mockUsePusherSubscribe).toHaveBeenCalledWith(
@@ -59,7 +56,7 @@ describe("Pusher", () => {
     });
 
     it("calls executeAction when onEvent fires", () => {
-        const action = makeAction();
+        const action = actionValue();
         render(createElement(Pusher, makeProps("private-Entity.123", [{ actionName: "update", action }])));
 
         const { eventBindings } = mockUsePusherSubscribe.mock.calls[0][0];
