@@ -1,7 +1,9 @@
-FROM --platform=$BUILDPLATFORM eclipse-temurin:17-jdk-jammy
+FROM --platform=$BUILDPLATFORM eclipse-temurin:21-jdk-jammy
 
 ARG MENDIX_VERSION
 ARG BUILDPLATFORM
+
+ENV LD_PRELOAD=libfontconfig.so.1
 
 SHELL ["/bin/bash", "-c"]
 RUN \
@@ -25,7 +27,7 @@ echo "Downloading mxbuild ${MENDIX_VERSION} and docker building for ${BUILDPLATF
     && rm /tmp/mxbuild.tar.gz && \
 \
     apt-get update -qqy && \
-    apt-get install -qqy libicu70 libgdiplus && \
+    apt-get install -qqy libicu70 libgdiplus libfontconfig1 && \
     apt-get -qqy remove --auto-remove wget && \
     apt-get clean && \
 \
