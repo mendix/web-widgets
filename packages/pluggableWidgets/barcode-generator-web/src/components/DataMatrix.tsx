@@ -39,6 +39,18 @@ function encodeDataMatrix(config: DataMatrixTypeConfig): string {
         : datamatrix({ ...opts, bcid: "datamatrix" }, drawingSVG());
 }
 
+/** bwip-js SVGs only carry a viewBox, no width/height attributes; derive pixel dimensions from it. */
+function getSvgPixelSize(svg: string, size: number): { width: number; height: number } {
+    const match = svg.match(/viewBox="0 0 (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)"/);
+    if (!match) {
+        return { width: size, height: size };
+    }
+    const [viewBoxWidth, viewBoxHeight] = [parseFloat(match[1]), parseFloat(match[2])];
+    return viewBoxWidth >= viewBoxHeight
+        ? { width: size, height: (size * viewBoxHeight) / viewBoxWidth }
+        : { width: (size * viewBoxWidth) / viewBoxHeight, height: size };
+}
+
 export function DataMatrixRenderer({ config }: DataMatrixRendererProps): ReactElement {
     const containerRef = useRef<HTMLDivElement>(null);
     const { codeValue, downloadButton, size, gs1Mode } = config;
@@ -96,10 +108,17 @@ export function DataMatrixRenderer({ config }: DataMatrixRendererProps): ReactEl
         />
     );
 
+    const { width, height } = getSvgPixelSize(svg, size);
+
     return (
         <div className="barcode-renderer datamatrix-renderer">
             {buttonPosition === "top" && button}
-            <div ref={containerRef} className="datamatrix-svg" dangerouslySetInnerHTML={{ __html: svg }} />
+            <div
+                ref={containerRef}
+                className="datamatrix-svg"
+                style={{ width, height }}
+                dangerouslySetInnerHTML={{ __html: svg }}
+            />
             {buttonPosition === "bottom" && button}
         </div>
     );
