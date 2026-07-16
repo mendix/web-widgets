@@ -1,11 +1,11 @@
+import { ActionValue, EditableValue } from "mendix";
+import { observer } from "mobx-react-lite";
+import { CSSProperties, ReactElement, useEffect } from "react";
 import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
-import { ActionValue, EditableValue } from "mendix";
-import { observer } from "mobx-react-lite";
-import { CSSProperties, ReactElement, useEffect } from "react";
 import { RefComboboxController } from "../controllers/RefComboboxController";
 import { RefSelectController } from "../controllers/RefSelectController";
 import { RefTagPickerController } from "../controllers/RefTagPickerController";
@@ -94,6 +94,7 @@ const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContaine
             onClear={ctrl2.handleClear}
             onFocus={ctrl2.handleFocus}
             onBlur={ctrl2.handleBlur}
+            onChange={ctrl2.handleChange}
             onMenuScroll={handleMenuScroll}
             empty={ctrl2.isEmpty}
             className={props.className}
@@ -118,6 +119,7 @@ const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContai
             onClear={ctrl3.handleClear}
             onBlur={ctrl3.handleBlur}
             onFocus={ctrl3.handleFocus}
+            onChange={ctrl3.handleChange}
             onMenuScroll={handleMenuScroll}
             inputPlaceholder={ctrl3.inputPlaceholder}
             emptyCaption={ctrl3.emptyCaption}

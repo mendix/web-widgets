@@ -1,10 +1,10 @@
+import { ActionValue, EditableValue } from "mendix";
+import { observer } from "mobx-react-lite";
+import { CSSProperties, ReactElement, useEffect } from "react";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
-import { ActionValue, EditableValue } from "mendix";
-import { observer } from "mobx-react-lite";
-import { CSSProperties, ReactElement, useEffect } from "react";
 import { EnumComboboxController } from "../controllers/EnumComboboxController";
 import { EnumSelectController } from "../controllers/EnumSelectController";
 import { EnumTagPickerController } from "../controllers/EnumTagPickerController";
@@ -91,6 +91,7 @@ const ComboboxWidget = observer(function ComboboxWidget(props: EnumFilterContain
             onClear={ctrl2.handleClear}
             onFocus={ctrl2.handleFocus}
             onBlur={ctrl2.handleBlur}
+            onChange={ctrl2.handleChange}
             empty={ctrl2.isEmpty}
             className={props.className}
             style={props.styles}
@@ -112,6 +113,7 @@ const TagPickerWidget = observer(function TagPickerWidget(props: EnumFilterConta
             useComboboxProps={ctrl3.useComboboxProps}
             onClear={ctrl3.handleClear}
             onBlur={ctrl3.handleBlur}
+            onChange={ctrl3.handleChange}
             inputPlaceholder={ctrl3.inputPlaceholder}
             emptyCaption={ctrl3.emptyCaption}
             ariaLabel={props.ariaLabel}
