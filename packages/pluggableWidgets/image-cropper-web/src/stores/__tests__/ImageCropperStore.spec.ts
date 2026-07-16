@@ -3,6 +3,7 @@ import { ValueStatus } from "mendix";
 import { action, makeObservable, observable } from "mobx";
 import type { Crop, PixelCrop } from "react-image-crop";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
+import { dynamic } from "@mendix/widget-plugin-test-utils";
 import type { ImageCropperContainerProps } from "../../../typings/ImageCropperProps";
 
 // The store calls cropImage/rotateImage (async canvas work). Mock them so the spec asserts
@@ -52,8 +53,8 @@ function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCr
         image: makeImageProp(),
         cropShape: "rect",
         aspectRatio: "square",
-        customAspectWidth: 1,
-        customAspectHeight: 1,
+        customAspectWidth: dynamic.available(new Big(1)),
+        customAspectHeight: dynamic.available(new Big(1)),
         boundaryWidth: 300,
         boundaryHeight: 300,
         resizableEnabled: true,
@@ -173,6 +174,34 @@ describe("ImageCropperStore", () => {
             expect(store.aspect).toBe(1);
             gate.setProps(makeProps({ aspectRatio: "landscape16x9" }));
             expect(store.aspect).toBeCloseTo(16 / 9);
+            dispose();
+        });
+
+        it("derives a custom ratio from the width/height expression values", () => {
+            const { store, gate, dispose } = makeStore({
+                aspectRatio: "custom",
+                customAspectWidth: dynamic.available(new Big(16)),
+                customAspectHeight: dynamic.available(new Big(9))
+            });
+            expect(store.aspect).toBeCloseTo(16 / 9);
+            gate.setProps(
+                makeProps({
+                    aspectRatio: "custom",
+                    customAspectWidth: dynamic.available(new Big(3)),
+                    customAspectHeight: dynamic.available(new Big(2))
+                })
+            );
+            expect(store.aspect).toBeCloseTo(3 / 2);
+            dispose();
+        });
+
+        it("falls back to free aspect when a custom expression value is unavailable", () => {
+            const { store, dispose } = makeStore({
+                aspectRatio: "custom",
+                customAspectWidth: dynamic.unavailable(),
+                customAspectHeight: dynamic.available(new Big(9))
+            });
+            expect(store.aspect).toBeUndefined();
             dispose();
         });
     });

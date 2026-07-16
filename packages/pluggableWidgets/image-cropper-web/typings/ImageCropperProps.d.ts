@@ -25,8 +25,8 @@ export interface ImageCropperContainerProps {
     image: EditableImageValue<WebImage>;
     cropShape: CropShapeEnum;
     aspectRatio: AspectRatioEnum;
-    customAspectWidth: number;
-    customAspectHeight: number;
+    customAspectWidth: DynamicValue<Big>;
+    customAspectHeight: DynamicValue<Big>;
     onCropAction?: ActionValue;
     boundaryWidth: number;
     boundaryHeight: number;
@@ -67,8 +67,8 @@ export interface ImageCropperPreviewProps {
     image: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
     cropShape: CropShapeEnum;
     aspectRatio: AspectRatioEnum;
-    customAspectWidth: number | null;
-    customAspectHeight: number | null;
+    customAspectWidth: string;
+    customAspectHeight: string;
     onCropAction: {} | null;
     boundaryWidth: number | null;
     boundaryHeight: number | null;

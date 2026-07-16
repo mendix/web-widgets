@@ -2,8 +2,8 @@ import { AspectRatioEnum } from "../../typings/ImageCropperProps";
 
 export function resolveAspectRatio(
     aspect: AspectRatioEnum,
-    customWidth: number,
-    customHeight: number
+    customWidth: number | undefined,
+    customHeight: number | undefined
 ): number | undefined {
     switch (aspect) {
         case "free":
@@ -17,7 +17,7 @@ export function resolveAspectRatio(
         case "portrait3x4":
             return 3 / 4;
         case "custom":
-            if (customWidth > 0 && customHeight > 0) {
+            if (customWidth != null && customHeight != null && customWidth > 0 && customHeight > 0) {
                 return customWidth / customHeight;
             }
             return undefined;
