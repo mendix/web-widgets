@@ -28,6 +28,16 @@ $widget-prefix: "barcode-generator";
         height: auto;
     }
 
+    .datamatrix-svg {
+        max-width: 100%;
+
+        svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
     .qrcode-renderer-title {
         font-weight: var(--font-weight-normal);
         font-size: var(--font-size-small);
@@ -97,4 +107,14 @@ $widget-prefix: "barcode-generator";
 .qrcode-preview-overlay {
     position: absolute;
     object-fit: contain;
+}
+
+.datamatrix-preview-image {
+    max-width: 100%;
+
+    svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
 }
