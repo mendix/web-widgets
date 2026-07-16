@@ -1,4 +1,5 @@
-import { ValueStatus } from "mendix";
+import { Big } from "big.js";
+import { DynamicValue, ValueStatus } from "mendix";
 import { action, computed, makeObservable, observable, reaction, runInAction } from "mobx";
 import { type SetStateAction } from "react";
 import { type Crop, type PixelCrop } from "react-image-crop";
@@ -124,7 +125,13 @@ export class ImageCropperStore implements SetupComponent {
     }
 
     get aspect(): number | undefined {
-        return resolveAspectRatio(this.props.aspectRatio, this.props.customAspectWidth, this.props.customAspectHeight);
+        const toNumber = (p: DynamicValue<Big>): number | undefined =>
+            p.status === ValueStatus.Available && p.value ? p.value.toNumber() : undefined;
+        return resolveAspectRatio(
+            this.props.aspectRatio,
+            toNumber(this.props.customAspectWidth),
+            toNumber(this.props.customAspectHeight)
+        );
     }
 
     setup(): () => void {

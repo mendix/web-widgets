@@ -21,10 +21,16 @@ function StaticCropPreview(props: { imageUrl: string; values: ImageCropperPrevie
     const [crop, setCrop] = useState<Crop | undefined>(undefined);
     const imageRef = createRef<HTMLImageElement>();
 
+    // Preview only has the expression *text* (no runtime data). Numeric literals render a real
+    // ratio; an attribute/expression path can't be evaluated here, so it falls back to free aspect.
+    const toNumber = (v: string | null): number | undefined => {
+        const n = Number(v);
+        return v != null && v !== "" && Number.isFinite(n) ? n : undefined;
+    };
     const aspect = resolveAspectRatio(
         values.aspectRatio,
-        values.customAspectWidth ?? 0,
-        values.customAspectHeight ?? 0
+        toNumber(values.customAspectWidth),
+        toNumber(values.customAspectHeight)
     );
 
     const handleImageLoad = (percentCrop: Crop): void => {

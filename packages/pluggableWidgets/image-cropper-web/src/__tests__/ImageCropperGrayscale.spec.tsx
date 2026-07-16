@@ -3,7 +3,7 @@ import { Big } from "big.js";
 import { ValueStatus } from "mendix";
 import { Ref } from "react";
 import type { Crop, PixelCrop } from "react-image-crop";
-import { actionValue } from "@mendix/widget-plugin-test-utils";
+import { actionValue, dynamic } from "@mendix/widget-plugin-test-utils";
 import type { ImageCropperContainerProps } from "../../typings/ImageCropperProps";
 
 // Integration test: proves grayscale reversibility after rotate.
@@ -96,8 +96,8 @@ function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCr
         image: makeImageProp(),
         cropShape: "rect",
         aspectRatio: "free",
-        customAspectWidth: 1,
-        customAspectHeight: 1,
+        customAspectWidth: dynamic.available(new Big(1)),
+        customAspectHeight: dynamic.available(new Big(1)),
         boundaryWidth: 300,
         boundaryHeight: 300,
         resizableEnabled: true,

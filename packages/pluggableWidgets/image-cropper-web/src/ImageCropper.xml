@@ -34,13 +34,15 @@
                         <enumerationValue key="custom">Custom</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="customAspectWidth" type="integer" defaultValue="1" required="true">
+                <property key="customAspectWidth" type="expression" defaultValue="1" required="true">
                     <caption>Custom aspect width</caption>
-                    <description>Width side of the ratio (e.g. 3 in 3:2). Used when Aspect ratio is Custom.</description>
+                    <description>Width side of the ratio (e.g. 3 in 3:2). Used when Aspect ratio is Custom. Can be bound to an attribute or expression.</description>
+                    <returnType type="Integer" />
                 </property>
-                <property key="customAspectHeight" type="integer" defaultValue="1" required="true">
+                <property key="customAspectHeight" type="expression" defaultValue="1" required="true">
                     <caption>Custom aspect height</caption>
-                    <description>Height side of the ratio (e.g. 2 in 3:2). Used when Aspect ratio is Custom.</description>
+                    <description>Height side of the ratio (e.g. 2 in 3:2). Used when Aspect ratio is Custom. Can be bound to an attribute or expression.</description>
+                    <returnType type="Integer" />
                 </property>
             </propertyGroup>
             <propertyGroup caption="Events">
