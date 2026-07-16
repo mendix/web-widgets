@@ -99,14 +99,14 @@ export function getReadonly(
     customEditability: ComboboxContainerProps["customEditability"],
     customEditabilityExpression: ComboboxContainerProps["customEditabilityExpression"]
 ): boolean {
-    if (targetAttribute) {
-        return targetAttribute.readOnly;
+    if (targetAttribute?.readOnly) {
+        return true;
     }
     if (customEditability === "never") {
         return true;
     }
-    if (customEditability === "conditionally") {
-        return customEditabilityExpression.value ?? true;
+    if (customEditability === "conditionally" && customEditabilityExpression.value !== true) {
+        return true;
     }
     return false;
 }
