@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the widget was not loading in the Dojo client due to a broken JavaScript bundle.
+
 ## [2.0.0] - 2026-06-22
 
 ### Breaking changes
