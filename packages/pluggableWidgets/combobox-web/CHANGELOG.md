@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.8.2] - 2026-07-17
+
 ### Fixed
 
 - We fixed an issue where the combobox collapsed to 1px width when placed inside a flex row container with `align-items: center`.
