@@ -1,4 +1,5 @@
 import "@testing-library/jest-dom";
+jest.mock("../hooks/useFloatingMenu");
 import { act, fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
 import { resetIdCounter } from "downshift";
 import {
