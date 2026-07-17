@@ -42,9 +42,6 @@
       `margin: 4px 0`, `width: 100%`, `left: unset`; add `display: flex; flex-direction: column`
 - [x] 3.3 SCSS `.widget-combobox-menu-list`: `max-height: 320px` → `max-height: 100%; flex: 1;
 min-height: 0` so the list fills + scrolls within the (shrunk) wrapper
-- [x] 3.4 SCSS `.widget-combobox-menu`: add `overflow: hidden`, remove the top `padding` and the
-      `.widget-combobox-menu-list:last-child` `margin-bottom` so the inner scroll shadow is
-      clipped to the rounded wrapper and no longer has a ~1px top/bottom offset when shrunk
 
 ## 4. Verification
 
