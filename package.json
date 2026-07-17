@@ -54,6 +54,7 @@
             "@codemirror/state": "^6.5.2",
             "@codemirror/view": "^6.38.1",
             "@mendix/pluggable-widgets-tools": "11.11.0",
+            "@mendix/pluggable-widgets-tools>@testing-library/react-native": "-",
             "@mendix/pluggable-widgets-tools>eslint": "-",
             "@mendix/pluggable-widgets-tools>eslint-config-prettier": "-",
             "@mendix/pluggable-widgets-tools>eslint-plugin-jest": "-",
