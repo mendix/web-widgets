@@ -186,14 +186,14 @@ test.describe("combobox-web", () => {
             const menu = page.locator(".mx-name-comboBox2 .widget-combobox-menu").first();
             await expect(menu).toBeVisible();
 
-            // Let floating-ui position it, then sample the top across several frames.
+            // Wait for floating-ui to complete its first positioning pass. useFloatingMenu keeps the
+            // menu visibility:hidden until isPositioned is true, so this is a precise, web-first gate.
+            await expect(menu).not.toHaveCSS("visibility", "hidden");
+
+            // Sample the top across several reads in the same batch — no sleep needed.
             const readTop = () => menu.evaluate(el => el.getBoundingClientRect().top);
             const first = await readTop();
-            const samples = [];
-            for (let i = 0; i < 5; i++) {
-                await page.waitForTimeout(60);
-                samples.push(await readTop());
-            }
+            const samples = await Promise.all([readTop(), readTop(), readTop(), readTop(), readTop()]);
 
             // No oscillation: every later sample equals the first (sub-pixel tolerance).
             for (const top of samples) {
