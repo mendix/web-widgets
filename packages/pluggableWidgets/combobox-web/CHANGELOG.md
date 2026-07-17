@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where the combobox collapsed to 1px width when placed inside a flex row container with `align-items: center`.
 
+- We fixed an issue where the widget crashed when using the "On filter input change" action with the new string behavior enabled.
+
 ## [2.8.1] - 2026-04-30
 
 ### Fixed
