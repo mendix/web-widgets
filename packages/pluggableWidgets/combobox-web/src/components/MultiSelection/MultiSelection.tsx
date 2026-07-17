@@ -36,7 +36,13 @@ export function MultiSelection({
         setSelectedItems,
         toggleSelectedItem
     } = useDownshiftMultiSelectProps(selector, options, inputRef, a11yConfig.a11yStatusMessage);
-    const { refs, floatingStyles } = useFloatingMenu(isOpen);
+    // Guard keepMenuOpen so floating-ui (and its autoUpdate scroll/resize listeners) stay disabled
+    // in always-open mode, matching SingleSelection. keepMenuOpen is only set by the editor preview,
+    // which renders SingleSelection exclusively, so MultiSelection never receives it at runtime or in
+    // preview; this is a defensive guard. The inline always-open branch (alwaysOpen on the menu wrapper)
+    // is intentionally not threaded through MultiSelectionMenu because it is unreachable for multi-select.
+    const keepMenuOpen = options.keepMenuOpen;
+    const { refs, floatingStyles } = useFloatingMenu(keepMenuOpen === true ? false : isOpen);
     const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
     const isOptionsSelected = selector.isOptionsSelected();
     const inputLabel = getInputLabel(options.inputId);
