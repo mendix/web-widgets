@@ -45,9 +45,15 @@ column` and is the element floating-ui height-caps. `.widget-combobox-menu-list`
   fills the wrapper and scrolls, while header/footer share the capped height. This is what
   makes the "shrink when space is tight" behavior work with header/footer present.
 - **Strip stale wrapper CSS**: remove `position: absolute`, `display: inline`,
-  `margin: 4px 0`, `width: 100%`, `left: unset` from `.widget-combobox-menu` — these fight
+  `margin: 4px 0`, `width: 100%`, `left: unset` from `.widget-combobox-menu` - these fight
   the inline styles floating-ui writes (the `margin` in particular caused a residual
   offset). The 4px gap is preserved via `offset(4)`.
+- **Clip the shrunk menu's inner shadow**: `.widget-combobox-menu` gets `overflow: hidden`
+  and drops its top `padding` + the `.widget-combobox-menu-list:last-child` `margin-bottom`.
+  Once the list scrolls inside a shrunk wrapper, the old outer padding/margin left the
+  inner scroll shadow with a ~1px offset at the top and bottom, and without clipping the
+  shadow overflowed the rounded wrapper. `overflow: hidden` clips it to the border radius
+  and removing the padding/margin removes the offset.
 - **alwaysOpen (`keepMenuOpen`) unchanged in behavior**: this mode renders inline with
   `position: relative` and must NOT use floating positioning. Both selections call
   `useFloatingMenu(alwaysOpen ? false : isOpen)` and the wrapper attaches no floating ref /

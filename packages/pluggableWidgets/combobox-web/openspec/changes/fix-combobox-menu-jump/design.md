@@ -59,10 +59,16 @@ alwaysOpen bypass; e2e asserts the observable no-jump / shrink behavior.
 ### Regression Tests
 
 - alwaysOpen (`keepMenuOpen`) renders inline and does not use floating positioning (unit)
-    - **Given**: `SingleSelection` and `MultiSelection` rendered with `keepMenuOpen`
+    - **Given**: the `ComboboxMenuWrapper` rendered with `alwaysOpen`
     - **When**: the menu renders
     - **Then**: the wrapper style is `position: relative` (inline block), it does NOT carry the
-      floating ref/`floatingStyles`, and `useFloatingMenu` is called with `open = false`
+      floating ref/`floatingStyles`
+    - **Note**: `keepMenuOpen` is only set by `Combobox.editorPreview`, which renders
+      `SingleSelection` exclusively. `SingleSelection` passes `useFloatingMenu(false)` and
+      threads `alwaysOpen` to its menu. `MultiSelection` never receives `keepMenuOpen` at
+      runtime or in preview, so it defensively passes `useFloatingMenu(false)` when the prop
+      is set but does not thread `alwaysOpen` to `MultiSelectionMenu` (that inline branch is
+      unreachable for multi-select and intentionally not wired).
 
 - MultiSelection wires floating identically to SingleSelection (unit)
     - **Given**: `MultiSelection` rendered open (not alwaysOpen)
