@@ -34,6 +34,7 @@ export const FileEntryContainer = observer(({ store, actions }: FileEntryContain
             title={store.title}
             size={store.size}
             thumbnail={store.imagePreviewUrl}
+            onThumbnailError={store.onPreviewError}
             mimeType={store.mimeType}
             fileStatus={store.fileStatus}
             errorMessage={store.errorDescription}
@@ -47,6 +48,7 @@ interface FileEntryProps {
     title: string;
     size: number;
     thumbnail?: string;
+    onThumbnailError?: () => void;
     mimeType: string;
 
     fileStatus: FileStatus;
@@ -98,7 +100,12 @@ function FileEntry(props: FileEntryProps): ReactElement {
                     })}
                 >
                     {props.thumbnail ? (
-                        <img className={"image-preview"} src={props.thumbnail} alt="" />
+                        <img
+                            className={"image-preview"}
+                            src={props.thumbnail}
+                            alt=""
+                            onError={props.onThumbnailError}
+                        />
                     ) : (
                         <FileIcon mimeType={props.mimeType} />
                     )}

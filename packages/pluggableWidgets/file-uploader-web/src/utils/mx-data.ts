@@ -8,9 +8,9 @@ export type MxObject = {
     get2(name: string): string | Big | boolean;
 };
 
-export function saveFile(item: ObjectItem, fileToUpload: Blob): Promise<void> {
+export function saveFile(item: ObjectItem, fileToUpload: Blob, fileName: string | null = null): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-        (window as any).mx.data.saveDocument(item.id, null, {}, fileToUpload, resolve, reject);
+        (window as any).mx.data.saveDocument(item.id, fileName, {}, fileToUpload, resolve, reject);
     });
 }
 
@@ -40,11 +40,21 @@ export function fetchMxObject(objectItem: ObjectItem): Promise<MxObject> {
 }
 
 export async function fetchDocumentUrl(mxObject: MxObject): Promise<string> {
-    return (window as any).mx.data.getDocumentUrl(mxObject.getGuid(), mxObject.get("changedDate"), false);
+    return (window as any).mx.data.getDocumentUrl(
+        mxObject.getGuid(),
+        mxObject.get("changedDate"),
+        false,
+        mxObject.get2("Name")?.toString()
+    );
 }
 
 export async function fetchImageThumbnail(mxObject: MxObject): Promise<string> {
-    const docUrl = await (window as any).mx.data.getDocumentUrl(mxObject.getGuid(), mxObject.get("changedDate"), true);
+    const docUrl = await (window as any).mx.data.getDocumentUrl(
+        mxObject.getGuid(),
+        mxObject.get("changedDate"),
+        true,
+        mxObject.get2("Name")?.toString()
+    );
     return new Promise<string>((resolve, reject) => {
         (window as any).mx.data.getImageUrl(docUrl, resolve, reject);
     });
