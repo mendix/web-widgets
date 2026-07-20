@@ -1,4 +1,5 @@
 import { datamatrix, drawingSVG, gs1datamatrix } from "@bwip-js/browser";
+import DOMPurify from "dompurify";
 import { ReactElement, useMemo } from "react";
 import { BarcodeGeneratorPreviewProps } from "../../../typings/BarcodeGeneratorProps";
 
@@ -30,9 +31,11 @@ export function DataMatrixPreview(props: DataMatrixPreviewProps): ReactElement {
             {restProps.buttonPosition === "top" && downloadButton}
             {svg ? (
                 <div
-                    className="datamatrix-preview-image"
+                    className="barcode-generator-datamatrix-preview-image"
                     style={{ width: displaySize, height: displaySize }}
-                    dangerouslySetInnerHTML={{ __html: svg }}
+                    dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } })
+                    }}
                 />
             ) : (
                 <div className="alert alert-danger" role="alert">
