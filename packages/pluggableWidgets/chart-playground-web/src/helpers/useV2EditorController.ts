@@ -1,6 +1,7 @@
 import { observable, reaction, runInAction } from "mobx";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { PlaygroundDataV2 } from "@mendix/shared-charts/main";
+import { isEquivalentJson, prettifyJson } from "./editorJson";
 import { ComposedEditorProps } from "../components/ComposedEditor";
 import { SelectOption } from "../components/Sidebar";
 
@@ -27,14 +28,6 @@ function getModelerCode(data: PlaygroundDataV2, key: ConfigKey): object {
     }
     const entries = Object.entries(data.plotData.at(key) ?? {}).filter(([k]) => !irrelevantSeriesKeys.includes(k));
     return Object.fromEntries(entries);
-}
-
-function prettifyJson(json: string): string {
-    try {
-        return JSON.stringify(JSON.parse(json), null, 2);
-    } catch {
-        return '{ "error": "invalid JSON" }';
-    }
 }
 
 export function useV2EditorController(context: PlaygroundDataV2): ComposedEditorProps {
@@ -69,12 +62,14 @@ export function useV2EditorController(context: PlaygroundDataV2): ComposedEditor
 
     const code = prettifyJson(getEditorCode(store, key));
     const [input, setInput] = useState(() => code);
+    const lastOwnEditRef = useRef<string | null>(null);
     const onEditorChange = useCallback(
         (value: string): void => {
             setInput(value);
             try {
                 // Parse string before sending to store
                 const obj = JSON.parse(value);
+                lastOwnEditRef.current = value;
                 if (key === "layout") {
                     store.setLayout(obj);
                 } else if (key === "config") {
@@ -92,7 +87,17 @@ export function useV2EditorController(context: PlaygroundDataV2): ComposedEditor
         () =>
             reaction(
                 () => getEditorCode(store, keyBox.get()),
-                code => setInput(prettifyJson(code))
+                rawCode => {
+                    // Skip resync when this is just the store echoing back the user's own last
+                    // edit — otherwise every keystroke replaces the controlled value and resets
+                    // the cursor to the end.
+                    if (lastOwnEditRef.current !== null && isEquivalentJson(rawCode, lastOwnEditRef.current)) {
+                        lastOwnEditRef.current = null;
+                        return;
+                    }
+                    lastOwnEditRef.current = null;
+                    setInput(prettifyJson(rawCode));
+                }
             ),
         [store, keyBox]
     );
