@@ -47,7 +47,8 @@ describe("Rich Text", () => {
             customFonts: [],
             enableDefaultUpload: true,
             formOrientation: "vertical",
-            linkValidation: true
+            linkValidation: true,
+            styleDataFormat: "inline"
         };
     });
 
@@ -92,5 +93,25 @@ describe("Rich Text", () => {
     it("renders with both word and character count", () => {
         const component = render(<RichText {...defaultProps} statusBarContent={"both" as StatusBarContentEnum} />);
         expect(component.container).toMatchSnapshot();
+    });
+
+    describe("Empty content handling", () => {
+        it("handles empty string value", () => {
+            const emptyAttribute = new EditableValueBuilder<string>().withValue("").build();
+            const component = render(<RichText {...defaultProps} stringAttribute={emptyAttribute} />);
+            expect(component.container).toBeTruthy();
+        });
+
+        it("handles undefined value", () => {
+            const undefinedAttribute = new EditableValueBuilder<string>().withValue(undefined).build();
+            const component = render(<RichText {...defaultProps} stringAttribute={undefinedAttribute} />);
+            expect(component.container).toBeTruthy();
+        });
+
+        it("handles <p></p> value", () => {
+            const emptyParagraphAttribute = new EditableValueBuilder<string>().withValue("<p></p>").build();
+            const component = render(<RichText {...defaultProps} stringAttribute={emptyParagraphAttribute} />);
+            expect(component.container).toBeTruthy();
+        });
     });
 });

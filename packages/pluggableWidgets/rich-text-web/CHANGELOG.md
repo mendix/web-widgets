@@ -10,6 +10,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed a security vulnerability (CVE-2026-13149).
 
+### Added
+
+- We added new configuration to allow users to use class names instead of inline styling in generated HTML to support strict CSP.
+
+### Fixed
+
+- We fixed Tiptap duplicate extension warnings for `link`, `textStyle`, `underline`, and `textDirection` by properly configuring StarterKit, removing redundant extension registrations in TextColorClass, memoizing the extensions array to prevent re-registration on component re-renders, and disabling the core TextDirection extension that conflicts with our custom implementation.
+
+- We fixed an issue where empty editor content was saving as `<p></p>` instead of an empty string, which incorrectly passed required field validation. Empty content now correctly saves as `""`, ensuring proper validation behavior. Note: This is a breaking change for forms that were relying on the incorrect behavior - required RichText fields will now correctly reject empty content.
+
+- We fixed an issue where the editor pasting back the whole sentence instead of the single copied word
+
+### Changed
+
+- We removed codemirror from code dialog viewer due to unsupported strict CSP policy. A simple internally built code editor using highlightjs is now replacing it.
+
 ## [4.12.0] - 2026-04-22
 
 ### Added

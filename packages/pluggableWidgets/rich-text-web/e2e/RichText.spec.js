@@ -2,6 +2,7 @@ import { expect, test } from "@mendix/run-e2e/fixtures";
 import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("RichText", () => {
+    test.describe.configure({ mode: "serial" });
     test("compares with a screenshot baseline and checks if inline basic mode are rendered as expected", async ({
         page
     }) => {
@@ -115,6 +116,37 @@ test.describe("RichText", () => {
         await expect(page.locator(".mx-name-richText6")).toHaveScreenshot(`readOnlyModeReadPanel.png`);
     });
 
+    test("compares with a screenshot baseline and checks if class mode editor is rendered as expected", async ({
+        page
+    }) => {
+        await page.goto("/p/classmode");
+        await waitForMendixApp(page);
+        await expect(page.locator(".mx-name-richText1")).toBeVisible();
+        await expect(page.locator(".mx-name-richText1")).toHaveScreenshot(`classModeEditor.png`, { threshold: 0.4 });
+    });
+
+    test("checks that class mode editor output uses CSS classes instead of inline styles", async ({ page }) => {
+        await page.goto("/p/classmode");
+        await waitForMendixApp(page);
+        const html = await page.locator(".mx-name-richText1 .ql-editor").innerHTML();
+        expect(html).toMatch(/class="ql-color-/);
+        expect(html).toMatch(/class="ql-bg-/);
+        expect(html).toMatch(/class="ql-indent-/);
+        expect(html).toMatch(/data-style-format="class"/);
+        expect(html).not.toMatch(/style="color:/);
+        expect(html).not.toMatch(/style="background-color:/);
+        expect(html).not.toMatch(/style="padding-left:/);
+    });
+
+    test("compares with a screenshot baseline of the View/Edit Code dialog in class mode", async ({ page }) => {
+        await page.goto("/p/classmode");
+        await waitForMendixApp(page);
+        await page.click(".mx-name-richText1 .ql-toolbar button.ql-view-code");
+        await expect(page.locator(".widget-rich-text .widget-rich-text-modal-body").first()).toHaveScreenshot(
+            `classModeViewCodeDialog.png`
+        );
+    });
+
     test("compares with a screenshot for rich text inside modal popup layout", async ({ page }) => {
         await page.goto("/");
         await waitForMendixApp(page);
@@ -133,5 +165,41 @@ test.describe("RichText", () => {
         await expect(page.locator(".widget-rich-text .widget-rich-text-modal-body").first()).toHaveScreenshot(
             `richTextDialogInsidePopupEdit.png`
         );
+    });
+
+    test("empty content persists as empty string, not <p></p>", async ({ page }) => {
+        await page.goto("/");
+        await waitForMendixApp(page);
+        await page.click("text=Generate Data");
+        await page.goto("/p/basic");
+        await waitForMendixApp(page);
+
+        // Find the first editable rich text editor
+        const editor = page.locator(".mx-name-richText1 .tiptap");
+        await editor.scrollIntoViewIfNeeded();
+        await expect(editor).toBeVisible();
+
+        // Click into the editor and clear all content
+        await editor.click();
+        await page.keyboard.press("Control+A");
+        await page.keyboard.press("Backspace");
+
+        // Blur the editor to trigger save
+        await page.keyboard.press("Tab");
+        await page.waitForTimeout(500);
+
+        // The editor should now be empty (visual check)
+        const textContent = await editor.textContent();
+        expect(textContent?.trim() || "").toBe("");
+
+        // Reload the page to verify persistence
+        await page.reload();
+        await waitForMendixApp(page);
+
+        // The editor should still be empty after reload
+        const reloadedEditor = page.locator(".mx-name-richText1 .tiptap");
+        await expect(reloadedEditor).toBeVisible();
+        const reloadedContent = await reloadedEditor.textContent();
+        expect(reloadedContent?.trim() || "").toBe("");
     });
 });

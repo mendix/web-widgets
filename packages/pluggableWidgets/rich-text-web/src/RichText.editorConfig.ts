@@ -5,7 +5,7 @@ import {
     rowLayout,
     StructurePreviewProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { RichTextPreviewProps } from "typings/RichTextProps";
+import { RichTextPreviewProps } from "../typings/RichTextProps";
 import RichTextPreviewSVGDark from "./assets/rich-text-preview-dark.svg";
 import RichTextPreviewSVGLight from "./assets/rich-text-preview-light.svg";
 
