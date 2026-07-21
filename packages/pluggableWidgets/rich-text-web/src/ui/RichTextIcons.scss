@@ -5,81 +5,75 @@
 }
 
 $icons: (
-    Undo: "\e900",
-    Redo: "\e901",
-    Text-bold: "\e902",
-    Text-italic: "\e903",
-    Text-color: "\e904",
-    Text-background: "\e905",
-    Text-align-left: "\e906",
-    Text-align-center: "\e907",
-    Text-align-right: "\e908",
-    Text-align-justify: "\e909",
-    List-bullets: "\e90a",
-    List-numbers: "\e90c",
-    Text-indent-right: "\e90d",
-    Text-indent-left: "\e90e",
-    Hyperlink: "\e90f",
-    Image: "\e910",
-    Film: "\e911",
-    Insert-edit-math: "\e912",
-    Blockquote: "\e913",
-    Left-to-right: "\e914",
-    Right-to-left: "\e915",
+    Undo: "\e91b",
+    Redo: "\e917",
+    Text-bold: "\e928",
+    Text-italic: "\e926",
+    Text-color: "\e939",
+    Text-background: "\e93a",
+    Text-align-left: "\e91f",
+    Text-align-center: "\e922",
+    Text-align-right: "\e924",
+    Text-align-justify: "\e91c",
+    List-bullets: "\e91e",
+    List-numbers: "\e919",
+    Text-indent-right: "\e909",
+    Text-indent-left: "\e912",
+    Hyperlink: "\e920",
+    Image: "\e93b",
+    Film: "\e93e",
+    Insert-edit-math: "\e911",
+    Blockquote: "\e907",
+    Left-to-right: "\e913",
+    Right-to-left: "\e914",
     Line-height: "\e916",
-    Table: "\e917",
-    Add: "\e918",
-    Substract: "\e919",
-    Source-code: "\e91a",
-    Clear-formating: "\e91b",
-    Text-underline: "\e91c",
-    Text-strikethrough: "\e91d",
-    Text-subscript: "\e91e",
-    Text-superscript: "\e91f",
-    List-lower-alpha: "\e920",
-    Arrow-down: "\e90b",
-    List-checklist: "\e922",
-    List-roman: "\e921",
-    Inline-code: "\e923",
-    View-edit-code: "\e924",
-    Code-block: "\e925",
-    Expand: "\e926",
-    Align-middle: "\e927",
-    Align-bottom: "\e928",
-    Align-top: "\e929",
-    Cell: "\e92a",
-    Check: "\e92b",
-    Close: "\e92c",
-    Erase: "\e92d",
-    Delete: "\e92e",
-    Copy: "\e92f",
-    Column: "\e930",
-    Row: "\e931",
-    Save: "\e932",
-    Merge: "\e933",
-    Wrap: "\e934",
-    Palette: "\e935"
+    Table: "\e927",
+    Add: "\e905",
+    Substract: "\e918",
+    Source-code: "\e90b",
+    Clear-formating: "\e929",
+    Text-underline: "\e90d",
+    Text-strikethrough: "\e904",
+    Text-subscript: "\e90f",
+    Text-superscript: "\e903",
+    List-lower-alpha: "\e902",
+    Arrow-down: "\e92a",
+    List-checklist: "\e908",
+    List-roman: "\e91a",
+    Inline-code: "\e90a",
+    View-edit-code: "\e91d",
+    Code-block: "\e938",
+    Expand: "\e900",
+    Align-middle: "\e901",
+    Align-bottom: "\e915",
+    Align-top: "\e906",
+    Cell: "\e92b",
+    Check: "\e925",
+    Close: "\e90e",
+    Erase: "\e90c",
+    Delete: "\e935",
+    Copy: "\e923",
+    Column: "\e934",
+    Row: "\e92c",
+    Save: "\e921",
+    Merge: "\e936",
+    Wrap: "\e910",
+    Palette: "\e937",
+    Delete-column: "\e92f",
+    Delete-row: "\e933",
+    Insert-column-after: "\e92d",
+    Insert-column-before: "\e932",
+    Insert-row-before: "\e930",
+    Insert-row-after: "\e92e",
+    Split-cell: "\e93c",
+    Delete-table: "\e931",
+    Table-configuration: "\e93d"
 );
 
 .widget-rich-text {
     .widget-rich-text-toolbar button.icons {
         svg {
             display: none;
-        }
-    }
-
-    .ql-container {
-        .ql-resize-overlay {
-            .ql-resize-toolbar {
-                font-family: "RichTextIconFont" !important;
-                font-style: normal;
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-
-                button {
-                    position: relative;
-                }
-            }
         }
     }
 
@@ -93,62 +87,6 @@ $icons: (
         @each $name, $code in $icons {
             &.icon-#{$name}:before {
                 content: $code;
-            }
-        }
-
-        &.ql-color {
-            .ql-picker-label {
-                &:before {
-                    content: map.get($icons, Text-color);
-                }
-                svg {
-                    display: none;
-                }
-            }
-        }
-
-        &.ql-background {
-            .ql-picker-label {
-                &:before {
-                    content: map.get($icons, Text-background);
-                }
-                svg {
-                    display: none;
-                }
-            }
-        }
-
-        &.ql-direction {
-            &:before {
-                content: map.get($icons, Left-to-right);
-            }
-            svg {
-                display: none;
-            }
-
-            &.ql-active {
-                &:before {
-                    content: map.get($icons, Right-to-left);
-                }
-
-                svg {
-                    display: none;
-                }
-            }
-        }
-
-        &.ql-align.ql-picker {
-            .ql-picker-label,
-            .ql-picker-item {
-                &[data-value="center"]:before {
-                    content: map.get($icons, Text-align-center);
-                }
-                &[data-value="justify"]:before {
-                    content: map.get($icons, Text-align-justify);
-                }
-                svg {
-                    display: none;
-                }
             }
         }
     }
