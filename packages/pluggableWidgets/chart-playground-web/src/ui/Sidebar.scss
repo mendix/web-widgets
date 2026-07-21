@@ -87,8 +87,15 @@
 
 .widget-custom-config {
     height: var(--top-panel-h);
+    // --panel-header-1 and --editor-h are sized to sum exactly to --top-panel-h; flex +
+    // overflow: hidden is a safety clamp if that arithmetic ever drifts (zoom rounding, a
+    // header wrapping to two lines), not load-bearing for the normal case.
+    display: flex;
+    flex-flow: column nowrap;
+    overflow: hidden;
 
     .widget-panel-header {
+        flex: 0 0 auto;
         justify-content: space-between;
     }
 }
