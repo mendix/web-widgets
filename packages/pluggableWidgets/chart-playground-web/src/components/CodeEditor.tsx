@@ -1,6 +1,6 @@
 import hljs from "highlight.js/lib/core";
 import json from "highlight.js/lib/languages/json";
-import { ReactElement } from "react";
+import { ClipboardEvent, ReactElement, useRef } from "react";
 import Editor from "react-simple-code-editor";
 import "highlight.js/styles/atom-one-light.css";
 
@@ -36,9 +36,37 @@ function jsonError(code: string): string | null {
 
 export function CodeEditor(props: CodeEditorProps): ReactElement {
     const error = jsonError(props.value);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    const onPaste = (event: ClipboardEvent<HTMLDivElement>): void => {
+        const textarea = event.target;
+        if (!(textarea instanceof HTMLTextAreaElement)) {
+            return;
+        }
+        const replacesWholeValue = textarea.selectionStart === 0 && textarea.selectionEnd === textarea.value.length;
+        if (!replacesWholeValue) {
+            return;
+        }
+        // Pasting over the entire value lands the caret (and scroll position) at the end of
+        // the pasted text, same as any textarea. For a config the user is about to read
+        // top-to-bottom, jump back to the start instead.
+        requestAnimationFrame(() => {
+            textarea.setSelectionRange(0, 0);
+            textarea.scrollTop = 0;
+            const wrapper = containerRef.current;
+            if (wrapper) {
+                wrapper.scrollTop = 0;
+            }
+        });
+    };
 
     return (
-        <div className="widget-charts-playground-code-editor">
+        <div
+            ref={containerRef}
+            className="widget-charts-playground-code-editor"
+            style={{ height: props.height ?? "200px" }}
+            onPaste={onPaste}
+        >
             {error && (
                 <div className="widget-charts-playground-code-editor-error" role="alert">
                     {error}
@@ -54,7 +82,11 @@ export function CodeEditor(props: CodeEditorProps): ReactElement {
                 insertSpaces
                 ignoreTabKey={false}
                 spellCheck={false}
-                style={{ height: props.height ?? "200px", width: "100%", fontFamily: "monospace" }}
+                style={{
+                    width: "100%",
+                    minHeight: "100%",
+                    fontFamily: "monospace"
+                }}
             />
         </div>
     );
