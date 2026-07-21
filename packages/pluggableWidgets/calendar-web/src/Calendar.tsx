@@ -1,5 +1,6 @@
-import { Fragment, ReactElement, useMemo } from "react";
+import { Fragment, ReactElement, useCallback, useMemo, useState } from "react";
 import classNames from "classnames";
+import { View } from "react-big-calendar";
 import { CalendarContainerProps } from "../typings/CalendarProps";
 import { CalendarPropsBuilder } from "./helpers/CalendarPropsBuilder";
 import { DnDCalendar } from "./utils/calendar-utils";
@@ -20,10 +21,17 @@ export default function MxCalendar(props: CalendarContainerProps): ReactElement 
     // Get locale-aware localizer
     const { localizer, culture } = useLocalizer();
 
+    // The calendar is controlled on `view` so the props builder always knows which view is on
+    // screen — needed to resolve the shared RBC `dayFormat` key (week/work_week/day column
+    // headers) to that view's own custom pattern instead of a sibling view's. Undefined until
+    // RBC reports its first view (via defaultView), at which point the builder picks a safe one.
+    const [activeView, setActiveView] = useState<View | undefined>(undefined);
+    const handleView = useCallback((view: View) => setActiveView(view), []);
+
     const calendarProps = useMemo(() => {
         calendarController.updateProps(props);
-        return calendarController.build(localizer, culture);
-    }, [props, calendarController, localizer, culture]);
+        return calendarController.build(localizer, culture, activeView);
+    }, [props, calendarController, localizer, culture, activeView]);
 
     const calendarEvents = useCalendarEvents(props);
 
@@ -33,7 +41,7 @@ export default function MxCalendar(props: CalendarContainerProps): ReactElement 
                 <progress className="widget-calendar-loading-bar" />
             ) : (
                 <div className={classNames("widget-calendar", props.class)} style={wrapperStyle}>
-                    <DnDCalendar {...calendarProps} {...calendarEvents} />
+                    <DnDCalendar {...calendarProps} {...calendarEvents} onView={handleView} />
                 </div>
             )}
         </Fragment>

@@ -258,7 +258,7 @@ describe("CalendarPropsBuilder validation", () => {
 });
 
 describe("CalendarPropsBuilder column header formats", () => {
-    const buildFormats = (toolbarItems: CalendarContainerProps["toolbarItems"]): any => {
+    const buildFormats = (toolbarItems: CalendarContainerProps["toolbarItems"], activeView?: string): any => {
         const localizer = {
             format: jest.fn((_date: Date, pattern: string) => pattern),
             parse: jest.fn(),
@@ -267,7 +267,8 @@ describe("CalendarPropsBuilder column header formats", () => {
             messages: {}
         } as any;
         const builder = new CalendarPropsBuilder({ ...customViewProps, toolbarItems });
-        return { formats: builder.build(localizer, "en").formats, localizer };
+        const built = builder.build(localizer, "en", activeView as any);
+        return { formats: built.formats, view: built.view, localizer };
     };
 
     const toolbarItem = (
@@ -284,7 +285,7 @@ describe("CalendarPropsBuilder column header formats", () => {
 
     it("wires 'Header day format' on a day item into RBC dayFormat (the column header)", () => {
         const { formats, localizer } = buildFormats([
-            toolbarItem("day", { customViewHeaderDayFormat: dynamic("EE dd-MM") })
+            toolbarItem("day", { customViewHeaderDayFormat: dynamic.available("EE dd-MM") })
         ]);
 
         expect(typeof formats.dayFormat).toBe("function");
@@ -294,7 +295,7 @@ describe("CalendarPropsBuilder column header formats", () => {
 
     it("wires 'Header day format' on a month item into RBC weekdayFormat", () => {
         const { formats, localizer } = buildFormats([
-            toolbarItem("month", { customViewHeaderDayFormat: dynamic("EEEE") })
+            toolbarItem("month", { customViewHeaderDayFormat: dynamic.available("EEEE") })
         ]);
 
         expect(typeof formats.weekdayFormat).toBe("function");
@@ -302,21 +303,46 @@ describe("CalendarPropsBuilder column header formats", () => {
         expect(localizer.format).toHaveBeenCalledWith(expect.any(Date), "EEEE", "en");
     });
 
-    it("prefers the week pattern for the shared dayFormat when day and week both set it", () => {
-        const warn = jest.spyOn(console, "warn").mockImplementation(() => undefined);
-        const { formats, localizer } = buildFormats([
-            toolbarItem("day", { customViewHeaderDayFormat: dynamic("dd") }),
-            toolbarItem("week", { customViewHeaderDayFormat: dynamic("EE dd-MM") })
-        ]);
+    it("resolves the shared dayFormat from whichever view is active, not a sibling view", () => {
+        // Week and work_week both configured with their OWN, different "Header day format".
+        // RBC shares a single `dayFormat` key across both (and day), so the builder must pick
+        // the pattern that belongs to whatever view is actually on screen (`activeView`).
+        const items = [
+            toolbarItem("day", { customViewHeaderDayFormat: dynamic.available("dd") }),
+            toolbarItem("week", { customViewHeaderDayFormat: dynamic.available("EE dd-MM") }),
+            toolbarItem("work_week", { customViewHeaderDayFormat: dynamic.available("MMM dd") })
+        ];
 
-        formats.dayFormat(new Date("2025-04-28T12:00:00Z"), "en", localizer);
-        expect(localizer.format).toHaveBeenCalledWith(expect.any(Date), "EE dd-MM", "en");
-        expect(warn).toHaveBeenCalledWith(expect.stringContaining("shares a single"));
-        warn.mockRestore();
+        const week = buildFormats(items, "week");
+        week.formats.dayFormat(new Date("2025-04-28T12:00:00Z"), "en", week.localizer);
+        expect(week.localizer.format).toHaveBeenCalledWith(expect.any(Date), "EE dd-MM", "en");
+
+        const workWeek = buildFormats(items, "work_week");
+        workWeek.formats.dayFormat(new Date("2025-04-28T12:00:00Z"), "en", workWeek.localizer);
+        expect(workWeek.localizer.format).toHaveBeenCalledWith(expect.any(Date), "MMM dd", "en");
+
+        const day = buildFormats(items, "day");
+        day.formats.dayFormat(new Date("2025-04-28T12:00:00Z"), "en", day.localizer);
+        expect(day.localizer.format).toHaveBeenCalledWith(expect.any(Date), "dd", "en");
+    });
+
+    it("falls back to RBC's default when the active view (work_week) has no pattern of its own", () => {
+        // Regression: work_week previously inherited week's pattern instead of falling back.
+        // week HAS a custom pattern, work_week does NOT — while work_week is active, dayFormat
+        // must stay unset so RBC's own default ("dd eee") is used, not week's pattern.
+        const { formats } = buildFormats(
+            [
+                toolbarItem("week", { customViewHeaderDayFormat: dynamic.available("EE dd-MM") }),
+                toolbarItem("work_week")
+            ],
+            "work_week"
+        );
+
+        expect(formats.dayFormat).toBeUndefined();
     });
 
     it("leaves dayFormat/weekdayFormat unset when no header format is configured (RBC defaults preserved)", () => {
-        const { formats } = buildFormats([toolbarItem("day"), toolbarItem("month")]);
+        const { formats } = buildFormats([toolbarItem("day"), toolbarItem("month")], "day");
 
         expect(formats.dayFormat).toBeUndefined();
         expect(formats.weekdayFormat).toBeUndefined();
@@ -324,7 +350,7 @@ describe("CalendarPropsBuilder column header formats", () => {
 
     it("wires 'Time gutter format' on a day item into RBC timeGutterFormat", () => {
         const { formats, localizer } = buildFormats([
-            toolbarItem("day", { customViewGutterTimeFormat: dynamic("HH:mm") })
+            toolbarItem("day", { customViewGutterTimeFormat: dynamic.available("HH:mm") })
         ]);
 
         expect(typeof formats.timeGutterFormat).toBe("function");
