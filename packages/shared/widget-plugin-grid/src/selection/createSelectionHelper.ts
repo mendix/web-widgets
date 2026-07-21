@@ -20,12 +20,13 @@ export function createSelectionHelper(
     }
 
     if (selection.type === "Multi") {
-        helper = new MultiSelectionHelper(selection, datasource.items ?? []);
+        helper = new MultiSelectionHelper(selection, datasource.items ?? [], config.keepSelection);
     } else if (selection.type === "Single") {
-        helper = new SingleSelectionHelper(selection);
+        helper = new SingleSelectionHelper(selection, config.keepSelection);
     }
-    if (config.keepSelection) {
-        selection?.setKeepSelection(() => true);
+
+    if (helper instanceof MultiSelectionHelper || helper instanceof SingleSelectionHelper) {
+        host.add(helper);
     }
 
     function setup(): (() => void) | void {

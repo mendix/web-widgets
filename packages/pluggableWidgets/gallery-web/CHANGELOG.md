@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where "Reset All Filters" and "Clear Selection" JavaScript actions did not work with the Gallery widget. Event listeners were not registered despite the required infrastructure being in place.
 
+- We fixed an issue where the "Clear Selection" JavaScript action did not clear the selection when the "Keep selection" property was enabled. The selection now clears, and keep selection resumes on subsequent paging or refresh.
+
 ## [3.11.0] - 2026-05-27
 
 ### Added

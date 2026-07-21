@@ -1,17 +1,40 @@
 import type { ObjectItem, SelectionMultiValue, SelectionSingleValue } from "mendix";
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable, when } from "mobx";
+import { SetupComponent } from "@mendix/widget-plugin-mobx-kit/main";
+import { Direction, MoveEvent1D, MoveEvent2D, MultiSelectionStatus, ScrollKeyCode, SelectionMode, Size } from "./types";
 import { MultiSelectionService } from "../interfaces/MultiSelectionService";
 import { SingleSelectionService } from "../interfaces/SingleSelectionService";
-import { Direction, MoveEvent1D, MoveEvent2D, MultiSelectionStatus, ScrollKeyCode, SelectionMode, Size } from "./types";
 
-export class SingleSelectionHelper implements SingleSelectionService {
+export class SingleSelectionHelper implements SingleSelectionService, SetupComponent {
     type = "Single" as const;
-    constructor(private selectionValue: SelectionSingleValue) {
+    /** Transient "retain now" flag the installed keep predicate reads live. */
+    private keepActive = observable.box(true);
+    /** Disposer for the pending re-arm `when`, if a clear is in flight. */
+    private disposeRearm: (() => void) | undefined;
+    private keepInstalled = false;
+
+    constructor(
+        private selectionValue: SelectionSingleValue,
+        private keepSelection = false
+    ) {
         type PrivateMembers = "selectionValue";
         makeObservable<this, PrivateMembers>(this, {
             selectionValue: observable.ref,
             updateProps: action
         });
+    }
+
+    setup(): (() => void) | void {
+        if (!this.keepSelection) {
+            return;
+        }
+        this.selectionValue.setKeepSelection(() => this.keepActive.get());
+        this.keepInstalled = true;
+        return () => {
+            this.disposeRearm?.();
+            this.disposeRearm = undefined;
+            this.keepInstalled = false;
+        };
     }
 
     updateProps(value: SelectionSingleValue): void {
@@ -25,18 +48,47 @@ export class SingleSelectionHelper implements SingleSelectionService {
         this.selectionValue.setSelection(value);
     }
     remove(): void {
+        this.beforeClear();
         this.selectionValue.setSelection(undefined);
+    }
+
+    /**
+     * Make the keep predicate yield around a clear, then re-arm it on the next
+     * datasource reconciliation. The runtime schedules new props on
+     * reconciliation, so a fresh `selectionValue` ref means the reconciliation
+     * (and its keep decision) is already past — safe to retain again.
+     */
+    private beforeClear(): void {
+        if (!this.keepInstalled) {
+            return;
+        }
+        this.disposeRearm?.();
+        const clearedRef = this.selectionValue;
+        this.keepActive.set(false);
+        this.disposeRearm = when(
+            () => this.selectionValue !== clearedRef,
+            () => {
+                this.keepActive.set(true);
+                this.disposeRearm = undefined;
+            }
+        );
     }
 }
 
-export class MultiSelectionHelper implements MultiSelectionService {
+export class MultiSelectionHelper implements MultiSelectionService, SetupComponent {
     type = "Multi" as const;
     private rangeStart: number | undefined;
     private rangeEnd: number | undefined;
+    /** Transient "retain now" flag the installed keep predicate reads live. */
+    private keepActive = observable.box(true);
+    /** Disposer for the pending re-arm `when`, if a clear is in flight. */
+    private disposeRearm: (() => void) | undefined;
+    private keepInstalled = false;
 
     constructor(
         private selectionValue: SelectionMultiValue,
-        private selectableItems: ObjectItem[]
+        private selectableItems: ObjectItem[],
+        private keepSelection = false
     ) {
         this.rangeStart = undefined;
         type PrivateMembers = "selectionValue" | "selectableItems";
@@ -48,6 +100,19 @@ export class MultiSelectionHelper implements MultiSelectionService {
         });
     }
 
+    setup(): (() => void) | void {
+        if (!this.keepSelection) {
+            return;
+        }
+        this.selectionValue.setKeepSelection(() => this.keepActive.get());
+        this.keepInstalled = true;
+        return () => {
+            this.disposeRearm?.();
+            this.disposeRearm = undefined;
+            this.keepInstalled = false;
+        };
+    }
+
     isSelected(value: ObjectItem): boolean {
         return this.selectionValue.selection.some(obj => obj.id === value.id);
     }
@@ -55,6 +120,28 @@ export class MultiSelectionHelper implements MultiSelectionService {
     updateProps(value: SelectionMultiValue, items: ObjectItem[]): void {
         this.selectionValue = value;
         this.selectableItems = items;
+    }
+
+    /**
+     * Make the keep predicate yield around a clear, then re-arm it on the next
+     * datasource reconciliation. The runtime schedules new props on
+     * reconciliation, so a fresh `selectionValue` ref means the reconciliation
+     * (and its keep decision) is already past — safe to retain again.
+     */
+    private beforeClear(): void {
+        if (!this.keepInstalled) {
+            return;
+        }
+        this.disposeRearm?.();
+        const clearedRef = this.selectionValue;
+        this.keepActive.set(false);
+        this.disposeRearm = when(
+            () => this.selectionValue !== clearedRef,
+            () => {
+                this.keepActive.set(true);
+                this.disposeRearm = undefined;
+            }
+        );
     }
 
     get selectionStatus(): MultiSelectionStatus {
@@ -253,6 +340,7 @@ export class MultiSelectionHelper implements MultiSelectionService {
      * Clears the current selection by removing all selected items and resetting the selection range.
      */
     clearSelection(): void {
+        this.beforeClear();
         this.selectionValue.setSelection([]);
         this._resetRange();
     }

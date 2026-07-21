@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where export type and format properties were visible in Studio Pro for dynamic text columns, even though they have no effect.
 
+- We fixed an issue where the "Clear Selection" JavaScript action did not clear the selection when the "Keep selection" property was enabled. The selection now clears, and keep selection resumes on subsequent paging or refresh.
+
 ## [3.11.1] - 2026-06-18
 
 ### Fixed
