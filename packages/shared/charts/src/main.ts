@@ -1,4 +1,5 @@
 export * from "./components/ChartWidget";
+export { EditorStore } from "./helpers/EditorStore";
 export type * from "./helpers/EditorStore";
 export type * from "./helpers/playground-context";
 export type * from "./helpers/useEditorStore";
