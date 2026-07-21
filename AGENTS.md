@@ -29,6 +29,9 @@ Monorepo of official Mendix pluggable web widgets. pnpm workspaces + Turbo.
 ## Constraints
 
 - Never modify dist/, generated files, or lockfiles
+- OpenSpec specs/changes are PER-PACKAGE — never create them at the monorepo root.
+  Always `cd packages/<type>/<name>` before any `openspec new/init/archive`. The
+  root `openspec/` directory is off-limits (enforced by `.claude/hooks/validate-openspec-path.sh`).
 - XML property keys: lowerCamelCase, must match TypeScript props exactly
 - Don't override core Atlas UI classes
 - Prefer tree-shakable imports for new dependencies

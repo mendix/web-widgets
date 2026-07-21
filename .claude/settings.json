@@ -31,6 +31,17 @@
         ]
     },
     "hooks": {
+        "PreToolUse": [
+            {
+                "matcher": "Bash|Write|Edit|MultiEdit",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": ".claude/hooks/validate-openspec-path.sh"
+                    }
+                ]
+            }
+        ],
         "PostToolUse": [
             {
                 "matcher": "Edit|Write|MultiEdit",

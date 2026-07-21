@@ -31,14 +31,20 @@ Start a new change using the experimental artifact-driven approach.
 
     **Otherwise**: Omit `--schema` to use the default.
 
-3. **Create the change directory**
+3. **Create the change directory (inside the target package)**
+
+    Specs/changes are PER-PACKAGE. First determine which package this change
+    belongs to (ask the user if unclear), then `cd` into it before running openspec.
+    NEVER create changes at the monorepo root — a guardrail hook blocks it.
 
     ```bash
-    openspec new change "<name>"
+    cd packages/<type>/<name-web> && openspec new change "<name>"
     ```
 
     Add `--schema <name>` only if the user requested a specific workflow.
-    This creates a scaffolded change at `openspec/changes/<name>/` with the selected schema.
+    This creates a scaffolded change at `packages/<type>/<name-web>/openspec/changes/<name>/`
+    with the selected schema. If the package has no `openspec/` yet, run
+    `openspec init` inside the package first.
 
 4. **Show the artifact status**
 

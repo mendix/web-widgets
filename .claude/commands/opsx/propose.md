@@ -31,13 +31,19 @@ When ready to implement, run /opsx:apply
 
     **IMPORTANT**: Do NOT proceed without understanding what the user wants to build.
 
-2. **Create the change directory**
+2. **Create the change directory (inside the target package)**
+
+    Specs/changes are PER-PACKAGE. First determine which package this change
+    belongs to (ask the user if unclear), then `cd` into it before running openspec.
+    NEVER create changes at the monorepo root — a guardrail hook blocks it.
 
     ```bash
-    openspec new change "<name>"
+    cd PACKAGE_DIR && openspec new change "CHANGE_NAME"
     ```
 
-    This creates a scaffolded change at `openspec/changes/<name>/` with `.openspec.yaml`.
+    This creates a scaffolded change at `<package-dir>/openspec/changes/<name>/`
+    with `.openspec.yaml`. If the package has no `openspec/` yet, run
+    `openspec init` inside the package first.
 
 3. **Get the artifact build order**
 
