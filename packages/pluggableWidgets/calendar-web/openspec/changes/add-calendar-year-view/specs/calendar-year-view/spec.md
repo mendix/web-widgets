@@ -74,7 +74,12 @@ Days with events SHALL display a single dot indicator, regardless of the number 
 
 ### Requirement: Day click navigates to the configured target view
 
-Clicking a day cell SHALL navigate the calendar to the author-configured day-click target view (via the `yearDayClickView` property) for the selected date, PROVIDED that target view is enabled. The target choices are day, week, work_week, month, and agenda; the default is day. If the configured target view is not among the calendar's enabled views, day-click SHALL be disabled: day cells are rendered as non-interactive (no button role, tab stop, click, or keyboard handler) while retaining their aria-label, and no navigation occurs.
+Clicking a day cell SHALL navigate the calendar to the author-configured day-click target view for the selected date, PROVIDED that target view is enabled. The target is configured per view mode via two properties, so the available choices always match the mode's available views:
+
+- **Standard mode** — `yearDayClickViewStandard`, choices: day, week, month (default day). All are always enabled in Standard mode, so the target is always honored.
+- **Custom mode** — `yearDayClickViewCustom`, choices: day, week, work_week, month, agenda (default day). Only honored if that view is enabled via a toolbar item.
+
+The builder collapses the mode-specific property into a single effective target early (mirroring `defaultView`), so downstream logic is mode-agnostic. If the configured target view is not among the calendar's enabled views (only reachable in Custom mode), day-click SHALL be disabled: day cells are rendered as non-interactive (no button role, tab stop, click, or keyboard handler) while retaining their aria-label, and no navigation occurs.
 
 #### Scenario: User clicks a day in the current month
 

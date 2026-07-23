@@ -101,9 +101,18 @@
                         <enumerationValue key="year">Year</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="yearDayClickView" type="enumeration" defaultValue="day">
+                <property key="yearDayClickViewStandard" type="enumeration" defaultValue="day">
                     <caption>Year view: day click opens</caption>
-                    <description>Which view opens when a day is clicked in the Year view. Only applies if that view is enabled; otherwise clicking a day does nothing.</description>
+                    <description>Which view opens when a day is clicked in the Year view.</description>
+                    <enumerationValues>
+                        <enumerationValue key="day">Day</enumerationValue>
+                        <enumerationValue key="week">Week</enumerationValue>
+                        <enumerationValue key="month">Month</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="yearDayClickViewCustom" type="enumeration" defaultValue="day">
+                    <caption>Year view: day click opens</caption>
+                    <description>Which view opens when a day is clicked in the Year view. Only applies if that view is enabled via a toolbar item; otherwise clicking a day does nothing.</description>
                     <enumerationValues>
                         <enumerationValue key="day">Day</enumerationValue>
                         <enumerationValue key="week">Week</enumerationValue>

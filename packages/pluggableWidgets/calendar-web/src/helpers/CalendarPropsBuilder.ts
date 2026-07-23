@@ -2,7 +2,7 @@ import { ObjectItem } from "mendix";
 import { DateLocalizer, Formats, View, ViewsProps } from "react-big-calendar";
 import { CustomWeekController } from "./CustomWeekController";
 import { YearViewController } from "./YearViewController";
-import { CalendarContainerProps, YearDayClickViewEnum } from "../../typings/CalendarProps";
+import { CalendarContainerProps, YearDayClickViewCustomEnum } from "../../typings/CalendarProps";
 import { createConfigurableToolbar, CustomToolbar, ResolvedToolbarItem } from "../components/Toolbar";
 import { eventPropGetter, getTextValue } from "../utils/calendar-utils";
 import { CalendarEvent, DragAndDropCalendarProps } from "../utils/typings";
@@ -10,7 +10,7 @@ import { CalendarEvent, DragAndDropCalendarProps } from "../utils/typings";
 export class CalendarPropsBuilder {
     private visibleDays: Set<number>;
     private defaultView: View | "year";
-    private yearDayClickView: YearDayClickViewEnum;
+    private yearDayClickView: YearDayClickViewCustomEnum;
     private isCustomView: boolean;
     private events: CalendarEvent[];
     private minTime: Date;
@@ -23,7 +23,9 @@ export class CalendarPropsBuilder {
     constructor(private props: CalendarContainerProps) {
         this.isCustomView = props.view === "custom";
         this.defaultView = this.isCustomView ? props.defaultViewCustom : props.defaultViewStandard;
-        this.yearDayClickView = props.yearDayClickView;
+        // Collapse the mode-specific day-click view into one field early, mirroring how
+        // `defaultView` is chosen above — the rest of the builder stays mode-agnostic.
+        this.yearDayClickView = this.isCustomView ? props.yearDayClickViewCustom : props.yearDayClickViewStandard;
         this.visibleDays = this.buildVisibleDays();
         this.events = this.buildEvents(props.databaseDataSource?.items ?? []);
         this.minTime = this.buildTime(props.minHour ?? 0);
