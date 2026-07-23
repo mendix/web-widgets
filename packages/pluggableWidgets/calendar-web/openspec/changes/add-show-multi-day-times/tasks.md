@@ -20,7 +20,7 @@
 
 - [x] 4.1 `calendar-web` unit suite passes
 - [x] 4.2 Add user-facing changelog entry (new `showMultiDayTimes` property)
-- [ ] 4.3 `/code-review` before merge; PR ready
+- [x] 4.3 `/code-review` before merge; PR ready (⚠️ Approved with suggestions — low-severity only, no medium/high findings)
 
 ## Notes
 
