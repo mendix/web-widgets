@@ -3,7 +3,7 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, DynamicValue, WebIcon, WebImage } from "mendix";
+import { ActionValue, DynamicValue, EditableImageValue, WebIcon, WebImage } from "mendix";
 import { ComponentType, CSSProperties, ReactNode } from "react";
 
 export type DatasourceEnum = "image" | "imageUrl" | "icon";
@@ -26,8 +26,8 @@ export interface ImageContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     datasource: DatasourceEnum;
-    imageObject?: DynamicValue<WebImage>;
-    defaultImageDynamic?: DynamicValue<WebImage>;
+    imageObject?: EditableImageValue<WebImage>;
+    defaultImageDynamic?: EditableImageValue<WebImage>;
     imageUrl?: DynamicValue<string>;
     imageIcon?: DynamicValue<WebIcon>;
     isBackgroundImage: boolean;

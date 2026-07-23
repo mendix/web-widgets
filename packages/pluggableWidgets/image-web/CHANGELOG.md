@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where the Image widget would briefly render in an empty or broken state while the image data was still loading. The widget now waits until the image is ready before displaying it.
 
+- We fixed a deprecation warning by migrating the image source properties to the `allowUpload` property type. This raises the minimum supported Mendix version to 11.12.0.
+
 ## [1.5.1] - 2025-10-29
 
 ### Fixed

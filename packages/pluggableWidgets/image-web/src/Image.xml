@@ -17,11 +17,11 @@
                         <enumerationValue key="icon">Icon</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="imageObject" type="image" required="false">
+                <property key="imageObject" type="image" required="false" allowUpload="true">
                     <caption>Image source</caption>
                     <description />
                 </property>
-                <property key="defaultImageDynamic" type="image" required="false">
+                <property key="defaultImageDynamic" type="image" required="false" allowUpload="true">
                     <caption>Default image</caption>
                     <description>This is the image that is displayed if no image is uploaded.</description>
                 </property>
