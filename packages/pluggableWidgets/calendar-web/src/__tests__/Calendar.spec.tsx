@@ -407,7 +407,7 @@ describe("CalendarPropsBuilder multi-day time formats", () => {
     const buildWithTimeFormat = (timeFormatValue: string) => {
         const props = {
             ...customViewProps,
-            timeFormat: dynamic(timeFormatValue)
+            timeFormat: dynamic.available(timeFormatValue)
         };
         const builder = new CalendarPropsBuilder(props);
         return builder.build(mockLocalizer, "en");
@@ -472,8 +472,8 @@ describe("CalendarPropsBuilder showEventDate hides multi-day formats", () => {
     it("blanks eventTimeRangeStartFormat when showEventDate=false", () => {
         const props = {
             ...customViewProps,
-            showEventDate: dynamic(false),
-            timeFormat: dynamic("HH:mm")
+            showEventDate: dynamic.available(false),
+            timeFormat: dynamic.available("HH:mm")
         };
         const builder = new CalendarPropsBuilder(props);
         const result = builder.build(mockLocalizer, "en");
@@ -489,8 +489,8 @@ describe("CalendarPropsBuilder showEventDate hides multi-day formats", () => {
     it("blanks eventTimeRangeEndFormat when showEventDate=false", () => {
         const props = {
             ...customViewProps,
-            showEventDate: dynamic(false),
-            timeFormat: dynamic("HH:mm")
+            showEventDate: dynamic.available(false),
+            timeFormat: dynamic.available("HH:mm")
         };
         const builder = new CalendarPropsBuilder(props);
         const result = builder.build(mockLocalizer, "en");
@@ -506,8 +506,8 @@ describe("CalendarPropsBuilder showEventDate hides multi-day formats", () => {
     it("blanks eventTimeRangeFormat when showEventDate=false", () => {
         const props = {
             ...customViewProps,
-            showEventDate: dynamic(false),
-            timeFormat: dynamic("HH:mm")
+            showEventDate: dynamic.available(false),
+            timeFormat: dynamic.available("HH:mm")
         };
         const builder = new CalendarPropsBuilder(props);
         const result = builder.build(mockLocalizer, "en");
@@ -523,8 +523,8 @@ describe("CalendarPropsBuilder showEventDate hides multi-day formats", () => {
     it("preserves all time range formats when showEventDate=true", () => {
         const props = {
             ...customViewProps,
-            showEventDate: dynamic(true),
-            timeFormat: dynamic("p")
+            showEventDate: dynamic.available(true),
+            timeFormat: dynamic.available("p")
         };
         const builder = new CalendarPropsBuilder(props);
         const result = builder.build(mockLocalizer, "en");
