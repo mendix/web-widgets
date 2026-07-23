@@ -49,8 +49,8 @@ When switching to or from year view, the calendar SHALL maintain appropriate dat
 
 #### Scenario: Switching from year view after clicking a day
 
-- **WHEN** user clicks a day in year view (which navigates to day view)
-- **THEN** day view displays the clicked date
+- **WHEN** user clicks a day in year view AND the configured day-click target view is enabled
+- **THEN** the configured target view displays the clicked date
 
 #### Scenario: Switching from year view via toolbar button
 

@@ -181,6 +181,16 @@ YearViewController.getComponent()
 - ❌ **Custom modal with events:** Breaks calendar metaphor
 - ✅ **Direct to day view:** Fastest path to event details
 
+**Refinement (implemented): configurable, enabled-constrained target.** The shipped code
+uses RBC's `onDrillDown(date, targetView)` (not `onNavigate`+`onView`) so the target is
+validated against the calendar's enabled views. The target is author-configurable via the
+top-level `yearDayClickView` enum (day/week/work_week/month/agenda, default day), resolved
+in `CalendarPropsBuilder.resolveDayClickView()` against a single-source `getEnabledViewNames()`.
+If the chosen target isn't enabled, drill-down is **disabled** — day cells render
+non-interactive (no role/tabIndex/handlers, aria-label retained) — rather than
+force-registering a hidden Day view the author never enabled. This removes the earlier
+`day: … || yearEnabled` phantom-registration in `buildVisibleViews()`.
+
 ### D6: Responsive Layout Strategy
 
 **Decision:** CSS Grid with media queries: 4 cols (desktop) → 2 cols (tablet) → 1 col (mobile).
