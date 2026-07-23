@@ -7,3 +7,29 @@
     z-index: 10000;
     width: max-content;
 }
+
+// Shared clear (×) button rendered via the Compact picker's `addonAfter`, used by
+// both the toolbar color pickers and the table/cell configuration dropdown. Sized
+// to match the picker's 15×15 color swatches.
+.color-picker-clear {
+    align-items: center;
+    background: white;
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+    color: #666;
+    cursor: pointer;
+    display: flex;
+    font-size: 10px;
+    height: 15px;
+    justify-content: center;
+    line-height: 1;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    padding: 0;
+    width: 15px;
+
+    &:hover {
+        background: #f0f0f0;
+        color: #000;
+    }
+}

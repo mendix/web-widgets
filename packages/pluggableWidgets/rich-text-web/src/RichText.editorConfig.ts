@@ -22,7 +22,8 @@ const toolbarGroupKeys: Array<keyof RichTextPreviewProps> = [
     "header",
     "remove",
     "view",
-    "tableBetter"
+    "tableBetter",
+    "helpButton"
 ];
 
 export function getProperties(values: RichTextPreviewProps, defaultProperties: Properties): Properties {

@@ -1,7 +1,6 @@
 import type { Editor as TipTapEditor } from "@tiptap/core";
 import { Subscript } from "@tiptap/extension-subscript";
 import { Superscript } from "@tiptap/extension-superscript";
-import { TableHeader } from "@tiptap/extension-table-header";
 import { TableRow } from "@tiptap/extension-table-row";
 import { TaskItem } from "@tiptap/extension-task-item";
 import { TaskList } from "@tiptap/extension-task-list";
@@ -25,23 +24,28 @@ import { KeyboardNavigation } from "../extensions/KeyboardNavigation";
 import { OrderedListStyled } from "../extensions/OrderedListStyled";
 import { TableBackgroundColor } from "../extensions/TableBackgroundColor";
 import { TableCellBackgroundColor } from "../extensions/TableCellBackgroundColor";
+import { TableHeaderBackgroundColor } from "../extensions/TableHeaderBackgroundColor";
 import { TextAlign } from "../extensions/TextAlignClass";
 import { TextColorClass } from "../extensions/TextColorClass";
 import { TextDirection } from "../extensions/TextDirection";
 import { TextHighlightClass } from "../extensions/TextHighlightClass";
 import { YouTubeResize } from "../extensions/YouTubeResize";
+import { TranslationProvider, useT } from "../utils/i18n";
 import { ConfirmDialog } from "./toolbars/components/ConfirmDialog";
 import { ToolbarGroupsConfig } from "./toolbars/ToolbarConfig";
 
 export interface EditorProps extends Pick<
     RichTextContainerProps,
     | "styleDataFormat"
+    | "imageSource"
     | "imageSourceContent"
+    | "enableDefaultUpload"
     | "preset"
     | "toolbarConfig"
     | "toolbarLocation"
     | "advancedConfig"
     | "customFonts"
+    | "helpButton"
     | "onFocus"
     | "onBlur"
     | "onLoad"
@@ -65,7 +69,7 @@ export interface EditorHandle {
 
 interface EditorInnerProps extends Pick<
     RichTextContainerProps,
-    "imageSourceContent" | "preset" | "toolbarConfig" | "advancedConfig" | "customFonts"
+    "preset" | "toolbarConfig" | "advancedConfig" | "customFonts" | "helpButton"
 > {
     showToolbar: boolean;
     readOnly: boolean;
@@ -77,14 +81,15 @@ function EditorInner({
     showToolbar,
     readOnly,
     className,
-    imageSourceContent,
     preset,
     toolbarConfig,
     toolbarGroups,
     advancedConfig,
-    customFonts
+    customFonts,
+    helpButton
 }: EditorInnerProps): ReactElement {
     const { editor, codeViewState, codeViewDispatch } = useCurrentEditor();
+    const t = useT();
     const handleSaveCode = (): void => {
         if (!editor) return;
 
@@ -106,12 +111,12 @@ function EditorInner({
             <div className="tiptap-wrapper">
                 {showToolbar && !readOnly && (
                     <Toolbar
-                        imageSourceContent={imageSourceContent}
                         preset={preset}
                         toolbarConfig={toolbarConfig}
                         toolbarGroups={toolbarGroups}
                         advancedConfig={advancedConfig}
                         customFonts={customFonts}
+                        helpButton={helpButton}
                     ></Toolbar>
                 )}
                 {codeViewState.isCodeView ? (
@@ -129,9 +134,9 @@ function EditorInner({
             </div>
             {codeViewState.showConfirm && (
                 <ConfirmDialog
-                    message="Save changes?"
-                    confirmLabel="Save"
-                    cancelLabel="Cancel"
+                    message={t("codeEditor.confirmSave")}
+                    confirmLabel={t("codeEditor.save")}
+                    cancelLabel={t("codeEditor.cancel")}
                     onConfirm={handleSaveCode}
                     onCancel={handleCancelCode}
                 />
@@ -148,6 +153,9 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
         className,
         styleDataFormat = "inline",
         toolbarLocation,
+        imageSource,
+        imageSourceContent,
+        enableDefaultUpload,
         ...others
     } = props;
     const actionRef = useMemo(
@@ -224,7 +232,7 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
             TextHighlightClass.configure({ multicolor: true, styleDataFormat }),
             TableBackgroundColor.configure({ resizable: true, styleDataFormat }),
             TableRow,
-            TableHeader,
+            TableHeaderBackgroundColor.configure({ styleDataFormat }),
             TableCellBackgroundColor.configure({ styleDataFormat }),
             ImageResize.configure({
                 inline: true,
@@ -306,10 +314,18 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
 
     const shouldHideToolbar = toolbarLocation === "hide";
 
+    const imageConfig = {
+        imageSourceContent,
+        enableDefaultUpload,
+        hasImageSource: imageSource != null
+    };
+
     return (
-        <EditorContextProvider editor={editor}>
-            <EditorInner showToolbar={!shouldHideToolbar} readOnly={!!readOnly} className={className} {...others} />
-        </EditorContextProvider>
+        <TranslationProvider>
+            <EditorContextProvider editor={editor} imageConfig={imageConfig}>
+                <EditorInner showToolbar={!shouldHideToolbar} readOnly={!!readOnly} className={className} {...others} />
+            </EditorContextProvider>
+        </TranslationProvider>
     );
 });
 

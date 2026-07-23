@@ -2,6 +2,8 @@ import { mergeAttributes } from "@tiptap/core";
 import { Table } from "@tiptap/extension-table";
 import { DOMOutputSpec, Node as ProseMirrorNode } from "@tiptap/pm/model";
 import { EditorView, NodeView } from "@tiptap/pm/view";
+import { isSafeCssBorderStyle } from "../utils/helpers";
+import { buildBorderStyleSegments, safeColor, safeSize } from "../utils/tableStyle";
 
 // Declare custom commands for table border styling
 declare module "@tiptap/core" {
@@ -9,6 +11,8 @@ declare module "@tiptap/core" {
         tableBackgroundColor: {
             setTableBorderStyle: (borderStyle: string) => ReturnType;
             setTableBorderWidth: (borderWidth: string) => ReturnType;
+            setTableWidth: (width: string | null) => ReturnType;
+            setTableMinHeight: (minHeight: string | null) => ReturnType;
         };
     }
 }
@@ -25,15 +29,25 @@ function createColGroup(node: any, cellMinWidth: number) {
     }
 
     for (let i = 0, col = 0; i < row.childCount; i += 1) {
-        const { colspan, colwidth } = row.child(i).attrs;
+        const { colspan, colwidth, cellWidth } = row.child(i).attrs;
         for (let j = 0; j < colspan; j += 1, col += 1) {
-            const hasWidth = colwidth && colwidth[j];
-            const cssWidth = hasWidth ? colwidth[j] + "px" : "";
-            totalWidth += hasWidth ? colwidth[j] : cellMinWidth;
-            if (!hasWidth) {
+            // Prefer our CSS-string cellWidth (e.g. "250px", "50%"); fall back to TipTap's numeric colwidth.
+            // Under table-layout:fixed the <col> width governs the column, so the width must live here.
+            const stringWidth = j === 0 && typeof cellWidth === "string" && cellWidth ? cellWidth : "";
+            const numericWidth = colwidth && colwidth[j] ? colwidth[j] + "px" : "";
+            const cssWidth = stringWidth || numericWidth;
+
+            // Percentage widths can't contribute to a fixed pixel total
+            const isPercent = cssWidth.endsWith("%");
+            if (cssWidth && !isPercent) {
+                totalWidth += stringWidth ? parseInt(stringWidth, 10) || cellMinWidth : colwidth[j];
+            } else {
+                totalWidth += cellMinWidth;
                 fixedWidth = false;
             }
-            cols.push(["col", cssWidth ? { style: `min-width: ${cssWidth}` } : {}]);
+
+            const safeCssWidth = safeSize(cssWidth);
+            cols.push(["col", safeCssWidth ? { style: `width: ${safeCssWidth}` } : {}]);
         }
     }
 
@@ -72,6 +86,37 @@ export const TableBackgroundColor = Table.extend<TableBackgroundColorOptions>({
 
         return {
             ...this.parent?.(),
+            // Explicit table width (e.g. "400px"). When set, it wins as the table
+            // footprint; per-column colwidth continues to feed each column's min-width.
+            width: {
+                default: null,
+                parseHTML: element => {
+                    if (styleDataFormat === "class") {
+                        return element.getAttribute("data-width") || null;
+                    } else {
+                        return element.style.width || null;
+                    }
+                },
+                renderHTML: () => {
+                    // Handled in the main renderHTML (merged into the style string / class attrs)
+                    return {};
+                }
+            },
+            // Explicit table minimum height (e.g. "200px"). Rows still grow with content.
+            minHeight: {
+                default: null,
+                parseHTML: element => {
+                    if (styleDataFormat === "class") {
+                        return element.getAttribute("data-min-height") || null;
+                    } else {
+                        return element.style.minHeight || null;
+                    }
+                },
+                renderHTML: () => {
+                    // Handled in the main renderHTML (merged into the style string / class attrs)
+                    return {};
+                }
+            },
             backgroundColor: {
                 default: null,
                 parseHTML: element => {
@@ -180,55 +225,55 @@ export const TableBackgroundColor = Table.extend<TableBackgroundColorOptions>({
     renderHTML({ node, HTMLAttributes }): DOMOutputSpec {
         const { colgroup, tableWidth, tableMinWidth } = createColGroup(node, this.options.cellMinWidth || 25);
 
-        // Get style attributes from node
-        const backgroundColor = node.attrs.backgroundColor;
-        const borderColor = node.attrs.borderColor;
-        const borderStyle = node.attrs.borderStyle;
-        const borderWidth = node.attrs.borderWidth;
+        // Get style attributes from node (all validated before entering the style string)
+        const explicitWidth = safeSize(node.attrs.width);
+        const minHeight = safeSize(node.attrs.minHeight);
+        const backgroundColor = safeColor(node.attrs.backgroundColor);
 
         // Build the style string by merging table width, background, and border properties
-        let styleString = "";
+        const segments: string[] = [];
 
-        // Add table width or min-width
-        if (tableWidth) {
-            styleString = `width: ${tableWidth}`;
+        // Explicit table width wins as the footprint; otherwise fall back to the
+        // colwidth-derived width/min-width. Per-column min-width still comes from colgroup.
+        if (explicitWidth) {
+            segments.push(`width: ${explicitWidth}`);
+        } else if (tableWidth) {
+            segments.push(`width: ${tableWidth}`);
         } else if (tableMinWidth) {
-            styleString = `min-width: ${tableMinWidth}`;
+            segments.push(`min-width: ${tableMinWidth}`);
         }
 
-        // Add background color if present (inline mode)
-        if (backgroundColor && this.options.styleDataFormat === "inline") {
-            styleString += styleString
-                ? `; background-color: ${backgroundColor}`
-                : `background-color: ${backgroundColor}`;
+        // Explicit table minimum height (rows still grow with content)
+        if (minHeight) {
+            segments.push(`min-height: ${minHeight}`);
         }
 
-        // Add border properties if present (inline mode)
         if (this.options.styleDataFormat === "inline") {
-            // If any border property is set, we need to ensure border-style is set for the border to be visible
-            const hasBorderProperties = borderColor || borderStyle || borderWidth;
-
-            if (hasBorderProperties) {
-                // Always set border-style first (default to 'solid' if not specified)
-                const effectiveBorderStyle = borderStyle || "solid";
-                styleString += styleString
-                    ? `; border-style: ${effectiveBorderStyle}`
-                    : `border-style: ${effectiveBorderStyle}`;
-
-                // Set border-width (default to '1px' if not specified)
-                const effectiveBorderWidth = borderWidth || "1px";
-                styleString += `; border-width: ${effectiveBorderWidth}`;
-
-                // Set border-color if specified
-                if (borderColor) {
-                    styleString += `; border-color: ${borderColor}`;
-                }
+            // Add background color if present
+            if (backgroundColor) {
+                segments.push(`background-color: ${backgroundColor}`);
             }
+            // Add border properties if present (validated)
+            segments.push(
+                ...buildBorderStyleSegments(node.attrs.borderColor, node.attrs.borderStyle, node.attrs.borderWidth)
+            );
         }
+
+        const styleString = segments.join("; ");
 
         // Build class-based attributes for border properties
         const classAttrs: Record<string, any> = {};
         if (this.options.styleDataFormat === "class") {
+            const borderColor = safeColor(node.attrs.borderColor);
+            const borderStyle =
+                node.attrs.borderStyle && isSafeCssBorderStyle(node.attrs.borderStyle) ? node.attrs.borderStyle : null;
+            const borderWidth = safeSize(node.attrs.borderWidth);
+            if (explicitWidth) {
+                classAttrs["data-width"] = explicitWidth;
+            }
+            if (minHeight) {
+                classAttrs["data-min-height"] = minHeight;
+            }
             if (backgroundColor) {
                 classAttrs["data-background-color"] = backgroundColor;
                 classAttrs.class = "has-background-color";
@@ -300,6 +345,48 @@ export const TableBackgroundColor = Table.extend<TableBackgroundColorOptions>({
                         }
                     }
                     return false;
+                },
+            setTableWidth:
+                (width: string | null) =>
+                ({ state, dispatch }) => {
+                    const { $from } = state.selection;
+
+                    for (let depth = $from.depth; depth > 0; depth--) {
+                        const node = $from.node(depth);
+                        if (node.type.name === "table") {
+                            if (dispatch) {
+                                const pos = $from.before(depth);
+                                const tr = state.tr.setNodeMarkup(pos, undefined, {
+                                    ...node.attrs,
+                                    width
+                                });
+                                dispatch(tr);
+                            }
+                            return true;
+                        }
+                    }
+                    return false;
+                },
+            setTableMinHeight:
+                (minHeight: string | null) =>
+                ({ state, dispatch }) => {
+                    const { $from } = state.selection;
+
+                    for (let depth = $from.depth; depth > 0; depth--) {
+                        const node = $from.node(depth);
+                        if (node.type.name === "table") {
+                            if (dispatch) {
+                                const pos = $from.before(depth);
+                                const tr = state.tr.setNodeMarkup(pos, undefined, {
+                                    ...node.attrs,
+                                    minHeight
+                                });
+                                dispatch(tr);
+                            }
+                            return true;
+                        }
+                    }
+                    return false;
                 }
         };
     },
@@ -323,6 +410,12 @@ export const TableBackgroundColor = Table.extend<TableBackgroundColorOptions>({
 });
 
 class TableBackgroundColorNodeView implements NodeView {
+    // Table size clamp bounds (see design.md — resolved question 2)
+    private static readonly MIN_WIDTH = 50;
+    private static readonly MAX_WIDTH = 2000;
+    private static readonly MIN_HEIGHT = 30;
+    private static readonly MAX_HEIGHT = 1000;
+
     node: ProseMirrorNode;
     view: EditorView;
     getPos: () => number;
@@ -331,6 +424,13 @@ class TableBackgroundColorNodeView implements NodeView {
     dom: HTMLElement;
     table: HTMLTableElement;
     contentDOM: HTMLElement;
+    // Resize-handle elements (only present in editable mode)
+    resizeHandles: HTMLElement[] = [];
+    // Live dimensions during a drag — instance fields avoid the stale-closure trap
+    // that the React-based ImageResize has to solve with a ref.
+    private currentWidth: string | null = null;
+    private currentMinHeight: string | null = null;
+    private removeDragListeners: (() => void) | null = null;
 
     constructor(
         node: ProseMirrorNode,
@@ -348,6 +448,8 @@ class TableBackgroundColorNodeView implements NodeView {
         // Create wrapper div
         this.dom = document.createElement("div");
         this.dom.className = "tableWrapper";
+        // Anchor absolutely-positioned resize handles
+        this.dom.style.position = "relative";
 
         // Create table element
         this.table = document.createElement("table");
@@ -362,6 +464,94 @@ class TableBackgroundColorNodeView implements NodeView {
 
         // Apply styling (background and border)
         this.updateTableStyles();
+
+        // Add drag-to-resize handles (SE corner + E edge + S edge)
+        this.setupResizeHandles();
+    }
+
+    setupResizeHandles(): void {
+        const corners: Array<{ className: string; axis: "both" | "x" | "y" }> = [
+            { className: "table-resize-handle table-resize-handle-e", axis: "x" },
+            { className: "table-resize-handle table-resize-handle-s", axis: "y" },
+            { className: "table-resize-handle table-resize-handle-se", axis: "both" }
+        ];
+
+        corners.forEach(({ className, axis }) => {
+            const handle = document.createElement("div");
+            handle.className = className;
+            handle.contentEditable = "false";
+            handle.addEventListener("mousedown", e => this.startResize(e, axis));
+            this.dom.appendChild(handle);
+            this.resizeHandles.push(handle);
+        });
+    }
+
+    startResize(event: MouseEvent, axis: "both" | "x" | "y"): void {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const rect = this.table.getBoundingClientRect();
+        const startX = event.clientX;
+        const startY = event.clientY;
+        const startWidth = rect.width;
+        const startHeight = rect.height;
+
+        // Seed live values from current rendered size
+        this.currentWidth = `${Math.round(startWidth)}px`;
+        this.currentMinHeight = `${Math.round(startHeight)}px`;
+
+        const onMouseMove = (moveEvent: MouseEvent): void => {
+            if (axis === "x" || axis === "both") {
+                const newWidth = Math.max(
+                    TableBackgroundColorNodeView.MIN_WIDTH,
+                    Math.min(TableBackgroundColorNodeView.MAX_WIDTH, startWidth + (moveEvent.clientX - startX))
+                );
+                this.currentWidth = `${Math.round(newWidth)}px`;
+                // Live preview — mutate DOM only (committed once on mouseup)
+                this.table.style.width = this.currentWidth;
+            }
+
+            if (axis === "y" || axis === "both") {
+                const newHeight = Math.max(
+                    TableBackgroundColorNodeView.MIN_HEIGHT,
+                    Math.min(TableBackgroundColorNodeView.MAX_HEIGHT, startHeight + (moveEvent.clientY - startY))
+                );
+                this.currentMinHeight = `${Math.round(newHeight)}px`;
+                this.table.style.minHeight = this.currentMinHeight;
+            }
+        };
+
+        const onMouseUp = (): void => {
+            this.removeDragListeners?.();
+            this.removeDragListeners = null;
+            this.commitSize(axis);
+        };
+
+        document.addEventListener("mousemove", onMouseMove);
+        document.addEventListener("mouseup", onMouseUp);
+        this.removeDragListeners = () => {
+            document.removeEventListener("mousemove", onMouseMove);
+            document.removeEventListener("mouseup", onMouseUp);
+        };
+    }
+
+    // Commit the dragged size as a single undoable change (never per-frame)
+    commitSize(axis: "both" | "x" | "y"): void {
+        const pos = this.getPos();
+        if (typeof pos !== "number") {
+            return;
+        }
+
+        const attrs: Record<string, any> = { ...this.node.attrs };
+        if (axis === "x" || axis === "both") {
+            attrs.width = this.currentWidth;
+        }
+        if (axis === "y" || axis === "both") {
+            attrs.minHeight = this.currentMinHeight;
+        }
+
+        const tr = this.view.state.tr.setNodeMarkup(pos, undefined, attrs);
+        this.view.dispatch(tr);
     }
 
     updateColgroup() {
@@ -378,53 +568,64 @@ class TableBackgroundColorNodeView implements NodeView {
     }
 
     updateTableStyles() {
-        const backgroundColor = this.node.attrs.backgroundColor;
-        const borderColor = this.node.attrs.borderColor;
-        const borderStyle = this.node.attrs.borderStyle;
-        const borderWidth = this.node.attrs.borderWidth;
+        // Validate every value before it reaches cssText (which parses a full
+        // declaration block and would otherwise allow property injection).
+        const explicitWidth = safeSize(this.node.attrs.width);
+        const minHeight = safeSize(this.node.attrs.minHeight);
+        const backgroundColor = safeColor(this.node.attrs.backgroundColor);
+        const borderColor = safeColor(this.node.attrs.borderColor);
+        const borderStyle =
+            this.node.attrs.borderStyle && isSafeCssBorderStyle(this.node.attrs.borderStyle)
+                ? this.node.attrs.borderStyle
+                : null;
+        const borderWidth = safeSize(this.node.attrs.borderWidth);
         const { tableWidth, tableMinWidth } = createColGroup(this.node, this.cellMinWidth);
 
-        // Build style string for inline mode
-        let styleString = "";
-        if (tableWidth) {
-            styleString = `width: ${tableWidth}`;
+        // Build style string; explicit table width wins over the colwidth-derived width
+        const segments: string[] = [];
+        if (explicitWidth) {
+            segments.push(`width: ${explicitWidth}`);
+        } else if (tableWidth) {
+            segments.push(`width: ${tableWidth}`);
         } else if (tableMinWidth) {
-            styleString = `min-width: ${tableMinWidth}`;
+            segments.push(`min-width: ${tableMinWidth}`);
+        }
+
+        // Explicit table minimum height (rows still grow with content)
+        if (minHeight) {
+            segments.push(`min-height: ${minHeight}`);
         }
 
         if (this.styleDataFormat === "inline") {
             if (backgroundColor) {
-                styleString += styleString
-                    ? `; background-color: ${backgroundColor}`
-                    : `background-color: ${backgroundColor}`;
+                segments.push(`background-color: ${backgroundColor}`);
             }
-
-            // If any border property is set, ensure border-style is set for visibility
-            const hasBorderProperties = borderColor || borderStyle || borderWidth;
-            if (hasBorderProperties) {
-                // Always set border-style first (default to 'solid' if not specified)
-                const effectiveBorderStyle = borderStyle || "solid";
-                styleString += styleString
-                    ? `; border-style: ${effectiveBorderStyle}`
-                    : `border-style: ${effectiveBorderStyle}`;
-
-                // Set border-width (default to '1px' if not specified)
-                const effectiveBorderWidth = borderWidth || "1px";
-                styleString += `; border-width: ${effectiveBorderWidth}`;
-
-                // Set border-color if specified
-                if (borderColor) {
-                    styleString += `; border-color: ${borderColor}`;
-                }
-            }
+            segments.push(
+                ...buildBorderStyleSegments(
+                    this.node.attrs.borderColor,
+                    this.node.attrs.borderStyle,
+                    this.node.attrs.borderWidth
+                )
+            );
         }
 
-        if (styleString) {
-            this.table.style.cssText = styleString;
-        }
+        // Always assign so clearing width/height/colors resets stale inline styles
+        this.table.style.cssText = segments.join("; ");
 
         // Handle class-based mode
         if (this.styleDataFormat === "class") {
+            // Explicit size
+            if (explicitWidth) {
+                this.table.setAttribute("data-width", explicitWidth);
+            } else {
+                this.table.removeAttribute("data-width");
+            }
+            if (minHeight) {
+                this.table.setAttribute("data-min-height", minHeight);
+            } else {
+                this.table.removeAttribute("data-min-height");
+            }
+
             // Background color
             if (backgroundColor) {
                 this.table.setAttribute("data-background-color", backgroundColor);
@@ -494,14 +695,20 @@ class TableBackgroundColorNodeView implements NodeView {
     }
 
     ignoreMutation(mutation: MutationRecord) {
-        // Ignore attribute changes on the table (we manage them)
+        // Ignore attribute changes on the table (we manage them, incl. live-drag style writes)
         if (mutation.type === "attributes" && mutation.target === this.table) {
+            return true;
+        }
+        // Ignore any mutation originating from our resize handles
+        if (this.resizeHandles.some(handle => handle === mutation.target || handle.contains(mutation.target as Node))) {
             return true;
         }
         return false;
     }
 
     destroy() {
-        // Cleanup if needed
+        // Remove any in-flight drag listeners if the NodeView is torn down mid-drag
+        this.removeDragListeners?.();
+        this.removeDragListeners = null;
     }
 }

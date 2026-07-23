@@ -14,7 +14,9 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
         stringAttribute,
         className,
         styleDataFormat,
+        imageSource,
         imageSourceContent,
+        enableDefaultUpload,
         preset,
         toolbarConfig,
         history,
@@ -30,6 +32,7 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
         view,
         remove,
         tableBetter,
+        helpButton,
         advancedConfig,
         enableStatusBar,
         statusBarContent,
@@ -106,7 +109,9 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
                         readOnly={stringAttribute.readOnly}
                         className="tiptap-editor"
                         styleDataFormat={styleDataFormat}
+                        imageSource={imageSource}
                         imageSourceContent={imageSourceContent}
+                        enableDefaultUpload={enableDefaultUpload}
                         preset={preset}
                         toolbarConfig={toolbarConfig}
                         toolbarGroups={{
@@ -124,6 +129,7 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
                             remove,
                             tableBetter
                         }}
+                        helpButton={helpButton}
                         advancedConfig={advancedConfig}
                         customFonts={customFonts}
                         toolbarLocation={

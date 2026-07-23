@@ -1,4 +1,6 @@
 import { ReactElement, useState, FormEvent, useRef, useEffect } from "react";
+import { isSafeLinkUrl } from "../../../utils/helpers";
+import { useT } from "../../../utils/i18n";
 import { useCurrentEditor } from "../../EditorContext";
 import { LinkDialogProps } from "../helpers/toolbarTypes";
 import { useDropdown } from "../hooks/useDropdown";
@@ -6,6 +8,7 @@ import "./Dialog.scss";
 
 export function LinkDialog({ onClose, referenceElement }: LinkDialogProps): ReactElement {
     const { editor } = useCurrentEditor();
+    const t = useT();
 
     // Get initial values from editor state
     const existingLink = editor?.getAttributes("link") || {};
@@ -13,6 +16,7 @@ export function LinkDialog({ onClose, referenceElement }: LinkDialogProps): Reac
     const selectedText = editor?.state.doc.textBetween(from, to, " ") || "";
 
     const [url, setUrl] = useState(existingLink.href || "");
+    const [urlError, setUrlError] = useState<string | null>(null);
     const [text, setText] = useState(selectedText);
     const [title, setTitle] = useState(existingLink.title || "");
     const [target, setTarget] = useState<"_self" | "_blank">(
@@ -38,6 +42,14 @@ export function LinkDialog({ onClose, referenceElement }: LinkDialogProps): Reac
         if (!editor || !url.trim()) return;
 
         const urlValue = url.trim();
+
+        // Reject dangerous schemes (javascript:, data:, vbscript:, …) before building the mark.
+        if (!isSafeLinkUrl(urlValue)) {
+            setUrlError(t("link.urlError"));
+            urlInputRef.current?.focus();
+            return;
+        }
+
         const textValue = text.trim();
         const titleValue = title.trim() || undefined;
 
@@ -80,49 +92,61 @@ export function LinkDialog({ onClose, referenceElement }: LinkDialogProps): Reac
         <div ref={refs.setFloating} style={{ ...floatingStyles, zIndex: 1000 }}>
             <div ref={dialogRef} className="toolbar-dialog">
                 <form onSubmit={handleSubmit}>
-                    <h3>{existingLink.href ? "Edit Link" : "Insert Link"}</h3>
+                    <h3>{existingLink.href ? t("link.editTitle") : t("link.insertTitle")}</h3>
 
                     <div className="dialog-field">
-                        <label htmlFor="link-url">URL</label>
+                        <label htmlFor="link-url">{t("link.url")}</label>
                         <input
                             ref={urlInputRef}
                             id="link-url"
                             type="text"
                             value={url}
-                            onChange={e => setUrl(e.target.value)}
-                            placeholder="https://example.com"
+                            onChange={e => {
+                                setUrl(e.target.value);
+                                if (urlError) {
+                                    setUrlError(null);
+                                }
+                            }}
+                            placeholder={t("link.urlPlaceholder")}
+                            aria-invalid={urlError ? true : undefined}
+                            aria-describedby={urlError ? "link-url-error" : undefined}
                             autoFocus
                         />
+                        {urlError && (
+                            <span id="link-url-error" className="dialog-field-error" role="alert">
+                                {urlError}
+                            </span>
+                        )}
                     </div>
 
                     <div className="dialog-field">
                         <label htmlFor="link-text">
-                            Text <span>(optional)</span>
+                            {t("link.text")} <span>{t("link.optional")}</span>
                         </label>
                         <input
                             id="link-text"
                             type="text"
                             value={text}
                             onChange={e => setText(e.target.value)}
-                            placeholder="Link text"
+                            placeholder={t("link.textPlaceholder")}
                         />
                     </div>
 
                     <div className="dialog-field">
                         <label htmlFor="link-title">
-                            Title <span>(optional)</span>
+                            {t("link.title")} <span>{t("link.optional")}</span>
                         </label>
                         <input
                             id="link-title"
                             type="text"
                             value={title}
                             onChange={e => setTitle(e.target.value)}
-                            placeholder="Tooltip text"
+                            placeholder={t("link.titlePlaceholder")}
                         />
                     </div>
 
                     <div className="dialog-field">
-                        <label>Target</label>
+                        <label>{t("link.target")}</label>
                         <div className="dialog-radio-group">
                             <label>
                                 <input
@@ -132,7 +156,7 @@ export function LinkDialog({ onClose, referenceElement }: LinkDialogProps): Reac
                                     checked={target === "_self"}
                                     onChange={e => setTarget(e.target.value as "_self")}
                                 />
-                                <span>Current window</span>
+                                <span>{t("link.currentWindow")}</span>
                             </label>
                             <label>
                                 <input
@@ -142,17 +166,17 @@ export function LinkDialog({ onClose, referenceElement }: LinkDialogProps): Reac
                                     checked={target === "_blank"}
                                     onChange={e => setTarget(e.target.value as "_blank")}
                                 />
-                                <span>New window</span>
+                                <span>{t("link.newWindow")}</span>
                             </label>
                         </div>
                     </div>
 
                     <div className="dialog-actions">
                         <button type="button" onClick={onClose}>
-                            Cancel
+                            {t("link.cancel")}
                         </button>
                         <button type="submit" disabled={!url.trim()}>
-                            {existingLink.href ? "Update" : "Insert"}
+                            {existingLink.href ? t("link.update") : t("link.insert")}
                         </button>
                     </div>
                 </form>

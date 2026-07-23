@@ -1,5 +1,6 @@
 import { Extension, getStyleProperty } from "@tiptap/core";
 import { FontFamily } from "@tiptap/extension-font-family";
+import { isSafeCssFontFamily } from "../utils/helpers";
 
 export type FontFamilyClassOptions = {
     types: string[];
@@ -92,7 +93,7 @@ export const FontFamilyClass = Extension.create<FontFamilyClassOptions>({
                                         }
                                     },
                                     renderHTML: attributes => {
-                                        if (!attributes.fontFamily) {
+                                        if (!attributes.fontFamily || !isSafeCssFontFamily(attributes.fontFamily)) {
                                             return {};
                                         }
 

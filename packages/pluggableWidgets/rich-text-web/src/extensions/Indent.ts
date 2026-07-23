@@ -90,18 +90,28 @@ export const Indent = Extension.create<IndentOptions>({
                             }
                         },
                         renderHTML: attributes => {
-                            if (!attributes.indent || attributes.indent === 0) {
+                            // Coerce to a finite integer within [minIndent, maxIndent] so a
+                            // tampered/NaN value can't emit broken or unbounded CSS.
+                            const raw = Number(attributes.indent);
+                            if (!Number.isFinite(raw) || raw <= 0) {
+                                return {};
+                            }
+                            const indent = Math.min(
+                                Math.max(Math.round(raw), this.options.minIndent),
+                                this.options.maxIndent
+                            );
+                            if (indent <= 0) {
                                 return {};
                             }
 
                             if (this.options.styleDataFormat === "class") {
                                 return {
-                                    "data-indent": attributes.indent,
-                                    class: `indent-${attributes.indent}`
+                                    "data-indent": indent,
+                                    class: `indent-${indent}`
                                 };
                             } else {
                                 return {
-                                    style: `margin-left: ${attributes.indent * 2}em`
+                                    style: `margin-left: ${indent * 2}em`
                                 };
                             }
                         }

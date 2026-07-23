@@ -75,25 +75,36 @@ const initialCodeViewState: CodeViewState = {
     showConfirm: false
 };
 
+export interface ImageDialogConfig {
+    imageSourceContent?: ReactNode;
+    enableDefaultUpload: boolean;
+    hasImageSource: boolean;
+}
+
 interface EditorContextValue {
     editor: Editor | null;
     codeViewState: CodeViewState;
     codeViewDispatch: Dispatch<CodeViewAction>;
+    imageConfig: ImageDialogConfig;
 }
 
 export const EditorContext = createContext<EditorContextValue | undefined>(undefined);
 
 export function EditorContextProvider({
     editor,
+    imageConfig,
     children
 }: {
     editor: Editor | null;
+    imageConfig: ImageDialogConfig;
     children: ReactNode;
 }): ReactElement {
     const [codeViewState, codeViewDispatch] = useReducer(codeViewReducer, initialCodeViewState);
 
     return (
-        <EditorContext.Provider value={{ editor, codeViewState, codeViewDispatch }}>{children}</EditorContext.Provider>
+        <EditorContext.Provider value={{ editor, codeViewState, codeViewDispatch, imageConfig }}>
+            {children}
+        </EditorContext.Provider>
     );
 }
 

@@ -9,6 +9,7 @@ import {
     AdvancedConfigType,
     CustomFontsType
 } from "../../../typings/RichTextProps";
+import { TranslateFn } from "../../utils/i18n";
 
 export type ToolbarActionType =
     | "toggle"
@@ -24,7 +25,11 @@ export type ToolbarActionType =
     | "configurationDropdown";
 
 export type ColorPickerCommand =
-    "textColor" | "textHighlight" | "cellBackground" | "tableBackground" | "tableBorderColor";
+    | "textColor"
+    | "textHighlight"
+    | "cellBackground"
+    | "tableBackground"
+    | "tableBorderColor";
 
 export type DialogCommand = "insertImage" | "insertVideo" | "insertLink";
 
@@ -43,9 +48,10 @@ export interface ToolbarDropdownOption {
 export interface ConfigurationSection {
     id: string;
     label: string;
-    type: "colorPicker" | "dropdown" | "numberInput";
+    type: "colorPicker" | "dropdown" | "numberInput" | "textInput";
     getCurrentValue?: () => string | number | null;
     onChange: (value: string) => void;
+    onClear?: () => void;
     options?: Array<{ value: string; label: string }>;
     defaultColor?: string;
     min?: number;
@@ -64,7 +70,7 @@ export interface ToolbarButtonConfig {
     command?: string;
     isActive?: (editor: Editor) => boolean;
     canExecute?: (editor: Editor) => boolean;
-    customAction?: (editor: Editor) => void | ConfigurationSection[];
+    customAction?: (editor: Editor, t: TranslateFn) => void | ConfigurationSection[];
     attrs?: Record<string, any>;
     dropdownOptions?: ToolbarDropdownOption[];
     getCurrentValue?: (editor: Editor) => string;
@@ -99,7 +105,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
         buttons: [
             {
                 name: "undo",
-                title: "Undo",
+                title: "toolbar.undo",
                 icon: "Undo",
                 action: "command",
                 command: "undo",
@@ -107,7 +113,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
             },
             {
                 name: "redo",
-                title: "Redo",
+                title: "toolbar.redo",
                 icon: "Redo",
                 action: "command",
                 command: "redo",
@@ -121,7 +127,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
         buttons: [
             {
                 name: "bold",
-                title: "Bold",
+                title: "toolbar.bold",
                 icon: "Text-bold",
                 action: "toggle",
                 command: "toggleBold",
@@ -130,7 +136,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
             },
             {
                 name: "italic",
-                title: "Italic",
+                title: "toolbar.italic",
                 icon: "Text-italic",
                 action: "toggle",
                 command: "toggleItalic",
@@ -139,7 +145,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
             },
             {
                 name: "underline",
-                title: "Underline",
+                title: "toolbar.underline",
                 icon: "Text-underline",
                 action: "toggle",
                 command: "toggleUnderline",
@@ -148,7 +154,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
             },
             {
                 name: "strike",
-                title: "Strikethrough",
+                title: "toolbar.strike",
                 icon: "Text-strikethrough",
                 action: "toggle",
                 command: "toggleStrike",
@@ -163,7 +169,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
         buttons: [
             {
                 name: "superscript",
-                title: "Superscript",
+                title: "toolbar.superscript",
                 icon: "Text-superscript",
                 action: "toggle",
                 command: "toggleSuperscript",
@@ -172,7 +178,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
             },
             {
                 name: "subscript",
-                title: "Subscript",
+                title: "toolbar.subscript",
                 icon: "Text-subscript",
                 action: "toggle",
                 command: "toggleSubscript",
@@ -187,7 +193,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
         buttons: [
             {
                 name: "bulletList",
-                title: "Bullet List",
+                title: "toolbar.bulletList",
                 icon: "List-bullets",
                 action: "toggle",
                 command: "toggleBulletList",
@@ -195,7 +201,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
             },
             {
                 name: "orderedList",
-                title: "Numbered List",
+                title: "toolbar.orderedList",
                 icon: "List-numbers",
                 action: "splitButton",
                 command: "toggleOrderedList",
@@ -231,7 +237,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
             },
             {
                 name: "taskList",
-                title: "Task List",
+                title: "toolbar.taskList",
                 icon: "List-checklist",
                 action: "toggle",
                 command: "toggleTaskList",
@@ -245,21 +251,21 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
         buttons: [
             {
                 name: "decreaseIndent",
-                title: "Decrease Indent",
+                title: "toolbar.decreaseIndent",
                 icon: "Text-indent-right",
                 action: "command",
                 command: "decreaseIndent"
             },
             {
                 name: "increaseIndent",
-                title: "Increase Indent",
+                title: "toolbar.increaseIndent",
                 icon: "Text-indent-left",
                 action: "command",
                 command: "increaseIndent"
             },
             {
                 name: "textDirection",
-                title: "Text Direction",
+                title: "toolbar.textDirection",
                 icon: "Left-to-right",
                 activeIcon: "Right-to-left",
                 action: "custom",
@@ -281,7 +287,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
         buttons: [
             {
                 name: "leftAlign",
-                title: "Align Left",
+                title: "toolbar.leftAlign",
                 icon: "Text-align-left",
                 action: "command",
                 command: "setTextAlign",
@@ -290,7 +296,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
             },
             {
                 name: "centerAlign",
-                title: "Align Center",
+                title: "toolbar.centerAlign",
                 icon: "Text-align-center",
                 action: "command",
                 command: "setTextAlign",
@@ -299,7 +305,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
             },
             {
                 name: "rightAlign",
-                title: "Align Right",
+                title: "toolbar.rightAlign",
                 icon: "Text-align-right",
                 action: "command",
                 command: "setTextAlign",
@@ -308,7 +314,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
             },
             {
                 name: "justifyAlign",
-                title: "Align Justify",
+                title: "toolbar.justifyAlign",
                 icon: "Text-align-justify",
                 action: "command",
                 command: "setTextAlign",
@@ -323,7 +329,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
         buttons: [
             {
                 name: "fontFamily",
-                title: "Font Family",
+                title: "toolbar.fontFamily",
                 icon: "Text-font",
                 action: "dropdown",
                 dropdownOptions: FONT_LIST.map(font => ({
@@ -355,7 +361,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
             },
             {
                 name: "fontSize",
-                title: "Font Size",
+                title: "toolbar.fontSize",
                 icon: "Text-size",
                 action: "dropdown",
                 dropdownOptions: FONT_SIZE_LIST.map(size => ({
@@ -371,14 +377,14 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
             },
             {
                 name: "textColor",
-                title: "Text Color",
+                title: "toolbar.textColor",
                 icon: "Text-color",
                 action: "colorPicker",
                 command: "textColor"
             },
             {
                 name: "backgroundColor",
-                title: "Background Color",
+                title: "toolbar.backgroundColor",
                 icon: "Text-background",
                 action: "colorPicker",
                 command: "textHighlight"
@@ -391,21 +397,21 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
         buttons: [
             {
                 name: "insertLink",
-                title: "Insert Link",
+                title: "toolbar.insertLink",
                 icon: "Hyperlink",
                 action: "dialog",
                 command: "insertLink"
             },
             {
                 name: "insertImage",
-                title: "Insert Image",
+                title: "toolbar.insertImage",
                 icon: "Image",
                 action: "dialog",
                 command: "insertImage"
             },
             {
                 name: "insertVideo",
-                title: "Insert YouTube Video",
+                title: "toolbar.insertVideo",
                 icon: "Film",
                 action: "dialog",
                 command: "insertVideo"
@@ -418,17 +424,17 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
         buttons: [
             {
                 name: "textFormat",
-                title: "Text Format",
+                title: "toolbar.textFormat",
                 icon: "Arrow-down",
                 action: "dropdown",
                 dropdownOptions: [
-                    { label: "Paragraph", value: "paragraph", command: "setParagraph" },
-                    { label: "Heading 1", value: "h1", command: "toggleHeading", attrs: { level: 1 } },
-                    { label: "Heading 2", value: "h2", command: "toggleHeading", attrs: { level: 2 } },
-                    { label: "Heading 3", value: "h3", command: "toggleHeading", attrs: { level: 3 } },
-                    { label: "Heading 4", value: "h4", command: "toggleHeading", attrs: { level: 4 } },
-                    { label: "Heading 5", value: "h5", command: "toggleHeading", attrs: { level: 5 } },
-                    { label: "Heading 6", value: "h6", command: "toggleHeading", attrs: { level: 6 } }
+                    { label: "format.paragraph", value: "paragraph", command: "setParagraph" },
+                    { label: "format.heading1", value: "h1", command: "toggleHeading", attrs: { level: 1 } },
+                    { label: "format.heading2", value: "h2", command: "toggleHeading", attrs: { level: 2 } },
+                    { label: "format.heading3", value: "h3", command: "toggleHeading", attrs: { level: 3 } },
+                    { label: "format.heading4", value: "h4", command: "toggleHeading", attrs: { level: 4 } },
+                    { label: "format.heading5", value: "h5", command: "toggleHeading", attrs: { level: 5 } },
+                    { label: "format.heading6", value: "h6", command: "toggleHeading", attrs: { level: 6 } }
                 ],
                 getCurrentValue: editor => {
                     if (editor.isActive("heading", { level: 1 })) return "h1";
@@ -448,7 +454,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
         buttons: [
             {
                 name: "blockquote",
-                title: "Blockquote",
+                title: "toolbar.blockquote",
                 icon: "Blockquote",
                 action: "toggle",
                 command: "toggleBlockquote",
@@ -456,7 +462,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
             },
             {
                 name: "code",
-                title: "Code",
+                title: "toolbar.code",
                 icon: "Inline-code",
                 action: "toggle",
                 command: "toggleCode",
@@ -465,16 +471,16 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
             },
             {
                 name: "codeBlock",
-                title: "Code Block",
-                icon: "Code-block",
+                title: "toolbar.codeBlock",
+                icon: "View-edit-code",
                 action: "toggle",
                 command: "toggleCodeBlock",
                 isActive: editor => editor.isActive("codeBlock")
             },
             {
                 name: "codeView",
-                title: "View/Edit Code",
-                icon: "View-edit-code",
+                title: "toolbar.codeView",
+                icon: "Code-block",
                 action: "codeView"
             }
         ]
@@ -485,7 +491,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
         buttons: [
             {
                 name: "clearFormatting",
-                title: "Clear Formatting",
+                title: "toolbar.clearFormatting",
                 icon: "Erase",
                 action: "command",
                 command: "unsetAllMarks"
@@ -498,7 +504,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
         buttons: [
             {
                 name: "insertTable",
-                title: "Insert Table",
+                title: "toolbar.insertTable",
                 icon: "Table",
                 action: "tableGrid"
             }
@@ -510,7 +516,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
         buttons: [
             {
                 name: "fullscreen",
-                title: "Fullscreen",
+                title: "toolbar.fullscreen",
                 icon: "Expand",
                 action: "command",
                 command: "toggleFullscreen",
@@ -528,27 +534,27 @@ export const SECONDARY_TOOLBAR_GROUP: ToolbarGroupConfig[] = [
         buttons: [
             {
                 name: "tableConfiguration",
-                title: "Table Configuration",
+                title: "toolbar.tableConfiguration",
                 icon: "Table-configuration",
                 action: "configurationDropdown",
-                customAction: (editor: Editor) => {
+                customAction: (editor: Editor, t: TranslateFn) => {
                     // Configuration sections are created dynamically
-                    return createTableConfigurationSections(editor);
+                    return createTableConfigurationSections(editor, t);
                 }
             },
             {
                 name: "cellConfiguration",
-                title: "Cell Configuration",
+                title: "toolbar.cellConfiguration",
                 icon: "Cell",
                 action: "configurationDropdown",
-                customAction: (editor: Editor) => {
+                customAction: (editor: Editor, t: TranslateFn) => {
                     // Configuration sections are created dynamically
-                    return createCellConfigurationSections(editor);
+                    return createCellConfigurationSections(editor, t);
                 }
             },
             {
                 name: "mergeCells",
-                title: "Merge Cells",
+                title: "toolbar.mergeCells",
                 icon: "Merge",
                 action: "command",
                 command: "mergeCells",
@@ -556,7 +562,7 @@ export const SECONDARY_TOOLBAR_GROUP: ToolbarGroupConfig[] = [
             },
             {
                 name: "splitCell",
-                title: "Split Cell",
+                title: "toolbar.splitCell",
                 icon: "Split-cell",
                 action: "command",
                 command: "splitCell",
@@ -564,7 +570,7 @@ export const SECONDARY_TOOLBAR_GROUP: ToolbarGroupConfig[] = [
             },
             {
                 name: "deleteTable",
-                title: "Delete Table",
+                title: "toolbar.deleteTable",
                 icon: "Delete-table",
                 action: "command",
                 command: "deleteTable",
@@ -572,7 +578,7 @@ export const SECONDARY_TOOLBAR_GROUP: ToolbarGroupConfig[] = [
             },
             {
                 name: "addRowAfter",
-                title: "Add Row After",
+                title: "toolbar.addRowAfter",
                 icon: "Insert-row-after",
                 action: "command",
                 command: "addRowAfter",
@@ -580,7 +586,7 @@ export const SECONDARY_TOOLBAR_GROUP: ToolbarGroupConfig[] = [
             },
             {
                 name: "addRowBefore",
-                title: "Add Row Before",
+                title: "toolbar.addRowBefore",
                 icon: "Insert-row-before",
                 action: "command",
                 command: "addRowBefore",
@@ -588,7 +594,7 @@ export const SECONDARY_TOOLBAR_GROUP: ToolbarGroupConfig[] = [
             },
             {
                 name: "deleteRow",
-                title: "Delete Row",
+                title: "toolbar.deleteRow",
                 icon: "Delete-row",
                 action: "command",
                 command: "deleteRow",
@@ -596,7 +602,7 @@ export const SECONDARY_TOOLBAR_GROUP: ToolbarGroupConfig[] = [
             },
             {
                 name: "addColumnAfter",
-                title: "Add Column After",
+                title: "toolbar.addColumnAfter",
                 icon: "Insert-column-after",
                 action: "command",
                 command: "addColumnAfter",
@@ -604,7 +610,7 @@ export const SECONDARY_TOOLBAR_GROUP: ToolbarGroupConfig[] = [
             },
             {
                 name: "addColumnBefore",
-                title: "Add Column Before",
+                title: "toolbar.addColumnBefore",
                 icon: "Insert-column-before",
                 action: "command",
                 command: "addColumnBefore",
@@ -612,7 +618,7 @@ export const SECONDARY_TOOLBAR_GROUP: ToolbarGroupConfig[] = [
             },
             {
                 name: "deleteColumn",
-                title: "Delete Column",
+                title: "toolbar.deleteColumn",
                 icon: "Delete-column",
                 action: "command",
                 command: "deleteColumn",

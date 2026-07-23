@@ -1,5 +1,4 @@
 import { Editor } from "@tiptap/react";
-import { ReactNode } from "react";
 import { ToolbarButtonConfig } from "../ToolbarConfig";
 
 // ============================================================================
@@ -14,12 +13,9 @@ export interface BaseToolbarButtonProps {
 }
 
 /**
- * Props for toolbar button components that support image source content
- * (used for dialog buttons that need to display Mendix entity selectors)
+ * Props for dialog toolbar button components
  */
-export interface DialogToolbarButtonProps extends BaseToolbarButtonProps {
-    imageSourceContent?: ReactNode;
-}
+export type DialogToolbarButtonProps = BaseToolbarButtonProps;
 
 // ============================================================================
 // Dialog Component Props
@@ -47,7 +43,6 @@ export interface ColorPickerProps extends BaseDialogProps {
 export interface ImageDialogProps {
     onClose: () => void;
     referenceElement: HTMLElement | null;
-    imageSourceContent?: ReactNode;
 }
 
 /**

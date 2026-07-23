@@ -1,4 +1,5 @@
 import { ReactElement, useState, useRef, useEffect } from "react";
+import { useT } from "../../../utils/i18n";
 import { useCurrentEditor } from "../../EditorContext";
 import { BaseToolbarButtonProps } from "../helpers/toolbarTypes";
 import { useDropdown } from "../hooks/useDropdown";
@@ -7,6 +8,7 @@ import { ToolbarDefaultButton } from "./ToolbarDefaultButton";
 
 export function ToolbarDropdown({ config }: BaseToolbarButtonProps): ReactElement {
     const { editor } = useCurrentEditor();
+    const t = useT();
     const { dropdownOptions: options, title: label } = config;
     const [isOpen, setIsOpen] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -64,7 +66,7 @@ export function ToolbarDropdown({ config }: BaseToolbarButtonProps): ReactElemen
 
     const getCurrentLabel = (): string => {
         const current = options?.find(opt => opt.value === currentValue);
-        return current ? current.label : label || "Select...";
+        return current ? t(current.label) : label ? t(label) : t("toolbar.selectPlaceholder");
     };
 
     return (
@@ -73,7 +75,7 @@ export function ToolbarDropdown({ config }: BaseToolbarButtonProps): ReactElemen
                 ref={buttonRef}
                 onClick={() => setIsOpen(!isOpen)}
                 className={`toolbar-dropdown-button ${config.name}`}
-                title={config.title}
+                title={t(config.title)}
             >
                 <span className="dropdown-label">{getCurrentLabel()}</span>
                 <span className="icons icon-Arrow-down dropdown-arrow" />
@@ -89,7 +91,7 @@ export function ToolbarDropdown({ config }: BaseToolbarButtonProps): ReactElemen
                             isActive={currentValue === option.value}
                         >
                             {option.icon && <span className={`icons icon-${option.icon}`} />}
-                            <span>{option.label}</span>
+                            <span>{t(option.label)}</span>
                         </ToolbarDefaultButton>
                     ))}
                 </div>

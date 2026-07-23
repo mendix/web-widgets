@@ -1,4 +1,5 @@
 import { useContext, useRef, ReactElement } from "react";
+import { useT } from "../../../utils/i18n";
 import { useCurrentEditor } from "../../EditorContext";
 import { BaseToolbarButtonProps } from "../helpers/toolbarTypes";
 import { ToolbarContext, ToolbarContextType } from "../ToolbarConfig";
@@ -8,6 +9,7 @@ import { ToolbarDefaultButton } from "./ToolbarDefaultButton";
 export function TableGridToolbarButton({ config }: BaseToolbarButtonProps): ReactElement {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const { editor } = useCurrentEditor();
+    const t = useT();
     const { activeDropdown, handleDropdownToggle, handleDropdownClose } = useContext(
         ToolbarContext
     ) as ToolbarContextType;
@@ -20,7 +22,7 @@ export function TableGridToolbarButton({ config }: BaseToolbarButtonProps): Reac
                 ref={buttonRef}
                 onClick={() => handleDropdownToggle(dropdownType)}
                 icon={config.icon}
-                title={config.title}
+                title={t(config.title)}
             />
             {editor && isDropdownOpen && (
                 <TableGridSelector editor={editor} onClose={handleDropdownClose} referenceElement={buttonRef.current} />

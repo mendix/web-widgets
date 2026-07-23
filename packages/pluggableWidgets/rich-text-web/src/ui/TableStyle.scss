@@ -4,11 +4,12 @@
         margin: 0;
         overflow: hidden;
         table-layout: fixed;
-        width: 100%;
 
         td,
         th {
-            border: 1px solid var(--gray-3, rgba(61, 37, 20, 0.12));
+            border-width: 1px;
+            border-color: var(--gray-ligher, rgba(61, 37, 20, 0.12));
+            border-style: dotted;
             box-sizing: border-box;
             min-width: 1em;
             padding: 6px 8px;
@@ -51,6 +52,59 @@
 
     .tableWrapper {
         margin: 1.5rem 0;
-        overflow-x: auto;
+        overflow: visible;
+        position: relative;
+        // Shrink-wrap the table so absolutely-positioned resize handles align to the
+        // table's right/bottom edges, not the full container width.
+        width: fit-content;
+        max-width: 100%;
+
+        // Drag-to-resize handles (only rendered in editable mode by the NodeView)
+        .table-resize-handle {
+            background: var(--brand-primary, #264ae5);
+            border-radius: 2px;
+            opacity: 0;
+            position: absolute;
+            transition: opacity 0.15s ease;
+            z-index: 10;
+        }
+
+        // Reveal handles on hover/focus of the table
+        &:hover .table-resize-handle {
+            opacity: 0.6;
+        }
+
+        .table-resize-handle:hover {
+            opacity: 1;
+        }
+
+        // East edge — width only
+        .table-resize-handle-e {
+            cursor: ew-resize;
+            height: 40px;
+            right: -3px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+        }
+
+        // South edge — height only
+        .table-resize-handle-s {
+            bottom: -3px;
+            cursor: ns-resize;
+            height: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+        }
+
+        // South-east corner — width + height
+        .table-resize-handle-se {
+            bottom: -4px;
+            cursor: nwse-resize;
+            height: 12px;
+            right: -4px;
+            width: 12px;
+        }
     }
 }

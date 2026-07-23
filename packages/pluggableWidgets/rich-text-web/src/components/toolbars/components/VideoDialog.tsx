@@ -1,5 +1,6 @@
 import { ReactElement, useState, useRef, FormEvent, useEffect } from "react";
 import { parseEmbedCode } from "../../../utils/embedCodeParser";
+import { useT } from "../../../utils/i18n";
 import { matchPattern } from "../../../utils/videoUrlPattern";
 import { useCurrentEditor } from "../../EditorContext";
 import { VideoDialogProps } from "../helpers/toolbarTypes";
@@ -10,6 +11,7 @@ type TabMode = "url" | "embed";
 
 export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): ReactElement {
     const { editor } = useCurrentEditor();
+    const t = useT();
     const [activeTab, setActiveTab] = useState<TabMode>("url");
     const [urlInput, setUrlInput] = useState("");
     const [embedCodeInput, setEmbedCodeInput] = useState("");
@@ -57,7 +59,7 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
             setValidationError(null);
         } else {
             setDetectedPlatform(null);
-            setValidationError("Unsupported video platform");
+            setValidationError(t("video.errorUnsupported"));
         }
     };
 
@@ -80,7 +82,7 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
             setDetectedPlatform(result.domain || null);
             setValidationError(null);
         } else {
-            setValidationError(result.error || "Invalid embed code");
+            setValidationError(result.error || t("video.errorInvalidEmbed"));
         }
     };
 
@@ -91,7 +93,7 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
         const pattern = matchPattern(urlInput);
 
         if (!pattern) {
-            setValidationError("Invalid URL");
+            setValidationError(t("video.errorInvalidUrl"));
             return;
         }
 
@@ -127,7 +129,7 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
         const parsed = parseEmbedCode(embedCodeInput);
 
         if (!parsed.valid || !parsed.src) {
-            setValidationError(parsed.error || "Invalid embed code");
+            setValidationError(parsed.error || t("video.errorInvalidEmbed"));
             return;
         }
 
@@ -177,7 +179,7 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
         <div ref={refs.setFloating} style={{ ...floatingStyles, zIndex: 1000 }}>
             <div ref={dialogRef} className="toolbar-dialog video-dialog">
                 <form onSubmit={handleSubmit}>
-                    <h3>Insert Video</h3>
+                    <h3>{t("video.title")}</h3>
 
                     {/* Tab Navigation */}
                     <div className="dialog-tabs">
@@ -186,14 +188,14 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
                             className={activeTab === "url" ? "active" : ""}
                             onClick={() => setActiveTab("url")}
                         >
-                            URL
+                            {t("video.tabUrl")}
                         </button>
                         <button
                             type="button"
                             className={activeTab === "embed" ? "active" : ""}
                             onClick={() => setActiveTab("embed")}
                         >
-                            Embed Code
+                            {t("video.tabEmbed")}
                         </button>
                     </div>
 
@@ -201,20 +203,22 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
                     {activeTab === "url" && (
                         <div className="tab-content">
                             <div className="dialog-field">
-                                <label htmlFor="video-url">Video URL</label>
+                                <label htmlFor="video-url">{t("video.url")}</label>
                                 <input
                                     id="video-url"
                                     type="text"
                                     value={urlInput}
                                     onChange={e => handleUrlChange(e.target.value)}
-                                    placeholder="https://www.youtube.com/watch?v=... or https://vimeo.com/..."
+                                    placeholder={t("video.urlPlaceholder")}
                                     autoFocus
                                 />
                             </div>
 
                             {/* Detection Status */}
                             {detectedPlatform && (
-                                <div className="detection-status success">✓ {detectedPlatform} video detected</div>
+                                <div className="detection-status success">
+                                    ✓ {t("video.detected", detectedPlatform)}
+                                </div>
                             )}
 
                             {validationError && <div className="detection-status error">⚠️ {validationError}</div>}
@@ -222,7 +226,7 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
                             {/* Size Fields */}
                             <div className="dialog-field-row">
                                 <div className="dialog-field">
-                                    <label htmlFor="video-width">Width (px)</label>
+                                    <label htmlFor="video-width">{t("video.width")}</label>
                                     <input
                                         id="video-width"
                                         type="number"
@@ -232,7 +236,7 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
                                     />
                                 </div>
                                 <div className="dialog-field">
-                                    <label htmlFor="video-height">Height (px)</label>
+                                    <label htmlFor="video-height">{t("video.height")}</label>
                                     <input
                                         id="video-height"
                                         type="number"
@@ -242,8 +246,6 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
                                     />
                                 </div>
                             </div>
-
-                            <div className="dialog-info">ℹ️ Supported: YouTube, Vimeo, Dailymotion, Google Maps</div>
                         </div>
                     )}
 
@@ -251,7 +253,7 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
                     {activeTab === "embed" && (
                         <div className="tab-content">
                             <div className="dialog-field">
-                                <label htmlFor="embed-code">Embed Code</label>
+                                <label htmlFor="embed-code">{t("video.embedLabel")}</label>
                                 <textarea
                                     id="embed-code"
                                     value={embedCodeInput}
@@ -265,28 +267,25 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
                             {/* Detection Status */}
                             {detectedPlatform && (
                                 <div className="detection-status success">
-                                    ✓ Valid iframe detected
+                                    ✓ {t("video.embedValid")}
                                     <br />
-                                    <small>Source: {detectedPlatform}</small>
+                                    <small>{t("video.embedSource", detectedPlatform)}</small>
                                 </div>
                             )}
 
                             {validationError && <div className="detection-status error">⚠️ {validationError}</div>}
 
-                            <div className="dialog-info warning">
-                                ⚠️ Only use embed codes from trusted platforms. Embed codes from untrusted sources may
-                                pose security risks.
-                            </div>
+                            <div className="dialog-info warning">⚠️ {t("video.embedWarning")}</div>
                         </div>
                     )}
 
                     {/* Actions */}
                     <div className="dialog-actions">
                         <button type="button" onClick={onClose}>
-                            Cancel
+                            {t("video.cancel")}
                         </button>
                         <button type="submit" disabled={isSubmitDisabled}>
-                            Insert
+                            {t("video.insert")}
                         </button>
                     </div>
                 </form>

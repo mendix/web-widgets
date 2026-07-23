@@ -1,10 +1,12 @@
 import { ReactElement, useState, useEffect, KeyboardEvent } from "react";
+import { ToolbarDefaultButton } from "./ToolbarDefaultButton";
+import { useT } from "../../../utils/i18n";
 import { useCurrentEditor } from "../../EditorContext";
 import { BaseToolbarButtonProps } from "../helpers/toolbarTypes";
-import { ToolbarDefaultButton } from "./ToolbarDefaultButton";
 
 export function ToolbarButton({ config }: BaseToolbarButtonProps): ReactElement {
     const { editor } = useCurrentEditor();
+    const t = useT();
     const [, setUpdateTrigger] = useState(0);
 
     // Force re-render when editor selection or content changes
@@ -82,7 +84,7 @@ export function ToolbarButton({ config }: BaseToolbarButtonProps): ReactElement 
                 break;
             case "custom":
                 if (config.customAction) {
-                    config.customAction(editor);
+                    config.customAction(editor, t);
                 }
                 break;
         }
@@ -103,7 +105,8 @@ export function ToolbarButton({ config }: BaseToolbarButtonProps): ReactElement 
             isActive={isActive}
             icon={config.icon}
             activeIcon={config.activeIcon}
-            title={config.title}
+            title={t(config.title)}
+            allowInCodeView={config.name === "fullscreen"}
         />
     );
 }

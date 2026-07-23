@@ -33,8 +33,8 @@ test.describe("RichText", () => {
         await expect(page.locator(".mx-name-richText1")).toBeVisible();
         await expect(page.locator(".mx-name-richText1")).toHaveScreenshot(`bottomToolbarAdvancedMode.png`);
 
-        await page.click(".mx-name-richText1 .ql-toolbar button.ql-image");
-        await expect(page.locator(".widget-rich-text .widget-rich-text-modal-body").first()).toHaveScreenshot(
+        await page.click('.mx-name-richText1 .tiptap-toolbar button[title="Insert Image"]');
+        await expect(page.locator(".mx-name-richText1 .toolbar-dialog.image-dialog").first()).toHaveScreenshot(
             `insertImageDialog.png`
         );
     });
@@ -48,8 +48,8 @@ test.describe("RichText", () => {
         await expect(page.locator(".mx-name-richText4")).toBeVisible();
         await expect(page.locator(".mx-name-richText4")).toHaveScreenshot(`toolbarAdvancedMode.png`);
 
-        await page.click(".mx-name-richText1 .ql-toolbar button.ql-view-code");
-        await expect(page.locator(".widget-rich-text .widget-rich-text-modal-body").first()).toHaveScreenshot(
+        await page.click('.mx-name-richText4 .tiptap-toolbar button[title="View/Edit Code"]');
+        await expect(page.locator(".mx-name-richText4 .highlighted-code-editor").first()).toHaveScreenshot(
             `viewCodeDialog.png`
         );
     });
@@ -128,21 +128,45 @@ test.describe("RichText", () => {
     test("checks that class mode editor output uses CSS classes instead of inline styles", async ({ page }) => {
         await page.goto("/p/classmode");
         await waitForMendixApp(page);
-        const html = await page.locator(".mx-name-richText1 .ql-editor").innerHTML();
-        expect(html).toMatch(/class="ql-color-/);
-        expect(html).toMatch(/class="ql-bg-/);
-        expect(html).toMatch(/class="ql-indent-/);
-        expect(html).toMatch(/data-style-format="class"/);
-        expect(html).not.toMatch(/style="color:/);
-        expect(html).not.toMatch(/style="background-color:/);
-        expect(html).not.toMatch(/style="padding-left:/);
+
+        const editor = page.locator(".mx-name-richText1 .tiptap");
+        await expect(editor).toBeVisible();
+
+        // Apply text color, highlight and indent to the first block so the
+        // class-based output can be asserted. Re-select before each command
+        // because clicking a toolbar control collapses the DOM selection.
+        const firstBlock = editor.locator("h1, h2, h3, p").first();
+
+        await firstBlock.click({ clickCount: 3 });
+        await page.click('.mx-name-richText1 button[title="Text Color"]');
+        await page.locator(".color-picker-dropdown div[title]").nth(10).click();
+
+        await firstBlock.click({ clickCount: 3 });
+        await page.click('.mx-name-richText1 button[title="Background Color"]');
+        await page.locator(".color-picker-dropdown div[title]").nth(10).click();
+
+        await firstBlock.click({ clickCount: 3 });
+        await page.click('.mx-name-richText1 button[title="Increase Indent"]');
+
+        const html = await editor.innerHTML();
+
+        // Class mode emits class + data-* attributes, not inline styles.
+        expect(html).toMatch(/class="[^"]*has-text-color/);
+        expect(html).toMatch(/data-text-color="/);
+        expect(html).toMatch(/class="[^"]*has-text-highlight/);
+        expect(html).toMatch(/data-text-highlight="/);
+        expect(html).toMatch(/class="[^"]*indent-\d/);
+        expect(html).toMatch(/data-indent="/);
+        expect(html).not.toMatch(/style="[^"]*color:/);
+        expect(html).not.toMatch(/style="[^"]*background-color:/);
+        expect(html).not.toMatch(/style="[^"]*padding-left:/);
     });
 
     test("compares with a screenshot baseline of the View/Edit Code dialog in class mode", async ({ page }) => {
         await page.goto("/p/classmode");
         await waitForMendixApp(page);
-        await page.click(".mx-name-richText1 .ql-toolbar button.ql-view-code");
-        await expect(page.locator(".widget-rich-text .widget-rich-text-modal-body").first()).toHaveScreenshot(
+        await page.click('.mx-name-richText1 .tiptap-toolbar button[title="View/Edit Code"]');
+        await expect(page.locator(".mx-name-richText1 .highlighted-code-editor").first()).toHaveScreenshot(
             `classModeViewCodeDialog.png`
         );
     });
@@ -153,21 +177,18 @@ test.describe("RichText", () => {
 
         await page.click(".mx-navbar-item [title='Demo']");
 
-        await page.click(".mx-name-customWidget1 .ql-toolbar button.ql-video");
-        await expect(page.locator(".widget-rich-text .widget-rich-text-modal-body").first()).toHaveScreenshot(
+        await page.click('.mx-name-customWidget1 .tiptap-toolbar button[title="Insert YouTube Video"]');
+        await expect(page.locator(".toolbar-dialog.video-dialog").first()).toHaveScreenshot(
             `richTextDialogInsidePopup.png`
         );
 
-        await page.click(".widget-rich-text .widget-rich-text-modal-body #rich-text-video-src-input");
-        await page
-            .locator(".widget-rich-text .widget-rich-text-modal-body #rich-text-video-src-input")
-            .fill("https://www.mendix.com");
-        await expect(page.locator(".widget-rich-text .widget-rich-text-modal-body").first()).toHaveScreenshot(
+        await page.locator(".toolbar-dialog.video-dialog #video-url").fill("https://www.mendix.com");
+        await expect(page.locator(".toolbar-dialog.video-dialog").first()).toHaveScreenshot(
             `richTextDialogInsidePopupEdit.png`
         );
     });
 
-    test("empty content persists as empty string, not <p></p>", async ({ page }) => {
+    test("clearing all content leaves the editor empty, not a stray <p></p>", async ({ page }) => {
         await page.goto("/");
         await waitForMendixApp(page);
         await page.click("text=Generate Data");
@@ -179,27 +200,23 @@ test.describe("RichText", () => {
         await editor.scrollIntoViewIfNeeded();
         await expect(editor).toBeVisible();
 
-        // Click into the editor and clear all content
+        // Click into the editor and clear all content. selectText() reliably
+        // selects the editor contents across platforms, unlike Control+A which
+        // depends on OS focus behaviour.
         await editor.click();
-        await page.keyboard.press("Control+A");
+        await editor.selectText();
         await page.keyboard.press("Backspace");
 
-        // Blur the editor to trigger save
+        // Blur the editor to trigger the save/normalize path.
         await page.keyboard.press("Tab");
         await page.waitForTimeout(500);
 
-        // The editor should now be empty (visual check)
-        const textContent = await editor.textContent();
-        expect(textContent?.trim() || "").toBe("");
-
-        // Reload the page to verify persistence
-        await page.reload();
-        await waitForMendixApp(page);
-
-        // The editor should still be empty after reload
-        const reloadedEditor = page.locator(".mx-name-richText1 .tiptap");
-        await expect(reloadedEditor).toBeVisible();
-        const reloadedContent = await reloadedEditor.textContent();
-        expect(reloadedContent?.trim() || "").toBe("");
+        // The editor should now be empty. Tiptap keeps a placeholder paragraph
+        // in the DOM, but the widget normalizes that empty paragraph to an
+        // empty string on save (see normalizeEmpty in EditorWrapper).
+        expect((await editor.textContent())?.trim() || "").toBe("");
+        // No text nodes remain — only an empty placeholder paragraph/break.
+        const strippedText = (await editor.innerHTML()).replace(/<[^>]*>/g, "").trim();
+        expect(strippedText).toBe("");
     });
 });

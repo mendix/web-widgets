@@ -1,4 +1,5 @@
 import { Extension, getStyleProperty } from "@tiptap/core";
+import { isSafeCssSize } from "../utils/helpers";
 
 export interface FontSizeOptions {
     types: string[];
@@ -53,13 +54,19 @@ export const FontSize = Extension.create<FontSizeOptions>({
                             if (this.options.styleDataFormat === "class") {
                                 // Extract numeric value without unit suffix (e.g., "16px" -> "16")
                                 const match = attributes.fontSize.match(/^(\d+(?:\.\d+)?)/);
-                                const numericValue = match ? match[1] : attributes.fontSize;
+                                if (!match) {
+                                    return {};
+                                }
 
                                 return {
-                                    "data-font-size": numericValue,
+                                    "data-font-size": match[1],
                                     class: "has-font-size"
                                 };
                             } else {
+                                // isSafeCssSize accepts the same length/percentage grammar font-size uses.
+                                if (!isSafeCssSize(attributes.fontSize)) {
+                                    return {};
+                                }
                                 return {
                                     style: `font-size: ${attributes.fontSize}`
                                 };

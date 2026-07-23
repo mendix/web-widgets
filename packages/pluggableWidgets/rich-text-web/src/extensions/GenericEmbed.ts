@@ -1,6 +1,17 @@
 import { Node, mergeAttributes } from "@tiptap/core";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 import { EmbedResize } from "../components/EmbedResize";
+import { parseEmbedCode } from "../utils/embedCodeParser";
+
+// Validate an iframe src against the same protocol + domain allowlist the embed
+// dialog enforces, so a pasted iframe can't bypass it. Wraps the src in a minimal
+// iframe so parseEmbedCode (which expects embed HTML) can vet it.
+function isAllowedEmbedSrc(src: string | null | undefined): boolean {
+    if (!src) {
+        return false;
+    }
+    return parseEmbedCode(`<iframe src="${src.replace(/"/g, "&quot;")}"></iframe>`).valid;
+}
 
 export interface GenericEmbedOptions {
     inline: boolean;
@@ -43,7 +54,12 @@ export const GenericEmbed = Node.create<GenericEmbedOptions>({
         return {
             src: {
                 default: null,
-                parseHTML: element => element.querySelector("iframe")?.getAttribute("src"),
+                parseHTML: element => {
+                    const src = element.querySelector("iframe")?.getAttribute("src");
+                    // Drop the src if it isn't on the allowlist; renderHTML then
+                    // refuses to emit the iframe, so a hostile paste is neutralized.
+                    return isAllowedEmbedSrc(src) ? src : null;
+                },
                 renderHTML: attributes => {
                     return { src: attributes.src };
                 }
@@ -89,7 +105,23 @@ export const GenericEmbed = Node.create<GenericEmbedOptions>({
     },
 
     renderHTML({ HTMLAttributes }) {
-        // Security: Always add sandbox and other security attributes
+        const wrapper = mergeAttributes(
+            {
+                "data-generic-embed": "",
+                class: "generic-embed-wrapper"
+            },
+            this.options.HTMLAttributes
+        );
+
+        // Refuse to render an iframe whose src isn't on the allowlist (e.g. a src
+        // that was tampered with in stored data after parsing).
+        if (!isAllowedEmbedSrc(HTMLAttributes.src)) {
+            return ["div", wrapper];
+        }
+
+        // Security: Always add sandbox and other security attributes.
+        // Note: allow-scripts and allow-same-origin are intentionally NOT combined,
+        // since together they let framed content remove its own sandbox.
         const secureAttributes = {
             src: HTMLAttributes.src,
             width: HTMLAttributes.width,
@@ -99,22 +131,12 @@ export const GenericEmbed = Node.create<GenericEmbedOptions>({
             allow: HTMLAttributes.allow,
             allowfullscreen: HTMLAttributes.allowfullscreen ? "" : undefined,
             // Security attributes
-            sandbox: "allow-scripts allow-same-origin allow-popups allow-forms",
+            sandbox: "allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms allow-presentation",
             loading: "lazy",
             referrerpolicy: "strict-origin-when-cross-origin"
         };
 
-        return [
-            "div",
-            mergeAttributes(
-                {
-                    "data-generic-embed": "",
-                    class: "generic-embed-wrapper"
-                },
-                this.options.HTMLAttributes
-            ),
-            ["iframe", secureAttributes]
-        ];
+        return ["div", wrapper, ["iframe", secureAttributes]];
     },
 
     addCommands() {

@@ -1,5 +1,6 @@
 import { Extension } from "@tiptap/core";
 import { Highlight } from "@tiptap/extension-highlight";
+import { isSafeCssColor } from "../utils/helpers";
 
 export type TextHighlightClassOptions = {
     multicolor: boolean;
@@ -48,7 +49,7 @@ export const TextHighlightClass = Extension.create<TextHighlightClassOptions>({
                                 }
                             },
                             renderHTML: attributes => {
-                                if (!attributes.color) {
+                                if (!attributes.color || !isSafeCssColor(attributes.color)) {
                                     return {};
                                 }
 

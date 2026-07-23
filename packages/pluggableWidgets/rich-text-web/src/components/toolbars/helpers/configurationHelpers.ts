@@ -1,4 +1,6 @@
 import { Editor } from "@tiptap/react";
+import { normalizeCssSize } from "../../../utils/helpers";
+import { TranslateFn } from "../../../utils/i18n";
 import { ConfigurationSection } from "../ToolbarConfig";
 
 // Helper to get table node attributes
@@ -13,6 +15,31 @@ function getTableAttributes(editor: Editor): Record<string, any> | null {
         }
     }
     return null;
+}
+
+// Helper to set a single attribute on the nearest ancestor table node
+function setTableAttribute(editor: Editor, attribute: string, value: unknown): void {
+    const { state } = editor;
+    const { $from } = state.selection;
+
+    for (let depth = $from.depth; depth > 0; depth--) {
+        const node = $from.node(depth);
+        if (node.type.name === "table") {
+            const pos = $from.before(depth);
+            editor
+                .chain()
+                .focus()
+                .command(({ tr }) => {
+                    tr.setNodeMarkup(pos, undefined, {
+                        ...node.attrs,
+                        [attribute]: value
+                    });
+                    return true;
+                })
+                .run();
+            break;
+        }
+    }
 }
 
 // Helper to get cell attributes
@@ -34,11 +61,11 @@ function getCellAttributes(editor: Editor): Record<string, any> | null {
 }
 
 // Table configuration sections
-export function createTableConfigurationSections(editor: Editor): ConfigurationSection[] {
+export function createTableConfigurationSections(editor: Editor, t: TranslateFn): ConfigurationSection[] {
     return [
         {
             id: "tableBackground",
-            label: "Background Color",
+            label: t("config.backgroundColor"),
             type: "colorPicker",
             defaultColor: "#ffffff",
             getCurrentValue: () => {
@@ -46,32 +73,15 @@ export function createTableConfigurationSections(editor: Editor): ConfigurationS
                 return attrs?.backgroundColor || null;
             },
             onChange: (color: string) => {
-                const { state } = editor;
-                const { $from } = state.selection;
-
-                for (let depth = $from.depth; depth > 0; depth--) {
-                    const node = $from.node(depth);
-                    if (node.type.name === "table") {
-                        const pos = $from.before(depth);
-                        editor
-                            .chain()
-                            .focus()
-                            .command(({ tr }) => {
-                                tr.setNodeMarkup(pos, undefined, {
-                                    ...node.attrs,
-                                    backgroundColor: color
-                                });
-                                return true;
-                            })
-                            .run();
-                        break;
-                    }
-                }
+                setTableAttribute(editor, "backgroundColor", color);
+            },
+            onClear: () => {
+                setTableAttribute(editor, "backgroundColor", null);
             }
         },
         {
             id: "tableBorderColor",
-            label: "Border Color",
+            label: t("config.borderColor"),
             type: "colorPicker",
             defaultColor: "#000000",
             getCurrentValue: () => {
@@ -79,43 +89,26 @@ export function createTableConfigurationSections(editor: Editor): ConfigurationS
                 return attrs?.borderColor || null;
             },
             onChange: (color: string) => {
-                const { state } = editor;
-                const { $from } = state.selection;
-
-                for (let depth = $from.depth; depth > 0; depth--) {
-                    const node = $from.node(depth);
-                    if (node.type.name === "table") {
-                        const pos = $from.before(depth);
-                        editor
-                            .chain()
-                            .focus()
-                            .command(({ tr }) => {
-                                tr.setNodeMarkup(pos, undefined, {
-                                    ...node.attrs,
-                                    borderColor: color
-                                });
-                                return true;
-                            })
-                            .run();
-                        break;
-                    }
-                }
+                setTableAttribute(editor, "borderColor", color);
+            },
+            onClear: () => {
+                setTableAttribute(editor, "borderColor", null);
             }
         },
         {
             id: "tableBorderStyle",
-            label: "Border Style",
+            label: t("config.borderStyle"),
             type: "dropdown",
             options: [
-                { value: "none", label: "None" },
-                { value: "solid", label: "Solid" },
-                { value: "dashed", label: "Dashed" },
-                { value: "dotted", label: "Dotted" },
-                { value: "double", label: "Double" },
-                { value: "groove", label: "Groove" },
-                { value: "ridge", label: "Ridge" },
-                { value: "inset", label: "Inset" },
-                { value: "outset", label: "Outset" }
+                { value: "none", label: t("config.borderStyle.none") },
+                { value: "solid", label: t("config.borderStyle.solid") },
+                { value: "dashed", label: t("config.borderStyle.dashed") },
+                { value: "dotted", label: t("config.borderStyle.dotted") },
+                { value: "double", label: t("config.borderStyle.double") },
+                { value: "groove", label: t("config.borderStyle.groove") },
+                { value: "ridge", label: t("config.borderStyle.ridge") },
+                { value: "inset", label: t("config.borderStyle.inset") },
+                { value: "outset", label: t("config.borderStyle.outset") }
             ],
             getCurrentValue: () => {
                 const attrs = getTableAttributes(editor);
@@ -127,7 +120,7 @@ export function createTableConfigurationSections(editor: Editor): ConfigurationS
         },
         {
             id: "tableBorderWidth",
-            label: "Border Width",
+            label: t("config.borderWidth"),
             type: "dropdown",
             options: [
                 { value: "0", label: "0" },
@@ -144,16 +137,59 @@ export function createTableConfigurationSections(editor: Editor): ConfigurationS
             onChange: (width: string) => {
                 (editor.chain().focus() as any).setTableBorderWidth(width).run();
             }
+        },
+        {
+            id: "tableWidth",
+            label: t("config.tableWidth"),
+            type: "textInput",
+            placeholder: t("config.tableWidth.placeholder"),
+            getCurrentValue: () => {
+                const attrs = getTableAttributes(editor);
+                return attrs?.width || null;
+            },
+            onChange: (value: string) => {
+                // Empty clears to auto; otherwise normalize and validate the CSS size
+                if (!value || value.trim() === "") {
+                    (editor.chain().focus() as any).setTableWidth(null).run();
+                    return;
+                }
+                const size = normalizeCssSize(value);
+                if (size === null) {
+                    return; // invalid — ignore, keep previous
+                }
+                (editor.chain().focus() as any).setTableWidth(size).run();
+            }
+        },
+        {
+            id: "tableHeight",
+            label: t("config.tableHeight"),
+            type: "textInput",
+            placeholder: t("config.tableHeight.placeholder"),
+            getCurrentValue: () => {
+                const attrs = getTableAttributes(editor);
+                return attrs?.minHeight || null;
+            },
+            onChange: (value: string) => {
+                if (!value || value.trim() === "") {
+                    (editor.chain().focus() as any).setTableMinHeight(null).run();
+                    return;
+                }
+                const size = normalizeCssSize(value);
+                if (size === null) {
+                    return;
+                }
+                (editor.chain().focus() as any).setTableMinHeight(size).run();
+            }
         }
     ];
 }
 
 // Cell configuration sections
-export function createCellConfigurationSections(editor: Editor): ConfigurationSection[] {
+export function createCellConfigurationSections(editor: Editor, t: TranslateFn): ConfigurationSection[] {
     return [
         {
             id: "cellBackground",
-            label: "Background Color",
+            label: t("config.backgroundColor"),
             type: "colorPicker",
             defaultColor: "#ffffff",
             getCurrentValue: () => {
@@ -162,11 +198,14 @@ export function createCellConfigurationSections(editor: Editor): ConfigurationSe
             },
             onChange: (color: string) => {
                 editor.chain().focus().setCellAttribute("backgroundColor", color).run();
+            },
+            onClear: () => {
+                editor.chain().focus().setCellAttribute("backgroundColor", null).run();
             }
         },
         {
             id: "cellBorderColor",
-            label: "Border Color",
+            label: t("config.borderColor"),
             type: "colorPicker",
             defaultColor: "#000000",
             getCurrentValue: () => {
@@ -175,22 +214,25 @@ export function createCellConfigurationSections(editor: Editor): ConfigurationSe
             },
             onChange: (color: string) => {
                 editor.chain().focus().setCellAttribute("borderColor", color).run();
+            },
+            onClear: () => {
+                editor.chain().focus().setCellAttribute("borderColor", null).run();
             }
         },
         {
             id: "cellBorderStyle",
-            label: "Border Style",
+            label: t("config.borderStyle"),
             type: "dropdown",
             options: [
-                { value: "none", label: "None" },
-                { value: "solid", label: "Solid" },
-                { value: "dashed", label: "Dashed" },
-                { value: "dotted", label: "Dotted" },
-                { value: "double", label: "Double" },
-                { value: "groove", label: "Groove" },
-                { value: "ridge", label: "Ridge" },
-                { value: "inset", label: "Inset" },
-                { value: "outset", label: "Outset" }
+                { value: "none", label: t("config.borderStyle.none") },
+                { value: "solid", label: t("config.borderStyle.solid") },
+                { value: "dashed", label: t("config.borderStyle.dashed") },
+                { value: "dotted", label: t("config.borderStyle.dotted") },
+                { value: "double", label: t("config.borderStyle.double") },
+                { value: "groove", label: t("config.borderStyle.groove") },
+                { value: "ridge", label: t("config.borderStyle.ridge") },
+                { value: "inset", label: t("config.borderStyle.inset") },
+                { value: "outset", label: t("config.borderStyle.outset") }
             ],
             getCurrentValue: () => {
                 const attrs = getCellAttributes(editor);
@@ -202,7 +244,7 @@ export function createCellConfigurationSections(editor: Editor): ConfigurationSe
         },
         {
             id: "cellBorderWidth",
-            label: "Border Width",
+            label: t("config.borderWidth"),
             type: "dropdown",
             options: [
                 { value: "0", label: "0" },
@@ -222,38 +264,45 @@ export function createCellConfigurationSections(editor: Editor): ConfigurationSe
         },
         {
             id: "cellWidth",
-            label: "Column Width",
-            type: "numberInput",
-            min: 25,
-            max: 1000,
-            step: 1,
-            placeholder: "Auto",
-            unit: "px",
+            label: t("config.columnWidth"),
+            type: "textInput",
+            placeholder: t("config.columnWidth.placeholder"),
             getCurrentValue: () => {
                 const attrs = getCellAttributes(editor);
-                const colwidth = attrs?.colwidth;
-
-                if (colwidth && Array.isArray(colwidth) && colwidth.length > 0) {
-                    return colwidth[0];
+                return attrs?.cellWidth || null;
+            },
+            onChange: (value: string) => {
+                // Empty clears to auto; otherwise normalize and validate the CSS size
+                if (!value || value.trim() === "") {
+                    editor.chain().focus().setCellAttribute("cellWidth", null).run();
+                    return;
                 }
-
-                return null;
+                const size = normalizeCssSize(value);
+                if (size === null) {
+                    return; // invalid — ignore, keep previous
+                }
+                editor.chain().focus().setCellAttribute("cellWidth", size).run();
+            }
+        },
+        {
+            id: "cellHeight",
+            label: t("config.columnHeight"),
+            type: "textInput",
+            placeholder: t("config.columnHeight.placeholder"),
+            getCurrentValue: () => {
+                const attrs = getCellAttributes(editor);
+                return attrs?.cellHeight || null;
             },
             onChange: (value: string) => {
                 if (!value || value.trim() === "") {
-                    editor.chain().focus().setCellAttribute("colwidth", null).run();
+                    editor.chain().focus().setCellAttribute("cellHeight", null).run();
                     return;
                 }
-
-                const numValue = parseInt(value, 10);
-
-                if (isNaN(numValue)) {
-                    return;
+                const size = normalizeCssSize(value);
+                if (size === null) {
+                    return; // invalid — ignore, keep previous
                 }
-
-                const clampedValue = Math.max(25, Math.min(1000, numValue));
-
-                editor.chain().focus().setCellAttribute("colwidth", [clampedValue]).run();
+                editor.chain().focus().setCellAttribute("cellHeight", size).run();
             }
         }
     ];
