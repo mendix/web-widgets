@@ -1,5 +1,6 @@
+recursiveInstall: true
 packages:
-  - "packages/*/*"
-  - "automation/*"
+    - "packages/*/*"
+    - "automation/*"
 catalog:
-  rollup: "3.29"
+    rollup: "3.29"
