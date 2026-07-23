@@ -72,24 +72,29 @@ Days with events SHALL display a single dot indicator, regardless of the number 
 - **WHEN** an event is marked as all-day
 - **THEN** the event is considered to occur on each calendar day from start date to end date (inclusive) and dots are displayed accordingly
 
-### Requirement: Day click navigates to day view
+### Requirement: Day click navigates to the configured target view
 
-Clicking a day cell SHALL navigate the calendar to day view for the selected date.
+Clicking a day cell SHALL navigate the calendar to the author-configured day-click target view (via the `yearDayClickView` property) for the selected date, PROVIDED that target view is enabled. The target choices are day, week, work_week, month, and agenda; the default is day. If the configured target view is not among the calendar's enabled views, day-click SHALL be disabled: day cells are rendered as non-interactive (no button role, tab stop, click, or keyboard handler) while retaining their aria-label, and no navigation occurs.
 
 #### Scenario: User clicks a day in the current month
 
-- **WHEN** user clicks a day cell representing a date in the current month
-- **THEN** the calendar switches to day view AND displays the selected date
+- **WHEN** the configured target view is enabled AND user clicks a day cell representing a date in the current month
+- **THEN** the calendar switches to the configured target view AND displays the selected date
 
 #### Scenario: User clicks a leading day from previous month
 
-- **WHEN** user clicks a gray day cell from the previous month
-- **THEN** the calendar switches to day view AND displays the selected date from the previous month
+- **WHEN** the configured target view is enabled AND user clicks a gray day cell from the previous month
+- **THEN** the calendar switches to the configured target view AND displays the selected date from the previous month
 
 #### Scenario: User clicks a trailing day from next month
 
-- **WHEN** user clicks a gray day cell from the next month
-- **THEN** the calendar switches to day view AND displays the selected date from the next month
+- **WHEN** the configured target view is enabled AND user clicks a gray day cell from the next month
+- **THEN** the calendar switches to the configured target view AND displays the selected date from the next month
+
+#### Scenario: Configured target view is not enabled
+
+- **WHEN** the configured day-click target view is not one of the calendar's enabled views
+- **THEN** day cells are non-interactive AND clicking a day does nothing (no view registered on the author's behalf)
 
 ### Requirement: Today indicator highlights current day
 
@@ -169,8 +174,8 @@ Day cells SHALL be keyboard-accessible for users who navigate without a mouse.
 
 #### Scenario: Enter or Space key activates day cell
 
-- **WHEN** user presses Enter or Space while a day cell is focused
-- **THEN** the calendar navigates to day view for that date (same as clicking)
+- **WHEN** the configured target view is enabled AND user presses Enter or Space while a day cell is focused
+- **THEN** the calendar navigates to the configured target view for that date (same as clicking)
 
 ### Requirement: Screen reader support
 

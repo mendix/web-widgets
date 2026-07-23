@@ -7,7 +7,7 @@ Users need a year-at-a-glance view to see events across all 12 months simultaneo
 - Add **Year View** to the Calendar widget, available in both Standard and Custom view modes
 - Render a 12-month grid (4×3 layout) showing all months of the selected year
 - Display event indicators (dots) on days that have events, without showing full event details
-- Enable day-cell click navigation: clicking any day switches to day view for that date
+- Enable day-cell click navigation: clicking a day switches to an author-configured target view (day/week/work_week/month/agenda, default day) for that date, constrained to enabled views — if the target isn't enabled, day cells are non-interactive and clicking does nothing (no view is force-registered on the author's behalf)
 - Add "Year" button to toolbar for view switching
 - Support previous/next year navigation and "today" button to jump to current year
 - Maintain responsive design: 4 columns (desktop), 2 columns (tablet), 1 column (mobile)
@@ -17,7 +17,7 @@ Users need a year-at-a-glance view to see events across all 12 months simultaneo
 
 ### New Capabilities
 
-- `calendar-year-view`: Year view rendering with 12-month grid, event indicators, day-click navigation, and year-based navigation (previous/next/today)
+- `calendar-year-view`: Year view rendering with 12-month grid, event indicators, configurable day-click navigation (target view constrained to enabled views, otherwise disabled), and year-based navigation (previous/next/today)
 
 ### Modified Capabilities
 
@@ -27,7 +27,7 @@ Users need a year-at-a-glance view to see events across all 12 months simultaneo
 
 **Code Changes:**
 
-- **XML Configuration** (`Calendar.xml`): Add "year" enum value to `defaultViewStandard`, `defaultViewCustom`, and toolbar `itemType` properties
+- **XML Configuration** (`Calendar.xml`): Add "year" enum value to `defaultViewStandard`, `defaultViewCustom`, and toolbar `itemType` properties; add top-level `yearDayClickView` enum (day/week/work_week/month/agenda) controlling the day-click target
 - **Type Definitions** (`CalendarProps.d.ts`): Auto-generated types will include "year" in view enums
 - **View Registration** (`CalendarPropsBuilder.ts`): Update `buildVisibleViews()` to include year view component, update type unions
 - **Toolbar** (`Toolbar.tsx`): Add "year" to `ResolvedToolbarItem` type and render logic
