@@ -10,13 +10,17 @@ export function ImageResize(props: NodeViewProps): ReactElement {
     });
     const imgRef = useRef<HTMLImageElement>(null);
     const startPos = useRef({ x: 0, y: 0, width: 0, height: 0 });
+    const currentSize = useRef({ width: size.width, height: size.height });
 
     useEffect(() => {
         if (node.attrs.width) {
-            setSize({
+            const nextSize = {
                 width: node.attrs.width,
                 height: node.attrs.height || "auto"
-            });
+            };
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setSize(nextSize);
+            currentSize.current = nextSize;
         }
     }, [node.attrs.width, node.attrs.height]);
 
@@ -50,18 +54,20 @@ export function ImageResize(props: NodeViewProps): ReactElement {
             }
 
             if (newWidth > 50) {
-                setSize({
+                const nextSize = {
                     width: `${Math.round(newWidth)}px`,
                     height: `${Math.round(newHeight)}px`
-                });
+                };
+                currentSize.current = nextSize;
+                setSize(nextSize);
             }
         };
 
         const handleMouseUp = (): void => {
             setIsResizing(false);
             updateAttributes({
-                width: size.width,
-                height: size.height
+                width: currentSize.current.width,
+                height: currentSize.current.height
             });
             document.removeEventListener("mousemove", handleMouseMove);
             document.removeEventListener("mouseup", handleMouseUp);

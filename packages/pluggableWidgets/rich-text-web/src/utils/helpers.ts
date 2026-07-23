@@ -25,6 +25,118 @@ export function isSafeCssColor(value: string): boolean {
     return CSS_COLOR_ALLOWLIST.test(color);
 }
 
+// Fallback allowlist for CSS size values without CSS.supports: number + unit (px, %, em, rem, vw, vh, ch),
+// bare number (treated as px), or the keyword "auto".
+const CSS_SIZE_ALLOWLIST = /^(auto|\d+(\.\d+)?(px|%|em|rem|vw|vh|ch)?)$/i;
+
+// Allowed CSS border-style keywords.
+const CSS_BORDER_STYLE_ALLOWLIST = new Set([
+    "none",
+    "hidden",
+    "solid",
+    "dashed",
+    "dotted",
+    "double",
+    "groove",
+    "ridge",
+    "inset",
+    "outset"
+]);
+
+// Allowed text-align keywords.
+const CSS_TEXT_ALIGN_ALLOWLIST = new Set(["left", "center", "right", "justify", "start", "end"]);
+
+// Link protocols considered safe to render as an href. Relative/anchor URLs (no
+// scheme) are always allowed; everything with a scheme must be on this list.
+const SAFE_URL_PROTOCOLS = new Set(["http:", "https:", "mailto:", "tel:"]);
+
+/**
+ * Guards against a CSS border-style value being used to smuggle extra
+ * declarations into a concatenated style string. Returns true only for known
+ * border-style keywords.
+ */
+export function isSafeCssBorderStyle(value: string): boolean {
+    return CSS_BORDER_STYLE_ALLOWLIST.has(value.trim().toLowerCase());
+}
+
+/**
+ * Guards against a text-align value injecting extra CSS. Returns true only for
+ * known alignment keywords.
+ */
+export function isSafeCssTextAlign(value: string): boolean {
+    return CSS_TEXT_ALIGN_ALLOWLIST.has(value.trim().toLowerCase());
+}
+
+/**
+ * Guards a font-family value before it is interpolated into a style string.
+ * Reuses the CSS-injection char blocklist (blocks `;{}<>@`, url(, expression(,
+ * comments and backslash escapes) which are never valid in a font-family value.
+ */
+export function isSafeCssFontFamily(value: string): boolean {
+    const font = value.trim();
+    return !!font && !CSS_COLOR_UNSAFE.test(font);
+}
+
+// Removes ASCII control chars and spaces (U+0000–U+0020) that browsers ignore
+// when resolving a URL's scheme (e.g. "java\tscript:" → "javascript:").
+function stripLowControlChars(value: string): string {
+    let result = "";
+    for (const ch of value) {
+        if (ch.charCodeAt(0) > 0x20) {
+            result += ch;
+        }
+    }
+    return result;
+}
+
+/**
+ * Guards a link href against dangerous schemes (javascript:, data:, vbscript:, …).
+ * Relative URLs and fragments (no scheme) are allowed; any explicit scheme must
+ * be in SAFE_URL_PROTOCOLS. Tabs/newlines/control chars are stripped before
+ * scheme detection because browsers strip them before resolving the protocol.
+ */
+export function isSafeLinkUrl(value: string): boolean {
+    const url = value.trim();
+    if (!url) {
+        return false;
+    }
+    // Strip control chars + whitespace (U+0000–U+0020) so `java\tscript:` can't slip past.
+    const forSchemeCheck = stripLowControlChars(url);
+    const schemeMatch = forSchemeCheck.match(/^([a-z][a-z0-9+.-]*):/i);
+    if (schemeMatch) {
+        return SAFE_URL_PROTOCOLS.has(`${schemeMatch[1].toLowerCase()}:`);
+    }
+    // No scheme → relative URL / anchor / fragment.
+    return true;
+}
+
+/**
+ * Guards against CSS injection when a size string (e.g. "250px", "100%") is
+ * interpolated into an inline style. Returns true only for safe CSS length/percentage values.
+ */
+export function isSafeCssSize(value: string): boolean {
+    const size = value.trim();
+    if (!size || CSS_COLOR_UNSAFE.test(size)) {
+        return false;
+    }
+    if (typeof CSS !== "undefined" && typeof CSS.supports === "function") {
+        return CSS.supports("width", size);
+    }
+    return CSS_SIZE_ALLOWLIST.test(size);
+}
+
+// Normalizes a size input to a CSS value: bare numbers become "<n>px", other valid units pass through.
+// Returns null for empty/invalid input.
+export function normalizeCssSize(value: string): string | null {
+    const size = value.trim();
+    if (!size) {
+        return null;
+    }
+    // Bare number → px
+    const normalized = /^\d+(\.\d+)?$/.test(size) ? `${size}px` : size;
+    return isSafeCssSize(normalized) ? normalized : null;
+}
+
 function getHeightScale(height: number, heightUnit: "pixels" | "percentageOfParent" | "percentageOfView"): string {
     return `${height}${heightUnit === "pixels" ? "px" : heightUnit === "percentageOfView" ? "vh" : "%"}`;
 }

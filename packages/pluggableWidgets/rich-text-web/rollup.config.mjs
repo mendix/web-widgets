@@ -2,6 +2,7 @@ import copyFiles from "@mendix/rollup-web-widgets/copyFiles.mjs";
 import typescript from "@rollup/plugin-typescript";
 import preserveDirectives from "rollup-preserve-directives";
 import alias from "@rollup/plugin-alias";
+import json from "@rollup/plugin-json";
 
 export default args => {
     const result = copyFiles(args);
@@ -9,6 +10,7 @@ export default args => {
         config.plugins = [
             ...config.plugins.filter(plugin => plugin?.name !== "typescript"),
             preserveDirectives(),
+            json(),
             alias({
                 entries: [
                     {

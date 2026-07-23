@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
-import { createRef, ReactElement, ReactNode } from "react";
 import { render, screen } from "@testing-library/react";
+import { createRef, ReactElement, ReactNode } from "react";
 import { EditorContext } from "../../../EditorContext";
 import { ToolbarDefaultButton } from "../ToolbarDefaultButton";
 
@@ -12,7 +12,8 @@ function renderWithEditor(children: ReactNode, isCodeView = false): ReturnType<t
             value={{
                 editor: null,
                 codeViewState: { isCodeView, htmlCode: "", showConfirm: false },
-                codeViewDispatch: () => undefined
+                codeViewDispatch: () => undefined,
+                imageConfig: { enableDefaultUpload: true, hasImageSource: false }
             }}
         >
             {children as ReactElement}

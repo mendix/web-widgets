@@ -14,6 +14,9 @@ $rte-shadow-color: #00000014 !default;
         &.form-control {
             /* position sticky only works for overflow visible. this is to override form-control style */
             overflow: visible;
+            &.fullscreen {
+                overflow: auto;
+            }
         }
 
         .tiptap-toolbar {
@@ -104,8 +107,9 @@ $rte-shadow-color: #00000014 !default;
         }
 
         &.fontSize {
+            min-width: 80px;
             + .toolbar-dropdown-menu {
-                min-width: 120px;
+                min-width: 80px;
             }
         }
     }

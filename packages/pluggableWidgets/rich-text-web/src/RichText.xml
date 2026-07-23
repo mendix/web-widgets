@@ -292,6 +292,10 @@
                     <caption>Table</caption>
                     <description />
                 </property>
+                <property key="helpButton" type="boolean" defaultValue="true">
+                    <caption>Keyboard shortcuts</caption>
+                    <description>Show a help button that opens a keyboard shortcuts dialog. Only visible when the full toolbar is shown.</description>
+                </property>
                 <property key="advancedConfig" type="object" isList="true" required="false">
                     <caption>Advanced groups</caption>
                     <description />

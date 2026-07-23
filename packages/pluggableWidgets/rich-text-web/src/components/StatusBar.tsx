@@ -1,4 +1,5 @@
 import { ReactElement, useMemo } from "react";
+import { useT } from "../utils/i18n";
 
 export type StatusBarMetricType = "wordCount" | "characterCount" | "characterCountHtml";
 
@@ -33,6 +34,7 @@ function getHtmlCharCount(html: string): number {
 }
 
 export function StatusBar({ content, metricType }: StatusBarProps): ReactElement {
+    const t = useT();
     // Debounced metric calculation using useMemo
     // The metric updates only when content changes, providing built-in debouncing
     const metricValue = useMemo(() => {
@@ -51,22 +53,22 @@ export function StatusBar({ content, metricType }: StatusBarProps): ReactElement
     const displayText = useMemo(() => {
         switch (metricType) {
             case "wordCount":
-                return `Words: ${metricValue}`;
+                return t("statusBar.words", String(metricValue));
             case "characterCount":
-                return `Characters: ${metricValue}`;
+                return t("statusBar.characters", String(metricValue));
             case "characterCountHtml":
-                return `Characters (HTML): ${metricValue}`;
+                return t("statusBar.charactersHtml", String(metricValue));
             default:
                 return "";
         }
-    }, [metricType, metricValue]);
+    }, [t, metricType, metricValue]);
 
     return (
         <div
             className="rich-text-status-bar"
             tabIndex={0}
             role="region"
-            aria-label="Editor status bar"
+            aria-label={t("statusBar.label")}
             aria-live="polite"
         >
             <span className="status-bar-text">{displayText}</span>

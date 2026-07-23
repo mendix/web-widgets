@@ -1,7 +1,7 @@
 .toolbar-dialog,
 .link-dialog {
     background: white;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color-default, #ced0d3);
     border-radius: 4px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     min-width: 320px;
@@ -11,7 +11,7 @@
         padding: 8px 16px;
         font-size: 16px;
         font-weight: 600;
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid var(--border-color-default, #ced0d3);
     }
 
     .dialog-mode-selector {
@@ -19,7 +19,7 @@
         gap: 16px;
         margin-bottom: 16px;
         padding-bottom: 12px;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid var(--border-color-default, #ced0d3);
 
         .mode-option {
             display: flex;
@@ -42,56 +42,16 @@
         }
     }
 
-    .dialog-dropzone {
-        border: 1.5px dashed #ddd;
-        border-radius: 4px;
-        padding: 24px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        background: #fafafa;
-        margin-bottom: 12px;
-
-        &:hover {
-            border-color: #0078d4;
-            background: #f5f9ff;
-        }
-
-        &.drag-active {
-            border-color: #0078d4;
-            background-color: #e6f2ff;
-            border-style: solid;
-        }
-
-        &.drag-reject {
-            border-color: #d13438;
-            background-color: #fff5f5;
-        }
-
-        .dropzone-icon {
-            font-size: 32px;
-            color: #666;
-            margin-bottom: 8px;
-        }
-
-        .dropzone-text {
-            font-size: 13px;
-            color: #666;
-        }
-
-        .dropzone-error {
-            margin-top: 8px;
-            font-size: 12px;
-            color: #d13438;
-        }
-    }
+    // The image upload dropzone styling lives in ui/ImageUploadDropzone.scss
+    // (widget-prefixed classes) so it mirrors the file-uploader widget without
+    // leaking onto the embedded file-uploader rendered in the "Media Library" tab.
 
     .dialog-preview {
         display: flex;
         align-items: center;
         gap: 12px;
         padding: 10px;
-        border: 1px solid #ddd;
+        border: 1px solid var(--border-color-default, #ced0d3);
         border-radius: 4px;
         background: white;
         margin-bottom: 12px;
@@ -139,7 +99,7 @@
             border-radius: 3px;
 
             &:hover {
-                color: #d13438;
+                color: var(--brand-danger, #ea3337);
                 background: #f5f5f5;
             }
         }
@@ -148,7 +108,7 @@
     .image-dialog-entity {
         margin-bottom: 12px;
         padding: 12px;
-        border: 1px solid #ddd;
+        border: 1px solid var(--border-color-default, #ced0d3);
         border-radius: 4px;
         background: #fafafa;
         min-height: 100px;
@@ -174,14 +134,14 @@
         input[type="url"] {
             width: 100%;
             padding: 6px 8px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color-default, #ced0d3);
             border-radius: 3px;
             font-size: 13px;
             box-sizing: border-box;
 
             &:focus {
                 outline: none;
-                border-color: #0078d4;
+                border-color: var(--brand-primary, #264ae5);
             }
         }
 
@@ -212,23 +172,23 @@
         justify-content: flex-end;
         gap: 8px;
         padding: 8px 16px;
-        border-top: 1px solid black;
+        border-top: 1px solid var(--border-color-default, #ced0d3);
 
         button {
             padding: 6px 16px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color-default, #ced0d3);
             border-radius: 3px;
             font-size: 13px;
             cursor: pointer;
             background: white;
 
             &[type="submit"] {
-                background: #0078d4;
+                background: var(--brand-primary, #264ae5);
                 color: white;
-                border-color: #0078d4;
+                border-color: var(--brand-primary, #264ae5);
 
                 &:hover:not(:disabled) {
-                    background: #106ebe;
+                    background: var(--brand-primary-hover, #106ebe);
                 }
 
                 &:disabled {
@@ -259,16 +219,6 @@
         line-height: 1.5;
     }
 
-    .btn-primary {
-        background: #0078d4 !important;
-        color: white !important;
-        border-color: #0078d4 !important;
-
-        &:hover {
-            background: #106ebe !important;
-        }
-    }
-
     // Form styles for link dialog
     .form-group {
         margin-bottom: 16px;
@@ -296,15 +246,15 @@
 
             &:focus {
                 outline: none;
-                border-color: #0078d4;
-                box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
+                border-color: var(--brand-primary, #264ae5);
+                box-shadow: 0 0 0 3px rgba(38, 74, 229, 0.1);
             }
         }
 
         .form-hint {
             display: block;
             font-size: 11px;
-            color: #666;
+            color: var(--text-color-secondary, #666);
             margin-top: 4px;
         }
 
@@ -329,6 +279,62 @@
                 }
             }
         }
+    }
+}
+
+.help-dialog {
+    min-width: 360px;
+    max-width: 480px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+
+    .help-dialog-content {
+        max-height: 60vh;
+        overflow-y: auto;
+        padding: 8px 16px;
+    }
+
+    .help-category {
+        margin-bottom: 16px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .help-category-title {
+        margin: 0 0 6px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #666;
+    }
+
+    .help-shortcut-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .help-shortcut {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 4px 0;
+        font-size: 13px;
+        color: #333;
+    }
+
+    .help-shortcut-keys {
+        font-family: inherit;
+        font-size: 12px;
+        padding: 2px 6px;
+        border: 1px solid var(--border-color-default, #ced0d3);
+        border-radius: 3px;
+        background: var(--background-color-secondary, #f5f5f5);
+        color: var(--text-color-primary, #333);
+        white-space: nowrap;
     }
 }
 
@@ -429,7 +435,7 @@
 
     .dialog-info {
         padding: 8px 12px;
-        margin: 12px 0;
+        margin: var(--spacing-medium, 16px);
         background: #d1ecf1;
         color: #0c5460;
         border: 1px solid #bee5eb;

@@ -1,6 +1,7 @@
 import { BubbleMenu } from "@tiptap/react/menus";
 import { ReactElement, useState } from "react";
 import { useCurrentEditor } from "./EditorContext";
+import { useT } from "../utils/i18n";
 import { LinkDialog } from "./toolbars/components/LinkDialog";
 import { ToolbarDefaultButton } from "./toolbars/components/ToolbarDefaultButton";
 import "./LinkBubbleMenu.scss";
@@ -11,6 +12,7 @@ import "./LinkBubbleMenu.scss";
  */
 export function LinkBubbleMenu(): ReactElement | null {
     const { editor } = useCurrentEditor();
+    const t = useT();
     const [isEditing, setIsEditing] = useState(false);
     const [linkEl, setLinkEl] = useState<HTMLElement | null>(null);
 
@@ -61,8 +63,8 @@ export function LinkBubbleMenu(): ReactElement | null {
                 shouldShow={({ editor }) => editor.isEditable && editor.isActive("link") && !isEditing}
             >
                 <div className="link-bubble-menu">
-                    <ToolbarDefaultButton icon="Hyperlink" onClick={openEdit} title="Edit link" />
-                    <ToolbarDefaultButton icon="Erase" onClick={removeLink} title="Remove link" />
+                    <ToolbarDefaultButton icon="Hyperlink" onClick={openEdit} title={t("link.editLink")} />
+                    <ToolbarDefaultButton icon="Erase" onClick={removeLink} title={t("link.removeLink")} />
                 </div>
             </BubbleMenu>
             {isEditing && <LinkDialog referenceElement={linkEl} onClose={closeEdit} />}

@@ -100,6 +100,7 @@ export interface RichTextContainerProps {
     view: boolean;
     remove: boolean;
     tableBetter: boolean;
+    helpButton: boolean;
     advancedConfig: AdvancedConfigType[];
 }
 
@@ -151,5 +152,6 @@ export interface RichTextPreviewProps {
     view: boolean;
     remove: boolean;
     tableBetter: boolean;
+    helpButton: boolean;
     advancedConfig: AdvancedConfigPreviewType[];
 }

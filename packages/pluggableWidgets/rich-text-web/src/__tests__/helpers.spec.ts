@@ -1,4 +1,14 @@
-import { INDENT_MAGIC_NUMBER, isSafeCssColor, normalizeStyleAndClassAttribute } from "../utils/helpers";
+import {
+    INDENT_MAGIC_NUMBER,
+    isSafeCssBorderStyle,
+    isSafeCssColor,
+    isSafeCssFontFamily,
+    isSafeCssSize,
+    isSafeCssTextAlign,
+    isSafeLinkUrl,
+    normalizeCssSize,
+    normalizeStyleAndClassAttribute
+} from "../utils/helpers";
 
 function makeDoc(html: string): Document {
     const doc = document.implementation.createHTMLDocument();
@@ -80,6 +90,133 @@ describe("isSafeCssColor", () => {
             (global as any).CSS = { supports: jest.fn().mockReturnValue(false) };
             expect(isSafeCssColor("notacolor")).toBe(false);
         });
+    });
+});
+
+describe("isSafeCssSize", () => {
+    // jsdom lacks CSS.supports → exercises the regex allowlist fallback.
+    it("accepts px, %, em, rem, vw, vh, ch units", () => {
+        expect(isSafeCssSize("250px")).toBe(true);
+        expect(isSafeCssSize("100%")).toBe(true);
+        expect(isSafeCssSize("10em")).toBe(true);
+        expect(isSafeCssSize("2.5rem")).toBe(true);
+        expect(isSafeCssSize("80vw")).toBe(true);
+    });
+
+    it("accepts bare numbers and the auto keyword", () => {
+        expect(isSafeCssSize("300")).toBe(true);
+        expect(isSafeCssSize("auto")).toBe(true);
+    });
+
+    it("rejects empty and non-size text", () => {
+        expect(isSafeCssSize("")).toBe(false);
+        expect(isSafeCssSize("wide")).toBe(false);
+    });
+
+    it("rejects CSS injection payloads", () => {
+        expect(isSafeCssSize("100px} body{display:none")).toBe(false);
+        expect(isSafeCssSize("url(evil)")).toBe(false);
+        expect(isSafeCssSize("expression(alert(1))")).toBe(false);
+    });
+});
+
+describe("isSafeCssBorderStyle", () => {
+    it("accepts known border-style keywords (case-insensitive)", () => {
+        expect(isSafeCssBorderStyle("solid")).toBe(true);
+        expect(isSafeCssBorderStyle("Dashed")).toBe(true);
+        expect(isSafeCssBorderStyle("  double  ")).toBe(true);
+        expect(isSafeCssBorderStyle("none")).toBe(true);
+    });
+
+    it("rejects unknown keywords and injection payloads", () => {
+        expect(isSafeCssBorderStyle("solid; color: red")).toBe(false);
+        expect(isSafeCssBorderStyle("url(evil)")).toBe(false);
+        expect(isSafeCssBorderStyle("")).toBe(false);
+    });
+});
+
+describe("isSafeCssTextAlign", () => {
+    it("accepts known alignment keywords", () => {
+        expect(isSafeCssTextAlign("left")).toBe(true);
+        expect(isSafeCssTextAlign("CENTER")).toBe(true);
+        expect(isSafeCssTextAlign("justify")).toBe(true);
+    });
+
+    it("rejects unknown values and payloads", () => {
+        expect(isSafeCssTextAlign("left; display: none")).toBe(false);
+        expect(isSafeCssTextAlign("")).toBe(false);
+    });
+});
+
+describe("isSafeCssFontFamily", () => {
+    it("accepts ordinary font-family values", () => {
+        expect(isSafeCssFontFamily("Arial, sans-serif")).toBe(true);
+        expect(isSafeCssFontFamily("'Times New Roman', serif")).toBe(true);
+    });
+
+    it("rejects declaration-breakout payloads", () => {
+        expect(isSafeCssFontFamily("Arial; background: url(evil)")).toBe(false);
+        expect(isSafeCssFontFamily("Arial} body{display:none")).toBe(false);
+        expect(isSafeCssFontFamily("")).toBe(false);
+    });
+});
+
+describe("isSafeLinkUrl", () => {
+    it("accepts http, https, mailto and tel", () => {
+        expect(isSafeLinkUrl("https://example.com")).toBe(true);
+        expect(isSafeLinkUrl("http://example.com/path?q=1")).toBe(true);
+        expect(isSafeLinkUrl("mailto:a@b.com")).toBe(true);
+        expect(isSafeLinkUrl("tel:+15551234")).toBe(true);
+    });
+
+    it("accepts scheme-less relative URLs and fragments", () => {
+        expect(isSafeLinkUrl("/relative/path")).toBe(true);
+        expect(isSafeLinkUrl("#anchor")).toBe(true);
+        expect(isSafeLinkUrl("page.html")).toBe(true);
+    });
+
+    it("rejects javascript:, data: and vbscript: schemes", () => {
+        expect(isSafeLinkUrl("javascript:alert(1)")).toBe(false);
+        expect(isSafeLinkUrl("data:text/html,<script>alert(1)</script>")).toBe(false);
+        expect(isSafeLinkUrl("vbscript:msgbox(1)")).toBe(false);
+    });
+
+    it("rejects schemes obfuscated with control chars/whitespace", () => {
+        expect(isSafeLinkUrl("java\tscript:alert(1)")).toBe(false);
+        expect(isSafeLinkUrl("java\nscript:alert(1)")).toBe(false);
+        expect(isSafeLinkUrl(" javascript:alert(1)")).toBe(false);
+    });
+
+    it("rejects empty input", () => {
+        expect(isSafeLinkUrl("")).toBe(false);
+        expect(isSafeLinkUrl("   ")).toBe(false);
+    });
+});
+
+describe("normalizeCssSize", () => {
+    it("appends px to bare numbers", () => {
+        expect(normalizeCssSize("250")).toBe("250px");
+        expect(normalizeCssSize("12.5")).toBe("12.5px");
+    });
+
+    it("passes through valid unit values unchanged", () => {
+        expect(normalizeCssSize("100%")).toBe("100%");
+        expect(normalizeCssSize("250px")).toBe("250px");
+        expect(normalizeCssSize("auto")).toBe("auto");
+    });
+
+    it("trims whitespace", () => {
+        expect(normalizeCssSize("  100%  ")).toBe("100%");
+    });
+
+    it("returns null for empty input", () => {
+        expect(normalizeCssSize("")).toBeNull();
+        expect(normalizeCssSize("   ")).toBeNull();
+    });
+
+    it("returns null for invalid/unsafe input", () => {
+        expect(normalizeCssSize("garbage")).toBeNull();
+        expect(normalizeCssSize("100px} body{x:1")).toBeNull();
     });
 });
 

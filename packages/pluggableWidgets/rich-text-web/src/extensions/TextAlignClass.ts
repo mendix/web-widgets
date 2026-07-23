@@ -1,5 +1,6 @@
 import { Extension } from "@tiptap/core";
 import "@tiptap/extension-text-align";
+import { isSafeCssTextAlign } from "../utils/helpers";
 
 export interface TextAlignOptions {
     types: string[];
@@ -61,7 +62,7 @@ export const TextAlign = Extension.create<TextAlignOptions>({
                             }
                         },
                         renderHTML: attributes => {
-                            if (!attributes.textAlign) {
+                            if (!attributes.textAlign || !isSafeCssTextAlign(attributes.textAlign)) {
                                 return {};
                             }
 

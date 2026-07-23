@@ -1,5 +1,5 @@
-import { useEffect, useRef, RefObject } from "react";
 import { useFloating, offset, flip, shift, autoUpdate, Placement } from "@floating-ui/react";
+import { useEffect, useRef, RefObject } from "react";
 
 export interface UseDropdownOptions {
     isOpen: boolean;

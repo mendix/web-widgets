@@ -1,4 +1,5 @@
 import { Extension, getStyleProperty } from "@tiptap/core";
+import { isSafeCssColor } from "../utils/helpers";
 
 export type TextColorClassOptions = {
     types: string[];
@@ -46,7 +47,7 @@ export const TextColorClass = Extension.create<TextColorClassOptions>({
                             }
                         },
                         renderHTML: attributes => {
-                            if (!attributes.textColor) {
+                            if (!attributes.textColor || !isSafeCssColor(attributes.textColor)) {
                                 return {};
                             }
 

@@ -1,5 +1,7 @@
+import classNames from "classnames";
 import { ReactElement, useState, useRef, useEffect, FormEvent } from "react";
 import { useDropzone } from "react-dropzone";
+import { useT, TranslateFn } from "../../../utils/i18n";
 import { useCurrentEditor } from "../../EditorContext";
 import { ImageDialogProps, EntityImage, ImageSourceMode, MAX_FILE_SIZE } from "../helpers/toolbarTypes";
 import { useDropdown } from "../hooks/useDropdown";
@@ -11,18 +13,20 @@ const formatFileSize = (bytes: number): string => {
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 };
 
-const validateFile = (file: File): string | null => {
+const validateFile = (file: File, t: TranslateFn): string | null => {
     if (file.size > MAX_FILE_SIZE) {
-        return `File must be smaller than 5MB (current: ${formatFileSize(file.size)})`;
+        return t("image.errorTooLarge", formatFileSize(file.size));
     }
     if (!file.type.startsWith("image/")) {
-        return "Only image files are allowed";
+        return t("image.errorNotImage");
     }
     return null;
 };
 
-export function ImageDialog({ onClose, referenceElement, imageSourceContent }: ImageDialogProps): ReactElement {
-    const { editor } = useCurrentEditor();
+export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): ReactElement {
+    const { editor, imageConfig } = useCurrentEditor();
+    const { imageSourceContent, enableDefaultUpload, hasImageSource } = imageConfig;
+    const t = useT();
     const [activeTab, setActiveTab] = useState<ImageSourceMode>("url");
     const [src, setSrc] = useState("");
     const [alt, setAlt] = useState("");
@@ -72,7 +76,7 @@ export function ImageDialog({ onClose, referenceElement, imageSourceContent }: I
         }
 
         const file = acceptedFiles[0];
-        const error = validateFile(file);
+        const error = validateFile(file, t);
 
         if (error) {
             setDragError(error);
@@ -86,7 +90,7 @@ export function ImageDialog({ onClose, referenceElement, imageSourceContent }: I
             setUploadedFile(file);
         };
         reader.onerror = () => {
-            setDragError("Failed to read file");
+            setDragError(t("image.errorReadFailed"));
         };
         reader.readAsDataURL(file);
     };
@@ -97,7 +101,7 @@ export function ImageDialog({ onClose, referenceElement, imageSourceContent }: I
         setDragError("");
     };
 
-    const { getRootProps, getInputProps, isDragActive, isDragReject } = useDropzone({
+    const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
         onDrop: handleFileDrop,
         accept: {
             "image/*": [".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp", ".bmp"]
@@ -130,12 +134,16 @@ export function ImageDialog({ onClose, referenceElement, imageSourceContent }: I
 
     const handleImageSelected = (event: CustomEvent<EntityImage>): void => {
         const imageData = event.detail;
-
+        if (imageData.url && isPromise(imageData.url)) {
+            (imageData.url as unknown as Promise<string>).then((url: string) => {
+                // Use the URL for display, but we'll pass the ID for storage
+                setSrc(url);
+            });
+        } else {
+            setSrc(imageData.url as string);
+        }
         // Set the selected entity image
         setSelectedEntityImage(imageData);
-
-        // Use the URL for display, but we'll pass the ID for storage
-        setSrc(imageData.url);
 
         // Switch to entity tab if not already
         if (activeTab !== "entity") {
@@ -160,7 +168,7 @@ export function ImageDialog({ onClose, referenceElement, imageSourceContent }: I
         <div ref={refs.setFloating} style={{ ...floatingStyles, zIndex: 1000 }}>
             <div ref={dialogRef} className="toolbar-dialog image-dialog">
                 <form onSubmit={handleSubmit}>
-                    <h3>Insert Image</h3>
+                    <h3>{t("image.title")}</h3>
 
                     {/* Tab Navigation */}
                     <div className="dialog-tabs">
@@ -169,35 +177,39 @@ export function ImageDialog({ onClose, referenceElement, imageSourceContent }: I
                             className={activeTab === "url" ? "active" : ""}
                             onClick={() => handleTabChange("url")}
                         >
-                            URL
+                            {t("image.tabUrl")}
                         </button>
-                        <button
-                            type="button"
-                            className={activeTab === "upload" ? "active" : ""}
-                            onClick={() => handleTabChange("upload")}
-                        >
-                            Upload
-                        </button>
-                        <button
-                            type="button"
-                            className={activeTab === "entity" ? "active" : ""}
-                            onClick={() => handleTabChange("entity")}
-                        >
-                            Media Library
-                        </button>
+                        {enableDefaultUpload && (
+                            <button
+                                type="button"
+                                className={activeTab === "upload" ? "active" : ""}
+                                onClick={() => handleTabChange("upload")}
+                            >
+                                {t("image.tabUpload")}
+                            </button>
+                        )}
+                        {hasImageSource && (
+                            <button
+                                type="button"
+                                className={activeTab === "entity" ? "active" : ""}
+                                onClick={() => handleTabChange("entity")}
+                            >
+                                {t("image.tabMediaLibrary")}
+                            </button>
+                        )}
                     </div>
 
                     {/* URL Tab Content */}
                     {activeTab === "url" && (
                         <div className="tab-content">
                             <div className="dialog-field">
-                                <label htmlFor="image-src">Image URL</label>
+                                <label htmlFor="image-src">{t("image.url")}</label>
                                 <input
                                     id="image-src"
                                     type="text"
                                     value={src}
                                     onChange={e => setSrc(e.target.value)}
-                                    placeholder="https://example.com/image.jpg"
+                                    placeholder={t("image.urlPlaceholder")}
                                     autoFocus
                                 />
                             </div>
@@ -205,21 +217,39 @@ export function ImageDialog({ onClose, referenceElement, imageSourceContent }: I
                     )}
 
                     {/* Upload Tab Content */}
-                    {activeTab === "upload" && (
+                    {enableDefaultUpload && activeTab === "upload" && (
                         <div className="tab-content">
-                            <div
-                                {...getRootProps()}
-                                className={`dialog-dropzone ${isDragActive ? "drag-active" : ""} ${
-                                    isDragReject ? "drag-reject" : ""
-                                }`}
-                            >
-                                <input {...getInputProps()} />
-                                <div className="dropzone-icon">📁</div>
-                                <div className="dropzone-text">
-                                    {isDragActive ? "Drop image here..." : "Drag & drop image here, or click to browse"}
-                                </div>
-                                {dragError && <div className="dropzone-error">{dragError}</div>}
-                            </div>
+                            {(() => {
+                                const isReject = isDragActive && isDragReject;
+                                const isAccept = isDragActive && isDragAccept;
+                                const hasWarning = isReject || Boolean(dragError);
+                                const message = dragError
+                                    ? dragError
+                                    : isAccept
+                                      ? t("image.dropActive")
+                                      : isReject
+                                        ? t("image.dropRejected")
+                                        : t("image.dropIdle");
+
+                                return (
+                                    <div
+                                        {...getRootProps()}
+                                        className={classNames("image-dialog-dropzone", {
+                                            "image-dialog-dropzone--active": isAccept,
+                                            "image-dialog-dropzone--warning": hasWarning
+                                        })}
+                                    >
+                                        <div className="image-dialog-dropzone__icon" />
+                                        <p className="image-dialog-dropzone__text">
+                                            {hasWarning && (
+                                                <span className="image-dialog-dropzone__inline-icon image-dialog-dropzone__inline-icon--warning" />
+                                            )}
+                                            {message}
+                                        </p>
+                                        <input {...getInputProps()} />
+                                    </div>
+                                );
+                            })()}
 
                             {/* Preview - Only when file is uploaded */}
                             {uploadedFile && src && (
@@ -238,7 +268,7 @@ export function ImageDialog({ onClose, referenceElement, imageSourceContent }: I
                     )}
 
                     {/* Database Tab Content */}
-                    {activeTab === "entity" && (
+                    {hasImageSource && activeTab === "entity" && (
                         <div className="tab-content">
                             {/* Mendix widget for entity selection */}
                             <div className="image-dialog-entity">{imageSourceContent}</div>
@@ -252,7 +282,7 @@ export function ImageDialog({ onClose, referenceElement, imageSourceContent }: I
                                         className="preview-thumbnail"
                                     />
                                     <div className="preview-info">
-                                        <div className="preview-name">Image from database</div>
+                                        <div className="preview-name">{t("image.fromDatabase")}</div>
                                         <div className="preview-size">
                                             ID: {selectedEntityImage.id.substring(0, 8)}...
                                         </div>
@@ -274,39 +304,43 @@ export function ImageDialog({ onClose, referenceElement, imageSourceContent }: I
 
                     {/* Alt Text - Always visible */}
                     <div className="dialog-field">
-                        <label htmlFor="image-alt">Alt text (optional)</label>
+                        <label htmlFor="image-alt">{t("image.alt")}</label>
                         <input
                             id="image-alt"
                             type="text"
                             value={alt}
                             onChange={e => setAlt(e.target.value)}
-                            placeholder="Description of the image"
+                            placeholder={t("image.altPlaceholder")}
                         />
                     </div>
 
                     {/* Title - Always visible */}
                     <div className="dialog-field">
-                        <label htmlFor="image-title">Title (optional)</label>
+                        <label htmlFor="image-title">{t("image.titleField")}</label>
                         <input
                             id="image-title"
                             type="text"
                             value={title}
                             onChange={e => setTitle(e.target.value)}
-                            placeholder="Image title"
+                            placeholder={t("image.titlePlaceholder")}
                         />
                     </div>
 
                     {/* Action Buttons */}
                     <div className="dialog-actions">
                         <button type="button" onClick={onClose}>
-                            Cancel
+                            {t("image.cancel")}
                         </button>
-                        <button type="submit" disabled={!src.trim()}>
-                            Insert
+                        <button type="submit" disabled={!src?.trim()}>
+                            {t("image.insert")}
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     );
+}
+
+function isPromise(obj: any): boolean {
+    return obj !== null && typeof obj === "object" && typeof obj.then === "function";
 }

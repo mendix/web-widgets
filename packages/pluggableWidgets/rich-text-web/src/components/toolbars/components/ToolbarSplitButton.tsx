@@ -1,4 +1,5 @@
 import { ReactElement, useState, useRef, useEffect, KeyboardEvent } from "react";
+import { useT } from "../../../utils/i18n";
 import { useCurrentEditor } from "../../EditorContext";
 import { getIconForOrderedListStyle, OrderedListStyle } from "../helpers/listHelpers";
 import { useDropdown } from "../hooks/useDropdown";
@@ -16,6 +17,7 @@ type FocusedPart = "main" | "dropdown";
 
 export function ToolbarSplitButton({ config }: ToolbarSplitButtonProps): ReactElement {
     const { editor } = useCurrentEditor();
+    const t = useT();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [, setUpdateTrigger] = useState(0);
     const mainButtonRef = useRef<HTMLButtonElement>(null);
@@ -146,13 +148,13 @@ export function ToolbarSplitButton({ config }: ToolbarSplitButtonProps): ReactEl
     };
 
     return (
-        <div className={`split-button ${isActive ? "is-active" : ""}`} role="group" aria-label={config.title}>
+        <div className={`split-button ${isActive ? "is-active" : ""}`} role="group" aria-label={t(config.title)}>
             <ToolbarDefaultButton
                 ref={mainButtonRef}
                 onClick={handleMainClick}
                 onKeyDown={e => handleKeyDown(e, "main")}
                 className="split-button-main icon-button"
-                aria-label={`${config.title} - Toggle`}
+                aria-label={`${t(config.title)} - Toggle`}
                 aria-pressed={isActive}
             >
                 <span className={`icons icon-${currentIcon}`} />
@@ -163,7 +165,7 @@ export function ToolbarSplitButton({ config }: ToolbarSplitButtonProps): ReactEl
                 onClick={handleDropdownClick}
                 onKeyDown={e => handleKeyDown(e, "dropdown")}
                 className="split-button-dropdown"
-                aria-label={`${config.title} - Style options`}
+                aria-label={`${t(config.title)} - Style options`}
                 aria-expanded={isDropdownOpen}
                 aria-haspopup="menu"
             >
@@ -181,7 +183,7 @@ export function ToolbarSplitButton({ config }: ToolbarSplitButtonProps): ReactEl
                             role="menuitem"
                         >
                             {option.icon && <span className={`icons icon-${option.icon}`} />}
-                            <span>{option.label}</span>
+                            <span>{t(option.label)}</span>
                         </ToolbarDefaultButton>
                     ))}
                 </div>
