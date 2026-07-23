@@ -3,11 +3,11 @@ import { Fragment, ReactElement, useCallback, useMemo, useState } from "react";
 import { View } from "react-big-calendar";
 import { CalendarContainerProps } from "../typings/CalendarProps";
 import { CalendarPropsBuilder } from "./helpers/CalendarPropsBuilder";
+import { useCalendarEvents } from "./helpers/useCalendarEvents";
+import { useLocalizer } from "./helpers/useLocalizer";
 import { DnDCalendar } from "./utils/calendar-utils";
 import { constructWrapperStyle } from "./utils/style-utils";
 import "./ui/Calendar.scss";
-import { useCalendarEvents } from "./helpers/useCalendarEvents";
-import { useLocalizer } from "./helpers/useLocalizer";
 
 export default function MxCalendar(props: CalendarContainerProps): ReactElement {
     // useMemo with empty dependency array is used

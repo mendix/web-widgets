@@ -1,24 +1,24 @@
 import { ReactElement, useMemo, useCallback } from "react";
-import { CalendarProps } from "react-big-calendar";
-import {
-    getYear,
-    getMonth,
-    startOfYear,
-    endOfYear,
-    isAfter,
-    isBefore,
-    differenceInCalendarDays
-} from "../utils/calendar-utils";
-import { CalendarEvent } from "../utils/typings";
+import { CalendarProps, View } from "react-big-calendar";
 import { MonthMiniGrid } from "./MonthMiniGrid";
-import "../ui/YearView.scss";
+import { getYear, getMonth, startOfYear, endOfYear, isAfter, isBefore } from "../utils/calendar-utils";
+import { CalendarEvent } from "../utils/typings";
 
 export function YearView(props: CalendarProps): ReactElement {
-    const date = (props.date as Date) || new Date();
-    const events = (props.events as CalendarEvent[]) || [];
+    const propsDate = props.date as Date | undefined;
+    const propsEvents = props.events as CalendarEvent[] | undefined;
     const localizer = props.localizer;
-    const onNavigate = props.onNavigate;
-    const onView = props.onView;
+    const onDrillDown = props.onDrillDown;
+    // Injected by YearViewController.getComponent — the view to drill into on day-click,
+    // already resolved against the calendar's enabled views. `undefined` disables drill-down.
+    const dayClickView = (props as CalendarProps & { dayClickView?: string }).dayClickView;
+    const interactive = Boolean(dayClickView);
+
+    // Fall back to stable references (not `new Date()` / `[]` literals) so a missing
+    // date/events prop doesn't produce a new value every render and invalidate the
+    // eventsByMonth memo below on every re-render.
+    const date = useMemo(() => propsDate ?? new Date(), [propsDate]);
+    const events = useMemo(() => propsEvents ?? [], [propsEvents]);
     const year = getYear(date);
 
     // Group events by month (0-11)
@@ -35,43 +35,37 @@ export function YearView(props: CalendarProps): ReactElement {
         const yearEnd = endOfYear(date);
 
         events.forEach(event => {
-            // Check if event overlaps with this year
+            // Check if event overlaps with this year at all
             if (isAfter(event.end, yearStart) && isBefore(event.start, yearEnd)) {
-                const eventStartMonth = getMonth(event.start);
-                const eventEndMonth = getMonth(event.end);
-                const eventStartYear = getYear(event.start);
-                const eventEndYear = getYear(event.end);
+                // Clamp the event's span to this year's bounds so events crossing a year
+                // boundary (e.g. Dec 28 -> Jan 3) still get assigned to every month they
+                // touch WITHIN this year, instead of relying on start/end year matching.
+                const clampedStart = isBefore(event.start, yearStart) ? yearStart : event.start;
+                const clampedEnd = isAfter(event.end, yearEnd) ? yearEnd : event.end;
+                const startMonth = getMonth(clampedStart);
+                const endMonth = getMonth(clampedEnd);
 
-                // Add event to starting month if it's in this year
-                if (eventStartYear === year) {
-                    groups.get(eventStartMonth)?.push(event);
-                }
-
-                // Handle multi-month events
-                if (differenceInCalendarDays(event.end, event.start) > 0 && eventEndYear === year) {
-                    for (let m = eventStartMonth + 1; m <= Math.min(eventEndMonth, 11); m++) {
-                        if (groups.get(m) && !groups.get(m)?.includes(event)) {
-                            groups.get(m)?.push(event);
-                        }
-                    }
+                for (let m = startMonth; m <= endMonth; m++) {
+                    groups.get(m)?.push(event);
                 }
             }
         });
 
         return groups;
-    }, [events, year, date]);
+    }, [events, date]);
 
-    // Handle day click: navigate to that date and switch to day view
+    // Handle day click: drill into the configured target view for that date. Use RBC's
+    // onDrillDown (not onNavigate+onView directly) so the target view is validated against
+    // the calendar's enabled views before switching. `dayClickView` is already resolved to
+    // an enabled view (or undefined) by CalendarPropsBuilder; when undefined, day-click is
+    // disabled and cells render as non-interactive (see `interactive` below).
     const handleDayClick = useCallback(
         (clickedDate: Date) => {
-            if (onNavigate) {
-                onNavigate(clickedDate, "day", "DATE");
-            }
-            if (onView) {
-                onView("day");
+            if (dayClickView) {
+                onDrillDown?.(clickedDate, dayClickView as View);
             }
         },
-        [onNavigate, onView]
+        [onDrillDown, dayClickView]
     );
 
     return (
@@ -83,7 +77,7 @@ export function YearView(props: CalendarProps): ReactElement {
                         year={year}
                         month={monthIndex}
                         events={eventsByMonth.get(monthIndex) || []}
-                        onDayClick={handleDayClick}
+                        onDayClick={interactive ? handleDayClick : undefined}
                         localizer={localizer}
                     />
                 ))}

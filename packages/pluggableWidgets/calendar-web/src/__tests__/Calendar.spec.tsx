@@ -78,6 +78,7 @@ const customViewProps: CalendarContainerProps = {
     view: "custom",
     defaultViewStandard: "month",
     defaultViewCustom: "work_week",
+    yearDayClickView: "day",
     editable: dynamic.available(true),
     showEventDate: dynamic.available(true),
     widthUnit: "percentage",
@@ -261,6 +262,50 @@ describe("CalendarPropsBuilder validation", () => {
         const result = buildWithStepTimeslots(30, 2);
         expect(result.step).toBe(30);
         expect(result.timeslots).toBe(2);
+    });
+
+    const buildWithToolbarItems = (
+        itemTypes: string[],
+        yearDayClickView: CalendarContainerProps["yearDayClickView"] = "day"
+    ): ReturnType<typeof CalendarPropsBuilder.prototype.build> => {
+        const props = {
+            ...customViewProps,
+            yearDayClickView,
+            toolbarItems: itemTypes.map(itemType => ({
+                itemType,
+                position: "right",
+                renderMode: "button",
+                buttonStyle: "default"
+            }))
+        } as any;
+        return new CalendarPropsBuilder(props).build(mockLocalizer, "en");
+    };
+
+    it("does not register a day view purely because year is enabled (no phantom registration)", () => {
+        // Year view no longer force-registers day. With year+month configured and the
+        // day-click target left at its "day" default (which is NOT enabled here), day
+        // stays unregistered — the drill-down is disabled instead.
+        const views = buildWithToolbarItems(["year", "month"]).views as Record<string, unknown>;
+        expect(views.day).toBe(false);
+        expect(views.year).toBeTruthy();
+    });
+
+    it("does not register day view in custom mode when neither day nor year is configured", () => {
+        const views = buildWithToolbarItems(["month", "week"]).views as Record<string, unknown>;
+        expect(views.day).toBe(false);
+    });
+
+    it("keeps day registered when a day toolbar item is configured alongside year", () => {
+        const views = buildWithToolbarItems(["year", "day"]).views as Record<string, unknown>;
+        expect(views.day).toBe(true);
+        expect(views.year).toBeTruthy();
+    });
+
+    it("does not register a view just because it is the year day-click target", () => {
+        // Choosing month as the day-click target must NOT register month unless the author
+        // added a month toolbar item — the target is constrained to already-enabled views.
+        const views = buildWithToolbarItems(["year", "week"], "month").views as Record<string, unknown>;
+        expect(views.month).toBe(false);
     });
 });
 

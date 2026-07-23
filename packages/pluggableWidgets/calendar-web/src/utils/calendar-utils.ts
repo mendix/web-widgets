@@ -1,8 +1,3 @@
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
-import { CalendarEvent } from "./typings";
-import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
-import "react-big-calendar/lib/css/react-big-calendar.css";
 import {
     addDays,
     addMonths,
@@ -29,6 +24,12 @@ import {
     startOfWeek,
     startOfYear
 } from "date-fns";
+import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
+import { CalendarEvent } from "./typings";
+
 import type { MXLocaleDates, MXLocaleNumbers, MXLocalePatterns, MXSessionData } from "../../typings/global";
 
 // Utility to lighten hex colors. Accepts #RGB or #RRGGBB.

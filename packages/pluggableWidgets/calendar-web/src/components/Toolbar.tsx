@@ -32,13 +32,16 @@ export function CustomToolbar({ label, localizer, onNavigate, onView, view, view
             <div className="btn-group calendar-toolbar-right">
                 {Array.isArray(views) &&
                     views.map(name => {
+                        // react-big-calendar's Messages type has no "year" key (year is a custom view),
+                        // so fall back to a literal caption for it, same as createConfigurableToolbar does.
+                        const caption = (name as string) === "year" ? "Year" : localizer.messages[name];
                         return (
                             <Button
                                 key={name}
                                 onClick={() => handleView(name)}
                                 className={classNames("btn", "btn-default", { active: view === name })}
                             >
-                                {localizer.messages[name]}
+                                {caption}
                             </Button>
                         );
                     })}

@@ -101,6 +101,17 @@
                         <enumerationValue key="year">Year</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="yearDayClickView" type="enumeration" defaultValue="day">
+                    <caption>Year view: day click opens</caption>
+                    <description>Which view opens when a day is clicked in the Year view. Only applies if that view is enabled; otherwise clicking a day does nothing.</description>
+                    <enumerationValues>
+                        <enumerationValue key="day">Day</enumerationValue>
+                        <enumerationValue key="week">Week</enumerationValue>
+                        <enumerationValue key="work_week">Work week</enumerationValue>
+                        <enumerationValue key="month">Month</enumerationValue>
+                        <enumerationValue key="agenda">Agenda</enumerationValue>
+                    </enumerationValues>
+                </property>
                 <property key="showEventDate" type="expression" defaultValue="true">
                     <caption>Show event date range</caption>
                     <description>Show the start and end date of the event</description>
