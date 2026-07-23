@@ -91,9 +91,11 @@ export function preview(props: CalendarPreviewProps): ReactElement {
             : CustomToolbar;
 
     const defaultView = isCustomView ? props.defaultViewCustom : props.defaultViewStandard;
+    // "year" is a custom view (not in react-big-calendar's View union), included here so the
+    // Year view button/preview shows up in Studio Pro's editor preview like it does at runtime.
     const views: View[] = isCustomView
-        ? (["day", "week", "month", "work_week"] as View[])
-        : (["day", "week", "month"] as View[]);
+        ? (["day", "week", "month", "work_week", "year"] as View[])
+        : (["day", "week", "month", "year"] as View[]);
 
     return (
         <div className={classnames("widget-events-preview", "widget-calendar", className)} style={wrapperStyle}>

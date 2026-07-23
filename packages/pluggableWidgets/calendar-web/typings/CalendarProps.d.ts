@@ -14,7 +14,6 @@ import {
     Option
 } from "mendix";
 import { CSSProperties } from "react";
-import { ActionValue, DynamicValue, EditableValue, ListValue, Option, ListActionValue, ListAttributeValue, ListExpressionValue } from "mendix";
 
 export type TitleTypeEnum = "attribute" | "expression";
 
@@ -23,6 +22,8 @@ export type ViewEnum = "standard" | "custom";
 export type DefaultViewStandardEnum = "day" | "week" | "month" | "year";
 
 export type DefaultViewCustomEnum = "day" | "week" | "month" | "work_week" | "agenda" | "year";
+
+export type YearDayClickViewEnum = "day" | "week" | "work_week" | "month" | "agenda";
 
 export type ItemTypeEnum = "day" | "month" | "agenda" | "week" | "work_week" | "year" | "title" | "previous" | "next" | "today";
 
@@ -93,6 +94,7 @@ export interface CalendarContainerProps {
     view: ViewEnum;
     defaultViewStandard: DefaultViewStandardEnum;
     defaultViewCustom: DefaultViewCustomEnum;
+    yearDayClickView: YearDayClickViewEnum;
     showEventDate: DynamicValue<boolean>;
     timeFormat?: DynamicValue<string>;
     topBarDateFormat?: DynamicValue<string>;
@@ -154,6 +156,7 @@ export interface CalendarPreviewProps {
     view: ViewEnum;
     defaultViewStandard: DefaultViewStandardEnum;
     defaultViewCustom: DefaultViewCustomEnum;
+    yearDayClickView: YearDayClickViewEnum;
     showEventDate: string;
     timeFormat: string;
     topBarDateFormat: string;

@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { KeyboardEvent, ReactElement } from "react";
 import {
     startOfMonth,
     getDaysInMonth,
@@ -16,7 +16,9 @@ interface MonthMiniGridProps {
     year: number;
     month: number; // 0-11
     events: CalendarEvent[];
-    onDayClick: (date: Date) => void;
+    // Optional: when omitted, day cells are non-interactive (no click/keyboard/role/tabIndex).
+    // This is how the Year view reflects a day-click target that isn't an enabled view.
+    onDayClick?: (date: Date) => void;
     localizer: any;
 }
 
@@ -40,6 +42,7 @@ function eventOccursOnDay(dayDate: Date, event: CalendarEvent): boolean {
 
 export function MonthMiniGrid({ year, month, events, onDayClick, localizer }: MonthMiniGridProps): ReactElement {
     const today = new Date();
+    const interactive = Boolean(onDayClick);
 
     // Get month info
     const monthStart = startOfMonth(new Date(year, month, 1));
@@ -147,21 +150,25 @@ export function MonthMiniGrid({ year, month, events, onDayClick, localizer }: Mo
                                   : `${cell.eventCount} events`
                         }`;
 
+                        // When non-interactive (no drill-down target), cells drop the
+                        // button role, tab stop, and click/keyboard handlers, but keep the
+                        // aria-label so the date and event count remain readable.
+                        const interactiveProps = interactive
+                            ? {
+                                  onClick: () => onDayClick?.(cell.date),
+                                  onKeyDown: (e: KeyboardEvent) => {
+                                      if (e.key === "Enter" || e.key === " ") {
+                                          e.preventDefault();
+                                          onDayClick?.(cell.date);
+                                      }
+                                  },
+                                  tabIndex: 0,
+                                  role: "button"
+                              }
+                            : {};
+
                         return (
-                            <div
-                                key={index}
-                                className={cellClasses}
-                                onClick={() => onDayClick(cell.date)}
-                                onKeyDown={e => {
-                                    if (e.key === "Enter" || e.key === " ") {
-                                        e.preventDefault();
-                                        onDayClick(cell.date);
-                                    }
-                                }}
-                                tabIndex={0}
-                                role="button"
-                                aria-label={ariaLabel}
-                            >
+                            <div key={index} className={cellClasses} aria-label={ariaLabel} {...interactiveProps}>
                                 <span className="year-day-number">{cell.dayNumber}</span>
                                 {cell.hasEvents && <span className="year-event-dot" />}
                             </div>
