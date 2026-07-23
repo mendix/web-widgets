@@ -78,7 +78,8 @@ const customViewProps: CalendarContainerProps = {
     view: "custom",
     defaultViewStandard: "month",
     defaultViewCustom: "work_week",
-    yearDayClickView: "day",
+    yearDayClickViewStandard: "day",
+    yearDayClickViewCustom: "day",
     editable: dynamic.available(true),
     showEventDate: dynamic.available(true),
     widthUnit: "percentage",
@@ -266,11 +267,11 @@ describe("CalendarPropsBuilder validation", () => {
 
     const buildWithToolbarItems = (
         itemTypes: string[],
-        yearDayClickView: CalendarContainerProps["yearDayClickView"] = "day"
+        yearDayClickView: CalendarContainerProps["yearDayClickViewCustom"] = "day"
     ): ReturnType<typeof CalendarPropsBuilder.prototype.build> => {
         const props = {
             ...customViewProps,
-            yearDayClickView,
+            yearDayClickViewCustom: yearDayClickView,
             toolbarItems: itemTypes.map(itemType => ({
                 itemType,
                 position: "right",
@@ -306,6 +307,21 @@ describe("CalendarPropsBuilder validation", () => {
         // added a month toolbar item — the target is constrained to already-enabled views.
         const views = buildWithToolbarItems(["year", "week"], "month").views as Record<string, unknown>;
         expect(views.month).toBe(false);
+    });
+
+    const buildStandard = (
+        yearDayClickViewStandard: CalendarContainerProps["yearDayClickViewStandard"]
+    ): ReturnType<typeof CalendarPropsBuilder.prototype.build> => {
+        const props = { ...customViewProps, view: "standard", yearDayClickViewStandard } as any;
+        return new CalendarPropsBuilder(props).build(mockLocalizer, "en");
+    };
+
+    it("resolves the standard-mode day-click view against the fixed day/week/month set", () => {
+        // Standard mode always enables day/week/month/year, so a standard target of "month"
+        // is honored: month is a registered view and the year view is available to drill from.
+        const views = buildStandard("month").views as Record<string, unknown>;
+        expect(views.month).toBe(true);
+        expect(views.year).toBeTruthy();
     });
 });
 

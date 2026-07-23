@@ -34,6 +34,7 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
     if (values.view === "standard") {
         hidePropertiesIn(defaultProperties, values, [
             "defaultViewCustom",
+            "yearDayClickViewCustom",
             "toolbarItems",
             "customViewShowMonday",
             "customViewShowTuesday",
@@ -44,7 +45,12 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
             "customViewShowSunday"
         ]);
     } else {
-        hidePropertiesIn(defaultProperties, values, ["defaultViewStandard", "topBarDateFormat", "timeFormat"]);
+        hidePropertiesIn(defaultProperties, values, [
+            "defaultViewStandard",
+            "yearDayClickViewStandard",
+            "topBarDateFormat",
+            "timeFormat"
+        ]);
     }
 
     values.toolbarItems?.forEach((item, index) => {

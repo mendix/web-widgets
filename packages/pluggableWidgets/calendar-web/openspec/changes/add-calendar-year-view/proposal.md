@@ -27,7 +27,7 @@ Users need a year-at-a-glance view to see events across all 12 months simultaneo
 
 **Code Changes:**
 
-- **XML Configuration** (`Calendar.xml`): Add "year" enum value to `defaultViewStandard`, `defaultViewCustom`, and toolbar `itemType` properties; add top-level `yearDayClickView` enum (day/week/work_week/month/agenda) controlling the day-click target
+- **XML Configuration** (`Calendar.xml`): Add "year" enum value to `defaultViewStandard`, `defaultViewCustom`, and toolbar `itemType` properties; add per-mode day-click target enums `yearDayClickViewStandard` (day/week/month) and `yearDayClickViewCustom` (day/week/work_week/month/agenda), each shown only in its matching view mode via `Calendar.editorConfig.ts`
 - **Type Definitions** (`CalendarProps.d.ts`): Auto-generated types will include "year" in view enums
 - **View Registration** (`CalendarPropsBuilder.ts`): Update `buildVisibleViews()` to include year view component, update type unions
 - **Toolbar** (`Toolbar.tsx`): Add "year" to `ResolvedToolbarItem` type and render logic

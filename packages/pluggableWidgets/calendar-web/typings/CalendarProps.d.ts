@@ -23,7 +23,9 @@ export type DefaultViewStandardEnum = "day" | "week" | "month" | "year";
 
 export type DefaultViewCustomEnum = "day" | "week" | "month" | "work_week" | "agenda" | "year";
 
-export type YearDayClickViewEnum = "day" | "week" | "work_week" | "month" | "agenda";
+export type YearDayClickViewStandardEnum = "day" | "week" | "month";
+
+export type YearDayClickViewCustomEnum = "day" | "week" | "work_week" | "month" | "agenda";
 
 export type ItemTypeEnum = "day" | "month" | "agenda" | "week" | "work_week" | "year" | "title" | "previous" | "next" | "today";
 
@@ -94,7 +96,8 @@ export interface CalendarContainerProps {
     view: ViewEnum;
     defaultViewStandard: DefaultViewStandardEnum;
     defaultViewCustom: DefaultViewCustomEnum;
-    yearDayClickView: YearDayClickViewEnum;
+    yearDayClickViewStandard: YearDayClickViewStandardEnum;
+    yearDayClickViewCustom: YearDayClickViewCustomEnum;
     showEventDate: DynamicValue<boolean>;
     timeFormat?: DynamicValue<string>;
     topBarDateFormat?: DynamicValue<string>;
@@ -156,7 +159,8 @@ export interface CalendarPreviewProps {
     view: ViewEnum;
     defaultViewStandard: DefaultViewStandardEnum;
     defaultViewCustom: DefaultViewCustomEnum;
-    yearDayClickView: YearDayClickViewEnum;
+    yearDayClickViewStandard: YearDayClickViewStandardEnum;
+    yearDayClickViewCustom: YearDayClickViewCustomEnum;
     showEventDate: string;
     timeFormat: string;
     topBarDateFormat: string;
