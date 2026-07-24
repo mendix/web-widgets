@@ -26,6 +26,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where the widget crashed when using the "On filter input change" action with the new string behavior enabled.
 
+- We improved screen reader accessibility by fixing accessible name announcements, hiding decorative icons, and preventing menu exposure when closed.
+
 ### Changed
 
 - The combobox menu now keeps a stable position and, when there is not enough space, shrinks and scrolls instead of overflowing the viewport.
