@@ -227,10 +227,11 @@ describe("Combo box (Association)", () => {
             expect(iconWrapper).toHaveAttribute("aria-hidden", "true");
         });
 
-        it("does not render menu list when closed", () => {
+        it("hides menu list from assistive technologies when closed", () => {
             const component = render(<Combobox {...defaultProps} />);
             const menuList = component.container.querySelector(".widget-combobox-menu-list");
-            expect(menuList).not.toBeInTheDocument();
+            expect(menuList).toBeInTheDocument();
+            expect(menuList).toHaveAttribute("aria-hidden", "true");
         });
 
         it("renders menu list when open with items", async () => {
@@ -241,6 +242,7 @@ describe("Combo box (Association)", () => {
             await waitFor(() => {
                 const menuList = component.container.querySelector(".widget-combobox-menu-list");
                 expect(menuList).toBeInTheDocument();
+                expect(menuList).not.toHaveAttribute("aria-hidden");
                 expect(component.getAllByRole("option")).toHaveLength(4);
             });
         });
@@ -257,6 +259,7 @@ describe("Combo box (Association)", () => {
             await waitFor(() => {
                 const menuList = component.container.querySelector(".widget-combobox-menu-list");
                 expect(menuList).toBeInTheDocument();
+                expect(menuList).not.toHaveAttribute("aria-hidden");
                 const placeholder = component.container.querySelector(".widget-combobox-no-options");
                 expect(placeholder).toBeInTheDocument();
             });
