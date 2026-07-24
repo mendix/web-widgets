@@ -85,6 +85,7 @@ exports[`Combo box (Static values) renders combobox widget 1`] = `
     </div>
     <div
       class="widget-combobox-menu widget-combobox-menu-hidden"
+<<<<<<< HEAD
       style="--this-is-mocked-from-unit-tests: true;"
     />
   </div>
