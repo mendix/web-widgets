@@ -51,22 +51,22 @@ describe("Combo box (Association)", () => {
             optionsSourceAssociationCaptionExpression: listExpression(() => "$currentObject/CountryName"),
             optionsSourceAssociationCustomContentType: "no",
             optionsSourceAssociationCustomContent: undefined,
-            emptyOptionText: dynamic.available("Select an option 111"),
-            ariaRequired: dynamic.available(true),
+            emptyOptionText: dynamic("Select an option 111"),
+            ariaRequired: dynamic(true),
             clearable: true,
             filterType: "contains",
             selectedItemsStyle: "text",
             readOnlyStyle: "bordered",
             lazyLoading: false,
             loadingType: "spinner",
-            clearButtonAriaLabel: dynamic.available("Clear selection"),
-            removeValueAriaLabel: dynamic.available("Remove value"),
-            selectAllButtonCaption: dynamic.available("Select All"),
+            clearButtonAriaLabel: dynamic("Clear selection"),
+            removeValueAriaLabel: dynamic("Remove value"),
+            selectAllButtonCaption: dynamic("Select All"),
             selectAllButton: false,
             selectionMethod: "checkbox",
-            a11ySelectedValue: dynamic.available("Selected value:"),
-            a11yOptionsAvailable: dynamic.available("Options available:"),
-            a11yInstructions: dynamic.available("a11yInstructions"),
+            a11ySelectedValue: dynamic("Selected value:"),
+            a11yOptionsAvailable: dynamic("Options available:"),
+            a11yInstructions: dynamic("a11yInstructions"),
             showFooter: false,
             databaseAttributeString: new EditableValueBuilder<string | Big>().build(),
             optionsSourceDatabaseCaptionType: "attribute",
@@ -75,23 +75,23 @@ describe("Combo box (Association)", () => {
             staticAttribute: new EditableValueBuilder<string>().build(),
             optionsSourceStaticDataSource: [
                 {
-                    staticDataSourceValue: dynamic.available("value1"),
+                    staticDataSourceValue: dynamic("value1"),
                     staticDataSourceCustomContent: undefined,
-                    staticDataSourceCaption: dynamic.available("caption1")
+                    staticDataSourceCaption: dynamic("caption1")
                 },
                 {
-                    staticDataSourceValue: dynamic.available("value2"),
+                    staticDataSourceValue: dynamic("value2"),
                     staticDataSourceCustomContent: undefined,
-                    staticDataSourceCaption: dynamic.available("caption2")
+                    staticDataSourceCaption: dynamic("caption2")
                 }
             ],
             selectedItemsSorting: "none",
             customEditability: "default",
-            customEditabilityExpression: dynamic.available(false),
+            customEditabilityExpression: dynamic(false),
             filterInputDebounceInterval: 200
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
-            defaultProps.optionsSourceAssociationCaptionExpression!.get = i => dynamic.available(`${i.id}`);
+            defaultProps.optionsSourceAssociationCaptionExpression!.get = i => dynamic(`${i.id}`);
         }
     });
     it("renders combobox widget", () => {
