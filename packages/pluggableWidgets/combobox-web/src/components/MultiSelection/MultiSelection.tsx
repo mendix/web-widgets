@@ -98,16 +98,17 @@ export function MultiSelection({
     });
 
     const inputLabel = getInputLabel(options.inputId);
+    const ariaLabelledBy = inputProps["aria-labelledby"];
     const ariaLabels = useMemo(
         () =>
             getComboboxAriaLabels({
                 hasSelection: selectedItems.length > 0,
                 selectedValue: selectedItems.map(id => selector.caption.get(id)).join(", "),
                 inputLabel,
-                labelledBy: inputProps["aria-labelledby"],
+                labelledBy: ariaLabelledBy,
                 fallbackAriaLabel: options.ariaLabel
             }),
-        [selectedItems, inputLabel, inputProps, options.ariaLabel, selector.caption]
+        [selectedItems, inputLabel, ariaLabelledBy, options.ariaLabel, selector.caption]
     );
 
     return (
