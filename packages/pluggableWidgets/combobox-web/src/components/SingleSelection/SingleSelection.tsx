@@ -87,14 +87,13 @@ export function SingleSelection({
     const ariaLabels = useMemo(
         () =>
             getComboboxAriaLabels({
-                isOpen,
                 hasSelection: Boolean(selectedItem),
                 selectedValue: selectedItem ? selector.caption.get(selectedItem) : "",
                 inputLabel,
                 labelledBy: inputProps["aria-labelledby"],
                 fallbackAriaLabel: options.ariaLabel
             }),
-        [isOpen, selectedItem, inputLabel, inputProps, options.ariaLabel, selector.caption]
+        [selectedItem, inputLabel, inputProps, options.ariaLabel, selector.caption]
     );
 
     return (

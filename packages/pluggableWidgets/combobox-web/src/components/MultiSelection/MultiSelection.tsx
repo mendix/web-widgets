@@ -101,14 +101,13 @@ export function MultiSelection({
     const ariaLabels = useMemo(
         () =>
             getComboboxAriaLabels({
-                isOpen,
                 hasSelection: selectedItems.length > 0,
                 selectedValue: selectedItems.map(id => selector.caption.get(id)).join(", "),
                 inputLabel,
                 labelledBy: inputProps["aria-labelledby"],
                 fallbackAriaLabel: options.ariaLabel
             }),
-        [isOpen, selectedItems, inputLabel, inputProps, options.ariaLabel, selector.caption]
+        [selectedItems, inputLabel, inputProps, options.ariaLabel, selector.caption]
     );
 
     return (

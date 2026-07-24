@@ -173,7 +173,6 @@ export function getValidationErrorId(inputId?: string): string | undefined {
  * aria-label to be announced, we must NOT set aria-labelledby at all.
  */
 export function getComboboxAriaLabels(params: {
-    isOpen: boolean;
     hasSelection: boolean;
     selectedValue: string;
     inputLabel: Element | null;
