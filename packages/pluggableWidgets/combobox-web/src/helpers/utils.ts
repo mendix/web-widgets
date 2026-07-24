@@ -157,3 +157,49 @@ export function getInputLabel(inputId: string): Element | null {
 export function getValidationErrorId(inputId?: string): string | undefined {
     return inputId ? inputId + "-validation-message" : undefined;
 }
+
+/**
+ * Computes aria-label and aria-labelledby values for combobox input element.
+ *
+ * Announcement logic:
+ * - With selection (open or closed): Announce "name, selected value(s)"
+ * - Without selection: Announce "name" only
+ *
+ * Name source:
+ * - hasLabel = true: Use visible label via aria-labelledby
+ * - hasLabel = false: Use fallback aria-label
+ *
+ * Note: aria-labelledby has the highest precedence in the ARIA spec, so when we want
+ * aria-label to be announced, we must NOT set aria-labelledby at all.
+ */
+export function getComboboxAriaLabels(params: {
+    isOpen: boolean;
+    hasSelection: boolean;
+    selectedValue: string;
+    inputLabel: Element | null;
+    labelledBy: string | undefined;
+    fallbackAriaLabel?: string;
+}): { ariaLabel: string | undefined; ariaLabelledBy: string | undefined } {
+    const { hasSelection, selectedValue, inputLabel, labelledBy, fallbackAriaLabel } = params;
+
+    const hasLabel = Boolean(inputLabel);
+    const labelText = inputLabel?.textContent?.trim() || fallbackAriaLabel;
+
+    let ariaLabel: string | undefined;
+
+    // With selection: announce both name and selected value(s)
+    if (hasSelection) {
+        const name = hasLabel ? labelText : fallbackAriaLabel;
+        ariaLabel = name ? `${name}, ${selectedValue}` : selectedValue;
+    }
+    // No visible label: always use fallback aria-label
+    else if (!hasLabel) {
+        ariaLabel = fallbackAriaLabel;
+    }
+    // Otherwise: use aria-labelledby for visible label (when no selection)
+
+    return {
+        ariaLabel,
+        ariaLabelledBy: ariaLabel ? undefined : hasLabel ? labelledBy : undefined
+    };
+}

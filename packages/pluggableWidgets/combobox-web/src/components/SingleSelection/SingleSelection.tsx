@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { Fragment, KeyboardEventHandler, ReactElement, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
-import { getInputLabel, getValidationErrorId } from "../../helpers/utils";
+import { getComboboxAriaLabels, getInputLabel, getValidationErrorId } from "../../helpers/utils";
 import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
 import { useFloatingMenu } from "../../hooks/useFloatingMenu";
 import { useLazyLoading } from "../../hooks/useLazyLoading";
@@ -59,10 +59,7 @@ export function SingleSelection({
         ]
     );
 
-    const inputLabel = getInputLabel(options.inputId);
     const errorId = getValidationErrorId(options.inputId);
-    const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
-    const labelText = inputLabel?.textContent?.trim() || "";
     const onInputKeyDown = useMemo<KeyboardEventHandler<HTMLInputElement> | undefined>(() => {
         if (!selector.clearable) {
             return undefined;
@@ -81,11 +78,25 @@ export function SingleSelection({
             readOnly: selector.options.filterType === "none",
             ref: inputRef,
             "aria-required": ariaRequired.value,
-            "aria-label": !hasLabel && options.ariaLabel ? options.ariaLabel : undefined,
             onKeyDown: onInputKeyDown
         },
         { suppressRefError: true }
     );
+
+    const inputLabel = getInputLabel(options.inputId);
+    const ariaLabels = useMemo(
+        () =>
+            getComboboxAriaLabels({
+                isOpen,
+                hasSelection: Boolean(selectedItem),
+                selectedValue: selectedItem ? selector.caption.get(selectedItem) : "",
+                inputLabel,
+                labelledBy: inputProps["aria-labelledby"],
+                fallbackAriaLabel: options.ariaLabel
+            }),
+        [isOpen, selectedItem, inputLabel, inputProps, options.ariaLabel, selector.caption]
+    );
+
     return (
         <Fragment>
             <ComboboxWrapper
@@ -111,16 +122,8 @@ export function SingleSelection({
                         tabIndex={tabIndex}
                         {...inputProps}
                         placeholder=" "
-                        aria-label={
-                            !isOpen && selectedItem && hasLabel
-                                ? `${labelText}, ${selector.caption.get(selectedItem)}`
-                                : !isOpen && selectedItem
-                                  ? selector.caption.get(selectedItem)
-                                  : !hasLabel
-                                    ? options.ariaLabel
-                                    : undefined
-                        }
-                        aria-labelledby={hasLabel && isOpen ? inputProps["aria-labelledby"] : undefined}
+                        aria-label={ariaLabels.ariaLabel}
+                        aria-labelledby={ariaLabels.ariaLabelledBy}
                         aria-describedby={selector.validation ? errorId : undefined}
                         aria-invalid={selector.validation ? true : undefined}
                         aria-busy={selector.options.isLoading || undefined}

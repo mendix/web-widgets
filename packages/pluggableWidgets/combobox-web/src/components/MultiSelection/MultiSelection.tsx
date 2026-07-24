@@ -2,7 +2,12 @@ import classNames from "classnames";
 import { Fragment, KeyboardEvent, ReactElement, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
-import { getInputLabel, getSelectedCaptionsPlaceholder, getValidationErrorId } from "../../helpers/utils";
+import {
+    getComboboxAriaLabels,
+    getInputLabel,
+    getSelectedCaptionsPlaceholder,
+    getValidationErrorId
+} from "../../helpers/utils";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
 import { useFloatingMenu } from "../../hooks/useFloatingMenu";
 import { useLazyLoading } from "../../hooks/useLazyLoading";
@@ -45,10 +50,7 @@ export function MultiSelection({
     const { refs, floatingStyles } = useFloatingMenu(keepMenuOpen === true ? false : isOpen);
     const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
     const isOptionsSelected = selector.isOptionsSelected();
-    const inputLabel = getInputLabel(options.inputId);
     const errorId = getValidationErrorId(options.inputId);
-    const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
-    const labelText = inputLabel?.textContent?.trim() || "";
     const inputProps = getInputProps({
         ...getDropdownProps(
             {
@@ -74,8 +76,7 @@ export function MultiSelection({
         },
         disabled: selector.readOnly,
         readOnly: selector.options.filterType === "none",
-        "aria-required": ariaRequired.value,
-        "aria-label": !hasLabel && options.ariaLabel ? options.ariaLabel : undefined
+        "aria-required": ariaRequired.value
     });
 
     const memoizedselectedCaptions = useMemo(
@@ -95,6 +96,20 @@ export function MultiSelection({
         },
         readOnly: selector.readOnly
     });
+
+    const inputLabel = getInputLabel(options.inputId);
+    const ariaLabels = useMemo(
+        () =>
+            getComboboxAriaLabels({
+                isOpen,
+                hasSelection: selectedItems.length > 0,
+                selectedValue: selectedItems.map(id => selector.caption.get(id)).join(", "),
+                inputLabel,
+                labelledBy: inputProps["aria-labelledby"],
+                fallbackAriaLabel: options.ariaLabel
+            }),
+        [isOpen, selectedItems, inputLabel, inputProps, options.ariaLabel, selector.caption]
+    );
 
     return (
         <Fragment>
@@ -150,16 +165,8 @@ export function MultiSelection({
                         tabIndex={tabIndex}
                         placeholder=" "
                         {...inputProps}
-                        aria-label={
-                            !isOpen && selectedItems.length > 0 && hasLabel
-                                ? `${labelText}, ${selectedItems.map(id => selector.caption.get(id)).join(", ")}`
-                                : !isOpen && selectedItems.length > 0
-                                  ? selectedItems.map(id => selector.caption.get(id)).join(", ")
-                                  : !hasLabel
-                                    ? options.ariaLabel
-                                    : undefined
-                        }
-                        aria-labelledby={hasLabel && isOpen ? inputProps["aria-labelledby"] : undefined}
+                        aria-label={ariaLabels.ariaLabel}
+                        aria-labelledby={ariaLabels.ariaLabelledBy}
                         aria-describedby={selector.validation ? errorId : undefined}
                         aria-invalid={selector.validation ? true : undefined}
                         aria-busy={selector.options.isLoading || undefined}
