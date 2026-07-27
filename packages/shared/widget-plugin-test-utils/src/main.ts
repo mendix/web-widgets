@@ -1,3 +1,4 @@
+export * from "./builders/EditableImageValueBuilder.js";
 export * from "./builders/EditableValueBuilder.js";
 export * from "./builders/ReferenceValueBuilder.js";
 export * from "./builders/ReferenceSetValueBuilder.js";
@@ -19,6 +20,7 @@ export * from "./primitives/action.js";
 export * from "./primitives/attrId.js";
 export * from "./primitives/dynamic.js";
 export * from "./primitives/editable.js";
+export * from "./primitives/editableImage.js";
 export * from "./primitives/obj.js";
 export * from "./primitives/objArray.js";
 export * from "./utils/IntersectionObserverStub.js";
