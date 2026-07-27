@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.3] - 2026-07-27
+
 ### Added
 
 - We added support for using the attribute's own formatting when exporting to Excel with the "Default" export type. Numbers now export as numeric cells that mirror the grid's decimals and thousands grouping, and dates export using their configured pattern, instead of unformatted values.

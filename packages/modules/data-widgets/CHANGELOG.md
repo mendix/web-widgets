@@ -6,11 +6,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.3] DataWidgets - 2026-07-27
+
+### [3.11.3] DatagridDropdownFilter
+
+#### Fixed
+
+- We fixed an issue with option filtering not working correctly with IME input methods.
+
+### [3.11.3] Datagrid
+
+#### Added
+
+- We added support for using the attribute's own formatting when exporting to Excel with the "Default" export type. Numbers now export as numeric cells that mirror the grid's decimals and thousands grouping, and dates export using their configured pattern, instead of unformatted values.
+
+#### Fixed
+
+- We fixed an issue where export type and format properties were visible in Studio Pro for dynamic text columns, even though they have no effect.
+
+### [3.11.3] Gallery
+
+#### Fixed
+
+- We fixed an issue where "Reset All Filters" and "Clear Selection" JavaScript actions did not work with the Gallery widget. Event listeners were not registered despite the required infrastructure being in place.
+
 ## [3.11.2] DataWidgets - 2026-06-24
 
 ### Fixed
 
 - We fixed an issue with Data Widgets not working in Dojo client in some cases.
+
 - We fixed an issue with unexpected changes in JavaScript actions of Data Widgets module.
 
 ## [3.11.1] DataWidgets - 2026-06-18
