@@ -3,7 +3,7 @@ import { Big } from "big.js";
 import { ValueStatus } from "mendix";
 import { Ref } from "react";
 import type { Crop, PixelCrop } from "react-image-crop";
-import { actionValue, dynamic } from "@mendix/widget-plugin-test-utils";
+import { actionValue, dynamic, editableImage } from "@mendix/widget-plugin-test-utils";
 import type { ImageCropperContainerProps } from "../../typings/ImageCropperProps";
 
 // Capture the container's callbacks via a mocked CropArea. Real ReactCrop only fires
@@ -67,13 +67,7 @@ const PERCENT_CROP: Crop = { unit: "%", x: 5, y: 5, width: 50, height: 50 };
 
 function makeImageProp(overrides: Partial<ImageProp> = {}): ImageProp {
     return {
-        status: ValueStatus.Available,
-        value: { uri: "http://localhost/img.png", name: "img.png" } as WebImage,
-        readOnly: false,
-        validation: undefined,
-        setValidator: jest.fn(),
-        setValue: jest.fn(),
-        setThumbnailSize: jest.fn(),
+        ...editableImage.with<WebImage>({ uri: "http://localhost/img.png", name: "img.png" }),
         ...overrides
     } as ImageProp;
 }

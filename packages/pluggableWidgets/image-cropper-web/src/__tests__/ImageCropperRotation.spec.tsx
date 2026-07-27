@@ -1,9 +1,8 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { Big } from "big.js";
-import { ValueStatus } from "mendix";
 import { Ref } from "react";
 import type { Crop, PixelCrop } from "react-image-crop";
-import { actionValue } from "@mendix/widget-plugin-test-utils";
+import { actionValue, editableImage } from "@mendix/widget-plugin-test-utils";
 import type { ImageCropperContainerProps } from "../../typings/ImageCropperProps";
 
 // Integration test: proves the rotate/grayscale actions reach the right util with the right args.
@@ -85,15 +84,7 @@ const PIXEL_CROP: PixelCrop = { unit: "px", x: 10, y: 10, width: 100, height: 10
 const PERCENT_CROP: Crop = { unit: "%", x: 5, y: 5, width: 50, height: 50 };
 
 function makeImageProp(): ImageProp {
-    return {
-        status: ValueStatus.Available,
-        value: { uri: "http://localhost/img.png", name: "img.png" } as WebImage,
-        readOnly: false,
-        validation: undefined,
-        setValidator: jest.fn(),
-        setValue: jest.fn(),
-        setThumbnailSize: jest.fn()
-    } as ImageProp;
+    return editableImage.with<WebImage>({ uri: "http://localhost/img.png", name: "img.png" }) as ImageProp;
 }
 
 function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCropperContainerProps {

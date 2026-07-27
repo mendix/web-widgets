@@ -1,8 +1,8 @@
 import { Big } from "big.js";
-import { ValueStatus } from "mendix";
 import { action, makeObservable, observable } from "mobx";
 import type { Crop, PixelCrop } from "react-image-crop";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
+import { editableImage } from "@mendix/widget-plugin-test-utils";
 import type { ImageCropperContainerProps } from "../../../typings/ImageCropperProps";
 
 // The store calls cropImage/rotateImage (async canvas work). Mock them so the spec asserts
@@ -33,13 +33,7 @@ type WebImage = NonNullable<ImageProp["value"]>;
 
 function makeImageProp(overrides: Partial<ImageProp> = {}): ImageProp {
     return {
-        status: ValueStatus.Available,
-        value: { uri: "http://localhost/img.png", name: "img.png" } as WebImage,
-        readOnly: false,
-        validation: undefined,
-        setValidator: jest.fn(),
-        setValue: jest.fn(),
-        setThumbnailSize: jest.fn(),
+        ...editableImage.with<WebImage>({ uri: "http://localhost/img.png", name: "img.png" }),
         ...overrides
     } as unknown as ImageProp;
 }
