@@ -30,7 +30,7 @@
         "test": "jest"
     },
     "dependencies": {
-        "mendix": "10.24.75382"
+        "mendix": "*"
     },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",

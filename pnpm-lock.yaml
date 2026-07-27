@@ -28,6 +28,7 @@ overrides:
   d3-color@<3.1.0: '>=3.1.0'
   fast-uri: 3.1.4
   glob@10: ^10.5.0
+  mendix: 11.10.0
   react: '>=18.0.0 <19.0.0'
   react-big-calendar@1>clsx: 2.1.1
   react-dom: '>=18.0.0 <19.0.0'
@@ -2772,8 +2773,8 @@ importers:
   packages/shared/filter-commons:
     dependencies:
       mendix:
-        specifier: ^10.24.75382
-        version: 10.24.75382
+        specifier: 11.10.0
+        version: 11.10.0
       mobx:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
@@ -2874,8 +2875,8 @@ importers:
         specifier: ^9.0.9
         version: 9.3.6(react@18.3.1)
       mendix:
-        specifier: ^10.24.75382
-        version: 10.24.75382
+        specifier: 11.10.0
+        version: 11.10.0
       mobx:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
@@ -2948,8 +2949,8 @@ importers:
         specifier: ^9.0.8
         version: 9.3.6(react@18.3.1)
       mendix:
-        specifier: 10.24.75382
-        version: 10.24.75382
+        specifier: 11.10.0
+        version: 11.10.0
       mobx:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
@@ -3142,8 +3143,8 @@ importers:
   packages/shared/widget-plugin-test-utils:
     dependencies:
       mendix:
-        specifier: 10.24.75382
-        version: 10.24.75382
+        specifier: 11.10.0
+        version: 11.10.0
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -8220,9 +8221,6 @@ packages:
 
   memoize-one@6.0.0:
     resolution: {integrity: sha512-rkpe71W0N0c0Xz6QD0eJETuWAJGnJ9afsl1srmwPrI+yBCkge5EycXXbYRyvL29zZVUWQCY7InPRCv3GDXuZNw==}
-
-  mendix@10.24.75382:
-    resolution: {integrity: sha512-ICMxqkWUejsc3KeFD9BJYvC+T4soi/NB2iapwWPC7oN0lCrFx36upzwI4rU77oMdRHsrVSsFVYLBy7sJJOABHw==}
 
   mendix@11.10.0:
     resolution: {integrity: sha512-OsLdgNJfhwG4/TcOIMMk0gu0ewHq3Xlv2CNW1YJy2ujqD19ngFvBVB9YTjYxmf+RMn1EG0FQYrn6zCSFzmbL4A==}
@@ -16800,11 +16798,6 @@ snapshots:
   media-typer@1.1.0: {}
 
   memoize-one@6.0.0: {}
-
-  mendix@10.24.75382:
-    dependencies:
-      '@types/big.js': 6.2.2
-      '@types/react': 19.2.17
 
   mendix@11.10.0:
     dependencies:
