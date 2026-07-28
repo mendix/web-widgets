@@ -36,4 +36,18 @@ describe("resolveAspectRatio", () => {
     test("returns undefined when custom width is negative", () => {
         expect(resolveAspectRatio("custom", -1, 9)).toBeUndefined();
     });
+
+    test("returns undefined when custom height is negative", () => {
+        expect(resolveAspectRatio("custom", 16, -9)).toBeUndefined();
+    });
+
+    // Sides come from expressions now, so either can be undefined while it is unavailable or
+    // empty. That must degrade to free aspect, not NaN or a throw.
+    test.each([
+        ["both sides undefined", undefined, undefined],
+        ["width undefined", undefined, 9],
+        ["height undefined", 16, undefined]
+    ])("returns undefined for custom when %s", (_label, width, height) => {
+        expect(resolveAspectRatio("custom", width, height)).toBeUndefined();
+    });
 });
