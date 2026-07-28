@@ -407,6 +407,24 @@ describe("ImageCropperStore", () => {
             dispose();
         });
 
+        it("ignores a re-render that carries the same uri in a new props object", async () => {
+            const { store, gate, dispose } = makeStore();
+            await flush();
+            (global.fetch as jest.Mock).mockClear();
+            store.setLiveCrop(PERCENT_CROP);
+            store.commitCrop(PIXEL_CROP);
+
+            // React hands over a fresh props object on every parent re-render, and the gate uses
+            // observable.ref by design — so identity alone must not count as an image change.
+            gate.setProps(makeProps());
+            await flush();
+
+            expect(global.fetch).not.toHaveBeenCalled();
+            expect(store.liveCrop).toEqual(PERCENT_CROP);
+            expect(store.committedCrop).toEqual(PIXEL_CROP);
+            dispose();
+        });
+
         it("adopts our own bake's uri without refetching or clearing the crop", async () => {
             const { store, gate, dispose } = makeStore();
             store.markUserDragged();

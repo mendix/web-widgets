@@ -155,7 +155,11 @@ export class ImageCropperStore implements SetupComponent {
                 return { uri: value?.uri, name: value?.name };
             },
             ({ uri, name }) => this.onUriChanged(uri, name),
-            { fireImmediately: true }
+            // The data fn builds a fresh object literal every time props are swapped, and the
+            // gate deliberately uses observable.ref (not struct), so default Object.is equality
+            // would treat every render as a uri change and refetch/clear the crop. Compare by
+            // value instead.
+            { equals: (a, b) => a.uri === b.uri && a.name === b.name, fireImmediately: true }
         );
 
         // Combined teardown: stop the debounce, dispose the uri reaction, revoke any live blob.
