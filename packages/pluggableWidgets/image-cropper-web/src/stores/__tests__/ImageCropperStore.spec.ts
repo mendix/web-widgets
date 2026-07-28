@@ -206,6 +206,92 @@ describe("ImageCropperStore", () => {
         });
     });
 
+    // The custom ratio arrives asynchronously, so `aspect === undefined` is ambiguous: it means
+    // both "free aspect" and "not loaded yet". aspectReady disambiguates, and the seeding path
+    // must wait on it — otherwise the box seeds free and visibly jumps once the ratio lands.
+    describe("custom ratio loading window", () => {
+        const pendingCustom = {
+            aspectRatio: "custom" as const,
+            customAspectWidth: dynamic.loading<Big>(),
+            customAspectHeight: dynamic.available(new Big(2))
+        };
+        const resolvedCustom = (w: number, h: number): Partial<ImageCropperContainerProps> => ({
+            aspectRatio: "custom" as const,
+            customAspectWidth: dynamic.available(new Big(w)),
+            customAspectHeight: dynamic.available(new Big(h))
+        });
+
+        it("reports aspectReady=false only while a custom side is not Available", () => {
+            const { store: pending, dispose: d1 } = makeStore(pendingCustom);
+            expect(pending.aspectReady).toBe(false);
+            d1();
+
+            const { store: ready, dispose: d2 } = makeStore(resolvedCustom(3, 2));
+            expect(ready.aspectReady).toBe(true);
+            d2();
+
+            // Presets resolve synchronously — never pending, even with unavailable custom sides.
+            const { store: preset, dispose: d3 } = makeStore({
+                aspectRatio: "square",
+                customAspectWidth: dynamic.loading<Big>()
+            });
+            expect(preset.aspectReady).toBe(true);
+            d3();
+        });
+
+        it("does not seed the crop box while the ratio is pending, then seeds once it resolves", () => {
+            const { store, gate, dispose } = makeStore(pendingCustom);
+
+            // The image finished loading before the expression did.
+            store.initFromImageLoad(PERCENT_CROP, PIXEL_CROP);
+            expect(store.liveCrop).toBeUndefined();
+            expect(store.committedCrop).toBeUndefined();
+
+            // Ratio lands: a single seed, at the resolved ratio (400x300 fake image, 3:2).
+            gate.setProps(makeProps(resolvedCustom(3, 2)));
+            expect(store.liveCrop).toBeDefined();
+            const seeded = store.liveCrop!;
+            expect(seeded.width / seeded.height).toBeCloseTo((3 / 2) * (300 / 400), 5);
+            dispose();
+        });
+
+        it("re-seeds on a value-to-value ratio change without committing anything", async () => {
+            const { store, gate, dispose } = makeStore(resolvedCustom(3, 2));
+            store.initFromImageLoad(PERCENT_CROP, PIXEL_CROP);
+            (gate.props.image.setValue as jest.Mock).mockClear();
+            (cropImage as jest.Mock).mockClear();
+
+            // e.g. a record swap hands over a different ratio.
+            gate.setProps(makeProps(resolvedCustom(1, 1)));
+            const reseeded = store.liveCrop!;
+            expect(reseeded.width / reseeded.height).toBeCloseTo(1 * (300 / 400), 5);
+
+            // A ratio change is programmatic — it must never push a re-cropped image back.
+            await flush();
+            expect(cropImage).not.toHaveBeenCalled();
+            expect(gate.props.image.setValue).not.toHaveBeenCalled();
+            dispose();
+        });
+
+        it("retains the last valid box when the ratio goes from Available to unavailable", () => {
+            const { store, gate, dispose } = makeStore(resolvedCustom(3, 2));
+            store.initFromImageLoad(PERCENT_CROP, PIXEL_CROP);
+            const before = store.liveCrop;
+            expect(before).toBeDefined();
+
+            // Record changes: the expression briefly stops resolving. No free-aspect flash.
+            gate.setProps(
+                makeProps({
+                    aspectRatio: "custom",
+                    customAspectWidth: dynamic.loading<Big>(),
+                    customAspectHeight: dynamic.loading<Big>()
+                })
+            );
+            expect(store.liveCrop).toBe(before);
+            dispose();
+        });
+    });
+
     describe("commitCrop gate (user-drag vs programmatic)", () => {
         it("does NOT auto-commit a programmatic complete (no preceding drag)", async () => {
             const { store, gate, dispose } = makeStore();

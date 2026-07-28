@@ -77,6 +77,8 @@ export class ImageCropperStore implements SetupComponent {
     private fetchGeneration = 0;
     // Disposer for the uri reaction, torn down alongside the debounce in setup().
     private disposeUriEffect: (() => void) | undefined = undefined;
+    // Disposer for the custom-ratio reaction (seeds/re-seeds the box once the ratio resolves).
+    private disposeAspectEffect: (() => void) | undefined = undefined;
 
     constructor(gate: DerivedPropsGate<ImageCropperContainerProps>) {
         this.gate = gate;
@@ -86,7 +88,14 @@ export class ImageCropperStore implements SetupComponent {
         // values use observable.ref (we always replace, never mutate in place).
         makeObservable<
             this,
-            "props" | "applyCrop" | "applyNow" | "applyDebounced" | "armed" | "onUriChanged" | "revokePreview"
+            | "props"
+            | "applyCrop"
+            | "applyNow"
+            | "applyDebounced"
+            | "armed"
+            | "onUriChanged"
+            | "revokePreview"
+            | "onAspectResolved"
         >(this, {
             liveCrop: observable.ref,
             committedCrop: observable.ref,
@@ -97,6 +106,8 @@ export class ImageCropperStore implements SetupComponent {
             canRestore: observable,
             props: computed,
             aspect: computed,
+            aspectReady: computed,
+            onAspectResolved: action,
             setLiveCrop: action,
             markUserDragged: action,
             commitCrop: action,
@@ -134,6 +145,22 @@ export class ImageCropperStore implements SetupComponent {
         );
     }
 
+    /**
+     * Whether the aspect ratio is known well enough to seed a crop box.
+     *
+     * `aspect` collapses three states into `number | undefined`: a resolved ratio, a resolved
+     * "free" aspect, and "custom ratio not loaded yet". The last two both read as `undefined`,
+     * which is why an unguarded seed picks free aspect and then visibly jumps once the
+     * expression resolves. Only custom mode can be pending; every preset is synchronous.
+     */
+    get aspectReady(): boolean {
+        if (this.props.aspectRatio !== "custom") {
+            return true;
+        }
+        const isAvailable = (p: DynamicValue<Big>): boolean => p.status === ValueStatus.Available;
+        return isAvailable(this.props.customAspectWidth) && isAvailable(this.props.customAspectHeight);
+    }
+
     setup(): () => void {
         const [debounced, abort] = debounce(() => {
             if (this.userInteracted) {
@@ -162,10 +189,25 @@ export class ImageCropperStore implements SetupComponent {
             { equals: (a, b) => a.uri === b.uri && a.name === b.name, fireImmediately: true }
         );
 
-        // Combined teardown: stop the debounce, dispose the uri reaction, revoke any live blob.
+        // React to the resolved aspect ratio settling. The data fn emits `undefined` while the
+        // custom ratio is pending, so a value -> pending transition fires nothing (the last box
+        // is retained); only a genuine ratio value re-seeds. fireImmediately is deliberately OFF
+        // — the initial box comes from CropArea's onLoad.
+        this.disposeAspectEffect = reaction(
+            () => (this.aspectReady ? this.aspect : undefined),
+            aspect => {
+                if (aspect === undefined && !this.aspectReady) {
+                    return; // ratio went pending — keep the current box
+                }
+                this.onAspectResolved();
+            }
+        );
+
+        // Combined teardown: stop the debounce, dispose both reactions, revoke any live blob.
         return () => {
             abort();
             this.disposeUriEffect?.();
+            this.disposeAspectEffect?.();
             this.revokePreview();
         };
     }
@@ -375,9 +417,40 @@ export class ImageCropperStore implements SetupComponent {
     initFromImageLoad(percentCrop: Crop, pixelCrop: PixelCrop): void {
         this.zoom = Number(this.props.minZoom);
         this.zoomAnchor = CENTER_ANCHOR;
+        this.armed(); // programmatic load must not auto-commit
+
+        // The image beat the custom-ratio expression. Seeding now would use free aspect (see
+        // aspectReady) and snap when the real ratio lands, so leave the box unseeded and let
+        // the aspect reaction seed it once — at the correct ratio.
+        if (!this.aspectReady) {
+            this.liveCrop = undefined;
+            this.committedCrop = undefined;
+            return;
+        }
+
         this.liveCrop = percentCrop;
         this.committedCrop = pixelCrop;
-        this.armed(); // programmatic load must not auto-commit
+    }
+
+    /**
+     * Runs when the resolved aspect ratio settles on a new value (fired by the setup() reaction,
+     * which only tracks ready states — a transition into "pending" never reaches here, so the
+     * last valid box survives an Available -> unavailable flip until a new ratio arrives).
+     *
+     * Rebuilds the box in one step via buildInitialCrop rather than letting ReactCrop reconcile
+     * the old box against the new ratio, and stays disarmed so a ratio change alone never
+     * commits a re-cropped image back to the bound attribute.
+     */
+    private onAspectResolved(): void {
+        const img = this.deps.getImage();
+        if (!img || !img.naturalWidth) {
+            // No on-screen image yet; CropArea's onLoad will seed with the now-ready ratio.
+            return;
+        }
+        const { percentCrop, pixelCrop } = buildInitialCrop(img, this.aspect);
+        this.liveCrop = percentCrop;
+        this.committedCrop = pixelCrop;
+        this.armed(); // programmatic re-seed must not auto-commit
     }
 
     // Inbound sync: clear the crop box and disarm the apply gate when the bound image changes.
