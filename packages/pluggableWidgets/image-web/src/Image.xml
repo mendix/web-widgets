@@ -110,7 +110,7 @@
                     <caption>Minimum height</caption>
                     <description />
                 </property>
-                <property key="maxHeightUnit" type="enumeration" defaultValue="none">
+                <property key="maxHeightUnit" type="enumeration" defaultValue="pixels">
                     <caption>Maximum Height unit</caption>
                     <description />
                     <enumerationValues>
@@ -120,7 +120,7 @@
                         <enumerationValue key="viewport">Viewport</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="maxHeight" type="integer" required="true" defaultValue="0">
+                <property key="maxHeight" type="integer" required="true" defaultValue="250">
                     <caption>Maximum height</caption>
                     <description />
                 </property>
