@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.5.0] - 2026-07-28
+
 ### Added
 
 - We added a `showMultiDayTimes` property to control whether start/end times are displayed for multi-day events in the calendar.

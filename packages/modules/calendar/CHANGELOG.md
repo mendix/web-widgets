@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.5.0] Calendar - 2026-07-28
+
+### [2.5.0] Calendar
+
+#### Added
+
+- We added a `showMultiDayTimes` property to control whether start/end times are displayed for multi-day events in the calendar.
+
+#### Fixed
+
+- We fixed an issue in Custom view where the "Header day format" was only applied to the toolbar title and not to the day, week, and month column headers.
+
 ## [2.4.0] Calendar - 2026-03-20
 
 ### [2.4.0] Calendar
