@@ -432,8 +432,8 @@ importers:
         version: 3.6.0
     devDependencies:
       '@happy-dom/jest-environment':
-        specifier: ^18.0.1
-        version: 18.0.1
+        specifier: ^19.0.2
+        version: 19.0.2(@jest/environment@30.3.0)(@jest/fake-timers@30.3.0)(@jest/types@30.4.1)(jest-mock@30.4.1)(jest-util@30.4.1)
       '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
@@ -531,8 +531,8 @@ importers:
         version: 3.6.0
     devDependencies:
       '@happy-dom/jest-environment':
-        specifier: ^18.0.1
-        version: 18.0.1
+        specifier: ^19.0.2
+        version: 19.0.2(@jest/environment@30.3.0)(@jest/fake-timers@30.3.0)(@jest/types@30.4.1)(jest-mock@30.4.1)(jest-util@30.4.1)
       '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
@@ -645,8 +645,8 @@ importers:
         version: 3.6.0
     devDependencies:
       '@happy-dom/jest-environment':
-        specifier: ^18.0.1
-        version: 18.0.1
+        specifier: ^19.0.2
+        version: 19.0.2(@jest/environment@30.3.0)(@jest/fake-timers@30.3.0)(@jest/types@30.4.1)(jest-mock@30.4.1)(jest-util@30.4.1)
       '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
@@ -931,8 +931,8 @@ importers:
         version: 3.6.0
     devDependencies:
       '@happy-dom/jest-environment':
-        specifier: ^18.0.1
-        version: 18.0.1
+        specifier: ^19.0.2
+        version: 19.0.2(@jest/environment@30.3.0)(@jest/fake-timers@30.3.0)(@jest/types@30.4.1)(jest-mock@30.4.1)(jest-util@30.4.1)
       '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
@@ -1035,8 +1035,8 @@ importers:
         version: 3.6.0
     devDependencies:
       '@happy-dom/jest-environment':
-        specifier: ^18.0.1
-        version: 18.0.1
+        specifier: ^19.0.2
+        version: 19.0.2(@jest/environment@30.3.0)(@jest/fake-timers@30.3.0)(@jest/types@30.4.1)(jest-mock@30.4.1)(jest-util@30.4.1)
       '@mendix/pluggable-widgets-tools':
         specifier: 11.11.0
         version: 11.11.0(patch_hash=036a1e3d1a57e7418725babb71e5eef5220ae90fc481ad7e04fa7e8901b25801)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@swc/core@1.15.41)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.4(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.8.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
@@ -1637,8 +1637,8 @@ importers:
         version: 3.6.0
     devDependencies:
       '@happy-dom/jest-environment':
-        specifier: ^18.0.1
-        version: 18.0.1
+        specifier: ^19.0.2
+        version: 19.0.2(@jest/environment@30.3.0)(@jest/fake-timers@30.3.0)(@jest/types@30.4.1)(jest-mock@30.4.1)(jest-util@30.4.1)
       '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
@@ -1782,8 +1782,8 @@ importers:
         version: 3.6.0
     devDependencies:
       '@happy-dom/jest-environment':
-        specifier: ^18.0.1
-        version: 18.0.1
+        specifier: ^19.0.2
+        version: 19.0.2(@jest/environment@30.3.0)(@jest/fake-timers@30.3.0)(@jest/types@30.4.1)(jest-mock@30.4.1)(jest-util@30.4.1)
       '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
@@ -1938,8 +1938,8 @@ importers:
         version: 3.6.0
     devDependencies:
       '@happy-dom/jest-environment':
-        specifier: ^18.0.1
-        version: 18.0.1
+        specifier: ^19.0.2
+        version: 19.0.2(@jest/environment@30.3.0)(@jest/fake-timers@30.3.0)(@jest/types@30.4.1)(jest-mock@30.4.1)(jest-util@30.4.1)
       '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
@@ -2497,8 +2497,8 @@ importers:
         version: 3.6.0
     devDependencies:
       '@happy-dom/jest-environment':
-        specifier: ^18.0.1
-        version: 18.0.1
+        specifier: ^19.0.2
+        version: 19.0.2(@jest/environment@30.3.0)(@jest/fake-timers@30.3.0)(@jest/types@30.4.1)(jest-mock@30.4.1)(jest-util@30.4.1)
       '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
@@ -4108,9 +4108,15 @@ packages:
   '@googlemaps/jest-mocks@2.22.8':
     resolution: {integrity: sha512-r0Gh5F/KpDWVgnyQQYTkFbldxY9XUU4FPxv6Gs8nulvbEPR1fvnbTUXEzJp2O1h0RyK2VJLh1jk0mDwhUneFjQ==}
 
-  '@happy-dom/jest-environment@18.0.1':
-    resolution: {integrity: sha512-Tt1oSC7yBwM05j6/SOLagOAJ/NW7XrXKKqUwcuBY++OZO9YyEWF/i72jFSc3DGW4ZAHfc6HHsTIkhayxyy+DsA==}
+  '@happy-dom/jest-environment@19.0.2':
+    resolution: {integrity: sha512-dRX5Xuiwevif8mPQK9EYDxub/Nz6JvPKzIwNv4cIDz8+dwUrAKxJzLmfsKeKImjLPad0zpo+6orUfgadoJCwFQ==}
     engines: {node: '>=20.0.0'}
+    peerDependencies:
+      '@jest/environment': '>=25.0.0'
+      '@jest/fake-timers': '>=25.0.0'
+      '@jest/types': '>=25.0.0'
+      jest-mock: '>=25.0.0'
+      jest-util: '>=25.0.0'
 
   '@hono/node-server@1.19.14':
     resolution: {integrity: sha512-GwtvgtXxnWsucXvbQXkRgqksiH2Qed37H9xHZocE5sA3N8O8O8/8FA3uclQXxXVzc9XBZuEOMK7+r02FmSpHtw==}
@@ -4194,17 +4200,9 @@ packages:
       canvas:
         optional: true
 
-  '@jest/environment@29.7.0':
-    resolution: {integrity: sha512-aQIfHDq33ExsN4jP1NWGXhxgQ/wixs60gDiKO+XVMd8Mn0NWPWgc34ZQDTb2jKaUWQ7MuwoitXAsN2XVXNMpAw==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
   '@jest/environment@30.3.0':
     resolution: {integrity: sha512-SlLSF4Be735yQXyh2+mctBOzNDx5s5uLv88/j8Qn1wH679PDcwy67+YdADn8NJnGjzlXtN62asGH/T4vWOkfaw==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
-
-  '@jest/expect-utils@29.7.0':
-    resolution: {integrity: sha512-GlsNBWiFQFCVi9QVSx7f5AgMeLxe9YCCs5PuP2O2LdjDAA8Jh9eX7lA1Jq/xdXw3Wb3hyvlFNfZIfcRetSzYcA==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
   '@jest/expect-utils@30.3.0':
     resolution: {integrity: sha512-j0+W5iQQ8hBh7tHZkTQv3q2Fh/M7Je72cIsYqC4OaktgtO7v1So9UTjp6uPBHIaB6beoF/RRsCgMJKvti0wADA==}
@@ -4217,10 +4215,6 @@ packages:
   '@jest/expect@30.3.0':
     resolution: {integrity: sha512-76Nlh4xJxk2D/9URCn3wFi98d2hb19uWE1idLsTt2ywhvdOldbw3S570hBgn25P4ICUZ/cBjybrBex2g17IDbg==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
-
-  '@jest/fake-timers@29.7.0':
-    resolution: {integrity: sha512-q4DH1Ha4TTFPdxLsqDXK1d3+ioSL7yL5oCMJZgDYm6i+6CygW5E5xVr/D1HdsGxjt1ZWSfUAs9OxSB/BNelWrQ==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
   '@jest/fake-timers@30.3.0':
     resolution: {integrity: sha512-WUQDs8SOP9URStX1DzhD425CqbN/HxUYCTwVrT8sTVBfMvFqYt/s61EK5T05qnHu0po6RitXIvP9otZxYDzTGQ==}
@@ -4251,10 +4245,6 @@ packages:
       node-notifier:
         optional: true
 
-  '@jest/schemas@29.6.3':
-    resolution: {integrity: sha512-mo5j5X+jIZmJQveBKeS/clAueipV7KgiX1vMgCxam1RNYiqE1w62n0/tJJnHtjW8ZHcQco5gY85jA3mi0L+nSA==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
   '@jest/schemas@30.0.5':
     resolution: {integrity: sha512-DmdYgtezMkh3cpU8/1uyXakv3tJRcmcXxBOcO0tbaozPwpmh4YMsnWrQm9ZmZMfa5ocbxzbFk6O4bDPEc/iAnA==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
@@ -4282,10 +4272,6 @@ packages:
   '@jest/transform@30.3.0':
     resolution: {integrity: sha512-TLKY33fSLVd/lKB2YI1pH69ijyUblO/BQvCj566YvnwuzoTNr648iE0j22vRvVNk2HsPwByPxATg3MleS3gf5A==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
-
-  '@jest/types@29.6.3':
-    resolution: {integrity: sha512-u3UPsIilWKOM3F9CXtrG8LEJmNxwoCQC/XVj4IKYXvvpx7QIi/Kg1LI5uDmDpKlac62NUtX7eLjRh+jVZcLOzw==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
   '@jest/types@30.3.0':
     resolution: {integrity: sha512-JHm87k7bA33hpBngtU8h6UBub/fqqA9uXfw+21j5Hmk7ooPHlboRNxHq0JcMtC+n8VJGP1mcfnD3Mk+XKe1oSw==}
@@ -4938,17 +4924,11 @@ packages:
     resolution: {integrity: sha512-fCTuZK4QBa+39Oz9l4OGfJfz+GpwCp3AqO7Zch3to99xHPgstVsRFpeQ8LNd2o1Gv8raL2mCFwiaHh7bFSp5DQ==}
     engines: {node: '>=22'}
 
-  '@sinclair/typebox@0.27.10':
-    resolution: {integrity: sha512-MTBk/3jGLNB2tVxv6uLlFh1iu64iYOQ2PbdOSK3NW8JZsmlaOh2q6sdtKowBhfw8QFLmYNzTW4/oK4uATIi6ZA==}
-
   '@sinclair/typebox@0.34.49':
     resolution: {integrity: sha512-brySQQs7Jtn0joV8Xh9ZV/hZb9Ozb0pmazDIASBkYKCjXrXU3mpcFahmK/z4YDhGkQvP9mWJbVyahdtU5wQA+A==}
 
   '@sinonjs/commons@3.0.1':
     resolution: {integrity: sha512-K3mCHKQ9sVh8o1C9cxkwxaOmXoAMlDxC1mYyHrjqOWEcBjYr76t96zL2zlj5dUGZ3HSw240X1qgH3Mjf1yJWpQ==}
-
-  '@sinonjs/fake-timers@10.3.0':
-    resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
 
   '@sinonjs/fake-timers@15.4.0':
     resolution: {integrity: sha512-DsG+8/LscQIQg68J6Ef3dv10u6nVyetYn923s3/sus5eaGfTo1of5WMZSLf0UJc9KDuKPilPH0UDJCjvNbDNCA==}
@@ -5194,9 +5174,6 @@ packages:
 
   '@types/istanbul-reports@3.0.4':
     resolution: {integrity: sha512-pk2B1NWalF9toCRu6gjBzR69syFjP4Od8WRAX+0mmf9lAjCRicLOWc+ZrxZHx/0XRjotgkF9t6iaMJ+aXcOdZQ==}
-
-  '@types/jest@29.4.0':
-    resolution: {integrity: sha512-VaywcGQ9tPorCX/Jkkni7RWGFfI11whqzs8dvxF41P17Z+z872thvEvlIbznjPJ02kl1HMX3LmLOonsj2n7HeQ==}
 
   '@types/jest@30.0.0':
     resolution: {integrity: sha512-XTYugzhuwqWjws0CVz8QpM36+T+Dz5mTEBKhNs/esGLnCIlGdRy+Dq78NRjd7ls7r8BC8ZRMOrKlkO1hU0JOwA==}
@@ -5958,10 +5935,6 @@ packages:
   chownr@1.1.4:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
 
-  ci-info@3.9.0:
-    resolution: {integrity: sha512-NIxF55hv4nSqQswkAeiOi1r83xy8JldOFDTWiug55KBu9Jnblncd2U6ViHmYgHf01TPZS77NJBhBMKdWj9HQMQ==}
-    engines: {node: '>=8'}
-
   ci-info@4.4.0:
     resolution: {integrity: sha512-77PSwercCZU2Fc4sX94eF8k8Pxte6JAwL4/ICZLFjJLqegs7kCuAsqqj/70NQF6TvDpgFjkubQB2FW2ZZddvQg==}
     engines: {node: '>=8'}
@@ -6485,10 +6458,6 @@ packages:
     resolution: {integrity: sha512-qE3Veg1YXzGHQhlA6jzebZN2qVf6NX+A7m7qlhCGG30dJixrAQhYOsJjsnBjJkCSmuOPpCk30145fr8FV0bzog==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  diff-sequences@29.6.3:
-    resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
   diff@4.0.4:
     resolution: {integrity: sha512-X07nttJQkwkfKfvTPG/KSnE2OMdcUCao6+eXF3wmnIQRn2aPAHH3VxDbDOdegkd6JbPsXqShpvEOHfAT+nCNwQ==}
     engines: {node: '>=0.3.1'}
@@ -6943,10 +6912,6 @@ packages:
     resolution: {integrity: sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg==}
     engines: {node: '>=6'}
 
-  expect@29.7.0:
-    resolution: {integrity: sha512-2Zks0hf1VLFYI1kbh0I5jP3KHHyCHpkfyHBzsSXRFgl/Bg9mWYfMW8oD+PdMPlEwy5HNsR9JutYy6pMeOh61nw==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
   expect@30.3.0:
     resolution: {integrity: sha512-1zQrciTiQfRdo7qJM1uG4navm8DayFa2TgCSRlzUyNkhcJ6XUZF3hjnpkyr3VhAqPH7i/9GkG7Tv5abz6fqz0Q==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
@@ -7323,8 +7288,8 @@ packages:
     engines: {node: '>=0.4.7'}
     hasBin: true
 
-  happy-dom@18.0.1:
-    resolution: {integrity: sha512-qn+rKOW7KWpVTtgIUi6RVmTBZJSe2k0Db0vh1f7CWrWclkkc7/Q+FrOfkZIb2eiErLyqu5AXEzE7XthO9JVxRA==}
+  happy-dom@19.0.2:
+    resolution: {integrity: sha512-831CLbgDyjRbd2lApHZFsBDe56onuFcjsCBPodzWpzedTpeDr8CGZjs7iEIdNW1DVwSFRecfwzLpVyGBPamwGA==}
     engines: {node: '>=20.0.0'}
 
   harmony-reflect@1.6.2:
@@ -7807,10 +7772,6 @@ packages:
       ts-node:
         optional: true
 
-  jest-diff@29.7.0:
-    resolution: {integrity: sha512-LMIgiIrhigmPrs03JHpxUh2yISK3vLFPkAodPeo0+BuF7wA2FoQbkEg1u8gBYBThncu7e1oEDUfIXVuTqLRUjw==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
   jest-diff@30.3.0:
     resolution: {integrity: sha512-n3q4PDQjS4LrKxfWB3Z5KNk1XjXtZTBwQp71OP0Jo03Z6V60x++K5L8k6ZrW8MY8pOFylZvHM0zsjS1RqlHJZQ==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
@@ -7840,10 +7801,6 @@ packages:
     resolution: {integrity: sha512-4i6HItw/JSiJVsC5q0hnKIe/hbYfZLVG9YJ/0pU9Hz2n/9qZe3Rhn5s5CUZA5ORZlcdT/vmAXRMyONXJwPrmYQ==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
-  jest-get-type@29.6.3:
-    resolution: {integrity: sha512-zrteXnqYxfQh7l5FHyL38jL39di8H8rHoecLH3JNxH3BwOrBsNeabdap5e0I23lD4HHI8W5VFBZqG4Eaq5LNcw==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
   jest-haste-map@30.3.0:
     resolution: {integrity: sha512-mMi2oqG4KRU0R9QEtscl87JzMXfUhbKaFqOxmjb2CKcbHcUGFrJCBWHmnTiUqi6JcnzoBlO4rWfpdl2k/RfLCA==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
@@ -7860,10 +7817,6 @@ packages:
     resolution: {integrity: sha512-cuKmUUGIjfXZAiGJ7TbEMx0bcqNdPPI6P1V+7aF+m/FUJqFDxkFR4JqkTu8ZOiU5AaX/x0hZ20KaaIPXQzbMGQ==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
-  jest-matcher-utils@29.7.0:
-    resolution: {integrity: sha512-sBkD+Xi9DtcChsI3L3u0+N0opgPYnCRPtGcQYrgXmR+hmt/fYfWAL0xRXYU8eWOdfuLgBe0YCW3AFtnRLagq/g==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
   jest-matcher-utils@30.3.0:
     resolution: {integrity: sha512-HEtc9uFQgaUHkC7nLSlQL3Tph4Pjxt/yiPvkIrrDCt9jhoLIgxaubo1G+CFOnmHYMxHwwdaSN7mkIFs6ZK8OhA==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
@@ -7872,10 +7825,6 @@ packages:
     resolution: {integrity: sha512-zvYfX5CaeEkFrrLS9suWe9rvJrm9J1Iv3ua8kIBv9GEPzcnsfBf0bob37la7s67fs0nlBC3EuvkOLnXQKxtx4A==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
-  jest-message-util@29.7.0:
-    resolution: {integrity: sha512-GBEV4GRADeP+qtB2+6u61stea8mGcOT4mCtrYISZwfu9/ISHFJ/5zOMXYbpBE9RsS5+Gb63DW4FgmnKJ79Kf6w==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
   jest-message-util@30.3.0:
     resolution: {integrity: sha512-Z/j4Bo+4ySJ+JPJN3b2Qbl9hDq3VrXmnjjGEWD/x0BCXeOXPTV1iZYYzl2X8c1MaCOL+ewMyNBcm88sboE6YWw==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
@@ -7883,10 +7832,6 @@ packages:
   jest-message-util@30.4.1:
     resolution: {integrity: sha512-kwCKIvq0MCW1HzLoGola9Te6JUdzgV0loyKJ3Qghrkz9i5/RRIHsL95BMQc2HBBhlBKC4j22K9p11TGHH8RBpQ==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
-
-  jest-mock@29.7.0:
-    resolution: {integrity: sha512-ITOMZn+UkYS4ZFh83xYAOzWStloNzJFO2s8DWrE4lhtGD+AorgnbkiKERe4wQVBydIGPx059g6riW5Btp6Llnw==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
   jest-mock@30.3.0:
     resolution: {integrity: sha512-OTzICK8CpE+t4ndhKrwlIdbM6Pn8j00lvmSmq5ejiO+KxukbLjgOflKWMn3KE34EZdQm5RqTuKj+5RIEniYhog==}
@@ -7932,10 +7877,6 @@ packages:
   jest-snapshot@30.3.0:
     resolution: {integrity: sha512-f14c7atpb4O2DeNhwcvS810Y63wEn8O1HqK/luJ4F6M4NjvxmAKQwBUWjbExUtMxWJQ0wVgmCKymeJK6NZMnfQ==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
-
-  jest-util@29.7.0:
-    resolution: {integrity: sha512-z6EbKajIpqGKU56y5KBUgy1dt1ihhQJgWzUlZHArA/+X2ad7Cb5iF+AK1EWVL/Bo7Rz9uurpqw6SiBCefUbCGA==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
   jest-util@30.3.0:
     resolution: {integrity: sha512-/jZDa00a3Sz7rdyu55NLrQCIrbyIkbBxareejQI315f/i8HjYN+ZWsDLLpoQSiUIEIyZF/R8fDg3BmB8AtHttg==}
@@ -9105,10 +9046,6 @@ packages:
   pretty-format@27.5.1:
     resolution: {integrity: sha512-Qb1gy5OrP5+zDf2Bvnzdl3jsTf1qXVMazbvCoKhtKqVs4/YK4ozX4gKQJJVyNe+cajNPn0KoC0MC3FUmaHWEmQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-
-  pretty-format@29.7.0:
-    resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
   pretty-format@30.3.0:
     resolution: {integrity: sha512-oG4T3wCbfeuvljnyAzhBvpN45E8iOTXCU/TD3zXW80HA3dQ4ahdqMkWGiPWZvjpQwlbyHrPTWUAqUzGzv4l1JQ==}
@@ -11721,16 +11658,14 @@ snapshots:
 
   '@googlemaps/jest-mocks@2.22.8': {}
 
-  '@happy-dom/jest-environment@18.0.1':
+  '@happy-dom/jest-environment@19.0.2(@jest/environment@30.3.0)(@jest/fake-timers@30.3.0)(@jest/types@30.4.1)(jest-mock@30.4.1)(jest-util@30.4.1)':
     dependencies:
-      '@jest/environment': 29.7.0
-      '@jest/fake-timers': 29.7.0
-      '@jest/types': 29.6.3
-      '@types/jest': 29.4.0
-      '@types/node': 24.12.4
-      happy-dom: 18.0.1
-      jest-mock: 29.7.0
-      jest-util: 29.7.0
+      '@jest/environment': 30.3.0
+      '@jest/fake-timers': 30.3.0
+      '@jest/types': 30.4.1
+      happy-dom: 19.0.2
+      jest-mock: 30.4.1
+      jest-util: 30.4.1
 
   '@hono/node-server@1.19.14(hono@4.12.25)':
     dependencies:
@@ -11878,23 +11813,12 @@ snapshots:
     optionalDependencies:
       canvas: 3.2.3
 
-  '@jest/environment@29.7.0':
-    dependencies:
-      '@jest/fake-timers': 29.7.0
-      '@jest/types': 29.6.3
-      '@types/node': 24.12.4
-      jest-mock: 29.7.0
-
   '@jest/environment@30.3.0':
     dependencies:
       '@jest/fake-timers': 30.3.0
       '@jest/types': 30.3.0
       '@types/node': 24.12.4
       jest-mock: 30.3.0
-
-  '@jest/expect-utils@29.7.0':
-    dependencies:
-      jest-get-type: 29.6.3
 
   '@jest/expect-utils@30.3.0':
     dependencies:
@@ -11910,15 +11834,6 @@ snapshots:
       jest-snapshot: 30.3.0
     transitivePeerDependencies:
       - supports-color
-
-  '@jest/fake-timers@29.7.0':
-    dependencies:
-      '@jest/types': 29.6.3
-      '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 24.12.4
-      jest-message-util: 29.7.0
-      jest-mock: 29.7.0
-      jest-util: 29.7.0
 
   '@jest/fake-timers@30.3.0':
     dependencies:
@@ -11978,10 +11893,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@jest/schemas@29.6.3':
-    dependencies:
-      '@sinclair/typebox': 0.27.10
-
   '@jest/schemas@30.0.5':
     dependencies:
       '@sinclair/typebox': 0.34.49
@@ -12035,15 +11946,6 @@ snapshots:
       write-file-atomic: 5.0.1
     transitivePeerDependencies:
       - supports-color
-
-  '@jest/types@29.6.3':
-    dependencies:
-      '@jest/schemas': 29.6.3
-      '@types/istanbul-lib-coverage': 2.0.6
-      '@types/istanbul-reports': 3.0.4
-      '@types/node': 24.12.4
-      '@types/yargs': 17.0.35
-      chalk: 4.1.2
 
   '@jest/types@30.3.0':
     dependencies:
@@ -12882,17 +12784,11 @@ snapshots:
 
   '@simple-libs/stream-utils@2.0.0': {}
 
-  '@sinclair/typebox@0.27.10': {}
-
   '@sinclair/typebox@0.34.49': {}
 
   '@sinonjs/commons@3.0.1':
     dependencies:
       type-detect: 4.0.8
-
-  '@sinonjs/fake-timers@10.3.0':
-    dependencies:
-      '@sinonjs/commons': 3.0.1
 
   '@sinonjs/fake-timers@15.4.0':
     dependencies:
@@ -13121,11 +13017,6 @@ snapshots:
   '@types/istanbul-reports@3.0.4':
     dependencies:
       '@types/istanbul-lib-report': 3.0.3
-
-  '@types/jest@29.4.0':
-    dependencies:
-      expect: 29.7.0
-      pretty-format: 29.7.0
 
   '@types/jest@30.0.0':
     dependencies:
@@ -14023,8 +13914,6 @@ snapshots:
   chownr@1.1.4:
     optional: true
 
-  ci-info@3.9.0: {}
-
   ci-info@4.4.0: {}
 
   cjs-module-lexer@2.2.0: {}
@@ -14550,8 +14439,6 @@ snapshots:
   detect-newline@3.1.0: {}
 
   detect-newline@4.0.1: {}
-
-  diff-sequences@29.6.3: {}
 
   diff@4.0.4: {}
 
@@ -15150,14 +15037,6 @@ snapshots:
   expand-template@2.0.3:
     optional: true
 
-  expect@29.7.0:
-    dependencies:
-      '@jest/expect-utils': 29.7.0
-      jest-get-type: 29.6.3
-      jest-matcher-utils: 29.7.0
-      jest-message-util: 29.7.0
-      jest-util: 29.7.0
-
   expect@30.3.0:
     dependencies:
       '@jest/expect-utils': 30.3.0
@@ -15671,7 +15550,7 @@ snapshots:
     optionalDependencies:
       uglify-js: 3.19.3
 
-  happy-dom@18.0.1:
+  happy-dom@19.0.2:
     dependencies:
       '@types/node': 24.12.4
       '@types/whatwg-mimetype': 3.0.2
@@ -16227,13 +16106,6 @@ snapshots:
       - babel-plugin-macros
       - supports-color
 
-  jest-diff@29.7.0:
-    dependencies:
-      chalk: 4.1.2
-      diff-sequences: 29.6.3
-      jest-get-type: 29.6.3
-      pretty-format: 29.7.0
-
   jest-diff@30.3.0:
     dependencies:
       '@jest/diff-sequences': 30.3.0
@@ -16281,8 +16153,6 @@ snapshots:
       jest-mock: 30.3.0
       jest-util: 30.3.0
       jest-validate: 30.3.0
-
-  jest-get-type@29.6.3: {}
 
   jest-haste-map@30.3.0:
     dependencies:
@@ -16333,13 +16203,6 @@ snapshots:
       '@jest/get-type': 30.1.0
       pretty-format: 30.3.0
 
-  jest-matcher-utils@29.7.0:
-    dependencies:
-      chalk: 4.1.2
-      jest-diff: 29.7.0
-      jest-get-type: 29.6.3
-      pretty-format: 29.7.0
-
   jest-matcher-utils@30.3.0:
     dependencies:
       '@jest/get-type': 30.1.0
@@ -16353,18 +16216,6 @@ snapshots:
       chalk: 4.1.2
       jest-diff: 30.4.1
       pretty-format: 30.4.1
-
-  jest-message-util@29.7.0:
-    dependencies:
-      '@babel/code-frame': 7.29.7
-      '@jest/types': 29.6.3
-      '@types/stack-utils': 2.0.3
-      chalk: 4.1.2
-      graceful-fs: 4.2.11
-      micromatch: 4.0.8
-      pretty-format: 29.7.0
-      slash: 3.0.0
-      stack-utils: 2.0.6
 
   jest-message-util@30.3.0:
     dependencies:
@@ -16390,12 +16241,6 @@ snapshots:
       pretty-format: 30.4.1
       slash: 3.0.0
       stack-utils: 2.0.6
-
-  jest-mock@29.7.0:
-    dependencies:
-      '@jest/types': 29.6.3
-      '@types/node': 24.12.4
-      jest-util: 29.7.0
 
   jest-mock@30.3.0:
     dependencies:
@@ -16514,15 +16359,6 @@ snapshots:
       synckit: 0.11.13
     transitivePeerDependencies:
       - supports-color
-
-  jest-util@29.7.0:
-    dependencies:
-      '@jest/types': 29.6.3
-      '@types/node': 24.12.4
-      chalk: 4.1.2
-      ci-info: 3.9.0
-      graceful-fs: 4.2.11
-      picomatch: 2.3.2
 
   jest-util@30.3.0:
     dependencies:
@@ -17766,12 +17602,6 @@ snapshots:
       ansi-regex: 5.0.1
       ansi-styles: 5.2.0
       react-is: 17.0.2
-
-  pretty-format@29.7.0:
-    dependencies:
-      '@jest/schemas': 29.6.3
-      ansi-styles: 5.2.0
-      react-is: 18.3.1
 
   pretty-format@30.3.0:
     dependencies:

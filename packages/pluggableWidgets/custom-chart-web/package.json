@@ -54,7 +54,7 @@
         "plotly.js-dist-min": "^3.0.0"
     },
     "devDependencies": {
-        "@happy-dom/jest-environment": "^18.0.1",
+        "@happy-dom/jest-environment": "^19.0.2",
         "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:^*",
