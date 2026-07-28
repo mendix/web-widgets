@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.3] - 2026-07-27
+
 ### Fixed
 
 - We fixed an issue with option filtering not working correctly with IME input methods.
