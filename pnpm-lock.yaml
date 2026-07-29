@@ -6363,12 +6363,8 @@ packages:
   brace-expansion@2.0.2:
     resolution: {integrity: sha512-Jt0vHyM+jmUBqojB7E1NIYadt0vI0Qxjxd2TErW94wDz+E2LAm5vKMXXwg6ZZBTHPuUlDgQHKXvjGBdfcF1ZDQ==}
 
-  brace-expansion@5.0.3:
-    resolution: {integrity: sha512-fy6KJm2RawA5RcHkLa1z/ScpBeA762UF9KmZQxwIbDtRJrgLzM10depAiEQ+CXYcoiqW1/m96OAAoke2nE9EeA==}
-    engines: {node: 18 || 20 || >=22}
-
-  brace-expansion@5.0.9:
-    resolution: {integrity: sha512-ScQ4IuvIEF1TMlP7Zt+vjJ//9zlPb2SDcxWxM3bk8s6t6GGdJ7KO1dCcTidOPJKePW30LE/2cT7wCyPho9/Wxg==}
+  brace-expansion@5.0.8:
+    resolution: {integrity: sha512-JZyDyq3D4AUifKTPOB7DELf6XsB3WdPuNxCtob1vFXPsSXhdAiHBWJ/tJ8HAc9aH84BK+5JFZLNkJKx3G9kzQg==}
     engines: {node: 20 || >=22}
 
   braces@3.0.3:
@@ -7677,8 +7673,8 @@ packages:
   get-canvas-context@1.0.2:
     resolution: {integrity: sha512-LnpfLf/TNzr9zVOGiIY6aKCz8EKuXmlYNV7CM2pUjBa/B+c2I15tS7KLySep75+FuerJdmArvJLcsAXWEy2H0A==}
 
-  get-east-asian-width@1.4.0:
-    resolution: {integrity: sha512-QZjmEOC+IT1uk6Rx0sX22V6uHWVwbdbxf1faPqJ1QhLdGgsRGCZoyaQBm/piRdJy/D2um6hM1UP7ZEeQ4EkP+Q==}
+  get-east-asian-width@1.6.0:
+    resolution: {integrity: sha512-QRbvDIbx6YklUe6RxeTeleMR0yv3cYH6PsPZHcnVn7xv7zO1BHN8r0XETu8n6Ye3Q+ahtSarc3WgtNWmehIBfA==}
     engines: {node: '>=18'}
 
   get-intrinsic@1.3.0:
@@ -7948,8 +7944,8 @@ packages:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
     engines: {node: '>=0.10.0'}
 
-  iconv-lite@0.7.1:
-    resolution: {integrity: sha512-2Tth85cXwGFHfvRgZWszZSvdo+0Xsqmw8k8ZwxScfcBneNUraK+dxRxRm24nszx80Y0TVio8kKLt5sLE7ZCLlw==}
+  iconv-lite@0.7.3:
+    resolution: {integrity: sha512-IKXpvIzjnC9XTAUbVBcMfGS0EPaIXtW6v+zr+RRp+hqULEpo0owZax6wyRwPOJbWbzjYspQwusTsfVr0ifh4uQ==}
     engines: {node: '>=0.10.0'}
 
   icss-replace-symbols@1.1.0:
@@ -8881,10 +8877,6 @@ packages:
     resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
     hasBin: true
 
-  minimatch@10.2.2:
-    resolution: {integrity: sha512-+G4CpNBxa5MprY+04MbgOw1v7So6n5JY166pFi9KfYwT78fxScCeSNQSNzp6dpPSW2rONOps6Ocam1wFhCgoVw==}
-    engines: {node: 18 || 20 || >=22}
-
   minimatch@10.2.6:
     resolution: {integrity: sha512-vpLQEs+VLCr1nU0BXS07maYoFwlDAH0gngQuuttxIwutDFEMHq2blX+8vpgxDdK3J1PwjCJiep77OitTZ4Ll1A==}
     engines: {node: 18 || 20 || >=22}
@@ -8899,8 +8891,8 @@ packages:
     resolution: {integrity: sha512-W0Wvr9HyFXZRGIDgCicunpQ299OKXs9RgZfaukz4qAW/pJhcpUfupc9c+OObPOFueNy8VSrZgEmDtk6Kh4WzDA==}
     engines: {node: '>=16 || 14 >=14.17'}
 
-  minimatch@9.0.5:
-    resolution: {integrity: sha512-G6T0ZX48xgozx7587koeX9Ys2NYy6Gmv//P89sEte9V9whIapMNF4idKxnW2QtCcLiTWlb/wfCabAtAFWhhBow==}
+  minimatch@9.0.9:
+    resolution: {integrity: sha512-OBwBN9AL4dqmETlpS2zasx+vTeWclWzkblfZk7KTA5j3jeOONz/tRCnZomUyvNg83wL5Zv9Ss6HMJXAgL8R2Yg==}
     engines: {node: '>=16 || 14 >=14.17'}
 
   minimist@1.2.8:
@@ -8909,10 +8901,6 @@ packages:
   minipass@4.2.8:
     resolution: {integrity: sha512-fNzuVyifolSLFL4NzpF+wEF4qrgqaaKX0haXPQEdQ7NKAN+WecoKMHV09YcuL/DHxrUsYQOK3MiuDf7Ip2OXfQ==}
     engines: {node: '>=8'}
-
-  minipass@7.1.2:
-    resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
-    engines: {node: '>=16 || 14 >=14.17'}
 
   minipass@7.1.3:
     resolution: {integrity: sha512-tEBHqDnIoM/1rXME1zgka9g6Q2lcoCkxHLuc7ODJ5BxbP5d4c2Z5cGgtXAku59200Cx7diuHTOYfSBD8n6mm8A==}
@@ -9283,10 +9271,6 @@ packages:
   path-scurry@1.11.1:
     resolution: {integrity: sha512-Xa4Nw17FS9ApQFJ9umLiJS4orGjm7ZzwUrwamcGQuHSzDyth9boKDaycYdDcZDuqYATXw4HFXgaqWTctW/v1HA==}
     engines: {node: '>=16 || 14 >=14.18'}
-
-  path-scurry@2.0.0:
-    resolution: {integrity: sha512-ypGJsmGtdXUOeM5u93TyeIEfEhM6s+ljAhrk5vAvSx8uyY/02OvrZnA0YNGUrPXfpJMgI1ODd3nwz8Npx4O4cg==}
-    engines: {node: 20 || >=22}
 
   path-scurry@2.0.2:
     resolution: {integrity: sha512-3O/iVVsJAPsOnpwWIeD+d6z/7PmqApyQePUtCndjatj/9I5LylHvt5qluFaBT3I5h3r1ejfR056c+FCv+NnNXg==}
@@ -12546,7 +12530,7 @@ snapshots:
   '@commitlint/is-ignored@21.2.0':
     dependencies:
       '@commitlint/types': 21.2.0
-      semver: 7.7.3
+      semver: 7.8.5
 
   '@commitlint/lint@21.2.0':
     dependencies:
@@ -12618,7 +12602,7 @@ snapshots:
     dependencies:
       '@simple-libs/child-process-utils': 2.0.0
       '@simple-libs/stream-utils': 2.0.0
-      semver: 7.7.3
+      semver: 7.8.5
     optionalDependencies:
       conventional-commits-parser: 7.1.2
 
@@ -13295,7 +13279,7 @@ snapshots:
       rollup-plugin-postcss: 4.0.2(postcss@8.5.26)(ts-node@10.9.2(@swc/core@1.13.5)(@types/node@24.12.4)(typescript@5.9.3))
       rollup-plugin-re: 1.0.7
       sass: 1.102.0
-      semver: 7.7.3
+      semver: 7.8.5
       shelljs: 0.10.0
       shx: 0.4.0
       ts-jest: 29.4.12(@babel/core@7.29.7)(@jest/transform@30.4.1)(@jest/types@30.4.1)(babel-jest@30.4.1(@babel/core@7.29.7))(jest-util@30.4.1)(jest@30.3.0(@types/node@24.12.4)(ts-node@10.9.2(@swc/core@1.13.5)(@types/node@24.12.4)(typescript@5.9.3)))(typescript@5.9.3)
@@ -14429,8 +14413,8 @@ snapshots:
       debug: 4.4.3
       fast-glob: 3.3.3
       is-glob: 4.0.3
-      minimatch: 9.0.5
-      semver: 7.7.3
+      minimatch: 9.0.9
+      semver: 7.8.5
       ts-api-utils: 2.1.0(typescript@5.9.3)
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -14443,8 +14427,8 @@ snapshots:
       '@typescript-eslint/types': 8.66.0
       '@typescript-eslint/visitor-keys': 8.66.0
       debug: 4.4.3
-      minimatch: 10.2.2
-      semver: 7.7.3
+      minimatch: 10.2.6
+      semver: 7.8.5
       tinyglobby: 0.2.15
       ts-api-utils: 2.5.0(typescript@5.9.3)
       typescript: 5.9.3
@@ -14954,7 +14938,7 @@ snapshots:
       content-type: 1.0.5
       debug: 4.4.3
       http-errors: 2.0.1
-      iconv-lite: 0.7.1
+      iconv-lite: 0.7.3
       on-finished: 2.4.1
       qs: 6.14.1
       raw-body: 3.0.2
@@ -14973,11 +14957,7 @@ snapshots:
     dependencies:
       balanced-match: 1.0.2
 
-  brace-expansion@5.0.3:
-    dependencies:
-      balanced-match: 4.0.4
-
-  brace-expansion@5.0.9:
+  brace-expansion@5.0.8:
     dependencies:
       balanced-match: 4.0.4
 
@@ -16075,7 +16055,7 @@ snapshots:
       eslint-fix-utils: 0.4.3(@types/estree@1.0.9)(eslint@9.39.3(jiti@2.6.1))
       jsonc-eslint-parser: 2.4.1
       package-json-validator: 1.6.0
-      semver: 7.7.3
+      semver: 7.8.5
       sort-object-keys: 2.1.0
       sort-package-json: 3.4.0
       validate-npm-package-name: 7.0.2
@@ -16546,7 +16526,7 @@ snapshots:
 
   get-canvas-context@1.0.2: {}
 
-  get-east-asian-width@1.4.0: {}
+  get-east-asian-width@1.6.0: {}
 
   get-intrinsic@1.3.0:
     dependencies:
@@ -16631,8 +16611,8 @@ snapshots:
     dependencies:
       foreground-child: 3.3.1
       jackspeak: 3.4.3
-      minimatch: 9.0.5
-      minipass: 7.1.2
+      minimatch: 9.0.9
+      minipass: 7.1.3
       package-json-from-dist: 1.0.1
       path-scurry: 1.11.1
 
@@ -16640,14 +16620,14 @@ snapshots:
     dependencies:
       foreground-child: 3.3.1
       jackspeak: 4.1.1
-      minimatch: 10.2.2
-      minipass: 7.1.2
+      minimatch: 10.2.6
+      minipass: 7.1.3
       package-json-from-dist: 1.0.1
-      path-scurry: 2.0.0
+      path-scurry: 2.0.2
 
   glob@13.0.6:
     dependencies:
-      minimatch: 10.2.2
+      minimatch: 10.2.6
       minipass: 7.1.3
       path-scurry: 2.0.2
 
@@ -16901,7 +16881,7 @@ snapshots:
     dependencies:
       safer-buffer: 2.1.2
 
-  iconv-lite@0.7.1:
+  iconv-lite@0.7.3:
     dependencies:
       safer-buffer: 2.1.2
 
@@ -17175,7 +17155,7 @@ snapshots:
       '@babel/parser': 7.28.4
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.2
-      semver: 7.7.3
+      semver: 7.8.5
     transitivePeerDependencies:
       - supports-color
 
@@ -17640,7 +17620,7 @@ snapshots:
       jest-message-util: 30.3.0
       jest-util: 30.3.0
       pretty-format: 30.3.0
-      semver: 7.7.3
+      semver: 7.8.5
       synckit: 0.11.11
     transitivePeerDependencies:
       - supports-color
@@ -17834,7 +17814,7 @@ snapshots:
       acorn: 8.15.0
       eslint-visitor-keys: 3.4.3
       espree: 9.6.1
-      semver: 7.7.3
+      semver: 7.8.5
 
   jsonc-parser@3.3.1: {}
 
@@ -17990,7 +17970,7 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.7.3
+      semver: 7.8.5
 
   make-dir@5.1.0: {}
 
@@ -18147,13 +18127,9 @@ snapshots:
 
   mini-svg-data-uri@1.4.4: {}
 
-  minimatch@10.2.2:
-    dependencies:
-      brace-expansion: 5.0.3
-
   minimatch@10.2.6:
     dependencies:
-      brace-expansion: 5.0.9
+      brace-expansion: 5.0.8
 
   minimatch@3.0.8:
     dependencies:
@@ -18167,15 +18143,13 @@ snapshots:
     dependencies:
       brace-expansion: 2.0.2
 
-  minimatch@9.0.5:
+  minimatch@9.0.9:
     dependencies:
       brace-expansion: 2.0.2
 
   minimist@1.2.8: {}
 
   minipass@4.2.8: {}
-
-  minipass@7.1.2: {}
 
   minipass@7.1.3: {}
 
@@ -18322,7 +18296,7 @@ snapshots:
     dependencies:
       hosted-git-info: 9.0.3
       proc-log: 6.1.0
-      semver: 7.7.3
+      semver: 7.8.5
       validate-npm-package-name: 7.0.2
 
   npm-run-path@2.0.2:
@@ -18475,7 +18449,7 @@ snapshots:
   package-json-validator@1.6.0:
     dependencies:
       npm-package-arg: 13.0.2
-      semver: 7.7.3
+      semver: 7.8.5
       validate-npm-package-license: 3.0.4
       validate-npm-package-name: 7.0.2
 
@@ -18527,12 +18501,7 @@ snapshots:
   path-scurry@1.11.1:
     dependencies:
       lru-cache: 10.4.3
-      minipass: 7.1.2
-
-  path-scurry@2.0.0:
-    dependencies:
-      lru-cache: 11.2.2
-      minipass: 7.1.2
+      minipass: 7.1.3
 
   path-scurry@2.0.2:
     dependencies:
@@ -19252,7 +19221,7 @@ snapshots:
     dependencies:
       bytes: 3.1.2
       http-errors: 2.0.1
-      iconv-lite: 0.7.1
+      iconv-lite: 0.7.3
       unpipe: 1.0.0
 
   rc@1.2.8:
@@ -20140,7 +20109,7 @@ snapshots:
   string-width@7.2.0:
     dependencies:
       emoji-regex: 10.6.0
-      get-east-asian-width: 1.4.0
+      get-east-asian-width: 1.6.0
       strip-ansi: 7.1.2
 
   string.prototype.matchall@4.0.12:

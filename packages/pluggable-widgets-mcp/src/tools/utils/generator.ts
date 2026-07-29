@@ -1,11 +1,12 @@
 import { spawn } from "node:child_process";
-import { resolve } from "node:path";
-import { GENERATIONS_DIR, PACKAGE_ROOT, SCAFFOLD_TIMEOUT_MS } from "@/config";
+import { createRequire } from "node:module";
+import { INSTALL_TIMEOUT_MS, SCAFFOLD_TIMEOUT_MS } from "@/config";
 import { DEFAULT_WIDGET_OPTIONS, type WidgetOptions, type WidgetOptionsInput } from "@/tools/types";
+import { AnswerAdapter, type Answers } from "./answer-adapter";
+import { createLogger } from "./logger";
 import { ProgressTracker } from "./progress-tracker";
 
-// Re-export for backward compatibility with existing imports
-export { DEFAULT_WIDGET_OPTIONS };
+const installLog = createLogger("npm install");
 
 /**
  * Progress milestones for widget scaffolding.
@@ -15,6 +16,9 @@ export const SCAFFOLD_PROGRESS = {
     INSTALLING: 50,
     COMPLETE: 100
 } as const;
+
+/** Namespace the Mendix generator is registered under inside our Yeoman environment. */
+const GENERATOR_NAMESPACE = "@mendix/widget";
 
 /**
  * Builds widget options from input arguments with defaults applied.
@@ -37,125 +41,159 @@ export function buildWidgetOptions(args: WidgetOptionsInput): WidgetOptions {
 }
 
 /**
- * Returns the path to the generator-widget binary installed in this package's node_modules.
- * Using a direct path (rather than npx) ensures we always use the correct version
- * regardless of the spawn cwd (which is set to outputDir for widget placement).
- */
-function getGeneratorBinPath(): string {
-    return resolve(PACKAGE_ROOT, "node_modules/.bin/generator-widget");
-}
-
-/**
- * Maps WidgetOptions to CLI flags for the non-interactive generator.
- * Requires @mendix/generator-widget with --default flag support (commit 16cf75e).
- */
-function buildWidgetFlags(options: WidgetOptions): string[] {
-    return [
-        "--default",
-        "--name",
-        options.name,
-        "--description",
-        options.description,
-        "--organization",
-        options.organization,
-        "--copyright",
-        "© Mendix Technology BV 2026",
-        "--license",
-        options.license,
-        "--version",
-        options.version,
-        "--author",
-        options.author,
-        "--projectPath",
-        "../",
-        "--programmingLanguage",
-        options.programmingLanguage,
-        "--programmingStyle",
-        "function",
-        "--platform",
-        "web",
-        "--boilerplate",
-        options.template,
-        ...(options.unitTests ? ["--hasUnitTests"] : []),
-        ...(options.e2eTests ? ["--hasE2eTests"] : [])
-    ];
-}
-
-/**
- * Runs the Mendix widget generator using non-interactive CLI flags.
- * Replaces the previous node-pty / interactive-prompt approach.
+ * Maps our options onto the generator's prompt names.
  *
- * @param options - Widget configuration options
- * @param tracker - Progress tracker for notifications
- * @param outputDir - Directory where the widget folder will be created
+ * These keys are the generator's contract, not ours — they come from
+ * `@mendix/generator-widget/generators/app/lib/prompttexts.js`. `generator.test.ts` pins the full
+ * set so an upstream rename fails loudly instead of silently falling back to a default.
+ *
+ * `copyright` is deliberately omitted: the generator's own default computes the current year, which
+ * is more correct than anything we can hardcode.
+ */
+export function buildGeneratorAnswers(options: WidgetOptions, projectPath: string): Answers {
+    return {
+        name: options.name,
+        description: options.description,
+        organization: options.organization,
+        license: options.license,
+        version: options.version,
+        author: options.author,
+        projectPath,
+        programmingLanguage: options.programmingLanguage,
+        programmingStyle: "function",
+        platform: "web",
+        boilerplate: options.template,
+        hasUnitTests: options.unitTests,
+        hasE2eTests: options.e2eTests
+    };
+}
+
+export interface ScaffoldResult {
+    /** Prompt names the generator asked for, in order. */
+    askedFor: string[];
+}
+
+/**
+ * Thrown when the generator exceeds its time budget.
+ *
+ * A distinct type rather than a message the caller has to recognise by substring — categorising an
+ * error by `message.includes(...)` is the same guesswork this module exists to remove.
+ */
+export class ScaffoldTimeoutError extends Error {
+    constructor(public readonly timeoutMs: number) {
+        super(`Widget scaffold timed out after ${timeoutMs / 1000}s`);
+        this.name = "ScaffoldTimeoutError";
+    }
+}
+
+/**
+ * Scaffolds a widget by running the Mendix generator in-process through a Yeoman environment
+ * whose I/O adapter answers prompts from data.
+ *
+ * `widgetDir` must be a fresh, empty directory. That is not just tidiness: the generator's `end()`
+ * hook spawns `pluggable-widgets-tools audit:fix`, `npm run lint:fix` and `npm run build` with
+ * `stdio: "inherit"` when it finds a populated `node_modules`, which would write directly into the
+ * MCP stdio channel. Scaffolding into an empty directory makes that branch unreachable — the
+ * generator's own `initializing()` refuses a non-empty target first.
+ *
+ * Dependencies are NOT installed here; call `runNpmInstall` separately so a registry failure does
+ * not discard a perfectly good scaffold.
  */
 export async function runWidgetGenerator(
     options: WidgetOptions,
     tracker: ProgressTracker,
-    outputDir: string = GENERATIONS_DIR
-): Promise<void> {
-    const flags = buildWidgetFlags(options);
-    const generatorBin = getGeneratorBinPath();
+    widgetDir: string,
+    projectPath = "../"
+): Promise<ScaffoldResult> {
+    // Imported lazily: yeoman-environment pulls in a large dependency graph, and the STDIO
+    // transport should not pay for it unless a widget is actually being scaffolded.
+    const { createEnv } = await import("yeoman-environment");
 
-    return new Promise((resolve, reject) => {
-        tracker.start("initializing");
+    // Yeoman drives this callback from `adapter.progress()`, so scaffold steps reach the client's
+    // log panel as structured events rather than as text we would otherwise have to scrape.
+    const adapter = new AnswerAdapter(
+        buildGeneratorAnswers(options, projectPath),
+        step => {
+            tracker.info(step).catch(() => undefined);
+        },
+        "create-widget"
+    );
 
-        let stdout = "";
+    const env = createEnv({
+        adapter: adapter as never,
+        cwd: widgetDir
+    });
+
+    const require = createRequire(import.meta.url);
+    env.register(require.resolve("@mendix/generator-widget/generators/app/index.js"), {
+        namespace: GENERATOR_NAMESPACE
+    });
+
+    tracker.start("scaffolding");
+
+    const timeout = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new ScaffoldTimeoutError(SCAFFOLD_TIMEOUT_MS)), SCAFFOLD_TIMEOUT_MS).unref()
+    );
+
+    try {
+        await Promise.race([env.run(GENERATOR_NAMESPACE, { skipInstall: true }), timeout]);
+        return { askedFor: adapter.askedFor };
+    } finally {
+        tracker.stop();
+    }
+}
+
+export interface InstallResult {
+    ok: boolean;
+    /** Populated only when `ok` is false. */
+    error?: string;
+}
+
+/**
+ * Installs the scaffolded widget's dependencies.
+ *
+ * Reported separately from scaffolding because the failure modes differ: a bad answer fails in
+ * milliseconds and leaves nothing behind, whereas a registry stall leaves a valid scaffold the user
+ * can finish by hand. This resolves rather than throws so the caller can report partial success.
+ */
+export async function runNpmInstall(widgetDir: string, tracker: ProgressTracker): Promise<InstallResult> {
+    return new Promise<InstallResult>(resolve => {
+        tracker.updateStep("installing", 2);
+        tracker.progress(SCAFFOLD_PROGRESS.INSTALLING, "Installing dependencies...").catch(() => undefined);
+
         let stderr = "";
-        let installingNotified = false;
 
-        const child = spawn(generatorBin, flags, {
-            cwd: outputDir,
+        const child = spawn("npm", ["install"], {
+            cwd: widgetDir,
             env: { ...process.env, FORCE_COLOR: "0", NO_COLOR: "1", DO_NOT_TRACK: "1" },
             stdio: ["ignore", "pipe", "pipe"]
         });
 
-        child.stdout.on("data", (data: Buffer) => {
-            const chunk = data.toString();
-            stdout += chunk;
-            console.error(`[create-widget] stdout: ${chunk.trim()}`);
-
-            if (!installingNotified && stdout.includes("npm install")) {
-                installingNotified = true;
-                tracker.updateStep("installing", 2);
-                tracker.progress(SCAFFOLD_PROGRESS.INSTALLING, "Installing dependencies...").catch(() => undefined);
-                tracker.info("Installing dependencies...").catch(() => undefined);
-            }
-        });
-
+        // Both child streams go to stderr — stdout belongs to the MCP protocol.
+        child.stdout.on("data", (data: Buffer) => installLog.debug(data.toString().trim()));
         child.stderr.on("data", (data: Buffer) => {
             const chunk = data.toString();
             stderr += chunk;
-            console.error(`[create-widget] stderr: ${chunk.trim()}`);
+            installLog.debug(chunk.trim());
         });
 
-        const timeout = setTimeout(() => {
-            tracker.stop();
+        const timer = setTimeout(() => {
             child.kill();
-            reject(new Error("Widget scaffold timed out after 5 minutes"));
-        }, SCAFFOLD_TIMEOUT_MS);
+            resolve({ ok: false, error: `npm install timed out after ${INSTALL_TIMEOUT_MS / 1000}s` });
+        }, INSTALL_TIMEOUT_MS);
 
-        child.on("close", (exitCode: number | null) => {
-            clearTimeout(timeout);
-            tracker.stop();
-
-            if (exitCode === 0) {
-                console.error(`[create-widget] Widget scaffolded successfully`);
-                resolve();
-            } else {
-                console.error(`[create-widget] Widget scaffold failed with exit code ${exitCode}`);
-                reject(
-                    new Error(
-                        `Generator exited with code ${exitCode}\nStderr: ${stderr.slice(-2000)}\nStdout: ${stdout.slice(-1000)}`
-                    )
-                );
-            }
+        child.on("close", (code: number | null) => {
+            clearTimeout(timer);
+            resolve(
+                code === 0
+                    ? { ok: true }
+                    : { ok: false, error: `npm install exited with code ${code}\n${stderr.slice(-2000)}` }
+            );
         });
 
         child.on("error", (err: Error) => {
-            clearTimeout(timeout);
-            tracker.stop();
-            reject(new Error(`Failed to spawn generator: ${err.message}`));
+            clearTimeout(timer);
+            resolve({ ok: false, error: `Failed to spawn npm install: ${err.message}` });
         });
     });
 }
