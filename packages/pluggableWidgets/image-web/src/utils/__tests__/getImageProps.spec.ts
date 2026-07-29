@@ -1,5 +1,5 @@
 import { WebIcon, WebImage } from "mendix";
-import { dynamic } from "@mendix/widget-plugin-test-utils";
+import { dynamic, editableImage } from "@mendix/widget-plugin-test-utils";
 import { getImageProps, GetImagePropsInput } from "../getImageProps";
 
 const webImage = (uri: string): WebImage => ({ uri, name: "test.jpg" });
@@ -9,7 +9,7 @@ describe("getImageProps", () => {
         it("returns the main image URI when main image is available", () => {
             const input: GetImagePropsInput = {
                 datasource: "image",
-                imageObject: dynamic.available(webImage("https://example.com/main.jpg"))
+                imageObject: editableImage.with(webImage("https://example.com/main.jpg"))
             };
             expect(getImageProps(input)).toEqual({ type: "image", image: "https://example.com/main.jpg" });
         });
@@ -17,7 +17,9 @@ describe("getImageProps", () => {
         it("returns the main image URI when main image is loading (uri present)", () => {
             const input: GetImagePropsInput = {
                 datasource: "image",
-                imageObject: dynamic.loading(webImage("https://example.com/main.jpg"))
+                imageObject: editableImage<WebImage>(b =>
+                    b.isLoading().withValue(webImage("https://example.com/main.jpg")).build()
+                )
             };
             expect(getImageProps(input)).toEqual({ type: "image", image: "https://example.com/main.jpg" });
         });
@@ -25,7 +27,7 @@ describe("getImageProps", () => {
         it("returns undefined image when main image is loading (no uri yet)", () => {
             const input: GetImagePropsInput = {
                 datasource: "image",
-                imageObject: dynamic.loading<WebImage>()
+                imageObject: editableImage<WebImage>(b => b.isLoading().build())
             };
             expect(getImageProps(input)).toEqual({ type: "image", image: undefined });
         });
@@ -33,8 +35,8 @@ describe("getImageProps", () => {
         it("falls back to defaultImage when main image is unavailable and fallback is available", () => {
             const input: GetImagePropsInput = {
                 datasource: "image",
-                imageObject: dynamic.unavailable<WebImage>(),
-                defaultImageDynamic: dynamic.available(webImage("https://example.com/fallback.jpg"))
+                imageObject: editableImage<WebImage>(b => b.isUnavailable().build()),
+                defaultImageDynamic: editableImage.with(webImage("https://example.com/fallback.jpg"))
             };
             expect(getImageProps(input)).toEqual({ type: "image", image: "https://example.com/fallback.jpg" });
         });
@@ -42,8 +44,10 @@ describe("getImageProps", () => {
         it("falls back to defaultImage when main image is unavailable and fallback is loading", () => {
             const input: GetImagePropsInput = {
                 datasource: "image",
-                imageObject: dynamic.unavailable<WebImage>(),
-                defaultImageDynamic: dynamic.loading(webImage("https://example.com/fallback.jpg"))
+                imageObject: editableImage<WebImage>(b => b.isUnavailable().build()),
+                defaultImageDynamic: editableImage<WebImage>(b =>
+                    b.isLoading().withValue(webImage("https://example.com/fallback.jpg")).build()
+                )
             };
             expect(getImageProps(input)).toEqual({ type: "image", image: "https://example.com/fallback.jpg" });
         });
@@ -51,8 +55,8 @@ describe("getImageProps", () => {
         it("returns undefined image when both main image and fallback are unavailable", () => {
             const input: GetImagePropsInput = {
                 datasource: "image",
-                imageObject: dynamic.unavailable<WebImage>(),
-                defaultImageDynamic: dynamic.unavailable<WebImage>()
+                imageObject: editableImage<WebImage>(b => b.isUnavailable().build()),
+                defaultImageDynamic: editableImage<WebImage>(b => b.isUnavailable().build())
             };
             expect(getImageProps(input)).toEqual({ type: "image", image: undefined });
         });
@@ -65,8 +69,8 @@ describe("getImageProps", () => {
         it("does not use defaultImage when main image is available", () => {
             const input: GetImagePropsInput = {
                 datasource: "image",
-                imageObject: dynamic.available(webImage("https://example.com/main.jpg")),
-                defaultImageDynamic: dynamic.available(webImage("https://example.com/fallback.jpg"))
+                imageObject: editableImage.with(webImage("https://example.com/main.jpg")),
+                defaultImageDynamic: editableImage.with(webImage("https://example.com/fallback.jpg"))
             };
             expect(getImageProps(input)).toEqual({ type: "image", image: "https://example.com/main.jpg" });
         });
