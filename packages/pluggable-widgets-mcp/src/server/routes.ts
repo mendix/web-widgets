@@ -1,9 +1,10 @@
-import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
+import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import type { Express, Request, Response } from "express";
-import { MENDIX_PROJECT_DIR, SERVER_NAME, SERVER_VERSION } from "@/config";
-import { buildIncomingLogEntry, logProtocolMessage } from "./protocol-logger";
+import { getConfiguredProjectDir, SERVER_NAME, SERVER_VERSION } from "@/config";
+import { createLogger } from "@/tools/utils/logger";
 import { createMcpServer } from "./server";
-import { sessionManager } from "./session";
+
+const log = createLogger("http");
 
 /**
  * Sets up all routes for the Express application.
@@ -15,85 +16,71 @@ export function setupRoutes(app: Express): void {
 
 /**
  * Health check endpoint for monitoring.
+ *
+ * Deliberately does not report the project path: this endpoint is unauthenticated, and the absolute
+ * path of the user's project is not something to hand out.
  */
 function setupHealthRoute(app: Express): void {
     app.get("/health", (_req: Request, res: Response) => {
-        const projectDir = MENDIX_PROJECT_DIR ?? null;
         res.json({
             status: "ok",
             server: SERVER_NAME,
             version: SERVER_VERSION,
-            sessions: sessionManager.sessionCount,
-            projectDir,
-            widgetsDir: projectDir ? `${projectDir}/widgets` : null
+            projectConfigured: getConfiguredProjectDir() !== undefined
         });
     });
 }
 
 /**
- * Main MCP endpoint handling session management and request routing.
+ * The MCP endpoint, served statelessly.
+ *
+ * Each POST builds a transport and server, handles the one request, and disposes of both.
+ * Statelessness is what makes this transport simple enough to trust: the previous session-keeping
+ * version leaked an `McpServer` on every GET, could never terminate a session (DELETE carries no
+ * body, so the handler threw before reaching the transport), and therefore grew its session map
+ * without bound.
+ *
+ * STDIO is the transport Studio Pro uses. HTTP exists so the MCP Inspector can be pointed at a
+ * running server, which needs no cross-request state.
  */
 function setupMcpRoute(app: Express): void {
-    // Handle CORS preflight explicitly
+    app.post("/mcp", async (req: Request, res: Response) => {
+        const body = req.body as Record<string, unknown>;
+        log.debug(`${String(body?.method ?? "request")}`);
+
+        // `sessionIdGenerator: undefined` selects the SDK's stateless mode.
+        const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
+        const server = createMcpServer();
+
+        // Disposal is tied to the response rather than to the await below, so a streamed response
+        // is not torn down while it is still being written.
+        res.on("close", () => {
+            transport.close().catch(error => log.warn(`Transport close failed: ${String(error)}`));
+            server.close().catch(error => log.warn(`Server close failed: ${String(error)}`));
+        });
+
+        try {
+            await server.connect(transport);
+            await transport.handleRequest(req, res, body);
+        } catch (error) {
+            log.error(`Request failed: ${String(error)}`);
+            if (!res.headersSent) {
+                sendJsonRpcError(res, 500, "Internal server error");
+            }
+        }
+    });
+
     app.options("/mcp", (_req: Request, res: Response) => {
         res.status(204).end();
     });
 
-    app.all("/mcp", async (req: Request, res: Response) => {
-        const sessionId = req.headers["mcp-session-id"] as string | undefined;
-        const requestStart = Date.now();
-
-        try {
-            // Case 1: Existing session - reuse transport
-            if (sessionId && sessionManager.hasSession(sessionId)) {
-                const body = req.body as Record<string, unknown>;
-                logProtocolMessage(sessionId, buildIncomingLogEntry(sessionId, body));
-                console.error(
-                    `[MCP] ${body.method ?? "request"} session=${sessionId} elapsed=${Date.now() - requestStart}ms`
-                );
-                const transport = sessionManager.getTransport(sessionId)!;
-                await transport.handleRequest(req, res, body);
-                return;
-            }
-
-            // Case 2: New session via POST with initialize request
-            if (req.method === "POST" && !sessionId && isInitializeRequest(req.body)) {
-                const body = req.body as Record<string, unknown>;
-                const pendingSessionId = "pending-" + Date.now();
-                const logEntry = buildIncomingLogEntry(pendingSessionId, body);
-                console.error(
-                    `[MCP] initialize (new session) protocolVersion=${logEntry.protocolVersion} clientInfo=${JSON.stringify(logEntry.clientInfo)}`
-                );
-                logProtocolMessage(pendingSessionId, logEntry);
-                const transport = sessionManager.createTransport();
-                const server = createMcpServer();
-                await server.connect(transport);
-                await transport.handleRequest(req, res, body);
-                return;
-            }
-
-            // Case 3: GET request for SSE - create new session
-            // StreamableHTTP uses GET for server-to-client event streams
-            if (req.method === "GET") {
-                console.error(`[MCP] SSE GET — creating new session`);
-                const transport = sessionManager.createTransport();
-                const server = createMcpServer();
-                await server.connect(transport);
-                await transport.handleRequest(req, res);
-                return;
-            }
-
-            // Case 4: Invalid request
-            sendJsonRpcError(res, 400, "Bad Request: No valid session ID provided");
-        } catch (error) {
-            console.error("[MCP] Route error:", error);
-            sendJsonRpcError(
-                res,
-                400,
-                "Invalid session. Send an initialize request without session ID to start a new session."
-            );
-        }
-    });
+    // GET (resumable event stream) and DELETE (session termination) are meaningful only for a
+    // stateful server. Answering 405 states that plainly instead of failing as a bad request.
+    for (const method of ["get", "delete"] as const) {
+        app[method]("/mcp", (_req: Request, res: Response) => {
+            sendJsonRpcError(res, 405, "This server is stateless: use POST /mcp. Sessions are not supported.");
+        });
+    }
 }
 
 /**

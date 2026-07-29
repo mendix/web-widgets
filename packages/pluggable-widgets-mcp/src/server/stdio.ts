@@ -1,46 +1,58 @@
-import { MENDIX_PROJECT_DIR, validateProjectDir } from "@/config";
-import { createMcpServer } from "./server";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { createLogger } from "@/tools/utils/logger";
+import { logProjectConfig } from "./log-project-config";
+import { createMcpServer } from "./server";
 
-async function logProjectConfig(): Promise<void> {
-    if (MENDIX_PROJECT_DIR) {
-        const validation = await validateProjectDir(MENDIX_PROJECT_DIR);
-        if (validation.valid) {
-            console.error(`[STDIO] Project: ${validation.projectName} (${MENDIX_PROJECT_DIR})`);
-        } else {
-            console.error(`[STDIO] Warning: MENDIX_PROJECT_DIR is set but invalid: ${validation.error}`);
-        }
-    } else {
-        console.error(`[STDIO] No project configured (set MENDIX_PROJECT_DIR to enable deploy support)`);
-    }
-}
+const log = createLogger("stdio");
 
 /**
- * Starts the MCP server with STDIO transport.
- * Communicates via stdin/stdout for CLI-based MCP clients.
+ * Starts the MCP server over STDIO — the transport Studio Pro spawns.
+ *
+ * stdout carries the JSON-RPC stream, so nothing here may write to it. All logging goes to stderr,
+ * which the parent process captures.
  */
 export async function startStdioServer(): Promise<void> {
     const server = createMcpServer();
     const transport = new StdioServerTransport();
 
-    // Log to stderr since stdout is used for MCP communication
-    console.error("[STDIO] Starting MCP server...");
-    await logProjectConfig();
+    log.info("Starting");
+    await logProjectConfig(log.info, log.warn);
 
     await server.connect(transport);
 
-    console.error("[STDIO] MCP server connected and ready");
+    log.info("Connected and ready");
 
     setupGracefulShutdown(transport);
 }
 
 function setupGracefulShutdown(transport: StdioServerTransport): void {
-    const shutdown = async (): Promise<void> => {
-        console.error("\n[STDIO] Shutting down server...");
+    let closing = false;
+
+    const shutdown = async (reason: string): Promise<void> => {
+        if (closing) {
+            return;
+        }
+        closing = true;
+        log.info(`Shutting down (${reason})`);
         await transport.close();
         process.exit(0);
     };
 
-    process.on("SIGINT", shutdown);
-    process.on("SIGTERM", shutdown);
+    const on = (event: string, reason: string, target: NodeJS.EventEmitter): void => {
+        target.on(event, () => {
+            shutdown(reason).catch(error => {
+                log.error(`Shutdown failed: ${String(error)}`);
+                process.exit(1);
+            });
+        });
+    };
+
+    on("SIGINT", "SIGINT", process);
+    on("SIGTERM", "SIGTERM", process);
+
+    // The parent closing our stdin is how a stdio child learns the host is gone. Without this the
+    // process outlives Studio Pro — signals alone are not enough, and on Windows SIGTERM/SIGINT are
+    // not delivered the way POSIX code expects.
+    on("end", "stdin closed", process.stdin);
+    on("close", "stdin closed", process.stdin);
 }

@@ -19,9 +19,10 @@ export function createMcpServer(): McpServer {
             websiteUrl: SERVER_WEBSITE_URL
         },
         {
+            // Only capabilities that are actually implemented — advertising `prompts` while
+            // registering none makes prompts/list look empty rather than unsupported.
             capabilities: {
                 logging: {},
-                prompts: {},
                 resources: {},
                 tools: {}
             },

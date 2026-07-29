@@ -1,50 +1,50 @@
 import { createMcpExpressApp } from "@modelcontextprotocol/sdk/server/express.js";
-import cors from "cors";
-import { MENDIX_PROJECT_DIR, PORT, validateProjectDir } from "@/config";
+import type { Server } from "node:http";
+import { PORT } from "@/config";
+import { createLogger } from "@/tools/utils/logger";
+import { logProjectConfig } from "./log-project-config";
 import { setupRoutes } from "./routes";
-import { sessionManager } from "./session";
 
-async function logProjectConfig(): Promise<void> {
-    if (MENDIX_PROJECT_DIR) {
-        const validation = await validateProjectDir(MENDIX_PROJECT_DIR);
-        if (validation.valid) {
-            console.log(`[HTTP] Project: ${validation.projectName} (${MENDIX_PROJECT_DIR})`);
-        } else {
-            console.warn(`[HTTP] Warning: MENDIX_PROJECT_DIR is set but invalid: ${validation.error}`);
-        }
-    } else {
-        console.log(`[HTTP] No project configured (set MENDIX_PROJECT_DIR to enable deploy support)`);
-    }
-}
+const log = createLogger("http");
+
+/** Loopback only. The tools spawn `npm run build`, so this must not be reachable off-box. */
+const HOST = "127.0.0.1";
 
 /**
- * Starts the MCP server with HTTP/Streamable transport.
- * Supports multiple concurrent sessions via Express.
+ * Starts the MCP server over HTTP.
+ *
+ * This transport exists for local debugging — pointing the MCP Inspector at a running server.
+ * Studio Pro uses STDIO. Requests are handled statelessly; see `routes.ts`.
  */
 export function startHttpServer(): void {
-    const app = createMcpExpressApp();
-    app.use(
-        cors({
-            origin: true,
-            methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"],
-            allowedHeaders: "*",
-            exposedHeaders: ["mcp-session-id"],
-            credentials: true
-        })
-    );
+    // createMcpExpressApp installs DNS-rebinding protection when the host is loopback.
+    const app = createMcpExpressApp({ host: HOST });
 
     setupRoutes(app);
 
-    const server = app.listen(PORT, () => {
-        console.log(`[HTTP] MCP Server started on port ${PORT}`);
-        console.log(`[HTTP] Health check: http://localhost:${PORT}/health`);
-        console.log(`[HTTP] MCP endpoint: http://localhost:${PORT}/mcp`);
-        logProjectConfig();
+    const server = app.listen(PORT, HOST, () => {
+        log.info(`Listening on http://${HOST}:${PORT}`);
+        log.info(`Health: http://${HOST}:${PORT}/health · MCP: http://${HOST}:${PORT}/mcp`);
+        logProjectConfig(log.info, log.warn).catch(error =>
+            log.warn(`Could not read project config: ${String(error)}`)
+        );
     });
 
-    const shutdown = async (): Promise<void> => {
-        console.log("\n[HTTP] Shutting down server...");
-        await sessionManager.closeAll();
+    server.on("error", (error: NodeJS.ErrnoException) => {
+        if (error.code === "EADDRINUSE") {
+            log.error(`Port ${PORT} is already in use. Set PORT to a free port, or stop the other server.`);
+        } else {
+            log.error(`Server error: ${error.message}`);
+        }
+        process.exit(1);
+    });
+
+    setupGracefulShutdown(server);
+}
+
+function setupGracefulShutdown(server: Server): void {
+    const shutdown = (): void => {
+        log.info("Shutting down");
         server.close(() => process.exit(0));
     };
 

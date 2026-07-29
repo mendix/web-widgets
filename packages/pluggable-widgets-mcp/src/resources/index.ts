@@ -1,5 +1,8 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { GUIDELINE_RESOURCES, loadGuidelineContent } from "./guidelines";
+import { createLogger } from "@/tools/utils/logger";
+
+const log = createLogger("resources");
 
 /**
  * Registers all MCP resources with the server.
@@ -40,5 +43,5 @@ function registerGuidelineResources(server: McpServer): void {
         );
     }
 
-    console.error(`[resources] Registered ${GUIDELINE_RESOURCES.length} guideline resources`);
+    log.info(`Registered ${GUIDELINE_RESOURCES.length} guideline resources`);
 }
