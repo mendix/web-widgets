@@ -69,10 +69,3 @@ export async function loadGuidelineContent(filename: string): Promise<string> {
         throw new Error(`Failed to load guideline ${filename}: ${message}`);
     }
 }
-
-/**
- * Clears the guideline cache. Useful for testing or hot-reloading.
- */
-export function clearGuidelineCache(): void {
-    guidelineCache.clear();
-}
