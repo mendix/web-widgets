@@ -35,7 +35,7 @@ describe("build-widget sandbox expansion", () => {
         });
         const text = getResultText(result);
         expect(isError(result)).toBe(true);
-        expect(text).toContain("not within an allowed directory");
+        expect(text).toContain("ERR_OUTPUT_PATH_INVALID");
     });
 
     it("allows widget path within state.projectDir", async () => {
@@ -54,7 +54,7 @@ describe("build-widget sandbox expansion", () => {
         });
         const text = getResultText(result);
         // Path check passed — build itself will fail (no real widget), but NOT with sandbox error
-        expect(text).not.toContain("not within an allowed directory");
+        expect(text).not.toContain("ERR_OUTPUT_PATH_INVALID");
     });
 });
 
@@ -86,16 +86,15 @@ describe("formatBuildFailureResponse", () => {
             `export function preview(props: CounterPreviewProps) {\n    return <div>[Counter]</div>;\n}\n`
         );
 
-        const response = await formatBuildFailureResponse(errors, tmpDir);
+        const response = formatBuildFailureResponse(errors);
 
         expect(response).toContain("TS6133");
         expect(response).toContain("'props' is declared but its value is never read.");
         expect(response).toContain("src/Counter.editorPreview.tsx");
-        expect(response).toContain("line 4");
-        expect(response).toContain("col 25");
+        expect(response).toContain("src/Counter.editorPreview.tsx:4:25");
     });
 
-    it("embeds content of failing source files in the response", async () => {
+    it("does not embed file contents — the caller reads what it needs", async () => {
         const fileContent = `export function preview(props: CounterPreviewProps) {\n    return <div>[Counter]</div>;\n}\n`;
         writeFileSync(join(tmpDir, "src/Counter.editorPreview.tsx"), fileContent);
 
@@ -110,29 +109,12 @@ describe("formatBuildFailureResponse", () => {
             }
         ];
 
-        const response = await formatBuildFailureResponse(errors, tmpDir);
+        const response = formatBuildFailureResponse(errors);
 
-        expect(response).toContain("export function preview");
-        // The separator format "--- <path> ---" is the required output format for this function
-        expect(response).toContain("--- src/Counter.editorPreview.tsx ---");
-    });
-
-    it("skips file embed when file does not exist on disk", async () => {
-        const errors = [
-            {
-                category: "typescript" as const,
-                tsCode: "TS2339",
-                message: "Property 'x' does not exist on type 'Y'.",
-                file: "src/Nonexistent.tsx",
-                line: 10,
-                column: 5
-            }
-        ];
-
-        const response = await formatBuildFailureResponse(errors, tmpDir);
-
-        expect(response).toContain("TS2339");
-        expect(response).not.toContain("--- src/Nonexistent.tsx ---");
+        // The location is enough; embedding whole files was unbounded.
+        expect(response).toContain("src/Counter.editorPreview.tsx:4:25");
+        expect(response).not.toContain("export function preview");
+        expect(response).toContain("read-widget-file");
     });
 
     it("handles errors with no file location gracefully", async () => {
@@ -143,10 +125,10 @@ describe("formatBuildFailureResponse", () => {
             }
         ];
 
-        const response = await formatBuildFailureResponse(errors, tmpDir);
+        const response = formatBuildFailureResponse(errors);
 
         expect(response).toContain("Build failed with exit code 1");
-        expect(response).not.toContain("--- ");
+        expect(response).toContain("Build failed with 1 error(s)");
     });
 });
 
@@ -163,13 +145,13 @@ describe("formatBuildSuccessResponse", () => {
         const mpkPath = "/tmp/my-widget/dist/MyWidget.mpk";
         const result = formatBuildSuccessResponse(mpkPath, widgetPath, []);
         expect(result).toContain(mpkPath);
-        expect(result).toContain("MPK output");
+        expect(result).toContain("Output:");
     });
 
     it("includes next step even without MPK path", () => {
         const result = formatBuildSuccessResponse(undefined, widgetPath, []);
-        expect(result).toContain("Next step");
-        expect(result).not.toContain("MPK output");
+        expect(result).toContain("Next: deploy-widget");
+        expect(result).not.toContain("Output:");
     });
 
     it("includes warnings when present", () => {

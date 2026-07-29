@@ -1,10 +1,13 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { mkdir, readdir, readFile, stat, writeFile } from "node:fs/promises";
-import { dirname, extname, join } from "node:path";
+import { dirname, extname, join, relative } from "node:path";
 import { z } from "zod";
 import { ALLOWED_EXTENSIONS, validateFilePath } from "@/security";
 import type { ToolResponse } from "@/tools/types";
-import { createErrorResponse, createToolResponse } from "@/tools/utils/response";
+import { fail, ok } from "@/tools/utils/response";
+import { createLogger } from "@/tools/utils/logger";
+
+const log = createLogger("file-operations");
 
 // =============================================================================
 // Schemas
@@ -69,7 +72,9 @@ async function listFilesRecursive(
 
     for (const entry of entries) {
         const fullPath = join(dir, entry.name);
-        const relativePath = fullPath.replace(basePath + "/", "");
+        // path.relative, not string replace: `replace` strips the first occurrence anywhere in the
+        // string rather than an anchored prefix, and hardcodes "/" as the separator.
+        const relativePath = relative(basePath, fullPath);
 
         if (entry.isDirectory()) {
             // Skip node_modules and other common non-source directories
@@ -94,7 +99,7 @@ async function handleListWidgetFiles(args: ListWidgetFilesInput): Promise<ToolRe
         // Verify the directory exists
         const stats = await stat(args.widgetPath);
         if (!stats.isDirectory()) {
-            return createErrorResponse(`Path is not a directory: ${args.widgetPath}`);
+            return fail("ERR_NOT_FOUND", `Path is not a directory: ${args.widgetPath}`);
         }
 
         const files = await listFilesRecursive(args.widgetPath, args.widgetPath);
@@ -119,10 +124,10 @@ async function handleListWidgetFiles(args: ListWidgetFilesInput): Promise<ToolRe
             output.push("");
         }
 
-        return createToolResponse(output.join("\n"));
+        return ok(output.join("\n"));
     } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
-        return createErrorResponse(`Failed to list widget files: ${message}`);
+        return fail("ERR_FILE_READ", `Failed to list widget files: ${message}`);
     }
 }
 
@@ -133,12 +138,10 @@ async function handleReadWidgetFile(args: ReadWidgetFileInput): Promise<ToolResp
         const fullPath = join(args.widgetPath, args.filePath);
         const content = await readFile(fullPath, "utf-8");
 
-        return createToolResponse(
-            [`File: ${args.filePath}`, `Path: ${fullPath}`, "", "Content:", "```", content, "```"].join("\n")
-        );
+        return ok([`File: ${args.filePath}`, `Path: ${fullPath}`, "", "Content:", "```", content, "```"].join("\n"));
     } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
-        return createErrorResponse(`Failed to read file: ${message}`);
+        return fail("ERR_FILE_READ", `Failed to read file: ${message}`);
     }
 }
 
@@ -157,7 +160,9 @@ async function handleWriteWidgetFile(args: WriteWidgetFileInput): Promise<ToolRe
             validateFilePath(args.widgetPath, file.relativePath, true);
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
-            return createErrorResponse(`Validation failed for ${file.relativePath}: ${message}`);
+            return fail("ERR_FILE_WRITE", `Rejected ${file.relativePath}: ${message}`, {
+                file: file.relativePath
+            });
         }
     }
 
@@ -173,7 +178,7 @@ async function handleWriteWidgetFile(args: WriteWidgetFileInput): Promise<ToolRe
             // Write the file
             await writeFile(fullPath, file.content, "utf-8");
 
-            console.error(`[file-operations] Wrote file: ${fullPath}`);
+            log.info(`Wrote file: ${fullPath}`);
             results.push({ path: file.relativePath, success: true });
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
@@ -185,28 +190,21 @@ async function handleWriteWidgetFile(args: WriteWidgetFileInput): Promise<ToolRe
     const failed = results.filter(r => !r.success);
 
     if (failed.length === 0) {
-        return createToolResponse(
-            [`Successfully wrote ${successful.length} file(s):`, "", ...successful.map(r => `  - ${r.path}`)].join("\n")
-        );
-    } else if (successful.length === 0) {
-        return createErrorResponse(
-            [`Failed to write all ${failed.length} file(s):`, "", ...failed.map(r => `  - ${r.path}: ${r.error}`)].join(
-                "\n"
-            )
-        );
-    } else {
-        return createToolResponse(
-            [
-                `Partial success: ${successful.length} written, ${failed.length} failed`,
-                "",
-                "Written:",
-                ...successful.map(r => `  - ${r.path}`),
-                "",
-                "Failed:",
-                ...failed.map(r => `  - ${r.path}: ${r.error}`)
-            ].join("\n")
-        );
+        return ok([`Wrote ${successful.length} file(s):`, ...successful.map(r => `  - ${r.path}`)].join("\n"));
     }
+
+    // Any failure is a failure. A partial write previously returned a success envelope with
+    // "Partial success" in the text, so a client checking `isError` saw a clean write.
+    return fail(
+        "ERR_FILE_WRITE",
+        [
+            `Wrote ${successful.length} of ${successful.length + failed.length} file(s).`,
+            ...(successful.length > 0 ? ["", "Written:", ...successful.map(r => `  - ${r.path}`)] : []),
+            "",
+            "Failed:",
+            ...failed.map(r => `  - ${r.path}: ${r.error}`)
+        ].join("\n")
+    );
 }
 
 // =============================================================================

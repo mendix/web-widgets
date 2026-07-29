@@ -233,6 +233,17 @@ export function validateWidgetDefinition(widget: WidgetDefinition): string[] {
         errors.push("Widget must have at least one property");
     }
 
+    // Duplicate keys produce an XML file Mendix rejects at build time, and colliding entries in the
+    // generated typings. The check lives here rather than in a tool because it is a property of the
+    // definition itself.
+    const seenKeys = new Set<string>();
+    for (const prop of widget.properties ?? []) {
+        if (prop.key && seenKeys.has(prop.key)) {
+            errors.push(`Duplicate property key "${prop.key}" — each key must be unique`);
+        }
+        seenKeys.add(prop.key);
+    }
+
     for (const prop of widget.properties ?? []) {
         if (!prop.key || prop.key.trim() === "") {
             errors.push("Property key is required");

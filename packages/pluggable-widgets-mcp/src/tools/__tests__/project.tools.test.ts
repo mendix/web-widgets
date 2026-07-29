@@ -178,7 +178,7 @@ describe("deploy-widget", () => {
             arguments: { widgetPath: widgetDir }
         });
         expect(isError(result)).toBe(false);
-        expect(getResultText(result)).toContain("deployed");
+        expect(getResultText(result)).toContain("Deployed");
         expect(existsSync(join(projectDir, "widgets", "Cool.mpk"))).toBe(true);
     });
 
@@ -215,6 +215,6 @@ describe("deploy-widget", () => {
             arguments: { widgetPath: rogueDir }
         });
         expect(isError(result)).toBe(true);
-        expect(getResultText(result)).toContain("not within an allowed directory");
+        expect(getResultText(result)).toContain("ERR_OUTPUT_PATH_INVALID");
     });
 });

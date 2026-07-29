@@ -6,15 +6,15 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
-import { readFile } from "node:fs/promises";
-import { join, normalize, sep } from "node:path";
+import { join } from "node:path";
 import { z } from "zod";
-import { GENERATIONS_DIR } from "@/config";
+
+import { BUILD_TIMEOUT_MS } from "@/config";
 import type { ToolContext, ToolResponse } from "./types";
 import { ProgressTracker } from "./utils/progress-tracker";
-import { createStructuredError, createStructuredErrorResponse, createToolResponse } from "./utils/response";
+import { fail, ok } from "./utils/response";
 import { findMpkFile } from "./utils/mpk";
-import { isPathAllowed } from "./utils/sandbox";
+import { describeAllowedRoots, isPathAllowed } from "./utils/sandbox";
 import type { SessionState } from "./session-state";
 
 /**
@@ -123,9 +123,15 @@ function parseTypeScriptError(line: string): ParsedError | null {
 }
 
 /**
- * Parses the build output to extract meaningful errors and warnings.
+ * Extracts errors, warnings and the .mpk path from build output.
+ *
+ * Deliberately does NOT decide whether the build succeeded — that is the child process's exit code
+ * to report, and the return type omits `success` so the compiler enforces it. The previous version
+ * declared success whenever the output merely contained "successfully", "created dist/", or any
+ * token ending in `.mpk`, which meant a build that printed a stale artifact path and then exited
+ * non-zero was reported as green.
  */
-function parseBuildOutput(stdout: string, stderr: string): BuildResult {
+function parseBuildOutput(stdout: string, stderr: string): Omit<BuildResult, "success"> {
     const output = stdout + "\n" + stderr;
     const errors: ParsedError[] = [];
     const warnings: string[] = [];
@@ -201,94 +207,54 @@ function parseBuildOutput(stdout: string, stderr: string): BuildResult {
         }
     }
 
-    // Check for success indicators
-    // pluggable-widgets-tools outputs "created dist/..." when successful
-    const hasCreatedOutput = output.includes("created dist/") || output.includes("created dist\\");
-    const success =
-        errors.length === 0 &&
-        (output.includes("Build completed") || output.includes("successfully") || hasCreatedOutput || mpkPath);
-
-    return {
-        success: !!success,
-        mpkPath,
-        errors,
-        warnings,
-        output
-    };
+    return { mpkPath, errors, warnings, output };
 }
 
 /**
- * Formats a build failure response for Maia, including:
- * - All errors with file/line/column/code
- * - Content of every source file that appears in the error list
+ * Formats a build failure response.
  *
- * Embedding file content lets Maia fix errors without an extra read-widget-file
- * round-trip. Output format is designed to be read by an AI agent.
+ * Errors carry file:line:col so the caller can read exactly what it needs. The file contents
+ * themselves are deliberately NOT embedded: they were unbounded — every file named by any error,
+ * in full — and `read-widget-file` already exists for the cases where the model wants the source.
  */
-export async function formatBuildFailureResponse(errors: ParsedError[], widgetPath: string): Promise<string> {
-    // Format error list — each error gets code, location (file line N col N), and message
-    const errorLines = errors.map(e => {
-        const loc = e.file
-            ? `${e.file}${e.line != null ? ` line ${e.line}` : ""}${e.column != null ? ` col ${e.column}` : ""}`
+export function formatBuildFailureResponse(errors: ParsedError[]): string {
+    const errorLines = errors.map(error => {
+        const location = error.file
+            ? `${error.file}${error.line != null ? `:${error.line}` : ""}${error.column != null ? `:${error.column}` : ""}`
             : null;
-        const code = e.tsCode ? `[${e.tsCode}]` : `[${e.category}]`;
-        const locStr = loc ? ` ${loc} —` : "";
-        return `  ${code}${locStr} ${e.message}`;
+        const code = error.tsCode ? `[${error.tsCode}]` : `[${error.category}]`;
+        return `  ${code}${location ? ` ${location} —` : ""} ${error.message}`;
     });
 
-    // Collect unique source files that appear in errors
-    const uniqueFiles = [...new Set(errors.map(e => e.file).filter((f): f is string => !!f))];
-
-    // Read each failing file (skip if not found — don't throw)
-    const fileSections: string[] = [];
-    for (const relPath of uniqueFiles) {
-        // Block path traversal: only allow files under widgetPath
-        const normalizedBase = normalize(widgetPath);
-        const fullPath = normalize(join(widgetPath, relPath));
-        if (!fullPath.startsWith(normalizedBase + sep) && fullPath !== normalizedBase) continue;
-        if (!existsSync(fullPath)) continue;
-
-        try {
-            const content = await readFile(fullPath, "utf-8");
-            fileSections.push(`--- ${relPath} ---\n${content}`);
-        } catch {
-            // Skip unreadable files silently
-        }
-    }
-
-    const lines = [
-        `❌ Build failed — ${errors.length} error(s). Fix the errors below, write with write-widget-file, then retry build-widget (max 3 attempts total).`,
+    return [
+        `Build failed with ${errors.length} error(s).`,
         "",
         "Errors:",
-        ...errorLines
-    ];
-
-    if (fileSections.length > 0) {
-        lines.push("", "Failing file contents:", "");
-        lines.push(...fileSections);
-    }
-
-    return lines.join("\n");
+        ...errorLines,
+        "",
+        "Read the affected files with read-widget-file, fix them with write-widget-file, then build again."
+    ].join("\n");
 }
 
 /**
- * Formats a successful build response, including MPK path, warnings, and a
- * chaining instruction to call deploy-widget next.
+ * Formats a successful build response.
  */
 export function formatBuildSuccessResponse(
     mpkPath: string | undefined,
     widgetPath: string,
     warnings: string[]
 ): string {
-    let message = "✅ Build successful!";
+    const lines = ["Build succeeded."];
+
     if (mpkPath) {
-        message += `\n\n📦 MPK output: ${mpkPath}`;
+        lines.push("", `Output: ${mpkPath}`);
     }
     if (warnings.length > 0) {
-        message += `\n\n⚠️ Warnings:\n${warnings.map(w => `  - ${w}`).join("\n")}`;
+        lines.push("", "Warnings:", ...warnings.map(warning => `  - ${warning}`));
     }
-    message += `\n\n🚀 Next step: Call deploy-widget with widgetPath: "${widgetPath}" to copy the .mpk to your Mendix project's widgets/ directory.`;
-    return message;
+    lines.push("", `Next: deploy-widget with widgetPath "${widgetPath}".`);
+
+    return lines.join("\n");
 }
 
 /**
@@ -314,7 +280,6 @@ async function runBuild(widgetPath: string, tracker?: ProgressTracker): Promise<
         // Use npm run build to run pluggable-widgets-tools (correct package name)
         const buildProcess = spawn("npm", ["run", "build"], {
             cwd: widgetPath,
-            shell: true,
             env: {
                 ...globalThis.process.env,
                 FORCE_COLOR: "0" // Disable colors for easier parsing
@@ -323,6 +288,24 @@ async function runBuild(widgetPath: string, tracker?: ProgressTracker): Promise<
 
         let stdout = "";
         let stderr = "";
+
+        // Without this the request hangs forever on a stalled build (registry stall, watch mode
+        // misconfiguration) while the progress heartbeat keeps firing.
+        const timer = setTimeout(() => {
+            buildProcess.kill();
+            tracker?.error(`Build timed out after ${BUILD_TIMEOUT_MS / 1000}s`);
+            resolve({
+                success: false,
+                errors: [
+                    {
+                        message: `Build timed out after ${BUILD_TIMEOUT_MS / 1000}s and was terminated.`,
+                        category: "unknown"
+                    }
+                ],
+                warnings: [],
+                output: stdout + stderr
+            });
+        }, BUILD_TIMEOUT_MS);
 
         buildProcess.stdout?.on("data", (data: Buffer) => {
             const chunk = data.toString();
@@ -351,16 +334,18 @@ async function runBuild(widgetPath: string, tracker?: ProgressTracker): Promise<
         });
 
         buildProcess.on("close", code => {
-            const result = parseBuildOutput(stdout, stderr);
+            // Exit code is the signal a child process is designed to communicate success with;
+            // parsed output only enriches the message. It can no longer flip a red exit to green.
+            const result: BuildResult = { ...parseBuildOutput(stdout, stderr), success: code === 0 };
 
-            // If exit code is non-zero and we didn't detect errors, add generic error
-            if (code !== 0 && result.errors.length === 0) {
+            if (!result.success && result.errors.length === 0) {
                 result.errors.push({
                     message: `Build failed with exit code ${code}`,
                     category: "unknown"
                 });
-                result.success = false;
             }
+
+            clearTimeout(timer);
 
             // Report completion
             if (tracker) {
@@ -376,6 +361,7 @@ async function runBuild(widgetPath: string, tracker?: ProgressTracker): Promise<
         });
 
         buildProcess.on("error", err => {
+            clearTimeout(timer);
             tracker?.error(`Failed to start build: ${err.message}`);
             resolve({
                 success: false,
@@ -399,30 +385,24 @@ async function handleBuildWidget(
 
     // Validate path exists
     if (!existsSync(widgetPath)) {
-        return createStructuredErrorResponse(
-            createStructuredError("ERR_NOT_FOUND", `Widget directory not found: ${widgetPath}`, {
-                suggestion: "Verify the widget path is correct and the directory exists."
-            })
-        );
+        return fail("ERR_NOT_FOUND", `Widget directory not found: ${widgetPath}`, {
+            suggestion: "Verify the widget path is correct and the directory exists."
+        });
     }
 
     // Validate path is within allowed directories
-    if (!isPathAllowed(widgetPath, state, "MCP_ALLOWED_BUILD_PATHS")) {
-        return createStructuredErrorResponse(
-            createStructuredError("ERR_NOT_FOUND", `Widget path is not within an allowed directory: ${widgetPath}`, {
-                suggestion: `Widget must be within ${GENERATIONS_DIR} or set MCP_ALLOWED_BUILD_PATHS env var (colon-separated paths).`
-            })
-        );
+    if (!isPathAllowed(widgetPath, state)) {
+        return fail("ERR_OUTPUT_PATH_INVALID", `Widget path is outside the project: ${widgetPath}`, {
+            suggestion: `Allowed roots: ${describeAllowedRoots(state)}.`
+        });
     }
 
     // Check for package.json
     const packageJsonPath = join(widgetPath, "package.json");
     if (!existsSync(packageJsonPath)) {
-        return createStructuredErrorResponse(
-            createStructuredError("ERR_NOT_FOUND", `No package.json found in ${widgetPath}`, {
-                suggestion: "Ensure this is a valid widget directory created with create-widget tool."
-            })
-        );
+        return fail("ERR_NOT_FOUND", `No package.json found in ${widgetPath}`, {
+            suggestion: "Point at a widget directory created by create-widget."
+        });
     }
 
     // Create progress tracker
@@ -442,20 +422,18 @@ async function handleBuildWidget(
         const mpkPath = result.mpkPath || findMpkFile(widgetPath);
 
         if (result.success) {
-            return createToolResponse(formatBuildSuccessResponse(mpkPath, widgetPath, result.warnings));
+            return ok(formatBuildSuccessResponse(mpkPath, widgetPath, result.warnings));
         } else {
             if (result.errors.length > 0) {
-                const message = await formatBuildFailureResponse(result.errors, widgetPath);
-                return { content: [{ type: "text", text: message }], isError: true };
+                // Was a raw object literal here, bypassing the response constructors entirely.
+                return fail("ERR_BUILD_FAILED", formatBuildFailureResponse(result.errors));
             }
 
             // Fallback for unknown failures (no structured errors detected)
-            return createStructuredErrorResponse(
-                createStructuredError("ERR_BUILD_UNKNOWN", "Build failed with unknown error", {
-                    suggestion: "Check the raw build output for details.",
-                    rawOutput: result.output.slice(0, 1000)
-                })
-            );
+            return fail("ERR_BUILD_FAILED", "Build failed without producing a parseable error", {
+                suggestion: "Check the raw build output below.",
+                details: result.output
+            });
         }
     } finally {
         tracker.stop();
@@ -470,18 +448,14 @@ export function registerBuildTools(server: McpServer, state: SessionState): void
         "build-widget",
         {
             title: "Build Widget",
+            // Says what the tool does and what it returns — nothing more. The retry policy that
+            // used to live here ("maximum 3 total attempts") was unenforceable: no counter existed,
+            // and in MCP the client owns the loop. Sequencing belongs in SERVER_INSTRUCTIONS, where
+            // it is stated once instead of duplicated across tool descriptions and response bodies.
             description:
-                "Builds a Mendix pluggable widget using pluggable-widget-tools. " +
-                "Validates XML, compiles TypeScript, generates types, and produces an .mpk file. " +
-                "If the build fails with TypeScript errors, the response includes ALL errors with " +
-                "file locations AND the content of every failing source file. " +
-                "RETRY LOOP: On failure, (1) read the errors and embedded file content, " +
-                "(2) fix the TypeScript errors, (3) write the fixed files using write-widget-file, " +
-                "(4) call build-widget again. Repeat until the build passes. " +
-                "Maximum 3 total attempts — if still failing after 3 attempts, " +
-                "report the errors and file contents to the user. " +
-                "SUCCESS: When the build succeeds, you MUST call deploy-widget next with the same widgetPath " +
-                "to copy the .mpk to the Mendix project. Do not stop after a successful build.",
+                "Compiles a Mendix pluggable widget to an .mpk using pluggable-widgets-tools. " +
+                "Returns the .mpk path on success, or the TypeScript and XML errors with " +
+                "file:line:column on failure.",
             inputSchema: buildWidgetSchema
         },
         (args, context) => handleBuildWidget(args, context, state)
