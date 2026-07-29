@@ -1,5 +1,7 @@
 import { AddonFormatEnum, CodeFormatEnum, CustomCodeFormatEnum } from "../../typings/BarcodeGeneratorProps";
 
+const MAX_2D_BARCODE_STATIC_VALUE_LENGTH = 2000;
+
 export type ValidationResult =
     | {
           valid: true;
@@ -115,8 +117,8 @@ export function validateBarcodeValue(format: CustomCodeFormatEnum | CodeFormatEn
             }
             return { valid: true };
         case "DataMatrix":
-            // DataMatrix: encoder handles the heavy lifting; guard extremely long static values
-            if (value.length > 2000) {
+            // DataMatrix: encoder handles the heavy lifting; guard extremely long static values.
+            if (value.length > MAX_2D_BARCODE_STATIC_VALUE_LENGTH) {
                 return {
                     valid: false,
                     message: "The Data Matrix value is very long; consider a shorter value or a dynamic attribute."
@@ -124,8 +126,8 @@ export function validateBarcodeValue(format: CustomCodeFormatEnum | CodeFormatEn
             }
             return { valid: true };
         case "QRCode":
-            // QRCode: accepts most characters, but warn for extremely long static values
-            if (value.length > 1200) {
+            // QRCode: accepts most characters, but warn for extremely long static values.
+            if (value.length > MAX_2D_BARCODE_STATIC_VALUE_LENGTH) {
                 return {
                     valid: false,
                     message:
