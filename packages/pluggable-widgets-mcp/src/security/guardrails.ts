@@ -9,7 +9,7 @@
  * @module security/guardrails
  */
 
-import { extname, resolve } from "node:path";
+import { basename, extname, resolve, sep } from "node:path";
 
 // =============================================================================
 // Configuration
@@ -22,9 +22,9 @@ import { extname, resolve } from "node:path";
 export const ALLOWED_EXTENSIONS = [".tsx", ".ts", ".xml", ".scss", ".css", ".json", ".md"];
 
 /**
- * Config files allowed without extensions (e.g., tsconfig, package)
+ * Extensionless config files allowed by exact filename.
  */
-const ALLOWED_EXTENSIONLESS_PATTERNS = ["package", "tsconfig", "eslintrc"];
+const ALLOWED_EXTENSIONLESS_NAMES = ["package", "tsconfig", "eslintrc"];
 
 /**
  * Specific dot-files allowed (explicit allowlist to prevent arbitrary dotfile access).
@@ -56,9 +56,10 @@ export function isPathWithinDirectory(basePath: string, relativePath: string): b
     const resolvedBase = resolve(basePath);
     const resolvedFull = resolve(basePath, relativePath);
 
-    // Check that the resolved path starts with the base path
-    // This prevents ../ traversal attacks
-    return resolvedFull.startsWith(resolvedBase + "/") || resolvedFull === resolvedBase;
+    // Compare against base + separator so a sibling like /widgets/foobar cannot pass as /widgets/foo.
+    // `sep`, not a literal "/": path.resolve() yields backslashes on Windows, where a hardcoded
+    // slash would make this return false for every path.
+    return resolvedFull === resolvedBase || resolvedFull.startsWith(resolvedBase + sep);
 }
 
 // =============================================================================
@@ -80,11 +81,10 @@ export function isExtensionAllowed(filePath: string): boolean {
     // Also allow files without extension (like .gitignore patterns)
     // and special config files
     if (ext === "") {
-        const filename = filePath.split("/").pop() || "";
-        // Allow common config files without extensions, or specific dot-files
-        return (
-            ALLOWED_EXTENSIONLESS_PATTERNS.some(name => filename.includes(name)) || ALLOWED_DOT_FILES.includes(filename)
-        );
+        const filename = basename(filePath);
+        // Exact match, not substring: `includes` would also admit "unpackaged", "mypackage",
+        // "prepackage-hook".
+        return ALLOWED_EXTENSIONLESS_NAMES.includes(filename) || ALLOWED_DOT_FILES.includes(filename);
     }
     return ALLOWED_EXTENSIONS.includes(ext);
 }
@@ -101,7 +101,6 @@ export function isExtensionAllowed(filePath: string): boolean {
  * @param filePath - The relative file path to validate
  * @param checkExtension - Whether to also validate file extension (for write operations)
  *
- * @throws {Error} If path traversal detected ('..' in path)
  * @throws {Error} If path escapes widget directory
  * @throws {Error} If extension not allowed (when checkExtension=true)
  *
@@ -113,12 +112,9 @@ export function isExtensionAllowed(filePath: string): boolean {
  * validateFilePath("/widgets/foo", "src/Bar.tsx", true);
  */
 export function validateFilePath(widgetPath: string, filePath: string, checkExtension = false): void {
-    // Check for obvious path traversal attempts
-    if (filePath.includes("..")) {
-        throw new Error("Path traversal not allowed: '..' detected in file path");
-    }
-
-    // Validate path is within widget directory
+    // Containment is the whole traversal defence: resolve() collapses any "../" before the
+    // comparison. A separate substring test for ".." added nothing and rejected legitimate names
+    // like "src/foo..bar.tsx".
     if (!isPathWithinDirectory(widgetPath, filePath)) {
         throw new Error("File path must be within the widget directory");
     }

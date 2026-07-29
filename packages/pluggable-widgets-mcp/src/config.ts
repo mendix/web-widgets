@@ -14,34 +14,72 @@ export const SERVER_ICON = {
     mimeType: "image/png"
 };
 export const SERVER_WEBSITE_URL = "https://github.com/mendix/web-widgets";
-export const SERVER_INSTRUCTIONS = `This is a MCP server for Mendix Pluggable Widgets. It allows you to create, build, and deploy widgets to a Mendix project.
+/**
+ * Sent once at initialize. This is the single place the widget workflow is described — tool
+ * descriptions say what each tool does, not what to call next, so the sequence is stated once
+ * rather than duplicated across descriptions and response bodies.
+ */
+export const SERVER_INSTRUCTIONS = `MCP server for building Mendix pluggable widgets.
 
-WORKFLOW GUIDE:
-1. Call get-project-info first to discover the configured Mendix project directory.
-2. If a project is configured, you can scaffold, build, and deploy widgets without asking for filesystem paths.
-3. If no project is configured, use set-project-directory to configure one, or proceed without deployment.
-4. Use create-widget to scaffold a new widget (output goes to the generations/ directory).
-5. Use build-widget to compile the widget and produce an .mpk file.
-6. Use deploy-widget to copy the .mpk to the project's widgets/ folder.
+Workflow:
+  1. get-project-info        Discover the open Mendix project.
+  2. create-widget           Scaffold into {project}/widget-sources/.
+  3. set-widget-properties   Write the widget's XML from a property model.
+  4. write-widget-file       Write the .tsx and .scss yourself.
+  5. build-widget            Compile to .mpk.
+  6. deploy-widget           Copy the .mpk into the project's widgets/ folder.
 
-IMPORTANT: Do NOT ask the user for filesystem paths — use get-project-info to discover the project context automatically.`;
+Read these resources before writing component source:
+  mendix://guidelines/property-types    property model schema
+  mendix://guidelines/widget-patterns   component templates per widget archetype
 
-// Paths - use fileURLToPath for Node.js 18 compatibility (import.meta.dirname requires Node 20.11+)
+The server generates XML because that is mechanically derivable from the property model. Component
+source is yours to write.
+
+Every path must resolve inside the configured project directory. Do not ask the user for filesystem
+paths — call get-project-info instead. If no project is configured, call set-project-directory.`;
+
+// Paths are derived from this module's location, never from process.cwd(). The server runs as a
+// child process of Mendix Studio Pro, whose cwd is its own install directory — often read-only.
 const __dirname = import.meta.dirname ?? dirname(fileURLToPath(import.meta.url));
 export const PACKAGE_ROOT = join(__dirname, "../");
-export const GENERATIONS_DIR = join(process.cwd(), "generations");
 
-const _pkg = JSON.parse(readFileSync(join(PACKAGE_ROOT, "package.json"), "utf-8")) as { version: string };
-export const SERVER_VERSION = _pkg.version;
+export const SERVER_VERSION = readServerVersion();
+
+function readServerVersion(): string {
+    try {
+        const pkg = JSON.parse(readFileSync(join(PACKAGE_ROOT, "package.json"), "utf-8")) as { version?: string };
+        return pkg.version ?? "0.0.0";
+    } catch {
+        // A missing package.json must not take down module evaluation.
+        return "0.0.0";
+    }
+}
 
 // Path to local docs folder
 export const DOCS_DIR = join(PACKAGE_ROOT, "docs");
 
 // Timeouts
-export const SCAFFOLD_TIMEOUT_MS = 300000; // 5 minutes
+// Scaffolding runs in-process and only renders templates to disk, so it is fast; the long pole is
+// installing the new widget's dependencies, which is a separate step with its own budget.
+export const SCAFFOLD_TIMEOUT_MS = 60000; // 1 minute
+export const INSTALL_TIMEOUT_MS = 300000; // 5 minutes
+export const BUILD_TIMEOUT_MS = 300000; // 5 minutes
 
-// Project directory configuration
-export const MENDIX_PROJECT_DIR = process.env.MENDIX_PROJECT_DIR ? resolve(process.env.MENDIX_PROJECT_DIR) : undefined;
+/**
+ * The Mendix project directory Studio Pro passed at spawn, if any.
+ *
+ * Read on call rather than captured at module load, so nothing holds a stale copy — the live value
+ * is whatever the session state says, which `set-project-directory` can re-point.
+ */
+export function getConfiguredProjectDir(): string | undefined {
+    return process.env.MENDIX_PROJECT_DIR ? resolve(process.env.MENDIX_PROJECT_DIR) : undefined;
+}
+
+/** Widget sources live inside the project, alongside the `widgets/` folder builds deploy into. */
+export function widgetSourcesDir(projectDir: string): string {
+    return join(projectDir, "widget-sources");
+}
 
 export interface ProjectValidation {
     valid: boolean;
@@ -75,7 +113,18 @@ export async function validateProjectDir(dir: string): Promise<ProjectValidation
     let projectName: string | undefined;
     try {
         const entries = await readdir(dir);
-        const mprFile = entries.find(entry => entry.endsWith(".mpr"));
+        // Sorted so the choice is deterministic rather than dependent on readdir order.
+        const mprFiles = entries.filter(entry => entry.endsWith(".mpr")).sort();
+        if (mprFiles.length > 1) {
+            return {
+                valid: false,
+                projectDir: dir,
+                widgetsDir,
+                existingWidgets: [],
+                error: `Multiple .mpr files found in ${dir} (${mprFiles.join(", ")}). Point at a directory containing exactly one Mendix project.`
+            };
+        }
+        const mprFile = mprFiles[0];
         if (!mprFile) {
             return {
                 valid: false,

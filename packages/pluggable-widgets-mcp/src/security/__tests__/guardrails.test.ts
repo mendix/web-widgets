@@ -43,8 +43,14 @@ describe("validateFilePath", () => {
         expect(() => validateFilePath("/widgets/foo", "src/Bar.tsx")).not.toThrow();
     });
 
-    it("throws for .. in the path", () => {
-        expect(() => validateFilePath("/widgets/foo", "../secret.txt")).toThrow("Path traversal");
+    it("throws for a path that escapes the widget directory", () => {
+        expect(() => validateFilePath("/widgets/foo", "../secret.txt")).toThrow("within the widget directory");
+    });
+
+    it("allows a filename that merely contains dots", () => {
+        // Traversal is caught by containment, not by looking for ".." as a substring, so a
+        // legitimate name like this is not collateral damage.
+        expect(() => validateFilePath("/widgets/foo", "src/foo..bar.tsx")).not.toThrow();
     });
 
     it("throws for disallowed extension when checkExtension is true", () => {

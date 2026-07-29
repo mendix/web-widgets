@@ -1,20 +1,41 @@
-import { resolve } from "node:path";
-import { GENERATIONS_DIR } from "@/config";
+import { delimiter, resolve, sep } from "node:path";
 import type { SessionState } from "@/tools/session-state";
 
 /**
- * Checks whether a resolved path is within the allowed directories.
- * Allowed dirs: GENERATIONS_DIR, env-var paths (colon-separated), state.projectDir.
+ * Extra roots to permit alongside the project directory, for development against widgets that live
+ * outside a Mendix project. Platform-delimited (`:` on POSIX, `;` on Windows) — splitting on a
+ * literal `:` would tear `C:\widgets` into `["C", "\widgets"]`.
  */
-export function isPathAllowed(targetPath: string, state: SessionState, envVar?: string): boolean {
-    const resolved = resolve(targetPath);
-    const allowed = [
-        resolve(GENERATIONS_DIR),
-        ...((envVar ? process.env[envVar] : undefined) ?? "")
-            .split(":")
+const EXTRA_ALLOWED_PATHS_ENV = "MCP_EXTRA_ALLOWED_PATHS";
+
+/**
+ * Returns every directory the server is permitted to read or write under.
+ *
+ * The Mendix project directory is the boundary. It is the only root that is derived from the
+ * session rather than the environment, which is what makes the fence stable: an earlier version
+ * anchored it to `process.cwd()`, so the security boundary moved depending on who spawned the
+ * process.
+ */
+export function allowedRoots(state: SessionState): string[] {
+    return [
+        ...(state.projectDir ? [resolve(state.projectDir)] : []),
+        ...(process.env[EXTRA_ALLOWED_PATHS_ENV] ?? "")
+            .split(delimiter)
             .filter(Boolean)
-            .map(p => resolve(p)),
-        ...(state.projectDir ? [resolve(state.projectDir)] : [])
+            .map(path => resolve(path))
     ];
-    return allowed.some(a => resolved.startsWith(a + "/") || resolved === a);
+}
+
+/** Checks whether a path resolves inside one of the allowed roots. */
+export function isPathAllowed(targetPath: string, state: SessionState): boolean {
+    const resolved = resolve(targetPath);
+    return allowedRoots(state).some(root => resolved === root || resolved.startsWith(root + sep));
+}
+
+/** Human-readable description of the boundary, for error messages. */
+export function describeAllowedRoots(state: SessionState): string {
+    const roots = allowedRoots(state);
+    return roots.length > 0
+        ? roots.join(", ")
+        : `no project configured — set MENDIX_PROJECT_DIR or call set-project-directory (or set ${EXTRA_ALLOWED_PATHS_ENV})`;
 }
