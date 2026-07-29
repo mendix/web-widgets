@@ -4,12 +4,7 @@
  * The generator is mocked so tests run fast without Yeoman scaffolding.
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import {
-    createMcpTestContext,
-    createRecordingMcpTestContext,
-    getResultText,
-    isError
-} from "@/__test-utils__/mcp-test-harness";
+import { createMcpTestContext, getResultText, isError } from "@/__test-utils__/mcp-test-harness";
 import { createTempMendixProject } from "@/__test-utils__/temp-dir";
 import type { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import type { SessionState } from "@/tools/session-state";
@@ -27,7 +22,9 @@ vi.mock("@/tools/utils/generator", () => ({
         unitTests: false,
         e2eTests: false
     }),
-    runWidgetGenerator: vi.fn().mockResolvedValue(undefined),
+    runWidgetGenerator: () => Promise.resolve({ askedFor: [] }),
+    runNpmInstall: () => Promise.resolve({ ok: true }),
+    ScaffoldTimeoutError: class ScaffoldTimeoutError extends Error {},
     SCAFFOLD_PROGRESS: {
         START: { progress: 0, message: "Starting..." },
         COMPLETE: { progress: 100, message: "Done!" }
@@ -110,7 +107,7 @@ describe("scaffold workflow", () => {
         expect(isError(createResult)).toBe(false);
         const text = getResultText(createResult);
         expect(text).toContain("ScenarioWidget");
-        expect(text).toContain("created successfully");
+        expect(text).toContain(`Created widget "ScenarioWidget"`);
     });
 });
 
@@ -164,87 +161,5 @@ describe("error recovery", () => {
         });
         expect(isError(retryResult)).toBe(false);
         expect(state.projectDir).toBe(dir);
-    });
-});
-
-describe("protocol recording captures tool sequence", () => {
-    let cleanup: () => Promise<void>;
-    const tempCleanups: Array<() => void> = [];
-
-    afterEach(async () => {
-        await cleanup();
-        for (const c of tempCleanups) c();
-        tempCleanups.length = 0;
-    });
-
-    it("records tool calls in order and assertToolOrder passes", async () => {
-        const ctx = await createRecordingMcpTestContext();
-        cleanup = ctx.cleanup;
-
-        const { dir, cleanup: tempCleanup } = createTempMendixProject({ projectName: "RecordingApp" });
-        tempCleanups.push(tempCleanup);
-
-        // Call two tools in sequence
-        await ctx.client.callTool({ name: "get-project-info", arguments: {} });
-        ctx.state.projectDir = dir;
-        await ctx.client.callTool({ name: "get-project-info", arguments: {} });
-
-        // Verify recording captured both calls
-        const sequence = ctx.getToolCallSequence();
-        expect(sequence.length).toBeGreaterThanOrEqual(2);
-        expect(sequence[0]).toBe("get-project-info");
-        expect(sequence[1]).toBe("get-project-info");
-
-        // assertToolOrder should not throw
-        expect(() => ctx.assertToolOrder(["get-project-info", "get-project-info"])).not.toThrow();
-    });
-
-    it("records messages in both directions", async () => {
-        const ctx = await createRecordingMcpTestContext();
-        cleanup = ctx.cleanup;
-
-        const { dir, cleanup: tempCleanup } = createTempMendixProject();
-        tempCleanups.push(tempCleanup);
-        ctx.state.projectDir = dir;
-
-        await ctx.client.callTool({ name: "get-project-info", arguments: {} });
-
-        const clientToServer = ctx.records.filter(r => r.direction === "client-to-server");
-        const serverToClient = ctx.records.filter(r => r.direction === "server-to-client");
-
-        expect(clientToServer.length).toBeGreaterThan(0);
-        expect(serverToClient.length).toBeGreaterThan(0);
-    });
-
-    it("getToolCalls returns name and arguments", async () => {
-        const ctx = await createRecordingMcpTestContext();
-        cleanup = ctx.cleanup;
-
-        const { dir, cleanup: tempCleanup } = createTempMendixProject();
-        tempCleanups.push(tempCleanup);
-
-        await ctx.client.callTool({
-            name: "set-project-directory",
-            arguments: { projectDir: dir }
-        });
-
-        const toolCalls = ctx.getToolCalls();
-        expect(toolCalls).toHaveLength(1);
-        expect(toolCalls[0].name).toBe("set-project-directory");
-        expect((toolCalls[0].arguments as Record<string, unknown>).projectDir).toBe(dir);
-        expect(toolCalls[0].timestamp).toBeGreaterThan(0);
-    });
-
-    it("assertToolOrder throws when sequence is wrong", async () => {
-        const ctx = await createRecordingMcpTestContext();
-        cleanup = ctx.cleanup;
-
-        const { dir, cleanup: tempCleanup } = createTempMendixProject();
-        tempCleanups.push(tempCleanup);
-        ctx.state.projectDir = dir;
-
-        await ctx.client.callTool({ name: "get-project-info", arguments: {} });
-
-        expect(() => ctx.assertToolOrder(["set-project-directory"])).toThrow();
     });
 });

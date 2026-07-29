@@ -25,9 +25,15 @@ Display widgets show read-only data. Examples: Badge, Progress Bar, Label.
 
 ```tsx
 import { ReactNode, useCallback } from "react";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { ActionValue } from "mendix";
 import { MyWidgetContainerProps } from "../typings/MyWidgetProps";
 import "./ui/MyWidget.scss";
+
+function executeAction(action?: ActionValue): void {
+    if (action && action.canExecute && !action.isExecuting) {
+        action.execute();
+    }
+}
 
 export default function MyWidget(props: MyWidgetContainerProps): ReactNode {
     const { value, type, onClick, tabIndex, class: className, style } = props;
@@ -36,7 +42,7 @@ export default function MyWidget(props: MyWidgetContainerProps): ReactNode {
         executeAction(onClick);
     }, [onClick]);
 
-    const isClickable = onClick?.canExecute;
+    const isClickable = onClick?.canExecute ?? false;
 
     return (
         <div
@@ -106,9 +112,15 @@ Button widgets trigger actions on click. May include icons, loading states.
 
 ```tsx
 import { ReactNode, useCallback, KeyboardEvent } from "react";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { ActionValue } from "mendix";
 import { MyButtonContainerProps } from "../typings/MyButtonProps";
 import "./ui/MyButton.scss";
+
+function executeAction(action?: ActionValue): void {
+    if (action && action.canExecute && !action.isExecuting) {
+        action.execute();
+    }
+}
 
 export default function MyButton(props: MyButtonContainerProps): ReactNode {
     const { caption, icon, buttonStyle, onClick, tabIndex, class: className, style } = props;
@@ -213,9 +225,15 @@ Input widgets bind to entity attributes for data entry.
 
 ```tsx
 import { ReactNode, useCallback, ChangeEvent, KeyboardEvent } from "react";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { ActionValue } from "mendix";
 import { MyInputContainerProps } from "../typings/MyInputProps";
 import "./ui/MyInput.scss";
+
+function executeAction(action?: ActionValue): void {
+    if (action && action.canExecute && !action.isExecuting) {
+        action.execute();
+    }
+}
 
 export default function MyInput(props: MyInputContainerProps): ReactNode {
     const { value, placeholder, readOnly, onChange, onEnter, tabIndex, class: className, style } = props;
@@ -393,11 +411,16 @@ Data list widgets display items from a datasource.
 ### TSX Structure
 
 ```tsx
-import { ReactNode, useCallback } from "react";
-import { ValueStatus, ObjectItem } from "mendix";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { ReactNode } from "react";
+import { ActionValue, ValueStatus, ObjectItem } from "mendix";
 import { MyListContainerProps } from "../typings/MyListProps";
 import "./ui/MyList.scss";
+
+function executeAction(action?: ActionValue): void {
+    if (action && action.canExecute && !action.isExecuting) {
+        action.execute();
+    }
+}
 
 export default function MyList(props: MyListContainerProps): ReactNode {
     const { dataSource, content, emptyMessage, onItemClick, class: className, style } = props;
@@ -471,9 +494,10 @@ Every widget typically needs these imports:
 // React
 import { ReactNode, useCallback, useState } from "react";
 
-// Mendix helpers
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import { ValueStatus } from "mendix";
+// Mendix client API types. @mendix/widget-plugin-platform is NOT available here — it is a private
+// package of the web-widgets monorepo. Declare small helpers like executeAction in the component
+// file; see Key Patterns → Action Execution.
+import { ActionValue, ValueStatus } from "mendix";
 
 // Generated types (from XML via pwt build)
 import { MyWidgetContainerProps } from "../typings/MyWidgetProps";
@@ -488,18 +512,31 @@ import "./ui/MyWidget.scss";
 
 ### Action Execution
 
-Always use `executeAction` from the platform helpers:
+`@mendix/widget-plugin-platform` is a private workspace package inside the `web-widgets` monorepo —
+it is **not published to npm** (`npm view` returns 404) and cannot be imported from a widget this
+server scaffolds. Its `executeAction` is five lines; a standalone widget carries its own.
+
+Declare it in the component file:
 
 ```tsx
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { ActionValue } from "mendix";
+
+function executeAction(action?: ActionValue): void {
+    if (action && action.canExecute && !action.isExecuting) {
+        action.execute();
+    }
+}
 
 const handleClick = useCallback(() => {
     executeAction(props.onClick);
 }, [props.onClick]);
 
-// Check if action can execute
-const isClickable = props.onClick?.canExecute;
+// Check whether the action is wired up at all, to decide on affordances (cursor, role, tabIndex)
+const isClickable = props.onClick?.canExecute ?? false;
 ```
+
+The `isExecuting` guard is the part worth keeping: without it a rapid double-click fires a
+microflow twice, and nothing in the type system catches its absence.
 
 ### Attribute Value Handling
 
@@ -543,7 +580,7 @@ if (props.counterValue?.status === "available" && !props.counterValue.readOnly) 
 **Counter widget pattern (Integer/Long attribute):**
 
 ```tsx
-import { ReactElement, createElement, useState, useEffect, useCallback } from "react";
+import { ReactElement, useState, useEffect, useCallback } from "react";
 import Big from "big.js";
 import { CounterContainerProps } from "../typings/CounterProps";
 import "./ui/Counter.scss";

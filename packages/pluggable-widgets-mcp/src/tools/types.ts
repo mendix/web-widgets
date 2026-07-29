@@ -8,12 +8,17 @@ import { z } from "zod";
 
 /**
  * Standard response format for MCP tool handlers.
- * Index signature required for MCP SDK compatibility.
+ *
+ * A type alias, not an interface, and that is load-bearing. The SDK's handler signature expects a
+ * type carrying an index signature; TypeScript gives type aliases an implicit one, so this stays
+ * assignable — while excess-property checking still rejects a literal with a misspelled `isError`.
+ * The previous version declared `[key: string]: unknown` explicitly, which made `isError` invisible
+ * to the compiler: `isErrror: true` compiled cleanly and reported a failure as success.
  */
-export interface ToolResponse {
-    [key: string]: unknown;
+export type ToolResponse = {
     content: Array<{ type: "text"; text: string }>;
-}
+    isError?: boolean;
+};
 
 /**
  * Extra context provided to tool handlers by the MCP server.

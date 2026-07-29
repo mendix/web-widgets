@@ -1,128 +1,91 @@
 import type { ToolResponse } from "@/tools/types";
 
 /**
- * Error codes for structured error responses.
- * These help clients categorize and handle errors appropriately.
+ * Tool responses: exactly two constructors.
+ *
+ * There were previously three, plus one raw object literal that bypassed all of them, and the codes
+ * below were declared up front "in case" — six of fourteen were never emitted anywhere. Every code
+ * here is produced by at least one tool, and every failure path goes through `fail`, so `isError` is
+ * never forgotten.
+ */
+
+/**
+ * Machine-readable failure categories. Clients can branch on these; the text is for the model.
  */
 export type ErrorCode =
-    | "ERR_BUILD_TS" // TypeScript compilation error
-    | "ERR_BUILD_XML" // XML validation error
-    | "ERR_BUILD_MISSING_DEP" // Missing dependency
-    | "ERR_BUILD_UNKNOWN" // Unknown build error
-    | "ERR_SCAFFOLD_TIMEOUT" // Scaffolding timed out
-    | "ERR_SCAFFOLD_FAILED" // Generic scaffold failure
-    | "ERR_FILE_PATH" // Invalid file path
-    | "ERR_FILE_WRITE" // File write failure
-    | "ERR_NOT_FOUND" // Resource not found
-    | "ERR_OUTPUT_PATH_REQUIRED" // Output path required (e.g., in Claude Desktop)
-    | "ERR_OUTPUT_PATH_INVALID" // Output path is not accessible
-    | "ERR_PROJECT_NOT_CONFIGURED" // Project directory not configured or invalid
-    | "ERR_MPK_NOT_FOUND" // Built .mpk file not found in dist/
-    | "ERR_DEPLOY_FAILED"; // Failed to deploy .mpk to project widgets dir
+    /** No Mendix project configured, or the configured one is invalid. */
+    | "ERR_PROJECT_NOT_CONFIGURED"
+    /** A path resolves outside the project sandbox. */
+    | "ERR_OUTPUT_PATH_INVALID"
+    /** A required file or directory does not exist. */
+    | "ERR_NOT_FOUND"
+    /** The widget generator failed. */
+    | "ERR_SCAFFOLD_FAILED"
+    /** The widget generator exceeded its time budget. */
+    | "ERR_SCAFFOLD_TIMEOUT"
+    /** The property model is not a valid widget definition. */
+    | "ERR_INVALID_DEFINITION"
+    /** Reading a widget file failed. */
+    | "ERR_FILE_READ"
+    /** Writing a widget file failed. */
+    | "ERR_FILE_WRITE"
+    /** The build produced errors, or exited non-zero. */
+    | "ERR_BUILD_FAILED"
+    /** No .mpk found — the widget has not been built. */
+    | "ERR_MPK_NOT_FOUND"
+    /** Copying the .mpk into the project failed. */
+    | "ERR_DEPLOY_FAILED";
 
-/**
- * Structured error with code, message, and optional details.
- * Provides actionable information for debugging and fixing issues.
- */
-export interface StructuredError {
-    code: ErrorCode;
-    message: string;
+/** Optional context attached to a failure. */
+export interface FailureContext {
+    /** What the caller should do about it. */
     suggestion?: string;
-    details?: {
-        file?: string;
-        line?: number;
-        column?: number;
-        rawOutput?: string;
-    };
+    file?: string;
+    line?: number;
+    column?: number;
+    /** Raw tool output, truncated in the rendered message. */
+    details?: string;
+}
+
+/** Raw output beyond this is noise for the model and cost for the caller. */
+const MAX_DETAIL_CHARS = 500;
+
+/** A successful tool result. */
+export function ok(text: string): ToolResponse {
+    return { content: [{ type: "text", text }] };
 }
 
 /**
- * Creates a successful tool response with text content.
+ * A failed tool result.
+ *
+ * The code is rendered into the text as `[ERR_…]` so it survives the MCP text channel, which is all
+ * the model ever sees.
  */
-export function createToolResponse(text: string): ToolResponse {
-    return {
-        content: [{ type: "text", text }]
-    };
+export function fail(code: ErrorCode, message: string, context: FailureContext = {}): ToolResponse {
+    const lines = [`[${code}] ${message}`];
+
+    const location = formatLocation(context);
+    if (location) {
+        lines.push(`File: ${location}`);
+    }
+    if (context.suggestion) {
+        lines.push(`Suggestion: ${context.suggestion}`);
+    }
+    if (context.details) {
+        lines.push("Details:", truncate(context.details));
+    }
+
+    return { content: [{ type: "text", text: lines.join("\n") }], isError: true };
 }
 
-/**
- * Creates an error tool response with a message.
- */
-export function createErrorResponse(message: string): ToolResponse {
-    return {
-        isError: true,
-        content: [{ type: "text", text: message }]
-    };
+function formatLocation({ file, line, column }: FailureContext): string | undefined {
+    if (!file) {
+        return undefined;
+    }
+    // Column was previously dropped whenever it appeared without a line.
+    return [file, line, column].filter(part => part !== undefined).join(":");
 }
 
-/**
- * Creates a structured error response with code, message, and details.
- * Formats the error for both human readability and machine parsing.
- */
-export function createStructuredErrorResponse(error: StructuredError): ToolResponse {
-    const lines: string[] = [];
-
-    // Header with error code
-    lines.push(`❌ [${error.code}] ${error.message}`);
-
-    // File location if available
-    if (error.details?.file) {
-        let location = `   📁 File: ${error.details.file}`;
-        if (error.details.line) {
-            location += `:${error.details.line}`;
-            if (error.details.column) {
-                location += `:${error.details.column}`;
-            }
-        }
-        lines.push(location);
-    }
-
-    // Suggestion for fixing
-    if (error.suggestion) {
-        lines.push(`   💡 Suggestion: ${error.suggestion}`);
-    }
-
-    // Raw output for debugging (truncated)
-    if (error.details?.rawOutput) {
-        const truncated =
-            error.details.rawOutput.length > 500
-                ? error.details.rawOutput.slice(0, 500) + "...(truncated)"
-                : error.details.rawOutput;
-        lines.push(`   📝 Details:\n${truncated}`);
-    }
-
-    return {
-        isError: true,
-        content: [{ type: "text", text: lines.join("\n") }]
-    };
-}
-
-/**
- * Creates a structured error object (for use with createStructuredErrorResponse).
- */
-export function createStructuredError(
-    code: ErrorCode,
-    message: string,
-    options?: {
-        suggestion?: string;
-        file?: string;
-        line?: number;
-        column?: number;
-        rawOutput?: string;
-    }
-): StructuredError {
-    return {
-        code,
-        message,
-        suggestion: options?.suggestion,
-        details:
-            options?.file || options?.line || options?.rawOutput
-                ? {
-                      file: options?.file,
-                      line: options?.line,
-                      column: options?.column,
-                      rawOutput: options?.rawOutput
-                  }
-                : undefined
-    };
+function truncate(text: string): string {
+    return text.length > MAX_DETAIL_CHARS ? `${text.slice(0, MAX_DETAIL_CHARS)}...(truncated)` : text;
 }
