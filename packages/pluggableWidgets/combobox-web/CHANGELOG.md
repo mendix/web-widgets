@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.9.0] - 2026-07-24
+
 ### Fixed
 
 - We fixed an issue where the custom editability condition (`never` or `conditionally`) was ignored when the combobox attribute was present and editable.
