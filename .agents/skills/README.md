@@ -18,7 +18,8 @@ This directory contains all Claude Code skills for the web-widgets repository.
 ├── openspec-onboard/         # Guided OpenSpec onboarding
 ├── openspec-propose/         # Propose new change with all artifacts
 ├── openspec-sync-specs/      # Sync delta specs to main specs
-└── openspec-verify-change/   # Verify implementation matches artifacts
+├── openspec-verify-change/   # Verify implementation matches artifacts
+└── bump-transitive/          # Surgically bump a vulnerable transitive dependency
 ```
 
 ## Usage
@@ -28,6 +29,7 @@ Skills are automatically loaded by Claude Code. Users can invoke them via slash 
 - `/code-review` — Review current PR
 - `/debug-widget` — Debug widget runtime issues
 - `/openspec-*` or `/opsx:*` — OpenSpec workflow commands
+- `/bump-transitive` — Bump a vulnerable transitive dep to its latest safe patch per major
 
 ## Skill Format
 
