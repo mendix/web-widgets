@@ -18,7 +18,8 @@ This directory contains all Claude Code skills for the web-widgets repository.
 ├── openspec-onboard/         # Guided OpenSpec onboarding
 ├── openspec-propose/         # Propose new change with all artifacts
 ├── openspec-sync-specs/      # Sync delta specs to main specs
-└── openspec-verify-change/   # Verify implementation matches artifacts
+├── openspec-verify-change/   # Verify implementation matches artifacts
+└── scan-board/               # Pick a Jira ticket, set up a worktree, produce a validated plan
 ```
 
 ## Usage
@@ -28,6 +29,7 @@ Skills are automatically loaded by Claude Code. Users can invoke them via slash 
 - `/code-review` — Review current PR
 - `/debug-widget` — Debug widget runtime issues
 - `/openspec-*` or `/opsx:*` — OpenSpec workflow commands
+- `/scan-board` — Start work on a Jira ticket (`/scan-board`, `/scan-board WC-1234`, or `/scan-board <teammate>`). One-time Jira token setup on first run.
 
 ## Skill Format
 
