@@ -23,6 +23,8 @@
         "start:http": "pnpm run build && node dist/index.js http",
         "start:stdio": "pnpm run build && node dist/index.js stdio",
         "test": "vitest run",
+        "test:e2e": "vitest run -c vitest.e2e.config.ts",
+        "test:e2e:cold": "E2E_COLD=1 vitest run -c vitest.e2e.config.ts",
         "test:watch": "vitest"
     },
     "dependencies": {

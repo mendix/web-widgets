@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="mendix.probebadge.ProbeBadge" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>ProbeBadge</name>
+    <description>A badge that displays a text value and can trigger an action on click</description>
+    <studioProCategory>Display</studioProCategory>
+    <studioCategory>Display</studioCategory>
+    <properties>
+        <propertyGroup caption="General">
+            <property key="value" type="textTemplate">
+                <caption>Value</caption>
+                <description>Text shown inside the badge</description>
+            </property>
+            <property key="badgeType" type="enumeration" defaultValue="primary">
+                <caption>Badge type</caption>
+                <description />
+                <enumerationValues>
+                    <enumerationValue key="primary">Primary</enumerationValue>
+                    <enumerationValue key="success">Success</enumerationValue>
+                    <enumerationValue key="danger">Danger</enumerationValue>
+                </enumerationValues>
+            </property>
+            <property key="count" type="attribute" required="false">
+                <caption>Count</caption>
+                <description />
+                <attributeTypes>
+                    <attributeType name="Integer" />
+                    <attributeType name="Long" />
+                </attributeTypes>
+            </property>
+            <property key="showCount" type="boolean" required="true" defaultValue="false">
+                <caption>Show count</caption>
+                <description />
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="Events">
+            <property key="onClick" type="action" required="false">
+                <caption>On click</caption>
+                <description />
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="Visibility">
+            <systemProperty key="Visibility" />
+        </propertyGroup>
+        <propertyGroup caption="Common">
+            <systemProperty key="Name" />
+            <systemProperty key="TabIndex" />
+        </propertyGroup>
+    </properties>
+</widget>

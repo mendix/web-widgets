@@ -1,0 +1,87 @@
+{
+    "comment": "Property models for the templates in docs/widget-patterns.md, keyed by the component name each template exports. The doc's own 'Typical Properties' blocks are illustrative and contain placeholders, so the concrete models live here. Adding a pattern to the doc means adding its model here, or the compile check silently skips it — the spec asserts every template is covered.",
+    "patterns": {
+        "MyWidget": {
+            "description": "Display pattern from widget-patterns.md",
+            "properties": [
+                { "key": "value", "type": "textTemplate", "caption": "Value" },
+                {
+                    "key": "type",
+                    "type": "enumeration",
+                    "caption": "Style",
+                    "defaultValue": "primary",
+                    "enumValues": [
+                        { "key": "primary", "caption": "Primary" },
+                        { "key": "secondary", "caption": "Secondary" }
+                    ]
+                },
+                { "key": "onClick", "type": "action", "caption": "On click", "required": false }
+            ]
+        },
+        "MyButton": {
+            "description": "Button pattern from widget-patterns.md",
+            "properties": [
+                { "key": "caption", "type": "textTemplate", "caption": "Caption" },
+                { "key": "icon", "type": "icon", "caption": "Icon", "required": false },
+                {
+                    "key": "buttonStyle",
+                    "type": "enumeration",
+                    "caption": "Style",
+                    "defaultValue": "primary",
+                    "enumValues": [
+                        { "key": "primary", "caption": "Primary" },
+                        { "key": "secondary", "caption": "Secondary" },
+                        { "key": "danger", "caption": "Danger" }
+                    ]
+                },
+                { "key": "onClick", "type": "action", "caption": "On click" }
+            ]
+        },
+        "MyInput": {
+            "description": "Input pattern from widget-patterns.md",
+            "properties": [
+                {
+                    "key": "value",
+                    "type": "attribute",
+                    "caption": "Value",
+                    "attributeTypes": ["String"],
+                    "required": true
+                },
+                { "key": "placeholder", "type": "textTemplate", "caption": "Placeholder", "required": false },
+                { "key": "readOnly", "type": "boolean", "caption": "Read-only", "defaultValue": false },
+                { "key": "onChange", "type": "action", "caption": "On change", "required": false },
+                { "key": "onEnter", "type": "action", "caption": "On enter", "required": false }
+            ]
+        },
+        "MyContainer": {
+            "description": "Container pattern from widget-patterns.md",
+            "properties": [
+                { "key": "content", "type": "widgets", "caption": "Content" },
+                { "key": "header", "type": "textTemplate", "caption": "Header", "required": false },
+                { "key": "collapsible", "type": "boolean", "caption": "Collapsible", "defaultValue": false }
+            ]
+        },
+        "MyList": {
+            "description": "Data list pattern from widget-patterns.md",
+            "systemProperties": ["Name", "Visibility"],
+            "properties": [
+                { "key": "dataSource", "type": "datasource", "caption": "Data source", "isList": true },
+                { "key": "content", "type": "widgets", "caption": "Content", "dataSource": "dataSource" },
+                { "key": "emptyMessage", "type": "textTemplate", "caption": "Empty message", "required": false },
+                { "key": "onItemClick", "type": "action", "caption": "On item click", "required": false }
+            ]
+        },
+        "Counter": {
+            "description": "Counter pattern from the numeric-attributes section of widget-patterns.md",
+            "properties": [
+                {
+                    "key": "counterValue",
+                    "type": "attribute",
+                    "caption": "Counter value",
+                    "attributeTypes": ["Integer", "Long"],
+                    "required": true
+                }
+            ]
+        }
+    }
+}

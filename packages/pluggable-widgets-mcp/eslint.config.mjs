@@ -15,7 +15,7 @@ import config from "@mendix/eslint-config-web-widgets/widget-ts.mjs";
  */
 export default [
     {
-        ignores: ["dist/**", "generations/**"]
+        ignores: ["dist/**", "generations/**", ".e2e-cache/**"]
     },
     ...config,
     {
@@ -26,6 +26,15 @@ export default [
                 projectService: true,
                 tsconfigRootDir: import.meta.dirname
             }
+        }
+    },
+    {
+        // The e2e suite has one plain ESM helper that has to run as its own process, so it is not
+        // TypeScript and the shared config has no Node globals for it.
+        name: "pluggable-widgets-mcp: node scripts",
+        files: ["**/*.mjs"],
+        languageOptions: {
+            globals: { process: "readonly", console: "readonly" }
         }
     }
 ];

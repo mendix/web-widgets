@@ -1,0 +1,42 @@
+{
+    "description": "A badge that displays a text value and can trigger an action on click",
+    "properties": [
+        {
+            "key": "value",
+            "type": "textTemplate",
+            "caption": "Value",
+            "description": "Text shown inside the badge"
+        },
+        {
+            "key": "badgeType",
+            "type": "enumeration",
+            "caption": "Badge type",
+            "defaultValue": "primary",
+            "enumValues": [
+                { "key": "primary", "caption": "Primary" },
+                { "key": "success", "caption": "Success" },
+                { "key": "danger", "caption": "Danger" }
+            ]
+        },
+        {
+            "key": "count",
+            "type": "attribute",
+            "caption": "Count",
+            "attributeTypes": ["Integer", "Long"],
+            "required": false
+        },
+        {
+            "key": "showCount",
+            "type": "boolean",
+            "caption": "Show count",
+            "defaultValue": false
+        },
+        {
+            "key": "onClick",
+            "type": "action",
+            "caption": "On click",
+            "required": false
+        }
+    ],
+    "systemProperties": ["Name", "TabIndex", "Visibility"]
+}

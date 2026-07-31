@@ -83,23 +83,32 @@ Every run records how long each step took. Results are appended to
 [`docs/benchmarks/timings.jsonl`](./benchmarks/) with the commit they came from, so a change that
 makes things slower shows up immediately instead of being noticed months later.
 
-Measured on 2026-07-29, macOS, from nothing to a deployed widget:
+Recorded by `cold.e2e.test.ts` on 2026-07-31, macOS — nothing on disk to a widget deployed into a
+Mendix project:
 
 | Step                            | Time             |
 | ------------------------------- | ---------------- |
-| Scaffold + install dependencies | 23.3 s           |
-| Write the XML definition        | 0.003 s          |
+| Scaffold + install dependencies | 11.6 s           |
+| Write the XML definition        | 0.002 s          |
 | Write the component files       | 0.002 s          |
-| Build the `.mpk`                | 14.1 s           |
-| Deploy into the project         | 0.003 s          |
-| **Total**                       | **≈ 37 seconds** |
+| Build the `.mpk`                | 13.4 s           |
+| Deploy into the project         | 0.002 s          |
+| **Total**                       | **25.0 seconds** |
 
-Rebuilding an existing widget after an edit: **≈ 4 seconds.**
+Rebuilding after an edit: **3.6 seconds.**
 
-Almost all of it is the two steps the server doesn't control — npm installing dependencies, and the
-Mendix build toolchain compiling. The server's own work is measured in **milliseconds**. That is the
-number worth quoting: the pipeline adds essentially nothing to the cost of building a widget by hand,
-and removes all the steps in between.
+The shape of that table is the point. Two steps take all the time, and the server owns neither of
+them: `npm install` and the Mendix build toolchain. Everything the server itself does — deriving the
+XML, writing the files, deploying the artifact — adds up to **six milliseconds**.
+
+So the honest claim is not that this server is fast. It is that **the pipeline costs nothing**. A
+developer doing this by hand pays the same 25 seconds of npm and compilation, plus the scaffolding
+decisions, the XML by hand, and the copy into `widgets/`. The server removes those and adds
+approximately zero.
+
+Two caveats worth stating before quoting the number. It assumes npm's package cache is warm; on a
+machine downloading everything for the first time, expect closer to 40 seconds. And it is one
+machine — the value of `timings.jsonl` is the trend across commits, not any single row.
 
 ---
 
@@ -139,7 +148,17 @@ Both skills live in the repository, so anyone contributing gets them automatical
 
 ## Status
 
-Layer 1 is in place and passing — 119 tests. Layers 2 and 3 and the timing history are designed and
-not yet built; the numbers quoted above were measured by hand on 2026-07-29 while validating the
-pipeline against a real Mendix project, and will be reproduced automatically once `src/__e2e__/`
-lands.
+Layers 1 and 2 are built and passing: **119 unit tests in 1.3 s**, **24 end-to-end tests in 20 s**
+warm, **25 s** for the from-scratch run. Timings are recorded automatically.
+
+Layer 3 is a procedure rather than code — it runs through the `mcp-server-test` skill and produces
+findings, not a pass/fail — so there is nothing to build, but it has not been exercised yet.
+
+Three of the end-to-end specs were verified to fail when the thing they guard is broken, rather than
+being assumed correct because they were green:
+
+| Spec                         | Broken deliberately                                              | Caught                                                       |
+| ---------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------ |
+| `transport.e2e.test.ts`      | added a `console.log` to the built server                        | the stray line on stdout                                     |
+| `docs-templates.e2e.test.ts` | restored the unpublished `@mendix/widget-plugin-platform` import | `TS2307`, naming the template's line in `widget-patterns.md` |
+| `pipeline.e2e.test.ts`       | no golden file present                                           | refused to self-bless; wrote one and failed pending review   |

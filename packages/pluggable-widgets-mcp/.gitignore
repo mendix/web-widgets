@@ -1,3 +1,4 @@
 dist/
 generations/
 node_modules/
+.e2e-cache/

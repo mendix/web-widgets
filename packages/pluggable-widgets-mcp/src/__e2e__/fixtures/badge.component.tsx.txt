@@ -1,0 +1,34 @@
+import { ReactElement, useCallback } from "react";
+import { ActionValue } from "mendix";
+import { ProbeBadgeContainerProps } from "../typings/ProbeBadgeProps";
+import "./ui/ProbeBadge.scss";
+
+function executeAction(action?: ActionValue): void {
+    if (action && action.canExecute && !action.isExecuting) {
+        action.execute();
+    }
+}
+
+export function ProbeBadge(props: ProbeBadgeContainerProps): ReactElement {
+    const { value, badgeType, count, showCount, onClick, tabIndex, class: className, style } = props;
+
+    const handleClick = useCallback(() => {
+        executeAction(onClick);
+    }, [onClick]);
+
+    const isClickable = onClick?.canExecute ?? false;
+    const countLabel = showCount ? (count?.value?.toNumber() ?? 0) : undefined;
+
+    return (
+        <div
+            className={`widget-probebadge widget-probebadge-${badgeType} ${className}`}
+            style={style}
+            onClick={isClickable ? handleClick : undefined}
+            tabIndex={isClickable ? tabIndex : undefined}
+            role={isClickable ? "button" : undefined}
+        >
+            <span className="widget-probebadge-label">{value?.value ?? ""}</span>
+            {countLabel !== undefined && <span className="widget-probebadge-count">{countLabel}</span>}
+        </div>
+    );
+}
