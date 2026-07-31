@@ -84,31 +84,32 @@ Every run records how long each step took. Results are appended to
 makes things slower shows up immediately instead of being noticed months later.
 
 Recorded by `cold.e2e.test.ts` on 2026-07-31, macOS — nothing on disk to a widget deployed into a
-Mendix project:
+Mendix project. Two runs, to show what is stable and what is not:
 
-| Step                            | Time             |
-| ------------------------------- | ---------------- |
-| Scaffold + install dependencies | 11.6 s           |
-| Write the XML definition        | 0.002 s          |
-| Write the component files       | 0.002 s          |
-| Build the `.mpk`                | 13.4 s           |
-| Deploy into the project         | 0.002 s          |
-| **Total**                       | **25.0 seconds** |
+| Step                            | Run 1      | Run 2      |
+| ------------------------------- | ---------- | ---------- |
+| Scaffold + install dependencies | 11.6 s     | 22.4 s     |
+| Write the XML definition        | 0.002 s    | 0.002 s    |
+| Write the component files       | 0.002 s    | 0.002 s    |
+| Build the `.mpk`                | 13.4 s     | 12.7 s     |
+| Deploy into the project         | 0.002 s    | 0.002 s    |
+| **Total**                       | **25.0 s** | **35.1 s** |
 
 Rebuilding after an edit: **3.6 seconds.**
 
-The shape of that table is the point. Two steps take all the time, and the server owns neither of
-them: `npm install` and the Mendix build toolchain. Everything the server itself does — deriving the
-XML, writing the files, deploying the artifact — adds up to **six milliseconds**.
+The shape of that table is the point, and the variance makes it clearer rather than muddier. The two
+runs differ by ten seconds, all of it in `npm install`. The build barely moved. The server's own
+steps — deriving the XML, writing the files, deploying the artifact — came to **six milliseconds**
+both times.
 
 So the honest claim is not that this server is fast. It is that **the pipeline costs nothing**. A
-developer doing this by hand pays the same 25 seconds of npm and compilation, plus the scaffolding
+developer doing this by hand pays the same npm install and the same compilation, plus the scaffolding
 decisions, the XML by hand, and the copy into `widgets/`. The server removes those and adds
 approximately zero.
 
-Two caveats worth stating before quoting the number. It assumes npm's package cache is warm; on a
-machine downloading everything for the first time, expect closer to 40 seconds. And it is one
-machine — the value of `timings.jsonl` is the trend across commits, not any single row.
+If you need one number, say **under a minute from nothing to a widget in the project**, and expect
+the spread to come from npm rather than from anything here. The value of `timings.jsonl` is the trend
+across commits, not any single row.
 
 ---
 

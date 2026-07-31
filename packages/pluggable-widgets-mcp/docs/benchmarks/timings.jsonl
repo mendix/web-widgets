@@ -6,3 +6,5 @@
 {"sha":"dc05a1d44","mode":"warm","ts":"2026-07-31T14:17:37.660Z","phases":{"get-project-info":1,"set-widget-properties":1,"write-widget-file":4,"read-widget-file":2,"build-widget":3525,"deploy-widget":6},"totalToWorkingWidget":3539}
 {"sha":"dc05a1d44","mode":"warm","ts":"2026-07-31T14:18:08.017Z","phases":{"get-project-info":1,"set-widget-properties":2,"write-widget-file":5,"read-widget-file":4,"build-widget":3828,"deploy-widget":3},"totalToWorkingWidget":3843}
 {"sha":"dc05a1d44","mode":"warm","ts":"2026-07-31T14:18:13.453Z","phases":{"get-project-info":1,"set-widget-properties":2,"write-widget-file":3,"read-widget-file":3,"build-widget":3739,"deploy-widget":10},"totalToWorkingWidget":3758}
+{"sha":"58c40b5f0","mode":"warm","ts":"2026-07-31T14:18:52.601Z","phases":{"get-project-info":1,"set-widget-properties":2,"write-widget-file":3,"read-widget-file":2,"build-widget":3663,"deploy-widget":3},"totalToWorkingWidget":3674}
+{"sha":"58c40b5f0","mode":"cold","ts":"2026-07-31T14:19:38.399Z","phases":{"create-widget":22420,"set-widget-properties":3,"write-widget-file":1,"build-widget":12715,"deploy-widget":2},"totalToWorkingWidget":35141}
