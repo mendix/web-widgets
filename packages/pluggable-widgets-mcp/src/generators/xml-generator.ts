@@ -130,7 +130,11 @@ export function generateWidgetXml(widget: WidgetDefinition): GeneratorResult {
             `offlineCapable="${offlineCapable}"`,
             `xmlns="http://www.mendix.com/widget/1.0/"`,
             `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"`,
-            `xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../node_modules/mendix/custom_widget.xsd"`
+            // The XML is written to <widget>/src/, so the widget's own node_modules is one level up.
+            // This matched what @mendix/generator-widget scaffolds; four levels up resolved to the
+            // Mendix project root, which has no node_modules, leaving every generated file pointing
+            // at a schema that does not exist. Only XML editors read this, not the build.
+            `xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"`
         ]
             .filter(Boolean)
             .join(" ");
