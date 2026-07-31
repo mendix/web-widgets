@@ -1,3 +1,6 @@
+# Golden files must stay byte-identical to what the generator emits. Formatting them makes the
+# comparison assert prettier's opinion instead of the server's output.
+packages/pluggable-widgets-mcp/src/__e2e__/goldens
 packages/tools/generator-widget/generators/app/templates
 packages/tools/pluggable-widgets-tools/tests/projects
 packages/pluggableWidgets/*/typings
