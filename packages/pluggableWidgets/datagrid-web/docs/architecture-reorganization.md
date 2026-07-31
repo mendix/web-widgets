@@ -87,33 +87,51 @@ The **core** capabilities they'd naturally own (columns, rows, sorting, filterin
 shell) are scattered into `components/`, `helpers/state/`, and `model/`. The codebase is
 feature-sliced for new features and layer-sliced for core ones.
 
-## 3. Proposed reorganization: commit to feature-slices + a thin shared kernel
+### 2.6 A large share of the "backend" is NOT local — it lives in `@mendix/widget-plugin-*`
+This is the finding that most shapes the proposal. Tracing external imports (non-test):
 
-Keep the excellent `model/` **internal** pattern, but stop having one monolithic `model/`.
-Give every capability its own model + view + wiring, backed by a small shared kernel.
-The top level should name **what the widget does**, not **what React/MobX are**.
+| Package | Import sites | What comes from it |
+|---|---|---|
+| `@mendix/widget-plugin-grid` | 72 | selection, select-all, selection-counter, pagination, event-switch, keyboard-navigation, ClickActionHelper — **cross-widget domain logic** |
+| `@mendix/widget-plugin-mobx-kit` | 29 | `GateProvider`, `SetupHost`, `disposeBatch`, `useConst`, `useSetup` — **the reactive kernel itself** |
+| `@mendix/widget-plugin-filtering` | 16 | filter stores/host — filtering domain |
+| `@mendix/widget-plugin-platform` / `-component-kit` / `-hooks` / `filter-commons` | ~20 | shared UI + platform helpers |
+
+**53 of the `src` files import from `@mendix/widget-plugin-*`.** Two consequences:
+
+- **The reactive kernel is already external.** `widget-plugin-mobx-kit` provides the
+  gate/setup/dispose primitives. There is nothing local to "extract" as a kernel.
+- **Several "features" are adapters, not owners.** `select-all`, `selection-counter`,
+  `pagination`, and `row-interaction` are thin local wiring over logic that lives in
+  `widget-plugin-grid`. The datagrid-web slice is a *binding layer*; the brain is in the plugin.
+
+datagrid-web is best understood as a **composition layer over shared grid-family
+packages**, not a self-contained app. The reorganization must reflect that.
+
+## 3. Proposal: feature-slices over a thin local composition layer
+
+Keep the excellent DI/MobX **pattern**, but stop having one monolithic `model/`. Give every
+capability its own model + view + wiring, and recognise the external plugins as the base of
+the stack. The top level should name **what the widget does**, not **what React/MobX are**.
 
 ```
 src/
 ├── Datagrid.tsx, Datagrid.xml, *.editorConfig.ts        # entry (unchanged)
 │
-├── kernel/                        # reusable DI/MobX/gate machinery — feature-agnostic
+├── composition/                   # pure WIRING — no reactive primitives (those are external)
 │   ├── container/                 # Root/Datagrid container assembly, createDatagridContainer
-│   ├── gate/                      # MainGateProvider, gate types  (was model/services/MainGate*)
 │   ├── tokens.ts                  # ONLY cross-feature tokens (mainGate, config, setupService)
-│   └── react/                     # useDatagridContainer, useSetup bindings
+│   └── react/                     # useDatagridContainer
+│   #  Gate/Setup/dispose primitives are NOT here — they come from @mendix/widget-plugin-mobx-kit.
 │
-├── features/                      # EVERY capability is a slice; each owns its full stack
-│   ├── data/                      # datasource, rows, query params, loader
-│   │   ├── rows.model.ts  DatasourceService  DatasourceParamsController  DerivedLoaderController
-│   │   ├── data.tokens.ts  data.container.ts  useData.ts   # feature-local wiring
-│   │   └── __tests__/
+├── features/                      # each slice = LOCAL WIRING + widget-specific UI over a plugin
+│   ├── data/                      # rows.model, DatasourceService, ParamsController, Loader
 │   ├── columns/                   # ColumnGroupStore, ColumnStore, ColumnProvider, resizer, selector
 │   ├── sorting/                   # ColumnsSortingStore + header sort UI
-│   ├── filtering/                 # ColumnFilterStore + filter host wiring
-│   ├── selection/                 # MERGE select-all + selection-counter + SelectionGate + Selector/CheckboxCell
-│   ├── pagination/                # pagination atoms/config/VM + Pagination.tsx + PageSizeStore
-│   ├── row-interaction/           # (already good — keep, add its Cell components)
+│   ├── filtering/                 # adapter over @mendix/widget-plugin-filtering + ColumnFilterStore
+│   ├── selection/                 # adapter over widget-plugin-grid/{selection,select-all,selection-counter}
+│   ├── pagination/                # adapter over widget-plugin-grid/pagination + PageSizeStore + Pagination.tsx
+│   ├── row-interaction/           # adapter over grid/event-switch + keyboard-navigation
 │   ├── data-export/               # (already good)
 │   ├── personalization/           # GridPersonalizationStore + storage/*  (was helpers/)
 │   └── empty-state/               # (was empty-message)
@@ -122,45 +140,66 @@ src/
 │   ├── Widget.tsx  WidgetRoot.tsx  WidgetHeader/Footer/TopBar  Grid  GridBody  GridHeader  Row
 │   └── WidgetRoot.viewModel.ts    # (was features/base)
 │
-└── shared/                        # true leaves: imported-by-many, import-nothing-of-ours
+└── shared/                        # LOCAL leaves only: imported-by-many, import-nothing-of-ours
     ├── types/     (was typings/)
     ├── ui/        icons/, loader/, PseudoModal, scss
     └── utils/     columns-hash, test-utils
 ```
 
-### 3.1 Rules that make this hold (and kill the cycles)
+> **Why `composition/` and not `kernel/`?** An earlier draft proposed a local `kernel/`.
+> That was redundant: the feature-agnostic reactive kernel already exists as
+> `@mendix/widget-plugin-mobx-kit`. What remains local is only *wiring* — container
+> assembly and cross-feature tokens — so the layer is named for what it does.
 
-1. **Strict dependency direction:** `shell → features → kernel → shared`.
-   Features may depend on the kernel and shared, **never on each other or on shell**.
-   Shell composes features, but no feature imports shell.
-   Enforce with `eslint-plugin-boundaries` or `import/no-restricted-paths` so cycles
-   cannot silently return.
+### 3.1 The five-tier dependency direction (acyclic)
+
+```
+shell  →  features  →  composition  →  shared (local)  →  @mendix/widget-plugin-*  (external base)
+  │          │                                                          ▲
+  └──────────┴─────────────── may import shared + external ─────────────┘
+
+Rules:
+  • features do NOT import each other, and NOTHING imports shell.
+  • the external @mendix/widget-plugin-* packages are the allowed-from-anywhere base layer.
+  • local `shared/` is leaves only — it must not import from features/composition/shell.
+```
+
+### 3.2 Rules that make this hold (and kill the cycles)
+
+1. **Strict dependency direction** as above. Enforce with `eslint-plugin-boundaries` or
+   `import/no-restricted-paths`. **The lint config must allow-list `@mendix/widget-plugin-*`
+   as an importable base tier from every layer** — otherwise the rule fires on 53 files of
+   legitimate external imports.
 2. **Delete `helpers/` entirely.** Every file in it is stateful domain code and moves into
    the owning feature (`columns/`, `sorting/`, `personalization/`). "Helpers" and
-   "utils-with-state" stop existing.
+   "utils-with-state" stop existing. *(Unaffected by the plugin finding — pure local win.)*
 3. **One home for each store.** A store lives in its feature. `PageSizeStore → pagination/`,
    `ColumnsSortingStore → sorting/`. No more `model/stores` vs `helpers/state` split.
 4. **Split `tokens.ts`.** Today it is the coupling hub because it imports every feature's
    view-model. Instead, each feature declares its **own** `*.tokens.ts` and its own
    `*.container.ts` binding group. (The container code already has `_01`…`_09` binding
-   groups — they are begging to be co-located with their features.) `kernel/tokens.ts`
-   keeps only genuinely cross-feature tokens. **This is the highest-leverage change** — it
-   removes the `model ↔ features` cycle at its source.
+   groups — they are begging to be co-located with their features.) `composition/tokens.ts`
+   keeps only genuinely cross-feature tokens. **Highest-leverage change** — it removes the
+   `model ↔ features` cycle at its source. *(The plugin finding reinforces this: most of what
+   a "kernel" would hold isn't even in this repo, so the central token file should be tiny.)*
 5. **Components stop being service locators.** Feature components read their own feature's
    co-located injection-hooks; the `shell/` frame receives feature-rendered subtrees by
-   composition. `Grid.tsx` in `shell/` should not call `useGridSizeStore` — the pagination
-   and columns features should hand it what it needs.
+   composition. `Grid.tsx` in `shell/` should not call `useGridSizeStore`.
 
-### 3.2 Target dependency direction (acyclic)
+### 3.3 Slices are adapters, not owners
+Because `widget-plugin-grid` / `-filtering` already own the domain logic for selection,
+pagination, keyboard navigation, event handling, and filtering, a **local slice must hold
+only wiring + widget-specific UI, and must not re-implement anything the plugin owns.**
 
-```
-shell  ──▶  features  ──▶  kernel  ──▶  shared
-  │            │                          ▲
-  └────────────┴──────────────────────────┘
-         (both may import shared)
+- `selection/` **wraps** `widget-plugin-grid/selection` + `select-all.model` +
+  `selection-counter` — it does not fork them.
+- `pagination/` **wraps** `widget-plugin-grid/pagination` and adds the local `Pagination.tsx`
+  and `PageSizeStore`.
+- `row-interaction/` **wraps** `grid/event-switch` + `keyboard-navigation`.
 
-features do NOT import each other, and NOTHING imports shell.
-```
+This guards against the failure mode where "move everything into feature slices" tempts
+contributors to duplicate shared grid logic locally. When a slice grows logic that other
+grid-family widgets would want, that logic belongs **upstream in the plugin**, not in the slice.
 
 ## 4. Migration path (incremental, no big-bang)
 
@@ -170,13 +209,13 @@ Each step is independently shippable and leaves the widget working.
 |------|--------|------|-------|
 | 1 | Rename `typings → shared/types`, `ui → shared/ui`, move `utils → shared/utils`. Pure leaf move. | Very low | Immediate clarity |
 | 2 | Dissolve `helpers/`: move each store into a new feature folder (`columns/`, `sorting/`, `personalization/`). Path updates only. | Low | Removes `model ↔ helpers` cycle; single store home |
-| 3 | Co-locate DI wiring: move each `_0N_*Bindings` group + its tokens next to its feature; shrink `model/tokens.ts` to the kernel set. | Medium (the real work) | Removes `model ↔ features` cycle |
-| 4 | Introduce `kernel/` and `shell/`; move container assembly + frame components. | Medium | Screaming architecture at top level |
-| 5 | Add `eslint-plugin-boundaries` rule to lock in layering. | Low | Prevents regression |
+| 3 | Co-locate DI wiring: move each `_0N_*Bindings` group + its tokens next to its feature; shrink the central `tokens.ts` to the cross-feature set. | Medium (the real work) | Removes `model ↔ features` cycle |
+| 4 | Introduce `composition/` and `shell/`; move container assembly + frame components. | Medium | Screaming architecture at top level |
+| 5 | Add `eslint-plugin-boundaries` rule to lock in the 5-tier layering, **including the `@mendix/widget-plugin-*` allow-listed base tier**. | Low | Prevents regression |
 
 **Reduced-scope option:** if the team is not actively adding features here, doing only
 steps 2–3 (kill `helpers/`, split `tokens.ts`) captures roughly 70% of the value for
-roughly 30% of the risk.
+roughly 30% of the risk. Both steps are untouched by the external-plugin finding.
 
 ## 5. Caveats
 
@@ -188,3 +227,6 @@ roughly 30% of the risk.
   no reflection / string-based token lookups would break under file moves.
 - Renames touch many import paths; do them mechanically (codemod / IDE move) and lean on the
   test suite + `tsc` after each step.
+- datagrid-web sits on top of `@mendix/widget-plugin-*` (53 import sites). Treat those
+  packages as a fixed base layer for this refactor; any change to them is a separate,
+  cross-widget effort with its own review.
