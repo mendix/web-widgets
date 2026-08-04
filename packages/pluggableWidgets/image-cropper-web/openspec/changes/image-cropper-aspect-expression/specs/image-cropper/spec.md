@@ -21,12 +21,23 @@ asynchronously.
 
 - **WHEN** `aspectRatio` is `custom` and both `customAspectWidth` and `customAspectHeight` resolve to values greater than 0
 - **THEN** the crop selection SHALL be locked to `customAspectWidth / customAspectHeight`
-- **AND** if either resolved value is not greater than 0, the crop SHALL fall back to free-form
+- **AND** if either resolved value is not greater than 0, the crop SHALL fall back to free-form, treated as resolved rather than pending
 
 #### Scenario: Custom ratio expression not yet resolved
 
-- **WHEN** `aspectRatio` is `custom` and either side is not yet Available
+- **WHEN** `aspectRatio` is `custom` and either side is Loading with no previously resolved value
 - **THEN** the resolved ratio SHALL be treated as not yet known, which is distinct from free-form
+
+#### Scenario: Custom ratio side is Loading over a previous value
+
+- **WHEN** `aspectRatio` is `custom` and a side is Loading but carries a previously resolved value
+- **THEN** that previous value SHALL be used, so the ratio is treated as known
+
+#### Scenario: Custom ratio never resolves
+
+- **WHEN** `aspectRatio` is `custom` and either side is Unavailable
+- **THEN** the ratio SHALL be treated as resolved to free-form, not as pending
+- **AND** this SHALL hold from the first render onward, so the widget never waits indefinitely for a value that will not arrive
 
 ### Requirement: Default crop selection
 
@@ -41,9 +52,14 @@ never shown at a placeholder ratio that changes once the real ratio arrives.
 
 #### Scenario: Image loads before the custom ratio resolves
 
-- **WHEN** an image finishes loading while `aspectRatio` is `custom` and either side is still unavailable
-- **THEN** no crop selection SHALL be seeded until both sides are Available
-- **AND** once both resolve, the selection SHALL be seeded once at the correct ratio
+- **WHEN** an image finishes loading while `aspectRatio` is `custom` and the ratio is still pending
+- **THEN** no crop selection SHALL be seeded while it remains pending
+- **AND** once the ratio resolves, the selection SHALL be seeded once at that ratio
+
+#### Scenario: Image loads and the custom ratio never resolves
+
+- **WHEN** an image finishes loading while `aspectRatio` is `custom` and either side is Unavailable
+- **THEN** the crop selection SHALL be seeded at free-form rather than deferred indefinitely
 
 #### Scenario: Resolved custom ratio changes to a new value
 
@@ -51,9 +67,9 @@ never shown at a placeholder ratio that changes once the real ratio arrives.
 - **THEN** the crop selection SHALL be rebuilt in a single step at the new ratio
 - **AND** the change alone SHALL NOT write a re-cropped image back to the bound attribute
 
-#### Scenario: Resolved custom ratio becomes unavailable
+#### Scenario: Resolved custom ratio goes pending
 
-- **WHEN** the custom ratio was resolved and either side becomes unavailable
+- **WHEN** the custom ratio was resolved and either side goes pending
 - **THEN** the existing crop selection SHALL be retained until a new ratio resolves
 
 ## ADDED Requirements

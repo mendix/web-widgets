@@ -32,16 +32,30 @@ Current gap: while an expression is `Loading`, `toNumber` returns `undefined` �
 
 ## Decisions
 
-### Decision 1: Distinguish "loading" from "free" at the computed layer
+### Decision 1: Distinguish "pending" from "free" at the computed layer
 
-`aspect` currently collapses three distinct states (Loading, resolved-to-free, resolved-to-ratio) into `number | undefined`. `undefined` is overloaded to mean both "free aspect" and "not yet known", which is exactly why the box seeds wrong.
+`aspect` currently collapses three distinct states (pending, resolved-to-free, resolved-to-ratio) into `number | undefined`. `undefined` is overloaded to mean both "free aspect" and "not yet known", which is exactly why the box seeds wrong.
 
-**Chosen:** In "Custom" mode, treat "either side not Available" as a distinct `loading` signal, separate from a resolved free aspect. Consumers (initial-crop seeding, auto-apply) gate on readiness: do not seed/commit until the custom ratio is resolved.
+**Chosen:** Encode all three in the single `number | undefined` return, using a `FREE_ASPECT = -1` sentinel:
+
+- `undefined` — pending
+- `FREE_ASPECT` — resolved, unconstrained
+- positive — resolved, locked
+
+Readiness then reduces to `aspect !== undefined`, so no consumer re-inspects the raw props or special-cases preset modes. A `toCropAspect()` mapper collapses the sentinel back to `undefined` at the component boundary, since ReactCrop and `buildInitialCrop` read `undefined` as "free" and would produce broken geometry from a negative.
 
 **Alternatives considered:**
 
-- _Default to free while loading_ (current behavior) — rejected: produces the jump the note warns about.
-- _Cache the last integer value_ — rejected: no meaningful "last value" on first load, and stale values across record changes are their own bug.
+- _Default to free while loading_ (original behavior) — rejected: produces the jump the note warns about.
+- _Derive readiness by re-reading `props.aspectRatio` and each side's status_ — rejected: leaks the prop shape into every consumer and needs an explicit "presets are always ready" branch.
+- _Discriminated union (`{ready: false} | {ready: true, ratio?}`)_ — rejected: type-safe and sentinel-free, but a wider diff across all consumers for the same behavior.
+
+### Decision 1a: `Loading` retains, `Unavailable` resolves
+
+Treating "not `Available`" as one bucket produces a bug at each end:
+
+- **`Loading`** carries the _previous_ value per `DynamicValue`'s contract, so reading `.value` regardless of status holds the ratio steady across a record swap. First render has no previous value → falls through to pending.
+- **`Unavailable`** is terminal — no value is coming. Pending forever would leave the box unseeded, so it resolves to `FREE_ASPECT`.
 
 ### Decision 2: Re-seed deterministically on ratio change, never commit intermediate frames
 
@@ -51,16 +65,12 @@ When the resolved ratio changes, rebuild the crop box in one step (`buildInitial
 
 The editor has no runtime data — only expression _text_. `toNumber` parses a numeric literal and falls back to `undefined` (free aspect) otherwise. This is display-only and already implemented in the PR; the spec pins it so it isn't regressed.
 
-### Decision 4: Raise `minimumMXVersion` to 11.12
-
-Expression-typed properties with `returnType Integer` bound to attributes are the supported baseline. Bump `marketplace.minimumMXVersion` from `10.21.0` to `11.12`.
-
 ## Risks / Trade-offs
 
 - **Deferred seeding shows an unconstrained image briefly** while the expression loads → Mitigation: the image is already gated behind its own `ValueStatus.Available`; in practice the ratio usually resolves in the same or adjacent frame. Deferring the _crop box_ (not the image) is the least-surprising option.
-- **Record change mid-session** flips the ratio to unavailable then to a new value → Mitigation: retain last valid box until the new ratio resolves (spec scenario), avoiding a free-aspect flash.
-- **`minimumMXVersion` bump** drops support for older Studio Pro → accepted: expression binding requires it; documented in CHANGELOG.
+- **Record change mid-session** flips the ratio to loading then to a new value → Mitigation: `Loading` retains the previous value, so the box holds until the new ratio resolves.
+- **`FREE_ASPECT = -1` is a magic number** → Mitigation: named export, and `toCropAspect()` is the single boundary that strips it, so it cannot reach the crop geometry.
 
 ## Open Questions
 
-- **Loading-window box policy**: while the ratio is unavailable, should the widget (a) render the image with **no crop overlay** until the ratio resolves, or (b) render a **free-aspect box** and re-seed on resolve? (a) is cleanest (no jump) but shows a bare image for a frame; (b) is more familiar but risks a visible snap. This is the one behavior decision worth confirming before implementation — see tasks.md.
+Resolved: the loading-window box policy is (a) — no crop overlay until the ratio resolves. See Decision 1a for the `Loading` / `Unavailable` split.
