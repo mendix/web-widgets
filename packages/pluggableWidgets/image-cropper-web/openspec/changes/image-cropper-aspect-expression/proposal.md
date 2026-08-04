@@ -5,13 +5,12 @@ App developers need the Image Cropper's custom aspect ratio to be data-driven �
 ## What Changes
 
 - Change `customAspectWidth` / `customAspectHeight` from `integer` to `expression` with `returnType Integer`, so they accept an attribute binding or any Integer-returning expression.
-- Read each side as `DynamicValue<Big>`, guarded by `ValueStatus.Available`, and convert to `number` for the aspect computation; treat unavailable/empty as "not yet known".
-- `resolveAspectRatio` tolerates `undefined` sides (no ratio applied unless both are positive numbers).
+- Read each side as `DynamicValue<Big>`, treating only "loading with no value" as "not yet known"; an empty, unavailable, or non-positive side is settled and yields a free ratio.
+- `resolveAspectRatio` returns a three-state result — pending, free, or locked — so readiness no longer has to re-inspect the raw props.
 - Editor preview parses the expression _text_ (numeric literals only) and falls back to free aspect when the value can't be evaluated at design time.
 - Define and enforce **loading-state behavior**: while either expression is unavailable, the widget must not seed or commit a default/free-aspect crop that would visibly jump once the real ratio resolves. (Gap not fully addressed by #2333 — the core of this takeover.)
 - Fix a pre-existing bug found while testing the above: the uri reaction compared a freshly built object literal with `Object.is`, so every re-render counted as an image change and re-fetched the original bytes + cleared the crop box. Now compared by value.
 - Update `CHANGELOG.md` under `[Unreleased]` following Keep a Changelog format.
-- Raise `marketplace.minimumMXVersion` to `11.12` (minimum Studio Pro version) since expression-typed custom-ratio binding is the supported baseline.
 
 ## Capabilities
 
@@ -26,8 +25,8 @@ App developers need the Image Cropper's custom aspect ratio to be data-driven �
 ## Impact
 
 - **Widget config**: `ImageCropper.xml` (property types + returnType), generated `typings/ImageCropperProps.d.ts`.
-- **Runtime**: `stores/ImageCropperStore.ts` (`aspect` computed), `utils/aspectRatio.ts` (undefined tolerance), `components/CropArea.tsx` (crop-seeding on aspect change), `utils/initialCrop.ts`.
+- **Runtime**: `stores/ImageCropperStore.ts` (`aspect` / `aspectReady` / `cropAspect`), `utils/aspectRatio.ts` (three-state result + `toCropAspect` boundary), `components/CropArea.tsx` (crop-seeding on aspect change), `utils/initialCrop.ts`.
 - **Editor**: `ImageCropper.editorPreview.tsx` (literal parsing / free-aspect fallback).
-- **Packaging**: `package.json` (`minimumMXVersion` → `11.12`), `CHANGELOG.md`.
+- **Packaging**: `CHANGELOG.md` only — no `package.json` change.
 - **Tests**: store, editor, rotation, grayscale, multi-instance specs already updated for the new prop shape; loading-state behavior needs coverage.
 - **No new dependencies** (Big/DynamicValue already provided by the `mendix` package).
