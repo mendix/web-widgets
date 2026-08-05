@@ -22,7 +22,7 @@ services:
         command: >
             bash -c "
               mx update-widgets --loose-version-check /source/${MPR_PATH:?MPR_PATH is required} &&
-              mxbuild ${MODERN_CLIENT:+${MODERN_CLIENT}} --output=/tmp/automation.mda /source/${MPR_PATH}
+                            mxbuild ${MODERN_CLIENT:+${MODERN_CLIENT}} ${ENABLE_RSPACK_BUNDLER:+${ENABLE_RSPACK_BUNDLER}} --output=/tmp/automation.mda /source/${MPR_PATH}
             "
 
     # mxruntime: serve the compiled app on RUNTIME_PORT.

@@ -3,6 +3,8 @@ FROM --platform=$BUILDPLATFORM eclipse-temurin:21-jdk-jammy
 ARG MENDIX_VERSION
 ARG BUILDPLATFORM
 
+ENV LD_PRELOAD=libfontconfig.so.1
+
 SHELL ["/bin/bash", "-c"]
 RUN \
 echo "Downloading mxbuild ${MENDIX_VERSION} and docker building for ${BUILDPLATFORM}..." \
@@ -26,7 +28,7 @@ echo "Downloading mxbuild ${MENDIX_VERSION} and docker building for ${BUILDPLATF
 \
     rm -rf /var/lib/apt/lists/* && \
     apt-get update --allow-insecure-repositories -qqy && \
-    apt-get install -qqy --allow-unauthenticated libicu70 && \
+    apt-get install -qqy --allow-unauthenticated libicu70 libgdiplus libfontconfig1 && \
     apt-get -qqy remove --auto-remove wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \

@@ -2,6 +2,8 @@ FROM eclipse-temurin:21-jdk-jammy
 
 ARG MENDIX_VERSION
 
+ENV LD_PRELOAD=libfontconfig.so.1
+
 COPY --link mxbuild.tar.gz /tmp/mxbuild.tar.gz
 
 SHELL ["/bin/bash", "-c"]
@@ -11,7 +13,7 @@ RUN \
     tar xfz /tmp/mxbuild.tar.gz --directory /tmp/mxbuild && \
     \
     apt-get update -qqy && \
-    apt-get install -qqy libicu70 && \
+    apt-get install -qqy libicu70 libgdiplus libfontconfig1 && \
     apt-get -qqy remove --auto-remove wget && \
     apt-get clean && \
     \
