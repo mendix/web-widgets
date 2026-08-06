@@ -27,7 +27,7 @@ export class QueryParamsService implements SetupComponent {
         add(
             reaction(
                 () => this.sort.sortOrder,
-                sortOrder => this.query.setSortOrder(sortOrder),
+                sortOrder => this.applySortOrder(sortOrder),
                 { fireImmediately: true }
             )
         );
@@ -40,5 +40,27 @@ export class QueryParamsService implements SetupComponent {
         );
 
         return disposeAll;
+    }
+
+    /**
+     * Forward the sort order to the datasource. A stored/restored sort instruction
+     * may reference an attribute id that no longer exists in the current app build
+     * (attribute ids are regenerated on redeploy). The Mendix runtime rejects such
+     * ids from setSortOrder with "invalid attribute id", which — thrown inside a
+     * mobx reaction — surfaces as an uncaught reaction error and breaks the widget
+     * (WC-3520). Guard against it: on rejection, fall back to the default (unsorted)
+     * order so the gallery stays usable.
+     */
+    private applySortOrder(sortOrder: SortInstruction[] | undefined): void {
+        try {
+            this.query.setSortOrder(sortOrder);
+        } catch (error) {
+            console.warn(
+                "Gallery: ignoring stored sort order because it references an attribute " +
+                    "that is no longer available. Resetting to default sort order.",
+                error
+            );
+            this.query.setSortOrder(undefined);
+        }
     }
 }
