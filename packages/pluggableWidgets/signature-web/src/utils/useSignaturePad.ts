@@ -1,31 +1,14 @@
 import { RefObject, useCallback, useEffect, useRef } from "react";
 import SignaturePad, { Options } from "signature_pad";
+import { useResizeObserver } from "@mendix/widget-plugin-hooks/useResizeObserver";
 import { PenTypeEnum, SignatureContainerProps } from "../../typings/SignatureProps";
-
-const PEN_OPTIONS: Record<PenTypeEnum, Options> = {
-    fountain: { minWidth: 0.6, maxWidth: 2.6, velocityFilterWeight: 0.6 },
-    ballpoint: { minWidth: 1.4, maxWidth: 1.5, velocityFilterWeight: 1.5 },
-    marker: { minWidth: 2, maxWidth: 4, velocityFilterWeight: 0.9 }
-};
-
-function getPenOptions(penType: PenTypeEnum): Options {
-    return PEN_OPTIONS[penType];
-}
-
-function usePrevious<T>(value: T): T | null {
-    const ref = useRef<T>(null);
-    useEffect(() => {
-        ref.current = value;
-    }, [value]);
-    return ref.current;
-}
 
 export function useSignaturePad(
     props: Pick<SignatureContainerProps, "imageSource" | "hasSignatureAttribute" | "penType" | "penColor">,
     onSignEnd?: (imageDataURL?: string) => void
 ): {
     canvasRef: RefObject<HTMLCanvasElement | null>;
-    onResize?: () => void;
+    containerRef: RefObject<HTMLDivElement | null>;
 } {
     const { imageSource, hasSignatureAttribute, penType, penColor } = props;
     const readOnly = imageSource.readOnly;
@@ -35,7 +18,6 @@ export function useSignaturePad(
 
     const handleSignEnd = useCallback(() => {
         const imageDataUrl = signaturePadRef.current?.toDataURL();
-
         if (hasSignatureAttribute) {
             hasSignatureAttribute.setValue(!signaturePadRef.current?.isEmpty());
         }
@@ -53,21 +35,26 @@ export function useSignaturePad(
         }
     }, [readOnly]);
 
-    const onResize = (): void => {
-        const pad = signaturePadRef.current;
-        const canvas = canvasRef.current;
-        if (pad && canvas) {
-            // off()+on() resets _drawingStroke and clears stale pointer/move listeners,
-            // preventing pointerdown from being silently dropped after a mid-stroke resize.
-            pad.off();
-            canvas.width = canvas.parentElement?.offsetWidth ?? 0;
-            canvas.height = canvas.parentElement?.offsetHeight ?? 0;
-            pad.redraw();
-            if (!readOnly) {
-                pad.on();
+    const handleResize = useCallback(
+        (element: HTMLDivElement) => {
+            const pad = signaturePadRef.current;
+            const canvas = canvasRef.current;
+            if (pad && canvas) {
+                // off()+on() resets _drawingStroke and clears stale pointer/move listeners,
+                // preventing pointerdown from being silently dropped after a mid-stroke resize.
+                pad.off();
+                canvas.width = element.offsetWidth;
+                canvas.height = element.offsetHeight;
+                pad.redraw();
+                if (!readOnly) {
+                    pad.on();
+                }
             }
-        }
-    };
+        },
+        [readOnly]
+    );
+
+    const containerRef = useResizeObserver(handleResize) as RefObject<HTMLDivElement | null>;
 
     // Clear signature pad when hasSignature value changes from true to false
     useEffect(() => {
@@ -85,12 +72,10 @@ export function useSignaturePad(
                 signaturePadRef.current === null &&
                 (imageSource?.status === "available" ? imageSource.value?.uri : imageSource.status === "unavailable");
             if (canInstantiateSignaturePad) {
-                // Set canvas dimensions to the actual parent size before initializing the pad.
-                // ResizeObserver may have already fired and been a no-op (pad was null then),
-                // so we can't rely on onResize to set the correct initial size.
-                if (localCanvas.parentElement) {
-                    localCanvas.width = localCanvas.parentElement.offsetWidth;
-                    localCanvas.height = localCanvas.parentElement.offsetHeight;
+                const container = containerRef.current;
+                if (container) {
+                    localCanvas.width = container.offsetWidth;
+                    localCanvas.height = container.offsetHeight;
                 }
                 signaturePadRef.current = new SignaturePad(localCanvas, { penColor, ...getPenOptions(penType) });
                 signaturePadRef.current.addEventListener("endStroke", handleSignEnd);
@@ -99,7 +84,25 @@ export function useSignaturePad(
                 }
             }
         }
-    }, [handleSignEnd, penColor, penType, readOnly, imageSource, hasSignatureAttribute]);
+    }, [handleSignEnd, penColor, penType, readOnly, imageSource, hasSignatureAttribute, containerRef]);
 
-    return { canvasRef, onResize };
+    return { canvasRef, containerRef };
+}
+
+const PEN_OPTIONS: Record<PenTypeEnum, Options> = {
+    fountain: { minWidth: 0.6, maxWidth: 2.6, velocityFilterWeight: 0.6 },
+    ballpoint: { minWidth: 1.4, maxWidth: 1.5, velocityFilterWeight: 1.5 },
+    marker: { minWidth: 2, maxWidth: 4, velocityFilterWeight: 0.9 }
+};
+
+function getPenOptions(penType: PenTypeEnum): Options {
+    return PEN_OPTIONS[penType];
+}
+
+function usePrevious<T>(value: T): T | null {
+    const ref = useRef<T>(null);
+    useEffect(() => {
+        ref.current = value;
+    }, [value]);
+    return ref.current;
 }
