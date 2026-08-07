@@ -1,16 +1,15 @@
 import { RefObject, useCallback, useEffect, useRef } from "react";
 import SignaturePad, { Options } from "signature_pad";
-import { SignatureContainerProps } from "../../typings/SignatureProps";
+import { PenTypeEnum, SignatureContainerProps } from "../../typings/SignatureProps";
 
-function getPenOptions(penType: string): Options {
-    if (penType === "fountain") {
-        return { minWidth: 0.6, maxWidth: 2.6, velocityFilterWeight: 0.6 };
-    } else if (penType === "ballpoint") {
-        return { minWidth: 1.4, maxWidth: 1.5, velocityFilterWeight: 1.5 };
-    } else if (penType === "marker") {
-        return { minWidth: 2, maxWidth: 4, velocityFilterWeight: 0.9 };
-    }
-    return {};
+const PEN_OPTIONS: Record<PenTypeEnum, Options> = {
+    fountain: { minWidth: 0.6, maxWidth: 2.6, velocityFilterWeight: 0.6 },
+    ballpoint: { minWidth: 1.4, maxWidth: 1.5, velocityFilterWeight: 1.5 },
+    marker: { minWidth: 2, maxWidth: 4, velocityFilterWeight: 0.9 }
+};
+
+function getPenOptions(penType: PenTypeEnum): Options {
+    return PEN_OPTIONS[penType];
 }
 
 function usePrevious<T>(value: T): T | null {
