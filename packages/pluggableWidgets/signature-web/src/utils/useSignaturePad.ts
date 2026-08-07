@@ -1,6 +1,17 @@
-import { RefObject, useCallback, useEffect, useMemo, useRef } from "react";
+import { RefObject, useCallback, useEffect, useRef } from "react";
 import SignaturePad, { Options } from "signature_pad";
 import { SignatureContainerProps } from "../../typings/SignatureProps";
+
+function getPenOptions(penType: string): Options {
+    if (penType === "fountain") {
+        return { minWidth: 0.6, maxWidth: 2.6, velocityFilterWeight: 0.6 };
+    } else if (penType === "ballpoint") {
+        return { minWidth: 1.4, maxWidth: 1.5, velocityFilterWeight: 1.5 };
+    } else if (penType === "marker") {
+        return { minWidth: 2, maxWidth: 4, velocityFilterWeight: 0.9 };
+    }
+    return {};
+}
 
 function usePrevious<T>(value: T): T | null {
     const ref = useRef<T>(null);
@@ -24,18 +35,6 @@ export function useSignaturePad(
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const isSignatureInitialized = useRef(false);
     const hasSignature = usePrevious<boolean>(hasSignatureAttribute?.value ?? false) ?? false;
-
-    const signaturePadOptions: Options = useMemo(() => {
-        let options: Options = {};
-        if (penType === "fountain") {
-            options = { minWidth: 0.6, maxWidth: 2.6, velocityFilterWeight: 0.6 };
-        } else if (penType === "ballpoint") {
-            options = { minWidth: 1.4, maxWidth: 1.5, velocityFilterWeight: 1.5 };
-        } else if (penType === "marker") {
-            options = { minWidth: 2, maxWidth: 4, velocityFilterWeight: 0.9 };
-        }
-        return options;
-    }, [penType]);
 
     const handleSignEnd = useCallback(() => {
         const imageDataUrl = signaturePadRef.current?.toDataURL();
@@ -102,10 +101,7 @@ export function useSignaturePad(
                     localCanvas.width = localCanvas.parentElement.offsetWidth;
                     localCanvas.height = localCanvas.parentElement.offsetHeight;
                 }
-                signaturePadRef.current = new SignaturePad(localCanvas, {
-                    penColor,
-                    ...signaturePadOptions
-                });
+                signaturePadRef.current = new SignaturePad(localCanvas, { penColor, ...getPenOptions(penType) });
                 signaturePadRef.current.addEventListener("endStroke", handleSignEnd);
                 if (readOnly) {
                     signaturePadRef.current?.off();
@@ -113,7 +109,7 @@ export function useSignaturePad(
                 isSignatureInitialized.current = true;
             }
         }
-    }, [handleSignEnd, penColor, readOnly, signaturePadOptions, imageSource, hasSignatureAttribute]);
+    }, [handleSignEnd, penColor, penType, readOnly, imageSource, hasSignatureAttribute]);
 
     return { signaturePadRef, canvasRef, onResize };
 }
