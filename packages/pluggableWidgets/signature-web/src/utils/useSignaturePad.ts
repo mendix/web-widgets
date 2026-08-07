@@ -60,14 +60,12 @@ export function useSignaturePad(
         const pad = signaturePadRef.current;
         const canvas = canvasRef.current;
         if (pad && canvas) {
-            const data = pad.toData();
             // off()+on() resets _drawingStroke and clears stale pointer/move listeners,
             // preventing pointerdown from being silently dropped after a mid-stroke resize.
             pad.off();
             canvas.width = canvas.parentElement?.offsetWidth ?? 0;
             canvas.height = canvas.parentElement?.offsetHeight ?? 0;
-            pad.clear();
-            pad.fromData(data);
+            pad.redraw();
             if (!readOnly) {
                 pad.on();
             }
