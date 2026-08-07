@@ -188,6 +188,10 @@ export function getPreview(
         height?: number,
         previewImage?: { type: "static"; imageUrl: string }
     ] {
+        if (values.datasource === "icon" && values.imageIcon?.type === "glyph") {
+            return [values.iconSize ?? 14, values.iconSize ?? 14];
+        }
+
         const imageObject =
             values.imageObject?.type === "static"
                 ? values.imageObject // static image
