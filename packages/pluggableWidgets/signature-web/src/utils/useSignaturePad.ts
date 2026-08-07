@@ -24,7 +24,6 @@ export function useSignaturePad(
     props: Pick<SignatureContainerProps, "imageSource" | "hasSignatureAttribute" | "penType" | "penColor">,
     onSignEnd?: (imageDataURL?: string) => void
 ): {
-    signaturePadRef: RefObject<SignaturePad | null>;
     canvasRef: RefObject<HTMLCanvasElement | null>;
     onResize?: () => void;
 } {
@@ -32,7 +31,6 @@ export function useSignaturePad(
     const readOnly = imageSource.readOnly;
     const signaturePadRef = useRef<SignaturePad | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const isSignatureInitialized = useRef(false);
     const hasSignature = usePrevious<boolean>(hasSignatureAttribute?.value ?? false) ?? false;
 
     const handleSignEnd = useCallback(() => {
@@ -73,12 +71,8 @@ export function useSignaturePad(
 
     // Clear signature pad when hasSignature value changes from true to false
     useEffect(() => {
-        if (hasSignatureAttribute?.status === "available") {
-            if (hasSignatureAttribute?.value !== hasSignature) {
-                if (hasSignature === true) {
-                    signaturePadRef.current?.clear();
-                }
-            }
+        if (hasSignatureAttribute?.status === "available" && hasSignature && hasSignatureAttribute.value === false) {
+            signaturePadRef.current?.clear();
         }
     }, [hasSignature, hasSignatureAttribute?.status, hasSignatureAttribute?.value]);
 
@@ -90,7 +84,7 @@ export function useSignaturePad(
             const canInstantiateSignaturePad =
                 signaturePadRef.current === null &&
                 (imageSource?.status === "available" ? imageSource.value?.uri : imageSource.status === "unavailable");
-            if (canInstantiateSignaturePad && !isSignatureInitialized.current) {
+            if (canInstantiateSignaturePad) {
                 // Set canvas dimensions to the actual parent size before initializing the pad.
                 // ResizeObserver may have already fired and been a no-op (pad was null then),
                 // so we can't rely on onResize to set the correct initial size.
@@ -101,12 +95,11 @@ export function useSignaturePad(
                 signaturePadRef.current = new SignaturePad(localCanvas, { penColor, ...getPenOptions(penType) });
                 signaturePadRef.current.addEventListener("endStroke", handleSignEnd);
                 if (readOnly) {
-                    signaturePadRef.current?.off();
+                    signaturePadRef.current.off();
                 }
-                isSignatureInitialized.current = true;
             }
         }
     }, [handleSignEnd, penColor, penType, readOnly, imageSource, hasSignatureAttribute]);
 
-    return { signaturePadRef, canvasRef, onResize };
+    return { canvasRef, onResize };
 }
