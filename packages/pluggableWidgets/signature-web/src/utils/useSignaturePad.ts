@@ -95,6 +95,13 @@ export function useSignaturePad(
                 signaturePadRef.current === null &&
                 (imageSource?.status === "available" ? imageSource.value?.uri : imageSource.status === "unavailable");
             if (canInstantiateSignaturePad && !isSignatureInitialized.current) {
+                // Set canvas dimensions to the actual parent size before initializing the pad.
+                // ResizeObserver may have already fired and been a no-op (pad was null then),
+                // so we can't rely on onResize to set the correct initial size.
+                if (localCanvas.parentElement) {
+                    localCanvas.width = localCanvas.parentElement.offsetWidth;
+                    localCanvas.height = localCanvas.parentElement.offsetHeight;
+                }
                 signaturePadRef.current = new SignaturePad(localCanvas, {
                     penColor,
                     ...signaturePadOptions
