@@ -30,14 +30,14 @@
                 </property>
 
                 <!-- ENUM & BOOLEAN-->
-                <property key="attributeEnumeration" type="attribute" required="true" setLabel="true">
+                <property key="attributeEnumeration" type="attribute" required="true" setLabel="true" onChange="onChangeEvent">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
                         <attributeType name="Enum" />
                     </attributeTypes>
                 </property>
-                <property key="attributeBoolean" type="attribute" required="true" setLabel="true">
+                <property key="attributeBoolean" type="attribute" required="true" setLabel="true" onChange="onChangeEvent">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
@@ -104,7 +104,7 @@
                 <!-- END CAPTIONS -->
             </propertyGroup>
             <propertyGroup caption="Store value">
-                <property key="databaseAttributeString" type="attribute" setLabel="true" required="false">
+                <property key="databaseAttributeString" type="attribute" setLabel="true" required="false" onChange="onChangeEvent">
                     <caption>Target</caption>
                     <description />
                     <attributeTypes>
@@ -128,7 +128,7 @@
             <!-- END DATABASE / STRING -->
             <propertyGroup caption="Attribute">
                 <!-- ASSOCIATION -->
-                <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true" setLabel="true">
+                <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true" setLabel="true" onChange="onChangeEvent">
                     <caption>Entity</caption>
                     <description />
                     <associationTypes>
@@ -144,7 +144,7 @@
             <!-- END OPTIONS SOURCE -->
             <!-- STATIC-->
             <propertyGroup caption="Values">
-                <property key="staticAttribute" type="attribute" required="true" setLabel="true">
+                <property key="staticAttribute" type="attribute" required="true" setLabel="true" onChange="onChangeEvent">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
@@ -314,7 +314,6 @@
 
         <propertyGroup caption="Events">
             <property key="onChangeEvent" type="action" required="false">
-                <!-- this event is called manually in the code, not attached to anything -->
                 <caption>On change</caption>
                 <description />
             </property>

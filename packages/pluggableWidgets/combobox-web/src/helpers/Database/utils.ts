@@ -1,6 +1,5 @@
 import Big from "big.js";
 import {
-    ActionValue,
     DynamicValue,
     EditableValue,
     ListAttributeValue,
@@ -30,7 +29,6 @@ type ExtractionReturnValue = {
     loadingType: LoadingTypeEnum;
     valueSourceAttribute: ListAttributeValue<string | Big> | undefined;
     filterInputDebounceInterval: number;
-    onChangeEvent: ActionValue | undefined;
 };
 
 export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionReturnValue {
@@ -74,8 +72,6 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
         }
     }
 
-    const onChangeEvent = props.onChangeEvent;
-
     return {
         targetAttribute,
         captionProvider: captionType === "attribute" ? captionAttribute : captionExpression,
@@ -89,8 +85,7 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
         lazyLoading,
         loadingType,
         valueSourceAttribute,
-        filterInputDebounceInterval,
-        onChangeEvent
+        filterInputDebounceInterval
     };
 }
 
