@@ -124,16 +124,27 @@ export function getPreview(
 ): StructurePreviewProps | null {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
 
+    const document = decodeURIComponent(
+        (isDarkMode ? StructurePreviewImageSvgDark : StructurePreviewImageSvg).replace("data:image/svg+xml,", "")
+    );
+
     if (!values.isBackgroundImage) {
+        // For icons, use the configured iconSize (fallback to 100) so small
+        // icons aren't displayed with the image maxHeight.
+        if (values.datasource === "icon") {
+            const size = values.iconSize ?? 100;
+            return {
+                type: "Image",
+                document,
+                width: size,
+                height: size
+            };
+        }
+
         const [width, height, property] = getImageWithDimensions();
         return {
             type: "Image",
-            document: decodeURIComponent(
-                (isDarkMode ? StructurePreviewImageSvgDark : StructurePreviewImageSvg).replace(
-                    "data:image/svg+xml,",
-                    ""
-                )
-            ),
+            document,
             property,
             width,
             height
