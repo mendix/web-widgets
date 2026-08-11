@@ -540,35 +540,7 @@ exports[`Rich Text renders richtext widget 1`] = `
                 class="ql-table-tooltip-hover"
               >
                 <span
-                  class="icons icon-Copy"
-                />
-              </span>
-              <div
-                class="ql-table-tooltip ql-hidden"
-              />
-            </div>
-            <div
-              class="ql-table-dropdown"
-            >
-              <span
-                class="ql-table-tooltip-hover"
-              >
-                <span
                   class="icons icon-Delete"
-                />
-              </span>
-              <div
-                class="ql-table-tooltip ql-hidden"
-              />
-            </div>
-            <div
-              class="ql-table-dropdown"
-            >
-              <span
-                class="ql-table-tooltip-hover"
-              >
-                <span
-                  class="icons icon-Table grid-toggle"
                 />
               </span>
               <div
@@ -3932,35 +3904,7 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
                 class="ql-table-tooltip-hover"
               >
                 <span
-                  class="icons icon-Copy"
-                />
-              </span>
-              <div
-                class="ql-table-tooltip ql-hidden"
-              />
-            </div>
-            <div
-              class="ql-table-dropdown"
-            >
-              <span
-                class="ql-table-tooltip-hover"
-              >
-                <span
                   class="icons icon-Delete"
-                />
-              </span>
-              <div
-                class="ql-table-tooltip ql-hidden"
-              />
-            </div>
-            <div
-              class="ql-table-dropdown"
-            >
-              <span
-                class="ql-table-tooltip-hover"
-              >
-                <span
-                  class="icons icon-Table grid-toggle"
                 />
               </span>
               <div
@@ -4188,35 +4132,7 @@ exports[`Rich Text renders richtext widget with readonly config 1`] = `
                 class="ql-table-tooltip-hover"
               >
                 <span
-                  class="icons icon-Copy"
-                />
-              </span>
-              <div
-                class="ql-table-tooltip ql-hidden"
-              />
-            </div>
-            <div
-              class="ql-table-dropdown"
-            >
-              <span
-                class="ql-table-tooltip-hover"
-              >
-                <span
                   class="icons icon-Delete"
-                />
-              </span>
-              <div
-                class="ql-table-tooltip ql-hidden"
-              />
-            </div>
-            <div
-              class="ql-table-dropdown"
-            >
-              <span
-                class="ql-table-tooltip-hover"
-              >
-                <span
-                  class="icons icon-Table grid-toggle"
                 />
               </span>
               <div
@@ -4776,35 +4692,7 @@ exports[`Rich Text renders with HTML character count status bar 1`] = `
                 class="ql-table-tooltip-hover"
               >
                 <span
-                  class="icons icon-Copy"
-                />
-              </span>
-              <div
-                class="ql-table-tooltip ql-hidden"
-              />
-            </div>
-            <div
-              class="ql-table-dropdown"
-            >
-              <span
-                class="ql-table-tooltip-hover"
-              >
-                <span
                   class="icons icon-Delete"
-                />
-              </span>
-              <div
-                class="ql-table-tooltip ql-hidden"
-              />
-            </div>
-            <div
-              class="ql-table-dropdown"
-            >
-              <span
-                class="ql-table-tooltip-hover"
-              >
-                <span
-                  class="icons icon-Table grid-toggle"
                 />
               </span>
               <div
@@ -5376,35 +5264,7 @@ exports[`Rich Text renders with both word and character count 1`] = `
                 class="ql-table-tooltip-hover"
               >
                 <span
-                  class="icons icon-Copy"
-                />
-              </span>
-              <div
-                class="ql-table-tooltip ql-hidden"
-              />
-            </div>
-            <div
-              class="ql-table-dropdown"
-            >
-              <span
-                class="ql-table-tooltip-hover"
-              >
-                <span
                   class="icons icon-Delete"
-                />
-              </span>
-              <div
-                class="ql-table-tooltip ql-hidden"
-              />
-            </div>
-            <div
-              class="ql-table-dropdown"
-            >
-              <span
-                class="ql-table-tooltip-hover"
-              >
-                <span
-                  class="icons icon-Table grid-toggle"
                 />
               </span>
               <div
@@ -5976,35 +5836,7 @@ exports[`Rich Text renders with character count status bar 1`] = `
                 class="ql-table-tooltip-hover"
               >
                 <span
-                  class="icons icon-Copy"
-                />
-              </span>
-              <div
-                class="ql-table-tooltip ql-hidden"
-              />
-            </div>
-            <div
-              class="ql-table-dropdown"
-            >
-              <span
-                class="ql-table-tooltip-hover"
-              >
-                <span
                   class="icons icon-Delete"
-                />
-              </span>
-              <div
-                class="ql-table-tooltip ql-hidden"
-              />
-            </div>
-            <div
-              class="ql-table-dropdown"
-            >
-              <span
-                class="ql-table-tooltip-hover"
-              >
-                <span
-                  class="icons icon-Table grid-toggle"
                 />
               </span>
               <div

@@ -11,7 +11,7 @@ const debug = logger("quill:clipboard");
 
 class TableClipboard extends Clipboard {
     // @ts-ignore
-    convert: (
+    declare convert: (
         {
             html,
             text
