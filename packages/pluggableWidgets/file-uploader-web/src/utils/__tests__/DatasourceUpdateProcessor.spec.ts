@@ -26,9 +26,10 @@ describe("DatasourceUpdateProcessor", () => {
             beforeEach(() => {
                 dsUpdater.processUpdate(new ListValueBuilder().isLoading().build());
             });
-        });
-        test("'loaded' is not yet called", () => {
-            expect(callbacks.loaded).not.toHaveBeenCalled();
+
+            test("'loaded' is not yet called", () => {
+                expect(callbacks.loaded).not.toHaveBeenCalled();
+            });
         });
 
         describe("when called with loaded ds", () => {
