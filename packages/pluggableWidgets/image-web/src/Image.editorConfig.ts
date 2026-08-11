@@ -124,21 +124,18 @@ export function getPreview(
 ): StructurePreviewProps | null {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
 
+    const document = decodeURIComponent(
+        (isDarkMode ? StructurePreviewImageSvgDark : StructurePreviewImageSvg).replace("data:image/svg+xml,", "")
+    );
+
     if (!values.isBackgroundImage) {
-        // Handle icon datasource separately so icon previews do not pick up
-        // image maxHeight/minHeight constraints (which lead to e.g. a 15px icon
-        // occupying 250px). Use the configured iconSize (or a fallback) for both
-        // width and height so structure preview reflects the selected icon size.
+        // For icons, use the configured iconSize (fallback to 100) so small
+        // icons aren't displayed with the image maxHeight.
         if (values.datasource === "icon") {
             const size = values.iconSize ?? 100;
             return {
                 type: "Image",
-                document: decodeURIComponent(
-                    (isDarkMode ? StructurePreviewImageSvgDark : StructurePreviewImageSvg).replace(
-                        "data:image/svg+xml,",
-                        ""
-                    )
-                ),
+                document,
                 width: size,
                 height: size
             };
@@ -147,12 +144,7 @@ export function getPreview(
         const [width, height, property] = getImageWithDimensions();
         return {
             type: "Image",
-            document: decodeURIComponent(
-                (isDarkMode ? StructurePreviewImageSvgDark : StructurePreviewImageSvg).replace(
-                    "data:image/svg+xml,",
-                    ""
-                )
-            ),
+            document,
             property,
             width,
             height
