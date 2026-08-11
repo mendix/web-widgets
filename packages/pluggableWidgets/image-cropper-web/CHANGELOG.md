@@ -6,8 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [1.0.0] - 2026-07-14
-
 ### Added
 
 - Custom aspect ratio width and height can now be set with an expression or bound to an attribute.
