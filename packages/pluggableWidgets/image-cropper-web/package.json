@@ -1,7 +1,7 @@
 {
     "name": "@mendix/image-cropper-web",
     "widgetName": "ImageCropper",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Crop images bound to a Mendix image attribute",
     "copyright": "© Mendix Technology BV 2026. All rights reserved.",
     "license": "Apache-2.0",
