@@ -4,7 +4,6 @@ import { constructWrapperStyle, DimensionsProps } from "../utils/dimensions";
 
 export interface SizeProps extends DimensionsProps, PropsWithChildren {
     className: string;
-    classNameInner?: string;
     readOnly?: boolean;
     style?: CSSProperties;
     tabIndex?: number;
@@ -14,7 +13,6 @@ export const SizeContainer = forwardRef(function SizeContainer(props: SizeProps,
     const {
         className,
         children,
-        classNameInner,
         readOnly = false,
         widthUnit,
         width,
@@ -52,7 +50,17 @@ export const SizeContainer = forwardRef(function SizeContainer(props: SizeProps,
             }}
             tabIndex={tabIndex}
         >
-            <div className={classNames("size-box-inner", classNameInner)} aria-disabled={readOnly}>
+            <div
+                className={classNames(
+                    "size-box-inner",
+                    "widget-signature-wrapper",
+                    "form-control",
+                    "mx-textarea-input",
+                    "mx-textarea",
+                    { disabled: readOnly }
+                )}
+                aria-disabled={readOnly}
+            >
                 {children}
             </div>
         </div>

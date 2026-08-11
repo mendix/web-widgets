@@ -32,9 +32,6 @@ export function SignatureComponent(props: SignatureContainerProps): ReactElement
             {...props}
             ref={containerRef}
             className={classNames("widget-signature", className)}
-            classNameInner={classNames("widget-signature-wrapper", "form-control", "mx-textarea-input", "mx-textarea", {
-                disabled: readOnly
-            })}
             readOnly={readOnly}
         >
             {validation && <ValidationAlert>{validation}</ValidationAlert>}
