@@ -125,6 +125,25 @@ export function getPreview(
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
 
     if (!values.isBackgroundImage) {
+        // Handle icon datasource separately so icon previews do not pick up
+        // image maxHeight/minHeight constraints (which lead to e.g. a 15px icon
+        // occupying 250px). Use the configured iconSize (or a fallback) for both
+        // width and height so structure preview reflects the selected icon size.
+        if (values.datasource === "icon") {
+            const size = values.iconSize ?? 100;
+            return {
+                type: "Image",
+                document: decodeURIComponent(
+                    (isDarkMode ? StructurePreviewImageSvgDark : StructurePreviewImageSvg).replace(
+                        "data:image/svg+xml,",
+                        ""
+                    )
+                ),
+                width: size,
+                height: size
+            };
+        }
+
         const [width, height, property] = getImageWithDimensions();
         return {
             type: "Image",
@@ -218,41 +237,4 @@ export function getPreview(
             ? [undefined, undefined, previewImage]
             : [100, 100, previewImage];
     }
-}
-
-export function check(values: ImagePreviewProps): Problem[] {
-    const errors: Problem[] = [];
-
-    if (values.datasource === "image" && !values.imageObject) {
-        errors.push({
-            property: "imageObject",
-            message: "No image selected."
-        });
-    }
-    if (values.datasource === "imageUrl" && !values.imageUrl) {
-        errors.push({
-            property: "imageUrl",
-            message: "No image link provided."
-        });
-    }
-    if (values.datasource === "icon" && !values.imageIcon) {
-        errors.push({
-            property: "imageIcon",
-            message: "No icon selected."
-        });
-    }
-
-    return errors;
-}
-
-export function getCustomCaption(props: ImagePreviewProps): string {
-    let caption: string;
-    if (props.imageObject) {
-        caption = props.imageObject.type === "static" ? props.imageObject.imageUrl : props.imageObject.entity;
-    } else if (props.imageIcon) {
-        caption = props.imageIcon.type === "image" ? props.imageIcon.imageUrl : props.imageIcon.iconClass; // until we have a better alternative
-    } else {
-        caption = props.imageUrl;
-    }
-    return caption === "" ? "(none)" : caption;
 }
