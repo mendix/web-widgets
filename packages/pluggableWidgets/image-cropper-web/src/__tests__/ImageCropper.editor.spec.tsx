@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { ImageCropperPreviewProps } from "../../typings/ImageCropperProps";
 import { getPreview } from "../ImageCropper.editorConfig";
 import { preview } from "../ImageCropper.editorPreview";
@@ -15,8 +15,8 @@ function makePreviewProps(overrides: Partial<ImageCropperPreviewProps> = {}): Im
         image: null,
         cropShape: "rect",
         aspectRatio: "free",
-        customAspectWidth: null,
-        customAspectHeight: null,
+        customAspectWidth: "1",
+        customAspectHeight: "1",
         onCropAction: null,
         boundaryWidth: null,
         boundaryHeight: null,
@@ -104,5 +104,56 @@ describe("ImageCropper design mode (preview)", () => {
         expect(img.getAttribute("src")).toBe("http://localhost/photo.png");
         expect(container.querySelector(".widget-image-cropper__preview-glyph")).toBeNull();
         expect(getByText("Rectangle · Free aspect · PNG · Original")).toBeInTheDocument();
+    });
+
+    // The editor only has the expression *text*, never runtime data. A numeric literal can be
+    // parsed into a real ratio; an attribute path cannot, so it degrades to free aspect.
+    describe("custom aspect ratio from expression text", () => {
+        function renderStaticPreview(overrides: Partial<ImageCropperPreviewProps>): ReturnType<typeof render> {
+            const props = makePreviewProps({
+                image: { type: "static", imageUrl: "http://localhost/photo.png" },
+                aspectRatio: "custom",
+                boundaryWidth: 400,
+                boundaryHeight: 300,
+                ...overrides
+            });
+            const utils = render(preview(props));
+            const img = utils.container.querySelector("img") as HTMLImageElement;
+            Object.defineProperty(img, "naturalWidth", { value: 400, configurable: true });
+            Object.defineProperty(img, "naturalHeight", { value: 300, configurable: true });
+            Object.defineProperty(img, "width", { value: 400, configurable: true });
+            Object.defineProperty(img, "height", { value: 300, configurable: true });
+            fireEvent.load(img);
+            return utils;
+        }
+
+        // react-image-crop renders the selection box with percentage width/height, so the drawn
+        // box's aspect (scaled by the image's own aspect) reveals which ratio was applied.
+        function selectionAspect(container: HTMLElement): number {
+            const selection = container.querySelector(".ReactCrop__crop-selection") as HTMLElement;
+            expect(selection).not.toBeNull();
+            const width = parseFloat(selection.style.width);
+            const height = parseFloat(selection.style.height);
+            return width / height;
+        }
+
+        test("renders the custom ratio when both sides are numeric literals", () => {
+            const { container } = renderStaticPreview({ customAspectWidth: "3", customAspectHeight: "2" });
+            // 3:2 box over a 400x300 image, expressed in % of each axis.
+            expect(selectionAspect(container)).toBeCloseTo((3 / 2) * (300 / 400), 3);
+        });
+
+        test("falls back to free aspect for an attribute/expression path", () => {
+            const { container } = renderStaticPreview({
+                customAspectWidth: "$currentObject/Width",
+                customAspectHeight: "2"
+            });
+            // Free aspect seeds an 80% box matching the image's own ratio -> square in % terms.
+            expect(selectionAspect(container)).toBeCloseTo(1, 3);
+        });
+
+        test("does not throw when both sides are empty", () => {
+            expect(() => renderStaticPreview({ customAspectWidth: "", customAspectHeight: "" })).not.toThrow();
+        });
     });
 });
