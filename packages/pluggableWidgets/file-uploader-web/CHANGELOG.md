@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Since version 2.5.0, removing a file with the default remove button removes the entry from the file list immediately, instead of leaving it in the list greyed out. This matches how removal already worked when custom buttons are configured. This change was missing from the 2.5.0 release notes.
+
 ## [2.5.0] - 2026-06-29
 
 ### Fixed
@@ -35,8 +39,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Files now upload in a queue rather than being marked as errors when too many are dropped at once. Queued files show a "Waiting..." state while they wait for a concurrent slot.
 
 - Files in the list are now ordered with successful uploads above rejected files.
-
-- Removing a file with the default remove button now removes the entry from the file list immediately, instead of leaving it in the list greyed out. This matches how removal already worked when custom buttons are configured.
 
 ## [2.4.2] - 2026-04-23
 
