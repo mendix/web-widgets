@@ -48,4 +48,4 @@ Additive, no data migration. New dependency added to `package.json`; `typings/Ba
 ## Open Questions
 
 - Exact bwip-js option for rectangular DataMatrix (shape flag vs explicit `rows`/`columns`) — confirm at implementation.
-- Whether to reuse `codeMargin`/`qrSize`-style sizing or add dedicated `dmSize`/`dmMargin` props — lean toward dedicated to avoid overloading 1D "bar width" semantics.
+- ~~Whether to reuse `codeMargin`/`qrSize`-style sizing or add dedicated `dmSize`/`dmMargin` props — lean toward dedicated to avoid overloading 1D "bar width" semantics.~~ Resolved: dedicated `dmSize` and `dmMargin`. bwip-js `paddingwidth`/`paddingheight` are multiplied by `scale`, so the Data Matrix margin is in module units like `qrMargin`, not pixels like `codeMargin` — reusing `codeMargin` would have mislabelled the unit and let a 1D margin of 0 strip the required quiet zone.
