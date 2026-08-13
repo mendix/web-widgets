@@ -165,6 +165,32 @@ test.describe("datagrid-web selection accessibility", () => {
         );
     });
 
+    // A checked checkbox already conveys "selected"; aria-selected on the row would make
+    // screen readers announce the same state twice ("selected" and "checked").
+    test("checkbox grid: selected rows do not also carry aria-selected", async ({ page }) => {
+        const widget = page.locator(".mx-name-dataGrid21");
+        const grid = widget.getByRole("grid");
+        const checkbox = page.getByRole("checkbox", { name: "Select row 1", exact: true });
+
+        await checkbox.click();
+        await expect(checkbox).toBeChecked();
+
+        // Selection state lives on the checkbox only.
+        await expect(grid.locator("[role='row'][aria-selected]")).toHaveCount(0);
+    });
+
+    // Row-click selection has no checkbox, so aria-selected is the only carrier of state.
+    test("no-checkbox grid: selected rows carry aria-selected", async ({ page }) => {
+        const widget2 = page.locator(".mx-name-dataGrid22");
+        const grid2 = widget2.getByRole("grid");
+        await expect(grid2).toBeVisible();
+
+        const firstRow = grid2.locator("[role='row']").nth(1);
+        await firstRow.click();
+
+        await expect(firstRow).toHaveAttribute("aria-selected", "true");
+    });
+
     // "Clear selection" button exists in both the top bar (inside grid) and footer;
     // this test targets the top bar button only.
     test("Select all button retains focus and changes label to Clear selection", async ({ page }) => {
