@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where screen readers announced a row's selection state twice, as both "selected" and "checked", when selecting rows using checkboxes.
+
 ## [3.11.3] - 2026-07-27
 
 ### Added
