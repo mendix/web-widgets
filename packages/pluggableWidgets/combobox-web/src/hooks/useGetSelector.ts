@@ -13,7 +13,7 @@ function onInputValueChange(
     }
     if (onChangeFilterInputEvent.canExecute && !onChangeFilterInputEvent.isExecuting) {
         onChangeFilterInputEvent.execute({
-            filterInput: filterValue
+            filterInput: filterValue || undefined
         });
     }
 }

@@ -1,4 +1,4 @@
-import { actionValue, dynamicValue } from "@mendix/widget-plugin-test-utils";
+import { actionValue, dynamic } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import { EventsContainerProps } from "../../typings/EventsProps";
@@ -13,16 +13,16 @@ describe("App events (load)", () => {
             onComponentLoad: actionValue(),
             componentLoadDelayParameterType: "number",
             componentLoadDelay: 0,
-            componentLoadDelayExpression: dynamicValue(),
+            componentLoadDelayExpression: dynamic.unavailable(),
             componentLoadRepeat: false,
             componentLoadRepeatIntervalParameterType: "number",
             componentLoadRepeatInterval: 0,
-            componentLoadRepeatIntervalExpression: dynamicValue(),
+            componentLoadRepeatIntervalExpression: dynamic.unavailable(),
             onEventChangeAttribute: undefined,
             onEventChange: undefined,
             onEventChangeDelayParameterType: "number",
             onEventChangeDelay: 0,
-            onEventChangeDelayExpression: dynamicValue()
+            onEventChangeDelayExpression: dynamic.unavailable()
         };
     });
     it("render app events", async () => {

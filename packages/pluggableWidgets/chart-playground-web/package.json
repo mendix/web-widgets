@@ -1,7 +1,7 @@
 {
     "name": "@mendix/chart-playground-web",
     "widgetName": "ChartPlayground",
-    "version": "6.3.1",
+    "version": "6.3.2",
     "description": "A small playground widget for charts",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -43,7 +43,9 @@
         "@mendix/shared-charts": "workspace:*",
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",
-        "@mendix/widget-plugin-platform": "workspace:*"
+        "@mendix/widget-plugin-platform": "workspace:*",
+        "highlight.js": "^11.11.1",
+        "react-simple-code-editor": "^0.14.1"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",

@@ -1,7 +1,7 @@
 {
     "name": "@mendix/data-widgets",
     "moduleName": "Data Widgets",
-    "version": "3.11.1",
+    "version": "3.11.3",
     "description": "Data Widgets module containing a set of widgets to display data in various ways.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -66,10 +66,10 @@
         "@mendix/automation-utils": "workspace:*",
         "@mendix/eslint-config-web-widgets": "workspace:*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
-        "@rollup/plugin-node-resolve": "^16.0.0",
-        "@rollup/plugin-terser": "^0.4.4",
+        "@rollup/plugin-node-resolve": "^15.3.1",
+        "@rollup/plugin-terser": "^1.0.0",
         "concurrently": "^6.5.1",
-        "copy-and-watch": "^0.1.6",
+        "copy-and-watch": "^0.1.8",
         "rollup": "*",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
     }

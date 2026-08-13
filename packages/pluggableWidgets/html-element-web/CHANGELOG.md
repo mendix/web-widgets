@@ -6,6 +6,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.2.12] - 2026-08-10
+
+### Security
+
+- Updated dompurify library to version 3.4.13 to incorporate latest security fixes.
+
+## [1.2.11] - 2026-07-24
+
+### Security
+
+- Updated dompurify library to version 3.4.12 to incorporate latest security fixes.
+
+## [1.2.10] - 2026-07-17
+
+### Fixed
+
+- We fixed an issue where the widget was not loading in the Dojo client due to a broken JavaScript bundle.
+
+## [1.2.9] - 2026-06-23
+
+### Security
+
+- Updated dompurify library to version 3.4.11 to incorporate latest security fixes.
+
 ## [1.2.8] - 2026-06-16
 
 ### Security

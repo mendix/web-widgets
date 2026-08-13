@@ -11,7 +11,7 @@ import { StringInputFilterStore } from "@mendix/widget-plugin-filtering/stores/i
 import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import {
     actionValue,
-    dynamicValue,
+    dynamic,
     EditableValueBuilder,
     ListAttributeValueBuilder
 } from "@mendix/widget-plugin-test-utils";
@@ -79,22 +79,22 @@ describe("Text Filter", () => {
                 const { rerender } = render(<DatagridTextFilter {...commonProps} defaultValue={undefined} />);
                 expect(screen.getByRole("textbox")).toHaveValue("");
 
-                rerender(<DatagridTextFilter {...commonProps} defaultValue={dynamicValue<string>("xyz")} />);
+                rerender(<DatagridTextFilter {...commonProps} defaultValue={dynamic.available("xyz")} />);
                 expect(screen.getByRole("textbox")).toHaveValue("");
             });
 
             it("don't sync value when defaultValue changes from string to string", async () => {
                 const { rerender } = render(
-                    <DatagridTextFilter {...commonProps} defaultValue={dynamicValue<string>("abc")} />
+                    <DatagridTextFilter {...commonProps} defaultValue={dynamic.available("abc")} />
                 );
                 expect(screen.getByRole("textbox")).toHaveValue("abc");
-                rerender(<DatagridTextFilter {...commonProps} defaultValue={dynamicValue<string>("xyz")} />);
+                rerender(<DatagridTextFilter {...commonProps} defaultValue={dynamic.available("xyz")} />);
                 expect(screen.getByRole("textbox")).toHaveValue("abc");
             });
 
             it("don't sync value when defaultValue changes from string to undefined", async () => {
                 const { rerender } = render(
-                    <DatagridTextFilter {...commonProps} defaultValue={dynamicValue<string>("abc")} />
+                    <DatagridTextFilter {...commonProps} defaultValue={dynamic.available("abc")} />
                 );
                 expect(screen.getByRole("textbox")).toHaveValue("abc");
                 rerender(<DatagridTextFilter {...commonProps} defaultValue={undefined} />);
@@ -103,7 +103,7 @@ describe("Text Filter", () => {
 
             it("clears value when external reset all event is triggered with defaultValue", async () => {
                 const attribute = new EditableValueBuilder<string>().build();
-                const value = dynamicValue<string>("a string");
+                const value = dynamic.available("a string");
                 const { getByRole } = render(
                     <DatagridTextFilter {...commonProps} valueAttribute={attribute} defaultValue={value} />
                 );
@@ -133,7 +133,7 @@ describe("Text Filter", () => {
             });
             it("sets value when external set value event is triggered with defaultValue", async () => {
                 const attribute = new EditableValueBuilder<string>().build();
-                const value = dynamicValue<string>("a string");
+                const value = dynamic.available("a string");
                 const { getByRole } = render(
                     <DatagridTextFilter {...commonProps} valueAttribute={attribute} defaultValue={value} />
                 );

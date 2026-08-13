@@ -4,6 +4,7 @@ import { ClearButton } from "../../assets/icons";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
 import { getInputLabel, getValidationErrorId } from "../../helpers/utils";
 import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
+import { useFloatingMenu } from "../../hooks/useFloatingMenu";
 import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import { InputPlaceholder } from "../Placeholder";
@@ -30,6 +31,7 @@ export function SingleSelection({
         selectItem
     } = useDownshiftSingleSelectProps(selector, options, a11yConfig.a11yStatusMessage);
     const inputRef = useRef<HTMLInputElement>(null);
+    const { refs, floatingStyles } = useFloatingMenu(keepMenuOpen === true ? false : isOpen);
     const lazyLoading = selector.lazyLoading ?? false;
     const { onScroll } = useLazyLoading({
         hasMoreItems: selector.options.hasMore ?? false,
@@ -86,6 +88,7 @@ export function SingleSelection({
     return (
         <Fragment>
             <ComboboxWrapper
+                ref={refs.setReference}
                 isOpen={isOpen || keepMenuOpen === true}
                 readOnly={selector.readOnly}
                 readOnlyStyle={options.readOnlyStyle}
@@ -154,6 +157,8 @@ export function SingleSelection({
                 isLoading={selector.options.isLoading}
                 lazyLoading={lazyLoading}
                 onScroll={onScroll}
+                floatingRef={refs.setFloating}
+                floatingStyles={floatingStyles}
             />
         </Fragment>
     );

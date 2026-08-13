@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import { PlotDataSeries, SeriesMapper, usePlotChartDataSeries } from "../usePlotChartDataSeries";
-import { dynamicValue, EditableValueBuilder, list, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { dynamic, EditableValueBuilder, list, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { ListActionValue, ListAttributeValue, ListExpressionValue, ListValue } from "mendix";
 
 function axisAttr(): ListAttributeValue<string> {
@@ -33,7 +33,7 @@ function singleData(): PlotDataSeries {
 function multiData(
     params: { n: number; groups: string[]; ds?: ListValue } = { n: 12, groups: ["alpha", "beta"] }
 ): PlotDataSeries {
-    const x = { get: () => dynamicValue(Math.random().toString()) } as unknown as ListExpressionValue<string>;
+    const x = { get: () => dynamic.available(Math.random().toString()) } as unknown as ListExpressionValue<string>;
     return {
         dataSet: "dynamic",
         dynamicDataSource: params.ds ?? list(params.n),

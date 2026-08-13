@@ -1,4 +1,5 @@
 import "@testing-library/jest-dom";
+jest.mock("../hooks/useFloatingMenu");
 import { fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
 import { resetIdCounter } from "downshift";
 import { ListValue } from "mendix";
@@ -40,23 +41,23 @@ describe("Combo box (Association)", () => {
             optionsSourceAssociationCaptionExpression: listExpression(() => "$currentObject/CountryName"),
             optionsSourceAssociationCustomContentType: "no",
             optionsSourceAssociationCustomContent: undefined,
-            emptyOptionText: dynamic("Select an option 111"),
-            ariaRequired: dynamic(true),
+            emptyOptionText: dynamic.available("Select an option 111"),
+            ariaRequired: dynamic.available(true),
             clearable: true,
             filterType: "contains",
             selectedItemsStyle: "text",
             readOnlyStyle: "bordered",
             lazyLoading: false,
             loadingType: "spinner",
-            noOptionsText: dynamic("no options found"),
-            clearButtonAriaLabel: dynamic("Clear selection"),
-            removeValueAriaLabel: dynamic("Remove value"),
+            noOptionsText: dynamic.available("no options found"),
+            clearButtonAriaLabel: dynamic.available("Clear selection"),
+            removeValueAriaLabel: dynamic.available("Remove value"),
             selectAllButton: true, // Causes +1 option to be added to the menu
-            selectAllButtonCaption: dynamic("Select All"),
+            selectAllButtonCaption: dynamic.available("Select All"),
             selectionMethod: "checkbox",
-            a11ySelectedValue: dynamic("Selected value:"),
-            a11yOptionsAvailable: dynamic("Options available:"),
-            a11yInstructions: dynamic("a11yInstructions"),
+            a11ySelectedValue: dynamic.available("Selected value:"),
+            a11yOptionsAvailable: dynamic.available("Options available:"),
+            a11yInstructions: dynamic.available("a11yInstructions"),
             showFooter: false,
             databaseAttributeString: new EditableValueBuilder<string | Big>().build(),
             optionsSourceDatabaseCaptionType: "attribute",
@@ -65,23 +66,23 @@ describe("Combo box (Association)", () => {
             staticAttribute: new EditableValueBuilder<string>().build(),
             optionsSourceStaticDataSource: [
                 {
-                    staticDataSourceValue: dynamic("value1"),
+                    staticDataSourceValue: dynamic.available("value1"),
                     staticDataSourceCustomContent: undefined,
-                    staticDataSourceCaption: dynamic("caption1")
+                    staticDataSourceCaption: dynamic.available("caption1")
                 },
                 {
-                    staticDataSourceValue: dynamic("value2"),
+                    staticDataSourceValue: dynamic.available("value2"),
                     staticDataSourceCustomContent: undefined,
-                    staticDataSourceCaption: dynamic("caption2")
+                    staticDataSourceCaption: dynamic.available("caption2")
                 }
             ],
             selectedItemsSorting: "none",
             customEditability: "default",
-            customEditabilityExpression: dynamic(false),
+            customEditabilityExpression: dynamic.available(false),
             filterInputDebounceInterval: 200
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
-            defaultProps.optionsSourceAssociationCaptionExpression!.get = i => dynamic(`${i.id}`);
+            defaultProps.optionsSourceAssociationCaptionExpression!.get = i => dynamic.available(`${i.id}`);
         }
     });
 
@@ -93,6 +94,16 @@ describe("Combo box (Association)", () => {
         defaultProps.attributeAssociation = new ReferenceSetValueBuilder().isUnavailable().build();
         const { container } = render(<Combobox {...defaultProps} />);
         expect(container.getElementsByClassName("widget-combobox-placeholder")).toHaveLength(1);
+    });
+    it("positions the open menu via floating-ui (applies floatingStyles to the menu)", async () => {
+        const component = render(<Combobox {...defaultProps} />);
+        const input = await getInput(component);
+        fireEvent.click(input);
+        await waitFor(() => {
+            expect(component.getAllByRole("option")).toHaveLength(4);
+        });
+        const menu = component.container.querySelector(".widget-combobox-menu") as HTMLElement;
+        expect(menu.style.getPropertyValue("--this-is-mocked-from-unit-tests")).toEqual("true");
     });
     it("toggles combobox menu on: input CLICK(focus) / BLUR", async () => {
         const component = render(<Combobox {...defaultProps} />);

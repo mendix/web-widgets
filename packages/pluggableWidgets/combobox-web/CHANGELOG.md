@@ -6,9 +6,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.9.0] - 2026-07-24
+
 ### Fixed
 
+- We fixed an issue where the custom editability condition (`never` or `conditionally`) was ignored when the combobox attribute was present and editable.
+
+- We fixed an issue where the editability setting was inverted: setting editability to `false` allowed editing, and setting it to `true` prevented editing. The editability condition expression now behaves correctly: `true` means editable, `false` means read-only.
+
+### Breaking changes
+
+- The editability fix above is a potential breaking change. Apps that worked around the bug by inverting their editability expression will now have the opposite (incorrect) behavior after upgrading. Review any combobox widgets using a custom editability expression and remove the inversion workaround, otherwise fields may unexpectedly become editable or read-only.
+
+## [2.8.2] - 2026-07-17
+
+### Fixed
+
+- We fixed an issue where the combobox menu jumped around and flickered between opening above and below the input.
+
 - We fixed an issue where the combobox collapsed to 1px width when placed inside a flex row container with `align-items: center`.
+
+- We fixed an issue where the widget crashed when using the "On filter input change" action with the new string behavior enabled.
+
+### Changed
+
+- The combobox menu now keeps a stable position and, when there is not enough space, shrinks and scrolls instead of overflowing the viewport.
 
 ## [2.8.1] - 2026-04-30
 

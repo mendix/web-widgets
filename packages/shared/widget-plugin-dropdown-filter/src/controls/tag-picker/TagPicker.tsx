@@ -1,7 +1,15 @@
 import cn from "classnames";
 import { useCombobox, UseComboboxProps, useMultipleSelection, UseMultipleSelectionProps } from "downshift";
 import { observer } from "mobx-react-lite";
-import { CSSProperties, FocusEventHandler, ReactElement, UIEventHandler, useId, useRef } from "react";
+import {
+    ChangeEventHandler,
+    CSSProperties,
+    FocusEventHandler,
+    ReactElement,
+    UIEventHandler,
+    useId,
+    useRef
+} from "react";
 import { OptionWithState } from "../../typings/OptionWithState";
 import { ClearButton } from "../base/ClearButton";
 import { OptionsWrapper } from "../base/OptionsWrapper";
@@ -24,6 +32,7 @@ interface TagPickerProps {
     onClear: () => void;
     onBlur: () => void;
     onFocus?: FocusEventHandler<HTMLInputElement>;
+    onChange: ChangeEventHandler<HTMLInputElement>;
     onMenuScroll?: UIEventHandler<HTMLUListElement>;
 }
 
@@ -102,6 +111,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                         "aria-label": inputLabel || "filter",
                         onBlur: props.onBlur,
                         onFocus: props.onFocus,
+                        onChange: props.onChange,
                         placeholder: props.empty ? (isOpen ? props.inputPlaceholder : props.emptyCaption) : undefined,
                         ...getDropdownProps(),
                         "aria-describedby": props.empty ? undefined : `${helperText1} ${inputContainerId}`

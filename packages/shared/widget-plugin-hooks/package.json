@@ -4,6 +4,7 @@
     "description": "Hooks for the pluggable widgets.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
+    "private": true,
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
@@ -38,6 +39,6 @@
         "@swc/core": "^1.7.26",
         "@swc/jest": "^0.2.36",
         "classnames": "^2.5.1",
-        "jest-environment-jsdom": "^29.7.0"
+        "jest-environment-jsdom": "^30.3.0"
     }
 }

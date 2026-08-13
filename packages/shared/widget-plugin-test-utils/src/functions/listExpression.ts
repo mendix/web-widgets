@@ -8,7 +8,7 @@ import { dynamic } from "../primitives/dynamic";
 export function listExpression<T extends string | boolean | Date | Big>(
     get: (item: ObjectItem) => T
 ): ListExpressionValue<T> {
-    return { get: (item: ObjectItem) => dynamic<T>(get(item)) };
+    return { get: (item: ObjectItem) => dynamic.available<T>(get(item)) };
 }
 
 /** @deprecated Renamed to `listExpression` */

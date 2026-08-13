@@ -3,6 +3,7 @@
     "version": "2.2.1",
     "description": "Shared components for charts",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
     "private": true,
     "type": "module",
     "files": [
@@ -34,7 +35,6 @@
         "test": "jest"
     },
     "dependencies": {
-        "@types/jest": "^30.0.0",
         "classnames": "^2.5.1",
         "deepmerge": "^4.3.1",
         "mobx": "6.12.3",
@@ -50,10 +50,11 @@
         "@mendix/widget-plugin-mobx-kit": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
-        "@rollup/plugin-commonjs": "^28.0.3",
-        "@rollup/plugin-node-resolve": "^16.0.0",
+        "@rollup/plugin-commonjs": "^29.0.3",
+        "@rollup/plugin-node-resolve": "^15.3.1",
         "@rollup/plugin-replace": "^6.0.2",
         "@rollup/plugin-terser": "^0.4.4",
+        "@types/jest": "^30.0.0",
         "@types/plotly.js-dist-min": "^2.3.4",
         "@types/react-plotly.js": "^2.6.3",
         "copy-and-watch": "^0.1.6",

@@ -1,7 +1,7 @@
 {
     "name": "@mendix/combobox-web",
     "widgetName": "Combobox",
-    "version": "2.8.1",
+    "version": "2.9.0",
     "description": "Configurable Combo box widget with suggestions and autocomplete.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -47,6 +47,7 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
+        "@floating-ui/react": "^0.26.27",
         "classnames": "^2.5.1",
         "downshift": "^7.6.2",
         "match-sorter": "^8.1.0"

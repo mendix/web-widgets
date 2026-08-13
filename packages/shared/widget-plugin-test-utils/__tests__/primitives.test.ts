@@ -30,24 +30,37 @@ describe("attrId", () => {
 });
 
 describe("dynamic", () => {
-    it("returns dynamic value mock", () => {
-        expect(dynamic("someString")).toMatchObject({
-            status: Status.Available,
-            value: "someString"
+    describe("dynamic.available", () => {
+        it("returns dynamic value mock", () => {
+            expect(dynamic.available("someString")).toMatchObject({
+                status: Status.Available,
+                value: "someString"
+            });
         });
     });
 
-    it("returns 'unavailable' by default", () => {
-        expect(dynamic()).toMatchObject({
-            status: Status.Unavailable,
-            value: undefined
+    describe("dynamic.loading", () => {
+        it("returns loading status with a value", () => {
+            expect(dynamic.loading("someString")).toMatchObject({
+                status: Status.Loading,
+                value: "someString"
+            });
+        });
+
+        it("returns loading status without a value", () => {
+            expect(dynamic.loading()).toMatchObject({
+                status: Status.Loading,
+                value: undefined
+            });
         });
     });
 
-    it("pass loading status", () => {
-        expect(dynamic("someString", true)).toMatchObject({
-            status: Status.Loading,
-            value: "someString"
+    describe("dynamic.unavailable", () => {
+        it("returns unavailable status", () => {
+            expect(dynamic.unavailable()).toMatchObject({
+                status: Status.Unavailable,
+                value: undefined
+            });
         });
     });
 });

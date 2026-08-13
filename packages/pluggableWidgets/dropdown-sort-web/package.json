@@ -1,7 +1,7 @@
 {
     "name": "@mendix/dropdown-sort-web",
     "widgetName": "DropdownSort",
-    "version": "3.11.1",
+    "version": "3.11.3",
     "description": "Adds sorting functionality to Gallery widget.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -41,7 +41,12 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
-        "@mendix/widget-plugin-filtering": "workspace:*"
+        "@mendix/widget-plugin-component-kit": "workspace:*",
+        "@mendix/widget-plugin-filtering": "workspace:*",
+        "@mendix/widget-plugin-hooks": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*",
+        "@mendix/widget-plugin-sorting": "workspace:*",
+        "classnames": "^2.5.1"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -49,13 +54,6 @@
         "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:*",
-        "@mendix/widget-plugin-component-kit": "workspace:*",
-        "@mendix/widget-plugin-hooks": "workspace:*",
-        "@mendix/widget-plugin-platform": "workspace:*",
-        "@mendix/widget-plugin-sorting": "workspace:*",
-        "@mendix/widget-plugin-test-utils": "workspace:*",
-        "@types/enzyme": "^3.10.13",
-        "classnames": "^2.5.1",
-        "jest": "^29.7.0"
+        "@mendix/widget-plugin-test-utils": "workspace:*"
     }
 }

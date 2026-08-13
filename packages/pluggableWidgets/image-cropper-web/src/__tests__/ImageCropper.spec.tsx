@@ -1,9 +1,9 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { Big } from "big.js";
 import { ValueStatus } from "mendix";
 import { Ref } from "react";
 import type { Crop, PixelCrop } from "react-image-crop";
-import { actionValue } from "@mendix/widget-plugin-test-utils";
+import { actionValue, dynamic } from "@mendix/widget-plugin-test-utils";
 import type { ImageCropperContainerProps } from "../../typings/ImageCropperProps";
 
 // Capture the container's callbacks via a mocked CropArea. Real ReactCrop only fires
@@ -11,8 +11,10 @@ import type { ImageCropperContainerProps } from "../../typings/ImageCropperProps
 interface CapturedCropArea {
     onImageLoad: (percentCrop: Crop, pixelCrop: PixelCrop) => void;
     onCropComplete: (pixelCrop: PixelCrop) => void;
+    onUserInteractStart?: () => void;
     setZoom: (next: number) => void;
     wheelZoomMode: string;
+    crop: Crop | undefined;
 }
 let captured: CapturedCropArea;
 
@@ -21,14 +23,18 @@ jest.mock("../components/CropArea", () => ({
         imageRef: Ref<HTMLImageElement>;
         onImageLoad: CapturedCropArea["onImageLoad"];
         onCropComplete: CapturedCropArea["onCropComplete"];
+        onUserInteractStart?: CapturedCropArea["onUserInteractStart"];
         setZoom: CapturedCropArea["setZoom"];
         wheelZoomMode: string;
+        crop: Crop | undefined;
     }) => {
         captured = {
             onImageLoad: props.onImageLoad,
             onCropComplete: props.onCropComplete,
+            onUserInteractStart: props.onUserInteractStart,
             setZoom: props.setZoom,
-            wheelZoomMode: props.wheelZoomMode
+            wheelZoomMode: props.wheelZoomMode,
+            crop: props.crop
         };
         return (
             <img
@@ -81,8 +87,8 @@ function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCr
         image: makeImageProp(),
         cropShape: "rect",
         aspectRatio: "free",
-        customAspectWidth: 1,
-        customAspectHeight: 1,
+        customAspectWidth: dynamic.available(new Big(1)),
+        customAspectHeight: dynamic.available(new Big(1)),
         boundaryWidth: 300,
         boundaryHeight: 300,
         resizableEnabled: true,
@@ -91,12 +97,12 @@ function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCr
         wheelZoomMode: "onWithCtrl",
         minZoom: new Big(1),
         maxZoom: new Big(4),
-        showPreview: false,
-        previewWidth: 100,
-        previewHeight: 100,
         outputFormat: "png",
         outputQuality: new Big(0.92),
         outputSize: "original",
+        enableRotation: true,
+        enableGrayscale: false,
+        showResetButton: true,
         onCropAction: actionValue(),
         ...overrides
     };
@@ -114,6 +120,10 @@ async function flushApply(): Promise<void> {
 describe("<ImageCropper>", () => {
     beforeEach(() => {
         jest.useFakeTimers();
+        global.fetch = jest.fn().mockRejectedValue(new Error("no-net")) as jest.Mock;
+        // jsdom lacks blob URL APIs used by the live-preview hook (Reset drives it too).
+        (URL as unknown as { createObjectURL: () => string }).createObjectURL = () => "blob:test";
+        (URL as unknown as { revokeObjectURL: () => void }).revokeObjectURL = () => undefined;
     });
     afterEach(() => {
         jest.runOnlyPendingTimers();
@@ -130,7 +140,7 @@ describe("<ImageCropper>", () => {
     test("renders empty state when image has no value", () => {
         const props = makeProps({ image: makeImageProp({ value: undefined }) });
         render(<ImageCropper {...props} />);
-        expect(screen.getByText("No image")).toBeInTheDocument();
+        expect(screen.getByText("No uploaded image to crop")).toBeInTheDocument();
     });
 
     test("does NOT auto-apply on initial image load (no data mutation without user intent)", async () => {
@@ -148,6 +158,7 @@ describe("<ImageCropper>", () => {
         render(<ImageCropper {...makeProps({ image })} />);
         act(() => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+            captured.onUserInteractStart?.();
             captured.onCropComplete(PIXEL_CROP);
         });
         await flushApply();
@@ -160,6 +171,7 @@ describe("<ImageCropper>", () => {
         render(<ImageCropper {...makeProps({ image })} />);
         act(() => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+            captured.onUserInteractStart?.();
             captured.onCropComplete(PIXEL_CROP);
         });
         await flushApply();
@@ -185,6 +197,7 @@ describe("<ImageCropper>", () => {
         render(<ImageCropper {...makeProps({ image, onCropAction: action })} />);
         act(() => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+            captured.onUserInteractStart?.();
             captured.onCropComplete(PIXEL_CROP);
         });
         await flushApply();
@@ -222,5 +235,70 @@ describe("<ImageCropper>", () => {
     test("passes wheelZoomMode=off to CropArea when zoomEnabled is false", () => {
         render(<ImageCropper {...makeProps({ zoomEnabled: false, wheelZoomMode: "on" })} />);
         expect(captured.wheelZoomMode).toBe("off");
+    });
+
+    test("reset restores the captured original via setValue", async () => {
+        const blob = new Blob(["x"], { type: "image/png" });
+        global.fetch = jest.fn().mockResolvedValue({ ok: true, blob: () => Promise.resolve(blob) }) as jest.Mock;
+        const image = makeImageProp();
+        render(<ImageCropper {...makeProps({ image, showResetButton: true })} />);
+        await act(async () => {
+            await Promise.resolve();
+            await Promise.resolve();
+        });
+        (image.setValue as jest.Mock).mockClear();
+        fireEvent.click(screen.getByRole("button", { name: "Reset crop" }));
+        await flushApply();
+        expect((image.setValue as jest.Mock).mock.calls[0]?.[0]).toBeInstanceOf(File);
+    });
+
+    test("reset re-seeds the default cropbox instead of clearing it", async () => {
+        const blob = new Blob(["x"], { type: "image/png" });
+        global.fetch = jest.fn().mockResolvedValue({ ok: true, blob: () => Promise.resolve(blob) }) as jest.Mock;
+        const image = makeImageProp();
+        render(<ImageCropper {...makeProps({ image, showResetButton: true })} />);
+        await act(async () => {
+            await Promise.resolve();
+            await Promise.resolve();
+        });
+        // Seed then move the box off its default so we can prove reset restores the default.
+        act(() => {
+            captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+        });
+        fireEvent.click(screen.getByRole("button", { name: "Reset crop" }));
+        await flushApply();
+        // Box is re-seeded (not undefined) to the default 80%-centered percent crop.
+        expect(captured.crop).toBeDefined();
+        expect(captured.crop!.unit).toBe("%");
+        expect(captured.crop!.width).toBeCloseTo(80, 5);
+        // centered horizontally: x = (100 - 80) / 2 = 10
+        expect(captured.crop!.x).toBeCloseTo(10, 5);
+    });
+
+    test("reset button disabled when original capture failed", async () => {
+        global.fetch = jest.fn().mockRejectedValue(new Error("CORS")) as jest.Mock;
+        render(<ImageCropper {...makeProps({ showResetButton: true })} />);
+        await act(async () => {
+            await Promise.resolve();
+            await Promise.resolve();
+        });
+        expect(screen.getByRole("button", { name: "Reset crop" })).toBeDisabled();
+    });
+
+    test("configured accessibility labels flow through to the toolbar", () => {
+        render(
+            <ImageCropper
+                {...makeProps({
+                    enableRotation: true,
+                    showResetButton: true,
+                    resetCaption: dynamic.available("Herstellen"),
+                    resetAriaLabel: dynamic.available("Uitsnede herstellen"),
+                    rotateLeftLabel: dynamic.available("Naar links draaien")
+                })}
+            />
+        );
+        expect(screen.getByLabelText("Naar links draaien")).toBeInTheDocument();
+        const resetBtn = screen.getByRole("button", { name: "Uitsnede herstellen" });
+        expect(resetBtn).toHaveTextContent("Herstellen");
     });
 });

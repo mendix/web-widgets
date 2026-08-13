@@ -1,5 +1,3 @@
-import { ReactElement, useEffect, useRef, useState } from "react";
-import classNames from "classnames";
 import {
     AdvancedMarker,
     APIProvider,
@@ -11,9 +9,11 @@ import {
     useApiIsLoaded,
     useMap
 } from "@vis.gl/react-google-maps";
+import classNames from "classnames";
+import { ReactElement, useEffect, useRef, useState } from "react";
+import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import { Marker, SharedProps } from "../../typings/shared";
 import { translateZoom } from "../utils/zoom";
-import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 
 export interface GoogleMapsProps extends SharedProps {
     mapId: string;

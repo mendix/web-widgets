@@ -294,7 +294,7 @@ function extractZip(zipPath, destDir) {
  *   C) Stripped:      pluggableWidgets/gallery-web/test-results/...  (v4 artifact strips packages/)
  *   D) Via node_modules: .../node_modules/@mendix/gallery-web/test-results/...
  */
-const CATEGORY_DIRS = new Set(["pluggableWidgets", "modules", "customWidgets", "shared"]);
+const CATEGORY_DIRS = new Set(["pluggableWidgets", "modules", "shared"]);
 
 function extractCandidatePackageDirs(parts, testResultsIdx, repoRoot) {
     const candidates = [];

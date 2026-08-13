@@ -1,14 +1,14 @@
 import { ObjectItem } from "mendix";
-import { DateLocalizer, Formats, ViewsProps } from "react-big-calendar";
+import { DateLocalizer, Formats, View, ViewsProps } from "react-big-calendar";
+import { CustomWeekController } from "./CustomWeekController";
 import { CalendarContainerProps } from "../../typings/CalendarProps";
 import { createConfigurableToolbar, CustomToolbar, ResolvedToolbarItem } from "../components/Toolbar";
 import { eventPropGetter, getTextValue } from "../utils/calendar-utils";
 import { CalendarEvent, DragAndDropCalendarProps } from "../utils/typings";
-import { CustomWeekController } from "./CustomWeekController";
 
 export class CalendarPropsBuilder {
     private visibleDays: Set<number>;
-    private defaultView: "month" | "week" | "work_week" | "day" | "agenda";
+    private defaultView: View;
     private isCustomView: boolean;
     private events: CalendarEvent[];
     private minTime: Date;
@@ -48,8 +48,7 @@ export class CalendarPropsBuilder {
         this.defaultDate = props.startDateAttribute?.value;
     }
 
-    build(localizer: DateLocalizer, culture: string): DragAndDropCalendarProps<CalendarEvent> {
-        const formats = this.buildFormats(localizer);
+    build(localizer: DateLocalizer, culture: string, activeView?: View): DragAndDropCalendarProps<CalendarEvent> {
         const views = this.buildVisibleViews();
         const toolbar =
             this.isCustomView && this.toolbarItems && this.toolbarItems.length > 0
@@ -62,8 +61,14 @@ export class CalendarPropsBuilder {
         // Ensure defaultView is actually enabled in views, otherwise pick the first enabled view
         const enabledViews = Object.entries(views)
             .filter(([_, enabled]) => enabled !== false)
-            .map(([view]) => view as "day" | "week" | "work_week" | "month" | "agenda");
+            .map(([view]) => view as View);
         const safeDefaultView = enabledViews.includes(this.defaultView) ? this.defaultView : enabledViews[0];
+
+        // The view RBC is actually showing right now. Falls back to safeDefaultView when the
+        // caller hasn't told us yet (first render) or the reported view is no longer enabled.
+        const effectiveView = activeView && enabledViews.includes(activeView) ? activeView : safeDefaultView;
+
+        const formats = this.buildFormats(localizer, effectiveView);
 
         return {
             localizer,
@@ -71,6 +76,7 @@ export class CalendarPropsBuilder {
             components: {
                 toolbar
             },
+            view: effectiveView,
             defaultView: safeDefaultView,
             messages: this.buildMessages(workWeekCaption),
             events: this.events,
@@ -86,6 +92,7 @@ export class CalendarPropsBuilder {
             startAccessor: (event: CalendarEvent) => event.start,
             titleAccessor: (event: CalendarEvent) => event.title,
             showAllEvents: this.props.showAllEvents,
+            showMultiDayTimes: this.props.showMultiDayTimes,
             min: this.minTime,
             max: this.maxTime,
             step: this.step,
@@ -141,7 +148,10 @@ export class CalendarPropsBuilder {
         }
     }
 
-    private buildFormats(_localizer: DateLocalizer): Formats {
+    private buildFormats(
+        _localizer: DateLocalizer,
+        activeView: "day" | "week" | "work_week" | "month" | "agenda"
+    ): Formats {
         const formats: Formats = {};
 
         const timePattern = this.getSafeTimePattern();
@@ -165,6 +175,16 @@ export class CalendarPropsBuilder {
                 culture: string,
                 loc: DateLocalizer
             ) => `${formatWith(start, culture, loc)} – ${formatWith(end, culture, loc)}`;
+            formats.eventTimeRangeStartFormat = (
+                { start }: { start: Date; end: Date },
+                culture: string,
+                loc: DateLocalizer
+            ) => `${formatWith(start, culture, loc)} – `;
+            formats.eventTimeRangeEndFormat = (
+                { end }: { start: Date; end: Date },
+                culture: string,
+                loc: DateLocalizer
+            ) => ` – ${formatWith(end, culture, loc)}`;
             formats.agendaTimeRangeFormat = (
                 { start, end }: { start: Date; end: Date },
                 culture: string,
@@ -207,22 +227,55 @@ export class CalendarPropsBuilder {
                     loc.format(date, dayHeaderPattern, culture);
             }
 
-            const weekHeaderPattern = getPattern(
-                byType.get("week")?.customViewHeaderDayFormat || byType.get("work_week")?.customViewHeaderDayFormat
-            );
-            if (weekHeaderPattern) {
-                formats.dayRangeHeaderFormat = (
-                    range: { start: Date; end: Date },
-                    culture: string,
-                    loc: DateLocalizer
-                ) =>
-                    `${loc.format(range.start, weekHeaderPattern, culture)} – ${loc.format(range.end, weekHeaderPattern, culture)}`;
-            }
+            const weekOwnPattern = getPattern(byType.get("week")?.customViewHeaderDayFormat);
+            const workWeekOwnPattern = getPattern(byType.get("work_week")?.customViewHeaderDayFormat);
 
             const monthHeaderPattern = getPattern(byType.get("month")?.customViewHeaderDayFormat);
             if (monthHeaderPattern) {
                 formats.monthHeaderFormat = (date: Date, culture: string, loc: DateLocalizer) =>
                     loc.format(date, monthHeaderPattern, culture);
+            }
+
+            // Per-column headers — distinct from the toolbar title above.
+            // RBC renders the "07 Tue" day-column headers via a single, global `dayFormat` key shared
+            // by Day, Week AND our custom work_week view (all render through TimeGridHeader.js), and
+            // the month weekday headers via `weekdayFormat` (Month.js). These are separate from
+            // dayHeaderFormat/monthHeaderFormat (the toolbar title), so we must set them explicitly or
+            // RBC's date-fns defaults ("dd eee") always win.
+            if (monthHeaderPattern) {
+                formats.weekdayFormat = (date: Date, culture: string, loc: DateLocalizer) =>
+                    loc.format(date, monthHeaderPattern, culture);
+            }
+
+            // Because `dayFormat` is shared, we can't set it once for all views — a pattern meant for
+            // Week would leak into work_week (and vice versa). Instead resolve it from whichever view
+            // is actually on screen right now, and only for the views that render through TimeGridHeader.
+            // When that view has no custom pattern of its own, leave `dayFormat` unset so RBC's default
+            // ("dd eee") applies — no more inheriting a sibling view's pattern.
+            const columnDayPattern: string | undefined =
+                activeView === "day"
+                    ? dayHeaderPattern
+                    : activeView === "week"
+                      ? weekOwnPattern
+                      : activeView === "work_week"
+                        ? workWeekOwnPattern
+                        : undefined;
+            if (columnDayPattern) {
+                formats.dayFormat = (date: Date, culture: string, loc: DateLocalizer) =>
+                    loc.format(date, columnDayPattern, culture);
+            }
+
+            // Toolbar title range for week/work_week — same active-view resolution as the column
+            // header above, so the title and the columns always agree on which pattern is showing.
+            const weekRangePattern =
+                activeView === "week" ? weekOwnPattern : activeView === "work_week" ? workWeekOwnPattern : undefined;
+            if (weekRangePattern) {
+                formats.dayRangeHeaderFormat = (
+                    range: { start: Date; end: Date },
+                    culture: string,
+                    loc: DateLocalizer
+                ) =>
+                    `${loc.format(range.start, weekRangePattern, culture)} – ${loc.format(range.end, weekRangePattern, culture)}`;
             }
 
             const agendaHeaderPattern = getPattern(byType.get("agenda")?.customViewHeaderDayFormat);
@@ -264,6 +317,8 @@ export class CalendarPropsBuilder {
         // Ensure showEventDate=false always hides event time ranges
         if (this.props.showEventDate?.value === false) {
             formats.eventTimeRangeFormat = () => "";
+            formats.eventTimeRangeStartFormat = () => "";
+            formats.eventTimeRangeEndFormat = () => "";
         }
 
         return formats;

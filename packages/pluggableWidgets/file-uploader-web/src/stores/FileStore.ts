@@ -195,9 +195,7 @@ export class FileStore {
         try {
             await removeObject(this._objectItem);
             runInAction(() => {
-                this.fileStatus = "removedFile";
-                this._mxObject = undefined;
-                this.updateThumbnailUrl();
+                this._rootStore.dismissFile(this);
             });
         } catch (e: unknown) {
             console.error("Could not remove object:", e);

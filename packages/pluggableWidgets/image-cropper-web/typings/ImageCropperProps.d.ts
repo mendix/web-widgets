@@ -3,9 +3,9 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { CSSProperties } from "react";
-import { ActionValue, EditableImageValue, WebImage } from "mendix";
+import { ActionValue, DynamicValue, EditableImageValue, WebImage } from "mendix";
 import { Big } from "big.js";
+import { CSSProperties } from "react";
 
 export type CropShapeEnum = "rect" | "circle";
 
@@ -25,20 +25,29 @@ export interface ImageCropperContainerProps {
     image: EditableImageValue<WebImage>;
     cropShape: CropShapeEnum;
     aspectRatio: AspectRatioEnum;
-    customAspectWidth: number;
-    customAspectHeight: number;
+    customAspectWidth: DynamicValue<Big>;
+    customAspectHeight: DynamicValue<Big>;
     onCropAction?: ActionValue;
     boundaryWidth: number;
     boundaryHeight: number;
-    showPreview: boolean;
-    previewWidth: number;
-    previewHeight: number;
     resizableEnabled: boolean;
+    enableRotation: boolean;
+    enableGrayscale: boolean;
+    showResetButton: boolean;
     zoomEnabled: boolean;
     showZoomSlider: boolean;
     wheelZoomMode: WheelZoomModeEnum;
     minZoom: Big;
     maxZoom: Big;
+    grayscaleCaption?: DynamicValue<string>;
+    resetCaption?: DynamicValue<string>;
+    zoomCaption?: DynamicValue<string>;
+    noImageCaption?: DynamicValue<string>;
+    rotateLeftLabel?: DynamicValue<string>;
+    rotateRightLabel?: DynamicValue<string>;
+    grayscaleAriaLabel?: DynamicValue<string>;
+    resetAriaLabel?: DynamicValue<string>;
+    zoomAriaLabel?: DynamicValue<string>;
     outputFormat: OutputFormatEnum;
     outputQuality: Big;
     outputSize: OutputSizeEnum;
@@ -58,20 +67,29 @@ export interface ImageCropperPreviewProps {
     image: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
     cropShape: CropShapeEnum;
     aspectRatio: AspectRatioEnum;
-    customAspectWidth: number | null;
-    customAspectHeight: number | null;
+    customAspectWidth: string;
+    customAspectHeight: string;
     onCropAction: {} | null;
     boundaryWidth: number | null;
     boundaryHeight: number | null;
-    showPreview: boolean;
-    previewWidth: number | null;
-    previewHeight: number | null;
     resizableEnabled: boolean;
+    enableRotation: boolean;
+    enableGrayscale: boolean;
+    showResetButton: boolean;
     zoomEnabled: boolean;
     showZoomSlider: boolean;
     wheelZoomMode: WheelZoomModeEnum;
     minZoom: number | null;
     maxZoom: number | null;
+    grayscaleCaption: string;
+    resetCaption: string;
+    zoomCaption: string;
+    noImageCaption: string;
+    rotateLeftLabel: string;
+    rotateRightLabel: string;
+    grayscaleAriaLabel: string;
+    resetAriaLabel: string;
+    zoomAriaLabel: string;
     outputFormat: OutputFormatEnum;
     outputQuality: number | null;
     outputSize: OutputSizeEnum;

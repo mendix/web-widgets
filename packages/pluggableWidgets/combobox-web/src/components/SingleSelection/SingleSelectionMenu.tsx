@@ -1,5 +1,5 @@
 import { UseComboboxPropGetters } from "downshift/typings";
-import { ReactElement, ReactNode } from "react";
+import { CSSProperties, ReactElement, ReactNode, Ref } from "react";
 import { SingleSelector } from "../../helpers/types";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
@@ -16,6 +16,8 @@ interface ComboboxMenuProps extends Partial<UseComboboxPropGetters<string>> {
     isLoading: boolean;
     lazyLoading: boolean;
     onScroll: (e: any) => void;
+    floatingRef?: Ref<HTMLDivElement>;
+    floatingStyles?: CSSProperties;
 }
 
 export function SingleSelectionMenu({
@@ -29,13 +31,17 @@ export function SingleSelectionMenu({
     menuFooterContent,
     isLoading,
     lazyLoading,
-    onScroll
+    onScroll,
+    floatingRef,
+    floatingStyles
 }: ComboboxMenuProps): ReactElement {
     const items = selector.options.getAll();
 
     return (
         <ComboboxMenuWrapper
             alwaysOpen={alwaysOpen}
+            floatingRef={floatingRef}
+            floatingStyles={floatingStyles}
             getMenuProps={getMenuProps}
             isEmpty={items?.length <= 0}
             isLoading={isLoading}

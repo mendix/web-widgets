@@ -1,6 +1,5 @@
 import { computed } from "mobx";
 
-import { Data } from "plotly.js-dist-min";
 import { EditableChartStore, EditableChartStoreProps } from "@mendix/shared-charts/main";
 import { ComputedAtom, DerivedPropsGate, SetupHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { ChartPropsController } from "./ChartPropsController";
@@ -8,6 +7,7 @@ import { PlotlyController } from "./PlotlyController";
 import { ResizeController } from "./ResizeController";
 import { ControllerProps } from "./typings";
 import { PlotlyChartProps } from "../components/PlotlyChart";
+import { toPlotlyData } from "../utils/toPlotlyData";
 
 export class CustomChartControllerHost extends SetupHost {
     resizeCtrl: ResizeController;
@@ -31,7 +31,7 @@ export class CustomChartControllerHost extends SetupHost {
 function viewModelAtom(store: EditableChartStore, adapter: ChartPropsController): ComputedAtom<PlotlyChartProps> {
     return computed(() => {
         return {
-            data: store.data as Data[],
+            data: toPlotlyData(store.data),
             layout: store.layout,
             config: store.config,
             onClick: adapter.chartOnClick

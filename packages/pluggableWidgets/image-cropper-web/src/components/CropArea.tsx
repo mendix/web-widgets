@@ -1,20 +1,18 @@
 import { Dispatch, ReactElement, Ref, SetStateAction, SyntheticEvent, useCallback, useState } from "react";
-import {
-    default as ReactCrop,
-    centerCrop,
-    convertToPixelCrop,
-    makeAspectCrop,
-    type Crop,
-    type PixelCrop
-} from "react-image-crop";
+import { default as ReactCrop, type Crop, type PixelCrop } from "react-image-crop";
 import { ZoomContainer } from "./ZoomContainer";
 import { WheelZoomModeEnum } from "../../typings/ImageCropperProps";
+import { isStrayCrop, MIN_CROP_PX } from "../utils/cropGuard";
+import { CENTER_ANCHOR, type ZoomAnchor } from "../utils/cropImage";
+import { buildInitialCrop } from "../utils/initialCrop";
+import { safeImageUri } from "../utils/safeImageUri";
 
-interface CropAreaProps {
+export interface CropAreaProps {
     src: string;
     crop: Crop | undefined;
     onCropChange: (crop: Crop) => void;
     onCropComplete: (pixelCrop: PixelCrop) => void;
+    onUserInteractStart?: () => void;
     aspect: number | undefined;
     circular: boolean;
     resizable: boolean;
@@ -22,25 +20,16 @@ interface CropAreaProps {
     boundaryHeight: number;
     onImageLoad: (percentCrop: Crop, pixelCrop: PixelCrop) => void;
     zoom: number;
+    // Fixed point of the zoom, as fractions (0..1) of the displayed image. Owned by the container
+    // and only re-derived when zoom changes, so moving/drawing the box never pans the image.
+    // Optional: static callers (editor preview) omit it and default to the image center.
+    zoomAnchor?: ZoomAnchor;
     minZoom: number;
     maxZoom: number;
     setZoom: Dispatch<SetStateAction<number>>;
     wheelZoomMode: WheelZoomModeEnum;
+    grayscale: boolean;
     imageRef: Ref<HTMLImageElement>;
-}
-
-function buildInitialCrop(
-    img: HTMLImageElement,
-    aspect: number | undefined
-): { percentCrop: Crop; pixelCrop: PixelCrop } {
-    const { naturalWidth, naturalHeight, width, height } = img;
-    const safeAspect = aspect ?? naturalWidth / naturalHeight;
-    const percentCrop = centerCrop(
-        makeAspectCrop({ unit: "%", width: 80 }, safeAspect, naturalWidth, naturalHeight),
-        naturalWidth,
-        naturalHeight
-    );
-    return { percentCrop, pixelCrop: convertToPixelCrop(percentCrop, width, height) };
 }
 
 function fitToBoundary(
@@ -78,7 +67,40 @@ export function CropArea(props: CropAreaProps): ReactElement {
         [aspect, onImageLoad, boundaryWidth, boundaryHeight]
     );
 
-    if (loadError) {
+    const { onCropChange, onCropComplete } = props;
+
+    // Ignore a stray click (a ~0-size crop from mousedown+mouseup with no drag) so the existing
+    // box survives — see isStrayCrop. Real drags clear the floor (also enforced by minWidth/minHeight).
+    const handleChange = useCallback(
+        (pixel: PixelCrop, percent: Crop) => {
+            if (isStrayCrop(pixel, displaySize)) {
+                return;
+            }
+            onCropChange(percent);
+        },
+        [displaySize, onCropChange]
+    );
+
+    const handleComplete = useCallback(
+        (pixel: PixelCrop) => {
+            if (isStrayCrop(pixel, displaySize)) {
+                return;
+            }
+            onCropComplete(pixel);
+        },
+        [displaySize, onCropComplete]
+    );
+
+    // Zoom is anchored on props.zoomAnchor (fractions of the displayed image), owned by the
+    // container and updated ONLY when the zoom value changes. transformOrigin is the one point
+    // scale() keeps fixed on screen, so a frozen anchor keeps the image stable while the box
+    // moves/draws; the same anchor drives the export math so saved pixels match the screen.
+    const anchor = props.zoomAnchor ?? CENTER_ANCHOR;
+    const transformOrigin = `${anchor.x * 100}% ${anchor.y * 100}%`;
+
+    const safeSrc = safeImageUri(props.src);
+
+    if (loadError || !safeSrc) {
         return (
             <div className="widget-image-cropper__error">
                 Could not load this image. If it is a remote image, the server must allow cross-origin access.
@@ -98,25 +120,27 @@ export function CropArea(props: CropAreaProps): ReactElement {
         >
             <ReactCrop
                 crop={props.crop}
-                onChange={(_pixel, percent) => props.onCropChange(percent)}
-                onComplete={pixel => props.onCropComplete(pixel)}
+                onChange={(pixel, percent) => handleChange(pixel, percent)}
+                onComplete={pixel => handleComplete(pixel)}
+                onDragStart={() => props.onUserInteractStart?.()}
                 aspect={props.aspect}
                 circularCrop={props.circular}
                 disabled={!props.resizable}
-                keepSelection
+                minWidth={MIN_CROP_PX}
+                minHeight={MIN_CROP_PX}
             >
                 <img
                     ref={props.imageRef}
-                    src={props.src}
+                    src={safeSrc}
                     alt=""
-                    crossOrigin="anonymous"
                     style={{
                         width: displaySize?.width,
                         height: displaySize?.height,
                         maxWidth: displaySize ? undefined : props.boundaryWidth,
                         maxHeight: displaySize ? undefined : props.boundaryHeight,
                         transform: `scale(${props.zoom})`,
-                        transformOrigin: "center"
+                        transformOrigin,
+                        filter: props.grayscale ? "grayscale(1)" : undefined
                     }}
                     onLoad={handleImageLoad}
                     onError={() => setLoadError(true)}

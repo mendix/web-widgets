@@ -66,6 +66,9 @@ Place your custom CSS here
         &.warning {
             border: 1.5px dashed var(--brand-warning, $file-brand-warning);
             background-color: var(--color-warning-lighter, $file-color-warning-lighter);
+            .upload-text {
+                color: var(--file-dropzone-color, $file-dropzone-color);
+            }
         }
         &.error {
             border: 1.5px dashed var(--brand-danger, $file-brand-danger);
@@ -97,21 +100,21 @@ Place your custom CSS here
             line-height: 17px;
             font-weight: 400;
             color: var(--gray-light, $file-gray-light);
+
+            .inline-icon {
+                display: inline-block;
+                width: 14px;
+                height: 14px;
+                background-repeat: no-repeat;
+                background-size: contain;
+                vertical-align: sub;
+                margin-right: 4px;
+
+                &.warning-icon {
+                    background-image: var(--file-warning-icon, $file-warning-icon);
+                }
+            }
         }
-    }
-
-    .dropzone-message {
-        font-size: 12px;
-        line-height: 17px;
-        color: var(--file-dropzone-color, $file-dropzone-color);
-
-        padding-left: 18px;
-        margin-bottom: 1em;
-
-        background-image: var(--file-warning-icon, $file-warning-icon);
-        background-repeat: no-repeat;
-        background-position-x: left;
-        background-position-y: center;
     }
 
     .files-list {

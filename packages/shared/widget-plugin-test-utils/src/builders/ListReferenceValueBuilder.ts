@@ -10,7 +10,7 @@ export class ListReferenceValueBuilder {
             type: "Reference",
             id: `listRef_${nanoid()}` as any,
             filterable: true,
-            get: jest.fn((_: ObjectItem) => dynamic(obj()))
+            get: jest.fn((_: ObjectItem) => dynamic.available(obj()))
         };
     }
 

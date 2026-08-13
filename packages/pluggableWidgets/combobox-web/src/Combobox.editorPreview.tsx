@@ -1,13 +1,19 @@
-import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import type { DynamicValue } from "mendix";
 import { ReactElement, useMemo } from "react";
+import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { ComboboxPreviewProps } from "../typings/ComboboxProps";
 import { SingleSelection } from "./components/SingleSelection/SingleSelection";
-import { dynamic } from "@mendix/widget-plugin-test-utils";
-import { SelectionBaseProps, SingleSelector } from "./helpers/types";
 import "./ui/Combobox.scss";
 import { AssociationPreviewSelector } from "./helpers/Association/Preview/AssociationPreviewSelector";
-import { StaticPreviewSelector } from "./helpers/Static/Preview/StaticPreviewSelector";
 import { DatabasePreviewSelector } from "./helpers/Database/Preview/DatabasePreviewSelector";
+import { StaticPreviewSelector } from "./helpers/Static/Preview/StaticPreviewSelector";
+import { SelectionBaseProps, SingleSelector } from "./helpers/types";
+
+const available = <T,>(value: T): DynamicValue<T> =>
+    ({
+        status: "available",
+        value
+    }) as DynamicValue<T>;
 
 export const preview = (props: ComboboxPreviewProps): ReactElement => {
     const id = generateUUID().toString();
@@ -16,7 +22,7 @@ export const preview = (props: ComboboxPreviewProps): ReactElement => {
         inputId: id,
         labelId: `${id}-label`,
         readOnlyStyle: props.readOnlyStyle,
-        ariaRequired: dynamic(false),
+        ariaRequired: available(false),
         a11yConfig: {
             ariaLabels: {
                 clearSelection: props.clearButtonAriaLabel,

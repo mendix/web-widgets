@@ -141,8 +141,8 @@ function setupBasicAttributes(): Partial<PieChartContainerProps> {
     const seriesName = listExp(() => "name");
     seriesName.get = jest
         .fn()
-        .mockReturnValueOnce(dynamic("first series"))
-        .mockReturnValueOnce(dynamic("second series"));
+        .mockReturnValueOnce(dynamic.available("first series"))
+        .mockReturnValueOnce(dynamic.available("second series"));
 
     const seriesDataSource = list(2);
 
@@ -153,7 +153,10 @@ function setupBasicAttributes(): Partial<PieChartContainerProps> {
         .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(2)).build());
 
     const seriesColorAttribute = listExp(() => "name");
-    seriesColorAttribute.get = jest.fn().mockReturnValueOnce(dynamic("red")).mockReturnValueOnce(dynamic("blue"));
+    seriesColorAttribute.get = jest
+        .fn()
+        .mockReturnValueOnce(dynamic.available("red"))
+        .mockReturnValueOnce(dynamic.available("blue"));
 
     const seriesSortAttribute = new ListAttributeValueBuilder().build();
     seriesSortAttribute.get = jest

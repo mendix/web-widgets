@@ -50,10 +50,11 @@
             "canvas"
         ],
         "overrides": {
-            "@babel/core@7": "7.29.0",
+            "@babel/core@7": "7.29.7",
             "@codemirror/state": "^6.5.2",
             "@codemirror/view": "^6.38.1",
             "@mendix/pluggable-widgets-tools": "11.11.0",
+            "@mendix/pluggable-widgets-tools>@testing-library/react-native": "-",
             "@mendix/pluggable-widgets-tools>eslint": "-",
             "@mendix/pluggable-widgets-tools>eslint-config-prettier": "-",
             "@mendix/pluggable-widgets-tools>eslint-plugin-jest": "-",
@@ -68,7 +69,9 @@
             "@types/big.js": "^6.2.2",
             "@types/node": "~24.12.0",
             "@types/react": ">=18.2.36",
+            "babel-jest": "^30.0.0",
             "d3-color@<3.1.0": ">=3.1.0",
+            "fast-uri": "3.1.4",
             "glob@10": "^10.5.0",
             "react": ">=18.0.0 <19.0.0",
             "react-big-calendar@1>clsx": "2.1.1",
@@ -77,10 +80,9 @@
         },
         "patchedDependencies": {
             "@mendix/pluggable-widgets-tools": "patches/@mendix__pluggable-widgets-tools.patch",
-            "mime-types": "patches/mime-types.patch",
+            "mime-types@2.1.35": "patches/mime-types@2.1.35.patch",
             "mobx-react-lite@4.0.7": "patches/mobx-react-lite@4.0.7.patch",
             "mobx@6.12.3": "patches/mobx@6.12.3.patch",
-            "react-big-calendar@0.19.2": "patches/react-big-calendar@0.19.2.patch",
             "react-dropzone": "patches/react-dropzone.patch"
         },
         "ignoredBuiltDependencies": [

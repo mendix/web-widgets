@@ -1,7 +1,7 @@
 {
     "name": "@mendix/markdown-web",
     "widgetName": "Markdown",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Markdown viewer to preview markdown.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -46,7 +46,7 @@
     "dependencies": {
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "classnames": "^2.5.1",
-        "markdown-it": "^14.1.1"
+        "markdown-it": "^14.3.0"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -58,6 +58,6 @@
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
-        "@types/markdown-it": "^14.1.1"
+        "@types/markdown-it": "^14.1.2"
     }
 }

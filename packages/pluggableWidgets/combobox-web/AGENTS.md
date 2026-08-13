@@ -297,7 +297,7 @@ Uses `@mendix/widget-plugin-test-utils` builders:
 - `ReferenceValueBuilder` — mocks ReferenceValue (single association)
 - `ReferenceSetValueBuilder` — mocks ReferenceSetValue (multi association)
 - `ListValueBuilder` — mocks ListValue datasource with `.withItems()`, `.withHasMore()`
-- `dynamic(value?)` — wraps in DynamicValue
+- `dynamic.[available|loading|unavailable](value?)` — wraps in DynamicValue
 - `obj(id?)` — creates mock ObjectItem
 - `list(items)` — creates mock ListValue
 - `setupIntersectionObserverStub()` — stubs browser IntersectionObserver

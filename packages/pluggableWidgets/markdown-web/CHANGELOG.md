@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-07-17
+
+### Security
+
+- Updated markdown-it library to version 14.3.0 to incorporate latest security fixes.
+
 ## [1.0.2] - 2026-04-13
 
 ### Changed

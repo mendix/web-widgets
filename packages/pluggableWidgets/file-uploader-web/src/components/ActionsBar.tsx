@@ -59,11 +59,7 @@ const DefaultActionsBar = observer(function DefaultActionsBar(props: ButtonsBarP
     }, [props.store]);
 
     if (props.store.fileStatus === "rejected") {
-        return (
-            <div className={"entry-details-actions"}>
-                <RetryButton store={props.store} />
-            </div>
-        );
+        return <RejectedActionsBar store={props.store} />;
     }
 
     return (
@@ -83,6 +79,26 @@ const DefaultActionsBar = observer(function DefaultActionsBar(props: ButtonsBarP
         </div>
     );
 });
+
+function RejectedActionsBar({ store }: ButtonsBarProps): ReactElement {
+    const translations = useTranslationsStore();
+
+    const onDismiss = useCallback(() => {
+        store.dismiss();
+    }, [store]);
+
+    return (
+        <div className={"entry-details-actions"}>
+            <RetryButton store={store} />
+            <ActionButton
+                icon={<span className={"remove-icon"} aria-hidden />}
+                title={translations.get("removeButtonTextMessage")}
+                action={onDismiss}
+                isDisabled={false}
+            />
+        </div>
+    );
+}
 
 function DismissActionsBar({ store }: ButtonsBarProps): ReactElement {
     const translations = useTranslationsStore();

@@ -15,3 +15,25 @@ index 708bf48f266b6f80d830a9a72388278a65695964..6187cbe0739454c92f72136595e16748
      } catch (e) {
          console.log(red("An error occurred while checking migration dependencies: ", e));
      }
+diff --git a/configs/rollup.config.mjs b/configs/rollup.config.mjs
+index 4998ce2d2bedd449b0fdaa400368df116e1d4f46..d8e70107c4cde83908324b69b1031ad9c8db12f9 100644
+--- a/configs/rollup.config.mjs
++++ b/configs/rollup.config.mjs
+@@ -128,7 +128,7 @@ export default async args => {
+                     extensions,
+                     transpile: production,
+                     babelConfig: {
+-                        presets: [["@babel/preset-env", { targets: { safari: "12" } }]],
++                        presets: [["@babel/preset-env", { targets: { safari: "16.3" } }]],
+                         allowAllFormats: true
+                     },
+                     external: outputFormat === "es" ? [] : webExternal,
+@@ -166,7 +166,7 @@ export default async args => {
+                     sourceMaps: !production,
+                     extensions,
+                     transpile: production,
+-                    babelConfig: { presets: [["@babel/preset-env", { targets: { safari: "12" } }]] },
++                    babelConfig: { presets: [["@babel/preset-env", { targets: { safari: "16.3" } }]] },
+                     external: commonExternalLibs
+                 })
+             ],

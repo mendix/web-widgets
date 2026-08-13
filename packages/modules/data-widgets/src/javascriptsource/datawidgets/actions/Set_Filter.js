@@ -15,7 +15,7 @@ import { Big } from "big.js";
  * @param {string} targetName - Name of the filter to set. Valid targets are: Number filter, Date filter, Text filter, Drop-down filter. You can find filter name in widget settings in the "Common" group (Properties>Common>Name).
  * @param {boolean} useDefaultValue - Determine the use of default value provided by the filter component itself.
 If true, "Value" section will be ignored
- * @param {"DataWidgets.Filter_Operators.contains"|"DataWidgets.Filter_Operators.startsWith"|"DataWidgets.Filter_Operators.endsWith"|"DataWidgets.Filter_Operators.between"|"DataWidgets.Filter_Operators.greater"|"DataWidgets.Filter_Operators.greaterEqual"|"DataWidgets.Filter_Operators.equal"|"DataWidgets.Filter_Operators.notEqual"|"DataWidgets.Filter_Operators.smaller"|"DataWidgets.Filter_Operators.smallerEqual"|"DataWidgets.Filter_Operators.empty"|"DataWidgets.Filter_Operators.notEmpty"} operators - Selected operators value. If filter has operators, this value will be applied.
+ * @param {undefined|"contains"|"startsWith"|"endsWith"|"between"|"greater"|"greaterEqual"|"equal"|"notEqual"|"smaller"|"smallerEqual"|"empty"|"notEmpty"} operators - Selected operators value. If filter has operators, this value will be applied.
  * @param {string} stringValue - Value set for dropdown filter or text filter. Choose empty if not use.
  * @param {Big} numberValue - Number value for number filter. Choose empty if not use.
  * @param {Date} dateTimeValue - Date time value for date filter, can also be use as "start date". Choose empty if not use.

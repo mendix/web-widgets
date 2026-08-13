@@ -113,6 +113,39 @@ function countSignificantDigits(value: Big): number {
     return stripped.length || 1;
 }
 
+function countDecimalPlaces(value: Big): number {
+    const fixed = value.toFixed();
+    const dot = fixed.indexOf(".");
+    return dot === -1 ? 0 : fixed.length - dot - 1;
+}
+
+function getAttributeDefaultFormat(props: ColumnsType, value: unknown): string | undefined {
+    const formatter = props.attribute?.formatter;
+    if (!formatter) {
+        return undefined;
+    }
+
+    if (formatter.type === "datetime") {
+        const cfg = formatter.config;
+        return cfg.type === "custom" ? cfg.pattern.replace(/M/g, "m") : undefined;
+    }
+
+    if (formatter.type === "number") {
+        const cfg = formatter.config;
+        const base = cfg.groupDigits ? "#,##0" : "0";
+        // Mendix Decimal attributes do not expose a fixed `decimalPrecision` on the
+        // formatter config at runtime (only `groupDigits`). Honour it when present,
+        // otherwise mirror the grid by taking the decimal count from the value itself.
+        // A per-value count (rather than a `0.########` mask) is required because a
+        // static fractional mask emits a trailing dot for whole numbers (1983 -> "1983.").
+        const decimals =
+            cfg.decimalPrecision != null ? cfg.decimalPrecision : value instanceof Big ? countDecimalPlaces(value) : 0;
+        return decimals > 0 ? `${base}.${"0".repeat(decimals)}` : base;
+    }
+
+    return undefined;
+}
+
 const readers: ReadersByType = {
     attribute(item, props) {
         const data = props.attribute?.get(item);
@@ -122,11 +155,14 @@ const readers: ReadersByType = {
         }
 
         const value = data.value;
-        const format = getCellFormat({
-            exportType: props.exportType,
-            exportDateFormat: props.exportDateFormat,
-            exportNumberFormat: props.exportNumberFormat
-        });
+        const format =
+            props.exportType === "default"
+                ? getAttributeDefaultFormat(props, value)
+                : getCellFormat({
+                      exportType: props.exportType,
+                      exportDateFormat: props.exportDateFormat,
+                      exportNumberFormat: props.exportNumberFormat
+                  });
 
         if (value instanceof Date) {
             const dateValue = format && hasTimeComponent(format) ? value : stripTime(value);

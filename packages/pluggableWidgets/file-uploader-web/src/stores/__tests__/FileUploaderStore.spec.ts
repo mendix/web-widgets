@@ -32,29 +32,33 @@ function buildProps(overrides: Partial<FileUploaderContainerProps> = {}): FileUp
         createFileAction: actionValue(true, false),
         createImageAction: actionValue(true, false),
         allowedFileFormats: [],
-        maxFilesPerUpload: dynamic(new Big(5)),
+        maxFilesPerUpload: dynamic.available(new Big(5)),
         maxFilesPerBatch: unavailableDynamic(),
         maxFileSize: 25,
         objectCreationTimeout: 10,
-        dropzoneIdleMessage: dynamic("Drag and drop files here"),
-        dropzoneAcceptedMessage: dynamic("All files can be uploaded."),
-        dropzoneRejectedMessage: dynamic("Some files may not be uploadable."),
-        uploadInProgressMessage: dynamic("Uploading..."),
-        uploadQueuedMessage: dynamic("Waiting..."),
-        uploadSuccessMessage: dynamic("Uploaded successfully."),
-        uploadFailureGenericMessage: dynamic("An error occurred during uploading."),
-        uploadFailureInvalidFileFormatMessage: dynamic("File format is not supported, supported formats are ###."),
-        uploadFailureFileIsTooBigMessage: dynamic("File size exceeds the maximum limit of ### megabytes."),
-        uploadFailureTooManyFilesMessage: dynamic("Too many files added. Only ### files per upload are allowed."),
-        uploadLimitReachedMessage: dynamic("Maximum file count of ### reached."),
-        unavailableCreateActionMessage: dynamic(
+        dropzoneIdleMessage: dynamic.available("Drag and drop files here"),
+        dropzoneAcceptedMessage: dynamic.available("All files can be uploaded."),
+        dropzoneRejectedMessage: dynamic.available("Some files may not be uploadable."),
+        uploadInProgressMessage: dynamic.available("Uploading..."),
+        uploadQueuedMessage: dynamic.available("Waiting..."),
+        uploadSuccessMessage: dynamic.available("Uploaded successfully."),
+        uploadFailureGenericMessage: dynamic.available("An error occurred during uploading."),
+        uploadFailureInvalidFileFormatMessage: dynamic.available(
+            "File format is not supported, supported formats are ###."
+        ),
+        uploadFailureFileIsTooBigMessage: dynamic.available("File size exceeds the maximum limit of ### megabytes."),
+        uploadFailureTooManyFilesMessage: dynamic.available(
+            "Too many files added. Only ### files per upload are allowed."
+        ),
+        uploadLimitReachedMessage: dynamic.available("Maximum file count of ### reached."),
+        unavailableCreateActionMessage: dynamic.available(
             "Can't upload files at this time. Please contact your system administrator."
         ),
-        downloadButtonTextMessage: dynamic("Download this file"),
-        removeButtonTextMessage: dynamic("Remove this file"),
-        retryButtonTextMessage: dynamic("Retry upload"),
-        removeSuccessMessage: dynamic("Removed successfully."),
-        removeErrorMessage: dynamic("An error occurred while removing this file."),
+        downloadButtonTextMessage: dynamic.available("Download this file"),
+        removeButtonTextMessage: dynamic.available("Remove this file"),
+        retryButtonTextMessage: dynamic.available("Retry upload"),
+        removeSuccessMessage: dynamic.available("Removed successfully."),
+        removeErrorMessage: dynamic.available("An error occurred while removing this file."),
         enableCustomButtons: false,
         customButtons: [],
         onUploadSuccessFile: undefined,
@@ -239,7 +243,7 @@ describe("FileStore.newRejectedFile", () => {
 describe("FileStore.canRetry", () => {
     test("true when file is rejected and limit is not full", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(3)),
+            maxFilesPerUpload: dynamic.available(new Big(3)),
             maxFilesPerBatch: unavailableDynamic()
         });
         const file = FileStore.newRejectedFile(makeFile("x.txt"), store);
@@ -250,7 +254,7 @@ describe("FileStore.canRetry", () => {
 
     test("false when file is rejected but limit is full", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(2)),
+            maxFilesPerUpload: dynamic.available(new Big(2)),
             maxFilesPerBatch: unavailableDynamic()
         });
         store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
@@ -275,7 +279,7 @@ describe("FileStore.canRetry", () => {
 describe("FileStore.canRetry — reacts to freed slots", () => {
     test("flips to true when an active file errors and frees a slot", async () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(1)),
+            maxFilesPerUpload: dynamic.available(new Big(1)),
             maxFilesPerBatch: unavailableDynamic()
         });
         store.objectCreationHelper.request = jest.fn().mockRejectedValueOnce(new Error("fail"));
@@ -296,7 +300,7 @@ describe("FileStore.canRetry — reacts to freed slots", () => {
 
     test("flips to true when an active file is removed and frees a slot", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(1)),
+            maxFilesPerUpload: dynamic.available(new Big(1)),
             maxFilesPerBatch: unavailableDynamic()
         });
         store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
@@ -316,7 +320,7 @@ describe("FileStore.canRetry — reacts to freed slots", () => {
 
     test("both rejected files get canRetry=true when one slot frees", async () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(2)),
+            maxFilesPerUpload: dynamic.available(new Big(2)),
             maxFilesPerBatch: unavailableDynamic()
         });
         store.objectCreationHelper.request = jest
@@ -344,9 +348,9 @@ describe("FileStore.canRetry — reacts to freed slots", () => {
 // ─── FileStore.retry ─────────────────────────────────────────────────────────
 
 describe("FileStore.retry", () => {
-    test("transitions rejected file to queued", () => {
+    test("transitions rejected file to uploading via queue reaction", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(3)),
+            maxFilesPerUpload: dynamic.available(new Big(3)),
             maxFilesPerBatch: unavailableDynamic()
         });
         store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
@@ -373,7 +377,7 @@ describe("FileStore.retry", () => {
 
     test("does nothing when total limit is full (limit reached)", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(1)),
+            maxFilesPerUpload: dynamic.available(new Big(1)),
             maxFilesPerBatch: unavailableDynamic()
         });
         store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
@@ -414,8 +418,8 @@ describe("FileUploaderStore.queuedCount", () => {
 
     test("increases when processDrop adds queued files", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(10)),
-            maxFilesPerBatch: dynamic(new Big(1))
+            maxFilesPerUpload: dynamic.available(new Big(10)),
+            maxFilesPerBatch: dynamic.available(new Big(1))
         });
         store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
 
@@ -430,13 +434,13 @@ describe("FileUploaderStore.queuedCount", () => {
 
 describe("FileUploaderStore — renamed properties", () => {
     test("maxTotalFiles reads from maxFilesPerUpload XML prop", () => {
-        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(7)) });
+        const store = buildStore({ maxFilesPerUpload: dynamic.available(new Big(7)) });
 
         expect(store.maxTotalFiles).toBe(7);
     });
 
     test("maxConcurrentUploads reads from maxFilesPerBatch XML prop", () => {
-        const store = buildStore({ maxFilesPerBatch: dynamic(new Big(3)) });
+        const store = buildStore({ maxFilesPerBatch: dynamic.available(new Big(3)) });
 
         expect(store.maxConcurrentUploads).toBe(3);
     });
@@ -474,7 +478,7 @@ describe("FileUploaderStore — removed legacy methods", () => {
 
 describe("FileUploaderStore.processDrop — pure classifier", () => {
     test("accepted files within capacity enter upload pipeline (queued or uploading)", () => {
-        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(5)) });
+        const store = buildStore({ maxFilesPerUpload: dynamic.available(new Big(5)) });
 
         store.processDrop(
             [1, 2, 3].map(n => makeFile(`file${n}.txt`)),
@@ -486,7 +490,7 @@ describe("FileUploaderStore.processDrop — pure classifier", () => {
     });
 
     test("files exceeding maxTotalFiles go to 'rejected' status", () => {
-        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(2)) });
+        const store = buildStore({ maxFilesPerUpload: dynamic.available(new Big(2)) });
 
         store.processDrop(
             [1, 2, 3, 4].map(n => makeFile(`file${n}.txt`)),
@@ -510,7 +514,10 @@ describe("FileUploaderStore.processDrop — pure classifier", () => {
     });
 
     test("no file gets 'batchExceeded' treatment — excess files enter pipeline or rejected only", () => {
-        const store = buildStore({ maxFilesPerBatch: dynamic(new Big(2)), maxFilesPerUpload: dynamic(new Big(10)) });
+        const store = buildStore({
+            maxFilesPerBatch: dynamic.available(new Big(2)),
+            maxFilesPerUpload: dynamic.available(new Big(10))
+        });
 
         store.processDrop(
             [1, 2, 3, 4].map(n => makeFile(`file${n}.txt`)),
@@ -522,7 +529,7 @@ describe("FileUploaderStore.processDrop — pure classifier", () => {
     });
 
     test("no file has errorType set after processDrop", () => {
-        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(2)) });
+        const store = buildStore({ maxFilesPerUpload: dynamic.available(new Big(2)) });
 
         store.processDrop(
             [1, 2, 3, 4].map(n => makeFile(`file${n}.txt`)),
@@ -535,8 +542,8 @@ describe("FileUploaderStore.processDrop — pure classifier", () => {
 
     test("drop with maxConcurrentUploads=2: exactly 2 start uploading, rest stay queued", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(10)),
-            maxFilesPerBatch: dynamic(new Big(2))
+            maxFilesPerUpload: dynamic.available(new Big(10)),
+            maxFilesPerBatch: dynamic.available(new Big(2))
         });
         store.objectCreationHelper.request = jest.fn().mockRejectedValue(new Error("no server"));
 
@@ -551,7 +558,7 @@ describe("FileUploaderStore.processDrop — pure classifier", () => {
 
     test("drop with no concurrent limit: all files start uploading immediately", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(10)),
+            maxFilesPerUpload: dynamic.available(new Big(10)),
             maxFilesPerBatch: unavailableDynamic()
         });
         store.objectCreationHelper.request = jest.fn().mockRejectedValue(new Error("no server"));
@@ -571,8 +578,8 @@ describe("FileUploaderStore.processDrop — pure classifier", () => {
 describe("FileUploaderStore — Reaction 3: queue auto-drains when queued files arrive", () => {
     test("files queued by processDrop start uploading without any manual drain call", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(10)),
-            maxFilesPerBatch: dynamic(new Big(1))
+            maxFilesPerUpload: dynamic.available(new Big(10)),
+            maxFilesPerBatch: dynamic.available(new Big(1))
         });
         store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
 
@@ -586,8 +593,8 @@ describe("FileUploaderStore — Reaction 3: queue auto-drains when queued files 
 
     test("manually setting a file to queued triggers upload automatically", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(10)),
-            maxFilesPerBatch: dynamic(new Big(2))
+            maxFilesPerUpload: dynamic.available(new Big(10)),
+            maxFilesPerBatch: dynamic.available(new Big(2))
         });
         store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
 
@@ -602,7 +609,7 @@ describe("FileUploaderStore — Reaction 3: queue auto-drains when queued files 
 
     test("rejected file does NOT auto-promote when a slot frees — manual retry required", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(2)),
+            maxFilesPerUpload: dynamic.available(new Big(2)),
             maxFilesPerBatch: unavailableDynamic()
         });
         store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
@@ -625,14 +632,14 @@ describe("FileUploaderStore — Reaction 3: queue auto-drains when queued files 
 
 describe("FileUploaderStore.isFileUploadLimitReached", () => {
     test("false when no files have been dropped", () => {
-        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(3)) });
+        const store = buildStore({ maxFilesPerUpload: dynamic.available(new Big(3)) });
 
         expect(store.isFileUploadLimitReached).toBe(false);
     });
 
     test("false when below the configured limit", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(3)),
+            maxFilesPerUpload: dynamic.available(new Big(3)),
             maxFilesPerBatch: unavailableDynamic()
         });
         store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
@@ -644,7 +651,7 @@ describe("FileUploaderStore.isFileUploadLimitReached", () => {
 
     test("true when exactly at the limit", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(2)),
+            maxFilesPerUpload: dynamic.available(new Big(2)),
             maxFilesPerBatch: unavailableDynamic()
         });
         store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
@@ -656,7 +663,7 @@ describe("FileUploaderStore.isFileUploadLimitReached", () => {
 
     test("rejected files (over cap) do not contribute to active count", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(2)),
+            maxFilesPerUpload: dynamic.available(new Big(2)),
             maxFilesPerBatch: unavailableDynamic()
         });
         store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
@@ -668,7 +675,7 @@ describe("FileUploaderStore.isFileUploadLimitReached", () => {
     });
 
     test("validationError files do not count toward active count", () => {
-        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(2)) });
+        const store = buildStore({ maxFilesPerUpload: dynamic.available(new Big(2)) });
 
         store.processDrop([], [
             { file: makeFile("bad1.exe"), errors: [{ code: "file-invalid-type", message: "" }] },
@@ -682,7 +689,7 @@ describe("FileUploaderStore.isFileUploadLimitReached", () => {
 
     test("uploadingError files do not count toward active count", async () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(2)),
+            maxFilesPerUpload: dynamic.available(new Big(2)),
             maxFilesPerBatch: unavailableDynamic()
         });
         store.objectCreationHelper.request = jest.fn().mockRejectedValue(new Error("fail"));
@@ -698,7 +705,7 @@ describe("FileUploaderStore.isFileUploadLimitReached", () => {
 
     test("false when maxTotalFiles is 0 (unlimited), regardless of file count", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(0)),
+            maxFilesPerUpload: dynamic.available(new Big(0)),
             maxFilesPerBatch: unavailableDynamic()
         });
         store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
@@ -725,7 +732,7 @@ describe("FileUploaderStore.isFileUploadLimitReached", () => {
 
 describe("FileUploaderStore.sortedFiles", () => {
     test("validationError files sort to the end", () => {
-        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(10)) });
+        const store = buildStore({ maxFilesPerUpload: dynamic.available(new Big(10)) });
 
         // First drop an accepted file, then a validation error — error ends up at index 0
         store.processDrop([makeFile("good.txt")], []);
@@ -741,7 +748,7 @@ describe("FileUploaderStore.sortedFiles", () => {
     });
 
     test("does not mutate the original files array", () => {
-        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(10)) });
+        const store = buildStore({ maxFilesPerUpload: dynamic.available(new Big(10)) });
 
         store.processDrop([makeFile("good.txt")], []);
         store.processDrop([], [
@@ -759,7 +766,7 @@ describe("FileUploaderStore.sortedFiles", () => {
 
 describe("FileUploaderStore.promoteQueuedFiles", () => {
     test("calls upload() on queued files up to maxConcurrentUploads", () => {
-        const store = buildStore({ maxFilesPerBatch: dynamic(new Big(2)) });
+        const store = buildStore({ maxFilesPerBatch: dynamic.available(new Big(2)) });
 
         const queued1 = { fileStatus: "queued", upload: jest.fn() } as any;
         const queued2 = { fileStatus: "queued", upload: jest.fn() } as any;
@@ -774,7 +781,7 @@ describe("FileUploaderStore.promoteQueuedFiles", () => {
     });
 
     test("does not promote beyond available concurrent slots", () => {
-        const store = buildStore({ maxFilesPerBatch: dynamic(new Big(2)) });
+        const store = buildStore({ maxFilesPerBatch: dynamic.available(new Big(2)) });
 
         const uploading = { fileStatus: "uploading" } as any;
         const queued1 = { fileStatus: "queued", upload: jest.fn() } as any;
@@ -790,7 +797,7 @@ describe("FileUploaderStore.promoteQueuedFiles", () => {
     });
 
     test("does nothing when all concurrent slots are occupied", () => {
-        const store = buildStore({ maxFilesPerBatch: dynamic(new Big(2)) });
+        const store = buildStore({ maxFilesPerBatch: dynamic.available(new Big(2)) });
 
         const uploading1 = { fileStatus: "uploading" } as any;
         const uploading2 = { fileStatus: "uploading" } as any;
@@ -804,7 +811,7 @@ describe("FileUploaderStore.promoteQueuedFiles", () => {
     });
 
     test("does nothing when no queued files exist", () => {
-        const store = buildStore({ maxFilesPerBatch: dynamic(new Big(2)) });
+        const store = buildStore({ maxFilesPerBatch: dynamic.available(new Big(2)) });
 
         store.files.push({ fileStatus: "existingFile" } as any);
 
@@ -813,8 +820,8 @@ describe("FileUploaderStore.promoteQueuedFiles", () => {
 
     test("queued file starts uploading when a concurrent slot frees up", async () => {
         const store = buildStore({
-            maxFilesPerBatch: dynamic(new Big(1)),
-            maxFilesPerUpload: dynamic(new Big(10))
+            maxFilesPerBatch: dynamic.available(new Big(1)),
+            maxFilesPerUpload: dynamic.available(new Big(10))
         });
         const neverResolve = new Promise<never>(() => {});
         store.objectCreationHelper.request = jest.fn().mockReturnValue(neverResolve);
@@ -912,7 +919,7 @@ describe("FileUploaderStore.processDrop — error message mapping", () => {
 describe("FileUploaderStore.updateProps", () => {
     test("live increase of maxTotalFiles unblocks dropzone mid-session", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(2)),
+            maxFilesPerUpload: dynamic.available(new Big(2)),
             maxFilesPerBatch: unavailableDynamic()
         });
         store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
@@ -921,17 +928,17 @@ describe("FileUploaderStore.updateProps", () => {
         expect(store.isFileUploadLimitReached).toBe(true);
 
         store.updateProps(
-            buildProps({ maxFilesPerUpload: dynamic(new Big(5)), maxFilesPerBatch: unavailableDynamic() })
+            buildProps({ maxFilesPerUpload: dynamic.available(new Big(5)), maxFilesPerBatch: unavailableDynamic() })
         );
 
         expect(store.isFileUploadLimitReached).toBe(false);
     });
 
     test("live decrease of maxConcurrentUploads is reflected immediately", () => {
-        const store = buildStore({ maxFilesPerBatch: dynamic(new Big(4)) });
+        const store = buildStore({ maxFilesPerBatch: dynamic.available(new Big(4)) });
         expect(store.maxConcurrentUploads).toBe(4);
 
-        store.updateProps(buildProps({ maxFilesPerBatch: dynamic(new Big(1)) }));
+        store.updateProps(buildProps({ maxFilesPerBatch: dynamic.available(new Big(1)) }));
 
         expect(store.maxConcurrentUploads).toBe(1);
     });
@@ -942,8 +949,8 @@ describe("FileUploaderStore.updateProps", () => {
 describe("FileUploaderStore.dispose", () => {
     test("queue drain reaction stops firing after dispose", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(10)),
-            maxFilesPerBatch: dynamic(new Big(1))
+            maxFilesPerUpload: dynamic.available(new Big(10)),
+            maxFilesPerBatch: dynamic.available(new Big(1))
         });
         const neverResolve = new Promise<never>(() => {});
         store.objectCreationHelper.request = jest.fn().mockReturnValue(neverResolve);
@@ -967,8 +974,8 @@ describe("FileUploaderStore.dispose", () => {
 describe("upload queue — end-to-end", () => {
     test("upload error frees concurrent slot and next queued file starts uploading", async () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(10)),
-            maxFilesPerBatch: dynamic(new Big(1))
+            maxFilesPerUpload: dynamic.available(new Big(10)),
+            maxFilesPerBatch: dynamic.available(new Big(1))
         });
         // First request fails, second hangs so we can assert the stable "uploading" state
         const neverResolve = new Promise<never>(() => {});
@@ -994,7 +1001,7 @@ describe("upload queue — end-to-end", () => {
 
     test("upload errors do NOT auto-promote rejected files — user must retry manually", async () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(2)),
+            maxFilesPerUpload: dynamic.available(new Big(2)),
             maxFilesPerBatch: unavailableDynamic()
         });
         store.objectCreationHelper.request = jest
@@ -1016,5 +1023,35 @@ describe("upload queue — end-to-end", () => {
         expect(store.files.filter(f => f.fileStatus === "uploadingError")).toHaveLength(2);
         expect(store.files.filter(f => f.fileStatus === "rejected")).toHaveLength(1);
         expect(store.files.filter(f => f.fileStatus === "uploading")).toHaveLength(0);
+    });
+});
+
+describe("FileUploaderStore validationError files tracking", () => {
+    test("has validationError files after rejected drop", () => {
+        const store = buildStore();
+        store.processDrop([], [{ file: makeFile("bad.exe"), errors: [{ code: "file-invalid-type", message: "bad" }] }]);
+        expect(store.files.some(f => f.fileStatus === "validationError")).toBe(true);
+    });
+
+    test("no validationError files after all are dismissed", () => {
+        const store = buildStore();
+        store.processDrop([], [{ file: makeFile("bad.exe"), errors: [{ code: "file-invalid-type", message: "bad" }] }]);
+        const errorFile = store.files.find(f => f.fileStatus === "validationError")!;
+        store.dismissFile(errorFile);
+        expect(store.files.some(f => f.fileStatus === "validationError")).toBe(false);
+    });
+
+    test("validationError files remain when one dismissed but others exist", () => {
+        const store = buildStore();
+        store.processDrop(
+            [],
+            [
+                { file: makeFile("a.exe"), errors: [{ code: "file-invalid-type", message: "bad" }] },
+                { file: makeFile("b.exe"), errors: [{ code: "file-invalid-type", message: "bad" }] }
+            ]
+        );
+        const firstError = store.files.find(f => f.fileStatus === "validationError")!;
+        store.dismissFile(firstError);
+        expect(store.files.some(f => f.fileStatus === "validationError")).toBe(true);
     });
 });

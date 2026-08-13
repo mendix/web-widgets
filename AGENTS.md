@@ -10,7 +10,7 @@ Monorepo of official Mendix pluggable web widgets. pnpm workspaces + Turbo.
 - Render loading/empty states until values are ready
 - SCSS for styling, prefer Atlas UI classes, BEM-like naming with widget prefix
 - Conventional commits enforced: `type(scope): description`
-- Semver + CHANGELOG.md per package for changes
+- Semver + CHANGELOG.md per package for pluggable widgets and modules, not for shared packages
 - Changelogs for users: include only widget behavior, not implementation details
 - Changelogs added during development, version bumps only at release time
 - Jest + RTL for unit tests (src/\*_/**tests**/_.spec.ts)
@@ -29,6 +29,9 @@ Monorepo of official Mendix pluggable web widgets. pnpm workspaces + Turbo.
 ## Constraints
 
 - Never modify dist/, generated files, or lockfiles
+- OpenSpec specs/changes are PER-PACKAGE — never create them at the monorepo root.
+  Always `cd packages/<type>/<name>` before any `openspec new/init/archive`. The
+  root `openspec/` directory is off-limits (enforced by `.claude/hooks/validate-openspec-path.sh`).
 - XML property keys: lowerCamelCase, must match TypeScript props exactly
 - Don't override core Atlas UI classes
 - Prefer tree-shakable imports for new dependencies

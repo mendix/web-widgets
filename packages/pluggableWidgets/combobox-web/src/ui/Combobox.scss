@@ -23,12 +23,12 @@ $cb-skeleton-dark: #d2d2d2;
     position: relative;
     transition: color 150ms ease 0s;
     &-menu {
-        position: absolute;
-        display: inline;
+        // Positioning (top/left/width/max-height) is applied inline by floating-ui.
+        // The wrapper is a flex column so its children (header, scrolling list, footer)
+        // share the height cap floating-ui sets when space is tight.
+        display: flex;
+        flex-direction: column;
         border-radius: var(--dropdown-border-radius, $cb-menu-border-radius);
-        margin: var(--spacing-smaller, $cb-spacing) 0 var(--spacing-smaller, $cb-spacing) 0;
-        width: 100%;
-        left: unset;
         padding: var(--dropdown-outer-padding, $cb-menu-outer-padding) 0 0;
         z-index: 25;
         box-shadow: 0px 0px var(--dropdown-outer-padding, $cb-menu-outer-padding) 0px
@@ -38,7 +38,11 @@ $cb-skeleton-dark: #d2d2d2;
         &-list {
             padding: 0;
             margin-bottom: 0;
-            max-height: 320px;
+            // Fill the (possibly shrunk) wrapper and scroll internally, instead of a
+            // fixed cap that would overflow the wrapper when floating-ui shrinks it.
+            flex: 1;
+            min-height: 0;
+            max-height: 100%;
             overflow-y: auto;
             &:last-child {
                 margin-bottom: var(--dropdown-outer-padding, $cb-menu-outer-padding);
