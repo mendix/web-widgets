@@ -83,7 +83,8 @@ describe("cell-readers", () => {
         });
 
         it("uses attribute date formatter when exportType is default", () => {
-            const testDate = new Date("2024-06-15T10:30:00Z");
+            // Local time, the way the Mendix client hands over a DateTime value.
+            const testDate = new Date(2024, 5, 15, 10, 30, 0);
             const attr = listAttribute(() => testDate) as any;
             attr.formatter = { type: "datetime", config: { type: "custom", pattern: "dd/MM/yyyy" } };
             const col = column("Created", c => {
@@ -98,7 +99,8 @@ describe("cell-readers", () => {
         });
 
         it("returns no format for default datetime with non-custom config", () => {
-            const testDate = new Date("2024-06-15T10:30:00Z");
+            // Local time, the way the Mendix client hands over a DateTime value.
+            const testDate = new Date(2024, 5, 15, 10, 30, 0);
             const attr = listAttribute(() => testDate) as any;
             attr.formatter = { type: "datetime", config: { type: "date" } };
             const col = column("Created", c => {
@@ -172,7 +174,8 @@ describe("cell-readers", () => {
         });
 
         it("exports date attribute with format as date cell", () => {
-            const testDate = new Date("2024-06-15T10:30:00Z");
+            // Local time, the way the Mendix client hands over a DateTime value.
+            const testDate = new Date(2024, 5, 15, 10, 30, 0);
             const col = column("Created", c => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => testDate);
@@ -186,7 +189,8 @@ describe("cell-readers", () => {
         });
 
         it("exports date attribute without format using default date format", () => {
-            const testDate = new Date("2024-06-15T10:30:00Z");
+            // Local time, the way the Mendix client hands over a DateTime value.
+            const testDate = new Date(2024, 5, 15, 10, 30, 0);
             const col = column("Created", c => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => testDate);
@@ -474,7 +478,8 @@ describe("cell-readers", () => {
 
     describe("date time stripping", () => {
         it("strips time from attribute date when format has no time components", () => {
-            const testDate = new Date("2024-06-15T10:30:00Z");
+            // Local time, the way the Mendix client hands over a DateTime value.
+            const testDate = new Date(2024, 5, 15, 10, 30, 0);
             const col = column("DateOnly", c => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => testDate);
@@ -488,7 +493,8 @@ describe("cell-readers", () => {
         });
 
         it("preserves time in attribute date when format has time components", () => {
-            const testDate = new Date("2024-06-15T10:30:00Z");
+            // Constructed in local time, the way the Mendix client hands over a DateTime value.
+            const testDate = new Date(2024, 5, 15, 10, 30, 0);
             const col = column("DateTime", c => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => testDate);
@@ -497,7 +503,7 @@ describe("cell-readers", () => {
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("d");
-            expect(cell.v).toEqual(testDate);
+            expect(cell.v).toEqual(new Date(Date.UTC(2024, 5, 15, 10, 30, 0)));
         });
 
         it("strips time from customContent date when format has no time components", () => {
@@ -522,6 +528,78 @@ describe("cell-readers", () => {
             const cell = readSingleCell(col);
             expect(cell.t).toBe("d");
             expect(cell.v).toEqual(new Date("2024-06-15T10:30:00Z"));
+        });
+    });
+
+    /**
+     * SheetJS reads the UTC fields of a `t: "d"` cell value as the wall clock to store in the
+     * sheet, so every exported date must be UTC-anchored on the wall clock the grid displays.
+     * These cases are timezone-agnostic on purpose: the inputs are built with the local `Date`
+     * constructor, so they hold regardless of the offset (or DST rule) the test host runs in.
+     */
+    describe("timezone handling", () => {
+        it.each([
+            ["winter", 2007, 0, 1],
+            ["summer", 2004, 2, 30],
+            ["summer", 2012, 8, 3]
+        ])("exports a %s midnight date on the same calendar day as the grid", (_season, year, month, day) => {
+            const col = column("BirthDate", c => {
+                c.showContentAs = "attribute";
+                c.attribute = listAttribute(() => new Date(year, month, day));
+                c.exportType = "date";
+                c.exportDateFormat = dynamic.available("dd-mmm-yyyy");
+            });
+            const cell = readSingleCell(col);
+            expect(cell.v).toEqual(new Date(Date.UTC(year, month, day)));
+        });
+
+        it("exports a non-midnight date on the same calendar day as the grid", () => {
+            const col = column("BirthDate", c => {
+                c.showContentAs = "attribute";
+                c.attribute = listAttribute(() => new Date(2007, 0, 1, 14, 35));
+                c.exportType = "date";
+                c.exportDateFormat = dynamic.available("dd-mmm-yyyy");
+            });
+            const cell = readSingleCell(col);
+            expect(cell.v).toEqual(new Date(Date.UTC(2007, 0, 1)));
+        });
+
+        it("keeps the displayed time when the format has time components", () => {
+            const col = column("BirthDate", c => {
+                c.showContentAs = "attribute";
+                c.attribute = listAttribute(() => new Date(2007, 0, 1, 14, 35));
+                c.exportType = "date";
+                c.exportDateFormat = dynamic.available("dd-mmm-yyyy hh:mm");
+            });
+            const cell = readSingleCell(col);
+            expect(cell.v).toEqual(new Date(Date.UTC(2007, 0, 1, 14, 35)));
+        });
+
+        it("exports a default-formatted date on the same calendar day as the grid", () => {
+            const col = column("BirthDate", c => {
+                c.showContentAs = "attribute";
+                c.attribute = listAttribute(() => new Date(2007, 0, 1));
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.v).toEqual(new Date(Date.UTC(2007, 0, 1)));
+        });
+
+        it.each([
+            ["zoneless date and time", "2007-01-01T00:00:00"],
+            ["zoneless afternoon time", "2007-01-01T14:35:00"],
+            ["date-only ISO string (UTC by spec)", "2007-01-01"],
+            ["string with an explicit zone", "2007-01-01T00:00:00Z"],
+            ["locale-style date", "1/1/2007"]
+        ])("exports a customContent %s on the day the string names", (_label, value) => {
+            const col = column("BirthDate", c => {
+                c.showContentAs = "customContent";
+                c.exportValue = listExpression(() => value);
+                c.exportType = "date";
+                c.exportDateFormat = dynamic.available("dd-mmm-yyyy");
+            });
+            const cell = readSingleCell(col);
+            expect(cell.v).toEqual(new Date(Date.UTC(2007, 0, 1)));
         });
     });
 });
