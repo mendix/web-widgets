@@ -88,6 +88,7 @@ const createBarcodeProps = (
     dmGs1Mode: false,
     dmShape: "square",
     dmSize: 128,
+    dmMargin: 2,
     qrTitle: dynamic.available(""),
     qrLevel: "L",
     qrOverlay: false,

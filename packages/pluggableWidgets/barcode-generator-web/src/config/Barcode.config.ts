@@ -80,7 +80,8 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
 
     const baseConfig: CodeBaseTypeConfig = {
         codeValue,
-        margin: (format === "QRCode" ? props.qrMargin : props.codeMargin) ?? 2,
+        // 1D barcodes measure the margin in pixels; QR and Data Matrix in module units
+        margin: getMargin(props, format) ?? 2,
         logLevel: props.logLevel,
         downloadButton: downloadButtonConfig
     };
@@ -135,6 +136,19 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         addonFormat: props.addonFormat,
         addonSpacing: props.addonSpacing ?? 20
     };
+}
+
+function getMargin(
+    props: BarcodeGeneratorContainerProps,
+    format: CodeFormatEnum | CustomCodeFormatEnum
+): number | undefined {
+    if (format === "QRCode") {
+        return props.qrMargin;
+    }
+    if (format === "DataMatrix") {
+        return props.dmMargin;
+    }
+    return props.codeMargin;
 }
 
 function getFileName(customFileName: string | undefined): string | undefined {
