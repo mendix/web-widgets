@@ -275,12 +275,7 @@ const _07_selectionBindings: BindingGroup = {
 
 const _08_rowInteractionBindings: BindingGroup = {
     inject() {
-        injected(
-            SelectActionsProvider,
-            DG.selectionType,
-            DG.selectionHelper,
-            CORE.selection.selectionStatusStore.optional
-        );
+        injected(SelectActionsProvider, DG.selectionType, DG.selectionHelper);
         injected(createFocusController, CORE.setupService, DG.virtualLayout);
         injected(creteCheckboxEventsController, CORE.config, DG.selectActions, DG.focusService, DG.pageSize);
         injected(layoutAtom, CORE.atoms.itemCount, CORE.atoms.columnCount, DG.pageSize);
