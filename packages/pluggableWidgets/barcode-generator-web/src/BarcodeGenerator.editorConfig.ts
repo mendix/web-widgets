@@ -1,7 +1,7 @@
 import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { BarcodeGeneratorPreviewProps, CodeFormatEnum, CustomCodeFormatEnum } from "../typings/BarcodeGeneratorProps";
-import { validateAddonValue, validateBarcodeValue } from "./config/validation";
+import { validateAddonValue, validateBarcodeValue, validateGs1DataMatrixValue } from "./config/validation";
 
 export type Problem = {
     property?: string; // key of the property, at which the problem exists
@@ -13,7 +13,12 @@ export type Problem = {
 };
 
 export function getProperties(values: BarcodeGeneratorPreviewProps, defaultProperties: Properties): Properties {
-    if (values.codeFormat === "QRCode") {
+    const isQrCode = values.codeFormat === "QRCode";
+    const isDataMatrix = values.codeFormat === "DataMatrix";
+    // Both "Barcode" (CODE128) and "Custom" render as 1D barcodes through JsBarcode
+    const isBarcode = !isQrCode && !isDataMatrix;
+
+    if (isQrCode) {
         hidePropertiesIn(defaultProperties, values, ["codeWidth", "codeHeight", "displayValue", "codeMargin"]);
     } else {
         hidePropertiesIn(defaultProperties, values, [
@@ -26,7 +31,15 @@ export function getProperties(values: BarcodeGeneratorPreviewProps, defaultPrope
         ]);
     }
 
-    if (values.codeFormat !== "QRCode" || !values.qrOverlay) {
+    if (isDataMatrix) {
+        // Data Matrix is a 2D symbol: bar width/height, the human-readable value and the
+        // pixel-based 1D margin don't apply — it uses dmMargin (module units) instead
+        hidePropertiesIn(defaultProperties, values, ["codeWidth", "codeHeight", "displayValue", "codeMargin"]);
+    } else {
+        hidePropertiesIn(defaultProperties, values, ["dmGs1Mode", "dmShape", "dmSize", "dmMargin"]);
+    }
+
+    if (!isQrCode || !values.qrOverlay) {
         hidePropertiesIn(defaultProperties, values, [
             "qrOverlaySrc",
             "qrOverlayCenter",
@@ -39,7 +52,8 @@ export function getProperties(values: BarcodeGeneratorPreviewProps, defaultPrope
         ]);
     }
 
-    if (values.codeFormat === "QRCode" || (values.codeFormat !== "CODE128" && values.customCodeFormat !== "CODE128")) {
+    // EAN-128 only applies to CODE128, either as the top-level format or the custom one
+    if (!isBarcode || (values.codeFormat === "Custom" && values.customCodeFormat !== "CODE128")) {
         hidePropertyIn(defaultProperties, values, "enableEan128");
     }
 
@@ -67,29 +81,20 @@ export function getProperties(values: BarcodeGeneratorPreviewProps, defaultPrope
     }
 
     // EAN addons are only supported for EAN-13, EAN-8, and UPC
-    if (
-        values.codeFormat === "QRCode" ||
-        values.codeFormat === "CODE128" ||
-        (values.codeFormat === "Custom" &&
-            values.customCodeFormat !== "EAN13" &&
-            values.customCodeFormat !== "EAN8" &&
-            values.customCodeFormat !== "UPC")
-    ) {
+    const supportsAddons =
+        values.codeFormat === "Custom" &&
+        (values.customCodeFormat === "EAN13" ||
+            values.customCodeFormat === "EAN8" ||
+            values.customCodeFormat === "UPC");
+    if (!supportsAddons) {
         hidePropertiesIn(defaultProperties, values, ["addonFormat", "addonValue", "addonSpacing"]);
     }
-    if (
-        values.codeFormat === "QRCode" ||
-        values.codeFormat === "CODE128" ||
-        (values.codeFormat === "Custom" && values.addonFormat !== "EAN5" && values.addonFormat !== "EAN2")
-    ) {
+    if (!supportsAddons || (values.addonFormat !== "EAN5" && values.addonFormat !== "EAN2")) {
         hidePropertiesIn(defaultProperties, values, ["addonValue", "addonSpacing"]);
     }
 
-    if (
-        values.codeFormat === "QRCode" ||
-        values.codeFormat === "CODE128" ||
-        (values.codeFormat === "Custom" && values.customCodeFormat !== "CODE39")
-    ) {
+    // Mod43 is a CODE39 check digit
+    if (!(values.codeFormat === "Custom" && values.customCodeFormat === "CODE39")) {
         hidePropertyIn(defaultProperties, values, "enableMod43");
     }
 
@@ -122,28 +127,50 @@ export function getPreview(_: StructurePreviewProps, _isDarkMode: boolean): Stru
 export function check(_values: BarcodeGeneratorPreviewProps): Problem[] {
     const errors: Problem[] = [];
 
-    if (!_values.codeWidth || _values.codeWidth < 1) {
-        errors.push({
-            property: `codeWidth`,
-            severity: "error",
-            message: `The value of 'Bar width' must be at least 1.`
-        });
+    // Only validate the sizing properties that are visible for the selected format
+    if (_values.codeFormat !== "QRCode" && _values.codeFormat !== "DataMatrix") {
+        if (!_values.codeWidth || _values.codeWidth < 1) {
+            errors.push({
+                property: `codeWidth`,
+                severity: "error",
+                message: `The value of 'Bar width' must be at least 1.`
+            });
+        }
+
+        if (!_values.codeHeight || _values.codeHeight < 20) {
+            errors.push({
+                property: `codeHeight`,
+                severity: "error",
+                message: `The value of 'Code height' must be at least 20.`
+            });
+        }
     }
 
-    if (!_values.codeHeight || _values.codeHeight < 20) {
+    if (_values.codeFormat === "QRCode" && (!_values.qrSize || _values.qrSize < 50)) {
         errors.push({
-            property: `codeHeight`,
-            severity: "error",
-            message: `The value of 'Code height' must be at least 20.`
-        });
-    }
-
-    if (!_values.qrSize || _values.qrSize < 50) {
-        errors.push({
-            property: `codeHeight`,
+            property: `qrSize`,
             severity: "error",
             message: `The value of 'QR size' must be at least 50.`
         });
+    }
+
+    if (_values.codeFormat === "DataMatrix") {
+        if (!_values.dmSize || _values.dmSize < 32) {
+            errors.push({
+                property: `dmSize`,
+                severity: "error",
+                message: `The value of 'Data Matrix size' must be at least 32.`
+            });
+        }
+
+        // The Data Matrix spec requires a quiet zone of at least one module on every side
+        if (!_values.dmMargin || _values.dmMargin < 1) {
+            errors.push({
+                property: `dmMargin`,
+                severity: "warning",
+                message: `A Data Matrix needs a quiet zone of at least 1 module unit to stay scannable.`
+            });
+        }
     }
 
     // Design-time validation for static barcode value(s)
@@ -187,7 +214,8 @@ function getFormatHint(format: string): string {
         MSI: "MSI: numeric only (max 30 digits)",
         pharmacode: "Pharmacode: numeric only (max 7 digits)",
         codabar: "Codabar: digits, A-D start/stop, and - $ : / . + (max 20 chars)",
-        QRCode: "QR Code: any text (max 1200 chars recommended)"
+        QRCode: "QR Code: any text (max 1200 chars recommended)",
+        DataMatrix: "Data Matrix: any text; GS1 mode expects Application Identifier syntax, e.g. (01)09501101020917"
     };
     return hints[format] || "";
 }
@@ -218,6 +246,11 @@ function validateCodeValues(values: BarcodeGeneratorPreviewProps): Problem[] {
             if (!result.valid) {
                 const msg = result.message || "Invalid barcode value for selected format.";
                 problems.push({ property: "codeValue", severity: "error", message: msg });
+            } else if (format === "DataMatrix" && values.dmGs1Mode) {
+                const gs1Result = validateGs1DataMatrixValue(val);
+                if (!gs1Result.valid) {
+                    problems.push({ property: "codeValue", severity: "error", message: gs1Result.message });
+                }
             }
         }
     }
