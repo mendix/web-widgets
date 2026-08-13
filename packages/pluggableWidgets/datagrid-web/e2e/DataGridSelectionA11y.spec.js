@@ -122,47 +122,46 @@ test.describe("datagrid-web selection accessibility", () => {
         expect(checkboxRect.y).toBeLessThan(barRect.y);
     });
 
-    test("status region announces selection changes to screen readers", async ({ page }) => {
+    test("status region announces only bulk operations, not individual checkbox clicks", async ({ page }) => {
         const widget = page.locator(".mx-name-dataGrid21");
         await widget.waitFor();
 
         const row1 = page.getByRole("checkbox", { name: "Select row 1", exact: true });
         const row2 = page.getByRole("checkbox", { name: "Select row 2", exact: true });
+        const checkbox = page.getByRole("checkbox", { name: "Select all rows" });
 
+        // Individual checkbox clicks should NOT announce to avoid redundancy with native "checked" announcement
         await row1.click();
-        await expect(widget).toMatchAriaSnapshot(`
-            - status: "1 row selected"
-        `);
+        await expect(widget.locator('[role="status"]')).toHaveCount(0);
 
         await row2.click();
+        await expect(widget.locator('[role="status"]')).toHaveCount(0);
+
+        // Select all (bulk operation) SHOULD announce
+        await checkbox.click();
         await expect(widget).toMatchAriaSnapshot(`
-            - status: "2 rows selected"
+            - status: "5 rows selected"
         `);
 
-        await row1.click();
-        await expect(widget).toMatchAriaSnapshot(`
-            - status: "1 row selected"
-        `);
-
-        await row2.click();
-        await expect(widget).toMatchAriaSnapshot(`
-            - status ""
-        `);
+        // Clear selection (bulk operation) SHOULD announce
+        const clearButton = widget.locator(".widget-datagrid-footer").getByRole("button", { name: /Clear selection/ });
+        await clearButton.click();
+        await expect(widget.locator('[role="status"]')).toHaveCount(0);
     });
 
-    test("selection count is announced by a single live region", async ({ page }) => {
+    test("visual selection counter has no aria-live to avoid double announcements", async ({ page }) => {
         const widget = page.locator(".mx-name-dataGrid21");
         await widget.waitFor();
 
-        await page.getByRole("checkbox", { name: "Select row 1", exact: true }).click();
-        await page.getByRole("checkbox", { name: "Select row 2", exact: true }).click();
+        const checkbox = page.getByRole("checkbox", { name: "Select all rows" });
+        await checkbox.click();
 
-        // The visual counter must not be a live region: the sr-only status region is
-        // the only announcer, otherwise screen readers read the count twice.
+        // The visual counter must not be a live region to avoid redundancy
         await expect(widget.locator(".widget-datagrid-selection-text[aria-live]")).toHaveCount(0);
-        await expect(widget.locator('[aria-live], [role="status"]').filter({ hasText: "2 rows selected" })).toHaveCount(
-            1
-        );
+
+        // The status region only appears for bulk operations (not individual clicks)
+        const statusWithText = widget.locator('[role="status"]').filter({ hasText: /rows selected/ });
+        await expect(statusWithText).toHaveCount(1);
     });
 
     // "Clear selection" button exists in both the top bar (inside grid) and footer;
