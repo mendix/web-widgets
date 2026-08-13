@@ -84,6 +84,39 @@ The widget SHALL allow downloading a generated DataMatrix as a PNG using the exi
 - **WHEN** downloads are enabled and the user activates the download button on a DataMatrix
 - **THEN** a PNG file of the rendered DataMatrix is downloaded, using the configured or an auto-generated filename
 
+### Requirement: DataMatrix sizing and quiet zone
+
+The widget SHALL expose dedicated size and margin properties for Data Matrix, with the margin expressed in module units so the required quiet zone can be controlled independently of the 1D barcode margin.
+
+#### Scenario: Margin is independent of the 1D and QR margins
+
+- **WHEN** the format is "Data Matrix" and the Data Matrix margin is set to 6 while the 1D margin is 4 and the QR margin is 8
+- **THEN** the rendered symbol uses a quiet zone of 6 module units, and changing the 1D or QR margin has no effect on it
+
+#### Scenario: Missing quiet zone is flagged
+
+- **WHEN** the format is "Data Matrix" and the Data Matrix margin is set to 0
+- **THEN** Studio Pro shows a warning that at least 1 module unit is needed for the symbol to stay scannable
+
+### Requirement: Format-scoped property visibility
+
+The widget SHALL only show the property groups that apply to the selected barcode format, so Data Matrix settings are hidden for other formats and 1D/QR settings are hidden for Data Matrix.
+
+#### Scenario: Data Matrix settings are scoped to the Data Matrix format
+
+- **WHEN** the Barcode Format is "Barcode", "QR Code" or "Custom"
+- **THEN** the "Advanced Data Matrix Settings" properties (GS1 mode, symbol shape, size) are hidden in Studio Pro
+
+#### Scenario: 1D and QR settings are hidden for Data Matrix
+
+- **WHEN** the Barcode Format is "Data Matrix"
+- **THEN** bar width, code height, display value, the 1D pixel margin, the advanced barcode settings (EAN-128, flat, last character, Mod43), the EAN addon properties and the QR properties are all hidden, and the Data Matrix margin is shown in their place
+
+#### Scenario: Design-time validation follows the visible properties
+
+- **WHEN** the Barcode Format is "Data Matrix" and the Data Matrix size is below the supported minimum
+- **THEN** Studio Pro reports the problem on the Data Matrix size property and does not report problems on hidden 1D or QR sizing properties
+
 ### Requirement: DataMatrix editor preview
 
 The widget SHALL show a representative DataMatrix preview in the Studio Pro editor when the Data Matrix format is selected.
