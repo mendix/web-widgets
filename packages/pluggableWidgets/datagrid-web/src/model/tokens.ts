@@ -84,8 +84,6 @@ export const CORE_TOKENS = {
         }>("@store:selectedCounterTextsStore"),
         selectionStatusStore: token<{
             selectionStatus: string;
-            shouldAnnounce: boolean;
-            setShouldAnnounce(value: boolean): void;
         }>("@store:selectionStatusStore")
     },
 

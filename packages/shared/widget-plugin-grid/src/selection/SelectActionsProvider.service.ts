@@ -6,8 +6,7 @@ import { SelectAdjacentFx, SelectAllFx, SelectFx, SelectionType } from "./types"
 export class SelectActionsProvider implements SelectActionsService {
     constructor(
         private type: SelectionType,
-        private selectionHelper: SelectionHelperService,
-        private selectionStatusStore?: { setShouldAnnounce(value: boolean): void }
+        private selectionHelper: SelectionHelperService
     ) {
         if (type === "Multi") {
             if (!selectionHelper || selectionHelper.type !== "Multi") {
@@ -47,9 +46,6 @@ export class SelectActionsProvider implements SelectActionsService {
             return;
         }
 
-        // Enable announcements for bulk operations (select all / keyboard shortcuts)
-        this.selectionStatusStore?.setShouldAnnounce(true);
-
         if (requestedAction === "selectAll") {
             this.selectionHelper.selectAll();
             return;
@@ -73,9 +69,6 @@ export class SelectActionsProvider implements SelectActionsService {
     };
 
     clearSelection = (): void => {
-        // Enable announcements for bulk clear operation
-        this.selectionStatusStore?.setShouldAnnounce(true);
-
         if (this.selectionHelper?.type === "Multi") {
             this.selectionHelper.clearSelection();
         } else if (this.selectionHelper?.type === "Single") {
@@ -89,20 +82,14 @@ export class SelectActionsProvider implements SelectActionsService {
         }
 
         if (shiftKey) {
-            // Shift+click selects range - treat as bulk operation
-            this.selectionStatusStore?.setShouldAnnounce(true);
             this.selectionHelper.selectUpTo(item, toggleMode ? "toggle" : "clear");
             return;
         }
 
-        // Disable announcements for individual checkbox clicks
-        this.selectionStatusStore?.setShouldAnnounce(false);
         this.selectItem(item, toggleMode);
     };
 
     private selectItemSingle: SelectFx = (item, _, toggleMode = false) => {
-        // Disable announcements for individual row selection
-        this.selectionStatusStore?.setShouldAnnounce(false);
         this.selectItem(item, toggleMode);
     };
 

@@ -112,16 +112,10 @@ export function selectionCounterTextsStore(
  * Otherwise, returns selectedCountText ("Y items selected").
  *
  * This ensures screen reader announcements match visual text in SelectAllBar.
- *
- * Includes shouldAnnounce flag to control when announcements happen:
- * - true: for bulk operations (select all, clear all, keyboard shortcuts)
- * - false: for individual row selections (checkbox clicks)
  * @injectable
  */
 export interface ObservableSelectionStatus {
     selectionStatus: string;
-    shouldAnnounce: boolean;
-    setShouldAnnounce(value: boolean): void;
 }
 
 export function selectionStatusStore(
@@ -132,11 +126,7 @@ export function selectionStatusStore(
     selectedTexts: { selectedCountText: string },
     isAllItemsSelected: ComputedAtom<boolean>
 ): ObservableSelectionStatus {
-    const store = observable({
-        shouldAnnounce: false,
-        setShouldAnnounce(value: boolean): void {
-            this.shouldAnnounce = value;
-        },
+    return observable({
         get selectionStatus() {
             if (isAllItemsSelected.get()) {
                 const str = gate.props.allSelectedText?.value ?? "All %d rows selected.";
@@ -146,5 +136,4 @@ export function selectionStatusStore(
             return selectedTexts.selectedCountText;
         }
     });
-    return store;
 }
