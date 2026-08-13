@@ -36,6 +36,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Files in the list are now ordered with successful uploads above rejected files.
 
+- Removing a file with the default remove button now removes the entry from the file list immediately, instead of leaving it in the list greyed out with the "File removal success" text. This matches how removal already worked when custom buttons are configured.
+
 ## [2.4.2] - 2026-04-23
 
 ### Fixed
