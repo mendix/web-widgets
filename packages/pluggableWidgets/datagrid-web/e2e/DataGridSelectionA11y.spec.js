@@ -165,9 +165,11 @@ test.describe("datagrid-web selection accessibility", () => {
         );
     });
 
-    // A checked checkbox already conveys "selected"; aria-selected on the row would make
-    // screen readers announce the same state twice ("selected" and "checked").
-    test("checkbox grid: selected rows do not also carry aria-selected", async ({ page }) => {
+    // A checked checkbox already conveys "selected", so the row must not also expose
+    // aria-selected — otherwise the accessibility tree carries the same state twice and
+    // screen readers announce both "selected" and "checked" for one row.
+    // Asserted against the accessibility tree (what a screen reader consumes), not the DOM.
+    test("checkbox grid: row exposes selection state once, on the checkbox", async ({ page }) => {
         const widget = page.locator(".mx-name-dataGrid21");
         const grid = widget.getByRole("grid");
         const checkbox = page.getByRole("checkbox", { name: "Select row 1", exact: true });
@@ -175,20 +177,29 @@ test.describe("datagrid-web selection accessibility", () => {
         await checkbox.click();
         await expect(checkbox).toBeChecked();
 
-        // Selection state lives on the checkbox only.
+        const row = grid.getByRole("row").filter({ has: checkbox });
+        const rowTree = await row.ariaSnapshot();
+
+        expect(rowTree).toContain("[checked]");
+        expect(rowTree).not.toContain("[selected]");
+
+        // Holds for every row, not just the one asserted above.
         await expect(grid.locator("[role='row'][aria-selected]")).toHaveCount(0);
     });
 
-    // Row-click selection has no checkbox, so aria-selected is the only carrier of state.
-    test("no-checkbox grid: selected rows carry aria-selected", async ({ page }) => {
+    // Row-click selection has no checkbox, so aria-selected is the only carrier of state
+    // and must remain present.
+    test("no-checkbox grid: row exposes selection state via aria-selected", async ({ page }) => {
         const widget2 = page.locator(".mx-name-dataGrid22");
         const grid2 = widget2.getByRole("grid");
         await expect(grid2).toBeVisible();
 
-        const firstRow = grid2.locator("[role='row']").nth(1);
+        const firstRow = grid2.getByRole("row").nth(1);
         await firstRow.click();
 
-        await expect(firstRow).toHaveAttribute("aria-selected", "true");
+        const rowTree = await firstRow.ariaSnapshot();
+        expect(rowTree).toContain("[selected]");
+        expect(rowTree).not.toContain("[checked]");
     });
 
     // "Clear selection" button exists in both the top bar (inside grid) and footer;
