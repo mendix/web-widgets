@@ -1,4 +1,8 @@
-## ADDED Requirements
+## Purpose
+
+Announce DataGrid row selection state changes to screen reader users through a single WCAG 4.1.3 status region in the widget footer.
+
+## Requirements
 
 ### Requirement: [WCAG 4.1.3] Status region announces selection count changes
 
@@ -85,6 +89,25 @@ The status region SHALL use `role="status"` (which implies `aria-live="polite"` 
 
 - **WHEN** selection count changes from "2 items selected" to "3 items selected"
 - **THEN** screen reader announces the complete new text "3 items selected" (not just "3")
+
+### Requirement: [WCAG 4.1.3] Selection count is announced exactly once
+
+The status region SHALL be the only live region carrying the selection count. The visual selection counter SHALL NOT be a live region (no `aria-live`, `aria-atomic`, or live-region role on the visual count text), so that a single selection change produces a single announcement.
+
+#### Scenario: Count announced once when counter is visible
+
+- **WHEN** `selectionCounterPosition` is "bottom" (or "top") and user selects a row via checkbox
+- **THEN** only one live region contains the selection count and the screen reader announces it once
+
+#### Scenario: Visual counter text is not a live region
+
+- **WHEN** the visual selection counter is rendered
+- **THEN** its count text carries no `aria-live` or `aria-atomic` attribute and no live-region role
+
+#### Scenario: Count announced once for each successive selection
+
+- **WHEN** user selects a second row while one row is already selected
+- **THEN** the screen reader announces "2 rows selected" once, not twice
 
 ### Requirement: [WCAG 4.1.3] Status region is visually hidden
 

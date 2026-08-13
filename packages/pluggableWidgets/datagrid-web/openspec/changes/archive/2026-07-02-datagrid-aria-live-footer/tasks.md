@@ -132,3 +132,17 @@
 - [x] 10.3 Update any relevant inline documentation
 - [x] 10.4 Run linter and fix any issues
 - [x] 10.5 Verify no TypeScript errors
+
+## 11. QA Feedback: Duplicate Selection Count Announcement
+
+QA: "When using the checkbox to select 2 rows, it's duplicating the announcement of 2 rows selected."
+Cause: the visual counter span was already a live region (`aria-live="polite" aria-atomic="true"`), and
+`selectionStatus` returns the same `selectedCountText` for partial selection — two live regions, same text.
+
+- [x] 11.1 Remove `aria-live`/`aria-atomic` from `.widget-datagrid-selection-text` in `SelectionCounter.tsx`
+- [x] 11.2 Remove the same attributes from the `Datagrid.editorPreview.tsx` counter for parity
+- [x] 11.3 Add E2E regression test: selection count is announced by a single live region
+- [x] 11.4 Document the single-announcer rule in design.md (decision 11) and the `selection-aria-live` spec
+- [x] 11.5 Run unit tests (225 passed, 18 suites)
+- [ ] 11.6 Manual re-test with screen reader: select 2 rows via checkbox, confirm a single announcement
+- [ ] 11.7 Manual re-test: confirm SelectAllBar's `aria-live="assertive"` button label change is not perceived as a second count announcement on a fully-selected page

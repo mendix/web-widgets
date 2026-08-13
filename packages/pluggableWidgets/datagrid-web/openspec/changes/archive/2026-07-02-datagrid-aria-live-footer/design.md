@@ -171,6 +171,20 @@ Without this, the status region would announce "100 items selected" when the vis
 - Focus the first focusable element → rejected, not semantically meaningful
 - Focus the grid container → rejected, doesn't integrate with roving tabindex pattern
 
+### 11. The status region is the only live region for the selection count
+
+**Decision:** Remove `aria-live="polite" aria-atomic="true"` from the visual counter's `.widget-datagrid-selection-text` span in `SelectionCounter.tsx`. The sr-only `role="status"` region in `WidgetFooter` is the single announcer of the selection count.
+
+**Why:** QA found the count announced twice ("2 rows selected" read out twice) when selecting rows via checkbox. The visual counter span was already a live region before this change, and `selectionStatus` returns exactly `selectedCountText` for partial selection — so two live regions mutated with the identical string on every selection change. Since `selectionCounterPosition` defaults to `bottom`, this affected the default configuration; `top` had the same doubling via `WidgetTopBar`.
+
+**Alternatives considered:**
+
+- Render the status region only when the visual counter is hidden (`position: "off"`) → rejected, contradicts decision 1: a live region inserted into the DOM at the same moment its content changes is not reliably announced
+- Keep the counter's `aria-live` and drop the status region → rejected, the counter is not rendered when `position: "off"` and its span carries no `role`, so the count would not be programmatically determinable as a status message (WCAG 4.1.3)
+- Give the two regions different text → rejected, two announcements per selection change is the problem, not the wording
+
+**Note:** `aria-live` without a role does not surface as a node in the accessibility tree, which is why the `toMatchAriaSnapshot` E2E assertions did not catch the duplicate. The regression test asserts on `[aria-live], [role="status"]` element counts instead.
+
 ## Risks / Trade-offs
 
 **[Risk: Announcement spam with rapid selection changes]**
@@ -188,7 +202,7 @@ The status region duplicates the text shown in the visual counter. This is neces
 - The visual counter may be hidden (`position: "off"`)
 - Screen readers need the count in a status region, not just visually rendered text
 - WCAG 4.1.3 requires status messages to be programmatically determinable through role or properties
-  → Acceptable trade-off for accessibility compliance
+  → Acceptable trade-off for accessibility compliance, **provided the duplicated visual text is not itself a live region** — see decision 11. Duplicating the _text_ is fine; duplicating the _announcement_ is a defect.
 
 **[Trade-off: Extracting selection model adds indirection]**
 Moving selection logic to `widget-plugin-grid` adds a layer of abstraction. However, this is consistent with the existing pattern (select-all feature is already in `widget-plugin-grid`), and the logic is now reusable across multiple features.
