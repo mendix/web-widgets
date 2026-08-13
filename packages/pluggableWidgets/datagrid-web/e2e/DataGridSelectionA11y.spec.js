@@ -150,6 +150,21 @@ test.describe("datagrid-web selection accessibility", () => {
         `);
     });
 
+    test("selection count is announced by a single live region", async ({ page }) => {
+        const widget = page.locator(".mx-name-dataGrid21");
+        await widget.waitFor();
+
+        await page.getByRole("checkbox", { name: "Select row 1", exact: true }).click();
+        await page.getByRole("checkbox", { name: "Select row 2", exact: true }).click();
+
+        // The visual counter must not be a live region: the sr-only status region is
+        // the only announcer, otherwise screen readers read the count twice.
+        await expect(widget.locator(".widget-datagrid-selection-text[aria-live]")).toHaveCount(0);
+        await expect(widget.locator('[aria-live], [role="status"]').filter({ hasText: "2 rows selected" })).toHaveCount(
+            1
+        );
+    });
+
     // "Clear selection" button exists in both the top bar (inside grid) and footer;
     // this test targets the top bar button only.
     test("Select all button retains focus and changes label to Clear selection", async ({ page }) => {

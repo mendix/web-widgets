@@ -6,6 +6,7 @@ The DataGrid widget lacks screen reader announcements when row selection state c
 
 - Add `SelectionStatus` component that renders a status region (`role="status"`) announcing the current selection count per WCAG 4.1.3
 - Place the status region in the `WidgetFooter` so it's always present when selection is enabled, independent of the visible selection counter
+- Make the status region the only live region for the selection count: remove `aria-live`/`aria-atomic` from the visual counter text so a selection change is announced once, not twice
 - Add `aria-label` to the "select all" checkbox in the table header (e.g., "Select all rows")
 - Extract shared selection model logic from `select-all` module to a reusable `selection.model` in `widget-plugin-grid`
 
@@ -22,7 +23,7 @@ None
 
 ## Impact
 
-- `packages/pluggableWidgets/datagrid-web/src/features/selection-counter/` — new `SelectionStatus` component (role="status") and updated injection hooks
+- `packages/pluggableWidgets/datagrid-web/src/features/selection-counter/` — new `SelectionStatus` component (role="status") and updated injection hooks; `SelectionCounter` becomes visual-only (no live region)
 - `packages/pluggableWidgets/datagrid-web/src/components/WidgetFooter.tsx` — renders status region
 - `packages/pluggableWidgets/datagrid-web/src/components/WidgetHeader.tsx` or checkbox component — add aria-label to select-all checkbox
 - `packages/pluggableWidgets/datagrid-web/src/model/` — updated container and tokens for DI, add text properties for aria-label

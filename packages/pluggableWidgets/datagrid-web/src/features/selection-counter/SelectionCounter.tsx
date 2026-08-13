@@ -16,9 +16,8 @@ export const SelectionCounter = observer(function SelectionCounter() {
 
     return (
         <div ref={counterRef} className="widget-datagrid-selection-counter">
-            <span className="widget-datagrid-selection-text" aria-live="polite" aria-atomic="true">
-                {selectionCountStore.selectedCountText}
-            </span>
+            {/* Visual only: announcements come from the sr-only status region in WidgetFooter. */}
+            <span className="widget-datagrid-selection-text">{selectionCountStore.selectedCountText}</span>
             &nbsp;|&nbsp;
             <button className="widget-datagrid-btn-link" onClick={handleClear}>
                 {selectionCountStore.clearButtonLabel}

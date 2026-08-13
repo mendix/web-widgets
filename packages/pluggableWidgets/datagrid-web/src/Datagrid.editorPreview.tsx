@@ -302,7 +302,7 @@ const SelectionCounter = (): ReactNode => {
     const props = useProps();
     return (
         <div className="widget-datagrid-selection-counter">
-            <span className="widget-datagrid-selection-text" aria-live="polite" aria-atomic="true">
+            <span className="widget-datagrid-selection-text">
                 {props.selectedCountTemplateSingular || "[row count]"}
             </span>
             &nbsp;|&nbsp;

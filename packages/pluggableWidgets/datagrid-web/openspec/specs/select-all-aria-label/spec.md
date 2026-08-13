@@ -1,4 +1,8 @@
-## ADDED Requirements
+## Purpose
+
+Give the DataGrid select-all checkbox and the select-all bar controls accessible names and keyboard behaviour so assistive technology users can identify and operate them.
+
+## Requirements
 
 ### Requirement: [WCAG 4.1.2] Select-all checkbox has descriptive aria-label
 
