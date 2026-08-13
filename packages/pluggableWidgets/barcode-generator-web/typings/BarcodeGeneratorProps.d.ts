@@ -54,6 +54,7 @@ export interface BarcodeGeneratorContainerProps {
     codeHeight: number;
     codeMargin: number;
     qrMargin: number;
+    dmMargin: number;
     qrTitle: DynamicValue<string>;
     showTitle: boolean;
     qrOverlay: boolean;
@@ -106,6 +107,7 @@ export interface BarcodeGeneratorPreviewProps {
     codeHeight: number | null;
     codeMargin: number | null;
     qrMargin: number | null;
+    dmMargin: number | null;
     qrTitle: string;
     showTitle: boolean;
     qrOverlay: boolean;

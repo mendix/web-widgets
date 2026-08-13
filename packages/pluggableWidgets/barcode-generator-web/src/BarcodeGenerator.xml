@@ -192,6 +192,10 @@
                     <caption>Margin size</caption>
                     <description>Number of module units (QR grid cells) to use for margin. Increasing compresses the QR pattern within the fixed size. Note: not visible in preview.</description>
                 </property>
+                <property key="dmMargin" type="integer" required="true" defaultValue="2">
+                    <caption>Margin size</caption>
+                    <description>Number of module units (Data Matrix cells) to use for the quiet zone. Increasing compresses the symbol within the fixed size. Keep at least 1 to stay scannable. Note: not visible in preview.</description>
+                </property>
                 <property key="qrTitle" type="textTemplate" required="true">
                     <caption>Title</caption>
                     <description>Used for accessibility</description>

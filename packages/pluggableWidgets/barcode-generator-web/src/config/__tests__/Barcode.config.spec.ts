@@ -30,6 +30,7 @@ function props(overrides: Partial<BarcodeGeneratorContainerProps> = {}): Barcode
         dmGs1Mode: false,
         dmShape: "square",
         dmSize: 128,
+        dmMargin: 2,
         qrTitle: dynamic.available("QR"),
         qrLevel: "L",
         qrOverlay: false,
@@ -62,9 +63,19 @@ describe("barcodeConfig - DataMatrix", () => {
         expect(config.shape).toBe("rectangle");
     });
 
-    it("uses the DataMatrix margin from codeMargin", () => {
-        const config = barcodeConfig(props({ codeMargin: 6 })) as DataMatrixTypeConfig;
+    it("uses dmMargin for the DataMatrix margin, not the 1D or QR margin", () => {
+        const config = barcodeConfig(props({ dmMargin: 6, codeMargin: 4, qrMargin: 8 })) as DataMatrixTypeConfig;
         expect(config.margin).toBe(6);
+    });
+
+    it("falls back to a default margin when dmMargin is unset", () => {
+        const config = barcodeConfig(props({ dmMargin: null as any })) as DataMatrixTypeConfig;
+        expect(config.margin).toBe(2);
+    });
+
+    it("keeps the pixel margin for 1D barcodes and the module margin for QR", () => {
+        expect(barcodeConfig(props({ codeFormat: "CODE128", codeMargin: 4 })).margin).toBe(4);
+        expect(barcodeConfig(props({ codeFormat: "QRCode", qrMargin: 8 })).margin).toBe(8);
     });
 
     it("does not route non-DataMatrix formats to datamatrix", () => {
