@@ -18,7 +18,10 @@ declare module "@tiptap/core" {
 }
 
 // Helper to create colgroup (copied from TipTap source)
-function createColGroup(node: any, cellMinWidth: number) {
+function createColGroup(
+    node: any,
+    cellMinWidth: number
+): { colgroup: any[]; tableWidth: string; tableMinWidth: string } {
     let totalWidth = 0;
     let fixedWidth = true;
     const cols: any[] = [];
@@ -78,6 +81,21 @@ export const TableBackgroundColor = Table.extend<TableBackgroundColorOptions>({
             cellMinWidth: 25,
             renderWrapper: false,
             styleDataFormat: "inline"
+        };
+    },
+
+    addKeyboardShortcuts() {
+        // The stock Table extension binds Tab/Shift-Tab to cell navigation, which
+        // fires before ListItem's Tab (sinkListItem) and the Indent plugin can run.
+        // Inside a list item, yield (return false) so the event falls through to
+        // those handlers and the list nests instead of jumping cells. Elsewhere in
+        // a cell, delegate to the stock table navigation.
+        const parent = this.parent?.();
+
+        return {
+            ...parent,
+            Tab: props => (this.editor.isActive("listItem") ? false : (parent?.Tab?.(props) ?? false)),
+            "Shift-Tab": props => (this.editor.isActive("listItem") ? false : (parent?.["Shift-Tab"]?.(props) ?? false))
         };
     },
 
@@ -554,7 +572,7 @@ class TableBackgroundColorNodeView implements NodeView {
         this.view.dispatch(tr);
     }
 
-    updateColgroup() {
+    updateColgroup(): void {
         // Remove existing colgroup if any
         const existingColgroup = this.table.querySelector("colgroup");
         if (existingColgroup) {
@@ -567,7 +585,7 @@ class TableBackgroundColorNodeView implements NodeView {
         this.table.insertBefore(colgroupElement, this.contentDOM);
     }
 
-    updateTableStyles() {
+    updateTableStyles(): void {
         // Validate every value before it reaches cssText (which parses a full
         // declaration block and would otherwise allow property injection).
         const explicitWidth = safeSize(this.node.attrs.width);
@@ -683,7 +701,7 @@ class TableBackgroundColorNodeView implements NodeView {
         return element;
     }
 
-    update(node: ProseMirrorNode) {
+    update(node: ProseMirrorNode): boolean {
         if (node.type !== this.node.type) {
             return false;
         }
@@ -694,7 +712,7 @@ class TableBackgroundColorNodeView implements NodeView {
         return true;
     }
 
-    ignoreMutation(mutation: MutationRecord) {
+    ignoreMutation(mutation: MutationRecord): boolean {
         // Ignore attribute changes on the table (we manage them, incl. live-drag style writes)
         if (mutation.type === "attributes" && mutation.target === this.table) {
             return true;
@@ -706,7 +724,7 @@ class TableBackgroundColorNodeView implements NodeView {
         return false;
     }
 
-    destroy() {
+    destroy(): void {
         // Remove any in-flight drag listeners if the NodeView is torn down mid-drag
         this.removeDragListeners?.();
         this.removeDragListeners = null;

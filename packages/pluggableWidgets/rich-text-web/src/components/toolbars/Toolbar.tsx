@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { ReactElement, useState, useEffect, useMemo, PropsWithChildren } from "react";
 import { useT } from "../../utils/i18n";
 import { useCurrentEditor } from "../EditorContext";
@@ -24,7 +25,6 @@ import "./Toolbar.scss";
 import { ToolbarDropdown } from "./components/ToolbarDropdown";
 // eslint-disable-next-line import/order
 import { ToolbarSplitButton } from "./components/ToolbarSplitButton";
-import classNames from "classnames";
 
 interface ToolbarProps extends PropsWithChildren {
     preset?: PresetEnum;

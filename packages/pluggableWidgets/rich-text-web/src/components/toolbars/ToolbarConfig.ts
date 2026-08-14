@@ -25,11 +25,7 @@ export type ToolbarActionType =
     | "configurationDropdown";
 
 export type ColorPickerCommand =
-    | "textColor"
-    | "textHighlight"
-    | "cellBackground"
-    | "tableBackground"
-    | "tableBorderColor";
+    "textColor" | "textHighlight" | "cellBackground" | "tableBackground" | "tableBorderColor";
 
 export type DialogCommand = "insertImage" | "insertVideo" | "insertLink";
 

@@ -25,6 +25,21 @@ function renderInCodeView(children: ReactNode): ReturnType<typeof render> {
     return renderWithEditor(children, true);
 }
 
+function renderInCodeViewEditable(children: ReactNode): ReturnType<typeof render> {
+    return render(
+        <EditorContext.Provider
+            value={{
+                editor: { isEditable: true } as any,
+                codeViewState: { isCodeView: true, htmlCode: "", showConfirm: false },
+                codeViewDispatch: () => undefined,
+                imageConfig: { enableDefaultUpload: true, hasImageSource: false }
+            }}
+        >
+            {children as ReactElement}
+        </EditorContext.Provider>
+    );
+}
+
 describe("ToolbarDefaultButton", () => {
     it("renders the default icon span from the icon prop", () => {
         const { container } = renderWithEditor(<ToolbarDefaultButton icon="Text-bold" title="Bold" />);
@@ -99,7 +114,7 @@ describe("ToolbarDefaultButton", () => {
     });
 
     it("stays enabled in code view when allowInCodeView is set", () => {
-        renderInCodeView(<ToolbarDefaultButton icon="Code" title="Code view" allowInCodeView />);
+        renderInCodeViewEditable(<ToolbarDefaultButton icon="Code" title="Code view" allowInCodeView />);
 
         expect(screen.getByRole("button")).toBeEnabled();
     });

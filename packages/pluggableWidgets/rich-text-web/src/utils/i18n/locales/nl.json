@@ -137,6 +137,9 @@
     "image.altPlaceholder": "Beschrijving van de afbeelding",
     "image.titleField": "Titel (optioneel)",
     "image.titlePlaceholder": "Afbeeldingstitel",
+    "image.width": "Breedte (px)",
+    "image.height": "Hoogte (px)",
+    "image.maintainRatio": "Beeldverhouding behouden",
     "image.cancel": "Annuleren",
     "image.insert": "Invoegen",
     "image.errorTooLarge": "Bestand moet kleiner zijn dan 5MB (huidig: ###)",
@@ -160,6 +163,8 @@
     "video.errorInvalidEmbed": "Ongeldige insluitcode",
     "video.cancel": "Annuleren",
     "video.insert": "Invoegen",
+    "video.frameTitle": "YouTube-video",
+    "video.unplayableSource": "Deze video kan niet worden weergegeven. Onbekende bron: ###",
 
     "codeEditor.close": "Sluiten",
     "codeEditor.cancel": "Annuleren",

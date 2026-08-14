@@ -1,6 +1,6 @@
-import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
+import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { RichTextContainerProps, StatusBarContentEnum } from "../../typings/RichTextProps";
 
 import RichText from "../RichText";
@@ -47,7 +47,6 @@ describe("Rich Text", () => {
             OverflowY: "auto",
             customFonts: [],
             enableDefaultUpload: true,
-            formOrientation: "vertical",
             linkValidation: true,
             styleDataFormat: "inline"
         };

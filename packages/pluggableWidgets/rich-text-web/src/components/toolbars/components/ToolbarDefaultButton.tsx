@@ -22,7 +22,7 @@ export const ToolbarDefaultButton = forwardRef<HTMLButtonElement, ToolbarDefault
         ref
     ): ReactElement {
         const currentIcon = isActive && activeIcon ? activeIcon : icon;
-        const { codeViewState } = useCurrentEditor();
+        const { editor, codeViewState } = useCurrentEditor();
 
         const lockedByCodeView = !allowInCodeView && codeViewState.isCodeView === true;
 
@@ -31,7 +31,7 @@ export const ToolbarDefaultButton = forwardRef<HTMLButtonElement, ToolbarDefault
                 {...rest}
                 ref={ref}
                 type={type ?? "button"}
-                disabled={disabled || lockedByCodeView}
+                disabled={!editor?.isEditable || disabled || lockedByCodeView}
                 className={classNames(className || "icon-button", { "is-active": isActive })}
             >
                 {children ?? <span className={`icons icon-${currentIcon}`} />}

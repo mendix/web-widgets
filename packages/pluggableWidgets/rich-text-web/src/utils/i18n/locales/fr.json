@@ -137,6 +137,9 @@
     "image.altPlaceholder": "Description de l'image",
     "image.titleField": "Titre (facultatif)",
     "image.titlePlaceholder": "Titre de l'image",
+    "image.width": "Largeur (px)",
+    "image.height": "Hauteur (px)",
+    "image.maintainRatio": "Conserver les proportions",
     "image.cancel": "Annuler",
     "image.insert": "Insérer",
     "image.errorTooLarge": "Le fichier doit être inférieur à 5 Mo (actuel : ###)",
@@ -160,6 +163,8 @@
     "video.errorInvalidEmbed": "Code d'intégration invalide",
     "video.cancel": "Annuler",
     "video.insert": "Insérer",
+    "video.frameTitle": "Vidéo YouTube",
+    "video.unplayableSource": "Cette vidéo ne peut pas être lue. Source non reconnue : ###",
 
     "codeEditor.close": "Fermer",
     "codeEditor.cancel": "Annuler",

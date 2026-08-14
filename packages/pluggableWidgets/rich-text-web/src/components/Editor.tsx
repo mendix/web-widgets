@@ -7,7 +7,7 @@ import { TaskList } from "@tiptap/extension-task-list";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
-import { forwardRef, ReactElement, useEffect, useImperativeHandle, useMemo } from "react";
+import { CSSProperties, forwardRef, ReactElement, useEffect, useImperativeHandle, useMemo } from "react";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { EditorContextProvider, useCurrentEditor } from "./EditorContext";
 import { HighlightedCodeEditor } from "./HighlightedCodeEditor";
@@ -29,6 +29,7 @@ import { TextAlign } from "../extensions/TextAlignClass";
 import { TextColorClass } from "../extensions/TextColorClass";
 import { TextDirection } from "../extensions/TextDirection";
 import { TextHighlightClass } from "../extensions/TextHighlightClass";
+import { WordPaste } from "../extensions/WordPaste";
 import { YouTubeResize } from "../extensions/YouTubeResize";
 import { TranslationProvider, useT } from "../utils/i18n";
 import { ConfirmDialog } from "./toolbars/components/ConfirmDialog";
@@ -57,6 +58,7 @@ export interface EditorProps extends Pick<
     readOnly?: boolean;
     className?: string;
     toolbarGroups?: ToolbarGroupsConfig;
+    style?: CSSProperties;
 }
 
 export interface EditorHandle {
@@ -75,6 +77,7 @@ interface EditorInnerProps extends Pick<
     readOnly: boolean;
     className?: string;
     toolbarGroups?: ToolbarGroupsConfig;
+    style?: CSSProperties;
 }
 
 function EditorInner({
@@ -86,7 +89,8 @@ function EditorInner({
     toolbarGroups,
     advancedConfig,
     customFonts,
-    helpButton
+    helpButton,
+    style
 }: EditorInnerProps): ReactElement {
     const { editor, codeViewState, codeViewDispatch } = useCurrentEditor();
     const t = useT();
@@ -109,7 +113,7 @@ function EditorInner({
     return (
         <>
             <div className="tiptap-wrapper">
-                {showToolbar && !readOnly && (
+                {showToolbar && (
                     <Toolbar
                         preset={preset}
                         toolbarConfig={toolbarConfig}
@@ -124,10 +128,25 @@ function EditorInner({
                         value={codeViewState.htmlCode}
                         onChange={handleHtmlChange}
                         readOnly={false}
+                        style={{
+                            height: style?.height,
+                            minHeight: style?.minHeight,
+                            maxHeight: style?.maxHeight,
+                            overflowY: style?.overflowY
+                        }}
                     />
                 ) : (
                     <>
-                        <EditorContent editor={editor} className={className} />
+                        <EditorContent
+                            editor={editor}
+                            className={className}
+                            style={{
+                                height: style?.height,
+                                minHeight: style?.minHeight,
+                                maxHeight: style?.maxHeight,
+                                overflowY: style?.overflowY
+                            }}
+                        />
                         {!readOnly && <LinkBubbleMenu />}
                     </>
                 )}
@@ -254,7 +273,8 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
                 HTMLAttributes: {
                     class: "tiptap-embed"
                 }
-            })
+            }),
+            WordPaste
         ],
         [styleDataFormat]
     );
@@ -282,7 +302,8 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
             },
             onCreate: () => {
                 executeAction(actionRef.current.onLoad);
-            }
+            },
+            injectCSS: styleDataFormat === "inline"
         },
         []
     );
@@ -297,7 +318,7 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
 
     // update quills content on value change.
     useEffect(() => {
-        if (!editor || !editor.isFocused) {
+        if (!editor || editor.isFocused) {
             return;
         }
         // if there is an update comes from external element (default value sudden change)

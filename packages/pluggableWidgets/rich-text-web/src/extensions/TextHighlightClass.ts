@@ -1,4 +1,4 @@
-import { Extension } from "@tiptap/core";
+import { Extension, mergeAttributes } from "@tiptap/core";
 import { Highlight } from "@tiptap/extension-highlight";
 import { isSafeCssColor } from "../utils/helpers";
 
@@ -60,6 +60,7 @@ export const TextHighlightClass = Extension.create<TextHighlightClassOptions>({
                                     };
                                 } else {
                                     return {
+                                        class: "has-text-highlight",
                                         style: `background-color: ${attributes.color}`
                                     };
                                 }
@@ -70,15 +71,19 @@ export const TextHighlightClass = Extension.create<TextHighlightClassOptions>({
                 parseHTML() {
                     return [
                         {
-                            tag: "mark",
+                            tag: "span",
                             getAttrs: element => {
                                 const htmlElement = element as HTMLElement;
-                                const hasStyles =
-                                    htmlElement.hasAttribute("style") ||
-                                    htmlElement.hasAttribute("data-text-highlight") ||
-                                    htmlElement.style.backgroundColor;
+                                // Only treat a span as a highlight when it actually carries a
+                                // background (inline mode, incl. Word's `background` shorthand which
+                                // the CSSOM expands into `backgroundColor`) or our data attribute
+                                // (class mode). This avoids capturing color-only text-style spans.
+                                const hasHighlight =
+                                    styleDataFormat === "class"
+                                        ? !!htmlElement.dataset.textHighlight
+                                        : !!htmlElement.style.backgroundColor;
 
-                                if (!hasStyles) {
+                                if (!hasHighlight) {
                                     return false;
                                 }
 
@@ -86,6 +91,9 @@ export const TextHighlightClass = Extension.create<TextHighlightClassOptions>({
                             }
                         }
                     ];
+                },
+                renderHTML({ HTMLAttributes }) {
+                    return ["span", mergeAttributes(HTMLAttributes), 0];
                 }
             }).configure({
                 multicolor: this.options.multicolor

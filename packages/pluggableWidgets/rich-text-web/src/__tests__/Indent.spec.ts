@@ -294,3 +294,188 @@ describe("Indent — paragraph indent still works", () => {
         expect(editor.getHTML()).toContain("margin-left: 2em");
     });
 });
+
+/** Reads the `indent` attribute stored on the first block of the document. */
+function firstBlockIndent(editor: Editor): unknown {
+    return editor.state.doc.firstChild?.attrs.indent;
+}
+
+describe("Indent — margin-left parses from any CSS length unit", () => {
+    let editor: Editor;
+    afterEach(() => editor?.destroy());
+
+    // One indent level renders as `2em` = 32px at the 16px default root.
+    it.each([
+        ["26.1pt", 1], // Microsoft Word — the reported bug: used to yield 13, clamped to 10
+        ["36pt", 1], // Word's 0.5in indent step
+        ["64px", 2],
+        ["1in", 3], // 96px
+        ["2cm", 2], // ~75.6px
+        ["10mm", 1], // ~37.8px
+        ["2pc", 1], // 32px exactly
+        ["2em", 1], // the widget's own output — round-trip
+        ["4rem", 2],
+        ["20em", 10], // the widget's maximum
+        ["25%", 0], // resolves against container width, unknowable at parse time
+        ["20px", 0], // below one full level — never rounds up
+        ["0", 0],
+        ["auto", 0], // not a length
+        ["calc(2em + 4px)", 0] // not statically resolvable
+    ])("parses margin-left: %s as indent level %i", (margin, expected) => {
+        editor = makeEditor();
+        editor.commands.setContent(`<p style="margin-left: ${margin}">text</p>`);
+
+        expect(firstBlockIndent(editor)).toBe(expected);
+    });
+
+    it("renders 26.1pt from Word as 2em, not 20em", () => {
+        editor = makeEditor();
+        editor.commands.setContent('<h1 style="margin-left: 26.1pt">SCOPE OF ESTIMATE</h1>');
+
+        const html = editor.getHTML();
+        expect(html).toContain("margin-left: 2em");
+        expect(html).not.toContain("margin-left: 20em");
+    });
+
+    it("round-trips its own output byte-identically", () => {
+        editor = makeEditor();
+        editor.commands.setContent('<p style="margin-left: 6em">text</p>');
+
+        expect(editor.getHTML()).toContain("margin-left: 6em");
+    });
+
+    it("treats a missing margin-left as no indent", () => {
+        editor = makeEditor();
+        editor.commands.setContent("<p>text</p>");
+
+        expect(firstBlockIndent(editor)).toBe(0);
+        expect(editor.getHTML()).not.toContain("margin-left");
+    });
+});
+
+describe("Indent — negative margins do not indent", () => {
+    let editor: Editor;
+    afterEach(() => editor?.destroy());
+
+    it("parses a negative margin as 0, not as its magnitude", () => {
+        editor = makeEditor();
+        editor.commands.setContent('<p style="margin-left: -18pt">text</p>');
+
+        expect(firstBlockIndent(editor)).toBe(0);
+        expect(editor.getHTML()).not.toContain("margin-left");
+    });
+
+    it("ignores text-indent on a Word hanging indent", () => {
+        editor = makeEditor();
+        editor.commands.setContent('<p style="margin-left: 36pt; text-indent: -18pt">text</p>');
+
+        // Level comes from margin-left only; the negative text-indent contributes nothing.
+        expect(firstBlockIndent(editor)).toBe(1);
+    });
+});
+
+describe("Indent — the parsed level is clamped before it reaches the node", () => {
+    let editor: Editor;
+    afterEach(() => editor?.destroy());
+
+    it("clamps an above-maximum margin at parse time, not only at render", () => {
+        editor = makeEditor();
+        editor.commands.setContent('<p style="margin-left: 100em">text</p>');
+
+        // The stored attribute itself must be in range — the old code stored 50
+        // and relied on renderHTML to clamp.
+        expect(firstBlockIndent(editor)).toBe(10);
+        expect(editor.getHTML()).toContain("margin-left: 20em");
+    });
+
+    it("clamps an above-maximum data-indent", () => {
+        editor = makeEditor();
+        editor.commands.setContent('<p data-indent="99">text</p>');
+
+        expect(firstBlockIndent(editor)).toBe(10);
+    });
+});
+
+describe("Indent — data-indent is the canonical machine-set channel", () => {
+    let editor: Editor;
+    afterEach(() => editor?.destroy());
+
+    it("honours data-indent in inline mode", () => {
+        editor = makeEditor("inline");
+        editor.commands.setContent('<p data-indent="2">text</p>');
+
+        expect(firstBlockIndent(editor)).toBe(2);
+        expect(editor.getHTML()).toContain("margin-left: 4em");
+    });
+
+    it("prefers data-indent over a conflicting margin-left", () => {
+        editor = makeEditor("inline");
+        editor.commands.setContent('<p data-indent="1" style="margin-left: 20em">text</p>');
+
+        expect(firstBlockIndent(editor)).toBe(1);
+        expect(editor.getHTML()).toContain("margin-left: 2em");
+    });
+
+    it("honours data-indent in class mode (unchanged behavior)", () => {
+        editor = makeEditor("class");
+        editor.commands.setContent('<p data-indent="3">text</p>');
+
+        expect(firstBlockIndent(editor)).toBe(3);
+        const html = editor.getHTML();
+        expect(html).toContain('data-indent="3"');
+        expect(html).toContain("indent-3");
+    });
+
+    it("still ignores margin-left in class mode", () => {
+        editor = makeEditor("class");
+        editor.commands.setContent('<p style="margin-left: 26.1pt">text</p>');
+
+        expect(firstBlockIndent(editor)).toBe(0);
+    });
+
+    it("ignores a non-numeric data-indent", () => {
+        editor = makeEditor("inline");
+        editor.commands.setContent('<p data-indent="lots">text</p>');
+
+        expect(firstBlockIndent(editor)).toBe(0);
+    });
+});
+
+describe("Indent — unit-aware parsing applies to every content source", () => {
+    it("applies to the initial content value", () => {
+        const element = document.createElement("div");
+        document.body.appendChild(element);
+        const editor = new Editor({
+            element,
+            content: '<p style="margin-left: 36pt">stored value</p>',
+            extensions: [
+                StarterKit.configure({ orderedList: false }),
+                OrderedListStyled.configure({ styleDataFormat: "inline" }),
+                TaskList,
+                TaskItem.configure({ nested: true }),
+                Indent.configure({
+                    types: ["paragraph", "heading", "blockquote"],
+                    attributeTypes: ATTRIBUTE_TYPES,
+                    minIndent: 0,
+                    maxIndent: 10,
+                    indentStep: 1,
+                    styleDataFormat: "inline"
+                })
+            ]
+        });
+
+        expect(firstBlockIndent(editor)).toBe(1);
+        editor.destroy();
+    });
+
+    it("applies to a later setContent (external value update)", () => {
+        const editor = makeEditor();
+        editor.commands.setContent("<p>initial</p>");
+        editor.commands.setContent('<p style="margin-left: 72pt">updated</p>');
+
+        // 72pt = 96px = 3 levels. Layer 2 has no fragment context, so it cannot
+        // infer that Word would call this level 2 — that is the sanitizer's job.
+        expect(firstBlockIndent(editor)).toBe(3);
+        editor.destroy();
+    });
+});

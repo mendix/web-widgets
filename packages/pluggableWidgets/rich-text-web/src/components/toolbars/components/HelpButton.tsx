@@ -4,8 +4,8 @@ import { ToolbarDefaultButton } from "./ToolbarDefaultButton";
 import { useT } from "../../../utils/i18n";
 
 /**
- * Toolbar help button. Renders a text "?" (the icon font has no help glyph) and
- * toggles the keyboard-shortcuts modal.
+ * Toolbar help button. Renders the help icon and toggles the keyboard-shortcuts
+ * modal.
  */
 export function HelpButton(): ReactElement {
     const [isOpen, setIsOpen] = useState(false);
@@ -19,10 +19,9 @@ export function HelpButton(): ReactElement {
                 aria-label={t("help.title")}
                 aria-haspopup="dialog"
                 aria-expanded={isOpen}
+                icon="Help"
                 onClick={() => setIsOpen(true)}
-            >
-                ?
-            </ToolbarDefaultButton>
+            />
             {isOpen && <HelpDialog onClose={() => setIsOpen(false)} />}
         </>
     );

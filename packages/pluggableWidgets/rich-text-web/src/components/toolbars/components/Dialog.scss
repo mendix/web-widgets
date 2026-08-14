@@ -106,11 +106,7 @@
     }
 
     .image-dialog-entity {
-        margin-bottom: 12px;
-        padding: 12px;
-        border: 1px solid var(--border-color-default, #ced0d3);
-        border-radius: 4px;
-        background: #fafafa;
+        margin: 0 var(--spacing-medium, 16px);
         min-height: 100px;
     }
 
@@ -156,6 +152,22 @@
 
         .dialog-field {
             flex: 1;
+        }
+    }
+
+    .dialog-field--checkbox {
+        label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+            min-width: 16px;
+            margin: 0;
         }
     }
 
@@ -464,5 +476,19 @@
     &.ProseMirror-selectednode {
         outline: 2px solid var(--brand-primary, #0078d4);
         outline-offset: 2px;
+    }
+}
+
+.confirm-dialog {
+    &.toolbar-dialog {
+        .dialog-actions {
+            button {
+                background: inherit;
+
+                &.btn-primary {
+                    background-color: var(--brand-primary, #264ae5);
+                }
+            }
+        }
     }
 }

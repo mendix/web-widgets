@@ -84,6 +84,7 @@ export function ImageResize(props: NodeViewProps): ReactElement {
                     ref={imgRef}
                     src={node.attrs.src}
                     alt={node.attrs.alt || ""}
+                    draggable={false}
                     style={{
                         width: size.width,
                         height: size.height

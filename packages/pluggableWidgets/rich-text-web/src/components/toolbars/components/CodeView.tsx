@@ -13,7 +13,7 @@ export function CodeViewToolbarButton({ config }: BaseToolbarButtonProps): React
 
         if (!codeViewState.isCodeView) {
             // Switching to code view - show HTML
-            const html = editor.getHTML();
+            const html = editor.isEmpty ? "" : editor.getHTML();
             codeViewDispatch({ type: "ENTER_CODE_VIEW", html });
         } else {
             // Switching back to editor - show confirmation
