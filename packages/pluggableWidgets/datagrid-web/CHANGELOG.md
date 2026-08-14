@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Screen reader announcement region that announces selection count changes when rows are selected or deselected (WCAG 4.1.3).
+- Accessible label ("Select all rows") to the select-all checkbox.
+
 ### Fixed
 
 - We fixed an issue where the top bar did not stack its content vertically in narrow containers.
