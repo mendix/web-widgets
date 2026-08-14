@@ -96,7 +96,9 @@ export function getProperties(
             "heightUnit",
             "height",
             "minHeightUnit",
-            "maxHeightUnit"
+            "minHeight",
+            "maxHeightUnit",
+            "maxHeight"
         ]);
     } else {
         hidePropertyIn(defaultProperties, values, "iconSize");
