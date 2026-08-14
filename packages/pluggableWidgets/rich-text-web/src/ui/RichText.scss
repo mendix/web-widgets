@@ -55,6 +55,7 @@ $rte-brand-primary: #264ae5;
         min-height: 200px;
         width: 100%;
         padding: 12px;
+        overflow: auto;
 
         .ProseMirror {
             outline: none;
@@ -136,7 +137,7 @@ $rte-brand-primary: #264ae5;
                 }
             }
 
-            mark {
+            .has-text-highlight {
                 padding: 0.1em 0.2em;
                 border-radius: 2px;
             }
@@ -315,27 +316,14 @@ $rte-brand-primary: #264ae5;
             }
 
             code {
-                background-color: var(--gray-900, #616161);
-                color: var(--font-color-contrast, #fff);
-                padding: 0.2em 0.4em;
+                background: var(--gray-50, var(--gray-lighter, #f8f8f8));
+                padding: 0.15rem 0.55rem;
                 border-radius: 3px;
-                font-size: 1.2rem;
                 font-family: "Courier New", Courier, monospace;
             }
 
             pre {
-                background: var(--color-contrast, #000);
-                color: var(--font-color-contrast, #fff);
-                font-family: "JetBrainsMono", monospace;
-                padding: 0.75rem;
-                border-radius: 0.5rem;
-
-                code {
-                    color: inherit;
-                    padding: 0;
-                    background: none;
-                    font-size: 1.1rem;
-                }
+                padding: 0.15rem 0.55rem;
             }
 
             blockquote {
@@ -504,6 +492,28 @@ $rte-brand-primary: #264ae5;
                         display: block;
                     }
                 }
+
+                // Shown instead of the iframe when a YouTube node's stored source is not a
+                // recognizable YouTube URL. Occupies the node's stored size so the document
+                // layout does not shift, and is not resizable. Colors match the video
+                // dialog's error state (contrast ratio above 4.5:1).
+                .youtube-unplayable {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-sizing: border-box;
+                    max-width: 100%;
+                    padding: 12px;
+                    background: #f8d7da;
+                    color: #721c24;
+                    border: 1px solid var(--border-color-default, #ced0d3);
+                    border-radius: 8px;
+                    font-size: 13px;
+                    line-height: 1.4;
+                    text-align: center;
+                    overflow: hidden;
+                    overflow-wrap: anywhere;
+                }
             }
 
             iframe.tiptap-video {
@@ -593,6 +603,11 @@ $rte-brand-primary: #264ae5;
             outline: none;
             border-color: var(--brand-primary, #0078d4);
             background: var(--background-color-default, white);
+        }
+
+        &-wrapper {
+            width: 100%;
+            overflow: auto;
         }
     }
 }

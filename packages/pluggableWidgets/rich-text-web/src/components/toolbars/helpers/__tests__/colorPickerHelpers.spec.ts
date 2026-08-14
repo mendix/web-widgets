@@ -108,4 +108,33 @@ describe("colorPickerHelpers.handleColorClear", () => {
 
         expect(editor.getHTML()).not.toContain("<mark");
     });
+
+    it("renders the text highlight as a span with a background color", () => {
+        editor = makeEditor();
+        editor.commands.setContent("<p>hello</p>");
+        editor.commands.selectAll();
+
+        colorPickerHelpers.handleColorChange(editor, "textHighlight", "#ffff00");
+
+        const html = editor.getHTML();
+        expect(html).not.toContain("<mark");
+        expect(html).toContain("<span");
+        expect(html).toContain("background-color");
+    });
+
+    it("preserves highlighted text pasted from Microsoft Word", () => {
+        editor = makeEditor();
+        // Word emits highlights as spans using the `background` shorthand (never a
+        // <mark>). The CSSOM expands `background` into `backgroundColor`, so our span
+        // parser picks it up. A keyword like `yellow` is validated by isSafeCssColor
+        // via CSS.supports in real browsers; here we use an explicit rgb value so the
+        // assertion is deterministic under jsdom (which lacks CSS.supports).
+        editor.commands.setContent(
+            '<p><span style="background:rgb(255, 255, 0);mso-highlight:yellow">highlighted</span></p>'
+        );
+
+        const html = editor.getHTML();
+        expect(html).not.toContain("<mark");
+        expect(html).toContain("background-color");
+    });
 });

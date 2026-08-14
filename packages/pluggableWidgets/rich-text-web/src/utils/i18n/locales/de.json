@@ -137,6 +137,9 @@
     "image.altPlaceholder": "Beschreibung des Bildes",
     "image.titleField": "Titel (optional)",
     "image.titlePlaceholder": "Bildtitel",
+    "image.width": "Breite (px)",
+    "image.height": "Höhe (px)",
+    "image.maintainRatio": "Seitenverhältnis beibehalten",
     "image.cancel": "Abbrechen",
     "image.insert": "Einfügen",
     "image.errorTooLarge": "Datei muss kleiner als 5MB sein (aktuell: ###)",
@@ -160,6 +163,8 @@
     "video.errorInvalidEmbed": "Ungültiger Einbettungscode",
     "video.cancel": "Abbrechen",
     "video.insert": "Einfügen",
+    "video.frameTitle": "YouTube-Video",
+    "video.unplayableSource": "Dieses Video kann nicht abgespielt werden. Unbekannte Quelle: ###",
 
     "codeEditor.close": "Schließen",
     "codeEditor.cancel": "Abbrechen",

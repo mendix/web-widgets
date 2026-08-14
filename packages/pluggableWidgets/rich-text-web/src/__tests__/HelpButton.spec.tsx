@@ -1,6 +1,6 @@
-import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent, within } from "@testing-library/react";
+import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { RichTextContainerProps, StatusBarContentEnum } from "../../typings/RichTextProps";
 import RichText from "../RichText";
 
@@ -46,7 +46,6 @@ function buildProps(overrides: Partial<RichTextContainerProps> = {}): RichTextCo
         OverflowY: "auto",
         customFonts: [],
         enableDefaultUpload: true,
-        formOrientation: "vertical",
         linkValidation: true,
         styleDataFormat: "inline",
         ...overrides

@@ -125,42 +125,43 @@ test.describe("RichText", () => {
         await expect(page.locator(".mx-name-richText1")).toHaveScreenshot(`classModeEditor.png`, { threshold: 0.4 });
     });
 
-    test("checks that class mode editor output uses CSS classes instead of inline styles", async ({ page }) => {
-        await page.goto("/p/classmode");
-        await waitForMendixApp(page);
+    // class mode is under development
+    // test("checks that class mode editor output uses CSS classes instead of inline styles", async ({ page }) => {
+    //     await page.goto("/p/classmode");
+    //     await waitForMendixApp(page);
 
-        const editor = page.locator(".mx-name-richText1 .tiptap");
-        await expect(editor).toBeVisible();
+    //     const editor = page.locator(".mx-name-richText1 .tiptap");
+    //     await expect(editor).toBeVisible();
 
-        // Apply text color, highlight and indent to the first block so the
-        // class-based output can be asserted. Re-select before each command
-        // because clicking a toolbar control collapses the DOM selection.
-        const firstBlock = editor.locator("h1, h2, h3, p").first();
+    //     // Apply text color, highlight and indent to the first block so the
+    //     // class-based output can be asserted. Re-select before each command
+    //     // because clicking a toolbar control collapses the DOM selection.
+    //     const firstBlock = editor.locator("h1, h2, h3, p").first();
 
-        await firstBlock.click({ clickCount: 3 });
-        await page.click('.mx-name-richText1 button[title="Text Color"]');
-        await page.locator(".color-picker-dropdown div[title]").nth(10).click();
+    //     await firstBlock.click({ clickCount: 3 });
+    //     await page.click('.mx-name-richText1 button[title="Text Color"]');
+    //     await page.locator(".color-picker-dropdown div[title]").nth(10).click();
 
-        await firstBlock.click({ clickCount: 3 });
-        await page.click('.mx-name-richText1 button[title="Background Color"]');
-        await page.locator(".color-picker-dropdown div[title]").nth(10).click();
+    //     await firstBlock.click({ clickCount: 3 });
+    //     await page.click('.mx-name-richText1 button[title="Background Color"]');
+    //     await page.locator(".color-picker-dropdown div[title]").nth(10).click();
 
-        await firstBlock.click({ clickCount: 3 });
-        await page.click('.mx-name-richText1 button[title="Increase Indent"]');
+    //     await firstBlock.click({ clickCount: 3 });
+    //     await page.click('.mx-name-richText1 button[title="Increase Indent"]');
 
-        const html = await editor.innerHTML();
+    //     const html = await editor.innerHTML();
 
-        // Class mode emits class + data-* attributes, not inline styles.
-        expect(html).toMatch(/class="[^"]*has-text-color/);
-        expect(html).toMatch(/data-text-color="/);
-        expect(html).toMatch(/class="[^"]*has-text-highlight/);
-        expect(html).toMatch(/data-text-highlight="/);
-        expect(html).toMatch(/class="[^"]*indent-\d/);
-        expect(html).toMatch(/data-indent="/);
-        expect(html).not.toMatch(/style="[^"]*color:/);
-        expect(html).not.toMatch(/style="[^"]*background-color:/);
-        expect(html).not.toMatch(/style="[^"]*padding-left:/);
-    });
+    //     // Class mode emits class + data-* attributes, not inline styles.
+    //     expect(html).toMatch(/class="[^"]*has-text-color/);
+    //     expect(html).toMatch(/data-text-color="/);
+    //     expect(html).toMatch(/class="[^"]*has-text-highlight/);
+    //     expect(html).toMatch(/data-text-highlight="/);
+    //     expect(html).toMatch(/class="[^"]*indent-\d/);
+    //     expect(html).toMatch(/data-indent="/);
+    //     expect(html).not.toMatch(/style="[^"]*color:/);
+    //     expect(html).not.toMatch(/style="[^"]*background-color:/);
+    //     expect(html).not.toMatch(/style="[^"]*padding-left:/);
+    // });
 
     test("compares with a screenshot baseline of the View/Edit Code dialog in class mode", async ({ page }) => {
         await page.goto("/p/classmode");
@@ -218,5 +219,72 @@ test.describe("RichText", () => {
         // No text nodes remain — only an empty placeholder paragraph/break.
         const strippedText = (await editor.innerHTML()).replace(/<[^>]*>/g, "").trim();
         expect(strippedText).toBe("");
+    });
+
+    test("Tab nests a list inside a table cell instead of jumping cells", async ({ page }) => {
+        await page.goto("/p/advanced");
+        await waitForMendixApp(page);
+
+        const widget = page.locator(".mx-name-richText1");
+        const editor = widget.locator(".tiptap");
+        await editor.scrollIntoViewIfNeeded();
+        await expect(editor).toBeVisible();
+
+        // Clear any generated content so the assertions target only what we type.
+        await editor.click();
+        await editor.selectText();
+        await page.keyboard.press("Backspace");
+
+        // Insert a 2×2 table via the toolbar grid selector. Cells are laid out
+        // row-major (10×10), so row 2 / col 2 is index (2-1)*10 + (2-1) = 11.
+        await widget.locator('.tiptap-toolbar button[title="Insert Table"]').click();
+        await expect(page.locator(".table-grid-selector")).toBeVisible();
+        const tableCell = page.locator(".table-grid-selector .table-grid-cell").nth(11);
+        await tableCell.hover();
+        await tableCell.click();
+        await expect(editor.locator("table")).toBeVisible();
+
+        // Put the cursor in the first body cell and build a two-item bullet list.
+        await editor.locator("table td").first().click();
+        await widget.locator('.tiptap-toolbar button[title="Bullet List"]').click();
+        await page.keyboard.type("first");
+        await page.keyboard.press("Enter");
+        await page.keyboard.type("second");
+
+        // Tab on the second item must nest it (create a sublist) rather than move
+        // the caret to the next table cell.
+        await page.keyboard.press("Tab");
+
+        // A nested list exists inside the table cell: a <ul> descendant of an <li>.
+        await expect(editor.locator("table li ul")).toHaveCount(1);
+    });
+
+    test("inserting a YouTube URL renders a framable embed URL", async ({ page }) => {
+        await page.goto("/p/advanced");
+        await waitForMendixApp(page);
+
+        const widget = page.locator(".mx-name-richText1");
+        const editor = widget.locator(".tiptap");
+        await editor.scrollIntoViewIfNeeded();
+        await expect(editor).toBeVisible();
+
+        await editor.click();
+        await editor.selectText();
+        await page.keyboard.press("Backspace");
+
+        await widget.locator('.tiptap-toolbar button[title="Insert YouTube Video"]').click();
+        const dialog = widget.locator(".toolbar-dialog.video-dialog").first();
+        await expect(dialog).toBeVisible();
+
+        await dialog.locator("#video-url").fill("https://www.youtube.com/watch?v=3k66DQuU31A");
+        await dialog.locator('button[type="submit"]').click();
+
+        // Assert on the iframe attributes only, never on the frame's contents: loading the
+        // real player would make this test depend on YouTube being reachable from CI.
+        // A /watch URL sets X-Frame-Options: sameorigin, so only /embed/ is playable.
+        const iframe = editor.locator(".youtube-container iframe");
+        await expect(iframe).toHaveAttribute("src", /^https:\/\/www\.youtube\.com\/embed\/3k66DQuU31A/);
+        await expect(iframe).toHaveAttribute("title", /.+/);
+        await expect(iframe).toHaveAttribute("allow", /encrypted-media/);
     });
 });

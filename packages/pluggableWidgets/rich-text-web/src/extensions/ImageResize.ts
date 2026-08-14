@@ -25,7 +25,14 @@ export const ImageResize = Image.extend<ImageResizeOptions>({
             ...this.parent?.(),
             width: {
                 default: null,
-                parseHTML: element => element.getAttribute("width"),
+                parseHTML: element => {
+                    const attr = element.getAttribute("width");
+                    if (attr) {
+                        return attr;
+                    }
+                    const style = element.style.width;
+                    return style || null;
+                },
                 renderHTML: attributes => {
                     if (!attributes.width) {
                         return {};
@@ -35,7 +42,14 @@ export const ImageResize = Image.extend<ImageResizeOptions>({
             },
             height: {
                 default: null,
-                parseHTML: element => element.getAttribute("height"),
+                parseHTML: element => {
+                    const attr = element.getAttribute("height");
+                    if (attr) {
+                        return attr;
+                    }
+                    const style = element.style.height;
+                    return style || null;
+                },
                 renderHTML: attributes => {
                     if (!attributes.height) {
                         return {};

@@ -6,10 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-### Security
-
-- We fixed a security vulnerability (CVE-2026-13149).
-
 ### Added
 
 - We added new configuration to allow users to use class names instead of inline styling in generated HTML to support strict CSP.
@@ -18,23 +14,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We added translations for the toolbar, dialogs, and help texts. The editor UI now follows the page language automatically, with bundled translations for English, Dutch, German, French, and Spanish (falling back to English).
 
-- We added a clear button to every color picker (font color, font background, and the table and cell background and border color pickers) so a color can be reset to none.
-
-### Fixed
-
-- We fixed the image dialog to only show the image source tabs that are available: the Media Library tab now appears only when an image data source is configured, and the Upload tab is hidden when default upload is disabled.
-
-- We fixed Tiptap duplicate extension warnings for `link`, `textStyle`, `underline`, and `textDirection` by properly configuring StarterKit, removing redundant extension registrations in TextColorClass, memoizing the extensions array to prevent re-registration on component re-renders, and disabling the core TextDirection extension that conflicts with our custom implementation.
-
-- We fixed an issue where empty editor content was saving as `<p></p>` instead of an empty string, which incorrectly passed required field validation. Empty content now correctly saves as `""`, ensuring proper validation behavior. Note: This is a breaking change for forms that were relying on the incorrect behavior - required RichText fields will now correctly reject empty content.
-
-- We fixed an issue where the editor pasting back the whole sentence instead of the single copied word
-
-- We fixed an issue where table header cells did not honor background color and border (color, style, width) configuration. Header cells can now be styled the same way as regular cells.
-
 ### Changed
 
-- We aligned the image dialog's "Upload" tab dropzone with the File Uploader widget's dropzone so both share the same look, states, and messages.
+- We changed rich text's internal WYSIWYG engine from Quill to Tiptap. This is allow rich text to have better support for nested tables. Internally, rich text still operates on HTML data stored in the attribute.ß
 
 - We removed codemirror from code dialog viewer due to unsupported strict CSP policy. A simple internally built code editor using highlightjs is now replacing it.
 

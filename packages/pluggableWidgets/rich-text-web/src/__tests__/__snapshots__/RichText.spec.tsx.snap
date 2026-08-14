@@ -3,7 +3,8 @@
 exports[`Rich Text renders richtext widget 1`] = `
 <div>
   <div
-    class="widget-rich-text form-control toolbar-bottom testing-editor-wrapper"
+    class="widget-rich-text form-control toolbar-bottom"
+    style="width: 100%;"
   >
     <div
       class="tiptap-wrapper"
@@ -197,6 +198,7 @@ exports[`Rich Text renders richtext widget 1`] = `
       </div>
       <div
         class="tiptap-editor"
+        style="height: auto;"
       >
         <div
           class="tiptap ProseMirror"
@@ -212,6 +214,11 @@ exports[`Rich Text renders richtext widget 1`] = `
               Rich text default value
             </strong>
           </h2>
+          <p>
+            <br
+              class="ProseMirror-trailingBreak"
+            />
+          </p>
         </div>
       </div>
     </div>
@@ -235,7 +242,8 @@ exports[`Rich Text renders richtext widget 1`] = `
 exports[`Rich Text renders richtext widget with different config 1`] = `
 <div>
   <div
-    class="widget-rich-text form-control toolbar-top testing-editor-wrapper"
+    class="widget-rich-text form-control toolbar-top"
+    style="width: 100%;"
   >
     <div
       class="tiptap-wrapper"
@@ -251,7 +259,6 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
           >
             <button
               class="icon-button"
-              disabled=""
               title="Undo"
               type="button"
             >
@@ -576,7 +583,7 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
           >
             <button
               class="icon-button"
-              title="Blockquote"
+              title="Block quote"
               type="button"
             >
               <span
@@ -661,7 +668,9 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
               title="Keyboard shortcuts"
               type="button"
             >
-              ?
+              <span
+                class="icons icon-Help"
+              />
             </button>
           </div>
         </div>
@@ -671,6 +680,7 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
       </div>
       <div
         class="tiptap-editor"
+        style="height: auto;"
       >
         <div
           class="tiptap ProseMirror"
@@ -686,6 +696,11 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
               Rich text default value
             </strong>
           </h2>
+          <p>
+            <br
+              class="ProseMirror-trailingBreak"
+            />
+          </p>
         </div>
       </div>
     </div>
@@ -709,13 +724,15 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
 exports[`Rich Text renders richtext widget with readonly config 1`] = `
 <div>
   <div
-    class="widget-rich-text form-control-static toolbar-bottom testing-editor-wrapper"
+    class="widget-rich-text form-control toolbar-bottom widget-rich-text-readonly-bordered"
+    style="width: 100%;"
   >
     <div
       class="tiptap-wrapper"
     >
       <div
         class="tiptap-editor"
+        style="height: auto;"
       >
         <div
           class="tiptap ProseMirror"
@@ -730,6 +747,11 @@ exports[`Rich Text renders richtext widget with readonly config 1`] = `
               Rich text default value
             </strong>
           </h2>
+          <p>
+            <br
+              class="ProseMirror-trailingBreak"
+            />
+          </p>
         </div>
       </div>
     </div>
@@ -753,7 +775,8 @@ exports[`Rich Text renders richtext widget with readonly config 1`] = `
 exports[`Rich Text renders with HTML character count status bar 1`] = `
 <div>
   <div
-    class="widget-rich-text form-control toolbar-bottom testing-editor-wrapper"
+    class="widget-rich-text form-control toolbar-bottom"
+    style="width: 100%;"
   >
     <div
       class="tiptap-wrapper"
@@ -947,6 +970,7 @@ exports[`Rich Text renders with HTML character count status bar 1`] = `
       </div>
       <div
         class="tiptap-editor"
+        style="height: auto;"
       >
         <div
           class="tiptap ProseMirror"
@@ -962,6 +986,11 @@ exports[`Rich Text renders with HTML character count status bar 1`] = `
               Rich text default value
             </strong>
           </h2>
+          <p>
+            <br
+              class="ProseMirror-trailingBreak"
+            />
+          </p>
         </div>
       </div>
     </div>
@@ -975,7 +1004,7 @@ exports[`Rich Text renders with HTML character count status bar 1`] = `
       <span
         class="status-bar-text"
       >
-        Characters (HTML): 49
+        Characters (HTML): 82
       </span>
     </div>
   </div>
@@ -985,7 +1014,8 @@ exports[`Rich Text renders with HTML character count status bar 1`] = `
 exports[`Rich Text renders with both word and character count 1`] = `
 <div>
   <div
-    class="widget-rich-text form-control toolbar-bottom testing-editor-wrapper"
+    class="widget-rich-text form-control toolbar-bottom"
+    style="width: 100%;"
   >
     <div
       class="tiptap-wrapper"
@@ -1179,6 +1209,7 @@ exports[`Rich Text renders with both word and character count 1`] = `
       </div>
       <div
         class="tiptap-editor"
+        style="height: auto;"
       >
         <div
           class="tiptap ProseMirror"
@@ -1194,6 +1225,11 @@ exports[`Rich Text renders with both word and character count 1`] = `
               Rich text default value
             </strong>
           </h2>
+          <p>
+            <br
+              class="ProseMirror-trailingBreak"
+            />
+          </p>
         </div>
       </div>
     </div>
@@ -1215,7 +1251,8 @@ exports[`Rich Text renders with both word and character count 1`] = `
 exports[`Rich Text renders with character count status bar 1`] = `
 <div>
   <div
-    class="widget-rich-text form-control toolbar-bottom testing-editor-wrapper"
+    class="widget-rich-text form-control toolbar-bottom"
+    style="width: 100%;"
   >
     <div
       class="tiptap-wrapper"
@@ -1409,6 +1446,7 @@ exports[`Rich Text renders with character count status bar 1`] = `
       </div>
       <div
         class="tiptap-editor"
+        style="height: auto;"
       >
         <div
           class="tiptap ProseMirror"
@@ -1424,6 +1462,11 @@ exports[`Rich Text renders with character count status bar 1`] = `
               Rich text default value
             </strong>
           </h2>
+          <p>
+            <br
+              class="ProseMirror-trailingBreak"
+            />
+          </p>
         </div>
       </div>
     </div>
@@ -1437,7 +1480,7 @@ exports[`Rich Text renders with character count status bar 1`] = `
       <span
         class="status-bar-text"
       >
-        Characters: 23
+        Characters: 25
       </span>
     </div>
   </div>

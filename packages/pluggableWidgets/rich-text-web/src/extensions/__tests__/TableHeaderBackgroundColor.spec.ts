@@ -98,7 +98,7 @@ describe("TableHeaderBackgroundColor — inline format", () => {
             .run();
 
         const tag = thTag(editor.getHTML());
-        expect(tag).toContain("border-color: #123456");
+        expect(hasColor(tag, "#123456")).toBe(true);
         expect(tag).toContain("border-style: dashed");
         expect(tag).toContain("border-width: 2px");
     });
@@ -110,7 +110,7 @@ describe("TableHeaderBackgroundColor — inline format", () => {
 
         editor.chain().focus().setCellBorderColor("#abcdef").run();
 
-        expect(thTag(editor.getHTML())).toContain("border-color: #abcdef");
+        expect(hasColor(thTag(editor.getHTML()), "#abcdef")).toBe(true);
     });
 });
 
@@ -164,7 +164,7 @@ describe("TableHeaderBackgroundColor — round-trip parse/serialize", () => {
 
         const tag = thTag(editor.getHTML());
         expect(hasColor(tag, "#ff0000")).toBe(true);
-        expect(tag).toContain("border-color: #123456");
+        expect(hasColor(tag, "#123456")).toBe(true);
         expect(tag).toContain("border-style: dashed");
         expect(tag).toContain("border-width: 2px");
     });

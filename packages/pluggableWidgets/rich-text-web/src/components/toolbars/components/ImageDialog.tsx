@@ -13,6 +13,14 @@ const formatFileSize = (bytes: number): string => {
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 };
 
+const toPixelValue = (value: string): string | undefined => {
+    const parsed = Number(value);
+    if (!value.trim() || !Number.isFinite(parsed) || parsed <= 0) {
+        return undefined;
+    }
+    return `${parsed}px`;
+};
+
 const validateFile = (file: File, t: TranslateFn): string | null => {
     if (file.size > MAX_FILE_SIZE) {
         return t("image.errorTooLarge", formatFileSize(file.size));
@@ -31,6 +39,9 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
     const [src, setSrc] = useState("");
     const [alt, setAlt] = useState("");
     const [title, setTitle] = useState("");
+    const [width, setWidth] = useState("250");
+    const [height, setHeight] = useState("");
+    const [maintainRatio, setMaintainRatio] = useState(true);
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [selectedEntityImage, setSelectedEntityImage] = useState<EntityImage | null>(null);
     const [dragError, setDragError] = useState<string>("");
@@ -121,6 +132,18 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
             alt: alt.trim() || undefined,
             title: title.trim() || undefined
         };
+
+        const widthPx = toPixelValue(width);
+        if (widthPx) {
+            imageAttrs.width = widthPx;
+        }
+
+        if (!maintainRatio) {
+            const heightPx = toPixelValue(height);
+            if (heightPx) {
+                imageAttrs.height = heightPx;
+            }
+        }
 
         // Add entity attributes if this is a database image
         if (selectedEntityImage?.id) {
@@ -324,6 +347,40 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
                             onChange={e => setTitle(e.target.value)}
                             placeholder={t("image.titlePlaceholder")}
                         />
+                    </div>
+
+                    {/* Dimensions - Always visible */}
+                    <div className="dialog-field-row">
+                        <div className="dialog-field">
+                            <label htmlFor="image-width">{t("image.width")}</label>
+                            <input
+                                id="image-width"
+                                type="number"
+                                value={width}
+                                onChange={e => setWidth(e.target.value)}
+                            />
+                        </div>
+                        <div className="dialog-field">
+                            <label htmlFor="image-height">{t("image.height")}</label>
+                            <input
+                                id="image-height"
+                                type="number"
+                                value={height}
+                                onChange={e => setHeight(e.target.value)}
+                                disabled={maintainRatio}
+                            />
+                        </div>
+                    </div>
+                    <div className="dialog-field dialog-field--checkbox">
+                        <label htmlFor="image-maintain-ratio">
+                            <input
+                                id="image-maintain-ratio"
+                                type="checkbox"
+                                checked={maintainRatio}
+                                onChange={e => setMaintainRatio(e.target.checked)}
+                            />
+                            {t("image.maintainRatio")}
+                        </label>
                     </div>
 
                     {/* Action Buttons */}

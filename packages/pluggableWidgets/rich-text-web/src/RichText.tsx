@@ -6,7 +6,7 @@ import EditorWrapper from "./components/EditorWrapper";
 import "./ui/RichText.scss";
 
 export default function RichText(props: RichTextContainerProps): ReactElement {
-    const { stringAttribute } = props;
+    const { stringAttribute, readOnlyStyle } = props;
     return (
         <Fragment>
             {stringAttribute.status === "loading" ? (
@@ -16,7 +16,9 @@ export default function RichText(props: RichTextContainerProps): ReactElement {
                     {...props}
                     className={classNames(
                         "widget-rich-text",
-                        stringAttribute.readOnly ? "form-control-static" : "form-control"
+                        stringAttribute.readOnly && readOnlyStyle === "readPanel"
+                            ? "form-control-static"
+                            : "form-control"
                     )}
                 />
             )}

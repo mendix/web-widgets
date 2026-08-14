@@ -1,9 +1,11 @@
+import classNames from "classnames";
 import { ReactElement, useRef, useState, useEffect } from "react";
 import { RichTextContainerProps } from "typings/RichTextProps";
 import { useDebounceWithStatus } from "@mendix/widget-plugin-hooks/useDebounceWithStatus";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import Editor, { EditorHandle } from "./Editor";
 import { StatusBar, StatusBarMetricType } from "./StatusBar";
+import { constructWrapperStyle } from "../utils/helpers";
 
 export interface EditorWrapperProps extends RichTextContainerProps {
     className?: string;
@@ -47,6 +49,7 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
     } = props;
     const editorRef = useRef<EditorHandle>(null);
     const [editorText, setEditorText] = useState<string>("");
+    const wrapperStyle = constructWrapperStyle(props);
 
     const normalizeEmpty = (value?: string): string => {
         if (!value || value === "<p></p>") return "";
@@ -100,7 +103,12 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
     })();
 
     return (
-        <div className={`${className} toolbar-${toolbarLocation} testing-editor-wrapper`}>
+        <div
+            className={classNames(className, `toolbar-${toolbarLocation}`, {
+                [`widget-rich-text-readonly-${readOnlyStyle}`]: stringAttribute.readOnly
+            })}
+            style={{ width: wrapperStyle?.width }}
+        >
             {stringAttribute.status === "available" && (
                 <>
                     <Editor
@@ -108,6 +116,7 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
                         defaultValue={stringAttribute.value}
                         readOnly={stringAttribute.readOnly}
                         className="tiptap-editor"
+                        style={wrapperStyle}
                         styleDataFormat={styleDataFormat}
                         imageSource={imageSource}
                         imageSourceContent={imageSourceContent}

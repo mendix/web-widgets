@@ -89,11 +89,14 @@ $rte-shadow-color: #00000014 !default;
     .toolbar-dropdown-button {
         display: flex;
         gap: 4px;
-        padding: 6px 6px 3px;
+        padding: 6px 2px 2px 2px;
         min-width: 120px;
         justify-content: space-between;
         background: none;
         border: none;
+        margin: 0 var(--spacing-smallest, 2px);
+        border-radius: var(--border-radius-s, 4px);
+        background-color: var(--gray-50, var(--gray-lighter, #f8f8f8));
 
         .dropdown-label {
             flex: 1;
