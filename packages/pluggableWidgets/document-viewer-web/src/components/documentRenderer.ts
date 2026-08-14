@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { DocumentViewerContainerProps } from "../../typings/DocumentViewerProps";
 
-export declare const enum DocumentStatus {
+export enum DocumentStatus {
     available = "available",
     error = "error",
     loading = "loading"

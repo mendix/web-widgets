@@ -7,8 +7,7 @@ import { forwardRef } from "react";
 import { dynamic } from "@mendix/widget-plugin-test-utils";
 
 // Mock JsBarcode
-const mockJsBarcode = jest.fn();
-jest.mock("jsbarcode", () => mockJsBarcode);
+jest.mock("jsbarcode", () => jest.fn());
 
 // Mock the QRCodeSVG component
 jest.mock("qrcode.react", () => ({
@@ -33,6 +32,7 @@ jest.mock("../utils/download-code", () => ({
     downloadCode: jest.fn()
 }));
 
+import JsBarcode from "jsbarcode";
 import {
     BarcodeGeneratorContainerProps,
     CodeFormatEnum,
@@ -41,6 +41,8 @@ import {
 } from "../../typings/BarcodeGeneratorProps";
 import BarcodeGenerator from "../BarcodeGenerator";
 import { downloadCode } from "../utils/download-code";
+
+const mockJsBarcode = JsBarcode as unknown as jest.Mock;
 
 // Test utilities
 function createMockWebImage(): WebImage {

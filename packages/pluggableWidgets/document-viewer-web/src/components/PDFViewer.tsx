@@ -21,14 +21,15 @@ import { usePDFHighlightPositions } from "../utils/usePDFHighlightPositions";
 import { usePDFSearch } from "../utils/usePDFSearch";
 import { useZoomScale } from "../utils/useZoomScale";
 
-const origin: string = (window.mx?.appUrl ?? window.location.origin).replace(/\/$/, "");
-const options = {
-    cMapUrl: `${origin}/widgets/com/mendix/shared/pdfjs/cmaps/`,
-    standardFontDataUrl: `${origin}/widgets/com/mendix/shared/pdfjs/standard_fonts/`
-};
-
 const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
     const { file, setDocumentStatus, pdfjsWorkerUrl } = props;
+    const options = useMemo(() => {
+        const origin = (window.mx?.appUrl ?? window.location.origin).replace(/\/$/, "");
+        return {
+            cMapUrl: `${origin}/widgets/com/mendix/shared/pdfjs/cmaps/`,
+            standardFontDataUrl: `${origin}/widgets/com/mendix/shared/pdfjs/standard_fonts/`
+        };
+    }, []);
     pdfjs.GlobalWorkerOptions.workerSrc = useMemo(() => {
         if (pdfjsWorkerUrl?.status === "available") {
             if (pdfjsWorkerUrl?.value) {

@@ -18,10 +18,10 @@ const Toolbar = QuillToolbar as typeof Module;
 type Handler = (this: TableToolbar, value: any) => void;
 
 class TableToolbar extends Toolbar {
-    handlers: Record<string, Handler>;
-    controls: [string, HTMLElement][];
-    update: (range: Range | null) => void;
-    container?: HTMLElement | null;
+    declare handlers: Record<string, Handler>;
+    declare controls: [string, HTMLElement][];
+    declare update: (range: Range | null) => void;
+    declare container?: HTMLElement | null;
 
     attach(input: HTMLElement) {
         let format = Array.from(input.classList).find(className => {
