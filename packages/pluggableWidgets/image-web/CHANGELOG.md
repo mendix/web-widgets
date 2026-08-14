@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue with close icon of an enlarged image not being visible in apps deployed in non-local environments.
+
 ## [1.6.0] - 2026-07-29
 
 ### Changed
