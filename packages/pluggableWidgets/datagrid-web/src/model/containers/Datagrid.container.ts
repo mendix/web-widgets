@@ -25,6 +25,7 @@ import {
     PaginationViewModel
 } from "@mendix/widget-plugin-grid/pagination/main";
 import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-counter/SelectionCounter.viewModel-atoms";
+import { SelectionStatusViewModel } from "@mendix/widget-plugin-grid/selection-counter/SelectionStatus.viewModel";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { MainGateProps } from "../../../typings/MainGateProps";
@@ -246,6 +247,7 @@ const _07_selectionBindings: BindingGroup = {
             CORE.selection.selectedCounterTextsStore,
             DG.selectionCounterCfg.optional
         );
+        injected(SelectionStatusViewModel, CORE.selection.selectionStatusStore, DG.selectionType);
     },
     define(container: Container) {
         container.bind(DG.selectionGate).toInstance(SelectionGate).inTransientScope();
@@ -254,6 +256,7 @@ const _07_selectionBindings: BindingGroup = {
         container.bind(DG.rowClass).toInstance(rowClassProvider).inTransientScope();
         container.bind(DG.rowKey).toInstance(rowKeyProvider).inTransientScope();
         container.bind(DG.selectionCounterVM).toInstance(SelectionCounterViewModel).inSingletonScope();
+        container.bind(DG.selectionStatusVM).toInstance(SelectionStatusViewModel).inSingletonScope();
     },
     init(container, { config, props }) {
         container.bind(DG.selectionType).toConstant(config.selectionType);

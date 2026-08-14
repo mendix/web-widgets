@@ -10,7 +10,8 @@ import {
     isAllItemsSelectedAtom,
     isCurrentPageSelectedAtom,
     selectedCountMultiAtom,
-    selectionCounterTextsStore
+    selectionCounterTextsStore,
+    selectionStatusStore
 } from "@mendix/widget-plugin-grid/core/models/selection.model";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Container, injected } from "brandi";
@@ -44,6 +45,13 @@ injected(
 injected(isCurrentPageSelectedAtom, CORE.mainGate);
 injected(selectedCountMultiAtom, CORE.mainGate);
 injected(selectionCounterTextsStore, CORE.mainGate, CORE.selection.selectedCount);
+injected(
+    selectionStatusStore,
+    CORE.mainGate,
+    CORE.selection.selectedCount,
+    CORE.selection.selectedCounterTextsStore,
+    CORE.selection.isAllItemsSelected
+);
 injected(PageSizeStore, CORE.initPageSize.optional);
 
 // other
@@ -80,6 +88,7 @@ export class RootContainer extends Container {
         this.bind(CORE.selection.isCurrentPageSelected).toInstance(isCurrentPageSelectedAtom).inTransientScope();
         this.bind(CORE.selection.selectedCounterTextsStore).toInstance(selectionCounterTextsStore).inTransientScope();
         this.bind(CORE.selection.isAllItemsSelected).toInstance(isAllItemsSelectedAtom).inTransientScope();
+        this.bind(CORE.selection.selectionStatusStore).toInstance(selectionStatusStore).inTransientScope();
         this.bind(CORE.texts).toInstance(TextsService).inTransientScope();
 
         // paging

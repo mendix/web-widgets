@@ -132,10 +132,6 @@ $root: ".widget-datagrid";
                 z-index: 1;
             }
 
-            &:focus:not(:focus-visible) {
-                outline: none;
-            }
-
             &:focus-visible {
                 outline: 1px solid var(--brand-primary, $brand-primary);
             }
@@ -283,10 +279,6 @@ $root: ".widget-datagrid";
                 white-space: normal;
             }
         }
-    }
-
-    & *:focus {
-        outline: 0;
     }
 
     .align-column-left {
@@ -575,6 +567,15 @@ $root: ".widget-datagrid";
     &:hover,
     &:focus-visible {
         background-color: var(--brand-primary-50, $color-default-lighter);
+    }
+
+    &:focus-visible {
+        outline: 1px solid var(--brand-primary, $brand-primary);
+    }
+
+    &[aria-disabled="true"] {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 }
 

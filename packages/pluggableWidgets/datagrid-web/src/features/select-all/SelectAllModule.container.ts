@@ -13,14 +13,7 @@ import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../../model/tok
 import { SelectAllBarViewModel } from "./SelectAllBar.viewModel";
 import { SelectionProgressDialogViewModel } from "./SelectionProgressDialog.viewModel";
 
-injected(
-    selectAllTextsStore,
-    SA_TOKENS.gate,
-    CORE.selection.selectedCount,
-    CORE.selection.selectedCounterTextsStore,
-    CORE.atoms.totalCount,
-    CORE.selection.isAllItemsSelected
-);
+injected(selectAllTextsStore, SA_TOKENS.gate, CORE.atoms.totalCount, CORE.selection.selectionStatusStore);
 
 injected(
     SelectAllBarViewModel,

@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Screen reader announcement region that announces selection count changes when rows are selected or deselected (WCAG 4.1.3).
+- Accessible label ("Select all rows") to the select-all checkbox.
+
+### Fixed
+
+- Keyboard focus indicators inside the data grid are no longer hidden by blanket CSS rules.
+- Selection clearing no longer causes keyboard focus loss; focus now returns to the select-all checkbox or active grid cell.
+- Screen readers no longer announce row selection state twice (as both "selected" and "checked") when using checkboxes.
+
 ## [3.11.3] - 2026-07-27
 
 ### Added
