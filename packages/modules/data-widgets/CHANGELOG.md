@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Gallery
+
+#### Changed
+
+- The "Pagination" design property now offers Left, Center and Right as alignment buttons. Existing selections are preserved.
+
+#### Fixed
+
+- We fixed the pagination alignment design property, which had no effect on the position of the pagination controls.
+
 ## [3.11.3] DataWidgets - 2026-07-27
 
 ### [3.11.3] DatagridDropdownFilter
