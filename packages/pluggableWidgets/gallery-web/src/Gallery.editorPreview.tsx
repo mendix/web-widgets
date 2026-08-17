@@ -4,6 +4,8 @@ import { Pagination as PagingButtons } from "@mendix/widget-plugin-grid/componen
 import { getGlobalSortContext, SortAPI } from "@mendix/widget-plugin-sorting/react/context";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { LoadMoreButton } from "./components/LoadMore";
+import { parsePagingAlignment } from "./helpers/pagingAlignment";
+import { BarOccupant, resolveZones } from "./helpers/resolveZones";
 import "./ui/GalleryPreview.scss";
 
 const PropsCtx = createContext<GalleryPreviewProps>({} as GalleryPreviewProps);
@@ -78,13 +80,26 @@ const Root = ({ children }: PropsWithChildren): ReactNode => {
 };
 
 const TopControls = (): ReactNode => {
+    const props = useProps();
+    const showCustomPagination = useCustomPagination("top");
+    const zones = resolveZones({
+        alignment: parsePagingAlignment(props.className),
+        hasCounter: useTopCounter(),
+        hasLoadMore: false,
+        hasPagination: usePagingTop() || showCustomPagination
+    });
+
+    const occupants: Record<BarOccupant, ReactNode> = {
+        pagination: showCustomPagination ? <CustomPagination /> : <Pagination />,
+        counter: <SelectionCounter />,
+        loadMore: null
+    };
+
     return (
         <div className="widget-gallery-top-bar-controls">
-            <div className="widget-gallery-tb-start">{useTopCounter() ? <SelectionCounter /> : null}</div>
-            <div className="widget-gallery-tb-end">
-                {usePagingTop() ? <Pagination /> : null}
-                {useCustomPagination("top") ? <CustomPagination /> : null}
-            </div>
+            <div className="widget-gallery-tb-start">{renderZone(zones.start, occupants)}</div>
+            <div className="widget-gallery-tb-middle">{renderZone(zones.middle, occupants)}</div>
+            <div className="widget-gallery-tb-end">{renderZone(zones.end, occupants)}</div>
         </div>
     );
 };
@@ -147,23 +162,34 @@ const Content = (): ReactNode => {
 
 const Footer = (): ReactNode => {
     const props = useProps();
+    const showCustomPagination = useCustomPagination("bottom");
+    const zones = resolveZones({
+        alignment: parsePagingAlignment(props.className),
+        hasCounter: useBottomCounter(),
+        hasLoadMore: props.pagination === "loadMore",
+        hasPagination: usePagingBot() || showCustomPagination
+    });
+
+    const occupants: Record<BarOccupant, ReactNode> = {
+        pagination: showCustomPagination ? <CustomPagination /> : <Pagination />,
+        counter: <SelectionCounter />,
+        loadMore: <LoadMoreButton>{props.loadMoreButtonCaption}</LoadMoreButton>
+    };
+
     return (
         <div className="widget-gallery-footer">
             <div className="widget-gallery-footer-controls">
-                <div className="widget-gallery-fc-start">{useBottomCounter() ? <SelectionCounter /> : null}</div>
-                <div className="widget-gallery-fc-middle">
-                    {props.pagination === "loadMore" ? (
-                        <LoadMoreButton>{props.loadMoreButtonCaption}</LoadMoreButton>
-                    ) : null}
-                </div>
-                <div className="widget-gallery-fc-end">
-                    {usePagingBot() ? <Pagination /> : null}
-                    {useCustomPagination("bottom") ? <CustomPagination /> : null}
-                </div>
+                <div className="widget-gallery-fc-start">{renderZone(zones.start, occupants)}</div>
+                <div className="widget-gallery-fc-middle">{renderZone(zones.middle, occupants)}</div>
+                <div className="widget-gallery-fc-end">{renderZone(zones.end, occupants)}</div>
             </div>
         </div>
     );
 };
+
+function renderZone(occupant: BarOccupant | null, occupants: Record<BarOccupant, ReactNode>): ReactNode {
+    return occupant ? occupants[occupant] : null;
+}
 
 export function preview(props: GalleryPreviewProps): ReactElement {
     return createElement(Preview, props);
@@ -191,9 +217,18 @@ function usePagingBot(): boolean {
     return visible && props.pagingPosition !== "top";
 }
 
+/**
+ * Mirrors runtime placement: custom pagination renders in the top bar only for "top", and once in
+ * the footer for "bottom" and "both" -- the placeholder holds real widget instances, so it is never
+ * rendered in both bars.
+ */
 function useCustomPagination(location: "top" | "bottom"): boolean {
     const props = useProps();
-    return props.useCustomPagination && (props.pagingPosition === location || props.pagingPosition === "both");
+    if (!props.useCustomPagination) {
+        return false;
+    }
+
+    return location === "top" ? props.pagingPosition === "top" : props.pagingPosition !== "top";
 }
 function useProvideSortAPI(): SortAPI {
     const [sortAPI] = useState({
