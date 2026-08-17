@@ -84,6 +84,15 @@ export function check(values: GalleryPreviewProps): Problem[] {
                 'Change "On click trigger" to "Double click" or set "Selection" to "None".'
         });
     }
+    if (values.useCustomPagination && values.pagingPosition === "both") {
+        errors.push({
+            severity: "warning",
+            property: "pagingPosition",
+            message:
+                "Custom pagination cannot be shown in both positions and will render below the gallery. " +
+                'Set "Position of pagination" to "Above grid" or "Below grid" to choose a single position.'
+        });
+    }
 
     return errors;
 }
