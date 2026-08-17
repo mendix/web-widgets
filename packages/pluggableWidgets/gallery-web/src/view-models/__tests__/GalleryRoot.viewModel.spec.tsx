@@ -27,6 +27,23 @@ describe("GalleryRootViewModel", () => {
         expect(result.current.tabIndex).toBe(2);
     });
 
+    it("should default paging alignment to right, when no design property class is set", () => {
+        const props = mockContainerProps();
+        const [container] = createGalleryContainer({ ...props, class: "widget-gallery-striped" });
+        const { result } = renderHook(() => useGalleryRootVM(), { wrapper: withContainer(container) });
+        expect(result.current.pagingAlignment).toBe("right");
+    });
+
+    it("should change paging alignment, when the design property class changes", () => {
+        const props = mockContainerProps();
+        const [container, gate] = createGalleryContainer({ ...props, class: "widget-gallery-pagination-left" });
+        const { result } = renderHook(() => useGalleryRootVM(), { wrapper: withContainer(container) });
+        expect(result.current.pagingAlignment).toBe("left");
+
+        gate.setProps({ ...props, class: "widget-gallery-pagination-center" });
+        expect(result.current.pagingAlignment).toBe("center");
+    });
+
     it("should change className, when gate props change", () => {
         const props = mockContainerProps();
         const [container, gate] = createGalleryContainer({ ...props, class: "initial-class" });
