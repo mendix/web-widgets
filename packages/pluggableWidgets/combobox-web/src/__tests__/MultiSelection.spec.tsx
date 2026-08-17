@@ -170,6 +170,126 @@ describe("Combo box (Association)", () => {
         expect(defaultProps.attributeAssociation?.value).toHaveLength(4);
     });
 
+    describe("filter input keys vs chip navigation (WC-3347)", () => {
+        // These assert WHERE the key goes: text editing in the filter input, or focus
+        // transfer to the selected items (chips). jsdom does not perform native text
+        // deletion on keyDown, so chip activation is the observable under test.
+        async function setup(
+            overrides: Partial<ComboboxContainerProps> = {}
+        ): Promise<{ component: RenderResult; input: HTMLInputElement }> {
+            const component = render(<Combobox {...defaultProps} selectedItemsStyle="boxes" {...overrides} />);
+            const input = await getInput(component);
+            fireEvent.click(input);
+            await waitFor(() => {
+                expect(component.getAllByRole("option")).toHaveLength(4);
+            });
+            return { component, input };
+        }
+
+        function chips(component: RenderResult): HTMLElement[] {
+            return Array.from(
+                component.container.getElementsByClassName("widget-combobox-selected-item")
+            ) as HTMLElement[];
+        }
+
+        function type(input: HTMLInputElement, value: string): void {
+            fireEvent.change(input, { target: { value } });
+        }
+
+        it.each(["Backspace", "Delete"])(
+            "keeps focus in the filter input when %s is pressed with all text selected",
+            async key => {
+                const { component, input } = await setup();
+                type(input, "zzz");
+                expect(input.value).toBe("zzz");
+                input.setSelectionRange(0, 3);
+
+                fireEvent.keyDown(input, { key });
+
+                expect(document.activeElement).toBe(input);
+                expect(chips(component).some(chip => chip === document.activeElement)).toBe(false);
+            }
+        );
+
+        it("keeps focus in the filter input when Backspace is pressed with a partial selection from position 0", async () => {
+            const { component, input } = await setup();
+            type(input, "zzz");
+            input.setSelectionRange(0, 2);
+
+            fireEvent.keyDown(input, { key: "Backspace" });
+
+            expect(document.activeElement).toBe(input);
+            expect(chips(component).some(chip => chip === document.activeElement)).toBe(false);
+        });
+
+        it("keeps focus in the filter input when Backspace is pressed with the caret at the end of the text", async () => {
+            const { component, input } = await setup();
+            type(input, "zzz");
+            input.setSelectionRange(3, 3);
+
+            fireEvent.keyDown(input, { key: "Backspace" });
+
+            expect(document.activeElement).toBe(input);
+            expect(chips(component).some(chip => chip === document.activeElement)).toBe(false);
+        });
+
+        it("activates the last chip when Backspace is pressed with an empty filter input", async () => {
+            const { component, input } = await setup();
+            expect(input.value).toBe("");
+            input.setSelectionRange(0, 0);
+
+            fireEvent.keyDown(input, { key: "Backspace" });
+
+            const allChips = chips(component);
+            expect(allChips).toHaveLength(1);
+            await waitFor(() => {
+                expect(document.activeElement).toBe(allChips[allChips.length - 1]);
+            });
+        });
+
+        it("does not throw when Backspace is pressed with an empty filter input and no chips", async () => {
+            const { component, input } = await setup({
+                attributeAssociation: new ReferenceSetValueBuilder().withValue([]).build()
+            });
+            expect(chips(component)).toHaveLength(0);
+
+            expect(() => fireEvent.keyDown(input, { key: "Backspace" })).not.toThrow();
+        });
+
+        it("does not activate a chip when a modifier key is held", async () => {
+            const { component, input } = await setup();
+            input.setSelectionRange(0, 0);
+
+            fireEvent.keyDown(input, { key: "Backspace", ctrlKey: true });
+
+            expect(chips(component).some(chip => chip === document.activeElement)).toBe(false);
+        });
+
+        it("activates the last chip on ArrowLeft with a collapsed caret at position 0 in boxes style", async () => {
+            const { component, input } = await setup();
+            type(input, "zzz");
+            input.setSelectionRange(0, 0);
+
+            fireEvent.keyDown(input, { key: "ArrowLeft" });
+
+            const allChips = chips(component);
+            await waitFor(() => {
+                expect(document.activeElement).toBe(allChips[allChips.length - 1]);
+            });
+        });
+
+        it("keeps focus in the filter input on ArrowLeft when text is selected in boxes style", async () => {
+            const { component, input } = await setup();
+            type(input, "zzz");
+            input.setSelectionRange(0, 3);
+
+            fireEvent.keyDown(input, { key: "ArrowLeft" });
+
+            expect(document.activeElement).toBe(input);
+            expect(chips(component).some(chip => chip === document.activeElement)).toBe(false);
+        });
+    });
+
     describe("with lazy loading", () => {
         it("calls loadMore only when menu opens", async () => {
             const setLimit = jest.fn();
