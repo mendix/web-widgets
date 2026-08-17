@@ -622,7 +622,7 @@ $root: ".widget-datagrid";
 }
 
 @container widget-datagrid-header (width < 500px) {
-    #{$root}-padding-top {
+    #{$root}-paging-top {
         flex-direction: column-reverse;
         :where(#{$root}-tb-start, #{$root}-tb-end) {
             width: 100%;
