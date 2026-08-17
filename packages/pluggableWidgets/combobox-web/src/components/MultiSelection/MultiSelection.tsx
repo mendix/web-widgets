@@ -11,6 +11,33 @@ import { InputPlaceholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
 import { SelectAllButton } from "./SelectAllButton";
 
+/**
+ * Whether a key press in the filter input may be redirected to the selected items (chips)
+ * instead of being handled as text editing.
+ *
+ * Mirrors downshift's own `isKeyDownOperationPermitted` (downshift 7.6.2,
+ * dist/downshift.cjs.js), which gates its dropdown key handlers but is not exported.
+ * Keeping the same rule here stops the widget and the library from disagreeing about
+ * whether a key belongs to the text field or to the chip list.
+ *
+ * Re-check this against downshift's implementation when upgrading downshift.
+ */
+function isChipNavigationPermitted(event: KeyboardEvent): boolean {
+    if (event.shiftKey || event.metaKey || event.ctrlKey || event.altKey) {
+        return false;
+    }
+
+    const element = event.target;
+
+    // Text still present and the caret is either not at the start or is highlighting a
+    // range (e.g. after select-all) -> the key belongs to the text field.
+    return !(
+        element instanceof HTMLInputElement &&
+        element.value !== "" &&
+        (element.selectionStart !== 0 || element.selectionEnd !== 0)
+    );
+}
+
 export function MultiSelection({
     selector,
     tabIndex,
@@ -58,8 +85,8 @@ export function MultiSelection({
         ref: inputRef,
         onKeyDown: (event: KeyboardEvent) => {
             if (
-                (event.key === "Backspace" && inputRef.current?.selectionStart === 0) ||
-                (event.key === "ArrowLeft" && isSelectedItemsBoxStyle && inputRef.current?.selectionStart === 0)
+                isChipNavigationPermitted(event) &&
+                (event.key === "Backspace" || (event.key === "ArrowLeft" && isSelectedItemsBoxStyle))
             ) {
                 setActiveIndex(selectedItems.length - 1);
             }
