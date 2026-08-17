@@ -111,7 +111,24 @@ $root: ".widget-gallery" !default;
     align-items: center;
 }
 
-:where(.widget-gallery-fc-start, .widget-gallery-tb-start, .widget-gallery-fc-end, .widget-gallery-tb-end) {
+// The middle zone holds centre-aligned content: the load more button, or the pagination controls
+// when the pagination alignment is set to center. It is sized like the outer zones and does not
+// shrink, so its content stays centred on the bar even when the selection counter is long.
+:where(.widget-gallery-fc-middle, .widget-gallery-tb-middle) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+:where(
+    .widget-gallery-fc-start,
+    .widget-gallery-tb-start,
+    .widget-gallery-fc-middle,
+    .widget-gallery-tb-middle,
+    .widget-gallery-fc-end,
+    .widget-gallery-tb-end
+) {
     flex-grow: 1;
     flex-basis: 33.33%;
 }
@@ -122,7 +139,9 @@ $root: ".widget-gallery" !default;
     align-items: center;
 }
 
-:where(.widget-gallery-fc-end, .widget-gallery-tb-end):not(:empty) {
+:where(.widget-gallery-fc-middle, .widget-gallery-tb-middle, .widget-gallery-fc-end, .widget-gallery-tb-end):not(
+    :empty
+) {
     padding: var(--spacing-small) 0;
 }
 
@@ -158,7 +177,7 @@ $root: ".widget-gallery" !default;
 @container widget-gallery-header (width < 500px) {
     .widget-gallery-top-bar-controls {
         flex-direction: column-reverse;
-        :where(.widget-gallery-tb-start, .widget-gallery-tb-end) {
+        :where(.widget-gallery-tb-start, .widget-gallery-tb-middle, .widget-gallery-tb-end) {
             width: 100%;
             justify-content: center;
         }
