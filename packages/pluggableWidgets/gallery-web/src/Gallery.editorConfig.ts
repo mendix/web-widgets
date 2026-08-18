@@ -86,7 +86,7 @@ export function check(values: GalleryPreviewProps): Problem[] {
     }
     if (values.useCustomPagination && values.pagingPosition === "both") {
         errors.push({
-            severity: "warning",
+            severity: "error",
             property: "pagingPosition",
             message:
                 "Custom pagination cannot be shown in both positions and will render below the gallery. " +
