@@ -127,6 +127,12 @@ describe("MonthMiniGrid", () => {
         expect(screen.getByLabelText("Mar 11, 2026, no events")).toBeTruthy();
     });
 
+    it("uses the correct month and year in aria-label for leading (other-month) cells", () => {
+        // April 2026 starts on Wednesday — first 3 cells are Mar 29, 30, 31
+        render(<MonthMiniGrid year={2026} month={3} events={[]} onDayClick={jest.fn()} localizer={localizer} />);
+        expect(screen.getByLabelText("Mar 31, 2026, no events")).toBeTruthy();
+    });
+
     describe("when onDayClick is omitted (non-interactive)", () => {
         it("renders cells without button role or tab stop", () => {
             const { container } = render(<MonthMiniGrid year={2026} month={2} events={[]} localizer={localizer} />);

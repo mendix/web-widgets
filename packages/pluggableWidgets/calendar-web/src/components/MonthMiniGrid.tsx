@@ -3,6 +3,7 @@ import {
     startOfMonth,
     getDaysInMonth,
     getDay,
+    getYear,
     addMonths,
     isSameDay,
     startOfDay,
@@ -142,7 +143,9 @@ export function MonthMiniGrid({ year, month, events, onDayClick, localizer }: Mo
                             .filter(Boolean)
                             .join(" ");
 
-                        const ariaLabel = `${monthName} ${cell.dayNumber}, ${year}, ${
+                        const cellMonthName = localizer.format(cell.date, "MMM", undefined);
+                        const cellYear = getYear(cell.date);
+                        const ariaLabel = `${cellMonthName} ${cell.dayNumber}, ${cellYear}, ${
                             cell.eventCount === 0
                                 ? "no events"
                                 : cell.eventCount === 1
