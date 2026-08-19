@@ -25,6 +25,7 @@ mendixProject
 
 tests
 .turbo
+*.tsbuildinfo
 automation/run-e2e/ctrf/*.json
 .cursor
 .windsurf
