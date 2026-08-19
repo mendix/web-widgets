@@ -1,6 +1,6 @@
-import { atomFactory, ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { DynamicValue } from "mendix";
 import { computed, observable } from "mobx";
+import { atomFactory, ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 
 type Item = { id: string };
 type Selection = { type: "Single" } | { type: "Multi"; selection: Item[] };

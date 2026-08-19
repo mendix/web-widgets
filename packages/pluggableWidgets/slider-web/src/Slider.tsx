@@ -1,6 +1,6 @@
 import { Fragment, ReactNode } from "react";
-import { SliderContainerProps } from "../typings/SliderProps";
 import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
+import { SliderContainerProps } from "../typings/SliderProps";
 import "./ui/Slider.scss";
 import { Container } from "./components/Container";
 

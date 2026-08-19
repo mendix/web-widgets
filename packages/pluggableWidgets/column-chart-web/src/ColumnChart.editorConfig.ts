@@ -1,11 +1,3 @@
-import { BarmodeEnum, ColumnChartPreviewProps } from "../typings/ColumnChartProps";
-import {
-    ContainerProps,
-    datasource,
-    ImageProps,
-    StructurePreviewProps
-} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
 import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
@@ -14,13 +6,21 @@ import {
     Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
+import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
+import {
+    ContainerProps,
+    datasource,
+    ImageProps,
+    StructurePreviewProps
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
+import { BarmodeEnum, ColumnChartPreviewProps } from "../typings/ColumnChartProps";
 
 import ColumnChartGroupedDark from "./assets/ColumnChart-grouped.dark.svg";
 import ColumnChartGroupedLight from "./assets/ColumnChart-grouped.light.svg";
-import ColumnChartStackedDark from "./assets/ColumnChart-stacked.dark.svg";
-import ColumnChartStackedLight from "./assets/ColumnChart-stacked.light.svg";
 import ColumnChartLegendDark from "./assets/ColumnChart-legend.dark.svg";
 import ColumnChartLegendLight from "./assets/ColumnChart-legend.light.svg";
+import ColumnChartStackedDark from "./assets/ColumnChart-stacked.dark.svg";
+import ColumnChartStackedLight from "./assets/ColumnChart-stacked.light.svg";
 
 export function getProperties(
     values: ColumnChartPreviewProps,

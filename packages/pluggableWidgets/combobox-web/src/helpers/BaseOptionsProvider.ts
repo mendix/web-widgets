@@ -1,6 +1,6 @@
+import { matchSorter, MatchSorterOptions } from "match-sorter";
 import { FilterTypeEnum } from "typings/ComboboxProps";
 import { CaptionsProvider, OptionsProvider, Status } from "./types";
-import { matchSorter, MatchSorterOptions } from "match-sorter";
 import { getFilterTypeOptions } from "./utils";
 
 export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProvider<T, P> {

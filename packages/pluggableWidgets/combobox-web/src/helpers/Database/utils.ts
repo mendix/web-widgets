@@ -1,3 +1,4 @@
+import Big from "big.js";
 import {
     ActionValue,
     DynamicValue,
@@ -14,7 +15,6 @@ import {
     OptionsSourceAssociationCustomContentTypeEnum,
     OptionsSourceDatabaseCaptionTypeEnum
 } from "../../../typings/ComboboxProps";
-import Big from "big.js";
 
 type ExtractionReturnValue = {
     targetAttribute?: EditableValue<string | Big>;

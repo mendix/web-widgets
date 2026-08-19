@@ -1,6 +1,6 @@
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { useCallback } from "react";
 import { CustomChartContainerProps } from "typings/CustomChartProps";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 
 export function useActionEvents(props: CustomChartContainerProps): {
     handleClick: () => void;

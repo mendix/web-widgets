@@ -1,5 +1,5 @@
-import { InputHTMLAttributes, ReactElement, useEffect, useRef } from "react";
 import classNames from "classnames";
+import { InputHTMLAttributes, ReactElement, useEffect, useRef } from "react";
 
 export type ThreeStateCheckBoxEnum = "all" | "some" | "none";
 

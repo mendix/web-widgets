@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
 import { render } from "@testing-library/react";
+import { ReactNode } from "react";
 
 import { SizeContainer, SizeProps } from "../SizeContainer";
 

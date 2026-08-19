@@ -9,9 +9,9 @@ import {
     text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { CheckboxRadioSelectionPreviewProps } from "../typings/CheckboxRadioSelectionProps";
-import { getCustomCaption } from "./helpers/utils";
-import IconRadioButtonSVG from "./assets/radiobutton.svg";
 import IconCheckboxSVG from "./assets/checkbox.svg";
+import IconRadioButtonSVG from "./assets/radiobutton.svg";
+import { getCustomCaption } from "./helpers/utils";
 
 const DATABASE_SOURCE_CONFIG: Array<keyof CheckboxRadioSelectionPreviewProps> = [
     "optionsSourceDatabaseCaptionAttribute",

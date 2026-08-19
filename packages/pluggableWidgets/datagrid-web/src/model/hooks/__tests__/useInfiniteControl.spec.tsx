@@ -18,8 +18,8 @@ jest.mock("../injection-hooks", () => ({
     })
 }));
 
-import { useInfiniteControl } from "../useInfiniteControl";
 import { VIRTUAL_SCROLLING_OFFSET } from "../../stores/GridSize.store";
+import { useInfiniteControl } from "../useInfiniteControl";
 
 function makeScrollEvent(overrides: {
     scrollTop: number;

@@ -3,7 +3,19 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, DynamicValue, EditableValue, ListActionValue, ListAttributeListValue, ListAttributeValue, ListExpressionValue, ListValue, ListWidgetValue, SelectionMultiValue, SelectionSingleValue } from "mendix";
+import {
+    ActionValue,
+    DynamicValue,
+    EditableValue,
+    ListActionValue,
+    ListAttributeListValue,
+    ListAttributeValue,
+    ListExpressionValue,
+    ListValue,
+    ListWidgetValue,
+    SelectionMultiValue,
+    SelectionSingleValue
+} from "mendix";
 import { ComponentType, CSSProperties, ReactNode } from "react";
 import { Big } from "big.js";
 
@@ -21,7 +33,8 @@ export type AlignmentEnum = "left" | "center" | "right";
 
 export interface ColumnsType {
     showContentAs: ShowContentAsEnum;
-    attribute?: ListAttributeValue<string | Big | boolean | Date> | ListAttributeListValue<string | Big | boolean | Date>;
+    attribute?:
+        ListAttributeValue<string | Big | boolean | Date> | ListAttributeListValue<string | Big | boolean | Date>;
     content?: ListWidgetValue;
     dynamicText?: ListExpressionValue<string>;
     exportValue?: ListExpressionValue<string>;

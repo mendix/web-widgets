@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import Circle from "../Circle/Circle";
 import { FunctionComponent } from "react";
+import Circle from "../Circle/Circle";
 import { ProgressCircle } from "../ProgressCircle";
 
 const mockedAnimate = jest.fn();

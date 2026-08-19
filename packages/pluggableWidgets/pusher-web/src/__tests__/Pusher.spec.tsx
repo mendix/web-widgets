@@ -1,7 +1,7 @@
-import { actionValue } from "@mendix/widget-plugin-test-utils";
 import { render } from "@testing-library/react";
 import { ActionValue, DynamicValue, ObjectItem } from "mendix";
 import { createElement } from "react";
+import { actionValue } from "@mendix/widget-plugin-test-utils";
 import * as usePusherSubscribeModule from "../hooks/usePusherSubscribe";
 import Pusher from "../Pusher";
 import * as getChannelNameModule from "../utils/getChannelName";

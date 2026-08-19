@@ -1,3 +1,4 @@
+import { Big } from "big.js";
 import {
     DynamicValue,
     EditableValue,
@@ -7,7 +8,6 @@ import {
     ListWidgetValue,
     ValueStatus
 } from "mendix";
-import { Big } from "big.js";
 import {
     CheckboxRadioSelectionContainerProps,
     CustomEditabilityEnum,

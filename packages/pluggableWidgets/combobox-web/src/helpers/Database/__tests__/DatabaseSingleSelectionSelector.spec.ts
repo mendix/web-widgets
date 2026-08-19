@@ -1,3 +1,4 @@
+import { ListAttributeValue, ObjectItem } from "mendix";
 import {
     dynamic,
     EditableValueBuilder,
@@ -6,7 +7,6 @@ import {
     obj,
     SelectionSingleValueBuilder
 } from "@mendix/widget-plugin-test-utils";
-import { ListAttributeValue, ObjectItem } from "mendix";
 import { ComboboxContainerProps } from "../../../../typings/ComboboxProps";
 import { DatabaseSingleSelectionSelector } from "../DatabaseSingleSelectionSelector";
 

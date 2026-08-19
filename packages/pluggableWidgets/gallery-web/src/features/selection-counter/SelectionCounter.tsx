@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
-import { useSelectActions } from "../../model/hooks/injection-hooks";
 import { useSelectionCounterViewModel } from "./injection-hooks";
+import { useSelectActions } from "../../model/hooks/injection-hooks";
 
 export const SelectionCounter = observer(function SelectionCounter() {
     const selectionCounterVM = useSelectionCounterViewModel();

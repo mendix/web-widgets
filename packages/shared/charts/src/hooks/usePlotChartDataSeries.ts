@@ -8,10 +8,10 @@ import {
     ListValue,
     ObjectItem
 } from "mendix";
-import { useEffect, useState } from "react";
-import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { Datum, PlotData } from "plotly.js-dist-min";
+import { useEffect, useState } from "react";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { ExtraTraceProps } from "../components/types";
 import { aggregateDataPoints, AggregationType } from "../utils/aggregations";
 

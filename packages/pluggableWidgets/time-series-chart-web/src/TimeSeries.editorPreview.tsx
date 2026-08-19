@@ -1,8 +1,8 @@
-import { ChartPreview } from "@mendix/shared-charts/preview";
 import { ReactNode } from "react";
-import TimeSeries from "./assets/TimeSeries.light.svg";
-import TimeSeriesRange from "./assets/TimeSeries-range.light.svg";
+import { ChartPreview } from "@mendix/shared-charts/preview";
 import TimeSeriesLegend from "./assets/TimeSeries-legend.light.svg";
+import TimeSeriesRange from "./assets/TimeSeries-range.light.svg";
+import TimeSeries from "./assets/TimeSeries.light.svg";
 import { TimeSeriesPreviewProps } from "../typings/TimeSeriesProps";
 
 export function preview(props: TimeSeriesPreviewProps): ReactNode {

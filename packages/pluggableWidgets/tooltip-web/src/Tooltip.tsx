@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Tooltip as DisplayTooltip } from "./components/Tooltip";
-import { TooltipContainerProps } from "../typings/TooltipProps";
 import { translatePosition } from "./utils";
+import { TooltipContainerProps } from "../typings/TooltipProps";
 import "./ui/Tooltip.scss";
 
 export default function Tooltip(props: TooltipContainerProps): ReactNode {

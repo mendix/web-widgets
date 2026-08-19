@@ -1,7 +1,7 @@
 import { EditableValue, ValueStatus } from "mendix";
 import { action, computed, makeObservable, observable } from "mobx";
-import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { PersonalizationStorage } from "./PersonalizationStorage";
+import { DatagridContainerProps } from "../../../typings/DatagridProps";
 
 type RequiredProps = Pick<DatagridContainerProps, "configurationAttribute">;
 

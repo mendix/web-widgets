@@ -23,9 +23,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. 
 */
 
-import { extend, floatEquals, isObject, isString, removeChildren, setStyles } from "./Utils";
 import Path from "./Path";
 import { ShapeOptions } from "./Types";
+import { extend, floatEquals, isObject, isString, removeChildren, setStyles } from "./Utils";
 
 const DESTROYED_ERROR = "Object is destroyed";
 

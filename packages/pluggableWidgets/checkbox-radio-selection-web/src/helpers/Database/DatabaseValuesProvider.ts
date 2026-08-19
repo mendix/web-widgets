@@ -1,5 +1,5 @@
-import { ListAttributeValue, ObjectItem } from "mendix";
 import { Big } from "big.js";
+import { ListAttributeValue, ObjectItem } from "mendix";
 import { ValuesProvider } from "../types";
 
 interface DatabaseValuesProviderProps {

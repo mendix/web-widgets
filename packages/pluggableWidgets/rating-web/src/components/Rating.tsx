@@ -1,5 +1,5 @@
-import { CSSProperties, ReactElement, useRef, useState } from "react";
 import classNames from "classnames";
+import { CSSProperties, ReactElement, useRef, useState } from "react";
 
 export interface RatingProps {
     animated: boolean;

@@ -1,6 +1,6 @@
-import { ReactElement } from "react";
 import classNames from "classnames";
 import { WebIcon } from "mendix";
+import { ReactElement } from "react";
 
 export interface IconInternalProps {
     icon: WebIcon | null;

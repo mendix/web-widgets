@@ -71,7 +71,6 @@
             "@types/react": ">=18.2.36",
             "babel-jest": "^30.0.0",
             "d3-color@<3.1.0": ">=3.1.0",
-            "fast-uri": "3.1.4",
             "glob@10": "^10.5.0",
             "react": ">=18.0.0 <19.0.0",
             "react-big-calendar@1>clsx": "2.1.1",

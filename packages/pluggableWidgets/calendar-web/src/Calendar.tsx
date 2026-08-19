@@ -1,5 +1,5 @@
-import { Fragment, ReactElement, useCallback, useMemo, useState } from "react";
 import classNames from "classnames";
+import { Fragment, ReactElement, useCallback, useMemo, useState } from "react";
 import { View } from "react-big-calendar";
 import { CalendarContainerProps } from "../typings/CalendarProps";
 import { CalendarPropsBuilder } from "./helpers/CalendarPropsBuilder";

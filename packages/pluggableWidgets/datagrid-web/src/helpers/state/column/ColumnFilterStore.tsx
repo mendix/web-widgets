@@ -1,3 +1,7 @@
+import { ListAttributeListValue, ListAttributeValue } from "mendix";
+import { FilterCondition } from "mendix/filters";
+import { computed, makeObservable } from "mobx";
+import { ReactNode } from "react";
 import { FilterData } from "@mendix/filter-commons/typings/settings";
 import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/EnumFilterStore";
 import { FilterAPI, getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
@@ -6,10 +10,6 @@ import { error, value } from "@mendix/widget-plugin-filtering/result-meta";
 import { attrgroupFilterStore, InputFilterStore } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
 import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { ListAttributeListValue, ListAttributeValue } from "mendix";
-import { FilterCondition } from "mendix/filters";
-import { computed, makeObservable } from "mobx";
-import { ReactNode } from "react";
 import { ColumnsType } from "../../../../typings/DatagridProps";
 import { StaticInfo } from "../../../typings/static-info";
 

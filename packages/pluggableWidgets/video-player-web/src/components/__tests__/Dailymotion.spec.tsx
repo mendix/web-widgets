@@ -1,5 +1,5 @@
-import { ReactElement } from "react";
 import { render } from "@testing-library/react";
+import { ReactElement } from "react";
 
 import { Dailymotion, DailymotionProps } from "../Dailymotion";
 

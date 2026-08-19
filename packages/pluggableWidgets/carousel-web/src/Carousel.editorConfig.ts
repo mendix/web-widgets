@@ -1,3 +1,4 @@
+import { hidePropertiesIn, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
 import {
     ContainerProps,
     DropZoneProps,
@@ -6,12 +7,11 @@ import {
     StructurePreviewProps,
     TextProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { hidePropertiesIn, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
 
 import { CarouselPreviewProps } from "../typings/CarouselProps";
 import DotBlue from "./ui/dot_blue.svg";
-import DotGrey from "./ui/dot_grey.svg";
 import DotEmpty from "./ui/dot_empty.svg";
+import DotGrey from "./ui/dot_grey.svg";
 
 export function getProperties(
     values: CarouselPreviewProps,

@@ -1,7 +1,7 @@
 import { cloneElement, CSSProperties, FunctionComponent, ReactNode, useCallback } from "react";
+import { ImageContentProps, ImageUi } from "./ui";
 import { DisplayAsEnum, HeightUnitEnum, OnClickTypeEnum, WidthUnitEnum } from "../../../typings/ImageProps";
 import { useLightboxState } from "../../utils/lightboxState";
-import { ImageContentProps, ImageUi } from "./ui";
 import { Lightbox, LightboxProps } from "../Lightbox";
 
 import "../../ui/Image.scss";

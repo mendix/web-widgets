@@ -1,9 +1,9 @@
 import { ReactElement } from "react";
 
-import { Tooltip } from "./components/Tooltip";
-import { TooltipPreviewProps } from "../typings/TooltipProps";
-import { translatePosition } from "./utils";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
+import { Tooltip } from "./components/Tooltip";
+import { translatePosition } from "./utils";
+import { TooltipPreviewProps } from "../typings/TooltipProps";
 
 export const preview = (props: TooltipPreviewProps): ReactElement => {
     return (

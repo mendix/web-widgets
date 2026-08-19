@@ -1,8 +1,8 @@
 import { Fragment, ReactElement } from "react";
-import { getPlaygroundContext, PlaygroundData } from "../helpers/playground-context";
-import { useChartController } from "../helpers/useChartController";
 import { ChartView } from "./ChartView";
 import { ChartProps } from "./types";
+import { getPlaygroundContext, PlaygroundData } from "../helpers/playground-context";
+import { useChartController } from "../helpers/useChartController";
 
 const PlaygroundContext = getPlaygroundContext();
 

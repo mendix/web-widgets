@@ -1,5 +1,5 @@
-import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 import { ReferenceSetValue } from "mendix";
+import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 import {
     ComboboxContainerProps,
     SelectedItemsSortingEnum,

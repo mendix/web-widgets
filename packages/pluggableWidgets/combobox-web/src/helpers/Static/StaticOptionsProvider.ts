@@ -1,8 +1,8 @@
-import { Status } from "../types";
 import { matchSorter } from "match-sorter";
-import { FilterTypeEnum, OptionsSourceStaticDataSourceType } from "../../../typings/ComboboxProps";
 import { StaticCaptionsProvider } from "./StaticCaptionsProvider";
+import { FilterTypeEnum, OptionsSourceStaticDataSourceType } from "../../../typings/ComboboxProps";
 import { BaseOptionsProvider } from "../BaseOptionsProvider";
+import { Status } from "../types";
 
 interface Props {
     ds: OptionsSourceStaticDataSourceType[];

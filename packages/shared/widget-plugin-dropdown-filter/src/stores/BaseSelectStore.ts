@@ -1,5 +1,5 @@
-import { FilterData, InputData } from "@mendix/filter-commons/typings/settings";
 import { action, makeObservable, observable } from "mobx";
+import { FilterData, InputData } from "@mendix/filter-commons/typings/settings";
 
 export class BaseSelectStore {
     protected defaultSelected: Iterable<string> = [];

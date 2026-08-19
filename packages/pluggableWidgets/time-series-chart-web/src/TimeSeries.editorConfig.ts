@@ -1,10 +1,4 @@
 import {
-    ContainerProps,
-    datasource,
-    ImageProps,
-    StructurePreviewProps
-} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
     hidePropertyIn,
@@ -12,16 +6,22 @@ import {
     Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
+import { withPlaygroundSlot } from "@mendix/shared-charts/preview";
+import {
+    ContainerProps,
+    datasource,
+    ImageProps,
+    StructurePreviewProps
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import { TimeSeriesPreviewProps } from "../typings/TimeSeriesProps";
 
-import TimeSeriesDark from "./assets/TimeSeries.dark.svg";
-import TimeSeriesLight from "./assets/TimeSeries.light.svg";
-import TimeSeriesRangeDark from "./assets/TimeSeries-range.dark.svg";
-import TimeSeriesRangeLight from "./assets/TimeSeries-range.light.svg";
 import TimeSeriesLegendDark from "./assets/TimeSeries-legend.dark.svg";
 import TimeSeriesLegendLight from "./assets/TimeSeries-legend.light.svg";
-import { withPlaygroundSlot } from "@mendix/shared-charts/preview";
+import TimeSeriesRangeDark from "./assets/TimeSeries-range.dark.svg";
+import TimeSeriesRangeLight from "./assets/TimeSeries-range.light.svg";
+import TimeSeriesDark from "./assets/TimeSeries.dark.svg";
+import TimeSeriesLight from "./assets/TimeSeries.light.svg";
 
 export function getProperties(
     values: TimeSeriesPreviewProps,

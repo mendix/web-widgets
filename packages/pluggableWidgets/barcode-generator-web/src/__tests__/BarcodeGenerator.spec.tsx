@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Big } from "big.js";
+import JsBarcode from "jsbarcode";
 import { WebImage } from "mendix";
 import { forwardRef } from "react";
 import { dynamic } from "@mendix/widget-plugin-test-utils";
@@ -32,7 +33,6 @@ jest.mock("../utils/download-code", () => ({
     downloadCode: jest.fn()
 }));
 
-import JsBarcode from "jsbarcode";
 import {
     BarcodeGeneratorContainerProps,
     CodeFormatEnum,

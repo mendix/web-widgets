@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
 import type { PDFDocumentProxy } from "pdfjs-dist";
+import { useCallback, useEffect, useState } from "react";
 
 export interface SearchMatch {
     page: number;

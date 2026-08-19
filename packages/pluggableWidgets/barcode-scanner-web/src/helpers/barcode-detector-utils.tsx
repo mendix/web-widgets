@@ -1,5 +1,5 @@
-import { BarcodeFormatsType } from "../../typings/BarcodeScannerProps";
 import type { BarcodeDetector, BarcodeDetectorOptions, BarcodeFormat, DetectedBarcode } from "./barcode-detector";
+import { BarcodeFormatsType } from "../../typings/BarcodeScannerProps";
 
 // Map Mendix barcode format types to native BarcodeDetector format strings
 const mapToNativeFormat = (format: string): string => {

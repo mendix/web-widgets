@@ -1,5 +1,7 @@
-import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
 import { observer } from "mobx-react-lite";
+import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
+import { ListBox } from "./ListBox";
+import { ListItem } from "./ListItem";
 import {
     useGalleryConfig,
     useItemKey,
@@ -7,8 +9,6 @@ import {
     useKeyNavFocus,
     useTextsService
 } from "../model/hooks/injection-hooks";
-import { ListBox } from "./ListBox";
-import { ListItem } from "./ListItem";
 
 export const GalleryItems = observer(function GalleryItems() {
     const items = useItems().get();

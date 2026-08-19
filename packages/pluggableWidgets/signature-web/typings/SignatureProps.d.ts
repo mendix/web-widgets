@@ -58,7 +58,7 @@ export interface SignaturePreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
-    imageSource: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
+    imageSource: { type: "static"; imageUrl: string } | { type: "dynamic"; entity: string } | null;
     fileName: string;
     hasSignatureAttribute: string;
     penType: PenTypeEnum;

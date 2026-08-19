@@ -1,6 +1,6 @@
-import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { AttributeMetaData, DynamicValue } from "mendix";
 import { createElement, FC, useEffect } from "react";
+import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { SortStoreProvider } from "../../helpers/SortStoreProvider";
 import { BasicSortStore } from "../../types/store";
 import { SortAPI } from "../context";

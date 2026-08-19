@@ -1,8 +1,8 @@
 import { act, renderHook, RenderHookResult } from "@testing-library/react";
+import { ReactElement } from "react";
 import { AccordionContainerProps } from "../../../typings/AccordionProps";
 import { IconProps } from "../../components/Icon";
 import { useIconGenerator } from "../iconGenerator";
-import { ReactElement } from "react";
 
 interface HookProps {
     animateIcon: AccordionContainerProps["animateIcon"];

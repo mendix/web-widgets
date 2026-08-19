@@ -1,5 +1,5 @@
-import type { EditableValue } from "mendix";
 import type { Big } from "big.js";
+import type { EditableValue } from "mendix";
 import { Status } from "../constants.js";
 import { Writable } from "./type-utils.js";
 

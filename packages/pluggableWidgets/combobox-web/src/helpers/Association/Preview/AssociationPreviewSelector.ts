@@ -1,3 +1,5 @@
+import { AssociationPreviewCaptionsProvider } from "./AssociationPreviewCaptionsProvider";
+import { AssociationPreviewOptionsProvider } from "./AssociationPreviewOptionsProvider";
 import {
     ComboboxContainerProps,
     ComboboxPreviewProps,
@@ -6,8 +8,6 @@ import {
 } from "../../../../typings/ComboboxProps";
 import { CaptionsProvider, OptionsProvider, SingleSelector, Status } from "../../../helpers/types";
 import { getDatasourcePlaceholderText } from "../../../helpers/utils";
-import { AssociationPreviewCaptionsProvider } from "./AssociationPreviewCaptionsProvider";
-import { AssociationPreviewOptionsProvider } from "./AssociationPreviewOptionsProvider";
 
 export class AssociationPreviewSelector implements SingleSelector {
     attributeType?: "string" | "big" | "boolean" | "date";

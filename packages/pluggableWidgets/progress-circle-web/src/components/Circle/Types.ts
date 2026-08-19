@@ -1,6 +1,6 @@
 import { CSSProperties } from "react";
-import Shape from "./Shape";
 import { TweenState } from "shifty";
+import Shape from "./Shape";
 
 export type ShapeRenderFunction = (state: TweenState, data: object | null) => void;
 export interface TextOptions {

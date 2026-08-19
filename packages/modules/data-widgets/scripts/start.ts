@@ -1,9 +1,9 @@
 #!/usr/bin/env ts-node-script
 
-import { getModuleConfigs } from "@mendix/automation-utils/utils";
-import { mkdir } from "@mendix/automation-utils/shell";
-import concurrently from "concurrently";
 import { join } from "path";
+import concurrently from "concurrently";
+import { mkdir } from "@mendix/automation-utils/shell";
+import { getModuleConfigs } from "@mendix/automation-utils/utils";
 
 async function main(): Promise<void> {
     const [, config] = await getModuleConfigs(process.cwd());

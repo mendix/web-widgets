@@ -1,12 +1,12 @@
-import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
 import classNames from "classnames";
 import { ObjectItem } from "mendix";
 import { computed } from "mobx";
 import { observer } from "mobx-react-lite";
 import { ReactElement, RefObject, useMemo } from "react";
+import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
+import { ListItemButton } from "./ListItemButton";
 import { getAriaProps } from "../features/item-interaction/get-item-aria-props";
 import { useGalleryItemVM, useItemEventsVM, useLayoutService, useSelectActions } from "../model/hooks/injection-hooks";
-import { ListItemButton } from "./ListItemButton";
 
 type ListItemProps = {
     item: ObjectItem;

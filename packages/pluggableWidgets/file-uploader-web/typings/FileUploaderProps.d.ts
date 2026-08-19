@@ -3,15 +3,26 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { CSSProperties } from "react";
-import { ActionValue, DynamicValue, ListValue, ListActionValue, WebIcon } from "mendix";
+import { ActionValue, DynamicValue, ListActionValue, ListValue, WebIcon } from "mendix";
 import { Big } from "big.js";
+import { CSSProperties } from "react";
 
 export type UploadModeEnum = "files" | "images";
 
 export type ConfigModeEnum = "simple" | "advanced";
 
-export type PredefinedTypeEnum = "pdfFile" | "msWordFile" | "msExcelFile" | "msPowerPointFile" | "plainTextFile" | "csvFile" | "zipArchiveFile" | "anyTextFile" | "anyImageFile" | "anyAudioFile" | "anyVideoFile";
+export type PredefinedTypeEnum =
+    | "pdfFile"
+    | "msWordFile"
+    | "msExcelFile"
+    | "msPowerPointFile"
+    | "plainTextFile"
+    | "csvFile"
+    | "zipArchiveFile"
+    | "anyTextFile"
+    | "anyImageFile"
+    | "anyAudioFile"
+    | "anyVideoFile";
 
 export interface AllowedFileFormatsType {
     configMode: ConfigModeEnum;
@@ -40,7 +51,11 @@ export interface AllowedFileFormatsPreviewType {
 
 export interface CustomButtonsPreviewType {
     buttonCaption: string;
-    buttonIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
+    buttonIcon:
+        | { type: "glyph"; iconClass: string }
+        | { type: "image"; imageUrl: string; iconUrl: string }
+        | { type: "icon"; iconClass: string }
+        | undefined;
     buttonActionFile: {} | null;
     buttonActionImage: {} | null;
     buttonIsDefault: boolean;

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
 import type { PDFDocumentProxy } from "pdfjs-dist";
+import { useEffect, useRef, useState } from "react";
 import type { SearchMatch } from "./usePDFSearch";
 
 export interface HighlightRect {

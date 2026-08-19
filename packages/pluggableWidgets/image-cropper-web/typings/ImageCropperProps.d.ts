@@ -64,7 +64,7 @@ export interface ImageCropperPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
-    image: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
+    image: { type: "static"; imageUrl: string } | { type: "dynamic"; entity: string } | null;
     cropShape: CropShapeEnum;
     aspectRatio: AspectRatioEnum;
     customAspectWidth: string;

@@ -1,8 +1,8 @@
 import type { ObjectItem, SelectionMultiValue, SelectionSingleValue } from "mendix";
 import { action, computed, makeObservable, observable } from "mobx";
+import { Direction, MoveEvent1D, MoveEvent2D, MultiSelectionStatus, ScrollKeyCode, SelectionMode, Size } from "./types";
 import { MultiSelectionService } from "../interfaces/MultiSelectionService";
 import { SingleSelectionService } from "../interfaces/SingleSelectionService";
-import { Direction, MoveEvent1D, MoveEvent2D, MultiSelectionStatus, ScrollKeyCode, SelectionMode, Size } from "./types";
 
 export class SingleSelectionHelper implements SingleSelectionService {
     type = "Single" as const;

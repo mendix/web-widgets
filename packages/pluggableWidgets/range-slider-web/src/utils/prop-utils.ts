@@ -1,5 +1,5 @@
-import { CSSProperties } from "react";
 import { DynamicValue, EditableValue } from "mendix";
+import { CSSProperties } from "react";
 import { RangeSliderContainerProps } from "../../typings/RangeSliderProps";
 
 export function minProp(props: RangeSliderContainerProps): Big | EditableValue<Big> | DynamicValue<Big> | undefined {

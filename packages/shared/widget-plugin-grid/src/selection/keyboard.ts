@@ -1,8 +1,8 @@
-import { throttle } from "@mendix/widget-plugin-platform/utils/throttle";
 import { ObjectItem } from "mendix";
 import { KeyboardEvent } from "react";
-import { EventCaseEntry } from "../event-switch/base";
+import { throttle } from "@mendix/widget-plugin-platform/utils/throttle";
 import { ScrollKeyCode, SelectAdjacentFx, SelectionMode, SelectionType } from "./types";
+import { EventCaseEntry } from "../event-switch/base";
 
 export function isSelectAllTrigger<T>(event: KeyboardEvent<T>): boolean {
     // As there might be custom content. We should react only on item/cell events.

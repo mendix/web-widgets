@@ -1,5 +1,5 @@
-import { ActionValue, DynamicValue, EditableValue, ValueStatus } from "mendix";
 import { Big } from "big.js";
+import { ActionValue, DynamicValue, EditableValue, ValueStatus } from "mendix";
 import {
     CheckboxRadioSelectionContainerProps,
     OptionsSourceCustomContentTypeEnum,

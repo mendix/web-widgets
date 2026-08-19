@@ -1,7 +1,7 @@
-import { createElement } from "react";
-import { Carousel, CarouselProps } from "../Carousel";
 import { render } from "@testing-library/react";
 import { GUID } from "mendix";
+import { createElement } from "react";
+import { Carousel, CarouselProps } from "../Carousel";
 
 jest.mock("swiper/css", () => ({}));
 jest.mock("swiper/css/bundle", () => ({}));

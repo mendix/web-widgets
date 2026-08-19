@@ -1,8 +1,8 @@
 import { act, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
-import { Tooltip, TooltipProps } from "../Tooltip";
 import userEvent from "@testing-library/user-event";
+import { Tooltip, TooltipProps } from "../Tooltip";
 
 jest.useFakeTimers();
 

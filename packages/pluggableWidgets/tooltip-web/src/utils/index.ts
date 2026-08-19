@@ -1,5 +1,5 @@
-import { ArrowPositionEnum, TooltipPositionEnum } from "../../typings/TooltipProps";
 import { Placement } from "@floating-ui/react";
+import { ArrowPositionEnum, TooltipPositionEnum } from "../../typings/TooltipProps";
 
 export const translatePosition = (
     tooltipPosition: TooltipPositionEnum,

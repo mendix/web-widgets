@@ -1,8 +1,8 @@
-import { DerivedPropsGate, Emitter } from "@mendix/widget-plugin-mobx-kit/main";
 import { ObjectItem, SelectionMultiValue, SelectionSingleValue } from "mendix";
 import { action, computed, makeObservable, observable, when } from "mobx";
-import { QueryService } from "../interfaces/QueryService";
+import { DerivedPropsGate, Emitter } from "@mendix/widget-plugin-mobx-kit/main";
 import { SelectAllEvents } from "./select-all.model";
+import { QueryService } from "../interfaces/QueryService";
 
 interface DynamicProps {
     itemSelection?: SelectionMultiValue | SelectionSingleValue;

@@ -1,9 +1,9 @@
 import classnames from "classnames";
 import { ReactElement } from "react";
 import { EventsContainerProps } from "../typings/EventsProps";
-import { useOnLoadTimer } from "./hooks/useOnLoadTimer";
-import { useAttributeMonitor } from "./hooks/useAttributeMonitor";
 import { useParameterValue } from "./hooks/parameterValue";
+import { useAttributeMonitor } from "./hooks/useAttributeMonitor";
+import { useOnLoadTimer } from "./hooks/useOnLoadTimer";
 import "./ui/Events.scss";
 
 export default function Events(props: EventsContainerProps): ReactElement {

@@ -1,7 +1,7 @@
+import { KeyboardEvent } from "react";
 import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 import { ExecuteActionFx } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { onOwnSpaceKeyDown } from "@mendix/widget-plugin-grid/selection";
-import { KeyboardEvent } from "react";
 import { EventEntryContext } from "./base";
 
 const onClick = (execActionFx: ExecuteActionFx): EventCaseEntry<EventEntryContext, HTMLDivElement, "onClick"> => ({

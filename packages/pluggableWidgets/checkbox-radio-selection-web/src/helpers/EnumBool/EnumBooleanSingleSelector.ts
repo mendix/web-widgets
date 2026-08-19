@@ -1,5 +1,5 @@
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue, EditableValue } from "mendix";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import {
     CheckboxRadioSelectionContainerProps,
     OptionsSourceCustomContentTypeEnum

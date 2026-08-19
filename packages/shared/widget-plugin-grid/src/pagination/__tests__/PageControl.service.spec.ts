@@ -1,9 +1,9 @@
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
-import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { Big } from "big.js";
 import { EditableValue } from "mendix";
-import { SetPageAction, SetPageSizeAction } from "../pagination.model";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
+import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { PageControlService } from "../PageControl.service";
+import { SetPageAction, SetPageSizeAction } from "../pagination.model";
 
 type GateProps = {
     dynamicPage?: EditableValue<Big>;

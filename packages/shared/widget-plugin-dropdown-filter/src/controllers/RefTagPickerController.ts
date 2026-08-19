@@ -1,6 +1,6 @@
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
-import { RefBaseController, RefBaseControllerProps } from "./RefBaseController";
 import { TagPickerControllerMixin } from "./mixins/TagPickerControllerMixin";
+import { RefBaseController, RefBaseControllerProps } from "./RefBaseController";
 
 type SelectionMethodEnum = "checkbox" | "rowClick";
 type SelectedItemsStyleEnum = "text" | "boxes";

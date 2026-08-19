@@ -1,7 +1,7 @@
-import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { ErrorBoundary } from "@mendix/widget-plugin-component-kit/ErrorBoundary";
 import { observer } from "mobx-react-lite";
 import { createElement, FC, ReactElement } from "react";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
+import { ErrorBoundary } from "@mendix/widget-plugin-component-kit/ErrorBoundary";
 import { SortAPI, useLockSortAPI, useSortAPI } from "../context";
 
 export function withSortAPI<P extends object>(

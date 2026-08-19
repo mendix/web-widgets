@@ -1,7 +1,7 @@
 import { Data } from "plotly.js-dist-min";
 import { useEffect, useReducer, useState } from "react";
-import { fallback, pprint } from "../utils/json";
 import { EditorStore, EditorStoreState } from "./EditorStore";
+import { fallback, pprint } from "../utils/json";
 
 export type EditorStoreInitializer = () => EditorStoreState;
 

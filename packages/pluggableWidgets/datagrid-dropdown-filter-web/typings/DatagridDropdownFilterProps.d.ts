@@ -3,7 +3,16 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, AssociationMetaData, AttributeMetaData, DynamicValue, EditableValue, ListAttributeValue, ListExpressionValue, ListValue } from "mendix";
+import {
+    ActionValue,
+    AssociationMetaData,
+    AttributeMetaData,
+    DynamicValue,
+    EditableValue,
+    ListAttributeValue,
+    ListExpressionValue,
+    ListValue
+} from "mendix";
 import { CSSProperties } from "react";
 
 export type BaseTypeEnum = "attr" | "ref";

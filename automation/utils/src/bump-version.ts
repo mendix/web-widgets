@@ -1,9 +1,9 @@
-import chalk from "chalk";
 import { spawnSync } from "child_process";
-import { prompt } from "enquirer";
 import { promises as fs } from "fs";
 import { join } from "path";
 import { nextTick } from "process";
+import chalk from "chalk";
+import { prompt } from "enquirer";
 import { PackageListing } from "./monorepo";
 
 export type BumpVersionType = "patch" | "minor" | "major" | string;

@@ -1,7 +1,7 @@
-import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { Container } from "brandi";
 import { ContainerProvider } from "brandi-react";
 import { PropsWithChildren, ReactNode } from "react";
+import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { CORE_TOKENS as CORE } from "../model/tokens";
 import { GridColumn } from "../typings/GridColumn";
 

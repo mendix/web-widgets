@@ -1,11 +1,11 @@
-import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { ListAttributeValue, ListValue, ObjectItem } from "mendix";
-import { FilterTypeEnum } from "../../typings/ComboboxProps";
+import { FilterCondition } from "mendix/filters";
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { BaseOptionsProvider } from "./BaseOptionsProvider";
 import { datasourceFilter } from "./datasourceFilter";
 import { CaptionsProvider, SortOrder, Status } from "./types";
 import { DEFAULT_LIMIT_SIZE } from "./utils";
-import { FilterCondition } from "mendix/filters";
+import { FilterTypeEnum } from "../../typings/ComboboxProps";
 
 export interface BaseProps {
     attributeId?: ListAttributeValue["id"];

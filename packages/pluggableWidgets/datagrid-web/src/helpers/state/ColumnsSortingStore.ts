@@ -1,7 +1,7 @@
 import { action, makeObservable, observable } from "mobx";
+import { ColumnStore } from "./column/ColumnStore";
 import { ColumnId } from "../../typings/GridColumn";
 import { SortDirection, SortInstruction, SortRule } from "../../typings/sorting";
-import { ColumnStore } from "./column/ColumnStore";
 
 export interface IColumnSortingStore {
     getDirection(columnId: ColumnId): [SortDirection, number] | undefined;

@@ -1,8 +1,8 @@
-import { Button } from "@mendix/widget-plugin-component-kit/Button";
-import { IconInternal } from "@mendix/widget-plugin-component-kit/IconInternal";
 import classNames from "classnames";
 import { ReactElement, useCallback } from "react";
 import { Navigate, ToolbarProps, View } from "react-big-calendar";
+import { Button } from "@mendix/widget-plugin-component-kit/Button";
+import { IconInternal } from "@mendix/widget-plugin-component-kit/IconInternal";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 export function CustomToolbar({ label, localizer, onNavigate, onView, view, views }: ToolbarProps): ReactElement {

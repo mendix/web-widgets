@@ -1,3 +1,5 @@
+import { DynamicValue } from "mendix";
+import { observable, reaction } from "mobx";
 import {
     ComputedAtom,
     createEmitter,
@@ -5,8 +7,6 @@ import {
     disposeBatch,
     Emitter
 } from "@mendix/widget-plugin-mobx-kit/main";
-import { DynamicValue } from "mendix";
-import { observable, reaction } from "mobx";
 
 export type ServiceEvents = {
     loadstart: ProgressEvent;

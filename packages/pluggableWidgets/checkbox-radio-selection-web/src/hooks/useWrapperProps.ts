@@ -1,8 +1,8 @@
-import { useMemo } from "react";
-import { getInputLabel } from "../helpers/utils";
 import classNames from "classnames";
-import { ReadOnlyStyleEnum } from "../../typings/CheckboxRadioSelectionProps";
 import { DynamicValue } from "mendix";
+import { useMemo } from "react";
+import { ReadOnlyStyleEnum } from "../../typings/CheckboxRadioSelectionProps";
+import { getInputLabel } from "../helpers/utils";
 
 interface WrapperProps {
     inputId: string;

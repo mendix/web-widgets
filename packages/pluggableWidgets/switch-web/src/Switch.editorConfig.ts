@@ -1,8 +1,8 @@
+import { SwitchPreviewProps } from "typings/SwitchProps";
 import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
-import checkedSVG from "./assets/checked.svg";
 import checkedSVGDark from "./assets/checked-dark.svg";
-import { SwitchPreviewProps } from "typings/SwitchProps";
+import checkedSVG from "./assets/checked.svg";
 
 export function getPreview(_: StructurePreviewProps, isDarkMode: boolean): StructurePreviewProps {
     return {

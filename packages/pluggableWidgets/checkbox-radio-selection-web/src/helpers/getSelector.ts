@@ -1,11 +1,11 @@
-import { CheckboxRadioSelectionContainerProps } from "../../typings/CheckboxRadioSelectionProps";
+import { AssociationMultiSelector } from "./Association/AssociationMultiSelector";
+import { AssociationSingleSelector } from "./Association/AssociationSingleSelector";
+import { DatabaseMultiSelector } from "./Database/DatabaseMultiSelector";
+import { DatabaseSingleSelector } from "./Database/DatabaseSingleSelector";
 import { EnumBooleanSingleSelector } from "./EnumBool/EnumBooleanSingleSelector";
 import { StaticSingleSelector } from "./Static/StaticSingleSelector";
-import { AssociationSingleSelector } from "./Association/AssociationSingleSelector";
-import { AssociationMultiSelector } from "./Association/AssociationMultiSelector";
-import { DatabaseSingleSelector } from "./Database/DatabaseSingleSelector";
-import { DatabaseMultiSelector } from "./Database/DatabaseMultiSelector";
 import { Selector } from "./types";
+import { CheckboxRadioSelectionContainerProps } from "../../typings/CheckboxRadioSelectionProps";
 
 export function getSelector(props: CheckboxRadioSelectionContainerProps): Selector {
     if (props.source === "context") {

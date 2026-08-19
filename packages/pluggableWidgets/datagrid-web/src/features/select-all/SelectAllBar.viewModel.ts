@@ -1,6 +1,6 @@
+import { makeAutoObservable } from "mobx";
 import { SelectAllEvents } from "@mendix/widget-plugin-grid/select-all/select-all.model";
 import { Emitter } from "@mendix/widget-plugin-mobx-kit/main";
-import { makeAutoObservable } from "mobx";
 
 /** @injectable */
 export class SelectAllBarViewModel {

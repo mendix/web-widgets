@@ -1,9 +1,9 @@
+import classNames from "classnames";
 import { Dispatch, MutableRefObject, ReactElement, useCallback, useMemo, useReducer, useRef } from "react";
 
 import { AccordionGroup, AccordionGroupProps, Target } from "./AccordionGroup";
-import { CollapsedAccordionGroupsReducerAction, getCollapsedAccordionGroupsReducer } from "../utils/reducers";
 import { AccordionContainerProps } from "../../typings/AccordionProps";
-import classNames from "classnames";
+import { CollapsedAccordionGroupsReducerAction, getCollapsedAccordionGroupsReducer } from "../utils/reducers";
 
 export type AccordionGroups = Array<
     Pick<

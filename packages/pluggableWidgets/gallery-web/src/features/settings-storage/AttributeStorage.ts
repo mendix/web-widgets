@@ -1,7 +1,7 @@
-import { PlainJs } from "@mendix/filter-commons/typings/settings";
-import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { EditableValue } from "mendix";
 import { computed, makeObservable } from "mobx";
+import { PlainJs } from "@mendix/filter-commons/typings/settings";
+import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { ObservableStorage } from "./storage";
 
 type Gate = DerivedPropsGate<{

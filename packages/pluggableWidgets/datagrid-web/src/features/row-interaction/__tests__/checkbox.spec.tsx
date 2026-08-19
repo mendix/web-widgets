@@ -1,8 +1,8 @@
-import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
-import { objectItems } from "@mendix/widget-plugin-test-utils";
 import { fireEvent, render, RenderResult } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { ReactElement } from "react";
+import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
+import { objectItems } from "@mendix/widget-plugin-test-utils";
 import { CheckboxContext } from "../base";
 import { checkboxHandlers } from "../checkbox-handlers";
 

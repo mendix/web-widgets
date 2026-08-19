@@ -1,4 +1,5 @@
-import { getModuleInfo, getPackageInfo, getWidgetInfo, ModuleInfo, WidgetInfo } from "./package-info";
+import chalk from "chalk";
+import { prompt } from "enquirer";
 import {
     getModuleChangelog,
     getWidgetChangelog,
@@ -6,8 +7,7 @@ import {
     WidgetChangelogFileWrapper
 } from "./changelog-parser";
 import { listPackages, PackageListing } from "./monorepo";
-import chalk from "chalk";
-import { prompt } from "enquirer";
+import { getModuleInfo, getPackageInfo, getWidgetInfo, ModuleInfo, WidgetInfo } from "./package-info";
 import { exec } from "./shell";
 
 type WidgetPkg = {
@@ -28,8 +28,7 @@ type ModulePkg = {
 
 type PackagesTree = Array<WidgetPkg | ModulePkg>;
 type PackagesFullInfo =
-    | [PackageListing, WidgetInfo, WidgetChangelogFileWrapper]
-    | [PackageListing, ModuleInfo, ModuleChangelogFileWrapper];
+    [PackageListing, WidgetInfo, WidgetChangelogFileWrapper] | [PackageListing, ModuleInfo, ModuleChangelogFileWrapper];
 type PackagesFullInfoList = PackagesFullInfo[];
 type PackagesFullInfoMap = Map<string, PackagesFullInfo>;
 

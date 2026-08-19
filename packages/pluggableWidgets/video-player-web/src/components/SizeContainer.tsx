@@ -1,5 +1,5 @@
-import { Component, CSSProperties, PropsWithChildren, ReactNode } from "react";
 import classNames from "classnames";
+import { Component, CSSProperties, PropsWithChildren, ReactNode } from "react";
 
 export type HeightUnitType = "percentageOfWidth" | "percentageOfParent" | "pixels" | "aspectRatio";
 export type HeightAspectRatioType = "oneByOne" | "fourByThree" | "threeByTwo" | "sixteenByNine" | "TwentyOneByNine";

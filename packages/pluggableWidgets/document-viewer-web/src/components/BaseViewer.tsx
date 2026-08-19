@@ -1,7 +1,7 @@
 import { CSSProperties, Fragment, PropsWithChildren, ReactElement, ReactNode, useCallback } from "react";
-import { useZoomScale } from "../utils/useZoomScale";
 import { DocumentViewerContainerProps } from "../../typings/DocumentViewerProps";
 import { downloadFile } from "../utils/helpers";
+import { useZoomScale } from "../utils/useZoomScale";
 
 type FileFormat = {
     status: "available";

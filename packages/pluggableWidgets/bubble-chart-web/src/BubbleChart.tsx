@@ -1,11 +1,11 @@
 import { ChartWidget, ChartWidgetProps, traceEqual, usePlotChartDataSeries } from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
-import { defaultEqual, flatEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import Big from "big.js";
 import classNames from "classnames";
 import { memo, ReactElement, useCallback } from "react";
-import { BubbleChartContainerProps, LinesType } from "../typings/BubbleChartProps";
+import { defaultEqual, flatEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import { calculateSizeRef } from "./utils";
+import { BubbleChartContainerProps, LinesType } from "../typings/BubbleChartProps";
 
 const bubbleChartLayoutOptions: ChartWidgetProps["layoutOptions"] = {
     xaxis: {

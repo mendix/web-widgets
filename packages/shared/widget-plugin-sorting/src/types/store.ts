@@ -1,5 +1,5 @@
-import { Serializable } from "@mendix/filter-commons/typings/settings";
 import type { ListAttributeValue } from "mendix";
+import { Serializable } from "@mendix/filter-commons/typings/settings";
 
 export type SortDirection = "asc" | "desc";
 

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { DocRendererElement, DocumentRendererProps } from "./documentRenderer";
 import BaseViewer from "./BaseViewer";
+import { DocRendererElement, DocumentRendererProps } from "./documentRenderer";
 import { downloadFile } from "../utils/helpers";
 
 const ErrorViewer: DocRendererElement = (props: DocumentRendererProps) => {

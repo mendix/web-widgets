@@ -1,6 +1,6 @@
-import { OptionsSourceCustomContentTypeEnum } from "../../../typings/CheckboxRadioSelectionProps";
-import { SimpleCaptionsProvider } from "./SimpleCaptionsProvider";
 import { ComponentType, ReactNode } from "react";
+import { SimpleCaptionsProvider } from "./SimpleCaptionsProvider";
+import { OptionsSourceCustomContentTypeEnum } from "../../../typings/CheckboxRadioSelectionProps";
 interface PreviewProps {
     customContentRenderer:
         | ComponentType<{ children: ReactNode; caption?: string }>
