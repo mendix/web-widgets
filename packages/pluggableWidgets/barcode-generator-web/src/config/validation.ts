@@ -1,5 +1,7 @@
 import { AddonFormatEnum, CodeFormatEnum, CustomCodeFormatEnum } from "../../typings/BarcodeGeneratorProps";
 
+const MAX_2D_BARCODE_STATIC_VALUE_LENGTH = 2000;
+
 export type ValidationResult =
     | {
           valid: true;
@@ -114,9 +116,18 @@ export function validateBarcodeValue(format: CustomCodeFormatEnum | CodeFormatEn
                 return { valid: false, message: "CODE93 should not contain control characters." };
             }
             return { valid: true };
+        case "DataMatrix":
+            // DataMatrix: encoder handles the heavy lifting; guard extremely long static values.
+            if (value.length > MAX_2D_BARCODE_STATIC_VALUE_LENGTH) {
+                return {
+                    valid: false,
+                    message: "The Data Matrix value is very long; consider a shorter value or a dynamic attribute."
+                };
+            }
+            return { valid: true };
         case "QRCode":
-            // QRCode: accepts most characters, but warn for extremely long static values
-            if (value.length > 1200) {
+            // QRCode: accepts most characters, but warn for extremely long static values.
+            if (value.length > MAX_2D_BARCODE_STATIC_VALUE_LENGTH) {
                 return {
                     valid: false,
                     message:
@@ -138,6 +149,33 @@ export function validateBarcodeValue(format: CustomCodeFormatEnum | CodeFormatEn
             }
             return { valid: true };
     }
+}
+
+/**
+ * Loosely validate GS1 Data Matrix Application Identifier syntax.
+ * Expects human-readable AI form, e.g. `(01)09501101020917(17)261231(10)ABC123`.
+ * bwip-js is the source of truth for encoding; this catches obvious structural errors early.
+ */
+export function validateGs1DataMatrixValue(value: string): ValidationResult {
+    if (!value) {
+        return { valid: true };
+    }
+
+    // Must start with an application identifier and contain only balanced (nn) groups with data.
+    if (!/^(\(\d{2,4}\)[^(]*)+$/.test(value)) {
+        return {
+            valid: false,
+            message:
+                "GS1 Data Matrix expects Application Identifier syntax, e.g. (01)09501101020917(17)261231(10)ABC123."
+        };
+    }
+
+    // Every AI group must carry at least one data character.
+    if (/\(\d{2,4}\)(?=\(|$)/.test(value)) {
+        return { valid: false, message: "Each GS1 Application Identifier must be followed by data." };
+    }
+
+    return { valid: true };
 }
 
 /** Validate addon (EAN-5 / EAN-2) values. */

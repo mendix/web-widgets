@@ -7,7 +7,7 @@ import { DynamicValue, WebImage } from "mendix";
 import { Big } from "big.js";
 import { CSSProperties } from "react";
 
-export type CodeFormatEnum = "CODE128" | "QRCode" | "Custom";
+export type CodeFormatEnum = "CODE128" | "QRCode" | "DataMatrix" | "Custom";
 
 export type ButtonPositionEnum = "top" | "bottom";
 
@@ -16,6 +16,8 @@ export type CustomCodeFormatEnum = "CODE128" | "EAN13" | "EAN8" | "UPC" | "CODE3
 export type AddonFormatEnum = "None" | "EAN5" | "EAN2";
 
 export type QrLevelEnum = "L" | "M" | "Q" | "H";
+
+export type DmShapeEnum = "square" | "rectangle";
 
 export type LogLevelEnum = "None" | "Info" | "Debug";
 
@@ -42,6 +44,9 @@ export interface BarcodeGeneratorContainerProps {
     addonSpacing: number;
     qrLevel: QrLevelEnum;
     qrSize: number;
+    dmGs1Mode: boolean;
+    dmShape: DmShapeEnum;
+    dmSize: number;
     logLevel: LogLevelEnum;
     displayValue: boolean;
     showAsCard: boolean;
@@ -49,6 +54,7 @@ export interface BarcodeGeneratorContainerProps {
     codeHeight: number;
     codeMargin: number;
     qrMargin: number;
+    dmMargin: number;
     qrTitle: DynamicValue<string>;
     showTitle: boolean;
     qrOverlay: boolean;
@@ -91,6 +97,9 @@ export interface BarcodeGeneratorPreviewProps {
     addonSpacing: number | null;
     qrLevel: QrLevelEnum;
     qrSize: number | null;
+    dmGs1Mode: boolean;
+    dmShape: DmShapeEnum;
+    dmSize: number | null;
     logLevel: LogLevelEnum;
     displayValue: boolean;
     showAsCard: boolean;
@@ -98,6 +107,7 @@ export interface BarcodeGeneratorPreviewProps {
     codeHeight: number | null;
     codeMargin: number | null;
     qrMargin: number | null;
+    dmMargin: number | null;
     qrTitle: string;
     showTitle: boolean;
     qrOverlay: boolean;
