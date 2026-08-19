@@ -15,7 +15,7 @@ Although pluggable widgets are primarily client-side components, they operate wi
     - **textTemplate:** Passed as a DynamicValue<string>.
     - **objects/object:** Provided as a ListValue or ObjectValue.
     - **Simple types:** Passed as plain JS values.
-    - **action:** Provided as an ActionValue with methods like `execute()`.
+    - **action:** Provided as an ActionValue with methods like `execute()`. **Exception:** when an action is linked to an attribute or association as its `onChange` handler (system-managed), the Mendix runtime invokes it automatically and it is **not** passed to the widget as a prop. Such actions are intentionally absent from the generated `*ContainerProps` typings — this is correct, not a sync issue.
 - **Offline Capable:** XML can mark widgets as offline capable, meaning they are designed to work without a network connection.
 
 ## Data Flow: Reading and Updating Data
