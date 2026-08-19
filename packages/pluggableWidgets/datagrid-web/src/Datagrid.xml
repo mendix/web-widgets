@@ -197,6 +197,33 @@
                     <caption>On selection change</caption>
                     <description />
                 </property>
+                <property key="onBeforeExport" type="action" required="false">
+                    <caption>On before export</caption>
+                    <description />
+                    <actionVariables>
+                        <actionVariable key="gridName" caption="Grid Name" type="String" />
+                        <actionVariable key="columnTitles" caption="Column Titles" type="String" />
+                        <actionVariable key="chunkSize" caption="Chunk Size" type="Integer" />
+                        <actionVariable key="fileName" caption="File Name" type="String" />
+                        <actionVariable key="sheetName" caption="Sheet Name" type="String" />
+                        <actionVariable key="startTime" caption="Start Time" type="DateTime" />
+                    </actionVariables>
+                </property>
+                <property key="onAfterExport" type="action" required="false">
+                    <caption>On after export</caption>
+                    <description />
+                    <actionVariables>
+                        <actionVariable key="gridName" caption="Grid Name" type="String" />
+                        <actionVariable key="columnTitles" caption="Column Titles" type="String" />
+                        <actionVariable key="chunkSize" caption="Chunk Size" type="Integer" />
+                        <actionVariable key="fileName" caption="File Name" type="String" />
+                        <actionVariable key="sheetName" caption="Sheet Name" type="String" />
+                        <actionVariable key="exportedItemCount" caption="Exported Item Count" type="Integer" />
+                        <actionVariable key="status" caption="Status" type="String" />
+                        <actionVariable key="startTime" caption="Start Time" type="DateTime" />
+                        <actionVariable key="endTime" caption="End Time" type="DateTime" />
+                    </actionVariables>
+                </property>
                 <property key="filtersPlaceholder" type="widgets" required="false">
                     <caption>Filters placeholder</caption>
                     <description />
