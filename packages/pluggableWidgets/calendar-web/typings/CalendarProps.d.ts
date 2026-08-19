@@ -27,7 +27,8 @@ export type YearDayClickViewStandardEnum = "day" | "week" | "month";
 
 export type YearDayClickViewCustomEnum = "day" | "week" | "work_week" | "month" | "agenda";
 
-export type ItemTypeEnum = "day" | "month" | "agenda" | "week" | "work_week" | "year" | "title" | "previous" | "next" | "today";
+export type ItemTypeEnum =
+    "day" | "month" | "agenda" | "week" | "work_week" | "year" | "title" | "previous" | "next" | "today";
 
 export type PositionEnum = "left" | "center" | "right";
 
