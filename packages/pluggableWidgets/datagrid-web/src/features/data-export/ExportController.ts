@@ -15,7 +15,7 @@ export type BeforeExportArgs = {
 
 export type AfterExportArgs = BeforeExportArgs & {
     exportedItemCount: number;
-    status: string;
+    status: "success" | "aborted";
     endTime: Date;
 };
 
@@ -113,11 +113,11 @@ export class ExportController {
             this.emitter.on("abort", req.abort)
         ];
 
-        handler(req);
-
         const startTime = new Date();
         const chunkSize = req.limit;
         this._onBeforeExport?.({ gridName: this.name, columnTitles, chunkSize, fileName, sheetName, startTime });
+
+        handler(req);
 
         await req.send();
 

@@ -59,11 +59,13 @@ The exported columns are the result of `filter(this.properties)` in `exportData(
 
 **Decision**: After computing `filter(this.properties)`, derive `columnTitles` as `columns.map(c => c.header?.value ?? "").join(",")`. This runs once per export start, not per page.
 
-### D6 — filterCondition as JSON string from datasource.filter
+### D6 — fileName and sheetName passed from the export caller
 
-`this.datasource.filter` is a `FilterCondition | undefined` from `mendix/filters`. It is the same condition applied to the datasource (same shape stored in personalization). `JSON.stringify` produces a consistent, portable string.
+The datagrid widget does not know the target file or sheet name — those are decided by the external module that calls `exportData()`. Adding them as widget props would duplicate state that already exists in the caller.
 
-**Decision**: `filterCondition = JSON.stringify(this.datasource.filter ?? null)`.
+**Decision**: Extend `exportData()` options to accept `fileName?: string` and `sheetName?: string`. Both default to `""` when not provided. `ExportController` forwards them unchanged to the callbacks.
+
+**Alternative considered**: Expose `fileName`/`sheetName` as widget XML properties (configurable in Studio Pro). Rejected because the file name is typically set by the export module, not the grid configuration.
 
 ### D7 — DSExportRequest public getters
 
@@ -75,7 +77,7 @@ The exported columns are the result of `filter(this.properties)` in `exportData(
 
 - **Action execution order** — `onBeforeExport.execute()` calls are fire-and-forget and may outlive the export itself if they trigger a slow microflow. This is intentional and documented. [Risk: developer expects synchronous "before" semantics] → Mitigation: document clearly that the action fires concurrently with the export.
 - **Missing header values** — if a column's `header` DynamicValue is not yet available (status `"loading"`), its title will be an empty string in `columnTitles`. [Risk: incomplete column title list] → Mitigation: acceptable — the export itself has the same constraint on column headers; we use the same value.
-- **filterCondition size** — complex nested filters can produce large JSON strings passed to a microflow string parameter. [Risk: truncation in Mendix unlimited string fields] → Mitigation: Mendix unlimited string attributes can hold up to 200MB; this is not a practical concern.
+- **Empty fileName/sheetName** — when the export caller does not provide these values, they arrive in the action as empty strings. Microflow logic must guard against empty strings if it uses these values to route or name files.
 - **Callback mutation during export** — if `setOnAfterExport` is called while an export is in progress (rare), the new callback fires. [Risk: unexpected microflow called] → Mitigation: callbacks are reassigned only when React props change, which requires a re-render; during an export the datasource is locked so this is extremely unlikely.
 
 ## Open Questions

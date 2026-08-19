@@ -1,7 +1,7 @@
 ## 1. XML — Declare action properties
 
-- [ ] 1.1 Add `onBeforeExport` property block (type="action", required="false") to the Events `<propertyGroup>` in `src/Datagrid.xml`, with `<actionVariables>` for: `gridName` (String), `columnTitles` (String), `filterCondition` (String), `chunkSize` (Integer), `startTime` (DateTime)
-- [ ] 1.2 Add `onAfterExport` property block (type="action", required="false") to the same Events `<propertyGroup>` in `src/Datagrid.xml`, with `<actionVariables>` for: `gridName` (String), `columnTitles` (String), `filterCondition` (String), `chunkSize` (Integer), `exportedItemCount` (Integer), `status` (String), `startTime` (DateTime), `endTime` (DateTime)
+- [ ] 1.1 Add `onBeforeExport` property block (type="action", required="false") to the Events `<propertyGroup>` in `src/Datagrid.xml`, with `<actionVariables>` for: `gridName` (String), `columnTitles` (String), `chunkSize` (Integer), `fileName` (String), `sheetName` (String), `startTime` (DateTime)
+- [ ] 1.2 Add `onAfterExport` property block (type="action", required="false") to the same Events `<propertyGroup>` in `src/Datagrid.xml`, with `<actionVariables>` for: `gridName` (String), `columnTitles` (String), `chunkSize` (Integer), `fileName` (String), `sheetName` (String), `exportedItemCount` (Integer), `status` (String), `startTime` (DateTime), `endTime` (DateTime)
 - [ ] 1.3 Regenerate `typings/DatagridProps.d.ts` by running `pnpm run build` (or the pluggable-widgets-tools codegen step) and verify `onBeforeExport` and `onAfterExport` appear as `ActionValue<...> | undefined` in `DatagridContainerProps`
 
 ## 2. DSExportRequest — Expose public getters
@@ -13,15 +13,15 @@
 
 - [ ] 3.1 Add `private _onBeforeExport: (() => void) | undefined` and `private _onAfterExport: (() => void) | undefined` fields to `ExportController`
 - [ ] 3.2 Add `setOnBeforeExport(cb: (() => void) | undefined): void` and `setOnAfterExport(cb: (() => void) | undefined): void` setter methods
-- [ ] 3.3 In `exportData()`, before `req.send()`: capture `startTime = new Date()`, derive `columnTitles` from the filtered column properties (`filter(this.properties).map(c => c.header?.value ?? "").join(",")`), derive `filterCondition` as `JSON.stringify(this.datasource.filter ?? null)`, then call `this._onBeforeExport?.()` (fire-and-forget)
+- [ ] 3.3 In `exportData()`, before `req.send()`: capture `startTime = new Date()`, derive `columnTitles` from the filtered column properties (`filter(this.properties).map(c => c.header?.value ?? "").join(",")`), read `fileName` and `sheetName` from options (default `""`), then call `this._onBeforeExport?.()` (fire-and-forget) — and do this BEFORE calling `handler(req)` so the callback literally precedes any handler side effects
 - [ ] 3.4 In `exportData()`, after `await req.send()` resolves but before `req = null`: read `req.loaded`, `req.limit`, `req.status` (map `"end"` → `"success"`, `"aborted"` → `"aborted"`), capture `endTime = new Date()`, then call `this._onAfterExport?.()` (fire-and-forget)
 - [ ] 3.5 Ensure the same `startTime` Date object is closed over by both `_onBeforeExport` and `_onAfterExport` calls within a single `exportData()` invocation
 
 ## 4. useDataExport — Wire props to controller callbacks
 
 - [ ] 4.1 Expand the `Props` type alias in `useDataExport.ts` to include `onBeforeExport` and `onAfterExport` from `DatagridContainerProps`
-- [ ] 4.2 Add a `useEffect` that calls `entry.controller.setOnBeforeExport(...)` with a closure over `props.onBeforeExport` — the closure calls `action.execute({ gridName, columnTitles, filterCondition, chunkSize, startTime })` when `action.canExecute` is true; dependency array: `[entry, props.onBeforeExport]`
-- [ ] 4.3 Add a `useEffect` that calls `entry.controller.setOnAfterExport(...)` with a closure over `props.onAfterExport` — the closure calls `action.execute({ gridName, columnTitles, filterCondition, chunkSize, exportedItemCount, status, startTime, endTime })` when `action.canExecute` is true; dependency array: `[entry, props.onAfterExport]`
+- [ ] 4.2 Add a `useEffect` that calls `entry.controller.setOnBeforeExport(...)` with a closure over `props.onBeforeExport` — the closure calls `action.execute({ gridName, columnTitles, chunkSize, fileName, sheetName, startTime })` when `action.canExecute` is true; dependency array: `[entry, props.onBeforeExport]`
+- [ ] 4.3 Add a `useEffect` that calls `entry.controller.setOnAfterExport(...)` with a closure over `props.onAfterExport` — the closure calls `action.execute({ gridName, columnTitles, chunkSize, fileName, sheetName, exportedItemCount, status, startTime, endTime })` when `action.canExecute` is true; dependency array: `[entry, props.onAfterExport]`
 - [ ] 4.4 Pass `onBeforeExport` and `onAfterExport` from `props` into `useDataExport` call in `Datagrid.tsx`
 
 ## 5. Tests

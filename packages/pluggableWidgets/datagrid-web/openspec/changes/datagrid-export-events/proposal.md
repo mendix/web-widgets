@@ -4,12 +4,12 @@ Developers using the Data Grid 2 export feature have no built-in way to observe 
 
 ## What Changes
 
-- Add `onBeforeExport` action property (optional) to Data Grid 2, firing just before the first datasource page fetch, with variables: `gridName`, `columnTitles`, `filterCondition`, `chunkSize`, `startTime`
-- Add `onAfterExport` action property (optional) to Data Grid 2, firing after the export completes (success or abort), with variables: `gridName`, `columnTitles`, `filterCondition`, `chunkSize`, `exportedItemCount`, `status`, `startTime`, `endTime`
+- Add `onBeforeExport` action property (optional) to Data Grid 2, firing just before the first datasource page fetch, with variables: `gridName`, `columnTitles`, `chunkSize`, `fileName`, `sheetName`, `startTime`
+- Add `onAfterExport` action property (optional) to Data Grid 2, firing after the export completes (success or abort), with variables: `gridName`, `columnTitles`, `chunkSize`, `fileName`, `sheetName`, `exportedItemCount`, `status`, `startTime`, `endTime`
 - Both actions are fire-and-forget — they do not block the export flow
 - `onAfterExport` fires on both successful completion and user abort; the `status` variable ("success" | "aborted") distinguishes them
 - `columnTitles` reflects only the visible (exported) columns at the time of export, comma-separated
-- `filterCondition` is a JSON string in the same format as the personalization storage
+- `fileName` and `sheetName` are passed through from the export caller's options; both default to empty string when not provided
 - Expose public `loaded` and `limit` getters on `DSExportRequest` (internal refactor, not a public API change)
 
 ## Capabilities

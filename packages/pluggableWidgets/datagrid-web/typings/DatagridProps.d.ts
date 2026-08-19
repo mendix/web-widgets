@@ -119,8 +119,25 @@ export interface DatagridContainerProps {
     onClickTrigger: OnClickTriggerEnum;
     onClick?: ListActionValue;
     onSelectionChange?: ActionValue;
-    onBeforeExport?: ActionValue<{ gridName: Option<string>; columnTitles: Option<string>; chunkSize: Option<Big>; fileName: Option<string>; sheetName: Option<string>; startTime: Option<Date> }>;
-    onAfterExport?: ActionValue<{ gridName: Option<string>; columnTitles: Option<string>; chunkSize: Option<Big>; fileName: Option<string>; sheetName: Option<string>; exportedItemCount: Option<Big>; status: Option<string>; startTime: Option<Date>; endTime: Option<Date> }>;
+    onBeforeExport?: ActionValue<{
+        gridName: Option<string>;
+        columnTitles: Option<string>;
+        chunkSize: Option<Big>;
+        fileName: Option<string>;
+        sheetName: Option<string>;
+        startTime: Option<Date>;
+    }>;
+    onAfterExport?: ActionValue<{
+        gridName: Option<string>;
+        columnTitles: Option<string>;
+        chunkSize: Option<Big>;
+        fileName: Option<string>;
+        sheetName: Option<string>;
+        exportedItemCount: Option<Big>;
+        status: Option<string>;
+        startTime: Option<Date>;
+        endTime: Option<Date>;
+    }>;
     filtersPlaceholder?: ReactNode;
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     itemSelectionMethod: ItemSelectionMethodEnum;
