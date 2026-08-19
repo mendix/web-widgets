@@ -1,6 +1,6 @@
-import { EditableValueBuilder, list, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
 import Big from "big.js";
 import { ListAttributeValue } from "mendix";
+import { EditableValueBuilder, list, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
 
 interface BaseChartSeries {
     aggregationType: string;

@@ -1,5 +1,5 @@
-import { useMemo } from "react";
 import { autoUpdate, flip, ReferenceType, size, useFloating } from "@floating-ui/react-dom";
+import { useMemo } from "react";
 
 export function useFloatingMenu<T extends ReferenceType = HTMLDivElement>(
     open: boolean

@@ -44,25 +44,21 @@ export function getProperties(values: BarcodeGeneratorPreviewProps, defaultPrope
     }
 
     // enableFlat is only supported for EAN-13 and EAN-8, and NOT when addons are enabled
-    if (
-        !(
-            values.codeFormat === "Custom" &&
-            (values.customCodeFormat === "EAN13" || values.customCodeFormat === "EAN8") &&
-            values.addonFormat === "None"
-        )
-    ) {
+    if (!(
+        values.codeFormat === "Custom" &&
+        (values.customCodeFormat === "EAN13" || values.customCodeFormat === "EAN8") &&
+        values.addonFormat === "None"
+    )) {
         hidePropertyIn(defaultProperties, values, "enableFlat");
     }
 
     // lastChar is only supported for EAN-13, and NOT when flat is enabled or addons are present
-    if (
-        !(
-            values.codeFormat === "Custom" &&
-            values.customCodeFormat === "EAN13" &&
-            !values.enableFlat &&
-            values.addonFormat === "None"
-        )
-    ) {
+    if (!(
+        values.codeFormat === "Custom" &&
+        values.customCodeFormat === "EAN13" &&
+        !values.enableFlat &&
+        values.addonFormat === "None"
+    )) {
         hidePropertyIn(defaultProperties, values, "lastChar");
     }
 

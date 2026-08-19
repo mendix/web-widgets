@@ -1,7 +1,7 @@
-import { Pagination as PagingButtons } from "@mendix/widget-plugin-grid/components/Pagination";
-import { getGlobalSortContext, SortAPI } from "@mendix/widget-plugin-sorting/react/context";
 import classNames from "classnames";
 import { createContext, createElement, PropsWithChildren, ReactElement, ReactNode, useContext, useState } from "react";
+import { Pagination as PagingButtons } from "@mendix/widget-plugin-grid/components/Pagination";
+import { getGlobalSortContext, SortAPI } from "@mendix/widget-plugin-sorting/react/context";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { LoadMoreButton } from "./components/LoadMore";
 import "./ui/GalleryPreview.scss";

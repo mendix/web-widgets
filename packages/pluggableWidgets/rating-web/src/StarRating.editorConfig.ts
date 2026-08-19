@@ -1,10 +1,10 @@
-import { ImageProps, RowLayoutProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { Problem } from "@mendix/pluggable-widgets-tools";
+import { ImageProps, RowLayoutProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
-import StructurePreviewRatingFilledSVG from "./assets/StructurePreviewRatingFilled.svg";
-import StructurePreviewRatingFilledSVGDark from "./assets/StructurePreviewRatingFilled-dark.svg";
-import StructurePreviewRatingEmptySVG from "./assets/StructurePreviewRatingEmpty.svg";
 import StructurePreviewRatingEmptySVGDark from "./assets/StructurePreviewRatingEmpty-dark.svg";
+import StructurePreviewRatingEmptySVG from "./assets/StructurePreviewRatingEmpty.svg";
+import StructurePreviewRatingFilledSVGDark from "./assets/StructurePreviewRatingFilled-dark.svg";
+import StructurePreviewRatingFilledSVG from "./assets/StructurePreviewRatingFilled.svg";
 import { StarRatingPreviewProps } from "../typings/StarRatingProps";
 
 export const getPreview = (props: StarRatingPreviewProps, isDarkMode: boolean): RowLayoutProps => {

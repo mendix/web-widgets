@@ -1,5 +1,4 @@
 import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
-import { SelectionHelperPreviewProps } from "../typings/SelectionHelperProps";
 import {
     container,
     dropzone,
@@ -8,6 +7,7 @@ import {
     svgImage,
     text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
+import { SelectionHelperPreviewProps } from "../typings/SelectionHelperProps";
 
 import CheckBoxIndeterminateSVG from "./assets/CheckBoxIndeterminate.light.svg";
 

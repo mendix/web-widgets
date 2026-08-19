@@ -1,9 +1,9 @@
-import { DerivedPropsGate, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { EditableValue } from "mendix";
-import { GalleryGateProps } from "../../typings/GalleryGateProps";
+import { DerivedPropsGate, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { AttributeStorage } from "./AttributeStorage";
 import { BrowserStorage } from "./BrowserStorage";
 import { ObservableStorage } from "./storage";
+import { GalleryGateProps } from "../../typings/GalleryGateProps";
 
 export function createSettingsStorage(
     host: SetupComponentHost,

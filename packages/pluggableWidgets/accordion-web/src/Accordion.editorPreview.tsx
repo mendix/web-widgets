@@ -1,6 +1,6 @@
-import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
-import { mapPreviewIconToWebIcon } from "@mendix/widget-plugin-platform/preview/map-icon";
 import { ReactElement } from "react";
+import { mapPreviewIconToWebIcon } from "@mendix/widget-plugin-platform/preview/map-icon";
+import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 
 import { Accordion } from "./components/Accordion";
 import { useIconGenerator } from "./utils/iconGenerator";

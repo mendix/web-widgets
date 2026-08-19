@@ -1,6 +1,6 @@
-import { ReactElement, ReactNode, useCallback, useState } from "react";
-import { GUID } from "mendix";
 import classNames from "classnames";
+import { GUID } from "mendix";
+import { ReactElement, ReactNode, useCallback, useState } from "react";
 import { A11y, Autoplay, EffectFade, Keyboard, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import { PaginationOptions, SwiperOptions } from "swiper/types";

@@ -1,5 +1,5 @@
-import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { ReactElement } from "react";
+import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 
 import { BadgePreviewProps } from "../typings/BadgeProps";
 import { Badge } from "./components/Badge";

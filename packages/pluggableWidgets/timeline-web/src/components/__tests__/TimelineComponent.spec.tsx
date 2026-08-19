@@ -1,8 +1,8 @@
 import { fireEvent, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { actionValue } from "@mendix/widget-plugin-test-utils";
-import TimelineComponent from "../TimelineComponent";
 import { BasicItemType, ComponentProps, CustomItemType } from "../../helpers/types";
+import TimelineComponent from "../TimelineComponent";
 
 const firstDate = new Date(Date.UTC(1453, 4, 29));
 const secondDate = new Date(Date.UTC(1453, 4, 30));

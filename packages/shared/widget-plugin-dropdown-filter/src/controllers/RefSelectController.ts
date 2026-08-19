@@ -1,6 +1,6 @@
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
-import { RefBaseController, RefBaseControllerProps } from "./RefBaseController";
 import { SelectControllerMixin } from "./mixins/SelectControllerMixin";
+import { RefBaseController, RefBaseControllerProps } from "./RefBaseController";
 
 export class RefSelectController extends SelectControllerMixin(RefBaseController) {
     constructor({ gate }: { gate: DerivedPropsGate<RefBaseControllerProps> }) {

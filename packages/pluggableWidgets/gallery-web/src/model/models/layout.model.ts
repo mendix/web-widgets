@@ -1,6 +1,6 @@
+import { computed } from "mobx";
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
 import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
-import { computed } from "mobx";
 
 /** @injectable */
 export function layoutAtom(

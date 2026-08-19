@@ -1,10 +1,10 @@
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { ActionValue, EditableValue } from "mendix";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
+import { JSActionsHelper } from "./JSActionsHelper";
+import { ValueChangeHelper } from "./ValueChangeHelper";
 import { OptionsSerializer } from "../stores/OptionsSerializer";
 import { IJSActionsControlled, ResetHandler, SetValueHandler } from "../typings/IJSActionsControlled";
 import { OptionWithState } from "../typings/OptionWithState";
-import { JSActionsHelper } from "./JSActionsHelper";
-import { ValueChangeHelper } from "./ValueChangeHelper";
 
 interface FilterStore {
     reset: () => void;

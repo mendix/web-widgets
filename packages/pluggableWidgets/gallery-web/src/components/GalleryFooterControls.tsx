@@ -1,11 +1,11 @@
-import { If } from "@mendix/widget-plugin-component-kit/If";
 import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
+import { If } from "@mendix/widget-plugin-component-kit/If";
+import { LoadMore } from "./LoadMore";
+import { Pagination } from "./Pagination";
 import { useSelectionCounterViewModel } from "../features/selection-counter/injection-hooks";
 import { SelectionCounter } from "../features/selection-counter/SelectionCounter";
 import { useCustomPagination, usePaginationConfig } from "../model/hooks/injection-hooks";
-import { LoadMore } from "./LoadMore";
-import { Pagination } from "./Pagination";
 
 export const GalleryFooterControls = observer(function GalleryFooterControls(): ReactElement {
     const counterVM = useSelectionCounterViewModel();

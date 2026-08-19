@@ -1,6 +1,6 @@
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { makeAutoObservable } from "mobx";
 import { CSSProperties } from "react";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 
 export class GalleryRootViewModel {
     constructor(

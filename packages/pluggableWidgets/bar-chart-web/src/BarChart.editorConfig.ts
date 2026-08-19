@@ -1,11 +1,3 @@
-import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
-import { BarChartPreviewProps, BarmodeEnum } from "../typings/BarChartProps";
-import {
-    ContainerProps,
-    datasource,
-    ImageProps,
-    StructurePreviewProps
-} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
@@ -14,13 +6,21 @@ import {
     Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
+import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
+import {
+    ContainerProps,
+    datasource,
+    ImageProps,
+    StructurePreviewProps
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
+import { BarChartPreviewProps, BarmodeEnum } from "../typings/BarChartProps";
 
 import BarChartGroupedDark from "./assets/BarChart-grouped.dark.svg";
 import BarChartGroupedLight from "./assets/BarChart-grouped.light.svg";
-import BarChartStackedDark from "./assets/BarChart-stacked.dark.svg";
-import BarChartStackedLight from "./assets/BarChart-stacked.light.svg";
 import BarChartLegendDark from "./assets/BarChart-legend.dark.svg";
 import BarChartLegendLight from "./assets/BarChart-legend.light.svg";
+import BarChartStackedDark from "./assets/BarChart-stacked.dark.svg";
+import BarChartStackedLight from "./assets/BarChart-stacked.light.svg";
 
 export function getProperties(
     values: BarChartPreviewProps,

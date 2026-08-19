@@ -1,8 +1,8 @@
+import { GUID } from "mendix";
 import { ReactElement } from "react";
+import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { CarouselPreviewProps } from "../typings/CarouselProps";
 import { Carousel } from "./components/Carousel";
-import { GUID } from "mendix";
-import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 
 export function getPreviewCss(): string {
     return require("./ui/Carousel.scss");

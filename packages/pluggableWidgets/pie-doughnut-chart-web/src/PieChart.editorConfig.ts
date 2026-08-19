@@ -1,24 +1,24 @@
 import {
-    ContainerProps,
-    datasource,
-    ImageProps,
-    StructurePreviewProps
-} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
-import {
     hidePropertiesIn,
     hidePropertyIn,
     Problem,
     Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
+import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
+import {
+    ContainerProps,
+    datasource,
+    ImageProps,
+    StructurePreviewProps
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import { PieChartPreviewProps } from "../typings/PieChartProps";
 
-import PieChartDark from "./assets/PieChart.dark.svg";
-import PieChartLight from "./assets/PieChart.light.svg";
 import DoughnutDark from "./assets/DoughnutChart.dark.svg";
 import DoughnutLight from "./assets/DoughnutChart.light.svg";
+import PieChartDark from "./assets/PieChart.dark.svg";
+import PieChartLight from "./assets/PieChart.light.svg";
 import PieDoughnutChartLegendDark from "./assets/PieDoughnut-legend.dark.svg";
 import PieDoughnutChartLegendLight from "./assets/PieDoughnut-legend.light.svg";
 

@@ -1,11 +1,11 @@
+import Big from "big.js";
 import { ObjectItem, ValueStatus } from "mendix";
+import { PlotDatum } from "plotly.js-dist-min";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ensure } from "@mendix/pluggable-widgets-tools";
-import { HeatMapContainerProps } from "../../typings/HeatMapProps";
 import { ChartWidgetProps, compareAttrValuesAsc } from "@mendix/shared-charts/main";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import Big from "big.js";
-import { PlotDatum } from "plotly.js-dist-min";
+import { HeatMapContainerProps } from "../../typings/HeatMapProps";
 
 type HeatMapDataSeriesHooks = Pick<
     HeatMapContainerProps,

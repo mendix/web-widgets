@@ -1,11 +1,11 @@
-import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
 import { ObjectItem } from "mendix";
 import { computed } from "mobx";
 import { observer } from "mobx-react-lite";
 import { ReactElement, ReactNode, useMemo } from "react";
+import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
+import { CellElement } from "./CellElement";
 import { EventsController } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
-import { CellElement } from "./CellElement";
 
 interface DataCellProps {
     children?: ReactNode;

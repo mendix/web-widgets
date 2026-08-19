@@ -1,8 +1,8 @@
-import { useMemo } from "react";
 import { ObjectItem } from "mendix";
-import { TimelineContainerProps } from "../../typings/TimelineProps";
+import { useMemo } from "react";
 import { getGroup } from "./grouping";
 import { BasicItemType, TimelineData } from "./types";
+import { TimelineContainerProps } from "../../typings/TimelineProps";
 
 export function useBasicItems(props: TimelineContainerProps): TimelineData {
     return useMemo(

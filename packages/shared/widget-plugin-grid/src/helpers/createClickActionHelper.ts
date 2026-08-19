@@ -1,6 +1,6 @@
-import { DerivedPropsGate, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { ListActionValue } from "mendix";
 import { autorun } from "mobx";
+import { DerivedPropsGate, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { ClickActionHelper, ClickTrigger } from "./ClickActionHelper";
 
 export function createClickActionHelper(

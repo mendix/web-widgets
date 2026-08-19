@@ -1,8 +1,8 @@
-import { SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { attrId } from "@mendix/widget-plugin-test-utils";
-import { ListAttributeId, SortInstruction } from "@mendix/widget-plugin-sorting/types/store";
 import { FilterCondition } from "mendix/filters";
 import { configure, observable, onReactionError } from "mobx";
+import { SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { ListAttributeId, SortInstruction } from "@mendix/widget-plugin-sorting/types/store";
+import { attrId } from "@mendix/widget-plugin-test-utils";
 import { QueryParamsService } from "../QueryParams.service";
 
 const ATTR_A = attrId("a");

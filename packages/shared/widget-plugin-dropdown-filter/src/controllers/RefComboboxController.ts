@@ -1,5 +1,5 @@
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { FocusEvent } from "react";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { ComboboxControllerMixin } from "./mixins/ComboboxControllerMixin";
 import { RefBaseController, RefBaseControllerProps } from "./RefBaseController";
 

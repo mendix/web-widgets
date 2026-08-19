@@ -1,8 +1,7 @@
 import { ReactElement } from "react";
 import { BarcodeScannerPreviewProps } from "../typings/BarcodeScannerProps";
-import { BarcodeScannerOverlay } from "./components/BarcodeScanner";
-
 import previewQrCodeSvg from "./assets/previewQrCode.svg";
+import { BarcodeScannerOverlay } from "./components/BarcodeScanner";
 
 export function preview(props: BarcodeScannerPreviewProps): ReactElement {
     return (

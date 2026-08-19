@@ -1,8 +1,8 @@
-import { ChartPreview } from "@mendix/shared-charts/preview";
 import { ReactNode } from "react";
+import { ChartPreview } from "@mendix/shared-charts/preview";
 import BarChartGrouped from "./assets/BarChart-grouped.light.svg";
-import BarChartStacked from "./assets/BarChart-stacked.light.svg";
 import BarChartLegend from "./assets/BarChart-legend.light.svg";
+import BarChartStacked from "./assets/BarChart-stacked.light.svg";
 import { BarChartPreviewProps } from "../typings/BarChartProps";
 
 export function preview(props: BarChartPreviewProps): ReactNode {

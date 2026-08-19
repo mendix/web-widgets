@@ -1,9 +1,9 @@
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
+import { GalleryContainer } from "./Gallery.container";
+import { RootContainer } from "./Root.container";
 import { GalleryContainerProps } from "../../../typings/GalleryProps";
 import { GalleryGateProps } from "../../typings/GalleryGateProps";
 import { galleryConfig } from "../configs/Gallery.config";
-import { GalleryContainer } from "./Gallery.container";
-import { RootContainer } from "./Root.container";
 
 export function createGalleryContainer(
     props: GalleryContainerProps

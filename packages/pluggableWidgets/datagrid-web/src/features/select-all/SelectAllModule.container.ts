@@ -1,17 +1,17 @@
-import { DatasourceService, SelectAllService, TaskProgressService } from "@mendix/widget-plugin-grid/main";
-import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
-import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Container, injected } from "brandi";
+import { DatasourceService, SelectAllService, TaskProgressService } from "@mendix/widget-plugin-grid/main";
 
 import { SelectAllFeature } from "@mendix/widget-plugin-grid/select-all/select-all.feature";
 import { selectAllEmitter, selectAllTextsStore } from "@mendix/widget-plugin-grid/select-all/select-all.model";
 import { SelectAllBarStore } from "@mendix/widget-plugin-grid/select-all/SelectAllBar.store";
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
+import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { SelectAllBarViewModel } from "./SelectAllBar.viewModel";
+import { SelectionProgressDialogViewModel } from "./SelectionProgressDialog.viewModel";
 import { MainGateProps } from "../../../typings/MainGateProps";
 import { DatagridConfig } from "../../model/configs/Datagrid.config";
 import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../../model/tokens";
-import { SelectAllBarViewModel } from "./SelectAllBar.viewModel";
-import { SelectionProgressDialogViewModel } from "./SelectionProgressDialog.viewModel";
 
 injected(
     selectAllTextsStore,

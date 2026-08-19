@@ -3,7 +3,20 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, DynamicValue, EditableValue, ListAttributeValue, ListExpressionValue, ListValue, ListWidgetValue, Option, ReferenceSetValue, ReferenceValue, SelectionMultiValue, SelectionSingleValue } from "mendix";
+import {
+    ActionValue,
+    DynamicValue,
+    EditableValue,
+    ListAttributeValue,
+    ListExpressionValue,
+    ListValue,
+    ListWidgetValue,
+    Option,
+    ReferenceSetValue,
+    ReferenceValue,
+    SelectionMultiValue,
+    SelectionSingleValue
+} from "mendix";
 import { ComponentType, ReactNode } from "react";
 import { Big } from "big.js";
 
@@ -43,7 +56,10 @@ export type FilterTypeEnum = "contains" | "containsExact" | "startsWith" | "none
 
 export interface OptionsSourceStaticDataSourcePreviewType {
     staticDataSourceValue: string;
-    staticDataSourceCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    staticDataSourceCustomContent: {
+        widgetCount: number;
+        renderer: ComponentType<{ children: ReactNode; caption?: string }>;
+    };
     staticDataSourceCaption: string;
 }
 
@@ -130,9 +146,15 @@ export interface ComboboxPreviewProps {
     noOptionsText: string;
     clearable: boolean;
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
-    optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    optionsSourceAssociationCustomContent: {
+        widgetCount: number;
+        renderer: ComponentType<{ children: ReactNode; caption?: string }>;
+    };
     optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;
-    optionsSourceDatabaseCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    optionsSourceDatabaseCustomContent: {
+        widgetCount: number;
+        renderer: ComponentType<{ children: ReactNode; caption?: string }>;
+    };
     staticDataSourceCustomContentType: StaticDataSourceCustomContentTypeEnum;
     showFooter: boolean;
     menuFooterContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };

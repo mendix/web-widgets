@@ -1,8 +1,8 @@
 import { ObjectItem, Option } from "mendix";
 import { association, equals, literal, or } from "mendix/filters/builders";
 import { useCallback, useEffect, useRef } from "react";
-import { TreeNodeContainerProps } from "../../../../typings/TreeNodeProps";
 import { getItemId } from "./helpers";
+import { TreeNodeContainerProps } from "../../../../typings/TreeNodeProps";
 
 export type ItemType = Array<Option<ObjectItem>>;
 

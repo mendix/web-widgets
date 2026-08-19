@@ -11,7 +11,8 @@ export type CodeFormatEnum = "CODE128" | "QRCode" | "Custom";
 
 export type ButtonPositionEnum = "top" | "bottom";
 
-export type CustomCodeFormatEnum = "CODE128" | "EAN13" | "EAN8" | "UPC" | "CODE39" | "ITF14" | "MSI" | "pharmacode" | "codabar" | "CODE93";
+export type CustomCodeFormatEnum =
+    "CODE128" | "EAN13" | "EAN8" | "UPC" | "CODE39" | "ITF14" | "MSI" | "pharmacode" | "codabar" | "CODE93";
 
 export type AddonFormatEnum = "None" | "EAN5" | "EAN2";
 
@@ -101,7 +102,7 @@ export interface BarcodeGeneratorPreviewProps {
     qrTitle: string;
     showTitle: boolean;
     qrOverlay: boolean;
-    qrOverlaySrc: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
+    qrOverlaySrc: { type: "static"; imageUrl: string } | { type: "dynamic"; entity: string } | null;
     qrOverlayCenter: boolean;
     qrOverlayX: number | null;
     qrOverlayY: number | null;

@@ -1,9 +1,9 @@
-import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { hidePropertiesIn, hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
+import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import { ProgressCirclePreviewProps, TypeEnum } from "../typings/ProgressCircleProps";
-import StructurePreviewSvg from "./assets/structure-preview.svg";
 import StructurePreviewSvgDark from "./assets/structure-preview-dark.svg";
+import StructurePreviewSvg from "./assets/structure-preview.svg";
 
 type PreviewPropsKey = keyof ProgressCirclePreviewProps;
 const propKeys: { [Type in TypeEnum]: PreviewPropsKey[] } = {

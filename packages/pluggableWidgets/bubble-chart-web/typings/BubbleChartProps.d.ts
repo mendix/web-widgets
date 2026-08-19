@@ -9,7 +9,8 @@ import { Big } from "big.js";
 
 export type DataSetEnum = "static" | "dynamic";
 
-export type AggregationTypeEnum = "none" | "count" | "sum" | "avg" | "min" | "max" | "median" | "mode" | "first" | "last";
+export type AggregationTypeEnum =
+    "none" | "count" | "sum" | "avg" | "min" | "max" | "median" | "mode" | "first" | "last";
 
 export interface LinesType {
     dataSet: DataSetEnum;

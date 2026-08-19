@@ -1,9 +1,9 @@
-import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 import { computed } from "mobx";
 import { CSSProperties } from "react";
+import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
-import { DatagridConfig } from "../configs/Datagrid.config";
 import { GridColumn } from "../../typings/GridColumn";
+import { DatagridConfig } from "../configs/Datagrid.config";
 import { GridSizeStore } from "../stores/GridSize.store";
 
 export function gridStyleAtom(

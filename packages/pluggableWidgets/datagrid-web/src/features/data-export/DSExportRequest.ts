@@ -1,8 +1,8 @@
-import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import { ListValue, ObjectItem, ValueStatus } from "mendix";
 import { createNanoEvents, Emitter, Unsubscribe } from "nanoevents";
-import { ColumnsType } from "../../../typings/DatagridProps";
+import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import { HeaderDefinition, RowData, readChunk } from "./cell-readers";
+import { ColumnsType } from "../../../typings/DatagridProps";
 
 type ColumnReader = (props: ColumnsType) => HeaderDefinition;
 

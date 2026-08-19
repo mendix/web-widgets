@@ -1,9 +1,11 @@
-import { ClickEntry, ClickEventSwitch } from "@mendix/widget-plugin-grid/event-switch/ClickEventSwitch";
+import { ObjectItem } from "mendix";
 import { ElementEntry, ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
+import { ClickEntry, ClickEventSwitch } from "@mendix/widget-plugin-grid/event-switch/ClickEventSwitch";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
 import { ClickActionHelper, ExecuteActionFx } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
-import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
+import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
+import { SelectActionsService } from "@mendix/widget-plugin-grid/main";
 import {
     SelectAdjacentFx,
     SelectAllFx,
@@ -11,9 +13,7 @@ import {
     SelectionMode,
     SelectionType
 } from "@mendix/widget-plugin-grid/selection";
-import { ObjectItem } from "mendix";
 
-import { SelectActionsService } from "@mendix/widget-plugin-grid/main";
 import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 import { createActionHandlers } from "./action-handlers";
 import { CellContext, SelectionMethod } from "./base";

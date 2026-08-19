@@ -1,6 +1,6 @@
-import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 import { DynamicValue, ListAttributeValue, ListExpressionValue, ListValue } from "mendix";
 import { ReactNode } from "react";
+import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 import {
     ComboboxContainerProps,
     FilterTypeEnum,

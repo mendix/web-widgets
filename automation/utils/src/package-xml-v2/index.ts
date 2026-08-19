@@ -1,5 +1,5 @@
-import { XMLBuilder, XMLParser } from "fast-xml-parser";
 import { readFile, writeFile } from "fs/promises";
+import { XMLBuilder, XMLParser } from "fast-xml-parser";
 import { Version, VersionString } from "../version";
 import { ClientModulePackageFile } from "./schema";
 

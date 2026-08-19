@@ -1,3 +1,4 @@
+import { MouseEvent } from "react";
 import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 import {
     isSelectOneTrigger,
@@ -9,7 +10,6 @@ import {
 } from "@mendix/widget-plugin-grid/selection";
 import { blockUserSelect, removeAllRanges, unblockUserSelect } from "@mendix/widget-plugin-grid/selection/utils";
 import { CellContext } from "./base";
-import { MouseEvent } from "react";
 
 const onSelect = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElement, "onClick"> => ({
     eventName: "onClick",

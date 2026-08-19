@@ -1,5 +1,5 @@
-import { listExpression, obj } from "@mendix/widget-plugin-test-utils";
 import { configure, isObservable, observable } from "mobx";
+import { listExpression, obj } from "@mendix/widget-plugin-test-utils";
 import { GalleryGateProps } from "../../../typings/GalleryGateProps";
 import { itemKeyProvider } from "../items.model";
 

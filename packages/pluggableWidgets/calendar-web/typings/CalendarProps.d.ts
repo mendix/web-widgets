@@ -3,7 +3,16 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, DynamicValue, EditableValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListValue, Option } from "mendix";
+import {
+    ActionValue,
+    DynamicValue,
+    EditableValue,
+    ListActionValue,
+    ListAttributeValue,
+    ListExpressionValue,
+    ListValue,
+    Option
+} from "mendix";
 import { CSSProperties } from "react";
 
 export type TitleTypeEnum = "attribute" | "expression";
@@ -103,7 +112,12 @@ export interface CalendarContainerProps {
     customViewShowSunday: boolean;
     onEditEvent?: ListActionValue;
     onCreateEvent?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date>; allDay: Option<boolean> }>;
-    onDragDropResize?: ListActionValue<{ oldStart: Option<Date>; oldEnd: Option<Date>; newStart: Option<Date>; newEnd: Option<Date> }>;
+    onDragDropResize?: ListActionValue<{
+        oldStart: Option<Date>;
+        oldEnd: Option<Date>;
+        newStart: Option<Date>;
+        newEnd: Option<Date>;
+    }>;
     onViewRangeChange?: ActionValue<{ rangeStart: Option<Date>; rangeEnd: Option<Date>; currentView: Option<string> }>;
     widthUnit: WidthUnitEnum;
     width: number;

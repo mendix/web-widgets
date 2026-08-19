@@ -1,3 +1,4 @@
+import { Container, injected } from "brandi";
 import {
     hasMoreItemsAtom,
     isAllItemsPresentAtom,
@@ -13,7 +14,6 @@ import {
     selectionCounterTextsStore
 } from "@mendix/widget-plugin-grid/core/models/selection.model";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { Container, injected } from "brandi";
 
 import { columnCount, visibleColumnsCountAtom } from "../models/columns.model";
 import { rowsAtom } from "../models/rows.model";

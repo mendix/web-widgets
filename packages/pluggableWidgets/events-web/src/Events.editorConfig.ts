@@ -10,9 +10,9 @@ import {
 import { EventsPreviewProps } from "../typings/EventsProps";
 
 import EventsPreviewSVGActive from "./assets/Events.icon.active.svg";
-import EventsPreviewSVG from "./assets/Events.icon.svg";
 import EventsPreviewDarkSVGActive from "./assets/Events.icon.dark.active.svg";
 import EventsPreviewDarkSVG from "./assets/Events.icon.dark.svg";
+import EventsPreviewSVG from "./assets/Events.icon.svg";
 
 export function getProperties(
     values: EventsPreviewProps,

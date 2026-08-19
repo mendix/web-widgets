@@ -1,3 +1,4 @@
+import { ObjectItem } from "mendix";
 import { ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
 import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
@@ -11,7 +12,6 @@ import {
     SelectionType
 } from "@mendix/widget-plugin-grid/selection";
 import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
-import { ObjectItem } from "mendix";
 import { CheckboxContext, SelectionMethod } from "./base";
 import { checkboxHandlers } from "./checkbox-handlers";
 import { createFocusTargetHandlers } from "./focus-target-handlers";

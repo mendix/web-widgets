@@ -1,6 +1,6 @@
+import { format, FormatLong, getDay, Locale, Localize, Match, parse, startOfWeek } from "date-fns";
 import { useMemo } from "react";
 import { dateFnsLocalizer, DateLocalizer } from "react-big-calendar";
-import { format, FormatLong, getDay, Locale, Localize, Match, parse, startOfWeek } from "date-fns";
 import { getMendixLocale } from "../utils/calendar-utils";
 
 /**

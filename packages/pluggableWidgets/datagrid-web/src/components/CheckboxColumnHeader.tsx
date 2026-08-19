@@ -1,7 +1,7 @@
-import { If } from "@mendix/widget-plugin-component-kit/If";
-import { ThreeStateCheckBox } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 import { observer } from "mobx-react-lite";
 import { Fragment, ReactElement, ReactNode } from "react";
+import { If } from "@mendix/widget-plugin-component-kit/If";
+import { ThreeStateCheckBox } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 import { useDatagridConfig, useSelectActions, useSelectionHelper, useTexts } from "../model/hooks/injection-hooks";
 
 export function CheckboxColumnHeader(): ReactElement {

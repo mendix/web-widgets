@@ -1,8 +1,8 @@
+import { AttributeMetaData, DynamicValue } from "mendix";
+import { action, computed, makeObservable, observable } from "mobx";
 import { PlainJs, Serializable } from "@mendix/filter-commons/typings/settings";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { action, computed, makeObservable, observable } from "mobx";
 import { BasicSortStore, Option, SortInstruction } from "../types/store";
-import { AttributeMetaData, DynamicValue } from "mendix";
 
 type StorableState = Array<[number, "asc" | "desc"]>;
 

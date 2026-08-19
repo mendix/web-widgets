@@ -1,6 +1,5 @@
-import { Component, createRef, ReactNode } from "react";
-
 import classNames from "classnames";
+import { Component, createRef, ReactNode } from "react";
 
 export interface Html5PlayerProps {
     url: string;

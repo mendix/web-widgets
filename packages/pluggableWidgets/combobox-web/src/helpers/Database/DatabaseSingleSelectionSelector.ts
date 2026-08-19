@@ -1,4 +1,5 @@
 import { ActionValue, EditableValue, ListAttributeValue, ObjectItem, SelectionSingleValue } from "mendix";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import {
     ComboboxContainerProps,
     LoadingTypeEnum,
@@ -11,7 +12,6 @@ import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
 import { DatabaseOptionsProvider } from "./DatabaseOptionsProvider";
 import { DatabaseValuesProvider } from "./DatabaseValuesProvider";
 import { extractDatabaseProps, getReadonly } from "./utils";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 
 export class DatabaseSingleSelectionSelector<
     T extends string | Big,

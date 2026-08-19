@@ -1,5 +1,5 @@
-import { GateProvider } from "@mendix/widget-plugin-mobx-kit/main";
 import { autorun } from "mobx";
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/main";
 import { offsetAtom } from "../models/datasource.model.js";
 
 describe("offsetAtom", () => {

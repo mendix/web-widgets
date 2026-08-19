@@ -10,7 +10,8 @@ export type WidgetModeEnum = "basic" | "advanced";
 
 export type ValueTypeEnum = "predefined" | "custom";
 
-export type PredefinedValueEnum = "pageTitle" | "pageUrl" | "pageName" | "moduleName" | "pageAndModuleName" | "sessionId" | "userLocale";
+export type PredefinedValueEnum =
+    "pageTitle" | "pageUrl" | "pageName" | "moduleName" | "pageAndModuleName" | "sessionId" | "userLocale";
 
 export interface ParametersType {
     name: string;

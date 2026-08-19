@@ -1,6 +1,6 @@
-import { DerivedGate, GateProvider } from "@mendix/widget-plugin-mobx-kit/main";
 import { autorun, computed, observable } from "mobx";
 import { ReactNode } from "react";
+import { DerivedGate, GateProvider } from "@mendix/widget-plugin-mobx-kit/main";
 import "../../utils/mobx-test-setup.js";
 import { emptyStateWidgetsAtom } from "../models/empty-state.model.js";
 

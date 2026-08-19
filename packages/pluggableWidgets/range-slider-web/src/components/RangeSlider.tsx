@@ -1,6 +1,6 @@
-import { CSSProperties, forwardRef, ReactElement, RefObject } from "react";
 import Slider, { SliderProps } from "@rc-component/slider";
 import classNames from "classnames";
+import { CSSProperties, forwardRef, ReactElement, RefObject } from "react";
 export interface RangeSliderProps extends SliderProps {
     classNameSlider?: string;
     rootStyle?: CSSProperties;

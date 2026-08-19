@@ -1,8 +1,8 @@
-import { TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { ListValue } from "mendix";
 import { createNanoEvents, Emitter } from "nanoevents";
-import { ColumnsType } from "../../../typings/DatagridProps";
+import { TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { DSExportRequest } from "./DSExportRequest";
+import { ColumnsType } from "../../../typings/DatagridProps";
 
 interface ControllerEvents {
     sourcechange: (ds: ListValue) => void;

@@ -1,10 +1,10 @@
-import { If } from "@mendix/widget-plugin-component-kit/If";
-import { Pagination as PagingButtons } from "@mendix/widget-plugin-grid/components/Pagination";
 import cn from "classnames";
 import { GUID, ObjectItem } from "mendix";
 import { Selectable } from "mendix/preview/Selectable";
 import { createContext, CSSProperties, PropsWithChildren, ReactElement, ReactNode, useContext } from "react";
 import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps";
+import { If } from "@mendix/widget-plugin-component-kit/If";
+import { Pagination as PagingButtons } from "@mendix/widget-plugin-grid/components/Pagination";
 import { FaArrowsAltV } from "./components/icons/FaArrowsAltV";
 import { FaEye } from "./components/icons/FaEye";
 import { ColumnPreview } from "./helpers/ColumnPreview";

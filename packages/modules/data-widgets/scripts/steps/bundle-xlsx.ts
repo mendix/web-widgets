@@ -1,9 +1,9 @@
 import path from "node:path";
-import { copyActionsFiles, logStep, ModuleStepParams } from "@mendix/automation-utils/steps";
-import * as rollup from "rollup";
-import type { InputOptions, OutputOptions } from "rollup";
 import resolve from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
+import * as rollup from "rollup";
+import type { InputOptions, OutputOptions } from "rollup";
+import { copyActionsFiles, logStep, ModuleStepParams } from "@mendix/automation-utils/steps";
 
 type Entry = {
     getInputOptions: (params: ModuleStepParams) => InputOptions;

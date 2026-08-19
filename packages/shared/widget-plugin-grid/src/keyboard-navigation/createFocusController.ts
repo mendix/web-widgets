@@ -1,5 +1,5 @@
-import { ComputedAtom, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { reaction } from "mobx";
+import { ComputedAtom, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { FocusTargetController } from "./FocusTargetController";
 import { PositionController } from "./PositionController";
 import { VirtualGridLayout } from "./VirtualGridLayout";

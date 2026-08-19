@@ -1,7 +1,7 @@
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { ListActionValue, ListExpressionValue, ListWidgetValue, ObjectItem } from "mendix";
 import { makeAutoObservable } from "mobx";
 import { ReactNode } from "react";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 
 export class GalleryItemViewModel {
     constructor(

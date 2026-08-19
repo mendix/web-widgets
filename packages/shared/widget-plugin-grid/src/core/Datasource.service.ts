@@ -1,7 +1,7 @@
-import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { ListValue, ObjectItem, ValueStatus } from "mendix";
 import { action, autorun, makeAutoObservable, when } from "mobx";
+import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
+import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { QueryService } from "../interfaces/QueryService";
 
 interface DynamicProps {
@@ -21,12 +21,7 @@ export class DatasourceService implements SetupComponent, QueryService {
         host.add(this);
 
         type PrivateMembers =
-            | "resetFlags"
-            | "updateFlags"
-            | "setRefreshing"
-            | "setFetching"
-            | "baseLimit"
-            | "setIsLoaded";
+            "resetFlags" | "updateFlags" | "setRefreshing" | "setFetching" | "baseLimit" | "setIsLoaded";
         makeAutoObservable<this, PrivateMembers>(this, {
             setup: false,
             baseLimit: false,

@@ -1,3 +1,4 @@
+import { MouseEvent } from "react";
 import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 import {
     isSelectOneTrigger,
@@ -8,7 +9,6 @@ import {
     SelectFx
 } from "@mendix/widget-plugin-grid/selection";
 import { blockUserSelect, removeAllRanges, unblockUserSelect } from "@mendix/widget-plugin-grid/selection/utils";
-import { MouseEvent } from "react";
 import { EventEntryContext } from "./base";
 import { withInputEventsFilter } from "./keyboard-utils";
 

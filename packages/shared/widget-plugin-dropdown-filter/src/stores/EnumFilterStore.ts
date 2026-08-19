@@ -1,12 +1,12 @@
-import { selectedFromCond } from "@mendix/filter-commons/condition-utils";
-import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { AttributeMetaData } from "mendix";
 import { FilterCondition, LiteralExpression } from "mendix/filters";
 import { attribute, equals, literal, or } from "mendix/filters/builders";
 import { action, computed, makeObservable, observable } from "mobx";
-import { OptionWithState } from "../typings/OptionWithState";
+import { selectedFromCond } from "@mendix/filter-commons/condition-utils";
+import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { BaseSelectStore } from "./BaseSelectStore";
 import { SearchStore } from "./SearchStore";
+import { OptionWithState } from "../typings/OptionWithState";
 
 interface CustomOption {
     caption: string;

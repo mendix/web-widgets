@@ -1,5 +1,5 @@
-import { MutableRefObject } from "react";
 import { computed, configure, observable } from "mobx";
+import { MutableRefObject } from "react";
 import { SetPageAction } from "@mendix/widget-plugin-grid/pagination/main";
 import { PaginationConfig } from "../../../features/pagination/pagination.config";
 import { GridSizeStore, VIRTUAL_SCROLLING_OFFSET } from "../GridSize.store";

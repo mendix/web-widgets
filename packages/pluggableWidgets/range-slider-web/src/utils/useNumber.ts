@@ -1,6 +1,6 @@
-import { useRef } from "react";
 import Big from "big.js";
 import { DynamicValue, EditableValue } from "mendix";
+import { useRef } from "react";
 
 export function useNumber(prop: Big | EditableValue<Big> | DynamicValue<Big> | undefined): Result {
     const isLoaded = (useRef(false).current ||= !loading(prop));

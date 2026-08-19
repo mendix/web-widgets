@@ -1,8 +1,8 @@
 import { FunctionComponent, useCallback } from "react";
 import { ProgressCircle as ProgressCircleComponent } from "./components/ProgressCircle";
-import { ProgressCircleContainerProps } from "../typings/ProgressCircleProps";
 import { defaultValues, ProgressCircleValues } from "./progressCircleValues";
 import { calculatePercentage } from "./util";
+import { ProgressCircleContainerProps } from "../typings/ProgressCircleProps";
 
 export const ProgressCircle: FunctionComponent<ProgressCircleContainerProps> = props => {
     function getProgressCircleValues(): ProgressCircleValues {

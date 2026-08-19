@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
-import { BodyInit, fetch } from "../fetch";
-import { z } from "zod";
-import { Version } from "../version";
 import chalk from "chalk";
+import { z } from "zod";
+import { BodyInit, fetch } from "../fetch";
+import { Version } from "../version";
 
 export interface CreateDraftSuccessResponse {
     App: App;

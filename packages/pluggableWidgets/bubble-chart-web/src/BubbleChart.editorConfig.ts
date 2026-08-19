@@ -1,11 +1,4 @@
 import {
-    ContainerProps,
-    datasource,
-    ImageProps,
-    StructurePreviewProps
-} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
-import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
     hidePropertyIn,
@@ -13,13 +6,20 @@ import {
     Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
+import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
+import {
+    ContainerProps,
+    datasource,
+    ImageProps,
+    StructurePreviewProps
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import { BubbleChartPreviewProps } from "../typings/BubbleChartProps";
 
-import BubbleChartLightSvg from "./assets/BubbleChart.light.svg";
-import BubbleChartDarkSvg from "./assets/BubbleChart.dark.svg";
-import BubbleChartLegendLightSvg from "./assets/BubbleChart-legend.light.svg";
 import BubbleChartLegendDarkSvg from "./assets/BubbleChart-legend.dark.svg";
+import BubbleChartLegendLightSvg from "./assets/BubbleChart-legend.light.svg";
+import BubbleChartDarkSvg from "./assets/BubbleChart.dark.svg";
+import BubbleChartLightSvg from "./assets/BubbleChart.light.svg";
 
 export function getProperties(
     values: BubbleChartPreviewProps,

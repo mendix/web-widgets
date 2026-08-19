@@ -1,8 +1,8 @@
+import { FilterCondition } from "mendix/filters";
+import { reaction } from "mobx";
 import { QueryService } from "@mendix/widget-plugin-grid/main";
 import { disposeBatch, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { SortInstruction } from "@mendix/widget-plugin-sorting/types/store";
-import { FilterCondition } from "mendix/filters";
-import { reaction } from "mobx";
 
 interface ObservableFilterStore {
     filter: FilterCondition | undefined;

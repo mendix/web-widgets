@@ -1,10 +1,10 @@
 /* eslint-disable jest/no-conditional-expect */
-import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
-import { ClickTrigger } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
-import { objectItems } from "@mendix/widget-plugin-test-utils";
 import { render, RenderResult } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { ReactElement } from "react";
+import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
+import { ClickTrigger } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
+import { objectItems } from "@mendix/widget-plugin-test-utils";
 import { createActionHandlers } from "../action-handlers";
 import { CellContext, SelectionMethod } from "../base";
 import { createSelectHandlers } from "../select-handlers";

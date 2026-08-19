@@ -1,5 +1,5 @@
-import { listExpression, obj } from "@mendix/widget-plugin-test-utils";
 import { configure, isObservable, observable } from "mobx";
+import { listExpression, obj } from "@mendix/widget-plugin-test-utils";
 import { MainGateProps } from "../../../../typings/MainGateProps";
 import { rowClassProvider, rowKeyProvider } from "../rows.model";
 

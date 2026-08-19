@@ -1,8 +1,8 @@
-import { ChartPreview } from "@mendix/shared-charts/preview";
 import { ReactNode } from "react";
+import { ChartPreview } from "@mendix/shared-charts/preview";
 import ColumnChartGrouped from "./assets/ColumnChart-grouped.light.svg";
-import ColumnChartStacked from "./assets/ColumnChart-stacked.light.svg";
 import ColumnChartLegend from "./assets/ColumnChart-legend.light.svg";
+import ColumnChartStacked from "./assets/ColumnChart-stacked.light.svg";
 import { ColumnChartPreviewProps } from "../typings/ColumnChartProps";
 
 export function preview(props: ColumnChartPreviewProps): ReactNode {

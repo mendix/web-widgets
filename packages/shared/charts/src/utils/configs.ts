@@ -1,5 +1,5 @@
-import { Config, Data, Layout } from "plotly.js-dist-min";
 import deepMerge from "deepmerge";
+import { Config, Data, Layout } from "plotly.js-dist-min";
 import { useEffect, useState } from "react";
 import { fetchThemeFolderConfigFile } from "./themeFolderConfig";
 
@@ -79,14 +79,7 @@ export const getCustomLayoutOptions = ({
 });
 
 export type ChartTypeEnum =
-    | "LineChart"
-    | "AreaChart"
-    | "BubbleChart"
-    | "TimeSeries"
-    | "ColumnChart"
-    | "BarChart"
-    | "PieChart"
-    | "HeatMap";
+    "LineChart" | "AreaChart" | "BubbleChart" | "TimeSeries" | "ColumnChart" | "BarChart" | "PieChart" | "HeatMap";
 
 function showThemeFolderConfigWarning(msg: string): void {
     console.warn(`Error in theme folder configuration file: ${msg}`);

@@ -1,7 +1,7 @@
 import { FocusEvent, KeyboardEvent, MouseEvent } from "react";
 
-import * as P from "./position";
 import { TargetEvent } from "./base";
+import * as P from "./position";
 import { VirtualGridLayout } from "./VirtualGridLayout";
 
 const keyCodeSet = new Set([

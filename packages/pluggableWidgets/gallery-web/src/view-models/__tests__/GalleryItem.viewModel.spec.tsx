@@ -1,6 +1,6 @@
+import { ObjectItem } from "mendix";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { listAction, listExpression, listWidget } from "@mendix/widget-plugin-test-utils";
-import { ObjectItem } from "mendix";
 import { GalleryItemViewModel } from "../GalleryItem.viewModel";
 
 describe("GalleryItemViewModel", () => {

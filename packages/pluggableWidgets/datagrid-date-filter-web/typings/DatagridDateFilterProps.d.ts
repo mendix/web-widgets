@@ -12,7 +12,8 @@ export interface AttributesType {
     attribute: AttributeMetaData<Date>;
 }
 
-export type DefaultFilterEnum = "between" | "greater" | "greaterEqual" | "equal" | "notEqual" | "smaller" | "smallerEqual" | "empty" | "notEmpty";
+export type DefaultFilterEnum =
+    "between" | "greater" | "greaterEqual" | "equal" | "notEqual" | "smaller" | "smallerEqual" | "empty" | "notEmpty";
 
 export interface AttributesPreviewType {
     attribute: string;

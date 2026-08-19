@@ -1,5 +1,5 @@
-import { ReactElement, useMemo, useRef } from "react";
 import { ValueStatus } from "mendix";
+import { ReactElement, useMemo, useRef } from "react";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 
 import { Accordion as AccordionComponent, AccordionGroups } from "./components/Accordion";

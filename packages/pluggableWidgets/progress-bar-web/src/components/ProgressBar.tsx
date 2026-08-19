@@ -1,5 +1,5 @@
-import { CSSProperties, ReactElement, ReactNode } from "react";
 import classNames from "classnames";
+import { CSSProperties, ReactElement, ReactNode } from "react";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { calculatePercentage } from "../util";
 

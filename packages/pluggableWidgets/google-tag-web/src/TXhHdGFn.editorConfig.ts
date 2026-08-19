@@ -1,5 +1,5 @@
-import { TXhHdGFnPreviewProps as GoogleTagPreviewProps } from "../typings/TXhHdGFnProps";
 import { hideNestedPropertiesIn, hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
+import { TXhHdGFnPreviewProps as GoogleTagPreviewProps } from "../typings/TXhHdGFnProps";
 
 export function getProperties(values: GoogleTagPreviewProps, defaultProperties: Properties): Properties {
     if (values.widgetMode === "basic") {

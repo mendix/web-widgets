@@ -1,4 +1,4 @@
-import { AttributeValueTypeEnum, HTMLElementPreviewProps } from "../typings/HTMLElementProps";
+import { JSX } from "react";
 import { hideNestedPropertiesIn, hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 import {
     container,
@@ -10,7 +10,7 @@ import {
     text,
     TextProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { JSX } from "react";
+import { AttributeValueTypeEnum, HTMLElementPreviewProps } from "../typings/HTMLElementProps";
 import { isVoidElement, prepareTag } from "./utils/props-utils";
 
 type TagAttributeValuePropName = keyof HTMLElementPreviewProps["attributes"][number];

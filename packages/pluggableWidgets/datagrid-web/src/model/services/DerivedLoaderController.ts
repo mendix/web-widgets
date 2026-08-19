@@ -1,5 +1,5 @@
-import { QueryService, TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { computed, makeObservable } from "mobx";
+import { QueryService, TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { IColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
 
 export interface DerivedLoaderControllerConfig {

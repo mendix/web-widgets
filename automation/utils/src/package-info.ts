@@ -1,7 +1,7 @@
-import { join } from "path";
 import { access } from "fs/promises";
-import { versionSchema } from "./version";
+import { join } from "path";
 import { z } from "zod";
+import { versionSchema } from "./version";
 
 export interface PackageJsonFileContent {
     name?: string;

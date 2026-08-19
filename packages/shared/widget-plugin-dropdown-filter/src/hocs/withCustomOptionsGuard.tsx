@@ -1,5 +1,5 @@
-import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { ReactElement, useState } from "react";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { EnumFilterStore } from "../stores/EnumFilterStore";
 import { FilterOptionsType } from "../typings/widget";
 

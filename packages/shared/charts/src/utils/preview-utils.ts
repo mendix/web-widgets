@@ -1,11 +1,11 @@
 import { ComponentType, ReactNode } from "react";
+import { Problem } from "@mendix/pluggable-widgets-tools";
 import {
     container,
     dropzone,
     rowLayout,
     StructurePreviewProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { Problem } from "@mendix/pluggable-widgets-tools";
 
 interface WidgetProps {
     showPlaygroundSlot: boolean;

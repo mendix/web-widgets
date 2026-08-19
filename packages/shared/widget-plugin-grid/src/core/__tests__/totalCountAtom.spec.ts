@@ -1,5 +1,5 @@
-import { DerivedGate, GateProvider } from "@mendix/widget-plugin-mobx-kit/main";
 import { autorun } from "mobx";
+import { DerivedGate, GateProvider } from "@mendix/widget-plugin-mobx-kit/main";
 import { totalCountAtom } from "../models/datasource.model.js";
 
 describe("totalCountAtom", () => {
