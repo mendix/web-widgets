@@ -4,6 +4,21 @@ import { TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { DSExportRequest } from "./DSExportRequest";
 import { ColumnsType } from "../../../typings/DatagridProps";
 
+export type BeforeExportArgs = {
+    gridName: string;
+    columnTitles: string;
+    chunkSize: number;
+    fileName: string;
+    sheetName: string;
+    startTime: Date;
+};
+
+export type AfterExportArgs = BeforeExportArgs & {
+    exportedItemCount: number;
+    status: string;
+    endTime: Date;
+};
+
 interface ControllerEvents {
     sourcechange: (ds: ListValue) => void;
     propertieschange: (ps: ColumnsType[]) => void;
@@ -21,8 +36,12 @@ export class ExportController {
     private emitter: Emitter<ControllerEvents>;
     private locked = false;
     private progressStore: TaskProgressService;
+    private name: string;
+    private _onBeforeExport: ((args: BeforeExportArgs) => void) | undefined;
+    private _onAfterExport: ((args: AfterExportArgs) => void) | undefined;
 
-    constructor(progress: TaskProgressService) {
+    constructor(name: string, progress: TaskProgressService) {
+        this.name = name;
         this.progressStore = progress;
         this.emitter = createNanoEvents();
         this.emitter.on("columnschange", this.oncolumnschange);
@@ -57,7 +76,10 @@ export class ExportController {
         });
     }
 
-    async exportData(handler: RequestHandler, options: { limit?: number; withHeaders?: boolean } = {}): Promise<void> {
+    async exportData(
+        handler: RequestHandler,
+        options: { limit?: number; withHeaders?: boolean; fileName?: string; sheetName?: string } = {}
+    ): Promise<void> {
         if (this.datasource === null) {
             console.error("Export controller: datasource is missing.");
             return;
@@ -67,12 +89,17 @@ export class ExportController {
         }
 
         const filter = this.createFilter(this.columns.slice());
+        const filteredColumns = filter(this.properties);
         const snapshot = { offset: this.datasource.offset, limit: this.datasource.limit };
+
+        const columnTitles = filteredColumns.map(c => c.header?.value ?? "").join(",");
+        const fileName = options.fileName ?? "";
+        const sheetName = options.sheetName ?? "";
 
         this.locked = true;
         let req: DSExportRequest | null = new DSExportRequest({
             ds: this.datasource,
-            columns: filter(this.properties),
+            columns: filteredColumns,
             ...options
         });
 
@@ -87,7 +114,27 @@ export class ExportController {
         ];
 
         handler(req);
+
+        const startTime = new Date();
+        const chunkSize = req.limit;
+        this._onBeforeExport?.({ gridName: this.name, columnTitles, chunkSize, fileName, sheetName, startTime });
+
         await req.send();
+
+        const endTime = new Date();
+        const exportedItemCount = req.loaded;
+        const status = req.status === "end" ? "success" : "aborted";
+        this._onAfterExport?.({
+            gridName: this.name,
+            columnTitles,
+            chunkSize,
+            fileName,
+            sheetName,
+            exportedItemCount,
+            status,
+            startTime,
+            endTime
+        });
 
         // Dispose request
         requestBindings.forEach(unsubscribe => unsubscribe());
@@ -105,6 +152,14 @@ export class ExportController {
                 unsub();
             }
         });
+    }
+
+    setOnBeforeExport(cb: ((args: BeforeExportArgs) => void) | undefined): void {
+        this._onBeforeExport = cb;
+    }
+
+    setOnAfterExport(cb: ((args: AfterExportArgs) => void) | undefined): void {
+        this._onAfterExport = cb;
     }
 
     abort = (): void => this.emitter.emit("abort");
