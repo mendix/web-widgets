@@ -1,5 +1,5 @@
 import { ListValue } from "mendix";
-import { createNanoEvents, Emitter } from "nanoevents";
+import { createNanoEvents, Emitter, Unsubscribe } from "nanoevents";
 import { TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { DSExportRequest } from "./DSExportRequest";
 import { ColumnsType } from "../../../typings/DatagridProps";
@@ -25,6 +25,8 @@ interface ControllerEvents {
     columnschange: (columns: number[]) => void;
     exportend: () => void;
     abort: () => void;
+    beforeexport: (args: BeforeExportArgs) => void;
+    afterexport: (args: AfterExportArgs) => void;
 }
 
 type RequestHandler = (req: DSExportRequest) => void;
@@ -37,8 +39,6 @@ export class ExportController {
     private locked = false;
     private progressStore: TaskProgressService;
     private name: string;
-    private _onBeforeExport: ((args: BeforeExportArgs) => void) | undefined;
-    private _onAfterExport: ((args: AfterExportArgs) => void) | undefined;
 
     constructor(name: string, progress: TaskProgressService) {
         this.name = name;
@@ -51,6 +51,10 @@ export class ExportController {
 
     emit<K extends keyof ControllerEvents>(event: K, ...args: Parameters<ControllerEvents[K]>): void {
         this.emitter.emit(event, ...args);
+    }
+
+    on<K extends keyof ControllerEvents>(event: K, handler: ControllerEvents[K]): Unsubscribe {
+        return this.emitter.on(event, handler);
     }
 
     oncolumnschange = (columns: number[]): void => {
@@ -115,7 +119,14 @@ export class ExportController {
 
         const startTime = new Date();
         const chunkSize = req.limit;
-        this._onBeforeExport?.({ gridName: this.name, columnTitles, chunkSize, fileName, sheetName, startTime });
+        this.emitter.emit("beforeexport", {
+            gridName: this.name,
+            columnTitles,
+            chunkSize,
+            fileName,
+            sheetName,
+            startTime
+        });
 
         handler(req);
 
@@ -124,7 +135,7 @@ export class ExportController {
         const endTime = new Date();
         const exportedItemCount = req.loaded;
         const status = req.status === "end" ? "success" : "aborted";
-        this._onAfterExport?.({
+        this.emitter.emit("afterexport", {
             gridName: this.name,
             columnTitles,
             chunkSize,
@@ -152,14 +163,6 @@ export class ExportController {
                 unsub();
             }
         });
-    }
-
-    setOnBeforeExport(cb: ((args: BeforeExportArgs) => void) | undefined): void {
-        this._onBeforeExport = cb;
-    }
-
-    setOnAfterExport(cb: ((args: AfterExportArgs) => void) | undefined): void {
-        this._onAfterExport = cb;
     }
 
     abort = (): void => this.emitter.emit("abort");
