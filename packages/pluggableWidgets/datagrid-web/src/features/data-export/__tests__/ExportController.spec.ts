@@ -64,7 +64,7 @@ describe("ExportController export callbacks", () => {
         });
 
         const controller = makeController();
-        controller.setOnBeforeExport(() => callOrder.push("onBefore"));
+        controller.on("beforeexport", () => callOrder.push("onBefore"));
 
         await controller.exportData(jest.fn());
 
@@ -74,7 +74,7 @@ describe("ExportController export callbacks", () => {
     it("calls onAfterExport once after send() resolves with status 'success'", async () => {
         const controller = makeController();
         const onAfter = jest.fn();
-        controller.setOnAfterExport(onAfter);
+        controller.on("afterexport", onAfter);
 
         await controller.exportData(jest.fn());
 
@@ -89,7 +89,7 @@ describe("ExportController export callbacks", () => {
 
         const controller = makeController();
         const onAfter = jest.fn();
-        controller.setOnAfterExport(onAfter);
+        controller.on("afterexport", onAfter);
 
         await controller.exportData(jest.fn());
 
@@ -101,11 +101,11 @@ describe("ExportController export callbacks", () => {
         const controller = makeController();
 
         let capturedStartTime: Date | undefined;
-        controller.setOnBeforeExport(args => {
+        controller.on("beforeexport", args => {
             capturedStartTime = args.startTime;
         });
         const onAfter = jest.fn();
-        controller.setOnAfterExport(onAfter);
+        controller.on("afterexport", onAfter);
 
         await controller.exportData(jest.fn());
 

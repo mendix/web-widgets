@@ -27,19 +27,19 @@ There is currently no hook for the widget to observe the start or end of an expo
 
 ## Decisions
 
-### D1 — Plain callbacks on ExportController, not ActionValue
+### D1 — NanoEvents on ExportController, not stored callbacks
 
-`ExportController` already holds a `ListValue` (Mendix API), so coupling it further with `ActionValue` is technically feasible. However the existing pattern keeps the controller as a data coordinator: it reacts to events, not Mendix props. `useDataExport` is the right place to bridge Mendix props to the controller.
+`ExportController` already uses a NanoEvents emitter for all internal communication (`sourcechange`, `propertieschange`, `columnschange`, `abort`, `exportend`). Storing plain callback fields and exposing setter methods would break this pattern and add a parallel, less composable mechanism.
 
-**Decision**: Store `onBeforeExport` and `onAfterExport` as `(() => void) | undefined` on `ExportController`. `useDataExport` creates the closures that call `actionValue.execute(args)` and assigns them via setter methods on the controller. This keeps `ExportController` testable without Mendix mocks.
+**Decision**: Add `beforeexport` and `afterexport` to `ControllerEvents`. `exportData()` emits them via the existing emitter. `ExportController` exposes a public `on()` method (returning `Unsubscribe`) that mirrors the existing public `emit()`. `useDataExport` subscribes via `controller.on(...)` and uses React's `useEffect` cleanup to unsubscribe. This keeps `ExportController` fully Mendix-API-agnostic and testable without Mendix mocks.
 
-**Alternative considered**: Pass `ActionValue` directly into the constructor. Rejected because it couples the controller to Mendix types and makes the constructor dependent on optional props that may change between renders.
+**Alternative considered**: Store `onBeforeExport`/`onAfterExport` as plain callback fields with setter methods. Rejected because it breaks the existing NanoEvents communication pattern and makes the controller hold mutable state for what is fundamentally an event subscription.
 
-### D2 — Callback assignment via setter methods, updated on every render
+### D2 — Subscribe once, read latest ActionValue from ref
 
-Props can change between renders (e.g. action configuration changed in Studio Pro). The callbacks must always reflect the latest prop values.
+Props can change between renders (e.g. action configuration changed in Studio Pro). The subscription handler must always invoke the current `ActionValue`, not the one captured at subscribe time.
 
-**Decision**: `ExportController` exposes `setOnBeforeExport(cb)` and `setOnAfterExport(cb)` setters. `useDataExport` calls these in a `useEffect` that runs whenever `props.onBeforeExport` / `props.onAfterExport` change. This matches the existing pattern of emitting `"sourcechange"` / `"propertieschange"` on every render.
+**Decision**: Subscribe in a `useEffect` with `[entry]` deps (once per controller lifetime). Store `props.onBeforeExport` / `props.onAfterExport` in `useRef`s that are updated on every render (outside the effect). The handler closure reads from the ref at call time, so it always sees the latest `ActionValue` without resubscribing. This avoids unnecessary unsubscribe/resubscribe cycles when Mendix re-renders the widget with a new `ActionValue` reference.
 
 ### D3 — startTime captured in ExportController, shared between both callbacks
 
@@ -78,7 +78,7 @@ The datagrid widget does not know the target file or sheet name — those are de
 - **Action execution order** — `onBeforeExport.execute()` calls are fire-and-forget and may outlive the export itself if they trigger a slow microflow. This is intentional and documented. [Risk: developer expects synchronous "before" semantics] → Mitigation: document clearly that the action fires concurrently with the export.
 - **Missing header values** — if a column's `header` DynamicValue is not yet available (status `"loading"`), its title will be an empty string in `columnTitles`. [Risk: incomplete column title list] → Mitigation: acceptable — the export itself has the same constraint on column headers; we use the same value.
 - **Empty fileName/sheetName** — when the export caller does not provide these values, they arrive in the action as empty strings. Microflow logic must guard against empty strings if it uses these values to route or name files.
-- **Callback mutation during export** — if `setOnAfterExport` is called while an export is in progress (rare), the new callback fires. [Risk: unexpected microflow called] → Mitigation: callbacks are reassigned only when React props change, which requires a re-render; during an export the datasource is locked so this is extremely unlikely.
+- **ActionValue change during export** — if `props.onAfterExport` changes while an export is in progress (e.g. a re-render updates the ref), the handler reads the new `ActionValue`. [Risk: unexpected microflow called] → Mitigation: during an export the datasource is locked, so re-renders that change action configuration are extremely unlikely in practice.
 
 ## Open Questions
 

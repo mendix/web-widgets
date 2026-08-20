@@ -1,5 +1,5 @@
 import { Big } from "big.js";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { ExportController } from "./ExportController";
 import { getExportRegistry } from "./registry";
@@ -20,6 +20,10 @@ export function useDataExport(
 ): [abort: () => void] {
     const [entry] = useState(() => createEntry(props.name, progress));
     const abort = useCallback(() => entry?.controller.abort(), [entry]);
+    const onBeforeExportRef = useRef(props.onBeforeExport);
+    onBeforeExportRef.current = props.onBeforeExport;
+    const onAfterExportRef = useRef(props.onAfterExport);
+    onAfterExportRef.current = props.onAfterExport;
 
     // Remove entry when widget unmounted.
     useEffect(() => {
@@ -46,13 +50,9 @@ export function useDataExport(
     }, [columnsStore.visibleColumns, entry]);
 
     useEffect(() => {
-        const action = props.onBeforeExport;
-        if (!action) {
-            entry?.controller.setOnBeforeExport(undefined);
-            return;
-        }
-        entry?.controller.setOnBeforeExport(args => {
-            if (action.canExecute) {
+        return entry?.controller.on("beforeexport", args => {
+            const action = onBeforeExportRef.current;
+            if (action?.canExecute) {
                 action.execute({
                     gridName: args.gridName,
                     columnTitles: args.columnTitles,
@@ -63,16 +63,12 @@ export function useDataExport(
                 });
             }
         });
-    }, [entry, props.onBeforeExport]);
+    }, [entry]);
 
     useEffect(() => {
-        const action = props.onAfterExport;
-        if (!action) {
-            entry?.controller.setOnAfterExport(undefined);
-            return;
-        }
-        entry?.controller.setOnAfterExport(args => {
-            if (action.canExecute) {
+        return entry?.controller.on("afterexport", args => {
+            const action = onAfterExportRef.current;
+            if (action?.canExecute) {
                 action.execute({
                     gridName: args.gridName,
                     columnTitles: args.columnTitles,
@@ -86,7 +82,7 @@ export function useDataExport(
                 });
             }
         });
-    }, [entry, props.onAfterExport]);
+    }, [entry]);
 
     return [abort];
 }
