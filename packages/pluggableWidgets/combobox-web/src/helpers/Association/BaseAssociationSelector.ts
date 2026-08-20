@@ -1,5 +1,4 @@
-import { ActionValue, ListAttributeValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { ListAttributeValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
 import {
     ComboboxContainerProps,
     LoadingTypeEnum,
@@ -23,7 +22,6 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
     validation?: string = undefined;
     protected _attr: R | undefined;
-    private onChangeEvent?: ActionValue;
     private _valuesMap: Map<string, ObjectItem> = new Map();
     private lazyLoader: LazyLoadProvider = new LazyLoadProvider();
 
@@ -41,7 +39,6 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
             emptyOption,
             clearable,
             filterType,
-            onChangeEvent,
             customContent,
             customContentType,
             lazyLoading,
@@ -85,14 +82,9 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
         this.clearable = clearable;
         this.status = attr.status;
         this.readOnly = attr.readOnly;
-        this.onChangeEvent = onChangeEvent;
         this.customContentType = customContentType;
         this.validation = attr.validation;
         this.lazyLoading = lazyLoading;
         this.loadingType = loadingType;
-    }
-
-    setValue(_value: T | null): void {
-        executeAction(this.onChangeEvent);
     }
 }
