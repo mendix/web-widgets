@@ -38,6 +38,7 @@ export class FileStore {
     private _objectItem?: ObjectItem = undefined;
     private _mxObject?: MxObject = undefined;
     private _thumbnailUrl?: string = undefined;
+    private _previewFellBack = false;
     private _rootStore: FileUploaderStore;
 
     key: number;
@@ -136,7 +137,7 @@ export class FileStore {
 
         // upload content to object
         try {
-            await saveFile(this._objectItem, this._file!);
+            await saveFile(this._objectItem, this._file!, this._file!.name);
             await this.fetchMxObject();
 
             runInAction(() => {
@@ -218,6 +219,7 @@ export class FileStore {
         }
 
         this._thumbnailUrl = undefined;
+        this._previewFellBack = false;
         if (this._mxObject) {
             const url = await fetchImageThumbnail(this._mxObject);
             runInAction(() => {
@@ -225,6 +227,20 @@ export class FileStore {
             });
         }
     }
+
+    onPreviewError = (): void => {
+        // thumbnails are generated server-side and don't exist in OPFS for files
+        // uploaded while offline — fall back to the document itself
+        if (this._previewFellBack || !this._mxObject) {
+            return;
+        }
+        this._previewFellBack = true;
+        fetchDocumentUrl(this._mxObject).then(url => {
+            runInAction(() => {
+                this._thumbnailUrl = url;
+            });
+        });
+    };
 
     async getDownloadUrl(): Promise<string | undefined> {
         if (this._mxObject) {
