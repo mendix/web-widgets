@@ -105,7 +105,7 @@ export function SortComponent(props: SortComponentProps): ReactElement {
         >
             <div className="dropdown-triggerer-wrapper">
                 <input
-                    value={props.value ? selected?.caption : ""}
+                    value={selected?.caption ?? ""}
                     placeholder={props.placeholder}
                     className="form-control dropdown-triggerer"
                     onClick={containerClick}
