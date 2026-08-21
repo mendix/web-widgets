@@ -3,7 +3,7 @@ import { ReactElement, ReactNode } from "react";
 import { Pagination } from "./Pagination";
 import { useSelectionCounterViewModel } from "../features/selection-counter/injection-hooks";
 import { SelectionCounter } from "../features/selection-counter/SelectionCounter";
-import { BarOccupant, resolveZones } from "../helpers/resolveZones";
+import { BarElement, resolveSlots } from "../helpers/resolveSlots";
 import {
     useCustomPagination,
     useGalleryRootVM,
@@ -11,38 +11,50 @@ import {
     usePaginationVM
 } from "../model/hooks/injection-hooks";
 
-export const GalleryTopBarControls = observer(function GalleryTopBarControls(): ReactElement {
-    const counterVM = useSelectionCounterViewModel();
-    const rootVM = useGalleryRootVM();
+const TopBarPagination = observer(function TopBarPagination(): ReactNode {
     const pgConfig = usePaginationConfig();
-    const pagingVM = usePaginationVM();
     const customPagination = useCustomPagination();
 
     // Only "top" renders custom pagination up here; "both" keeps it in the footer so the configured
     // widget instances are never duplicated across the two bars.
     const showCustomPagination = pgConfig.customPaginationEnabled && pgConfig.pagingPosition === "top";
+    return showCustomPagination ? customPagination.get() : <Pagination />;
+});
+
+const TopBarSelectionCounter = observer(function TopBarSelectionCounter(): ReactNode {
+    const counterVM = useSelectionCounterViewModel();
+    return counterVM.isTopCounterVisible ? <SelectionCounter /> : null;
+});
+
+export const GalleryTopBarControls = observer(function GalleryTopBarControls(): ReactElement {
+    const counterVM = useSelectionCounterViewModel();
+    const rootVM = useGalleryRootVM();
+    const pgConfig = usePaginationConfig();
+    const pagingVM = usePaginationVM();
+
+    const showCustomPagination = pgConfig.customPaginationEnabled && pgConfig.pagingPosition === "top";
     const showPagination = pgConfig.pagingPosition !== "bottom" && pagingVM.paginationVisible;
 
-    const zones = resolveZones({
+    const slots = resolveSlots({
         alignment: rootVM.pagingAlignment,
         hasCounter: counterVM.isTopCounterVisible,
         hasLoadMore: false,
         hasPagination: showPagination || showCustomPagination
     });
 
-    const occupants: Record<BarOccupant, ReactNode> = {
-        pagination: showCustomPagination ? customPagination.get() : <Pagination />,
-        counter: <SelectionCounter />,
+    const elements: Record<BarElement, ReactNode> = {
+        pagination: <TopBarPagination />,
+        counter: <TopBarSelectionCounter />,
         loadMore: null
     };
 
-    const render = (occupant: BarOccupant | null): ReactNode => (occupant ? occupants[occupant] : null);
+    const getElementForSlot = (element: BarElement | null): ReactNode => (element ? elements[element] : null);
 
     return (
         <div className="widget-gallery-top-bar-controls">
-            <div className="widget-gallery-tb-start">{render(zones.start)}</div>
-            <div className="widget-gallery-tb-middle">{render(zones.middle)}</div>
-            <div className="widget-gallery-tb-end">{render(zones.end)}</div>
+            <div className="widget-gallery-tb-start">{getElementForSlot(slots.start)}</div>
+            <div className="widget-gallery-tb-middle">{getElementForSlot(slots.middle)}</div>
+            <div className="widget-gallery-tb-end">{getElementForSlot(slots.end)}</div>
         </div>
     );
 });

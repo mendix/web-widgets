@@ -89,7 +89,7 @@
 
 // Pagination alignment
 //
-// The widget renders the pagination controls in the bar zone named by these classes -- start for
+// The widget renders the pagination controls in the bar slot named by these classes -- start for
 // left, middle for center, end for right -- so alignment needs no CSS of its own. The classes stay
 // declared here because they are the design property's stored values, and because the widget reads
 // them from its root class list to decide placement.
