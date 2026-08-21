@@ -25,22 +25,17 @@ Everything else (module detection, environment prereqs, version state) — check
 
 ### Phase 0 — Detect release target
 
-Read the widget's marketplace info directly via the repo's own helper (don't grep — the schema is the source of truth):
+Read the widget's marketplace info via the packaged CLI helper (don't grep, don't write an inline script — the schema is the source of truth):
 
 ```bash
-cd automation/utils
-pnpm exec ts-node -e "
-import { getPackageInfo } from './src/package-info';
-getPackageInfo('$(pwd)/../../packages/pluggableWidgets/<widget>').then(info => {
-  console.log(JSON.stringify({ appNumber: info.marketplace.appNumber ?? null, appName: info.marketplace.appName, version: info.version.format(), name: info.name }));
-}).catch(e => console.error('ERR', e.message));
-"
+cd packages/pluggableWidgets/<widget>
+pnpm exec rui-package-info
 ```
 
-Use an **absolute path** to the widget dir — the script resolves `import()` relative to its own module location, not cwd.
+Prints `{"name", "version", "appNumber", "appName"}`. It reads `process.cwd()` — always `cd` into the widget/module dir first, never pass a path argument.
 
 - `appNumber` is a positive number → **standalone widget release**. `$RELEASE_PATH = packages/pluggableWidgets/<widget>`.
-- `appNumber` is `null`/absent → widget is module-wrapped, not published on its own. Find the owning module:
+- `appNumber` is `null`/absent/`-1` → widget is module-wrapped, not published on its own. Find the owning module:
     ```bash
     grep -l "\"@mendix/<widget>\"" packages/modules/*/package.json
     ```
@@ -82,18 +77,14 @@ Ask the user to confirm or override — this is the one decision in the pipeline
 
 ### Phase 3 — Version bump + release branch (autonomous)
 
-Compute the next version and bump both files using the repo's real version-math helper (not a reimplementation):
+Compute the next version and bump both files using the packaged CLI helper (not an inline script — it wraps the repo's real version-math code):
 
 ```bash
-cd automation/utils
-pnpm exec ts-node -e "
-import { getNewVersion, bumpPackageJson, bumpXml } from './src/bump-version';
-const next = getNewVersion('<patch|minor|major>', '<currentVersion>');
-console.log('next:', next);
-bumpPackageJson('$(pwd)/../../$RELEASE_PATH', next);
-bumpXml('$(pwd)/../../$RELEASE_PATH', next).catch(e => console.error('no package.xml (module?):', e.message));
-"
+cd $RELEASE_PATH
+pnpm exec rui-bump-version <patch|minor|major>
 ```
+
+Prints `{"previousVersion", "version", "xmlBumped"}`. `xmlBumped: false` is expected for modules (no `package.xml`) — not an error.
 
 Then, directly (no wizard):
 
@@ -106,16 +97,13 @@ git push -u origin tmp/<widget-or-module>-v<version>
 
 If the branch already exists locally or on remote, stop and ask — don't guess a random suffix, that was a wizard fallback for unattended use, not something to do silently on someone's behalf.
 
-**Jira version** (skip cleanly if `JIRA_API_TOKEN` missing or the API call fails — this has historically 404'd transiently and is not a blocker):
+**Jira version** — the CLI checks for an existing version before creating one (safe to re-run) and always exits 0, reporting status via JSON rather than blocking the release:
 
 ```bash
-cd automation/utils
-pnpm exec ts-node -e "
-import { Jira } from './src/jira';
-const jira = new Jira(process.env.JIRA_PROJECT_KEY ?? 'WC', process.env.JIRA_BASE_URL ?? 'https://mendix.atlassian.net', process.env.JIRA_API_TOKEN!);
-jira.initializeProjectData().then(() => jira.createVersion('<widget-or-module>-v<version>')).then(v => console.log('created:', v.name)).catch(e => console.error('skip:', e.message));
-"
+pnpm exec rui-create-jira-version "<widget-or-module>-v<version>"
 ```
+
+Prints `{"status": "created"|"exists"|"skipped", ...}`. `skipped` covers both a missing `JIRA_API_TOKEN` and a failed API call (this has historically 404'd transiently) — not a blocker either way.
 
 Trigger the GitHub release workflow directly:
 
@@ -134,32 +122,13 @@ Wait (re-poll, don't ask the user to check) until `status == completed`. Report 
 
 ### Phase 4 — OSS clearance SBOM (autonomous prep, manual submission)
 
-Download the MPK from the draft release and generate the SBOM zip directly — don't use the interactive `oss-clearance` wizard, call the same underlying helpers:
+Download the MPK from the draft release and generate the SBOM zip via the packaged CLI helper — don't use the interactive `oss-clearance` wizard, and don't write an inline script:
 
 ```bash
-cd automation/utils
-pnpm exec ts-node -e "
-import { gh } from './src/github';
-import { createSBomGeneratorFolderStructure, generateSBomArtifactsInFolder } from './src/oss-clearance';
-import { join } from 'path';
-import { homedir } from 'os';
-
-async function main() {
-  await gh.ensureAuth();
-  const releaseId = await gh.getReleaseIdByReleaseTag('<widget-or-module>-v<version>');
-  const assets = await gh.listReleaseAssets(releaseId!);
-  const mpk = assets.find(a => a.name.endsWith('.mpk'));
-  if (!mpk) throw new Error('no MPK asset found');
-  const releaseName = '<AppName> v<version>'; // e.g. 'Combo box v2.9.0'
-  const [tmpFolder, downloadPath] = await createSBomGeneratorFolderStructure(releaseName);
-  await gh.downloadReleaseAsset(mpk.id, downloadPath);
-  const finalPath = join(homedir(), 'Downloads', \`\${releaseName} [pending-hash].zip\`);
-  await generateSBomArtifactsInFolder(tmpFolder, join(homedir(), 'SBOM_Generator.jar'), releaseName, finalPath);
-  console.log('SBOM zip:', finalPath);
-}
-main().catch(e => { console.error(e); process.exit(1); });
-"
+pnpm exec rui-generate-oss-sbom "<widget-or-module>-v<version>" "<AppName> v<version>"
 ```
+
+(`<AppName> v<version>` e.g. `"Combo box v2.9.0"`.) Prints `{"path": "<zip path>"}`. The generator jar defaults to `~/SBOM_Generator.jar`; override with `SBOM_GENERATOR_JAR` if it lives elsewhere.
 
 **Submission is manual** — the OSS clearance request now goes through the OSS clearance portal (a Mendix app, log in with Mendix credentials), not email. Tell the user:
 
@@ -171,27 +140,13 @@ Then ask: "Submitted? Waiting on OSS team reply (a READMEOSS HTML file)." This w
 
 ### Phase 5 — Include OSS Readme (autonomous once file is provided)
 
-Once the user has the READMEOSS HTML file (ask where it was saved — default search locations are `~/Downloads` and `~/Documents`):
+Once the user has the READMEOSS HTML file, upload it via the packaged CLI helper (default search locations are `~/Downloads` and `~/Documents`):
 
 ```bash
-cd automation/utils
-pnpm exec ts-node -e "
-import { gh } from './src/github';
-import { findAllReadmeOssLocally, getRecommendedReadmeOss } from './src/oss-clearance';
-import { basename } from 'path';
-
-async function main() {
-  await gh.ensureAuth();
-  const releaseId = await gh.getReleaseIdByReleaseTag('<widget-or-module>-v<version>');
-  const readmes = findAllReadmeOssLocally();
-  const recommended = getRecommendedReadmeOss('<AppName> v<version>', readmes);
-  if (!recommended) throw new Error('no matching READMEOSS found in Downloads/Documents — ask the user for the path');
-  const asset = await gh.uploadReleaseAsset(releaseId!, recommended, basename(recommended));
-  console.log('uploaded:', asset.name);
-}
-main().catch(e => { console.error(e); process.exit(1); });
-"
+pnpm exec rui-upload-readme-oss "<widget-or-module>-v<version>" "<AppName> v<version>"
 ```
+
+Prints `{"uploaded": "<asset name>"}`. If it errors with no match found, ask the user where the file was saved and pass that path as a 3rd argument: `rui-upload-readme-oss "<tag>" "<AppName> v<version>" "<explicit path>"`.
 
 ### Phase 6 — Asset gate + publish (GATE — do not skip)
 
@@ -256,8 +211,9 @@ Teardown list (present all, confirm once, then execute):
 
 ## Common Mistakes
 
-- **Using relative paths in the `ts-node -e` snippets** — `import()` inside `automation/utils/src/*` resolves relative to that module's own location, not your cwd. Always pass absolute paths to widget/module directories.
-- **Treating `appNumber` presence via grep instead of reading the schema** — a module-wrapped widget's package.json simply omits the `marketplace.appNumber` key; check for `null`/undefined via `getPackageInfo`, don't grep for the string `"appNumber"` (unreliable — the field can exist with value `-1` too, which also means "not independently published").
+- **Writing inline `ts-node -e` scripts instead of using the packaged CLI helpers** — `rui-package-info`, `rui-bump-version`, `rui-create-jira-version`, `rui-generate-oss-sbom`, and `rui-upload-readme-oss` (in `automation/utils/bin/`) already wrap all the release-pipeline logic this skill needs. Never reimplement that logic in an ad-hoc script.
+- **Running `rui-package-info` / `rui-bump-version` without `cd`-ing into the widget/module dir first** — they read `process.cwd()`, not a path argument.
+- **Treating `appNumber` presence via grep instead of reading the schema** — a module-wrapped widget's package.json simply omits the `marketplace.appNumber` key; check for `null`/undefined/`-1` via `rui-package-info`, don't grep for the string `"appNumber"` (unreliable — the field can exist with value `-1` too, which also means "not independently published").
 - **Publishing before the asset gate passes** — this is the exact mistake pattern that caused the 409 double-trigger risk. Never call `gh release edit --draft=false` without first confirming both MPK and READMEOSS assets are attached.
 - **Escalating a 409 without checking run history first** — many past "failures" are actually the second of two triggers for an already-successful publish. Always check `gh run list` history for the tag before treating a 409 as a real incident.
 - **Retrying `gh run rerun` speculatively** — reruns without new information (e.g., a deleted draft) just reproduce the same failure. Only rerun after the user confirms they changed something.
