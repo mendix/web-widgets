@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We updated the calendar picker, improving how screen readers announce the day-name row and the open calendar.
+
 ## [3.10.0] - 2026-05-06
 
 ### Fixed
