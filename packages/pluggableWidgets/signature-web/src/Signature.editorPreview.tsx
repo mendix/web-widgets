@@ -26,9 +26,6 @@ export function preview(props: SignaturePreviewProps): ReactElement {
     return (
         <SizeContainer
             className={classNames("widget-signature-preview", props.class)}
-            classNameInner={classNames("widget-signature-wrapper", "form-control", "mx-textarea-input", "mx-textarea", {
-                disabled: props.readOnly
-            })}
             widthUnit={widthUnit}
             width={width || 100}
             heightUnit={heightUnit}
