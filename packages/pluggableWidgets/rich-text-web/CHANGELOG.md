@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [5.0.0] - 2026-08-14
+
 ### Added
 
 - We added new configuration to allow users to use class names instead of inline styling in generated HTML to support strict CSP.
