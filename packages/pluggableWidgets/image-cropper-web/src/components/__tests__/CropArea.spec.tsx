@@ -9,6 +9,7 @@ function baseProps(overrides: Partial<CropAreaProps> = {}): CropAreaProps {
         onCropChange: jest.fn(),
         onCropComplete: jest.fn(),
         aspect: undefined,
+        initialCropSize: 100,
         circular: false,
         resizable: true,
         boundaryWidth: 300,
