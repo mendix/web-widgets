@@ -8,7 +8,7 @@ import { mockContainerProps } from "../../utils/mock-container-props";
 import { GalleryFooterControls } from "../GalleryFooterControls";
 import { GalleryTopBarControls } from "../GalleryTopBarControls";
 
-const ZONES = {
+const SLOTS = {
     footer: { start: "widget-gallery-fc-start", middle: "widget-gallery-fc-middle", end: "widget-gallery-fc-end" },
     topBar: { start: "widget-gallery-tb-start", middle: "widget-gallery-tb-middle", end: "widget-gallery-tb-end" }
 } as const;
@@ -24,23 +24,23 @@ function renderBar(bar: "footer" | "topBar", props: Partial<GalleryContainerProp
     );
 }
 
-/** Which zone of the rendered bar holds the pagination bar, or `null` when it is absent. */
-function paginationZone(view: RenderResult, bar: "footer" | "topBar"): "start" | "middle" | "end" | null {
-    const zones = ZONES[bar];
-    for (const zone of ["start", "middle", "end"] as const) {
-        if (view.container.querySelector(`.${zones[zone]} .pagination-bar`)) {
-            return zone;
+/** Which slot of the rendered bar holds the pagination bar, or `null` when it is absent. */
+function paginationSlot(view: RenderResult, bar: "footer" | "topBar"): "start" | "middle" | "end" | null {
+    const slots = SLOTS[bar];
+    for (const slot of ["start", "middle", "end"] as const) {
+        if (view.container.querySelector(`.${slots[slot]} .pagination-bar`)) {
+            return slot;
         }
     }
 
     return null;
 }
 
-function customPaginationZone(view: RenderResult, bar: "footer" | "topBar"): "start" | "middle" | "end" | null {
-    const zones = ZONES[bar];
-    for (const zone of ["start", "middle", "end"] as const) {
-        if (view.container.querySelector(`.${zones[zone]} [data-custom-pagination]`)) {
-            return zone;
+function customPaginationSlot(view: RenderResult, bar: "footer" | "topBar"): "start" | "middle" | "end" | null {
+    const slots = SLOTS[bar];
+    for (const slot of ["start", "middle", "end"] as const) {
+        if (view.container.querySelector(`.${slots[slot]} [data-custom-pagination]`)) {
+            return slot;
         }
     }
 
@@ -56,30 +56,30 @@ describe("Gallery bar controls", () => {
             ["widget-gallery-pagination-center", "middle"],
             ["widget-gallery-pagination-right", "end"],
             ["gallery-test-class", "end"]
-        ] as const)("renders pagination in the %s zone of the footer for class %s", (className, zone) => {
+        ] as const)("renders pagination in the %s slot of the footer for class %s", (className, slot) => {
             const view = renderBar("footer", { class: className, showPagingButtons: "always" });
 
-            expect(paginationZone(view, "footer")).toBe(zone);
+            expect(paginationSlot(view, "footer")).toBe(slot);
         });
 
         it.each([
             ["widget-gallery-pagination-left", "start"],
             ["widget-gallery-pagination-center", "middle"],
             ["widget-gallery-pagination-right", "end"]
-        ] as const)("renders pagination in the %s zone of the top bar for class %s", (className, zone) => {
+        ] as const)("renders pagination in the %s slot of the top bar for class %s", (className, slot) => {
             const view = renderBar("topBar", {
                 class: className,
                 pagingPosition: "top",
                 showPagingButtons: "always"
             });
 
-            expect(paginationZone(view, "topBar")).toBe(zone);
+            expect(paginationSlot(view, "topBar")).toBe(slot);
         });
 
-        it("provides a middle zone in the top bar so center is expressible", () => {
+        it("provides a middle slot in the top bar so center is expressible", () => {
             const view = renderBar("topBar", { pagingPosition: "top", showPagingButtons: "always" });
 
-            expect(view.container.querySelector(`.${ZONES.topBar.middle}`)).not.toBeNull();
+            expect(view.container.querySelector(`.${SLOTS.topBar.middle}`)).not.toBeNull();
         });
     });
 
@@ -88,8 +88,8 @@ describe("Gallery bar controls", () => {
             const top = renderBar("topBar", { useCustomPagination: true, pagingPosition: "top", customPagination });
             const footer = renderBar("footer", { useCustomPagination: true, pagingPosition: "top", customPagination });
 
-            expect(customPaginationZone(top, "topBar")).toBe("end");
-            expect(customPaginationZone(footer, "footer")).toBeNull();
+            expect(customPaginationSlot(top, "topBar")).toBe("end");
+            expect(customPaginationSlot(footer, "footer")).toBeNull();
         });
 
         it("renders custom pagination in the footer when position is bottom", () => {
@@ -100,16 +100,16 @@ describe("Gallery bar controls", () => {
                 customPagination
             });
 
-            expect(customPaginationZone(top, "topBar")).toBeNull();
-            expect(customPaginationZone(footer, "footer")).toBe("end");
+            expect(customPaginationSlot(top, "topBar")).toBeNull();
+            expect(customPaginationSlot(footer, "footer")).toBe("end");
         });
 
         it("renders custom pagination once, in the footer, when position is both", () => {
             const top = renderBar("topBar", { useCustomPagination: true, pagingPosition: "both", customPagination });
             const footer = renderBar("footer", { useCustomPagination: true, pagingPosition: "both", customPagination });
 
-            expect(customPaginationZone(top, "topBar")).toBeNull();
-            expect(customPaginationZone(footer, "footer")).toBe("end");
+            expect(customPaginationSlot(top, "topBar")).toBeNull();
+            expect(customPaginationSlot(footer, "footer")).toBe("end");
         });
 
         it("follows the pagination alignment", () => {
@@ -120,13 +120,13 @@ describe("Gallery bar controls", () => {
                 customPagination
             });
 
-            expect(customPaginationZone(view, "footer")).toBe("middle");
-            expect(paginationZone(view, "footer")).toBeNull();
+            expect(customPaginationSlot(view, "footer")).toBe("middle");
+            expect(paginationSlot(view, "footer")).toBeNull();
         });
     });
 
     describe("load more", () => {
-        it("keeps the load more button in the middle zone when pagination is left aligned", () => {
+        it("keeps the load more button in the middle slot when pagination is left aligned", () => {
             const view = renderBar("footer", {
                 class: "widget-gallery-pagination-left",
                 pagination: "loadMore",
@@ -136,12 +136,12 @@ describe("Gallery bar controls", () => {
             });
 
             expect(
-                view.container.querySelector(`.${ZONES.footer.middle} .widget-gallery-load-more-btn`)
+                view.container.querySelector(`.${SLOTS.footer.middle} .widget-gallery-load-more-btn`)
             ).not.toBeNull();
-            expect(paginationZone(view, "footer")).toBe("start");
+            expect(paginationSlot(view, "footer")).toBe("start");
         });
 
-        it("displaces the load more button to the end zone when pagination is centered", () => {
+        it("displaces the load more button to the end slot when pagination is centered", () => {
             const view = renderBar("footer", {
                 class: "widget-gallery-pagination-center",
                 pagination: "loadMore",
@@ -150,8 +150,8 @@ describe("Gallery bar controls", () => {
                 loadMoreButtonCaption: dynamic.available("Load more")
             });
 
-            expect(view.container.querySelector(`.${ZONES.footer.end} .widget-gallery-load-more-btn`)).not.toBeNull();
-            expect(paginationZone(view, "footer")).toBe("middle");
+            expect(view.container.querySelector(`.${SLOTS.footer.end} .widget-gallery-load-more-btn`)).not.toBeNull();
+            expect(paginationSlot(view, "footer")).toBe("middle");
         });
     });
 });

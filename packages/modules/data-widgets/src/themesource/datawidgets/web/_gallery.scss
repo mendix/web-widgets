@@ -111,8 +111,8 @@ $root: ".widget-gallery" !default;
     align-items: center;
 }
 
-// The middle zone holds centre-aligned content: the load more button, or the pagination controls
-// when the pagination alignment is set to center. It is sized like the outer zones and does not
+// The middle slot holds centre-aligned content: the load more button, or the pagination controls
+// when the pagination alignment is set to center. It is sized like the outer slots and does not
 // shrink, so its content stays centred on the bar even when the selection counter is long.
 :where(.widget-gallery-fc-middle, .widget-gallery-tb-middle) {
     display: flex;
