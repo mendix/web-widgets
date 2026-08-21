@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where exporting a date column to Excel could write the previous calendar day, or add a time that is not shown in the grid. Exported dates and times now match what the grid displays, regardless of the time zone.
+
 ## [3.11.3] - 2026-07-27
 
 ### Added
