@@ -5,7 +5,7 @@ import { getGlobalSortContext, SortAPI } from "@mendix/widget-plugin-sorting/rea
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { LoadMoreButton } from "./components/LoadMore";
 import { parsePagingAlignment } from "./helpers/pagingAlignment";
-import { BarOccupant, resolveZones } from "./helpers/resolveZones";
+import { BarElement, resolveSlots } from "./helpers/resolveSlots";
 import "./ui/GalleryPreview.scss";
 
 const PropsCtx = createContext<GalleryPreviewProps>({} as GalleryPreviewProps);
@@ -82,14 +82,14 @@ const Root = ({ children }: PropsWithChildren): ReactNode => {
 const TopControls = (): ReactNode => {
     const props = useProps();
     const showCustomPagination = useCustomPagination("top");
-    const zones = resolveZones({
+    const slots = resolveSlots({
         alignment: parsePagingAlignment(props.className),
         hasCounter: useTopCounter(),
         hasLoadMore: false,
         hasPagination: usePagingTop() || showCustomPagination
     });
 
-    const occupants: Record<BarOccupant, ReactNode> = {
+    const elements: Record<BarElement, ReactNode> = {
         pagination: showCustomPagination ? <CustomPagination /> : <Pagination />,
         counter: <SelectionCounter />,
         loadMore: null
@@ -97,9 +97,9 @@ const TopControls = (): ReactNode => {
 
     return (
         <div className="widget-gallery-top-bar-controls">
-            <div className="widget-gallery-tb-start">{renderZone(zones.start, occupants)}</div>
-            <div className="widget-gallery-tb-middle">{renderZone(zones.middle, occupants)}</div>
-            <div className="widget-gallery-tb-end">{renderZone(zones.end, occupants)}</div>
+            <div className="widget-gallery-tb-start">{getElementForSlot(slots.start, elements)}</div>
+            <div className="widget-gallery-tb-middle">{getElementForSlot(slots.middle, elements)}</div>
+            <div className="widget-gallery-tb-end">{getElementForSlot(slots.end, elements)}</div>
         </div>
     );
 };
@@ -163,14 +163,14 @@ const Content = (): ReactNode => {
 const Footer = (): ReactNode => {
     const props = useProps();
     const showCustomPagination = useCustomPagination("bottom");
-    const zones = resolveZones({
+    const slots = resolveSlots({
         alignment: parsePagingAlignment(props.className),
         hasCounter: useBottomCounter(),
         hasLoadMore: props.pagination === "loadMore",
         hasPagination: usePagingBot() || showCustomPagination
     });
 
-    const occupants: Record<BarOccupant, ReactNode> = {
+    const elements: Record<BarElement, ReactNode> = {
         pagination: showCustomPagination ? <CustomPagination /> : <Pagination />,
         counter: <SelectionCounter />,
         loadMore: <LoadMoreButton>{props.loadMoreButtonCaption}</LoadMoreButton>
@@ -179,16 +179,16 @@ const Footer = (): ReactNode => {
     return (
         <div className="widget-gallery-footer">
             <div className="widget-gallery-footer-controls">
-                <div className="widget-gallery-fc-start">{renderZone(zones.start, occupants)}</div>
-                <div className="widget-gallery-fc-middle">{renderZone(zones.middle, occupants)}</div>
-                <div className="widget-gallery-fc-end">{renderZone(zones.end, occupants)}</div>
+                <div className="widget-gallery-fc-start">{getElementForSlot(slots.start, elements)}</div>
+                <div className="widget-gallery-fc-middle">{getElementForSlot(slots.middle, elements)}</div>
+                <div className="widget-gallery-fc-end">{getElementForSlot(slots.end, elements)}</div>
             </div>
         </div>
     );
 };
 
-function renderZone(occupant: BarOccupant | null, occupants: Record<BarOccupant, ReactNode>): ReactNode {
-    return occupant ? occupants[occupant] : null;
+function getElementForSlot(element: BarElement | null, elements: Record<BarElement, ReactNode>): ReactNode {
+    return element ? elements[element] : null;
 }
 
 export function preview(props: GalleryPreviewProps): ReactElement {

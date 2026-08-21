@@ -2,7 +2,7 @@
 
 ## Context
 
-Pagination in Gallery renders inside a three-zone flex bar. Both bars are built the same way, except the top bar has no middle zone:
+Pagination in Gallery renders inside a three-slot flex bar. Both bars are built the same way, except the top bar has no middle slot:
 
 ```
 .widget-gallery-footer-controls          display:flex; row nowrap
@@ -17,11 +17,11 @@ Pagination in Gallery renders inside a three-zone flex bar. Both bars are built 
                                          justify-content: flex-end
 ```
 
-The zone, not the bar, decides horizontal position. The old design property predates this structure: before the overhaul, `.widget-gallery-pagination` was a full-width row of its own directly under `.widget-gallery`, so justifying the bar inside it produced real left/centre alignment. That element is gone, which is why the property is inert.
+The slot, not the bar, decides horizontal position. The old design property predates this structure: before the overhaul, `.widget-gallery-pagination` was a full-width row of its own directly under `.widget-gallery`, so justifying the bar inside it produced real left/centre alignment. That element is gone, which is why the property is inert.
 
 Occupancy is dynamic:
 
-| occupant          | zone        | condition                                                                                                                       |
+| element           | slot        | condition                                                                                                                       |
 | ----------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | selection counter | `*-start`   | `selectionCountPosition` matches the bar (defaults to `bottom`) **and** `selectedCount > 0`                                     |
 | Load more button  | `fc-middle` | `pagination === "loadMore"` **and** `hasMoreItems`                                                                              |
@@ -48,7 +48,7 @@ Non-Goals
 
 ### Displacement, not wrapping
 
-Pagination claims the zone its alignment names; whatever was there moves to the end zone.
+Pagination claims the slot its alignment names; whatever was there moves to the end slot.
 
 ```
 align = Left, counter visible, buttons mode
@@ -62,9 +62,9 @@ align = Center, loadMore + total count + selection
 └─────────────────┴─────────────────┴─────────────────┘
 ```
 
-The rule is total: at most three occupants exist, there are three zones, and custom pagination replaces the built-in bar rather than adding to it. Since pagination claims exactly one zone, at most one occupant is ever displaced, so the end zone never has to hold two things.
+The rule is total: at most three elements exist, there are three slots, and custom pagination replaces the built-in bar rather than adding to it. Since pagination claims exactly one slot, at most one element is ever displaced, so the end slot never has to hold two things.
 
-The alternative considered was wrapping the bar onto a second full-width row when the claimed zone is occupied. Rejected: the selection counter appears dynamically at `selectedCount > 0`, so wrapping would add a row — and shift the page — the moment a user selects their first item. Displacement keeps the bar one row tall at all times.
+The alternative considered was wrapping the bar onto a second full-width row when the claimed slot is occupied. Rejected: the selection counter appears dynamically at `selectedCount > 0`, so wrapping would add a row — and shift the page — the moment a user selects their first item. Displacement keeps the bar one row tall at all times.
 
 ### Placement computed by a pure function, not expressed in CSS
 
@@ -83,13 +83,13 @@ The CSS mechanisms are cheaper — module-only release, no widget bump, no need 
 Placement logic is a pure function rather than inline JSX conditionals:
 
 ```
-resolveZones({ alignment, hasCounter, hasLoadMore, hasPagination })
+resolveSlots({ alignment, hasCounter, hasLoadMore, hasPagination })
   → { start:  "pagination" | "counter" | null,
       middle: "pagination" | "loadMore" | null,
       end:    "pagination" | "counter" | "loadMore" | null }
 ```
 
-Algorithm: map alignment to a target zone; if pagination is visible, it takes that zone; then place each remaining occupant in its natural home (counter → start, Load more → middle) or, if that home is taken, in the end zone.
+Algorithm: map alignment to a target slot; if pagination is visible, it takes that slot; then place each remaining element in its natural home (counter → start, Load more → middle) or, if that home is taken, in the end slot.
 
 This keeps every alignment × occupancy combination testable without rendering, and lets the footer, the top bar and `Gallery.editorPreview.tsx` consume one shared result — the divergence that produced the custom-pagination bug below came precisely from those three places each deciding placement for themselves.
 
@@ -101,9 +101,9 @@ Trade-off accepted: three class names in `data-widgets`' `design-properties.json
 
 The alternative — a new `pagingAlignment` XML enum — is better long-term design: typed, discoverable in the properties pane, no cross-package coupling. It was rejected for this change because it converts a bug fix into a feature, needs the existing design property deprecated with a migration story, and drops the Atlas-style ToggleButtonGroup affordance.
 
-### Top bar gains a middle zone
+### Top bar gains a middle slot
 
-Center is not expressible in a two-zone bar, so `widget-gallery-tb-middle` is added. It also makes the two bars structurally symmetric, so `resolveZones` applies unchanged to both (the top bar simply never has a Load-more occupant).
+Center is not expressible in a two-slot bar, so `widget-gallery-tb-middle` is added. It also makes the two bars structurally symmetric, so `resolveSlots` applies unchanged to both (the top bar simply never has a Load-more element).
 
 ### `Both` + custom pagination renders once, with an editor warning
 
@@ -120,9 +120,9 @@ This is also why the class names cannot be renamed: they are the stored values, 
 ## Risks / Trade-offs
 
 - **Focus order now varies with a styling-looking property.** `Left` places the paging controls before the Clear-selection button in the tab sequence. Accepted deliberately: the alternative is visual and focus order disagreeing.
-- **Snapshot churn.** The new `tb-middle` node and zone reassignment change rendered DOM; component snapshots need regenerating and reviewing rather than blindly updating.
+- **Snapshot churn.** The new `tb-middle` node and slot reassignment change rendered DOM; component snapshots need regenerating and reviewing rather than blindly updating.
 - **Cross-package class contract.** Covered above; mitigated by tests and documentation.
-- **Centring depends on zone symmetry.** `fc-middle` is currently absent from the flex-sizing rules, so its centring is incidental — a counter long enough to hit min-content width skews it. The change gives the middle zones explicit sizing so Center holds by construction.
+- **Centring depends on slot symmetry.** `fc-middle` is currently absent from the flex-sizing rules, so its centring is incidental — a counter long enough to hit min-content width skews it. The change gives the middle slots explicit sizing so Center holds by construction.
 - **No automated regression guard for the CSS half.** Unit tests cover the placement map and the class parser; the rendered alignment itself is verified by manual Studio Pro QA. See the proposal for why E2E is impractical here.
 
 ## Open Questions
