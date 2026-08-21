@@ -50,7 +50,7 @@ export function useDataExport(
     }, [columnsStore.visibleColumns, entry]);
 
     useEffect(() => {
-        return entry?.controller.on("beforeexport", args => {
+        return entry.controller.on("beforeexport", args => {
             const action = onBeforeExportRef.current;
             if (action?.canExecute) {
                 action.execute({
@@ -66,7 +66,7 @@ export function useDataExport(
     }, [entry]);
 
     useEffect(() => {
-        return entry?.controller.on("afterexport", args => {
+        return entry.controller.on("afterexport", args => {
             const action = onAfterExportRef.current;
             if (action?.canExecute) {
                 action.execute({

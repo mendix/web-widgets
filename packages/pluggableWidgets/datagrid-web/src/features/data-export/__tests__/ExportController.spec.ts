@@ -79,7 +79,15 @@ describe("ExportController export callbacks", () => {
         await controller.exportData(jest.fn());
 
         expect(onAfter).toHaveBeenCalledTimes(1);
-        expect(onAfter).toHaveBeenCalledWith(expect.objectContaining({ status: "success" }));
+        expect(onAfter).toHaveBeenCalledWith(
+            expect.objectContaining({
+                status: "success",
+                gridName: "test-grid",
+                columnTitles: "Col1,Col2",
+                chunkSize: 100,
+                exportedItemCount: 10
+            })
+        );
     });
 
     it("calls onAfterExport with status 'aborted' when request ends with aborted status", async () => {
