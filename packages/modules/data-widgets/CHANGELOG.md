@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Data Grid 2
+
+#### Fixed
+
+- We fixed an issue where the top bar did not stack its content vertically in narrow containers.
+
 ## [3.11.3] DataWidgets - 2026-07-27
 
 ### [3.11.3] DatagridDropdownFilter
