@@ -290,6 +290,150 @@ describe("Combo box (Association)", () => {
         });
     });
 
+    describe("focus after keyboard chip removal", () => {
+        // downshift only re-focuses a chip when its own activeIndex changes, which it does
+        // not when a chip other than the last one is removed. These assert that focus stays
+        // on the chip row instead of dropping to document.body.
+        interface Setup {
+            component: RenderResult;
+            input: HTMLInputElement;
+            /**
+             * The mocked reference set updates its value in place instead of pushing new
+             * props, so re-render the widget to model the Mendix client feeding the new
+             * value back in — which is what removes the chip from the DOM.
+             */
+            applyValueChange: () => void;
+        }
+
+        async function setup(objectIds: string[]): Promise<Setup> {
+            const props: ComboboxContainerProps = {
+                ...defaultProps,
+                selectedItemsStyle: "boxes",
+                attributeAssociation: new ReferenceSetValueBuilder().withValue(objectIds.map(obj)).build()
+            };
+            const component = render(<Combobox {...props} />);
+            const input = await getInput(component);
+            return {
+                component,
+                input,
+                applyValueChange: () => component.rerender(<Combobox {...props} />)
+            };
+        }
+
+        function chips(component: RenderResult): HTMLElement[] {
+            return Array.from(
+                component.container.getElementsByClassName("widget-combobox-selected-item")
+            ) as HTMLElement[];
+        }
+
+        function captions(component: RenderResult): string[] {
+            return chips(component).map(chip => chip.textContent ?? "");
+        }
+
+        /** Walks from the filter input onto the chip at `index`, the way a keyboard user does. */
+        async function focusChip(component: RenderResult, input: HTMLInputElement, index: number): Promise<void> {
+            input.setSelectionRange(0, 0);
+            fireEvent.keyDown(input, { key: "ArrowLeft" });
+            const allChips = chips(component);
+            await waitFor(() => {
+                expect(document.activeElement).toBe(allChips[allChips.length - 1]);
+            });
+
+            for (let current = allChips.length - 1; current > index; current--) {
+                fireEvent.keyDown(document.activeElement!, { key: "ArrowLeft" });
+                const expected = chips(component)[current - 1];
+                await waitFor(() => {
+                    expect(document.activeElement).toBe(expected);
+                });
+            }
+        }
+
+        it.each(["Backspace", "Delete"])(
+            "moves focus to the chip that took its place when %s removes a middle chip",
+            async key => {
+                const { component, input, applyValueChange } = await setup(["111", "222", "333"]);
+                await focusChip(component, input, 1);
+
+                fireEvent.keyDown(document.activeElement!, { key });
+                applyValueChange();
+
+                expect(captions(component)).toEqual(["obj_111", "obj_333"]);
+                await waitFor(() => {
+                    expect(document.activeElement).toBe(chips(component)[1]);
+                });
+                expect(document.activeElement).not.toBe(document.body);
+            }
+        );
+
+        it.each(["Backspace", "Delete"])(
+            "moves focus to the new first chip when %s removes the first chip",
+            async key => {
+                const { component, input, applyValueChange } = await setup(["111", "222", "333"]);
+                await focusChip(component, input, 0);
+
+                fireEvent.keyDown(document.activeElement!, { key });
+                applyValueChange();
+
+                expect(captions(component)).toEqual(["obj_222", "obj_333"]);
+                await waitFor(() => {
+                    expect(document.activeElement).toBe(chips(component)[0]);
+                });
+                expect(document.activeElement).not.toBe(document.body);
+            }
+        );
+
+        it.each(["Backspace", "Delete"])(
+            "moves focus to the left neighbour when %s removes the last chip",
+            async key => {
+                const { component, input, applyValueChange } = await setup(["111", "222", "333"]);
+                await focusChip(component, input, 2);
+
+                fireEvent.keyDown(document.activeElement!, { key });
+                applyValueChange();
+
+                expect(captions(component)).toEqual(["obj_111", "obj_222"]);
+                await waitFor(() => {
+                    expect(document.activeElement).toBe(chips(component)[1]);
+                });
+                expect(document.activeElement).not.toBe(document.body);
+            }
+        );
+
+        it.each(["Backspace", "Delete"])(
+            "returns focus to the filter input when %s removes the only chip",
+            async key => {
+                const { component, input, applyValueChange } = await setup(["111"]);
+                await focusChip(component, input, 0);
+
+                fireEvent.keyDown(document.activeElement!, { key });
+                applyValueChange();
+
+                expect(chips(component)).toHaveLength(0);
+                await waitFor(() => {
+                    expect(document.activeElement).toBe(input);
+                });
+            }
+        );
+
+        it("keeps chip navigation working after a middle chip is removed", async () => {
+            const { component, input, applyValueChange } = await setup(["111", "222", "333"]);
+            await focusChip(component, input, 1);
+
+            fireEvent.keyDown(document.activeElement!, { key: "Delete" });
+            applyValueChange();
+            expect(captions(component)).toEqual(["obj_111", "obj_333"]);
+            await waitFor(() => {
+                expect(document.activeElement).toBe(chips(component)[1]);
+            });
+
+            fireEvent.keyDown(document.activeElement!, { key: "ArrowLeft" });
+
+            await waitFor(() => {
+                expect(document.activeElement).toBe(chips(component)[0]);
+            });
+        });
+    });
+
     describe("with lazy loading", () => {
         it("calls loadMore only when menu opens", async () => {
             const setLimit = jest.fn();

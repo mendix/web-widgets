@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Fragment, KeyboardEvent, ReactElement, useMemo, useRef } from "react";
+import { Fragment, KeyboardEvent, ReactElement, useEffect, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
 import { getInputLabel, getSelectedCaptionsPlaceholder, getValidationErrorId } from "../../helpers/utils";
@@ -47,6 +47,10 @@ export function MultiSelection({
     ...options
 }: SelectionBaseProps<MultiSelector>): ReactElement {
     const inputRef = useRef<HTMLInputElement>(null);
+    /** Chip DOM nodes by index, so focus can be restored after a chip is removed. */
+    const chipRefs = useRef<Array<HTMLElement | null>>([]);
+    /** Index of the chip a Backspace/Delete press is about to remove, or null. */
+    const chipToRefocusRef = useRef<number | null>(null);
     const {
         isOpen,
         getToggleButtonProps,
@@ -104,6 +108,39 @@ export function MultiSelection({
         "aria-label": !hasLabel && options.ariaLabel ? options.ariaLabel : undefined
     });
 
+    /**
+     * Keeps keyboard focus on the selected items when one of them is removed with
+     * Backspace/Delete.
+     *
+     * downshift removes the chip but only moves DOM focus when its own `activeIndex`
+     * changes: its `SelectedItemKeyDownBackspace`/`SelectedItemKeyDownDelete` reducer
+     * (downshift 7.6.2, dist/downshift.cjs.js) keeps `activeIndex` unchanged for every chip
+     * except the last one, while its focus effect depends on `[activeIndex]`. So removing a
+     * chip from anywhere but the end unmounts the focused element without focusing anything
+     * else, and focus falls back to the document body.
+     *
+     * `Math.min(index, count - 1)` reproduces downshift's new `activeIndex` for every
+     * position, so this focuses the element downshift also marks as active (tabIndex 0).
+     *
+     * Re-check this against downshift's implementation when upgrading downshift.
+     */
+    useEffect(() => {
+        const removedIndex = chipToRefocusRef.current;
+        if (removedIndex === null) {
+            return;
+        }
+        chipToRefocusRef.current = null;
+        const indexToFocus = Math.min(removedIndex, selectedItems.length - 1);
+        if (indexToFocus < 0) {
+            inputRef.current?.focus();
+            return;
+        }
+        chipRefs.current[indexToFocus]?.focus();
+        // Keyed on the number of chips so this runs on the render that actually removes the
+        // chip: `selectedItems` can be a new array on any render, and running earlier would
+        // focus the node that is about to unmount.
+    }, [selectedItems.length]);
+
     const memoizedselectedCaptions = useMemo(
         () => getSelectedCaptionsPlaceholder(selector, selectedItems),
         [selector, selectedItems]
@@ -149,7 +186,17 @@ export function MultiSelection({
                                     key={selectedItemForRender}
                                     {...getSelectedItemProps({
                                         selectedItem: selectedItemForRender,
-                                        index
+                                        index,
+                                        ref: (node: HTMLElement | null) => {
+                                            chipRefs.current[index] = node;
+                                        },
+                                        onKeyDown: (event: KeyboardEvent) => {
+                                            // downshift removes the chip after this handler runs; remember
+                                            // which slot keyboard focus must return to once that renders.
+                                            if (event.key === "Backspace" || event.key === "Delete") {
+                                                chipToRefocusRef.current = index;
+                                            }
+                                        }
                                     })}
                                 >
                                     {selector.caption.render(selectedItemForRender, "label")}
