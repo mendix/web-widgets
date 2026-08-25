@@ -47,3 +47,51 @@ test.describe("combobox-web multi-selection filter input keys", () => {
         });
     }
 });
+
+// Regression for the chip-focus follow-up: removing a selected chip with Backspace/Delete
+// used to drop keyboard focus to the document body unless the chip was the last one in the
+// row. downshift only re-focuses when its own activeIndex changes, which it does not when a
+// chip other than the last is removed.
+test.describe("combobox-web multi-selection chip removal keys", () => {
+    test.beforeEach(async ({ page }) => {
+        await page.goto("/p/combobox");
+        await page.click(".mx-name-actionButton1");
+        await page.click(".mx-name-tabPage2");
+    });
+
+    for (const key of ["Backspace", "Delete"]) {
+        test(`keeps keyboard focus on the selected items when ${key} removes a middle chip`, async ({ page }) => {
+            const comboBox = page.locator(".mx-name-comboBox4");
+            await expect(comboBox).toBeVisible({ timeout: 10000 });
+
+            // Arrange: three chips, so a middle one exists.
+            const chips = comboBox.locator(".widget-combobox-selected-item");
+            const options = comboBox.locator("[role=listbox] [role=option]");
+            await comboBox.click();
+            for (let selected = 0; selected < 3; selected++) {
+                await expect(options.first()).toBeVisible();
+                await options.first().click({ delay: 10 });
+                await expect(chips).toHaveCount(selected + 1);
+            }
+
+            const input = comboBox.locator("input");
+            await input.press("Escape");
+
+            // Walk from the filter input onto the middle chip.
+            await input.press("ArrowLeft");
+            await expect(chips.nth(2)).toBeFocused();
+            await page.keyboard.press("ArrowLeft");
+            await expect(chips.nth(1)).toBeFocused();
+
+            // Act
+            await page.keyboard.press(key);
+
+            // Assert: the chip is gone and focus moved to the chip that took its place,
+            // so navigation continues instead of falling back to the page.
+            await expect(chips).toHaveCount(2);
+            await expect(chips.nth(1)).toBeFocused();
+            await page.keyboard.press("ArrowLeft");
+            await expect(chips.nth(0)).toBeFocused();
+        });
+    }
+});
