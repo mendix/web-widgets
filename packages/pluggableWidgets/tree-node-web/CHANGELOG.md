@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the tree did not reflect a new data source sort order (for example after changing a sequence attribute) until the page was reopened.
+- We fixed an issue where all nodes collapsed when the data source refreshed. Expanded and collapsed nodes now keep their state, and the tree no longer clears while the data source is reloading.
+
 ## [3.11.0] - 2026-05-27
 
 ### Added
