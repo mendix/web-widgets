@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added two optional export event actions — **On before export** and **On after export** — so developers can log export operations via a microflow or nanoflow. `On before export` fires just before the export starts and provides the grid name, visible column titles, chunk size, file name, sheet name, and start time. `On after export` fires after the export finishes (whether completed or canceled) and also provides the total number of exported rows, a status string (`"success"` or `"aborted"`), and an end time.
+
 ## [3.11.3] - 2026-07-27
 
 ### Added
