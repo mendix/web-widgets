@@ -75,7 +75,9 @@ export async function Export_To_Excel(datagridName, fileName, sheetName, include
 
         controller.exportData(handler, {
             withHeaders: true,
-            limit: chunkSize.toNumber()
+            limit: chunkSize.toNumber(),
+            fileName,
+            sheetName
         })
     });
 	// END USER CODE
