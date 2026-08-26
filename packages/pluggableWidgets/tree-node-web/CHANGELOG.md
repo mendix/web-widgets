@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where the tree did not reflect a new data source sort order (for example after changing a sequence attribute) until the page was reopened.
 - We fixed an issue where all nodes collapsed when the data source refreshed. Expanded and collapsed nodes now keep their state, and the tree no longer clears while the data source is reloading.
+- We fixed an issue where a node did not show that it has children after a child was added to it. Expanding a node now always pre-loads one level ahead, also for children that arrive after the expansion, which restores the missing expand icon on nodes deeper than two levels.
 
 ## [3.11.0] - 2026-05-27
 
