@@ -1,6 +1,9 @@
-# Checkbox Radio Selection
+# Option Selector
 
 A widget for displaying radio button lists (single selection) and checkbox lists (multiple selection) based on different data sources.
+
+Published on the Mendix Marketplace as **Option Selector**. The npm package and widget ID keep their original
+`checkbox-radio-selection` / `CheckboxRadioSelection` naming so existing apps continue to resolve the widget.
 
 ## Features
 
@@ -20,7 +23,7 @@ The widget supports various data source types:
 
 ## Usage
 
-1. Add the Checkbox Radio Selection widget to your page
+1. Add the Option Selector widget to your page
 2. Configure the data source (Context, Database, or Static)
 3. Set up caption and value attributes
 4. Configure selection method (single or multiple)
