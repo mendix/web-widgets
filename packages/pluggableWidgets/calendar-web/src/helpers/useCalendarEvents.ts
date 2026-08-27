@@ -18,7 +18,7 @@ type CalendarEventHandlers = Pick<
 };
 
 export function useCalendarEvents(props: CalendarContainerProps): CalendarEventHandlers {
-    const { onEditEvent, onCreateEvent, onDragDropResize, onViewRangeChange, editable } = props;
+    const { onEditEvent, onCreateEvent, onDragDropResize, onViewRangeChange, editable, onClickTrigger } = props;
     const clickRef = useRef<NodeJS.Timeout | null>(null);
     const [selected, setSelected] = useState<CalendarEvent | null>(null);
 
@@ -58,6 +58,14 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
                 clearTimeout(clickRef.current);
             }
 
+            // In single click mode there is nothing to disambiguate: the first click edits.
+            // Selection is still updated so the event stays highlighted and Enter-to-edit works.
+            if (onClickTrigger === "single") {
+                setSelected(event);
+                invokeEdit(event);
+                return;
+            }
+
             clickRef.current = setTimeout(() => {
                 if (event.item.id === selected?.item.id) {
                     invokeEdit(event);
@@ -66,7 +74,7 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
                 }
             }, 250);
         },
-        [invokeEdit, selected]
+        [invokeEdit, selected, onClickTrigger]
     );
 
     // https://github.com/jquense/react-big-calendar/blob/master/stories/props/onDoubleClickEvent.stories.js
@@ -76,12 +84,18 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
                 clearTimeout(clickRef.current);
             }
 
+            // RBC fires onSelectEvent before onDoubleClickEvent, so in single click mode the edit
+            // action already ran on the first click of the double click. Bail out to avoid firing twice.
+            if (onClickTrigger === "single") {
+                return;
+            }
+
             clickRef.current = setTimeout(() => {
                 invokeEdit(event);
                 setSelected(event);
             }, 250);
         },
-        [invokeEdit]
+        [invokeEdit, onClickTrigger]
     );
 
     const handleKeyPressEvent = useCallback(

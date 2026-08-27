@@ -53,6 +53,8 @@ export interface ToolbarItemsType {
     customViewTextHeaderEvent?: DynamicValue<string>;
 }
 
+export type OnClickTriggerEnum = "single" | "double";
+
 export type WidthUnitEnum = "pixels" | "percentage";
 
 export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent" | "percentageOfView";
@@ -117,6 +119,7 @@ export interface CalendarContainerProps {
     customViewShowFriday: boolean;
     customViewShowSaturday: boolean;
     customViewShowSunday: boolean;
+    onClickTrigger: OnClickTriggerEnum;
     onEditEvent?: ListActionValue;
     onCreateEvent?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date>; allDay: Option<boolean> }>;
     onDragDropResize?: ListActionValue<{
@@ -180,6 +183,7 @@ export interface CalendarPreviewProps {
     customViewShowFriday: boolean;
     customViewShowSaturday: boolean;
     customViewShowSunday: boolean;
+    onClickTrigger: OnClickTriggerEnum;
     onEditEvent: {} | null;
     onCreateEvent: {} | null;
     onDragDropResize: {} | null;

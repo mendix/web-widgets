@@ -307,6 +307,14 @@
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Events">
+            <property key="onClickTrigger" type="enumeration" defaultValue="double">
+                <caption>On edit trigger</caption>
+                <description>Determines how many clicks on an event are needed to trigger the 'On edit' action. With 'Single click', the first click triggers the action immediately. With 'Double click', the first click only selects the event and a double click (or a second click on the selected event) triggers the action</description>
+                <enumerationValues>
+                    <enumerationValue key="single">Single click</enumerationValue>
+                    <enumerationValue key="double">Double click</enumerationValue>
+                </enumerationValues>
+            </property>
             <property key="onEditEvent" type="action" required="false" dataSource="databaseDataSource">
                 <caption>On edit</caption>
                 <description />

@@ -105,7 +105,8 @@ const customViewProps: CalendarContainerProps = {
     step: 60,
     timeslots: 2,
     toolbarItems: [],
-    topBarDateFormat: undefined
+    topBarDateFormat: undefined,
+    onClickTrigger: "double"
 };
 
 beforeAll(() => {

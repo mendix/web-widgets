@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added an "On edit trigger" property that lets you choose whether the "On edit" action runs on a single click or on a double click. The default is double click, matching the previous behavior.
+
 ## [2.6.0] - 2026-08-24
 
 ### Added
