@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the browser console showed a deprecation warning for every default marker on a Google Maps map.
+
 ### Changed
 
 - We replaced the react-leaflet dependency with a direct Leaflet integration due to licensing considerations.
