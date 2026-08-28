@@ -17,7 +17,7 @@
     },
     "packagePath": "com.mendix.widget.custom",
     "marketplace": {
-        "minimumMXVersion": "9.6.0",
+        "minimumMXVersion": "10.24.0",
         "appNumber": 108261,
         "appName": "Maps",
         "reactReady": true
