@@ -20,7 +20,7 @@ export function ActionButton({ action, icon, title, isDisabled }: ActionButtonPr
     );
     return (
         <button
-            role={"button"}
+            type="button"
             className={classNames("action-button", {
                 disabled: isDisabled
             })}
