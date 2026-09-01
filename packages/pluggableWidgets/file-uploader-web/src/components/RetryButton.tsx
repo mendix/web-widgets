@@ -20,6 +20,7 @@ export const RetryButton = observer(function RetryButton({ store }: RetryButtonP
 
     return (
         <button
+            type="button"
             className="retry-button"
             disabled={!store.canRetry}
             onClick={onClick}

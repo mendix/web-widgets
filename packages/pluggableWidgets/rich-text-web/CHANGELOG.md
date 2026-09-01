@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where clicking a button inside the image dialog's Media Library content inserted the image and closed the dialog without pressing Insert.
+
 ## [5.0.0] - 2026-08-14
 
 ### Added
