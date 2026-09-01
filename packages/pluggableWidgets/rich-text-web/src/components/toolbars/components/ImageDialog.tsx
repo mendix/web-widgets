@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { ReactElement, useState, useRef, useEffect, FormEvent } from "react";
+import { ReactElement, useState, useRef, useEffect, KeyboardEvent } from "react";
 import { useDropzone } from "react-dropzone";
 import { useT, TranslateFn } from "../../../utils/i18n";
 import { useCurrentEditor } from "../../EditorContext";
@@ -123,8 +123,7 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
         multiple: false
     });
 
-    const handleSubmit = (e: FormEvent): void => {
-        e.preventDefault();
+    const handleInsert = (): void => {
         if (!editor || !src.trim()) return;
 
         const imageAttrs: any = {
@@ -155,6 +154,17 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
         onClose();
     };
 
+    // Enter inserts only from the dialog's own single-line inputs. The dialog deliberately has no
+    // <form>, so nothing inside `imageSourceContent` or the dropzone can trigger an insert.
+    // preventDefault also stops implicit submission of any form the widget itself is placed in.
+    const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>): void => {
+        if (e.key !== "Enter") {
+            return;
+        }
+        e.preventDefault();
+        handleInsert();
+    };
+
     const handleImageSelected = (event: CustomEvent<EntityImage>): void => {
         const imageData = event.detail;
         if (imageData.url && isPromise(imageData.url)) {
@@ -168,10 +178,7 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
         // Set the selected entity image
         setSelectedEntityImage(imageData);
 
-        // Switch to entity tab if not already
-        if (activeTab !== "entity") {
-            setActiveTab("entity");
-        }
+        setActiveTab("entity");
     };
 
     useEffect(() => {
@@ -184,13 +191,15 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
         return () => {
             imgRef?.removeEventListener("imageSelected", handleImageSelected);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dialogRef.current]);
+        // Registered once on mount. The handler only uses state setters, so it reads no stale state.
+    }, []);
 
     return (
         <div ref={refs.setFloating} style={{ ...floatingStyles, zIndex: 1000 }}>
             <div ref={dialogRef} className="toolbar-dialog image-dialog">
-                <form onSubmit={handleSubmit}>
+                {/* Intentionally not a <form>: `imageSourceContent` is app-developer content, and a
+                    descendant <button> without an explicit type would implicitly submit it. */}
+                <div>
                     <h3>{t("image.title")}</h3>
 
                     {/* Tab Navigation */}
@@ -232,6 +241,7 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
                                     type="text"
                                     value={src}
                                     onChange={e => setSrc(e.target.value)}
+                                    onKeyDown={handleInputKeyDown}
                                     placeholder={t("image.urlPlaceholder")}
                                     autoFocus
                                 />
@@ -333,6 +343,7 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
                             type="text"
                             value={alt}
                             onChange={e => setAlt(e.target.value)}
+                            onKeyDown={handleInputKeyDown}
                             placeholder={t("image.altPlaceholder")}
                         />
                     </div>
@@ -345,6 +356,7 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
                             type="text"
                             value={title}
                             onChange={e => setTitle(e.target.value)}
+                            onKeyDown={handleInputKeyDown}
                             placeholder={t("image.titlePlaceholder")}
                         />
                     </div>
@@ -358,6 +370,7 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
                                 type="number"
                                 value={width}
                                 onChange={e => setWidth(e.target.value)}
+                                onKeyDown={handleInputKeyDown}
                             />
                         </div>
                         <div className="dialog-field">
@@ -367,6 +380,7 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
                                 type="number"
                                 value={height}
                                 onChange={e => setHeight(e.target.value)}
+                                onKeyDown={handleInputKeyDown}
                                 disabled={maintainRatio}
                             />
                         </div>
@@ -388,11 +402,11 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
                         <button type="button" onClick={onClose}>
                             {t("image.cancel")}
                         </button>
-                        <button type="submit" disabled={!src?.trim()}>
+                        <button type="button" onClick={handleInsert} disabled={!src?.trim()}>
                             {t("image.insert")}
                         </button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     );
