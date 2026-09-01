@@ -1,4 +1,5 @@
-import { render } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import { render, screen } from "@testing-library/react";
 import ReactDOM from "react-dom";
 import { doubleMonthOrDayWhenSingle } from "../../utils/date-utils";
 import { DatePicker } from "../DatePicker";
@@ -50,6 +51,31 @@ describe("Date picker component", () => {
         );
 
         expect(component.asFragment()).toMatchSnapshot();
+    });
+
+    describe("calendar toggle button", () => {
+        it("reports the collapsed calendar through aria-expanded", () => {
+            render(<DatePicker adjustable expanded={false} onChange={jest.fn()} />);
+
+            expect(screen.getByRole("button", { name: "Show calendar" })).toHaveAttribute("aria-expanded", "false");
+        });
+
+        it("reports the expanded calendar through aria-expanded", () => {
+            render(<DatePicker adjustable expanded onChange={jest.fn()} />);
+
+            expect(screen.getByRole("button", { name: "Show calendar" })).toHaveAttribute("aria-expanded", "true");
+        });
+
+        it("points aria-controls at the portal container that receives the calendar", () => {
+            const { container } = render(<DatePicker adjustable expanded={false} onChange={jest.fn()} />);
+
+            const portal = container.querySelector(".date-filter-container");
+            const button = screen.getByRole("button", { name: "Show calendar" });
+
+            expect(portal?.id).toBeTruthy();
+            expect(button).toHaveAttribute("aria-controls", portal?.id);
+            expect(button).toHaveAttribute("aria-haspopup", "true");
+        });
     });
 
     test.each([
