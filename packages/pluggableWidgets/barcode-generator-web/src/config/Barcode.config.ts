@@ -55,7 +55,15 @@ export interface QRCodeTypeConfig extends CodeBaseTypeConfig {
     };
 }
 
-export type BarcodeConfig = BarcodeTypeConfig | QRCodeTypeConfig;
+/** Configuration for Data Matrix rendering */
+export interface DataMatrixTypeConfig extends CodeBaseTypeConfig {
+    type: "datamatrix";
+    size: number;
+    gs1Mode: boolean;
+    shape: "square" | "rectangle";
+}
+
+export type BarcodeConfig = BarcodeTypeConfig | QRCodeTypeConfig | DataMatrixTypeConfig;
 
 export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeConfig {
     const codeValue = props.codeValue?.value ?? "";
@@ -72,10 +80,21 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
 
     const baseConfig: CodeBaseTypeConfig = {
         codeValue,
-        margin: (format === "QRCode" ? props.qrMargin : props.codeMargin) ?? 2,
+        // 1D barcodes measure the margin in pixels; QR and Data Matrix in module units
+        margin: getMargin(props, format) ?? 2,
         logLevel: props.logLevel,
         downloadButton: downloadButtonConfig
     };
+
+    if (format === "DataMatrix") {
+        return {
+            type: "datamatrix",
+            ...baseConfig,
+            size: props.dmSize ?? 128,
+            gs1Mode: props.dmGs1Mode ?? false,
+            shape: props.dmShape ?? "square"
+        };
+    }
 
     if (format === "QRCode") {
         return {
@@ -117,6 +136,19 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         addonFormat: props.addonFormat,
         addonSpacing: props.addonSpacing ?? 20
     };
+}
+
+function getMargin(
+    props: BarcodeGeneratorContainerProps,
+    format: CodeFormatEnum | CustomCodeFormatEnum
+): number | undefined {
+    if (format === "QRCode") {
+        return props.qrMargin;
+    }
+    if (format === "DataMatrix") {
+        return props.dmMargin;
+    }
+    return props.codeMargin;
 }
 
 function getFileName(customFileName: string | undefined): string | undefined {

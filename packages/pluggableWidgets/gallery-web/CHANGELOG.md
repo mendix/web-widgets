@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.4] - 2026-08-24
+
 ### Fixed
 
 - We fixed an issue where the Gallery widget could crash with an "invalid attribute id" error when a stored sort order referenced an attribute that was no longer available. The widget now falls back to the default sort order instead.

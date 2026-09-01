@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Added Data Matrix and GS1 Data Matrix generation support, including square and rectangular symbol shapes.
+
 ## [1.0.0] - 2026-04-17
 
 ### Added
