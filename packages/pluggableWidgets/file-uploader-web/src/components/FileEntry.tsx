@@ -39,6 +39,7 @@ export const FileEntryContainer = observer(({ store, actions }: FileEntryContain
             errorMessage={store.errorDescription}
             defaultAction={defaultListAction && store.canExecute(defaultListAction) ? onDefaultAction : undefined}
             actions={<ActionsBar actions={actions} store={store} />}
+            onThumbnailError={() => store.handleThumbnailError()}
         />
     );
 });
@@ -53,6 +54,7 @@ interface FileEntryProps {
     errorMessage?: string;
 
     defaultAction?: () => void;
+    onThumbnailError?: () => void;
 
     actions?: ReactNode;
 }
@@ -98,7 +100,12 @@ function FileEntry(props: FileEntryProps): ReactElement {
                     })}
                 >
                     {props.thumbnail ? (
-                        <img className={"image-preview"} src={props.thumbnail} alt="" />
+                        <img
+                            className={"image-preview"}
+                            src={props.thumbnail}
+                            alt=""
+                            onError={props.onThumbnailError}
+                        />
                     ) : (
                         <FileIcon mimeType={props.mimeType} />
                     )}
