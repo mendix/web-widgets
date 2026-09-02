@@ -1,16 +1,18 @@
-import { ReactElement, useState, useRef, FormEvent, useEffect } from "react";
+import { ReactElement, useState, FormEvent, useEffect } from "react";
+import { DialogShell } from "./DialogShell";
 import { parseEmbedCode } from "../../../utils/embedCodeParser";
 import { useT } from "../../../utils/i18n";
 import { matchPattern } from "../../../utils/videoUrlPattern";
 import { useCurrentEditor } from "../../EditorContext";
 import { VideoDialogProps } from "../helpers/toolbarTypes";
-import { useDropdown } from "../hooks/useDropdown";
 import "./Dialog.scss";
 
 type TabMode = "url" | "embed";
 
+const TITLE_ID = "rich-text-video-dialog-title";
+
 export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): ReactElement {
-    const { editor } = useCurrentEditor();
+    const { editor, dialogStyle } = useCurrentEditor();
     const t = useT();
     const [activeTab, setActiveTab] = useState<TabMode>("url");
     const [urlInput, setUrlInput] = useState("");
@@ -19,13 +21,6 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
     const [height, setHeight] = useState("480");
     const [detectedPlatform, setDetectedPlatform] = useState<string | null>(null);
     const [validationError, setValidationError] = useState<string | null>(null);
-    const dialogRef = useRef<HTMLDivElement>(null);
-
-    const { refs, floatingStyles } = useDropdown({
-        isOpen: true,
-        onClose,
-        referenceElement
-    });
 
     // Handle URL input change
     const handleUrlChange = (value: string): void => {
@@ -176,11 +171,17 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
         (activeTab === "embed" && (!embedCodeInput.trim() || !!validationError));
 
     return (
-        <div ref={refs.setFloating} style={{ ...floatingStyles, zIndex: 1000 }}>
-            <div ref={dialogRef} className="toolbar-dialog video-dialog">
-                <form onSubmit={handleSubmit}>
-                    <h3>{t("video.title")}</h3>
+        <DialogShell
+            mode={dialogStyle}
+            onClose={onClose}
+            referenceElement={referenceElement}
+            className="video-dialog"
+            ariaLabelledBy={TITLE_ID}
+        >
+            <form className="dialog-layout" onSubmit={handleSubmit}>
+                <h3 id={TITLE_ID}>{t("video.title")}</h3>
 
+                <div className="dialog-scroll">
                     {/* Tab Navigation */}
                     <div className="dialog-tabs">
                         <button
@@ -278,18 +279,18 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
                             <div className="dialog-info warning">⚠️ {t("video.embedWarning")}</div>
                         </div>
                     )}
+                </div>
 
-                    {/* Actions */}
-                    <div className="dialog-actions">
-                        <button type="button" onClick={onClose}>
-                            {t("video.cancel")}
-                        </button>
-                        <button type="submit" disabled={isSubmitDisabled}>
-                            {t("video.insert")}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+                {/* Actions */}
+                <div className="dialog-actions">
+                    <button type="button" onClick={onClose}>
+                        {t("video.cancel")}
+                    </button>
+                    <button type="submit" disabled={isSubmitDisabled}>
+                        {t("video.insert")}
+                    </button>
+                </div>
+            </form>
+        </DialogShell>
     );
 }

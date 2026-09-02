@@ -1,13 +1,15 @@
-import { ReactElement, useState, FormEvent, useRef, useEffect } from "react";
+import { ReactElement, useState, FormEvent, useRef } from "react";
+import { DialogShell } from "./DialogShell";
 import { isSafeLinkUrl } from "../../../utils/helpers";
 import { useT } from "../../../utils/i18n";
 import { useCurrentEditor } from "../../EditorContext";
 import { LinkDialogProps } from "../helpers/toolbarTypes";
-import { useDropdown } from "../hooks/useDropdown";
 import "./Dialog.scss";
 
+const TITLE_ID = "rich-text-link-dialog-title";
+
 export function LinkDialog({ onClose, referenceElement }: LinkDialogProps): ReactElement {
-    const { editor } = useCurrentEditor();
+    const { editor, dialogStyle } = useCurrentEditor();
     const t = useT();
 
     // Get initial values from editor state
@@ -23,19 +25,10 @@ export function LinkDialog({ onClose, referenceElement }: LinkDialogProps): Reac
         (existingLink.target === "_blank" ? "_blank" : "_self") as "_self" | "_blank"
     );
 
+    // Only used to return focus after a rejected URL. Focus on open comes from the input's
+    // `autoFocus`: the dialog is portalled, so a mount-time effect here would run before the input
+    // exists.
     const urlInputRef = useRef<HTMLInputElement>(null);
-    const dialogRef = useRef<HTMLDivElement>(null);
-
-    const { refs, floatingStyles } = useDropdown({
-        isOpen: true,
-        onClose,
-        referenceElement
-    });
-
-    useEffect(() => {
-        // Focus URL input when dialog opens
-        urlInputRef.current?.focus();
-    }, []);
 
     const handleSubmit = (e: FormEvent): void => {
         e.preventDefault();
@@ -89,11 +82,11 @@ export function LinkDialog({ onClose, referenceElement }: LinkDialogProps): Reac
     };
 
     return (
-        <div ref={refs.setFloating} style={{ ...floatingStyles, zIndex: 1000 }}>
-            <div ref={dialogRef} className="toolbar-dialog">
-                <form onSubmit={handleSubmit}>
-                    <h3>{existingLink.href ? t("link.editTitle") : t("link.insertTitle")}</h3>
+        <DialogShell mode={dialogStyle} onClose={onClose} referenceElement={referenceElement} ariaLabelledBy={TITLE_ID}>
+            <form className="dialog-layout" onSubmit={handleSubmit}>
+                <h3 id={TITLE_ID}>{existingLink.href ? t("link.editTitle") : t("link.insertTitle")}</h3>
 
+                <div className="dialog-scroll">
                     <div className="dialog-field">
                         <label htmlFor="link-url">{t("link.url")}</label>
                         <input
@@ -170,17 +163,17 @@ export function LinkDialog({ onClose, referenceElement }: LinkDialogProps): Reac
                             </label>
                         </div>
                     </div>
+                </div>
 
-                    <div className="dialog-actions">
-                        <button type="button" onClick={onClose}>
-                            {t("link.cancel")}
-                        </button>
-                        <button type="submit" disabled={!url.trim()}>
-                            {existingLink.href ? t("link.update") : t("link.insert")}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+                <div className="dialog-actions">
+                    <button type="button" onClick={onClose}>
+                        {t("link.cancel")}
+                    </button>
+                    <button type="submit" disabled={!url.trim()}>
+                        {existingLink.href ? t("link.update") : t("link.insert")}
+                    </button>
+                </div>
+            </form>
+        </DialogShell>
     );
 }

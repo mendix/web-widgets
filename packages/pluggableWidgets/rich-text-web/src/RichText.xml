@@ -220,6 +220,14 @@
                         <enumerationValue key="class">Class</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="dialogStyle" type="enumeration" defaultValue="inline">
+                    <caption>Dialog style</caption>
+                    <description>How the insert image, insert video and insert link dialogs are presented. Inline anchors the dialog to the toolbar button it was opened from. Focused shows the dialog centered on the screen over a dimmed page, keeping the keyboard inside it until it is closed.</description>
+                    <enumerationValues>
+                        <enumerationValue key="inline">Inline</enumerationValue>
+                        <enumerationValue key="focused">Focused</enumerationValue>
+                    </enumerationValues>
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Custom toolbar">
