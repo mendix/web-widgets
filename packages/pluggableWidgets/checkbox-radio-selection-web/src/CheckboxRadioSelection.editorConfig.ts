@@ -157,14 +157,14 @@ export function getPreview(values: CheckboxRadioSelectionPreviewProps, isDarkMod
         if (values.source === "context" && values.optionsSourceType === "association") {
             structurePreviewChildren.push(
                 dropzone(
-                    dropzone.placeholder("Configure the checkbox radio selection: Place widgets here"),
+                    dropzone.placeholder("Configure the option selector: Place widgets here"),
                     dropzone.hideDataSourceHeaderIf(false)
                 )(values.optionsSourceAssociationCustomContent)
             );
         } else if (values.source === "database") {
             structurePreviewChildren.push(
                 dropzone(
-                    dropzone.placeholder("Configure the checkbox radio selection: Place widgets here"),
+                    dropzone.placeholder("Configure the option selector: Place widgets here"),
                     dropzone.hideDataSourceHeaderIf(false)
                 )(values.optionsSourceDatabaseCustomContent)
             );
@@ -182,7 +182,7 @@ export function getPreview(values: CheckboxRadioSelectionPreviewProps, isDarkMod
                     })(
                         dropzone(
                             dropzone.placeholder(
-                                `Configure the checkbox radio selection: Place widgets for option ${value.staticDataSourceCaption} here`
+                                `Configure the option selector: Place widgets for option ${value.staticDataSourceCaption} here`
                             ),
                             dropzone.hideDataSourceHeaderIf(false)
                         )(value.staticDataSourceCustomContent)
