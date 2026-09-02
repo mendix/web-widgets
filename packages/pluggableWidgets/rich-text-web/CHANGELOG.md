@@ -6,9 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added a new "Dialog style" setting to choose how the editor's dialogs are shown: "Inline" keeps them anchored to the toolbar button, while "Focused" centers them on the page over a dimmed background.
+
 ### Fixed
 
 - We fixed an issue where clicking a button inside the image dialog's Media Library content inserted the image and closed the dialog without pressing Insert.
+
+- We fixed an issue where a dialog was cut off when its content was tall or when the editor was placed inside a container that clips its content, such as a pop-up page. Dialogs now stay fully on screen and scroll inside themselves, keeping the Cancel and Insert buttons always visible.
 
 ## [5.0.0] - 2026-08-14
 
