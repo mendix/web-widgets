@@ -1,11 +1,13 @@
 import classNames from "classnames";
-import { ReactElement, useState, useRef, useEffect, KeyboardEvent } from "react";
+import { ReactElement, useState, useEffect, KeyboardEvent } from "react";
 import { useDropzone } from "react-dropzone";
+import { DialogShell } from "./DialogShell";
 import { useT, TranslateFn } from "../../../utils/i18n";
 import { useCurrentEditor } from "../../EditorContext";
 import { ImageDialogProps, EntityImage, ImageSourceMode, MAX_FILE_SIZE } from "../helpers/toolbarTypes";
-import { useDropdown } from "../hooks/useDropdown";
 import "./Dialog.scss";
+
+const TITLE_ID = "rich-text-image-dialog-title";
 
 const formatFileSize = (bytes: number): string => {
     if (bytes < 1024) return `${bytes} B`;
@@ -32,7 +34,7 @@ const validateFile = (file: File, t: TranslateFn): string | null => {
 };
 
 export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): ReactElement {
-    const { editor, imageConfig } = useCurrentEditor();
+    const { editor, imageConfig, dialogStyle } = useCurrentEditor();
     const { imageSourceContent, enableDefaultUpload, hasImageSource } = imageConfig;
     const t = useT();
     const [activeTab, setActiveTab] = useState<ImageSourceMode>("url");
@@ -45,13 +47,11 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [selectedEntityImage, setSelectedEntityImage] = useState<EntityImage | null>(null);
     const [dragError, setDragError] = useState<string>("");
-    const dialogRef = useRef<HTMLDivElement>(null);
-
-    const { refs, floatingStyles } = useDropdown({
-        isOpen: true,
-        onClose,
-        referenceElement
-    });
+    // The `imageSelected` event target: app-developer JS actions dispatch that event at the
+    // `.toolbar-dialog` node, so `DialogShell` forwards this ref onto it rather than owning it.
+    // Held in state, not a ref: the dialog is portalled, and a portal's children mount one commit
+    // after the dialog itself, so a mount-time effect would still see `null`.
+    const [dialogNode, setDialogNode] = useState<HTMLDivElement | null>(null);
 
     const handleTabChange = (newTab: ImageSourceMode): void => {
         setActiveTab(newTab);
@@ -183,25 +183,33 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
 
     useEffect(() => {
         // event listener for image selection triggered from custom widgets JS Action
-        const imgRef = dialogRef.current;
-
-        if (imgRef !== null) {
-            imgRef.addEventListener("imageSelected", handleImageSelected);
+        if (dialogNode === null) {
+            return;
         }
+
+        dialogNode.addEventListener("imageSelected", handleImageSelected);
         return () => {
-            imgRef?.removeEventListener("imageSelected", handleImageSelected);
+            dialogNode.removeEventListener("imageSelected", handleImageSelected);
         };
-        // Registered once on mount. The handler only uses state setters, so it reads no stale state.
-    }, []);
+        // Registered once per dialog node. The handler only uses state setters, so it reads no
+        // stale state.
+    }, [dialogNode]);
 
     return (
-        <div ref={refs.setFloating} style={{ ...floatingStyles, zIndex: 1000 }}>
-            <div ref={dialogRef} className="toolbar-dialog image-dialog">
-                {/* Intentionally not a <form>: `imageSourceContent` is app-developer content, and a
-                    descendant <button> without an explicit type would implicitly submit it. */}
-                <div>
-                    <h3>{t("image.title")}</h3>
+        <DialogShell
+            mode={dialogStyle}
+            onClose={onClose}
+            referenceElement={referenceElement}
+            className="image-dialog"
+            ariaLabelledBy={TITLE_ID}
+            dialogRef={setDialogNode}
+        >
+            {/* Intentionally not a <form>: `imageSourceContent` is app-developer content, and a
+                descendant <button> without an explicit type would implicitly submit it. */}
+            <div className="dialog-layout">
+                <h3 id={TITLE_ID}>{t("image.title")}</h3>
 
+                <div className="dialog-scroll">
                     {/* Tab Navigation */}
                     <div className="dialog-tabs">
                         <button
@@ -396,19 +404,19 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
                             {t("image.maintainRatio")}
                         </label>
                     </div>
+                </div>
 
-                    {/* Action Buttons */}
-                    <div className="dialog-actions">
-                        <button type="button" onClick={onClose}>
-                            {t("image.cancel")}
-                        </button>
-                        <button type="button" onClick={handleInsert} disabled={!src?.trim()}>
-                            {t("image.insert")}
-                        </button>
-                    </div>
+                {/* Action Buttons */}
+                <div className="dialog-actions">
+                    <button type="button" onClick={onClose}>
+                        {t("image.cancel")}
+                    </button>
+                    <button type="button" onClick={handleInsert} disabled={!src?.trim()}>
+                        {t("image.insert")}
+                    </button>
                 </div>
             </div>
-        </div>
+        </DialogShell>
     );
 }
 

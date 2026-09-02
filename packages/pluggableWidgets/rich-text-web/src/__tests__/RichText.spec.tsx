@@ -38,6 +38,7 @@ describe("Rich Text", () => {
             tabIndex: 0,
             onChangeType: "onLeave",
             enableStatusBar: true,
+            dialogStyle: "inline",
             statusBarContent: "wordCount" as StatusBarContentEnum,
             spellCheck: true,
             minHeightUnit: "none",

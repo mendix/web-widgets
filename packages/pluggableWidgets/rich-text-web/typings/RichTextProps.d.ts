@@ -33,6 +33,8 @@ export type StatusBarContentEnum = "wordCount" | "characterCount" | "characterCo
 
 export type StyleDataFormatEnum = "inline" | "class";
 
+export type DialogStyleEnum = "inline" | "focused";
+
 export type ToolbarConfigEnum = "basic" | "advanced";
 
 export type CtItemTypeEnum =
@@ -119,6 +121,7 @@ export interface RichTextContainerProps {
     enableDefaultUpload: boolean;
     statusBarContent: StatusBarContentEnum;
     styleDataFormat: StyleDataFormatEnum;
+    dialogStyle: DialogStyleEnum;
     toolbarConfig: ToolbarConfigEnum;
     history: boolean;
     fontStyle: boolean;
@@ -170,6 +173,7 @@ export interface RichTextPreviewProps {
     enableDefaultUpload: boolean;
     statusBarContent: StatusBarContentEnum;
     styleDataFormat: StyleDataFormatEnum;
+    dialogStyle: DialogStyleEnum;
     toolbarConfig: ToolbarConfigEnum;
     history: boolean;
     fontStyle: boolean;
