@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { ReactElement } from "react";
+import { DialogStyleEnum } from "../../../../../typings/RichTextProps";
 import { EditorContext, ImageDialogConfig } from "../../../EditorContext";
 import { ImageDialog } from "../ImageDialog";
 
@@ -11,6 +12,7 @@ function renderWithConfig(imageConfig: ImageDialogConfig): ReturnType<typeof ren
                 editor: null,
                 codeViewState: { isCodeView: false, htmlCode: "", showConfirm: false },
                 codeViewDispatch: () => undefined,
+                dialogStyle: "inline",
                 imageConfig
             }}
         >
@@ -70,6 +72,7 @@ describe("ImageDialog dimensions", () => {
                     editor,
                     codeViewState: { isCodeView: false, htmlCode: "", showConfirm: false },
                     codeViewDispatch: () => undefined,
+                    dialogStyle: "inline",
                     imageConfig: { enableDefaultUpload: false, hasImageSource: false }
                 }}
             >
@@ -152,7 +155,6 @@ describe("ImageDialog insertion isolation", () => {
     function renderWithEmbeddedContent(): {
         setImage: jest.Mock;
         onClose: jest.Mock;
-        container: HTMLElement;
     } {
         const setImage = jest.fn();
         const onClose = jest.fn();
@@ -166,12 +168,13 @@ describe("ImageDialog insertion isolation", () => {
         };
         const editor = { chain: () => chain } as any;
 
-        const { container } = render(
+        render(
             <EditorContext.Provider
                 value={{
                     editor,
                     codeViewState: { isCodeView: false, htmlCode: "", showConfirm: false },
                     codeViewDispatch: () => undefined,
+                    dialogStyle: "inline",
                     imageConfig: {
                         enableDefaultUpload: false,
                         hasImageSource: true,
@@ -186,11 +189,12 @@ describe("ImageDialog insertion isolation", () => {
 
         fireEvent.click(screen.getByRole("button", { name: "Media Library" }));
 
-        return { setImage, onClose, container };
+        return { setImage, onClose };
     }
 
-    const selectEntityImage = (container: HTMLElement): void => {
-        const dialog = container.querySelector(".image-dialog") as HTMLElement;
+    // The dialog is portalled to the body, so it is not inside `render`'s container.
+    const selectEntityImage = (): void => {
+        const dialog = document.querySelector(".image-dialog") as HTMLElement;
         act(() => {
             dialog.dispatchEvent(
                 new CustomEvent("imageSelected", {
@@ -201,9 +205,10 @@ describe("ImageDialog insertion isolation", () => {
     };
 
     it("renders no form element", () => {
-        const { container } = renderWithEmbeddedContent();
+        renderWithEmbeddedContent();
 
-        expect(container.querySelector("form")).toBeNull();
+        // Portalled, so this looks at the whole document rather than the render container.
+        expect(document.querySelector(".image-dialog form")).toBeNull();
     });
 
     it("does not insert or close when an untyped embedded button is clicked", () => {
@@ -216,11 +221,11 @@ describe("ImageDialog insertion isolation", () => {
     });
 
     it("does not insert or close when an untyped embedded button is clicked after an image is selected", () => {
-        const { setImage, onClose, container } = renderWithEmbeddedContent();
+        const { setImage, onClose } = renderWithEmbeddedContent();
         const embedded = screen.getByRole("button", { name: EMBEDDED_BUTTON_LABEL });
 
         fireEvent.click(embedded);
-        selectEntityImage(container);
+        selectEntityImage();
         fireEvent.click(embedded);
         fireEvent.click(embedded);
 
@@ -229,8 +234,8 @@ describe("ImageDialog insertion isolation", () => {
     });
 
     it("does not insert when Enter is pressed inside embedded content", () => {
-        const { setImage, onClose, container } = renderWithEmbeddedContent();
-        selectEntityImage(container);
+        const { setImage, onClose } = renderWithEmbeddedContent();
+        selectEntityImage();
 
         fireEvent.keyDown(screen.getByRole("button", { name: EMBEDDED_BUTTON_LABEL }), { key: "Enter" });
 
@@ -239,8 +244,8 @@ describe("ImageDialog insertion isolation", () => {
     });
 
     it("inserts the selected entity image when the Insert button is activated", () => {
-        const { setImage, onClose, container } = renderWithEmbeddedContent();
-        selectEntityImage(container);
+        const { setImage, onClose } = renderWithEmbeddedContent();
+        selectEntityImage();
 
         fireEvent.click(screen.getByRole("button", { name: "Insert" }));
 
@@ -273,6 +278,7 @@ describe("ImageDialog Enter to insert", () => {
                     editor,
                     codeViewState: { isCodeView: false, htmlCode: "", showConfirm: false },
                     codeViewDispatch: () => undefined,
+                    dialogStyle: "inline",
                     imageConfig: { enableDefaultUpload: false, hasImageSource: false }
                 }}
             >
@@ -329,5 +335,63 @@ describe("ImageDialog Enter to insert", () => {
         fireEvent.keyDown(screen.getByLabelText("Image URL"), { key: "a" });
 
         expect(setImage).not.toHaveBeenCalled();
+    });
+});
+
+// A Media Library listing many images used to grow the dialog past the viewport and push Insert /
+// Cancel out of reach. The tall content now lives in a bounded scroll region instead.
+describe("ImageDialog scroll region", () => {
+    function renderWithTallImageSource(dialogStyle: DialogStyleEnum): void {
+        render(
+            <EditorContext.Provider
+                value={{
+                    editor: null,
+                    codeViewState: { isCodeView: false, htmlCode: "", showConfirm: false },
+                    codeViewDispatch: () => undefined,
+                    dialogStyle,
+                    imageConfig: {
+                        enableDefaultUpload: false,
+                        hasImageSource: true,
+                        imageSourceContent: (
+                            <ul>
+                                {Array.from({ length: 60 }, (_, index) => (
+                                    <li key={index}>Image {index}</li>
+                                ))}
+                            </ul>
+                        )
+                    }
+                }}
+            >
+                {(<ImageDialog onClose={() => undefined} referenceElement={null} />) as ReactElement}
+            </EditorContext.Provider>
+        );
+
+        fireEvent.click(screen.getByRole("button", { name: "Media Library" }));
+    }
+
+    it("keeps the tall image source inside the scroll region and the actions outside it", () => {
+        renderWithTallImageSource("inline");
+
+        const scroll = document.querySelector(".dialog-scroll") as HTMLElement;
+        const actions = document.querySelector(".dialog-actions") as HTMLElement;
+
+        expect(scroll).not.toBeNull();
+        expect(scroll.querySelector(".image-dialog-entity")).not.toBeNull();
+        expect(scroll.contains(actions)).toBe(false);
+        expect(document.querySelector(".dialog-scroll h3")).toBeNull();
+    });
+
+    it("bounds the dialog height in focused mode", () => {
+        renderWithTallImageSource("focused");
+
+        expect(screen.getByRole("dialog")).toHaveStyle({ maxHeight: "70vh" });
+    });
+
+    it("bounds the dialog height in inline mode", () => {
+        renderWithTallImageSource("inline");
+
+        // With no anchor to measure against, the shell falls back to its default bound rather than
+        // leaving the dialog unbounded.
+        expect(document.querySelector(".toolbar-dialog")).toHaveStyle({ maxHeight: "70vh" });
     });
 });

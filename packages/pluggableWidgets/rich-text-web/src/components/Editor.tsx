@@ -41,6 +41,7 @@ export interface EditorProps extends Pick<
     | "imageSource"
     | "imageSourceContent"
     | "enableDefaultUpload"
+    | "dialogStyle"
     | "preset"
     | "toolbarConfig"
     | "toolbarLocation"
@@ -175,6 +176,7 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
         imageSource,
         imageSourceContent,
         enableDefaultUpload,
+        dialogStyle = "inline",
         ...others
     } = props;
     const actionRef = useMemo(
@@ -343,7 +345,7 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
 
     return (
         <TranslationProvider>
-            <EditorContextProvider editor={editor} imageConfig={imageConfig}>
+            <EditorContextProvider editor={editor} imageConfig={imageConfig} dialogStyle={dialogStyle}>
                 <EditorInner showToolbar={!shouldHideToolbar} readOnly={!!readOnly} className={className} {...others} />
             </EditorContextProvider>
         </TranslationProvider>
