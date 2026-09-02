@@ -13,6 +13,7 @@ function renderWithEditor(children: ReactNode, isCodeView = false): ReturnType<t
                 editor: null,
                 codeViewState: { isCodeView, htmlCode: "", showConfirm: false },
                 codeViewDispatch: () => undefined,
+                dialogStyle: "inline",
                 imageConfig: { enableDefaultUpload: true, hasImageSource: false }
             }}
         >
@@ -32,6 +33,7 @@ function renderInCodeViewEditable(children: ReactNode): ReturnType<typeof render
                 editor: { isEditable: true } as any,
                 codeViewState: { isCodeView: true, htmlCode: "", showConfirm: false },
                 codeViewDispatch: () => undefined,
+                dialogStyle: "inline",
                 imageConfig: { enableDefaultUpload: true, hasImageSource: false }
             }}
         >

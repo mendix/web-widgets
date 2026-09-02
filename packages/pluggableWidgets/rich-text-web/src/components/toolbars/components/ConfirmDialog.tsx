@@ -1,7 +1,12 @@
-import { ReactElement, useRef, useEffect } from "react";
+import { ReactElement } from "react";
+import { DialogShell } from "./DialogShell";
 import { ConfirmDialogProps } from "../helpers/toolbarTypes";
 import "./Dialog.scss";
 
+/**
+ * Always focused, whatever the widget's "Dialog style" is set to: it asks a blocking question and
+ * has no toolbar button to anchor to.
+ */
 export function ConfirmDialog({
     title,
     message,
@@ -10,33 +15,22 @@ export function ConfirmDialog({
     onConfirm,
     onCancel
 }: ConfirmDialogProps): ReactElement {
-    const dialogRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent): void => {
-            if (dialogRef.current && !dialogRef.current.contains(event.target as Node)) {
-                onCancel();
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [onCancel]);
-
     return (
-        <div className="confirm-dialog-overlay">
-            <div ref={dialogRef} className="toolbar-dialog confirm-dialog">
-                {title && <h3>{title}</h3>}
-                {message && <p className="confirm-message">{message}</p>}
-                <div className="dialog-actions">
-                    <button type="button" onClick={onCancel}>
-                        {cancelLabel}
-                    </button>
-                    <button type="button" className="btn-primary" onClick={onConfirm}>
-                        {confirmLabel}
-                    </button>
+        <DialogShell mode="focused" onClose={onCancel} className="confirm-dialog">
+            {title && <h3>{title}</h3>}
+            {message && (
+                <div className="dialog-scroll">
+                    <p className="confirm-message">{message}</p>
                 </div>
+            )}
+            <div className="dialog-actions">
+                <button type="button" onClick={onCancel}>
+                    {cancelLabel}
+                </button>
+                <button type="button" className="btn-primary" onClick={onConfirm}>
+                    {confirmLabel}
+                </button>
             </div>
-        </div>
+        </DialogShell>
     );
 }

@@ -1,6 +1,7 @@
 import { Editor } from "@tiptap/react";
 import { html as beautifyHtml } from "js-beautify";
 import { createContext, useContext, useReducer, ReactNode, ReactElement, Dispatch } from "react";
+import { DialogStyleEnum } from "../../typings/RichTextProps";
 
 // Code view state
 export interface CodeViewState {
@@ -86,6 +87,12 @@ interface EditorContextValue {
     codeViewState: CodeViewState;
     codeViewDispatch: Dispatch<CodeViewAction>;
     imageConfig: ImageDialogConfig;
+    /**
+     * Presentation of the image/video/link dialogs. Carried on the editor context rather than
+     * drilled through the toolbar because the link dialog has a second entry point outside the
+     * toolbar tree (the link bubble menu), which sits inside this provider too.
+     */
+    dialogStyle: DialogStyleEnum;
 }
 
 export const EditorContext = createContext<EditorContextValue | undefined>(undefined);
@@ -93,16 +100,18 @@ export const EditorContext = createContext<EditorContextValue | undefined>(undef
 export function EditorContextProvider({
     editor,
     imageConfig,
+    dialogStyle,
     children
 }: {
     editor: Editor | null;
     imageConfig: ImageDialogConfig;
+    dialogStyle: DialogStyleEnum;
     children: ReactNode;
 }): ReactElement {
     const [codeViewState, codeViewDispatch] = useReducer(codeViewReducer, initialCodeViewState);
 
     return (
-        <EditorContext.Provider value={{ editor, codeViewState, codeViewDispatch, imageConfig }}>
+        <EditorContext.Provider value={{ editor, codeViewState, codeViewDispatch, imageConfig, dialogStyle }}>
             {children}
         </EditorContext.Provider>
     );
