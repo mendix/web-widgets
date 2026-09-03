@@ -1004,7 +1004,7 @@ exports[`Rich Text renders with HTML character count status bar 1`] = `
       <span
         class="status-bar-text"
       >
-        Characters (HTML): 82
+        Characters (HTML): 49
       </span>
     </div>
   </div>
