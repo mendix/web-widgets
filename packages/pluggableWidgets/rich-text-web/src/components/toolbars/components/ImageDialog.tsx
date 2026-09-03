@@ -2,18 +2,13 @@ import classNames from "classnames";
 import { ReactElement, useState, useEffect, KeyboardEvent } from "react";
 import { useDropzone } from "react-dropzone";
 import { DialogShell } from "./DialogShell";
-import { useT, TranslateFn } from "../../../utils/i18n";
+import { useT } from "../../../utils/i18n";
+import { MAX_FILE_SIZE, formatFileSize, readFileAsDataUrl, validateImageFile } from "../../../utils/imageFiles";
 import { useCurrentEditor } from "../../EditorContext";
-import { ImageDialogProps, EntityImage, ImageSourceMode, MAX_FILE_SIZE } from "../helpers/toolbarTypes";
+import { ImageDialogProps, EntityImage, ImageSourceMode } from "../helpers/toolbarTypes";
 import "./Dialog.scss";
 
 const TITLE_ID = "rich-text-image-dialog-title";
-
-const formatFileSize = (bytes: number): string => {
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-};
 
 const toPixelValue = (value: string): string | undefined => {
     const parsed = Number(value);
@@ -21,16 +16,6 @@ const toPixelValue = (value: string): string | undefined => {
         return undefined;
     }
     return `${parsed}px`;
-};
-
-const validateFile = (file: File, t: TranslateFn): string | null => {
-    if (file.size > MAX_FILE_SIZE) {
-        return t("image.errorTooLarge", formatFileSize(file.size));
-    }
-    if (!file.type.startsWith("image/")) {
-        return t("image.errorNotImage");
-    }
-    return null;
 };
 
 export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): ReactElement {
@@ -87,23 +72,22 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
         }
 
         const file = acceptedFiles[0];
-        const error = validateFile(file, t);
+        const error = validateImageFile(file);
 
         if (error) {
-            setDragError(error);
+            setDragError(error.arg ? t(error.key, error.arg) : t(error.key));
             return;
         }
 
-        const reader = new FileReader();
-        reader.onload = () => {
-            const base64 = reader.result as string;
-            setSrc(base64);
-            setUploadedFile(file);
-        };
-        reader.onerror = () => {
-            setDragError(t("image.errorReadFailed"));
-        };
-        reader.readAsDataURL(file);
+        readFileAsDataUrl(file).then(
+            base64 => {
+                setSrc(base64);
+                setUploadedFile(file);
+            },
+            () => {
+                setDragError(t("image.errorReadFailed"));
+            }
+        );
     };
 
     const handleClearFile = (): void => {
