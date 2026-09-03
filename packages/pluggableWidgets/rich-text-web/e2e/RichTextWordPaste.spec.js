@@ -48,7 +48,9 @@ async function clearEditor(page, editor) {
 }
 
 test.describe("RichText — pasting from Microsoft Word", () => {
-    test.describe.configure({ mode: "serial" });
+    // "default" (not "serial"): keeps in-order single-worker execution without
+    // skipping the remaining tests when one fails.
+    test.describe.configure({ mode: "default" });
 
     test("indents pasted Word content by its real level and keeps the list marker readable", async ({ page }) => {
         await page.goto("/p/advanced");

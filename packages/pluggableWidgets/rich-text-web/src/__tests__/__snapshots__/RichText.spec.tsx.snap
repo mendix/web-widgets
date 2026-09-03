@@ -76,6 +76,7 @@ exports[`Rich Text renders richtext widget 1`] = `
                 aria-label="Numbered List - Toggle"
                 aria-pressed="false"
                 class="split-button-main icon-button"
+                title="Numbered List"
                 type="button"
               >
                 <span
@@ -87,6 +88,7 @@ exports[`Rich Text renders richtext widget 1`] = `
                 aria-haspopup="menu"
                 aria-label="Numbered List - Style options"
                 class="split-button-dropdown"
+                title="Numbered List - Style options"
                 type="button"
               >
                 <span
@@ -360,6 +362,7 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
                 aria-label="Numbered List - Toggle"
                 aria-pressed="false"
                 class="split-button-main icon-button"
+                title="Numbered List"
                 type="button"
               >
                 <span
@@ -371,6 +374,7 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
                 aria-haspopup="menu"
                 aria-label="Numbered List - Style options"
                 class="split-button-dropdown"
+                title="Numbered List - Style options"
                 type="button"
               >
                 <span
@@ -848,6 +852,7 @@ exports[`Rich Text renders with HTML character count status bar 1`] = `
                 aria-label="Numbered List - Toggle"
                 aria-pressed="false"
                 class="split-button-main icon-button"
+                title="Numbered List"
                 type="button"
               >
                 <span
@@ -859,6 +864,7 @@ exports[`Rich Text renders with HTML character count status bar 1`] = `
                 aria-haspopup="menu"
                 aria-label="Numbered List - Style options"
                 class="split-button-dropdown"
+                title="Numbered List - Style options"
                 type="button"
               >
                 <span
@@ -1087,6 +1093,7 @@ exports[`Rich Text renders with both word and character count 1`] = `
                 aria-label="Numbered List - Toggle"
                 aria-pressed="false"
                 class="split-button-main icon-button"
+                title="Numbered List"
                 type="button"
               >
                 <span
@@ -1098,6 +1105,7 @@ exports[`Rich Text renders with both word and character count 1`] = `
                 aria-haspopup="menu"
                 aria-label="Numbered List - Style options"
                 class="split-button-dropdown"
+                title="Numbered List - Style options"
                 type="button"
               >
                 <span
@@ -1324,6 +1332,7 @@ exports[`Rich Text renders with character count status bar 1`] = `
                 aria-label="Numbered List - Toggle"
                 aria-pressed="false"
                 class="split-button-main icon-button"
+                title="Numbered List"
                 type="button"
               >
                 <span
@@ -1335,6 +1344,7 @@ exports[`Rich Text renders with character count status bar 1`] = `
                 aria-haspopup="menu"
                 aria-label="Numbered List - Style options"
                 class="split-button-dropdown"
+                title="Numbered List - Style options"
                 type="button"
               >
                 <span
