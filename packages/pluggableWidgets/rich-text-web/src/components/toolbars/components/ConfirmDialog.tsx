@@ -3,6 +3,9 @@ import { DialogShell } from "./DialogShell";
 import { ConfirmDialogProps } from "../helpers/toolbarTypes";
 import "./Dialog.scss";
 
+const TITLE_ID = "rich-text-confirm-dialog-title";
+const FALLBACK_TITLE = "Confirmation";
+
 /**
  * Always focused, whatever the widget's "Dialog style" is set to: it asks a blocking question and
  * has no toolbar button to anchor to.
@@ -16,8 +19,14 @@ export function ConfirmDialog({
     onCancel
 }: ConfirmDialogProps): ReactElement {
     return (
-        <DialogShell mode="focused" onClose={onCancel} className="confirm-dialog">
-            {title && <h3>{title}</h3>}
+        <DialogShell mode="focused" onClose={onCancel} className="confirm-dialog" ariaLabelledBy={TITLE_ID}>
+            {title ? (
+                <h3 id={TITLE_ID}>{title}</h3>
+            ) : (
+                <span id={TITLE_ID} className="dialog-visually-hidden">
+                    {FALLBACK_TITLE}
+                </span>
+            )}
             {message && (
                 <div className="dialog-scroll">
                     <p className="confirm-message">{message}</p>

@@ -283,10 +283,10 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
 
                 {/* Actions */}
                 <div className="dialog-actions">
-                    <button type="button" onClick={onClose}>
+                    <button type="button" className="btn" onClick={onClose}>
                         {t("video.cancel")}
                     </button>
-                    <button type="submit" disabled={isSubmitDisabled}>
+                    <button type="submit" className="btn btn-primary" disabled={isSubmitDisabled}>
                         {t("video.insert")}
                     </button>
                 </div>

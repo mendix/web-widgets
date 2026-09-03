@@ -166,10 +166,10 @@ export function LinkDialog({ onClose, referenceElement }: LinkDialogProps): Reac
                 </div>
 
                 <div className="dialog-actions">
-                    <button type="button" onClick={onClose}>
+                    <button type="button" className="btn" onClick={onClose}>
                         {t("link.cancel")}
                     </button>
-                    <button type="submit" disabled={!url.trim()}>
+                    <button type="submit" className="btn btn-primary" disabled={!url.trim()}>
                         {existingLink.href ? t("link.update") : t("link.insert")}
                     </button>
                 </div>
