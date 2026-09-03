@@ -105,11 +105,6 @@ export type ImageSourceMode = "url" | "upload" | "entity";
 // ============================================================================
 
 /**
- * Maximum file size for image uploads (5MB)
- */
-export const MAX_FILE_SIZE = 5 * 1024 * 1024;
-
-/**
  * Maximum table dimensions for TableGridSelector
  */
 export const MAX_TABLE_ROWS = 10;

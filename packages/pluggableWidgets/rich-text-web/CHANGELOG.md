@@ -10,7 +10,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We added a new "Dialog style" setting to choose how the editor's dialogs are shown: "Inline" keeps them anchored to the toolbar button, while "Focused" centers them on the page over a dimmed background.
 
+- We added support for adding images by dragging & dropping image files into the editor, or by pasting them from the clipboard. Files that are too large or are not images are not inserted and the reason is shown below the editor. Both work only when "Enable default upload" is on.
+
 ### Fixed
+
+- We fixed an issue where dropping a file onto the editor made the browser navigate away from the page.
+
+- We fixed an issue where images that were resized in Rich Text version 4 lost their size after upgrading to version 5 and were shown at their original size.
 
 - We fixed an issue where clicking a button inside the image dialog's Media Library content inserted the image and closed the dialog without pressing Insert.
 
