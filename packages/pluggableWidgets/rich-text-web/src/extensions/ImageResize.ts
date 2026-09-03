@@ -1,6 +1,7 @@
 import { Image } from "@tiptap/extension-image";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 import { ImageResize as ImageResizeComponent } from "../components/ImageResize";
+import { toHtmlDimension } from "../utils/imageSize";
 
 export type ImageResizeOptions = {
     inline?: boolean;
@@ -33,11 +34,12 @@ export const ImageResize = Image.extend<ImageResizeOptions>({
                     const style = element.style.width;
                     return style || null;
                 },
+                // Dimensions stay in width/height attributes rather than inline style:
+                // a style attribute needs `style-src 'unsafe-inline'`, which the
+                // `styleDataFormat: "class"` mode exists to avoid.
                 renderHTML: attributes => {
-                    if (!attributes.width) {
-                        return {};
-                    }
-                    return { width: attributes.width };
+                    const width = toHtmlDimension(attributes.width);
+                    return width === undefined ? {} : { width };
                 }
             },
             height: {
@@ -51,10 +53,8 @@ export const ImageResize = Image.extend<ImageResizeOptions>({
                     return style || null;
                 },
                 renderHTML: attributes => {
-                    if (!attributes.height) {
-                        return {};
-                    }
-                    return { height: attributes.height };
+                    const height = toHtmlDimension(attributes.height);
+                    return height === undefined ? {} : { height };
                 }
             },
             dataEntity: {

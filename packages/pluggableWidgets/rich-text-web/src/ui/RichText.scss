@@ -6,6 +6,10 @@
 $rte-border-color-default: #ced0d3;
 $rte-gray-ligher: #f8f8f8;
 $rte-brand-primary: #264ae5;
+$rte-drag-over-bg: #e6eaff;
+$rte-brand-warning: #eca51c;
+$rte-warning-bg: #fbedd2;
+$rte-warning-text: #8f620b;
 
 .widget-rich-text {
     // CSS Variables for consistent theming
@@ -49,6 +53,26 @@ $rte-brand-primary: #264ae5;
         display: flex;
         flex-direction: column;
         width: 100%;
+
+        // Set while an image file is dragged over the editor (see extensions/ImagePasteDrop).
+        &.rich-text-drag-over .tiptap-editor {
+            outline: 1.5px dashed var(--brand-primary, $rte-brand-primary);
+            outline-offset: -2px;
+            background-color: var(--color-primary-lighter, $rte-drag-over-bg);
+        }
+    }
+
+    // Transient message for an image drop/paste that was rejected.
+    .rich-text-drop-error {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 6px 12px;
+        font-size: 12px;
+        line-height: 17px;
+        color: var(--file-dropzone-color, $rte-warning-text);
+        background-color: var(--color-warning-lighter, $rte-warning-bg);
+        border-top: 1px solid var(--brand-warning, $rte-brand-warning);
     }
 
     .tiptap-editor {

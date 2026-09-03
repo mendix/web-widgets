@@ -201,7 +201,7 @@
                 </property>
                 <property key="enableDefaultUpload" type="boolean" defaultValue="true">
                     <caption>Enable default upload</caption>
-                    <description />
+                    <description>Allows uploading images from the device. This covers the image dialog's upload tab, dragging and dropping image files onto the editor, and pasting images from the clipboard. Uploaded images are embedded in the content as base64.</description>
                 </property>
                 <property key="statusBarContent" type="enumeration" defaultValue="wordCount">
                     <caption>Status bar content</caption>

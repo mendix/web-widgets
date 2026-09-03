@@ -7,7 +7,16 @@ import { TaskList } from "@tiptap/extension-task-list";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
-import { CSSProperties, forwardRef, ReactElement, useEffect, useImperativeHandle, useMemo } from "react";
+import {
+    CSSProperties,
+    forwardRef,
+    ReactElement,
+    useEffect,
+    useImperativeHandle,
+    useMemo,
+    useRef,
+    useState
+} from "react";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { EditorContextProvider, useCurrentEditor } from "./EditorContext";
 import { HighlightedCodeEditor } from "./HighlightedCodeEditor";
@@ -18,6 +27,7 @@ import { FontFamilyClass } from "../extensions/FontFamilyClass";
 import { FontSize } from "../extensions/FontSize";
 import { Fullscreen } from "../extensions/Fullscreen";
 import { GenericEmbed } from "../extensions/GenericEmbed";
+import { ImagePasteDrop, IMAGE_DROP_ERROR_EVENT } from "../extensions/ImagePasteDrop";
 import { ImageResize } from "../extensions/ImageResize";
 import { Indent } from "../extensions/Indent";
 import { KeyboardNavigation } from "../extensions/KeyboardNavigation";
@@ -32,8 +42,12 @@ import { TextHighlightClass } from "../extensions/TextHighlightClass";
 import { WordPaste } from "../extensions/WordPaste";
 import { YouTubeResize } from "../extensions/YouTubeResize";
 import { TranslationProvider, useT } from "../utils/i18n";
+import { ImageFileError } from "../utils/imageFiles";
 import { ConfirmDialog } from "./toolbars/components/ConfirmDialog";
 import { ToolbarGroupsConfig } from "./toolbars/ToolbarConfig";
+
+/** How long a rejected drop/paste message stays on screen. */
+const DROP_ERROR_TIMEOUT_MS = 5000;
 
 export interface EditorProps extends Pick<
     RichTextContainerProps,
@@ -95,6 +109,32 @@ function EditorInner({
 }: EditorInnerProps): ReactElement {
     const { editor, codeViewState, codeViewDispatch } = useCurrentEditor();
     const t = useT();
+    // Rejected image drops/pastes are reported by the ImagePasteDrop plugin as a
+    // DOM event (it runs outside React, where `useT` is unavailable) and are
+    // translated and rendered here.
+    const [dropError, setDropError] = useState<ImageFileError | null>(null);
+
+    useEffect(() => {
+        if (!editor) {
+            return;
+        }
+        const dom = editor.view.dom;
+        const handleDropError = (event: Event): void => {
+            setDropError((event as CustomEvent<ImageFileError>).detail);
+        };
+
+        dom.addEventListener(IMAGE_DROP_ERROR_EVENT, handleDropError);
+        return () => dom.removeEventListener(IMAGE_DROP_ERROR_EVENT, handleDropError);
+    }, [editor]);
+
+    useEffect(() => {
+        if (!dropError) {
+            return;
+        }
+        const timer = window.setTimeout(() => setDropError(null), DROP_ERROR_TIMEOUT_MS);
+        return () => window.clearTimeout(timer);
+    }, [dropError]);
+
     const handleSaveCode = (): void => {
         if (!editor) return;
 
@@ -151,6 +191,11 @@ function EditorInner({
                         {!readOnly && <LinkBubbleMenu />}
                     </>
                 )}
+                {dropError && (
+                    <div className="rich-text-drop-error" role="status">
+                        {dropError.arg ? t(dropError.key, dropError.arg) : t(dropError.key)}
+                    </div>
+                )}
             </div>
             {codeViewState.showConfirm && (
                 <ConfirmDialog
@@ -191,6 +236,14 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
         }),
         [props]
     );
+
+    // Read by the ImagePasteDrop plugin at event time. Extension options are frozen
+    // when the editor is created (`useEditor(..., [])`), and @tiptap/react
+    // deliberately keeps the editor's current `editable` on re-render, so neither
+    // `configure()` values nor `editor.isEditable` follow these props. A ref
+    // reassigned on every render does.
+    const configRef = useRef({ enableDefaultUpload, editable: !readOnly });
+    configRef.current = { enableDefaultUpload, editable: !readOnly };
 
     const extensions = useMemo(
         () => [
@@ -276,7 +329,13 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
                     class: "tiptap-embed"
                 }
             }),
-            WordPaste
+            WordPaste,
+            ImagePasteDrop.configure({
+                isEnabled: () => configRef.current.enableDefaultUpload,
+                isEditable: () => configRef.current.editable,
+                wrapperSelector: ".tiptap-wrapper",
+                dragOverClass: "rich-text-drag-over"
+            })
         ],
         [styleDataFormat]
     );
