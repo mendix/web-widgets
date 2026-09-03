@@ -17,7 +17,7 @@
     },
     "packagePath": "com.mendix.widget.custom",
     "marketplace": {
-        "minimumMXVersion": "9.6.0",
+        "minimumMXVersion": "10.24.0",
         "appNumber": 108261,
         "appName": "Maps",
         "reactReady": true
@@ -44,7 +44,7 @@
     },
     "dependencies": {
         "@mendix/widget-plugin-mobx-kit": "workspace:*",
-        "@vis.gl/react-google-maps": "^0.8.3",
+        "@vis.gl/react-google-maps": "^1.9.0",
         "brandi": "^5.0.0",
         "brandi-react": "^5.0.0",
         "classnames": "^2.5.1",
@@ -65,6 +65,7 @@
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
         "@types/deep-equal": "^1.0.1",
+        "@types/google.maps": "^3.64.0",
         "@types/leaflet": "^1.9.3",
         "cross-env": "^7.0.3"
     }
