@@ -177,9 +177,36 @@ $rte-warning-text: #8f620b;
                 font-weight: 700;
             }
 
+            // Marker follows the format of the list item's first inline run. The values are
+            // published as custom properties on the <li> by ListItemMarkerFormat; a custom
+            // property does not affect the item's own content, only what ::marker reads.
+            // Absent property = `inherit`, i.e. unchanged from the base.
+            // Task items carry a checkbox instead of a marker, and custom properties inherit
+            // down the DOM, so a task list nested under a formatted item is excluded here.
+            li:not([data-type="taskItem"])::marker {
+                font-size: var(--rt-marker-font-size, inherit);
+                font-weight: var(--rt-marker-font-weight, inherit);
+                font-style: var(--rt-marker-font-style, inherit);
+                color: var(--rt-marker-color, inherit);
+                font-family: var(--rt-marker-font-family, inherit);
+            }
+
             // Ordered list auto-cycling (6 levels = 2 full cycles)
             ol {
-                padding-left: 1.5em;
+                // An enlarged marker grows leftward out of this padding, so the gutter has
+                // to grow with it. `--rt-marker-max-size` is the largest marker size among
+                // the list's direct items; when absent, calc() is 0px and this is exactly
+                // the previous `1.5em`.
+                //
+                // `--rt-marker-chars` is how many characters the longest counter takes, so a
+                // hundred-item list reserves room for `100.` rather than for `1.`. The
+                // factors come from measuring digit advance widths in Chrome: ~0.55em per
+                // digit, plus the `.` and the gap to the text. Verified to clear the widest
+                // marker at every length from 1 to 4 characters at the 98px maximum size.
+                padding-left: max(
+                    1.5em,
+                    calc(var(--rt-marker-max-size, 0px) * (0.6 * var(--rt-marker-chars, 1) + 0.5))
+                );
                 margin: 0.5em 0;
                 list-style-type: decimal;
 
@@ -206,7 +233,10 @@ $rte-warning-text: #8f620b;
 
             // Unordered list auto-cycling (6 levels = 2 full cycles)
             ul {
-                padding-left: 1.5em;
+                padding-left: max(
+                    1.5em,
+                    calc(var(--rt-marker-max-size, 0px) * (0.6 * var(--rt-marker-chars, 1) + 0.5))
+                );
                 margin: 0.5em 0;
                 list-style-type: disc;
 

@@ -258,6 +258,51 @@ test.describe("RichText", () => {
         await expect(editor.locator("table li ul")).toHaveCount(1);
     });
 
+    for (const { label, button, tag } of [
+        { label: "bullet", button: "Bullet List", tag: "ul" },
+        { label: "numbered", button: "Numbered List", tag: "ol" }
+    ]) {
+        test(`enlarging a ${label} list item's first run enlarges its marker`, async ({ page }) => {
+            await page.goto("/p/advanced");
+            await waitForMendixApp(page);
+
+            const widget = page.locator(".mx-name-richText1");
+            const editor = widget.locator(".tiptap");
+            await editor.scrollIntoViewIfNeeded();
+            await expect(editor).toBeVisible();
+
+            await editor.click();
+            await editor.selectText();
+            await page.keyboard.press("Backspace");
+
+            await widget.locator(`.tiptap-toolbar button[title="${button}"]`).click();
+            await page.keyboard.type("item");
+            await expect(editor.locator(`${tag} li`)).toHaveCount(1);
+
+            // Select the item's text, which puts the first character in the selection.
+            await page.keyboard.press("Home");
+            await page.keyboard.press("Shift+End");
+
+            await widget.locator('.tiptap-toolbar button[title="Font Size"]').click();
+            await widget.locator('.tiptap-toolbar [data-value="84px"]').click();
+            await expect(editor.locator(`${tag} li span`)).toHaveCount(1);
+
+            // `::marker` is a pseudo-element, so `toHaveCSS` cannot reach it. `expect.poll`
+            // keeps the retry behaviour that a bare `evaluate` would lose.
+            await expect
+                .poll(() => editor.locator(`${tag} li`).evaluate(li => getComputedStyle(li, "::marker").fontSize))
+                .toBe("84px");
+
+            // The marker grows leftward out of the list's padding, so the gutter has to leave
+            // room for it — otherwise the number or bullet is clipped at the editor's edge.
+            const gutter = await editor
+                .locator(tag)
+                .first()
+                .evaluate(list => parseFloat(getComputedStyle(list).paddingLeft));
+            expect(gutter).toBeGreaterThan(84);
+        });
+    }
+
     test("inserting a YouTube URL renders a framable embed URL", async ({ page }) => {
         await page.goto("/p/advanced");
         await waitForMendixApp(page);

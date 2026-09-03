@@ -24,6 +24,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where header toolbar not showing when selected on custom mode.
 
+- We fixed an issue where the bullet or number of a list item kept its original size, color and font when the list text was formatted. Markers now follow the formatting of the item's first character, including size, bold, italic, color and font, and each item is evaluated on its own.
+
+- We fixed an issue where opening a page could mark the Rich Text value as changed and run the "On change" action even though nothing was edited.
+
 ## [5.0.0] - 2026-08-14
 
 ### Added

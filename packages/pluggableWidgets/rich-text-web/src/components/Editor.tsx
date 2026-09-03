@@ -23,6 +23,7 @@ import { HighlightedCodeEditor } from "./HighlightedCodeEditor";
 import { LinkBubbleMenu } from "./LinkBubbleMenu";
 import { Toolbar } from "./toolbars";
 import { RichTextContainerProps } from "../../typings/RichTextProps";
+import { BulletListStyled } from "../extensions/BulletListStyled";
 import { FontFamilyClass } from "../extensions/FontFamilyClass";
 import { FontSize } from "../extensions/FontSize";
 import { Fullscreen } from "../extensions/Fullscreen";
@@ -31,6 +32,7 @@ import { ImagePasteDrop, IMAGE_DROP_ERROR_EVENT } from "../extensions/ImagePaste
 import { ImageResize } from "../extensions/ImageResize";
 import { Indent } from "../extensions/Indent";
 import { KeyboardNavigation } from "../extensions/KeyboardNavigation";
+import { ListItemMarkerFormat } from "../extensions/ListItemMarkerFormat";
 import { OrderedListStyled } from "../extensions/OrderedListStyled";
 import { TableBackgroundColor } from "../extensions/TableBackgroundColor";
 import { TableCellBackgroundColor } from "../extensions/TableCellBackgroundColor";
@@ -248,13 +250,23 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
     const extensions = useMemo(
         () => [
             StarterKit.configure({
+                // All three list nodes are replaced below so list markers can follow the
+                // format of each item's first inline run.
                 orderedList: false,
+                bulletList: false,
+                listItem: false,
                 link: {
                     openOnClick: false,
                     HTMLAttributes: { class: "tiptap-link" }
                 }
             }),
             OrderedListStyled.configure({
+                styleDataFormat
+            }),
+            BulletListStyled.configure({
+                styleDataFormat
+            }),
+            ListItemMarkerFormat.configure({
                 styleDataFormat
             }),
             TextStyle,
@@ -386,7 +398,14 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
         // only do update if editor not focused, otherwise it will override the user input.
         const newContent = editor.getHTML();
         if (newContent !== defaultValue) {
-            editor.commands.setContent(defaultValue || "");
+            // `emitUpdate: false`: this direction is external value -> editor, so echoing an
+            // update back out would only write the editor's own serialization over a value
+            // the user never touched. That rewrite is not harmless — it dirties the bound
+            // attribute and fires the On change action on mere page load, for any stored
+            // value that is not already byte-identical to `getHTML()`. Derived list marker
+            // formatting makes that true of every previously saved formatted list.
+            // A genuine edit still emits normally, through the `onUpdate` handler above.
+            editor.commands.setContent(defaultValue || "", { emitUpdate: false });
         }
     }, [editor, defaultValue]);
 
