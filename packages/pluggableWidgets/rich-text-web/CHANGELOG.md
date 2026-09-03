@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where a dialog was cut off when its content was tall or when the editor was placed inside a container that clips its content, such as a pop-up page. Dialogs now stay fully on screen and scroll inside themselves, keeping the Cancel and Insert buttons always visible.
 
+- We fixed an issue where header toolbar not showing when selected on custom mode.
+
 ## [5.0.0] - 2026-08-14
 
 ### Added
