@@ -392,10 +392,10 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
 
                 {/* Action Buttons */}
                 <div className="dialog-actions">
-                    <button type="button" onClick={onClose}>
+                    <button type="button" className="btn" onClick={onClose}>
                         {t("image.cancel")}
                     </button>
-                    <button type="button" onClick={handleInsert} disabled={!src?.trim()}>
+                    <button type="button" className="btn btn-primary" onClick={handleInsert} disabled={!src?.trim()}>
                         {t("image.insert")}
                     </button>
                 </div>
