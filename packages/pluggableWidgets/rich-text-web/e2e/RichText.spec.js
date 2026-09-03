@@ -209,12 +209,11 @@ test.describe("RichText", () => {
 
         // Blur the editor to trigger the save/normalize path.
         await page.keyboard.press("Tab");
-        await page.waitForTimeout(500);
 
         // The editor should now be empty. Tiptap keeps a placeholder paragraph
         // in the DOM, but the widget normalizes that empty paragraph to an
         // empty string on save (see normalizeEmpty in EditorWrapper).
-        expect((await editor.textContent())?.trim() || "").toBe("");
+        await expect(editor).toHaveText("");
         // No text nodes remain — only an empty placeholder paragraph/break.
         const strippedText = (await editor.innerHTML()).replace(/<[^>]*>/g, "").trim();
         expect(strippedText).toBe("");

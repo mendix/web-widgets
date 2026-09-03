@@ -38,7 +38,7 @@ export function HelpDialog({ onClose }: HelpDialogProps): ReactElement {
                 ))}
             </div>
             <div className="dialog-actions">
-                <button type="button" onClick={onClose}>
+                <button type="button" className="btn" onClick={onClose}>
                     {t("help.close")}
                 </button>
             </div>

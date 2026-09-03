@@ -40,7 +40,7 @@ $rte-dialog-z: 10001;
 
     h3 {
         padding: 8px 16px;
-        font-size: 16px;
+        font-size: var(--font-size-medium, 16px);
         font-weight: 600;
         border-bottom: 1px solid var(--border-color-default, #ced0d3);
         flex-shrink: 0;
@@ -84,7 +84,7 @@ $rte-dialog-z: 10001;
 
             label {
                 cursor: pointer;
-                font-size: 13px;
+                font-size: var(--font-size-small, 13px);
                 font-weight: 500;
                 margin-bottom: 0;
                 user-select: none;
@@ -120,7 +120,7 @@ $rte-dialog-z: 10001;
             min-width: 0;
 
             .preview-name {
-                font-size: 13px;
+                font-size: var(--font-size-small, 13px);
                 font-weight: 500;
                 color: #333;
                 white-space: nowrap;
@@ -130,7 +130,7 @@ $rte-dialog-z: 10001;
             }
 
             .preview-size {
-                font-size: 11px;
+                font-size: var(--font-size-smaller, 11px);
                 color: #999;
             }
         }
@@ -169,7 +169,7 @@ $rte-dialog-z: 10001;
         label {
             display: block;
             margin-bottom: 4px;
-            font-size: 12px;
+            font-size: var(--font-size-small, 12px);
             font-weight: 600;
             color: #333;
 
@@ -185,7 +185,7 @@ $rte-dialog-z: 10001;
             padding: 6px 8px;
             border: 1px solid var(--border-color-default, #ced0d3);
             border-radius: 3px;
-            font-size: 13px;
+            font-size: var(--font-size-small, 13px);
             box-sizing: border-box;
 
             &:focus {
@@ -195,7 +195,7 @@ $rte-dialog-z: 10001;
         }
 
         input[type="file"] {
-            font-size: 13px;
+            font-size: var(--font-size-small, 13px);
         }
     }
 
@@ -241,32 +241,11 @@ $rte-dialog-z: 10001;
         flex-shrink: 0;
 
         button {
-            padding: 6px 16px;
-            border: 1px solid var(--border-color-default, #ced0d3);
-            border-radius: 3px;
-            font-size: 13px;
-            cursor: pointer;
-            background: white;
+            font-size: var(--font-size-small, 13px);
 
-            &[type="submit"] {
-                background: var(--brand-primary, #264ae5);
-                color: white;
-                border-color: var(--brand-primary, #264ae5);
-
-                &:hover:not(:disabled) {
-                    background: var(--brand-primary-hover, #106ebe);
-                }
-
-                &:disabled {
-                    opacity: 0.5;
-                    cursor: not-allowed;
-                }
-            }
-
-            &[type="button"] {
-                &:hover {
-                    background: #f3f3f3;
-                }
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
             }
         }
     }
@@ -280,7 +259,7 @@ $rte-dialog-z: 10001;
 
     .confirm-message {
         padding: 16px;
-        font-size: 14px;
+        font-size: var(--font-size-default, 14px);
         color: #666;
         line-height: 1.5;
     }
