@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { RichTextContainerProps, StatusBarContentEnum } from "../../typings/RichTextProps";
 
@@ -94,6 +94,42 @@ describe("Rich Text", () => {
     it("renders with both word and character count", () => {
         const component = render(<RichText {...defaultProps} statusBarContent={"both" as StatusBarContentEnum} />);
         expect(component.container).toMatchSnapshot();
+    });
+
+    describe("does not write to the attribute on load", () => {
+        // The editor's serialization of a stored value is rarely byte-identical to it, and
+        // derived list marker formatting widens that gap. Writing the difference back on mount
+        // would dirty the attribute and fire the On change action without any user edit.
+        //
+        // The write is debounced by 200ms in EditorWrapper, so the timer has to be flushed —
+        // otherwise these assertions would hold no matter what the editor emitted.
+        beforeEach(() => jest.useFakeTimers());
+        afterEach(() => jest.useRealTimers());
+
+        function renderAndFlush(stringAttribute: RichTextContainerProps["stringAttribute"]): void {
+            render(<RichText {...defaultProps} stringAttribute={stringAttribute} />);
+            act(() => {
+                jest.advanceTimersByTime(500);
+            });
+        }
+
+        it("leaves an unformatted value untouched", () => {
+            const stringAttribute = new EditableValueBuilder<string>().withValue(richTextDefaultValue).build();
+
+            renderAndFlush(stringAttribute);
+
+            expect(stringAttribute.setValue).not.toHaveBeenCalled();
+        });
+
+        it("leaves a list whose first run is formatted untouched", () => {
+            const stored = `<ol><li><p><span style="font-size: 32px">Hello</span></p></li></ol>`;
+            const stringAttribute = new EditableValueBuilder<string>().withValue(stored).build();
+
+            renderAndFlush(stringAttribute);
+
+            expect(stringAttribute.setValue).not.toHaveBeenCalled();
+            expect(stringAttribute.value).toBe(stored);
+        });
     });
 
     describe("Empty content handling", () => {
