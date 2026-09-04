@@ -58,3 +58,8 @@ See [CONTRIBUTING.md](https://github.com/mendix/web-widgets/blob/main/CONTRIBUTI
 ## Raising problems/issues
 
 -   We encourage everyone to open a support ticket through [Mendix Support](https://support.mendix.com) in case of problems with widgets or scaffolding tools (Pluggable Widgets Generator or Pluggable Widgets Tools).
+
+## Accessibility
+
+This repo follows WCAG 2.1 AA. When adding widgets, please ensure keyboard navigation and ARIA labels are tested. See open issues labeled `a11y`.
+
