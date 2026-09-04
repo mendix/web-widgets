@@ -1,5 +1,12 @@
-import { useFloating, offset, flip, shift, autoUpdate, Placement } from "@floating-ui/react";
-import { useEffect, useRef, RefObject } from "react";
+import { useFloating, offset, flip, shift, size, autoUpdate, Placement } from "@floating-ui/react";
+import { useEffect, useRef, useState, RefObject } from "react";
+
+/**
+ * Smallest height an auto-sized floating element is allowed to shrink to. Without a floor, a
+ * trigger near the viewport edge yields an `availableHeight` of a few pixels and the element
+ * collapses into an unusable sliver.
+ */
+export const MIN_AVAILABLE_HEIGHT = 200;
 
 export interface UseDropdownOptions {
     isOpen: boolean;
@@ -7,6 +14,12 @@ export interface UseDropdownOptions {
     placement?: Placement;
     offsetValue?: number;
     referenceElement?: HTMLElement | null;
+    /**
+     * Measure the space left at the resolved placement and report it as `availableHeight`, so the
+     * caller can cap its own scroll region. Off by default: the toolbar popovers already bound
+     * themselves in CSS and must keep their current behaviour.
+     */
+    trackAvailableHeight?: boolean;
 }
 
 export interface UseDropdownReturn {
@@ -21,6 +34,11 @@ export interface UseDropdownReturn {
         top: number;
         left: number;
     };
+    /**
+     * Height available at the resolved placement, floored at `MIN_AVAILABLE_HEIGHT`. Only produced
+     * when `trackAvailableHeight` is set; `undefined` otherwise.
+     */
+    availableHeight?: number;
 }
 
 /**
@@ -32,14 +50,32 @@ export function useDropdown({
     onClose,
     placement = "bottom-start",
     offsetValue = 4,
-    referenceElement
+    referenceElement,
+    trackAvailableHeight = false
 }: UseDropdownOptions): UseDropdownReturn {
     const ignoreClickRef = useRef<HTMLElement | null>(null);
+    const [availableHeight, setAvailableHeight] = useState<number | undefined>(undefined);
 
     const { x, y, strategy, refs } = useFloating({
         placement,
         strategy: "fixed",
-        middleware: [offset(offsetValue), flip(), shift({ padding: 8 })],
+        // `size` runs last on purpose: it must measure the placement `flip` and `shift` settled on,
+        // not the requested one.
+        middleware: [
+            offset(offsetValue),
+            flip(),
+            shift({ padding: 8 }),
+            ...(trackAvailableHeight
+                ? [
+                      size({
+                          padding: 8,
+                          apply({ availableHeight: available }) {
+                              setAvailableHeight(Math.max(Math.floor(available), MIN_AVAILABLE_HEIGHT));
+                          }
+                      })
+                  ]
+                : [])
+        ],
         whileElementsMounted: autoUpdate,
         open: isOpen
     });
@@ -91,6 +127,7 @@ export function useDropdown({
             position: strategy,
             top: y ?? 0,
             left: x ?? 0
-        }
+        },
+        availableHeight
     };
 }

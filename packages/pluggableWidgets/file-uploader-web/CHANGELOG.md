@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where clicking a file action button or the retry button submitted the surrounding form, causing the page to submit or a containing dialog to close unexpectedly.
+
 ### Changed
 
 - Since version 2.5.0, removing a file with the default remove button removes the entry from the file list immediately, instead of leaving it in the list greyed out. This matches how removal already worked when custom buttons are configured. This change was missing from the 2.5.0 release notes.
