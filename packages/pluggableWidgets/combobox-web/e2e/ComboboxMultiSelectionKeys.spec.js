@@ -1,13 +1,20 @@
 import { expect, test } from "@mendix/run-e2e/fixtures";
 
+// NOTE for anyone extending this file: do not press Escape. These tests run on a Mendix popup
+// page (opened by .mx-name-actionButton1) and the client closes that popup on Escape. The
+// combobox's own Escape handler only calls preventDefault(), so the keydown still bubbles and
+// the whole widget leaves the DOM mid-test, which shows up as chips silently dropping to 0.
+// Everything below therefore leaves the menu open, which is also where the filter input already
+// holds focus after an option is picked.
+
 /**
- * Leaves the combobox with exactly `count` chips, in menu order.
+ * Leaves the combobox with exactly `count` chips, the menu open and the filter input focused.
  *
- * The test page ships this combobox with options already selected, so tests that address
- * chips by index clear it first and re-select from the top. Nothing is persisted — the
- * popup's Save button is never pressed — so this stays local to the test. In row click
- * selection mode selected options drop out of the menu, hence clicking the first option
- * each pass picks a new one.
+ * The test page ships this combobox with options already selected, so tests that address chips
+ * by index clear it first and re-select from the top. Nothing is persisted — the popup's Save
+ * button is never pressed — so this stays local to the test. In row click selection mode
+ * selected options drop out of the menu, hence clicking the first option each pass picks a new
+ * one.
  */
 async function selectChips(comboBox, count) {
     const chips = comboBox.locator(".widget-combobox-selected-item");
@@ -23,6 +30,27 @@ async function selectChips(comboBox, count) {
         await options.first().click({ delay: 10 });
         await expect(chips).toHaveCount(selected + 1);
     }
+
+    // Picking an option returns focus to the filter input, which is where a keyboard user
+    // continues from. Assert it so the arrow keys below start from a known place.
+    await expect(comboBox.locator("input")).toBeFocused();
+}
+
+/**
+ * Focuses the filter input from scratch, without changing the selection.
+ *
+ * Clicking the input itself does not work: while it is empty and unfocused the widget collapses
+ * it to `max-width: 0`, so Playwright never sees a clickable box. So open the menu instead —
+ * downshift focuses the input whenever the menu opens without it already being focused.
+ *
+ * The down arrow is the target rather than the surrounding input container: a click lands on the
+ * element's centre, and with chips present the container's centre can sit on a chip, which
+ * activates that chip instead. The arrow has no handler of its own, so the click bubbles to the
+ * container's toggle handler.
+ */
+async function focusFilterInput(comboBox) {
+    await comboBox.locator(".widget-combobox-down-arrow").click();
+    await expect(comboBox.locator("input")).toBeFocused();
 }
 
 // Regression for WC-3347: in a multi-select combobox with at least one selected chip,
@@ -83,7 +111,7 @@ test.describe("combobox-web multi-selection filter input keys", () => {
         await expect(chips.first()).toBeVisible();
 
         const input = comboBox.locator("input");
-        await input.click();
+        await focusFilterInput(comboBox);
         await page.keyboard.type("abc");
         await expect(input).toHaveValue("abc");
 
@@ -124,11 +152,8 @@ test.describe("combobox-web multi-selection chip removal keys", () => {
             const chips = comboBox.locator(".widget-combobox-selected-item");
             await selectChips(comboBox, 3);
 
-            const input = comboBox.locator("input");
-            await input.press("Escape");
-
             // Walk from the filter input onto the middle chip.
-            await input.press("ArrowLeft");
+            await page.keyboard.press("ArrowLeft");
             await expect(chips.nth(2)).toBeFocused();
             await page.keyboard.press("ArrowLeft");
             await expect(chips.nth(1)).toBeFocused();
@@ -151,9 +176,7 @@ test.describe("combobox-web multi-selection chip removal keys", () => {
             const chips = comboBox.locator(".widget-combobox-selected-item");
             await selectChips(comboBox, 1);
 
-            const input = comboBox.locator("input");
-            await input.press("Escape");
-            await input.press("ArrowLeft");
+            await page.keyboard.press("ArrowLeft");
             await expect(chips.first()).toBeFocused();
 
             // Act
@@ -162,7 +185,7 @@ test.describe("combobox-web multi-selection chip removal keys", () => {
             // Assert: with no chip left to hold focus it belongs in the filter input, so the
             // user can keep typing instead of tabbing back into the widget.
             await expect(chips).toHaveCount(0);
-            await expect(input).toBeFocused();
+            await expect(comboBox.locator("input")).toBeFocused();
         });
     }
 
@@ -176,13 +199,10 @@ test.describe("combobox-web multi-selection chip removal keys", () => {
 
         const chips = comboBox.locator(".widget-combobox-selected-item");
         await selectChips(comboBox, 3);
-
-        const input = comboBox.locator("input");
-        await input.press("Escape");
-        await expect(input).toHaveValue("");
+        await expect(comboBox.locator("input")).toHaveValue("");
 
         // Act
-        await input.press("Backspace");
+        await page.keyboard.press("Backspace");
         await expect(chips.nth(2)).toBeFocused();
         await page.keyboard.press("Backspace");
 
