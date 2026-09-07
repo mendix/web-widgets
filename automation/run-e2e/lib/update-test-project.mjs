@@ -1,90 +1,12 @@
-import crossZip from "cross-zip";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { createWriteStream } from "node:fs";
 import { join, resolve } from "node:path";
 import sh from "shelljs";
 import * as config from "./config.mjs";
-import { fetchGithubRestAPI, fetchWithReport, packageMeta, streamPipe, usetmp } from "./utils.mjs";
-import { atlasCoreReleaseUrl } from "./config.mjs";
+import { packageMeta } from "./utils.mjs";
+import { updateAtlas } from "./atlas.mjs";
 
-const { cp, rm, mkdir, test } = sh;
-
-async function getReleaseByTag(tag) {
-    const url = `${atlasCoreReleaseUrl}/tags/${tag}`;
-    const response = await fetchGithubRestAPI(url);
-    if (!response.ok) {
-        throw new Error(`Can't fetch release for tag: ${tag}`);
-    }
-    return await response.json();
-}
-
-async function downloadAndExtract(url, downloadPath, extractPath) {
-    try {
-        await streamPipe((await fetchWithReport(url)).body, createWriteStream(downloadPath));
-        crossZip.unzipSync(downloadPath, extractPath);
-    } catch (e) {
-        throw new Error(`Unable to download and extract from ${url}`, { cause: e });
-    } finally {
-        rm("-f", downloadPath);
-    }
-}
-
-async function updateAtlasThemeSource() {
-    console.log("Copying Atlas themesource files from latest Atlas Core release");
-
-    rm("-rf", config.atlasDirsToRemove);
-
-    const release = await getReleaseByTag("atlas-core-v3.17.0");
-    const { browser_download_url } = release.assets[0];
-    const downloadedPath = join(await usetmp(), config.nameForDownloadedAtlasCore);
-    const outPath = await usetmp();
-
-    await downloadAndExtract(browser_download_url, downloadedPath, outPath);
-
-    const themeSourcePath = join(outPath, "themesource");
-    if (!test("-d", themeSourcePath)) {
-        console.log(`Directory not found: ${themeSourcePath}. Creating it.`);
-        mkdir("-p", themeSourcePath);
-    }
-
-    cp("-r", themeSourcePath, config.testProjectDir);
-
-    // Fix file permissions to ensure Docker can write to theme files
-    // The Atlas theme files are copied with read-only permissions
-    // but mxbuild needs to write to some generated files during build
-    sh.exec(`chmod -R +w "${config.testProjectDir}/themesource"`, { silent: true });
-}
-
-async function updateAtlasTheme() {
-    console.log("Copying Atlas theme files from latest Atlas UI theme release");
-
-    rm("-rf", "tests/testProject/theme");
-
-    // Fetch the specific release by tag from GitHub API
-    const tag = "atlasui-theme-files-2024-01-25";
-    const release = await getReleaseByTag(tag);
-    if (!release.assets || release.assets.length === 0) {
-        throw new Error(`No assets found for release tag: ${tag}`);
-    }
-    const [{ browser_download_url }] = release.assets;
-    const downloadedPath = join(await usetmp(), config.nameForDownloadedAtlasTheme);
-    const outPath = await usetmp();
-
-    await downloadAndExtract(browser_download_url, downloadedPath, outPath);
-
-    const themePath = join(outPath, "theme");
-    if (!test("-d", themePath)) {
-        console.log(`Directory not found: ${themePath}. Creating it.`);
-        mkdir("-p", themePath);
-    }
-    const webPath = join(outPath, "web");
-    const nativePath = join(outPath, "native");
-    cp("-r", webPath, themePath);
-    cp("-r", nativePath, themePath);
-
-    cp("-r", themePath, config.testProjectDir);
-}
+const { cp, ls, mkdir } = sh;
 
 async function runReleaseScript() {
     const { name: packageName, version } = packageMeta;
@@ -121,12 +43,10 @@ async function runUpdateProjectScript() {
     spawnSync(command, args, { stdio: "inherit", shell: true });
 }
 
-export async function updateTestProject() {
+export async function updateTestProject(mendixVersion) {
     console.log("Updating test project files (widgets, themesource, atlas, etc.)");
 
-    await updateAtlasTheme();
-
-    await updateAtlasThemeSource();
+    await updateAtlas(config.testProjectDir, mendixVersion, ls(config.mprFileGlob)[0]);
 
     process.env.MX_PROJECT_PATH = resolve(process.cwd(), config.testProjectDir);
 

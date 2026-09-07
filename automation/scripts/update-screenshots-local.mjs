@@ -30,6 +30,7 @@ import { pipeline } from "node:stream/promises";
 import { parseArgs, promisify } from "node:util";
 import { createWriteStream } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { getAtlasConfig, needsDesignPropertyRename, updateAtlas } from "../run-e2e/lib/atlas.mjs";
 
 const execAsync = promisify(exec);
 
@@ -173,6 +174,9 @@ const MENDIX_VERSION_OPT = opts["mendix-version"];
 const SKIP_ATLAS = opts["skip-atlas"];
 const VERBOSE = opts.verbose;
 
+// The shared Atlas lib reads the token from the environment.
+if (GH_TOKEN) process.env.GITHUB_TOKEN = GH_TOKEN;
+
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const REPO_ROOT = path.resolve(fileURLToPath(import.meta.url), "../../..");
@@ -184,19 +188,6 @@ const PATHS = {
     testProject: path.join(REPO_ROOT, "tests/testProject"),
     dockerDir: path.join(REPO_ROOT, "automation/run-e2e/docker"),
     deployBundle: path.join(REPO_ROOT, "automation.mda")
-};
-
-const ATLAS = {
-    THEME_TAG: "atlasui-theme-files-2025-10-08",
-    CORE_TAG: "atlas-core-v4.4.0",
-    DIRS_TO_REMOVE: [
-        "themesource/atlas_ui_resources",
-        "themesource/atlas_core",
-        "themesource/atlas_nativemobile_content",
-        "themesource/atlas_web_content",
-        "themesource/datawidgets",
-        "javascriptsource/atlas_core"
-    ]
 };
 
 const DOCKER = {
@@ -238,35 +229,6 @@ function buildHeaders(extra = {}) {
     };
     if (GH_TOKEN) h["Authorization"] = `Bearer ${GH_TOKEN}`;
     return h;
-}
-
-async function httpGetJson(url) {
-    return new Promise((resolve, reject) => {
-        const parsed = new URL(url);
-        const req = https.get(
-            {
-                hostname: parsed.hostname,
-                path: parsed.pathname + parsed.search,
-                headers: buildHeaders()
-            },
-            res => {
-                let body = "";
-                res.on("data", chunk => (body += chunk));
-                res.on("end", () => {
-                    if (res.statusCode >= 200 && res.statusCode < 300) {
-                        try {
-                            resolve(JSON.parse(body));
-                        } catch (e) {
-                            reject(new Error(`JSON parse error: ${e.message}`));
-                        }
-                    } else {
-                        reject(new Error(`HTTP ${res.statusCode}: ${body.slice(0, 300)}`));
-                    }
-                });
-            }
-        );
-        req.on("error", reject);
-    });
 }
 
 async function downloadToFile(url, destPath, redirectsLeft = 5) {
@@ -349,22 +311,6 @@ async function removeDir(dirPath) {
     }
 }
 
-async function copyDir(src, dest) {
-    await ensureDir(dest);
-    const entries = await fsp.readdir(src, { withFileTypes: true });
-    await Promise.all(
-        entries.map(async entry => {
-            const srcPath = path.join(src, entry.name);
-            const destPath = path.join(dest, entry.name);
-            if (entry.isDirectory()) {
-                await copyDir(srcPath, destPath);
-            } else {
-                await fsp.copyFile(srcPath, destPath);
-            }
-        })
-    );
-}
-
 function createTempDir() {
     return fs.mkdtempSync(path.join(os.tmpdir(), "mx-screenshots-"));
 }
@@ -437,84 +383,20 @@ async function findFreePort() {
 
 // ─── Atlas updater ────────────────────────────────────────────────────────────
 
-async function fetchGitHubRelease(repo, tag) {
-    const url = `https://api.github.com/repos/${repo}/releases/tags/${tag}`;
-    log(`GET ${url}`);
-    return httpGetJson(url);
-}
-
-async function updateAtlasTheme(testProjectDir, tmpDir) {
-    const spinner = new Spinner("Updating Atlas theme").start();
+/**
+ * Replaces theme + themesource with the Atlas release matching the Mendix version.
+ * Shares `automation/run-e2e/lib/atlas.mjs` with the CI runner so both pick the same
+ * Atlas 3 / Atlas 4 files.
+ */
+async function updateProjectAtlas(testProjectDir, mendixVersion) {
+    const atlas = getAtlasConfig(mendixVersion);
+    info(`Updating Atlas ${DIM(`(${atlas.coreTag} / ${atlas.themeTag})`)}`);
     try {
-        const release = await fetchGitHubRelease("mendix/atlas", ATLAS.THEME_TAG);
-        const asset = release.assets.find(a => a.name.endsWith(".zip"));
-
-        if (!asset) throw new Error("No .zip asset in Atlas theme release");
-
-        const themeZip = path.join(tmpDir, "AtlasTheme.zip");
-        await downloadToFile(asset.url, themeZip);
-        extractZip(themeZip, tmpDir);
-        fs.rmSync(themeZip, { force: true });
-
-        const themeTarget = path.join(testProjectDir, "theme");
-        await removeDir(themeTarget);
-
-        const webSrc = path.join(tmpDir, "web");
-        const nativeSrc = path.join(tmpDir, "native");
-
-        if (fs.existsSync(webSrc)) await copyDir(webSrc, path.join(themeTarget, "web"));
-        if (fs.existsSync(nativeSrc)) await copyDir(nativeSrc, path.join(themeTarget, "native"));
-
-        if (!fs.existsSync(webSrc) && !fs.existsSync(nativeSrc)) {
-            throw new Error("No web/native theme dirs found in Atlas theme zip");
-        }
-
-        spinner.succeed("Atlas theme updated");
+        await updateAtlas(testProjectDir, mendixVersion);
+        console.log(`  ${GREEN("✔")} Atlas updated`);
     } catch (err) {
-        spinner.fail(`Atlas theme update failed — ${err.message}`);
-        warn("Continuing without the latest Atlas theme.");
-    }
-}
-
-async function updateAtlasThemesource(testProjectDir, tmpDir) {
-    const spinner = new Spinner("Updating Atlas themesource").start();
-    try {
-        const release = await fetchGitHubRelease("mendix/atlas", ATLAS.CORE_TAG);
-        const asset = release.assets.find(a => a.name.endsWith(".mpk"));
-
-        if (!asset) throw new Error("No .mpk asset in Atlas Core release");
-
-        const coreMpk = path.join(tmpDir, "AtlasCore.mpk");
-        await downloadToFile(asset.url, coreMpk);
-        extractZip(coreMpk, tmpDir);
-        fs.rmSync(coreMpk, { force: true });
-
-        // Remove stale Atlas directories from the test project
-        for (const dir of ATLAS.DIRS_TO_REMOVE) {
-            await removeDir(path.join(testProjectDir, dir));
-        }
-
-        const themesourceSrc = path.join(tmpDir, "themesource");
-        if (!fs.existsSync(themesourceSrc)) {
-            throw new Error("themesource directory not found in Atlas Core mpk");
-        }
-
-        const themesourceDest = path.join(testProjectDir, "themesource");
-        await copyDir(themesourceSrc, themesourceDest);
-        spawnSync("chmod", ["-R", "+w", themesourceDest], { stdio: "pipe" });
-
-        // Atlas 4 ships JavaScript actions next to the themesource
-        const jsSourceSrc = path.join(tmpDir, "javascriptsource");
-        if (fs.existsSync(jsSourceSrc)) {
-            const jsSourceDest = path.join(testProjectDir, "javascriptsource");
-            await copyDir(jsSourceSrc, jsSourceDest);
-            spawnSync("chmod", ["-R", "+w", jsSourceDest], { stdio: "pipe" });
-        }
-
-        spinner.succeed("Atlas themesource updated");
-    } catch (err) {
-        spinner.fail(`Atlas themesource update failed — ${err.message}`);
-        warn("Continuing without the latest Atlas themesource.");
+        console.log(`  ${RED("✖")} Atlas update failed — ${err.message}`);
+        warn("Continuing without the latest Atlas files.");
     }
 }
 
@@ -606,13 +488,21 @@ async function buildDeploymentBundle(mendixVersion) {
         if (!mprFile) throw new Error("No .mpr file found in test project");
 
         const mprPath = `/source/tests/testProject/${mprFile}`;
+        const subCommands = [`mx update-widgets --loose-version-check ${mprPath}`];
+
+        // Atlas 4 renamed design properties, so the model has to be updated after the
+        // themesource is replaced. Atlas 3 projects (Mendix 10 and below) don't need it.
+        if (needsDesignPropertyRename(mendixVersion) && !SKIP_ATLAS) {
+            subCommands.push(`mx rename-design-properties ${mprPath}`);
+        }
+
+        subCommands.push(`mxbuild --output=/source/automation.mda ${mprPath}`);
+
         const cmd = [
             "docker run --tty --rm",
             `--volume ${REPO_ROOT}:/source`,
             mxbuildImage,
-            // rename-design-properties keeps the model in sync with the Atlas version
-            // copied into the test project (Atlas renamed design properties in v4).
-            `bash -c "mx update-widgets --loose-version-check ${mprPath} && mx rename-design-properties ${mprPath} && mxbuild --output=/source/automation.mda ${mprPath}"`
+            `bash -c "${subCommands.join(" && ")}"`
         ].join(" ");
 
         log(`Running: ${cmd}`);
@@ -906,8 +796,7 @@ async function cmdUpdate(widgetName) {
     // ── 3. Update Atlas (optional) ────────────────────────────────────────────
 
     if (!SKIP_ATLAS) {
-        await updateAtlasTheme(PATHS.testProject, tmpDir);
-        await updateAtlasThemesource(PATHS.testProject, tmpDir);
+        await updateProjectAtlas(PATHS.testProject, mendixVersion);
     } else {
         log("Skipping Atlas update — --skip-atlas flag set");
     }
