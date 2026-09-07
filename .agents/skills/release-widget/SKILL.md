@@ -60,12 +60,15 @@ If commitlint or the SBOM jar is missing, tell the user exactly what's missing a
 
 ### Phase 2 — Version selection
 
-Read the unreleased changelog and current version:
+Read the unreleased changelog and current version using the packaged CLI helpers (not raw `sed`/`grep` — they wrap the repo's real changelog parser):
 
 ```bash
-sed -n '/## \[Unreleased\]/,/## \[/p' $RELEASE_PATH/CHANGELOG.md | head -40
-grep '"version"' $RELEASE_PATH/package.json | head -1
+cd $RELEASE_PATH
+pnpm exec rui-changelog
+pnpm exec rui-package-info
 ```
+
+`rui-changelog` prints `{"hasUnreleasedLogs", "sections", "subcomponents"}` — parsed directly from `CHANGELOG.md` via the changelog-parser module, so it correctly stops at the unreleased section boundary and reflects module subcomponents.
 
 Summarize the unreleased entries by type (Fixed/Added/Changed/Breaking changes) and propose a semver bump:
 
