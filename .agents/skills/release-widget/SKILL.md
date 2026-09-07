@@ -32,14 +32,21 @@ cd packages/pluggableWidgets/<widget>
 pnpm exec rui-package-info
 ```
 
-Prints `{"name", "version", "appNumber", "appName"}`. It reads `process.cwd()` — always `cd` into the widget/module dir first, never pass a path argument.
+Prints `{"name", "version", "appNumber", "appName"}`. It reads `process.cwd()` — always `cd` into the widget/module dir first, never pass a path argument. Keep this `info` around — Phase 2 and 3 reuse it, no need to re-fetch.
 
-- `appNumber` is a positive number → **standalone widget release**. `$RELEASE_PATH = packages/pluggableWidgets/<widget>`.
+- `appNumber` is a positive number → **standalone release** (a widget, or a module that is itself published directly). `$RELEASE_PATH` = the directory you just `cd`-ed into — `packages/pluggableWidgets/<widget>` or `packages/modules/<module>`.
 - `appNumber` is `null`/absent/`-1` → widget is module-wrapped, not published on its own. Find the owning module:
     ```bash
     grep -l "\"@mendix/<widget>\"" packages/modules/*/package.json
     ```
     That module's directory is `$RELEASE_PATH`. Tell the user which module wraps it. If no module found, stop — this is a misconfigured package, not something to guess through.
+
+Four placeholders recur through the rest of this skill, all derived once here from `$RELEASE_PATH`/`info` — never guessed, never reconstructed later:
+
+- `<widget-or-module>` — the folder name of `$RELEASE_PATH` (e.g. `combobox-web`, `data-widgets`). Used in commit messages.
+- `<npm-package-name>` — `info.name` (e.g. `@mendix/combobox-web`). Used only for the `CreateGitHubRelease.yml` workflow's `package` input, which specifically wants the literal `package.json` `name` field, not the folder name.
+- `<AppName>` — `info.appName` from `rui-package-info` (e.g. `Combo box`). Used for the SBOM/READMEOSS asset naming (`"<AppName> v<version>"`) — never re-typed or guessed in Phase 4/5.
+- `<release-tag>` — `<widget-or-module>` + `-v` + `<version>`, assembled once `<version>` is confirmed in Phase 2. This is the single identifier for the release: the GitHub release tag, the `tmp/<release-tag>` branch name, and the Jira version string all reuse it verbatim.
 
 ### Phase 1 — Prerequisite check
 
@@ -48,7 +55,6 @@ Run once, report all results together (don't ask one at a time):
 ```bash
 echo "== SBOM jar =="; ls ~/SBOM_Generator.jar 2>&1
 echo "== gh auth =="; gh auth status 2>&1
-echo "== JIRA token =="; [[ -n "$JIRA_API_TOKEN" ]] && echo set || echo missing
 echo "== commitlint =="; ls node_modules/.bin/commitlint 2>/dev/null || echo missing
 echo "== git branch/status =="; git branch --show-current; git status --short
 echo "== main sync =="; git fetch origin main --quiet; git rev-list HEAD..origin/main --count; git rev-list origin/main..HEAD --count
@@ -60,15 +66,14 @@ If commitlint or the SBOM jar is missing, tell the user exactly what's missing a
 
 ### Phase 2 — Version selection
 
-Read the unreleased changelog and current version using the packaged CLI helpers (not raw `sed`/`grep` — they wrap the repo's real changelog parser):
+Read the unreleased changelog using the packaged CLI helper (not raw `sed`/`grep` — it wraps the repo's real changelog parser). Current version is already known from Phase 0's `rui-package-info` output — don't re-run it:
 
 ```bash
 cd $RELEASE_PATH
 pnpm exec rui-changelog
-pnpm exec rui-package-info
 ```
 
-`rui-changelog` prints `{"hasUnreleasedLogs", "sections", "subcomponents"}` — parsed directly from `CHANGELOG.md` via the changelog-parser module, so it correctly stops at the unreleased section boundary and reflects module subcomponents.
+`rui-changelog` prints `{"hasUnreleasedLogs", "sections", "subcomponents"}` — parsed directly from `CHANGELOG.md` via the changelog-parser module, so it correctly stops at the unreleased section boundary and reflects module subcomponents (for a module, `subcomponents` is which wrapped widgets have unreleased entries — needed again in Phase 3).
 
 Summarize the unreleased entries by type (Fixed/Added/Changed/Breaking changes) and propose a semver bump:
 
@@ -76,42 +81,54 @@ Summarize the unreleased entries by type (Fixed/Added/Changed/Breaking changes) 
 - Only "Added" → propose **minor**.
 - Only "Fixed" → propose **patch**.
 
-Ask the user to confirm or override — this is the one decision in the pipeline that's inherently a judgment call, always ask. If the user picks something inconsistent with changelog content (e.g. patch despite a breaking-changes note), flag the mismatch once, then respect their choice.
+Compute the concrete `<version>` this bump produces (current version from Phase 0 + bump type) and show it, not just the bump-type word — e.g. "propose **minor**: 2.9.0 → 2.10.0". Ask the user to confirm or override that `<version>` — this is the one decision in the pipeline that's inherently a judgment call, always ask. If the user picks something inconsistent with changelog content (e.g. patch despite a breaking-changes note), flag the mismatch once, then respect their choice. The `<version>` confirmed here is final — Phase 3 bumps to it directly, it is not recomputed later.
 
 ### Phase 3 — Version bump + release branch (autonomous)
 
-Compute the next version and bump both files using the packaged CLI helper (not an inline script — it wraps the repo's real version-math code):
+Bump both files to the `<version>` confirmed in Phase 2, using the packaged CLI helper (not an inline script — it wraps the repo's real version-math code). Pass the explicit version, not the bump-type word — the word was only needed to _propose_ `<version>` in Phase 2, it's a resolved value by now:
 
 ```bash
 cd $RELEASE_PATH
-pnpm exec rui-bump-version <patch|minor|major>
+pnpm exec rui-bump-version <version>
 ```
 
 Prints `{"previousVersion", "version", "xmlBumped"}`. `xmlBumped: false` is expected for modules (no `package.xml`) — not an error.
 
+**Module release: bump every wrapped widget too.** A module's CHANGELOG.md tags each wrapped widget's own entries with the module's version (e.g. `### [3.11.4] Gallery` under `## [3.11.4] DataWidgets`) — so every widget in Phase 2's `subcomponents` list that has unreleased entries must be bumped to the same `<version>`, not just the module itself:
+
+```bash
+for widget in <subcomponents-with-unreleased-entries>; do
+    ( cd packages/pluggableWidgets/$widget && pnpm exec rui-bump-version <version> )
+done
+```
+
+Skip this loop entirely for a standalone widget release.
+
 Then, directly (no wizard):
 
 ```bash
-git checkout -b tmp/<widget-or-module>-v<version>
-git add $RELEASE_PATH
+git checkout -b tmp/<release-tag>
+git add $RELEASE_PATH packages/pluggableWidgets/<each-widget-bumped-above>
 git commit -m "chore(<widget-or-module>): bump version to <version>"
-git push -u origin tmp/<widget-or-module>-v<version>
+git push -u origin tmp/<release-tag>
 ```
+
+`git add` needs every path actually touched above — for a module release that's the module directory _and_ each wrapped widget directory bumped in the loop, not just `$RELEASE_PATH`.
 
 If the branch already exists locally or on remote, stop and ask — don't guess a random suffix, that was a wizard fallback for unattended use, not something to do silently on someone's behalf.
 
 **Jira version** — the CLI checks for an existing version before creating one (safe to re-run) and always exits 0, reporting status via JSON rather than blocking the release:
 
 ```bash
-pnpm exec rui-create-jira-version "<widget-or-module>-v<version>"
+pnpm exec rui-create-jira-version "<release-tag>"
 ```
 
 Prints `{"status": "created"|"exists"|"skipped", ...}`. `skipped` covers both a missing `JIRA_API_TOKEN` and a failed API call (this has historically 404'd transiently) — not a blocker either way.
 
-Trigger the GitHub release workflow directly:
+Trigger the GitHub release workflow directly, passing `<npm-package-name>` as defined in Phase 0 (`info.name`, e.g. `@mendix/combobox-web` — the workflow's `package` input wants the literal `package.json` name, not `<widget-or-module>`):
 
 ```bash
-gh workflow run "CreateGitHubRelease.yml" --ref "tmp/<widget-or-module>-v<version>" -f package=<npm-package-name>
+gh workflow run "CreateGitHubRelease.yml" --ref "tmp/<release-tag>" -f package=<npm-package-name>
 ```
 
 Poll for completion:
@@ -128,7 +145,7 @@ Wait (re-poll, don't ask the user to check) until `status == completed`. Report 
 Download the MPK from the draft release and generate the SBOM zip via the packaged CLI helper — don't use the interactive `oss-clearance` wizard, and don't write an inline script:
 
 ```bash
-pnpm exec rui-generate-oss-sbom "<widget-or-module>-v<version>" "<AppName> v<version>"
+pnpm exec rui-generate-oss-sbom "<release-tag>" "<AppName> v<version>"
 ```
 
 (`<AppName> v<version>` e.g. `"Combo box v2.9.0"`.) Prints `{"path": "<zip path>"}`. The generator jar defaults to `~/SBOM_Generator.jar`; override with `SBOM_GENERATOR_JAR` if it lives elsewhere.
@@ -146,17 +163,17 @@ Then ask: "Submitted? Waiting on OSS team reply (a READMEOSS HTML file)." This w
 Once the user has the READMEOSS HTML file, upload it via the packaged CLI helper (default search locations are `~/Downloads` and `~/Documents`):
 
 ```bash
-pnpm exec rui-upload-readme-oss "<widget-or-module>-v<version>" "<AppName> v<version>"
+pnpm exec rui-upload-readme-oss "<release-tag>" "<AppName> v<version>"
 ```
 
-Prints `{"uploaded": "<asset name>"}`. If it errors with no match found, ask the user where the file was saved and pass that path as a 3rd argument: `rui-upload-readme-oss "<tag>" "<AppName> v<version>" "<explicit path>"`.
+Prints `{"uploaded": "<asset name>"}`. If it errors with no match found, ask the user where the file was saved and pass that path as a 3rd argument: `rui-upload-readme-oss "<release-tag>" "<AppName> v<version>" "<explicit path>"`.
 
 ### Phase 6 — Asset gate + publish (GATE — do not skip)
 
 **Before ever publishing, verify both assets are present:**
 
 ```bash
-gh release view <widget-or-module>-v<version> --json assets --jq '.assets[].name'
+gh release view <release-tag> --json assets --jq '.assets[].name'
 ```
 
 Require: exactly one `.mpk` file AND one `*READMEOSS*.html` file. If either is missing, **refuse to publish** and tell the user what's missing. If the user explicitly says to publish anyway, comply but state clearly that this is an unverified publish (no asset-gate passed).
@@ -164,7 +181,7 @@ Require: exactly one `.mpk` file AND one `*READMEOSS*.html` file. If either is m
 Once the gate passes, publish directly (carve-out applies — this is a forward release action):
 
 ```bash
-gh release edit <widget-or-module>-v<version> --draft=false
+gh release edit <release-tag> --draft=false
 ```
 
 Publishing triggers `PublishMarketplace.yml` automatically (on `release: published`). Do not also manually re-run the marketplace-publish workflow for the same tag unless the automatic run actually failed — see Phase 7 for how to tell the difference.
@@ -177,10 +194,12 @@ gh run list --workflow="Publishes a package to marketplace" -L 5 --json database
 
 Find the run matching this tag/branch.
 
-- `conclusion: success` → done. Merge the changelog PR (this repo's automation should trigger this, but verify):
+- `conclusion: success` → the workflow succeeded, but that only means the API call didn't error — it's not proof the version is live. There's no packaged helper to query the Marketplace programmatically (`createDraft`/`publishDraft` are write-only, no idempotency or read-back check), so confirm manually: ask the user to open Marketplace → package page → Manage Versions, and check `<version>` is listed. Don't declare the release done until they confirm.
+
+    Once confirmed, merge the changelog PR (this repo's automation should trigger this, but verify):
 
     ```bash
-    gh pr list --head "tmp/<widget-or-module>-v<version>" --json number,state
+    gh pr list --head "tmp/<release-tag>" --json number,state
     ```
 
     If still open and unmerged after a successful publish, that's unexpected — check whether the workflow's own `merge-changelogs-pr` step ran, don't just merge it yourself without checking why it didn't auto-merge.
@@ -192,7 +211,7 @@ Find the run matching this tag/branch.
     If it's a `409` on `POST .../packages/<appNumber>/versions`:
     1. Check whether an **earlier run for this exact tag already succeeded**: `gh run list --workflow="Publishes a package to marketplace" --json databaseId,status,conclusion,createdAt,headBranch` filtered to this tag. If a prior run for the same tag succeeded, the 409 on this run means **the version is already published** — not a real failure. Report that, don't escalate, don't retry, don't teardown.
     2. If no prior success exists for this tag: this is the same failure mode from the last incident (real backend conflict, not caused by our script — `createDraft()` has no idempotency check, so a 409 here is either a genuine stuck server-side state or a double-trigger — check `gh run list` for more than one run created within seconds of each other for the same tag, which would indicate a double-trigger).
-    3. Only after ruling out (1) and confirming a real conflict: report the exact escalation details (appNumber, tag, endpoint, error) and ask the user to check the Marketplace UI for stuck drafts. Marketplace UI actions are manual — give exact navigation steps (Marketplace → package page → Manage Versions → search version → delete draft), the user executes and reports back.
+    3. Only after ruling out (1) and confirming a real conflict: this is an exceptional situation, don't act unilaterally — report the exact escalation details (appNumber, tag, endpoint, error) and ask the user which way to go: (a) dig further into the failed run's logs together (e.g. check the Marketplace UI for stuck drafts — navigation: Marketplace → package page → Manage Versions → search version), or (b) if they know something was just fixed/changed on the Marketplace side, retry now. Don't pick a direction yourself.
     4. Do not blindly `gh run rerun` more than once without new information — 3 identical reruns with no state change, as happened previously, wastes time. Rerun once after the user confirms they've taken an action (deleted a draft, etc.), not speculatively.
 
 ### Phase 8 — Rollback (human-gated, always — carve-out does not apply here)
@@ -200,16 +219,16 @@ Find the run matching this tag/branch.
 If the user wants to undo a release attempt, list the exact teardown commands and **wait for explicit confirmation before running any of them**, regardless of how far the carve-out extends elsewhere in this skill:
 
 ```bash
-gh release view <tag> --json tagName,isDraft,isPrerelease   # confirm current state first
-gh pr list --head "tmp/<widget-or-module>-v<version>" --json number,url,state
+gh release view <release-tag> --json tagName,isDraft,isPrerelease   # confirm current state first
+gh pr list --head "tmp/<release-tag>" --json number,url,state
 ```
 
 Teardown list (present all, confirm once, then execute):
 
-1. `gh release delete <tag> --yes` (only if it exists)
-2. `git push origin --delete <tag>` (remote tag)
-3. `git push origin --delete tmp/<widget-or-module>-v<version>` (auto-closes any open PR)
-4. Jira version: cannot be deleted via available tooling — tell the user to check `<widget-or-module>-v<version>` in Jira manually.
+1. `gh release delete <release-tag> --yes` (only if it exists)
+2. `git push origin --delete <release-tag>` (remote tag)
+3. `git push origin --delete tmp/<release-tag>` (auto-closes any open PR)
+4. Jira version: cannot be deleted via available tooling — tell the user to check `<release-tag>` in Jira manually.
 5. Marketplace: if a draft/version was created there, that's manual — tell the user to check.
 
 ## Common Mistakes
@@ -218,7 +237,7 @@ Teardown list (present all, confirm once, then execute):
 - **Running `rui-package-info` / `rui-bump-version` without `cd`-ing into the widget/module dir first** — they read `process.cwd()`, not a path argument.
 - **Treating `appNumber` presence via grep instead of reading the schema** — a module-wrapped widget's package.json simply omits the `marketplace.appNumber` key; check for `null`/undefined/`-1` via `rui-package-info`, don't grep for the string `"appNumber"` (unreliable — the field can exist with value `-1` too, which also means "not independently published").
 - **Publishing before the asset gate passes** — this is the exact mistake pattern that caused the 409 double-trigger risk. Never call `gh release edit --draft=false` without first confirming both MPK and READMEOSS assets are attached.
-- **Escalating a 409 without checking run history first** — many past "failures" are actually the second of two triggers for an already-successful publish. Always check `gh run list` history for the tag before treating a 409 as a real incident.
+- **Escalating a 409 without checking run history first** — `PublishMarketplace.yml` fires automatically on `release: published` (Phase 6), but nothing stops a human from also manually re-running it for the same tag (e.g. impatience, or thinking it silently failed) while the automatic run is still in flight or already succeeded. The second run then hits a package that's already published and 409s — a real HTTP error, but not a real incident. Always check `gh run list` history for the tag before treating a 409 as a real incident.
 - **Retrying `gh run rerun` speculatively** — reruns without new information (e.g., a deleted draft) just reproduce the same failure. Only rerun after the user confirms they changed something.
 - **Running rollback commands without the explicit go-ahead** — this is the one phase where the autonomy carve-out does not apply. Always list and wait for confirmation.
 
