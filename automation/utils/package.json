@@ -6,6 +6,7 @@
     "private": true,
     "bin": {
         "rui-bump-version": "bin/rui-bump-version.ts",
+        "rui-changelog": "bin/rui-changelog.ts",
         "rui-create-gh-release": "bin/rui-create-gh-release.ts",
         "rui-create-jira-version": "bin/rui-create-jira-version.ts",
         "rui-create-translation": "bin/rui-create-translation.ts",
