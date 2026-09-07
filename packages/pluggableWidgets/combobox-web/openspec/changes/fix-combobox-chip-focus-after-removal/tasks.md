@@ -26,6 +26,9 @@
 - [x] 4.2 In the same case, press ArrowLeft once more and assert navigation continues (the focused chip changes), proving focus was genuinely restored to the chip row.
 - [x] 4.3 Follow `docs/requirements/e2e-test-guidelines.md` for structure, waits and cleanup; verified with the `eslint-plugin-playwright` rules from `automation/run-e2e/eslint.config.mjs` (clean).
 - [ ] 4.4 Run `e2e/Combobox.spec.js` and `e2e/ComboboxMultiSelectionKeys.spec.js` (`pnpm run e2e`) to confirm the new case passes and the WC-3347 cases do not regress. **Not run yet** — no Mendix `mxbuild`/`mxruntime` images are cached locally and `run-e2e` has no spec filter, so this needs an environment with the e2e images and baseline screenshots.
+- [x] 4.5 Fix the arrange step of 4.1: `.mx-name-comboBox4` ships with three options already selected on the test page (see the `comboBoxAssociationRowClick` baseline and the `nth(3)` clear button in `Combobox.spec.js`), so asserting a chip count of 1 after the first click could never pass. Clear the widget first, then select from the top, via a shared `selectChips` helper.
+- [x] 4.6 Cover the remaining scenarios of the requirement in e2e: removing the only chip returns focus to the filter input (both keys), and Backspace on an empty filter input still reaches the last chip and removes it on the second press — the shortcut the WC-3347 gating rewrite is closest to breaking.
+- [x] 4.7 Cover the WC-3347 partial-selection scenario in e2e as well: it asserts that the unselected tail of the text survives, which jsdom cannot verify because it does not perform native text deletion.
 
 ## 5. Verify against a running app
 
