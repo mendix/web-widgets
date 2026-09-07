@@ -187,20 +187,21 @@ const PATHS = {
 };
 
 const ATLAS = {
-    THEME_TAG: "atlasui-theme-files-2024-01-25",
-    CORE_TAG: "atlas-core-v3.18.1",
+    THEME_TAG: "atlasui-theme-files-2025-10-08",
+    CORE_TAG: "atlas-core-v4.4.0",
     DIRS_TO_REMOVE: [
         "themesource/atlas_ui_resources",
         "themesource/atlas_core",
         "themesource/atlas_nativemobile_content",
         "themesource/atlas_web_content",
-        "themesource/datawidgets"
+        "themesource/datawidgets",
+        "javascriptsource/atlas_core"
     ]
 };
 
 const DOCKER = {
     // noble = Ubuntu 24.04, matching GitHub Actions ubuntu-latest for identical font rendering
-    PLAYWRIGHT_IMAGE: "mcr.microsoft.com/playwright:v1.56.0-noble",
+    PLAYWRIGHT_IMAGE: "mcr.microsoft.com/playwright:v1.62.0-noble",
     RUNTIME_HEALTH_ATTEMPTS: 60,
     RUNTIME_HEALTH_INTERVAL_MS: 3000,
     CONTAINER_ID_POLL_ATTEMPTS: 100,
@@ -502,6 +503,14 @@ async function updateAtlasThemesource(testProjectDir, tmpDir) {
         await copyDir(themesourceSrc, themesourceDest);
         spawnSync("chmod", ["-R", "+w", themesourceDest], { stdio: "pipe" });
 
+        // Atlas 4 ships JavaScript actions next to the themesource
+        const jsSourceSrc = path.join(tmpDir, "javascriptsource");
+        if (fs.existsSync(jsSourceSrc)) {
+            const jsSourceDest = path.join(testProjectDir, "javascriptsource");
+            await copyDir(jsSourceSrc, jsSourceDest);
+            spawnSync("chmod", ["-R", "+w", jsSourceDest], { stdio: "pipe" });
+        }
+
         spinner.succeed("Atlas themesource updated");
     } catch (err) {
         spinner.fail(`Atlas themesource update failed — ${err.message}`);
@@ -601,7 +610,9 @@ async function buildDeploymentBundle(mendixVersion) {
             "docker run --tty --rm",
             `--volume ${REPO_ROOT}:/source`,
             mxbuildImage,
-            `bash -c "mx update-widgets --loose-version-check ${mprPath} && mxbuild --output=/source/automation.mda ${mprPath}"`
+            // rename-design-properties keeps the model in sync with the Atlas version
+            // copied into the test project (Atlas renamed design properties in v4).
+            `bash -c "mx update-widgets --loose-version-check ${mprPath} && mx rename-design-properties ${mprPath} && mxbuild --output=/source/automation.mda ${mprPath}"`
         ].join(" ");
 
         log(`Running: ${cmd}`);
@@ -861,7 +872,7 @@ async function cmdUpdate(widgetName) {
     console.log(`  ${DIM("Skip Atlas     ")} ${SKIP_ATLAS ? YELLOW("yes") : DIM("no")}`);
     if (!GH_TOKEN && !SKIP_ATLAS) {
         console.log(
-            `\n  ${YELLOW("⚠")} No GitHub token — Atlas updates will be skipped.\n  ${DIM("Set GITHUB_TOKEN or use --token to enable them.")}`
+            `\n  ${YELLOW("⚠")} No GitHub token — Atlas releases are fetched anonymously.\n  ${DIM("Set GITHUB_TOKEN or use --token to avoid GitHub API rate limits.")}`
         );
     }
     console.log("\n" + divider());
@@ -894,11 +905,9 @@ async function cmdUpdate(widgetName) {
 
     // ── 3. Update Atlas (optional) ────────────────────────────────────────────
 
-    if (!SKIP_ATLAS && GH_TOKEN) {
+    if (!SKIP_ATLAS) {
         await updateAtlasTheme(PATHS.testProject, tmpDir);
         await updateAtlasThemesource(PATHS.testProject, tmpDir);
-    } else if (!SKIP_ATLAS && !GH_TOKEN) {
-        log("Skipping Atlas update — no token");
     } else {
         log("Skipping Atlas update — --skip-atlas flag set");
     }
