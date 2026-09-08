@@ -7,22 +7,22 @@ import { createSBomGeneratorFolderStructure, generateSBomArtifactsInFolder } fro
 
 async function main(): Promise<void> {
     const releaseTag = process.argv[2];
-    const releaseName = process.argv[3];
 
-    if (!releaseTag || !releaseName) {
+    if (!releaseTag) {
         throw new Error(
-            'Usage: rui-generate-oss-sbom <release-tag> "<Release Name>"\nExample: rui-generate-oss-sbom combobox-web-v2.9.0 "Combo box v2.9.0"'
+            "Usage: rui-generate-oss-sbom <release-tag>\nExample: rui-generate-oss-sbom combobox-web-v2.9.0"
         );
     }
 
     await gh.ensureAuth();
 
-    const releaseId = await gh.getReleaseIdByReleaseTag(releaseTag);
-    if (!releaseId) {
+    const release = await gh.getReleaseByTag(releaseTag);
+    if (!release) {
         throw new Error(`No GitHub release found for tag '${releaseTag}'`);
     }
+    const releaseName = release.name;
 
-    const assets = await gh.listReleaseAssets(releaseId);
+    const assets = await gh.listReleaseAssets(release.id);
     const mpk = assets.find(a => a.name.endsWith(".mpk"));
     if (!mpk) {
         throw new Error(`No .mpk asset found on release '${releaseTag}'`);
