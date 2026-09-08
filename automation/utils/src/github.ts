@@ -187,6 +187,24 @@ export class GitHub {
         }
     }
 
+    async getReleaseByTag(releaseTag: string): Promise<{ id: string; name: string } | undefined> {
+        console.log(`Searching for release from Github tag '${releaseTag}'`);
+        try {
+            return await fetch<{ id: string; name: string }>(
+                "GET",
+                `https://api.github.com/repos/${this.owner}/${this.repo}/releases/tags/${releaseTag}`,
+                undefined,
+                { ...this.ghAPIHeaders }
+            );
+        } catch (e) {
+            if (e instanceof Error && e.message.includes("404")) {
+                return undefined;
+            }
+
+            throw e;
+        }
+    }
+
     async getMPKReleaseAssetUrl(releaseTag: string): Promise<string> {
         const releaseId = await this.getReleaseIdByReleaseTag(releaseTag);
         if (!releaseId) {
