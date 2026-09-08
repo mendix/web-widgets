@@ -2,7 +2,7 @@
 
 import { basename } from "node:path";
 import { gh } from "../src/github";
-import { findAllReadmeOssLocally, getRecommendedReadmeOss } from "../src/oss-clearance";
+import { findAllReadmeOssLocally, getRecommendedReadmeOss, hasReadmeOssInAssets } from "../src/oss-clearance";
 
 async function main(): Promise<void> {
     const releaseTag = process.argv[2];
@@ -21,6 +21,14 @@ async function main(): Promise<void> {
         throw new Error(`No GitHub release found for tag '${releaseTag}'`);
     }
 
+    // Uploading a name that is already attached fails with a 422, so a re-run of
+    // this step reports the existing asset instead of trying again.
+    const attached = release.assets.filter(asset => hasReadmeOssInAssets([asset.name]));
+    if (attached.length > 0) {
+        console.log(JSON.stringify({ uploaded: attached[0].name, status: "exists" }));
+        return;
+    }
+
     const readmePath = explicitPath ?? getRecommendedReadmeOss(release.name, findAllReadmeOssLocally());
     if (!readmePath) {
         throw new Error(
@@ -29,7 +37,7 @@ async function main(): Promise<void> {
     }
 
     const asset = await gh.uploadReleaseAsset(release.id, readmePath, basename(readmePath));
-    console.log(JSON.stringify({ uploaded: asset.name }));
+    console.log(JSON.stringify({ uploaded: asset.name, status: "created" }));
 }
 
 main().catch(error => {
