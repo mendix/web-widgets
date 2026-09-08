@@ -33,7 +33,7 @@ export interface GitHubReleaseAsset {
     digest: string;
 }
 
-export interface GitHubDraftRelease {
+export interface GitHubRelease {
     id: string;
     tag_name: string;
     name: string;
@@ -42,6 +42,8 @@ export interface GitHubDraftRelease {
     published_at: string | null;
     assets: GitHubReleaseAsset[];
 }
+
+export type GitHubDraftRelease = GitHubRelease;
 
 interface GitHubReleaseInfo {
     title: string;
@@ -163,46 +165,43 @@ export class GitHub {
     }
 
     async getReleaseIdByReleaseTag(releaseTag: string): Promise<string | undefined> {
-        console.log(`Searching for release from Github tag '${releaseTag}'`);
-        try {
-            const release =
-                (await fetch<{ id: string }>(
-                    "GET",
-                    `https://api.github.com/repos/${this.owner}/${this.repo}/releases/tags/${releaseTag}`,
-                    undefined,
-                    { ...this.ghAPIHeaders }
-                )) ?? [];
-
-            if (!release) {
-                return undefined;
-            }
-
-            return release.id;
-        } catch (e) {
-            if (e instanceof Error && e.message.includes("404")) {
-                return undefined;
-            }
-
-            throw e;
-        }
+        return (await this.getReleaseByTag(releaseTag))?.id;
     }
 
-    async getReleaseByTag(releaseTag: string): Promise<{ id: string; name: string } | undefined> {
+    /**
+     * Finds a release by tag, draft or published.
+     *
+     * The `releases/tags/{tag}` endpoint only knows published releases — a draft
+     * has no git tag yet, so it answers 404 for one. Drafts are only reachable
+     * through the release list, which is the fallback used here.
+     */
+    async getReleaseByTag(releaseTag: string): Promise<GitHubRelease | undefined> {
         console.log(`Searching for release from Github tag '${releaseTag}'`);
+
         try {
-            return await fetch<{ id: string; name: string }>(
+            return await fetch<GitHubRelease>(
                 "GET",
                 `https://api.github.com/repos/${this.owner}/${this.repo}/releases/tags/${releaseTag}`,
                 undefined,
                 { ...this.ghAPIHeaders }
             );
         } catch (e) {
-            if (e instanceof Error && e.message.includes("404")) {
-                return undefined;
+            if (!(e instanceof Error && e.message.includes("404"))) {
+                throw e;
             }
-
-            throw e;
         }
+
+        const releases = await this.listReleases();
+        return releases.find(release => release.tag_name === releaseTag);
+    }
+
+    async listReleases(): Promise<GitHubRelease[]> {
+        return fetch<GitHubRelease[]>(
+            "GET",
+            `https://api.github.com/repos/${this.owner}/${this.repo}/releases?per_page=100`,
+            undefined,
+            { ...this.ghAPIHeaders }
+        );
     }
 
     async getMPKReleaseAssetUrl(releaseTag: string): Promise<string> {
@@ -222,14 +221,7 @@ export class GitHub {
     }
 
     async getDraftReleases(): Promise<GitHubDraftRelease[]> {
-        const releases = await fetch<GitHubDraftRelease[]>(
-            "GET",
-            `https://api.github.com/repos/${this.owner}/${this.repo}/releases`,
-            undefined,
-            {
-                ...this.ghAPIHeaders
-            }
-        );
+        const releases = await this.listReleases();
 
         // Filter only draft releases
         return releases.filter(release => release.draft);
