@@ -2,7 +2,7 @@ import chalk from "chalk";
 import { prompt } from "enquirer";
 import {
     getModuleChangelog,
-    getWidgetChangelog,
+    getPackageChangelog,
     ModuleChangelogFileWrapper,
     WidgetChangelogFileWrapper
 } from "./changelog-parser";
@@ -42,12 +42,7 @@ async function loadPackagesFullInfo(packages: PackageListing[]): Promise<Package
             if (basicInfo.mxpackage.type === "widget") {
                 try {
                     const widgetInfo = await getWidgetInfo(pkg.path);
-                    let changelog: WidgetChangelogFileWrapper | ModuleChangelogFileWrapper;
-                    if (basicInfo.mxpackage.changelogType === "widget") {
-                        changelog = await getWidgetChangelog(pkg.path);
-                    } else {
-                        changelog = await getModuleChangelog(pkg.path, basicInfo.mxpackage.name);
-                    }
+                    const changelog = await getPackageChangelog(pkg.path);
 
                     results.push([pkg, widgetInfo, changelog]);
                 } catch (_e) {
