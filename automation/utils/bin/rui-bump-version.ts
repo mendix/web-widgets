@@ -1,58 +1,73 @@
 #!/usr/bin/env ts-node-script
 
-import { resolve } from "path";
-import { bumpPackageJson, bumpXml, getNewVersion } from "../src/bump-version";
-import { getModuleChangelog, getWidgetChangelog } from "../src/changelog-parser";
-import { getPackageInfo } from "../src/package-info";
+import { bumpPackageJson, bumpXml, getNewVersion, hasPackageXml } from "../src/bump-version";
+import { resolvePackagePath } from "../src/monorepo";
+import { getPackageInfo, isReleasable } from "../src/package-info";
+import { Version, versionRegex } from "../src/version";
 
 async function bumpPackage(path: string, version: string): Promise<boolean> {
     bumpPackageJson(path, version);
-    try {
-        await bumpXml(path, version);
-        return true;
-    } catch {
+
+    if (!hasPackageXml(path)) {
         return false; // modules have no package.xml
     }
+
+    await bumpXml(path, version);
+    return true;
 }
 
-async function hasUnreleasedLogs(path: string): Promise<boolean> {
-    const info = await getPackageInfo(path);
-    const changelog =
-        info.mxpackage.type === "widget" && info.mxpackage.changelogType === "widget"
-            ? await getWidgetChangelog(path)
-            : await getModuleChangelog(path, info.mxpackage.name);
-    return changelog.hasUnreleasedLogs();
+function shortName(npmPackageName: string): string {
+    return npmPackageName.replace(/^@mendix\//, "");
+}
+
+function resolveVersion(bumpType: string, previousVersion: string): string {
+    const version = getNewVersion(bumpType, previousVersion);
+
+    if (!versionRegex.test(version)) {
+        throw new Error(`'${bumpType}' is not a bump type (patch|minor|major) nor a valid version number`);
+    }
+
+    if (!Version.fromString(version).isGreaterThan(Version.fromString(previousVersion))) {
+        throw new Error(`Version '${version}' is not greater than the current version '${previousVersion}'`);
+    }
+
+    return version;
 }
 
 async function main(): Promise<void> {
-    const bumpType = process.argv[2];
+    const npmPackageName = process.argv[2];
+    const bumpType = process.argv[3];
 
-    if (!bumpType) {
+    if (!npmPackageName || !bumpType) {
         throw new Error(
-            "Usage: rui-bump-version <patch|minor|major|x.y.z>\nRun from inside the widget/module directory."
+            "Usage: rui-bump-version <npm-package-name> <patch|minor|major|x.y.z>\nExample: rui-bump-version @mendix/combobox-web patch"
         );
     }
 
-    const path = process.cwd();
+    const path = await resolvePackagePath(npmPackageName);
     const info = await getPackageInfo(path);
+
+    if (!isReleasable(info)) {
+        throw new Error(
+            `'${npmPackageName}' has no positive marketplace.appNumber, so it is not published on its own. If it is a widget, bump the module wrapping it instead.`
+        );
+    }
+
     const previousVersion = info.version.format();
-    const version = getNewVersion(bumpType, previousVersion);
+    const version = resolveVersion(bumpType, previousVersion);
 
     const xmlBumped = await bumpPackage(path, version);
-    const bumpedPackages = [info.mxpackage.name];
+    const bumpedPackages = [shortName(info.name)];
     const changedPaths = [path];
 
-    if (info.mxpackage.type === "module") {
-        for (const dependencyName of info.mxpackage.dependencies) {
-            const widgetFolder = dependencyName.replace(/^@mendix\//, "");
-            const widgetPath = resolve(path, "..", "..", "pluggableWidgets", widgetFolder);
+    // Wrapped widgets are released as part of the target and share its version,
+    // so all of them are bumped, not only the ones with changelog entries.
+    for (const dependencyName of info.mxpackage.dependencies) {
+        const dependencyPath = await resolvePackagePath(dependencyName);
 
-            if (await hasUnreleasedLogs(widgetPath)) {
-                await bumpPackage(widgetPath, version);
-                bumpedPackages.push(widgetFolder);
-                changedPaths.push(widgetPath);
-            }
-        }
+        await bumpPackage(dependencyPath, version);
+        bumpedPackages.push(shortName(dependencyName));
+        changedPaths.push(dependencyPath);
     }
 
     console.log(JSON.stringify({ previousVersion, version, xmlBumped, bumpedPackages, changedPaths }));
