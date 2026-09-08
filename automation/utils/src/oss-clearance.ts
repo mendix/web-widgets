@@ -1,8 +1,35 @@
+import { createHash } from "node:crypto";
+import { createReadStream } from "node:fs";
 import { mkdtemp, stat } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
+import { pipeline } from "node:stream/promises";
 import { basename, join, parse } from "path";
 import { globSync } from "glob";
+import { GitHubReleaseAsset } from "./github";
 import { chmod, cp, exec, mkdir, mv, rm, unzip, zip } from "./shell";
+
+export async function computeSha256(filePath: string): Promise<string> {
+    const hash = createHash("sha256");
+    await pipeline(createReadStream(filePath), hash);
+    return hash.digest("hex");
+}
+
+/**
+ * The OSS clearance artifacts are named after the hash of the scanned MPK, so
+ * the downloaded file has to be the exact one GitHub reports.
+ */
+export async function verifyAssetDigest(asset: GitHubReleaseAsset, downloadedPath: string): Promise<string> {
+    const fileHash = await computeSha256(downloadedPath);
+    const expectedDigest = asset.digest?.replace("sha256:", "");
+
+    if (expectedDigest && fileHash !== expectedDigest) {
+        throw new Error(
+            `Asset integrity check failed for '${asset.name}': expected ${expectedDigest}, got ${fileHash}`
+        );
+    }
+
+    return fileHash;
+}
 
 export function findAllReadmeOssLocally(): string[] {
     const readmeossPattern = join("**", `*__*__READMEOSS_*.html`);
