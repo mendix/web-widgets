@@ -3,7 +3,11 @@
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { gh } from "../src/github";
-import { createSBomGeneratorFolderStructure, generateSBomArtifactsInFolder } from "../src/oss-clearance";
+import {
+    createSBomGeneratorFolderStructure,
+    generateSBomArtifactsInFolder,
+    verifyAssetDigest
+} from "../src/oss-clearance";
 
 async function main(): Promise<void> {
     const releaseTag = process.argv[2];
@@ -22,21 +26,21 @@ async function main(): Promise<void> {
     }
     const releaseName = release.name;
 
-    const assets = await gh.listReleaseAssets(release.id);
-    const mpk = assets.find(a => a.name.endsWith(".mpk"));
+    const mpk = release.assets.find(asset => asset.name.endsWith(".mpk"));
     if (!mpk) {
         throw new Error(`No .mpk asset found on release '${releaseTag}'`);
     }
 
     const [tmpFolder, downloadPath] = await createSBomGeneratorFolderStructure(releaseName);
     await gh.downloadReleaseAsset(mpk.id, downloadPath);
+    const fileHash = await verifyAssetDigest(mpk, downloadPath);
 
     const generatorJar = process.env.SBOM_GENERATOR_JAR ?? join(homedir(), "SBOM_Generator.jar");
-    const finalPath = join(homedir(), "Downloads", `${releaseName} [pending-hash].zip`);
+    const finalPath = join(homedir(), "Downloads", `${releaseName} [${fileHash}].zip`);
 
     await generateSBomArtifactsInFolder(tmpFolder, generatorJar, releaseName, finalPath);
 
-    console.log(JSON.stringify({ path: finalPath }));
+    console.log(JSON.stringify({ path: finalPath, mpk: mpk.name, sha256: fileHash }));
 }
 
 main().catch(error => {
