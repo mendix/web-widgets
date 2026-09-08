@@ -2,6 +2,8 @@
 
 The repository of platform-supported widgets and modules for Mendix.
 
+Widget documentation index: [Pluggable Widgets](packages/pluggableWidgets/README.md).
+
 **For issues and bugs related to CSS, Widgets, Atlas, JS Actions, or this repository, please contact** [Mendix Support](https://support.mendix.com)
 
 ## Prerequisites

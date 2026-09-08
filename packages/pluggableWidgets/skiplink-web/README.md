@@ -1,4 +1,19 @@
-# Skip Link
+# SkipLink
+
+A skip link for accessibility, allowing users to jump directly to the main content.
+
+## Overview
+
+- **Folder**: `skiplink-web`
+- **Category**: Accessibility
+- **Offline capable**: Yes
+
+## XML Properties
+
+- **Link text** (`linkText`; type: string, default: Skip to main content). The text displayed in the skip link.
+- **Main content ID** (`mainContentId`; type: string, optional). The id of the main content element to jump to, if left empty the skip link widget will search for a main tag on the page.
+
+## Additional Notes
 
 Adds a skip navigation link for keyboard accessibility. The link is hidden until focused and allows users to jump directly to the main content.
 
