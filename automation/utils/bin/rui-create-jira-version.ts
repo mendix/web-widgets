@@ -3,8 +3,9 @@
 import { Jira } from "../src/jira";
 
 /**
- * Jira version creation has historically 404'd transiently and must never
- * block a release, so this always exits 0 and reports status via stdout JSON.
+ * Jira version creation has historically 404'd transiently and must never block
+ * a release, so a missing token or any API failure is reported as `skipped` on
+ * stdout with exit code 0. Only a usage error (no version name) exits non-zero.
  */
 async function main(): Promise<void> {
     const versionName = process.argv[2];
