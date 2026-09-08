@@ -17,7 +17,7 @@ Releases a widget (or the module wrapping it) from this monorepo: version bump �
 
 Ask only if not already known:
 
-1. **Widget name** — e.g. `combobox-web`. If not given, ask: "Which widget are you releasing?"
+1. **Package name** — the widget or module to release, e.g. `combobox-web` or `data-widgets`. If not given, ask: "Which widget or module are you releasing?"
 
 Everything else (module detection, environment prereqs, version state) — check automatically in Phase 0, don't ask.
 
@@ -25,7 +25,7 @@ Everything else (module detection, environment prereqs, version state) — check
 
 ### Phase 0 — Detect release target
 
-Read the widget's marketplace info via the packaged CLI helper (don't grep, don't write an inline script — the schema is the source of truth):
+Read the widget's marketplace info via the packaged CLI helper (don't grep — the schema is the source of truth):
 
 ```bash
 cd packages/pluggableWidgets/<widget>
@@ -41,12 +41,13 @@ Prints `{"name", "version", "appNumber", "appName"}`. It reads `process.cwd()` �
     ```
     That module's directory is `$RELEASE_PATH`. Tell the user which module wraps it. If no module found, stop — this is a misconfigured package, not something to guess through.
 
-Four placeholders recur through the rest of this skill, all derived once here from `$RELEASE_PATH`/`info` — never guessed, never reconstructed later:
+Three placeholders recur through the rest of this skill, all derived once here from `$RELEASE_PATH`/`info` — never guessed, never reconstructed later:
 
 - `<widget-or-module>` — the folder name of `$RELEASE_PATH` (e.g. `combobox-web`, `data-widgets`). Used in commit messages.
 - `<npm-package-name>` — `info.name` (e.g. `@mendix/combobox-web`). Used only for the `CreateGitHubRelease.yml` workflow's `package` input, which specifically wants the literal `package.json` `name` field, not the folder name.
-- `<AppName>` — `info.appName` from `rui-package-info` (e.g. `Combo box`). Used for the SBOM/READMEOSS asset naming (`"<AppName> v<version>"`) — never re-typed or guessed in Phase 4/5.
 - `<release-tag>` — `<widget-or-module>` + `-v` + `<version>`, assembled once `<version>` is confirmed in Phase 2. This is the single identifier for the release: the GitHub release tag, the `tmp/<release-tag>` branch name, and the Jira version string all reuse it verbatim.
+
+There's no `<AppName>` placeholder to track — the draft release's title is always `"<AppName> v<version>"` (set by `rui-create-gh-release`'s workflow), so Phase 4/5 read it straight off the release itself instead of carrying it from here.
 
 ### Phase 1 — Prerequisite check
 
@@ -55,14 +56,13 @@ Run once, report all results together (don't ask one at a time):
 ```bash
 echo "== SBOM jar =="; ls ~/SBOM_Generator.jar 2>&1
 echo "== gh auth =="; gh auth status 2>&1
-echo "== commitlint =="; ls node_modules/.bin/commitlint 2>/dev/null || echo missing
 echo "== git branch/status =="; git branch --show-current; git status --short
 echo "== main sync =="; git fetch origin main --quiet; git rev-list HEAD..origin/main --count; git rev-list origin/main..HEAD --count
 ```
 
 If not on `main` or not in sync — fix it yourself (`git checkout main`, `git merge --ff-only origin/main`) rather than asking, unless `main` has diverged from `origin/main` (both ahead and behind) — that needs a human decision, stop and ask.
 
-If commitlint or the SBOM jar is missing, tell the user exactly what's missing and how to fix it (`pnpm install`, or where to get `SBOM_Generator.jar`) — don't proceed past a missing prereq.
+If the SBOM jar is missing, tell the user exactly what's missing and how to fix it (where to get `SBOM_Generator.jar`) — don't proceed past a missing prereq. A missing `commitlint` binary is a local `pnpm install` issue, not something this skill gates on — if `git commit` in Phase 3 fails because of it, surface that error when it happens rather than pre-checking for it.
 
 ### Phase 2 — Version selection
 
@@ -73,7 +73,7 @@ cd $RELEASE_PATH
 pnpm exec rui-changelog
 ```
 
-`rui-changelog` prints `{"hasUnreleasedLogs", "sections", "subcomponents"}` — parsed directly from `CHANGELOG.md` via the changelog-parser module, so it correctly stops at the unreleased section boundary and reflects module subcomponents (for a module, `subcomponents` is which wrapped widgets have unreleased entries — needed again in Phase 3).
+`rui-changelog` prints `{"hasUnreleasedLogs", "sections", "subcomponents"}` — parsed directly from `CHANGELOG.md` via the changelog-parser module, so it correctly stops at the unreleased section boundary and reflects module subcomponents. For a module, `subcomponents` is which wrapped widgets have unreleased entries — informational here; Phase 3's `rui-bump-version` re-derives the same thing itself, no need to pass it along.
 
 Summarize the unreleased entries by type (Fixed/Added/Changed/Breaking changes) and propose a semver bump:
 
@@ -85,35 +85,23 @@ Compute the concrete `<version>` this bump produces (current version from Phase 
 
 ### Phase 3 — Version bump + release branch (autonomous)
 
-Bump both files to the `<version>` confirmed in Phase 2, using the packaged CLI helper (not an inline script — it wraps the repo's real version-math code). Pass the explicit version, not the bump-type word — the word was only needed to _propose_ `<version>` in Phase 2, it's a resolved value by now:
+Bump to the `<version>` confirmed in Phase 2, using the packaged CLI helper — it wraps the repo's real version-math code. Pass the explicit version, not the bump-type word — the word was only needed to _propose_ `<version>` in Phase 2, it's a resolved value by now:
 
 ```bash
 cd $RELEASE_PATH
 pnpm exec rui-bump-version <version>
 ```
 
-Prints `{"previousVersion", "version", "xmlBumped"}`. `xmlBumped: false` is expected for modules (no `package.xml`) — not an error.
-
-**Module release: bump every wrapped widget too.** A module's CHANGELOG.md tags each wrapped widget's own entries with the module's version (e.g. `### [3.11.4] Gallery` under `## [3.11.4] DataWidgets`) — so every widget in Phase 2's `subcomponents` list that has unreleased entries must be bumped to the same `<version>`, not just the module itself:
-
-```bash
-for widget in <subcomponents-with-unreleased-entries>; do
-    ( cd packages/pluggableWidgets/$widget && pnpm exec rui-bump-version <version> )
-done
-```
-
-Skip this loop entirely for a standalone widget release.
+Prints `{"previousVersion", "version", "xmlBumped", "bumpedPackages", "changedPaths"}`. `xmlBumped: false` is expected for modules (no `package.xml`) — not an error. **For a module release, this already bumps every wrapped widget that has unreleased changelog entries** — the script walks the module's own `mxpackage.dependencies` and checks each wrapped widget's changelog itself; there's no separate loop to run here. `bumpedPackages`/`changedPaths` list everything actually touched (the module/widget itself, plus any wrapped widgets bumped alongside it for a module release) — use `changedPaths` directly in the `git add` below rather than reconstructing the list.
 
 Then, directly (no wizard):
 
 ```bash
 git checkout -b tmp/<release-tag>
-git add $RELEASE_PATH packages/pluggableWidgets/<each-widget-bumped-above>
+git add <changedPaths from the rui-bump-version output above>
 git commit -m "chore(<widget-or-module>): bump version to <version>"
 git push -u origin tmp/<release-tag>
 ```
-
-`git add` needs every path actually touched above — for a module release that's the module directory _and_ each wrapped widget directory bumped in the loop, not just `$RELEASE_PATH`.
 
 If the branch already exists locally or on remote, stop and ask — don't guess a random suffix, that was a wizard fallback for unattended use, not something to do silently on someone's behalf.
 
@@ -142,13 +130,19 @@ Wait (re-poll, don't ask the user to check) until `status == completed`. Report 
 
 ### Phase 4 — OSS clearance SBOM (autonomous prep, manual submission)
 
-Download the MPK from the draft release and generate the SBOM zip via the packaged CLI helper — don't use the interactive `oss-clearance` wizard, and don't write an inline script:
+Read the draft release's title — it's always `"<AppName> v<version>"` (e.g. `"Combo box v2.9.0"`), so this is the one place that string comes from, never re-typed or guessed:
 
 ```bash
-pnpm exec rui-generate-oss-sbom "<release-tag>" "<AppName> v<version>"
+gh release view "<release-tag>" --json name --jq .name
 ```
 
-(`<AppName> v<version>` e.g. `"Combo box v2.9.0"`.) Prints `{"path": "<zip path>"}`. The generator jar defaults to `~/SBOM_Generator.jar`; override with `SBOM_GENERATOR_JAR` if it lives elsewhere.
+Download the MPK from the draft release and generate the SBOM zip via the packaged CLI helper — don't use the interactive `oss-clearance` wizard:
+
+```bash
+pnpm exec rui-generate-oss-sbom "<release-tag>" "<release-title-from-above>"
+```
+
+Prints `{"path": "<zip path>"}`. The generator jar defaults to `~/SBOM_Generator.jar`; override with `SBOM_GENERATOR_JAR` if it lives elsewhere.
 
 **Submission is manual** — the OSS clearance request now goes through the OSS clearance portal (a Mendix app, log in with Mendix credentials), not email. Tell the user:
 
@@ -160,13 +154,13 @@ Then ask: "Submitted? Waiting on OSS team reply (a READMEOSS HTML file)." This w
 
 ### Phase 5 — Include OSS Readme (autonomous once file is provided)
 
-Once the user has the READMEOSS HTML file, upload it via the packaged CLI helper (default search locations are `~/Downloads` and `~/Documents`):
+Once the user has the READMEOSS HTML file, upload it via the packaged CLI helper (default search locations are `~/Downloads` and `~/Documents`), reusing the same release-title lookup from Phase 4:
 
 ```bash
-pnpm exec rui-upload-readme-oss "<release-tag>" "<AppName> v<version>"
+pnpm exec rui-upload-readme-oss "<release-tag>" "<release-title-from-phase-4>"
 ```
 
-Prints `{"uploaded": "<asset name>"}`. If it errors with no match found, ask the user where the file was saved and pass that path as a 3rd argument: `rui-upload-readme-oss "<release-tag>" "<AppName> v<version>" "<explicit path>"`.
+Prints `{"uploaded": "<asset name>"}`. If it errors with no match found, ask the user where the file was saved and pass that path as a 3rd argument: `rui-upload-readme-oss "<release-tag>" "<release-title-from-phase-4>" "<explicit path>"`.
 
 ### Phase 6 — Asset gate + publish (GATE — do not skip)
 
@@ -194,7 +188,7 @@ gh run list --workflow="Publishes a package to marketplace" -L 5 --json database
 
 Find the run matching this tag/branch.
 
-- `conclusion: success` → the workflow succeeded, but that only means the API call didn't error — it's not proof the version is live. There's no packaged helper to query the Marketplace programmatically (`createDraft`/`publishDraft` are write-only, no idempotency or read-back check), so confirm manually: ask the user to open Marketplace → package page → Manage Versions, and check `<version>` is listed. Don't declare the release done until they confirm.
+- `conclusion: success` → the workflow succeeded, but that only means the API call didn't error — it's not proof the version is live. `createDraft`/`publishDraft` are write-only (no idempotency or read-back check), so confirm with a read: call the `marketplace-mcp` MCP server's `get_content_versions` tool with `contentId` = `appNumber` (from Phase 0's `rui-package-info` output), and check `<version>` appears among the returned versions. If `marketplace-mcp` isn't connected (e.g. missing `MARKETPLACE_API_TOKEN`) or the call errors, fall back to asking the user to open Marketplace → package page → Manage Versions and check manually. Don't declare the release done until one of these two confirms it.
 
     Once confirmed, merge the changelog PR (this repo's automation should trigger this, but verify):
 
