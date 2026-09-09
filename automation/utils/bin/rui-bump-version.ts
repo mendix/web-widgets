@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node-script
 
-import { bumpPackageJson, bumpXml, getNewVersion, hasPackageXml } from "../src/bump-version";
+import { bumpPackageJson, bumpXml, hasPackageXml } from "../src/bump-version";
 import { resolvePackagePath } from "../src/monorepo";
 import { getPackageInfo, isReleasable } from "../src/package-info";
 import { Version, versionRegex } from "../src/version";
@@ -16,31 +16,23 @@ async function bumpPackage(path: string, version: string): Promise<boolean> {
     return true;
 }
 
-function shortName(npmPackageName: string): string {
-    return npmPackageName.replace(/^@mendix\//, "");
-}
-
-function resolveVersion(bumpType: string, previousVersion: string): string {
-    const version = getNewVersion(bumpType, previousVersion);
-
+function checkVersion(version: string, previousVersion: string): void {
     if (!versionRegex.test(version)) {
-        throw new Error(`'${bumpType}' is not a bump type (patch|minor|major) nor a valid version number`);
+        throw new Error(`'${version}' is not a valid version number (expected x.y.z)`);
     }
 
     if (!Version.fromString(version).isGreaterThan(Version.fromString(previousVersion))) {
         throw new Error(`Version '${version}' is not greater than the current version '${previousVersion}'`);
     }
-
-    return version;
 }
 
 async function main(): Promise<void> {
     const npmPackageName = process.argv[2];
-    const bumpType = process.argv[3];
+    const version = process.argv[3];
 
-    if (!npmPackageName || !bumpType) {
+    if (!npmPackageName || !version) {
         throw new Error(
-            "Usage: rui-bump-version <npm-package-name> <patch|minor|major|x.y.z>\nExample: rui-bump-version @mendix/combobox-web patch"
+            "Usage: rui-bump-version <npm-package-name> <x.y.z>\nExample: rui-bump-version @mendix/combobox-web 1.2.3"
         );
     }
 
@@ -54,10 +46,10 @@ async function main(): Promise<void> {
     }
 
     const previousVersion = info.version.format();
-    const version = resolveVersion(bumpType, previousVersion);
+    checkVersion(version, previousVersion);
 
     const xmlBumped = await bumpPackage(path, version);
-    const bumpedPackages = [shortName(info.name)];
+    const bumpedPackages = [info.name];
     const changedPaths = [path];
 
     // Wrapped widgets are released as part of the target and share its version,
@@ -66,7 +58,7 @@ async function main(): Promise<void> {
         const dependencyPath = await resolvePackagePath(dependencyName);
 
         await bumpPackage(dependencyPath, version);
-        bumpedPackages.push(shortName(dependencyName));
+        bumpedPackages.push(dependencyName);
         changedPaths.push(dependencyPath);
     }
 
