@@ -67,6 +67,16 @@ page.locator(".mx-name-myForm").getByRole("button", { name: "Save" });
 page.locator(".mx-name-myWidget").getByLabel("Start date");
 ```
 
+## Keyboard Interaction
+
+| Don't                                                | Do Instead                                                   | Why                                                                                                                                      |
+| ---------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `press("Escape")` on a page opened as a popup        | Reach the state another way, or test Escape on a plain page  | The Mendix client closes the popup on Escape — widgets that only `preventDefault()` still let it bubble, so the widget unmounts mid-test |
+| `input.click()` to focus a field that may be empty   | Click a stable sibling that focuses it, or `locator.focus()` | Widgets collapse empty unfocused inputs (e.g. `max-width: 0`), and Playwright cannot click a zero-sized box                              |
+| `container.click()` when children own click handlers | Click a child with no handler of its own                     | Clicks land on the element's centre; a child under that point receives the event instead                                                 |
+
+A widget losing focus to `document.body` mid-test looks identical to a locator bug — assert `toBeFocused()` on the expected element after each keystroke so the step that actually broke is named.
+
 ## Screenshot Testing
 
 - No per-test `{ threshold: N }` or `{ maxDiffPixels: N }` overrides — use global config (`threshold: 0.1`)
