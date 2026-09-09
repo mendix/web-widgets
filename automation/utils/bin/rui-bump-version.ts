@@ -5,15 +5,14 @@ import { resolvePackagePath } from "../src/monorepo";
 import { getPackageInfo, isReleasable } from "../src/package-info";
 import { Version, versionRegex } from "../src/version";
 
-async function bumpPackage(path: string, version: string): Promise<boolean> {
+async function bumpPackage(path: string, version: string): Promise<void> {
     bumpPackageJson(path, version);
 
     if (!hasPackageXml(path)) {
-        return false; // modules have no package.xml
+        return; // modules have no package.xml
     }
 
     await bumpXml(path, version);
-    return true;
 }
 
 function checkVersion(version: string, previousVersion: string): void {
@@ -48,7 +47,7 @@ async function main(): Promise<void> {
     const previousVersion = info.version.format();
     checkVersion(version, previousVersion);
 
-    const xmlBumped = await bumpPackage(path, version);
+    await bumpPackage(path, version);
     const bumpedPackages = [info.name];
     const changedPaths = [path];
 
@@ -62,7 +61,7 @@ async function main(): Promise<void> {
         changedPaths.push(dependencyPath);
     }
 
-    console.log(JSON.stringify({ previousVersion, version, xmlBumped, bumpedPackages, changedPaths }));
+    console.log(JSON.stringify({ previousVersion, version, bumpedPackages, changedPaths }));
 }
 
 main().catch(error => {
