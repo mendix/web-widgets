@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where removing a selected item of a multi-select combobox with Backspace or Delete moved keyboard focus out of the combobox, unless the removed item was the last one. Focus now stays on the selected items so you can keep navigating and removing them with the keyboard.
 
+- We improved the reliability of the `On change` action.
+
 ## [2.9.0] - 2026-07-24
 
 ### Fixed
