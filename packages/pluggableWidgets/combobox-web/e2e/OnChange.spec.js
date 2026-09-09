@@ -101,7 +101,8 @@ test.describe("combobox-web onChange", () => {
         });
     });
 
-    test.describe("read association to pass to onChange", () => {
+    test.describe.fixme("read association to pass to onChange", () => {
+        // Waiting for framework fix to re-enable this test
         test.beforeEach(async ({ page }) => {
             await page.goto("/p/events/onchange/passassoc");
             await waitForMendixApp(page);
