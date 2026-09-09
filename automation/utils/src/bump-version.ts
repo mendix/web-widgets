@@ -5,18 +5,19 @@ import { nextTick } from "process";
 import chalk from "chalk";
 import { prompt } from "enquirer";
 import { PackageListing } from "./monorepo";
+import { Version } from "./version";
 
 export type BumpVersionType = "patch" | "minor" | "major" | string;
 
 export function getNewVersion(bumpVersionType: BumpVersionType, currentVersion: string): string {
-    const [major, minor, patch] = currentVersion.split(".");
+    const version = Version.fromString(currentVersion);
     switch (bumpVersionType) {
         case "patch":
-            return [major, minor, Number(patch) + 1].join(".");
+            return version.bumpPatch().format();
         case "minor":
-            return [major, Number(minor) + 1, 0].join(".");
+            return version.bumpMinor().format();
         case "major":
-            return [Number(major) + 1, 0, 0].join(".");
+            return version.bumpMajor().format();
         default:
             return bumpVersionType;
     }

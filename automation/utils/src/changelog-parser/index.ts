@@ -221,10 +221,7 @@ export class ModuleChangelogFileWrapper {
     }
 
     hasUnreleasedLogs(): boolean {
-        const [unreleased] = this.changelog.content;
-        // Module changelogs usually carry their entries under subcomponents
-        // (per wrapped widget), with no module level sections at all.
-        return unreleased.sections.length !== 0 || unreleased.subcomponents.length !== 0;
+        return this.changelog.content[0].sections.length !== 0;
     }
 
     moveUnreleasedToVersion(newVersion: Version): ModuleChangelogFileWrapper {

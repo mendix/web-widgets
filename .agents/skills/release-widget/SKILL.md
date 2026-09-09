@@ -9,7 +9,7 @@ description: Use when releasing a standalone Mendix widget or module from the we
 
 Releases a widget (or the module wrapping it) from this monorepo: version bump → GitHub draft release → OSS clearance → Marketplace publish.
 
-**Autonomy carve-out (this skill only):** unlike the repo's default stance of never pushing/publishing without asking, this skill is pre-authorized to run `git push`, `gh workflow run`, `gh pr merge`, and `gh release edit --draft=false` (publish) directly, without pausing for confirmation on each one — because a human already invoked this skill specifically to run a release. This does **not** extend to destructive rollback (deleting releases/tags/branches) or anything outside this skill's scope.
+**Autonomy carve-out (this skill only):** unlike the repo's default stance of never pushing/publishing without asking, this skill is pre-authorized to run `git push`, `gh workflow run`, and `gh release edit --draft=false` (publish) directly, without pausing for confirmation on each one — because a human already invoked this skill specifically to run a release. This does **not** extend to destructive rollback (deleting releases/tags/branches), merging PRs (branch protection requires team approvals — that's on the user to gather), or anything outside this skill's scope.
 
 **State is re-derived every run.** No persisted release-state file: each invocation re-checks git/GitHub/Jira/Marketplace from scratch, so this skill is safe to stop and resume across sessions (e.g. while waiting days for OSS clearance).
 
@@ -36,17 +36,17 @@ Prints `{"name", "version", "appNumber", "appName"}`. It reads `process.cwd()` �
 
 `appName` is the Marketplace display name (e.g. `Maps`). The draft release is titled `<appName> v<version>`, which is what the OSS helpers match SBOM/READMEOSS filenames against — they derive it from the tag themselves.
 
-- `appNumber` is a positive number → **standalone release** (a widget, or a module published directly). Keep this `info`, Phase 2 and 3 reuse it — no re-fetching.
-- `appNumber` is `null`/absent/`-1` → widget is module-wrapped, not published on its own. Find the owning module:
+- `appNumber` is a positive number → **standalone release** (a widget, or a module published directly). Keep this `info` — Phase 2 and 3 reuse `<npm-package-name>` from it (no re-fetching), and Phase 7 reuses `appNumber` itself.
+- `appNumber` is `null`/absent/`-1` → widget is wrapped by another package, not published on its own. Find the owner — it's usually a module, but a widget like `charts-web` also wraps sub-widgets (e.g. `area-chart-web`) directly, so check both locations:
     ```bash
-    grep -l "\"@mendix/<widget>\"" packages/modules/*/package.json
+    grep -l "\"@mendix/<widget>\"" packages/modules/*/package.json packages/pluggableWidgets/*/package.json
     ```
-    No module found → stop, the package is misconfigured; don't guess through it. Otherwise re-run from the module's directory:
+    No owner found → stop, the package is misconfigured; don't guess through it. Otherwise re-run from the owner's directory:
     ```bash
-    cd packages/modules/<module>
+    cd packages/modules/<owner>   # or packages/pluggableWidgets/<owner>
     pnpm exec rui-package-info
     ```
-    The module's `info` is the release target from here on; the widget's was only needed to find it. Tell the user which module wraps it.
+    The owner's `info` is the release target from here on; the original widget's was only needed to find it. Tell the user which module or widget wraps it.
 
 Three placeholders recur below, all derived from the release target's `info` — never guessed:
 
@@ -60,7 +60,6 @@ Run once, report all results together (don't ask one at a time):
 
 ```bash
 echo "== SBOM jar =="; ls "${SBOM_GENERATOR_JAR:-$HOME/SBOM_Generator.jar}" 2>&1
-echo "== rui helpers =="; pnpm exec which rui-package-info 2>&1 | tail -1
 echo "== gh auth =="; gh auth status 2>&1
 echo "== git branch/status =="; git branch --show-current; git status --short
 echo "== main sync =="; git fetch origin main --quiet
@@ -70,8 +69,6 @@ echo "behind: $(git rev-list HEAD..origin/main --count)"; echo "ahead: $(git rev
 If not on `main` or not in sync — fix it yourself (`git checkout main`, `git merge --ff-only origin/main`) rather than asking, unless `main` has diverged from `origin/main` (both `behind` and `ahead` non-zero) — that needs a human decision, stop and ask.
 
 If the SBOM jar is missing, say what's missing and how to fix it (where to get `SBOM_Generator.jar`, or point `SBOM_GENERATOR_JAR` at it) — don't proceed past a missing prereq.
-
-If a helper doesn't resolve (`Command "rui-package-info" not found`), the bins aren't linked yet — `pnpm install` at the repo root, then re-check. Don't work around it by calling `ts-node bin/<helper>.ts` all run.
 
 ### Phase 2 — Version selection
 
@@ -84,7 +81,7 @@ pnpm exec rui-changelog <npm-package-name>
 `rui-changelog` prints `{"hasUnreleasedLogs", "sections", "subcomponents"}`.
 
 - For a **widget**, the content is in `sections` and `subcomponents` is empty.
-- For a **module**, it's usually the other way round: module changelogs record entries per wrapped widget, so `sections` is often empty and everything real lives in `subcomponents[].sections`. Read those too — a module with `sections: []` is not "nothing to release". `hasUnreleasedLogs` accounts for both.
+- For a **module**, it's usually the other way round: a module's own CHANGELOG.md rarely has module-level unreleased entries — real unreleased work sits in each wrapped widget's own CHANGELOG.md. `rui-changelog` reads those for you and surfaces them as `subcomponents[].sections`. Read those too — a module with `sections: []` is not "nothing to release". `hasUnreleasedLogs` accounts for both.
 
 Summarize the unreleased entries by type (Fixed/Added/Changed/Breaking changes), across subcomponents for a module (name the widget each entry came from), and propose a semver bump:
 
@@ -96,7 +93,7 @@ Show the concrete `<version>`, not just the bump-type word — e.g. "propose **m
 
 ### Phase 3 — Version bump + release branch (autonomous)
 
-Bump to the `<version>` confirmed in Phase 2. Pass the explicit version, not the bump-type word:
+Bump to the `<version>` confirmed in Phase 2. The helper only accepts an explicit `x.y.z` version — it has no bump-type shorthand:
 
 ```bash
 pnpm exec rui-bump-version <npm-package-name> <version>
@@ -107,7 +104,7 @@ Prints `{"previousVersion", "version", "xmlBumped", "bumpedPackages", "changedPa
 It refuses to run and exits non-zero when:
 
 - `<npm-package-name>` isn't independently releasable (no positive `marketplace.appNumber`) — Phase 0 pointed at the wrong package, go back and recheck.
-- the argument is neither a bump type nor an `x.y.z` version.
+- the argument isn't a valid `x.y.z` version.
 - the resulting version isn't greater than `previousVersion` (catches a typo'd downgrade or re-bumping an already-bumped package).
 
 **If the target wraps other packages (a module, or a widget like `charts-web` with sub-widgets), this bumps every wrapped dependency to the same version** — all of them, not only those with unreleased changelog entries, since they ship inside the same MPK. Use `changedPaths` verbatim in the `git add` below rather than reconstructing the list.
@@ -204,7 +201,7 @@ gh run list --workflow="Publishes a package to marketplace" -L 5 --json database
 
 Find the run matching this tag/branch.
 
-- `conclusion: success` → means the API call didn't error, not that the version is live (`createDraft`/`publishDraft` are write-only, no read-back). Confirm with a read: `marketplace-mcp`'s `get_content_versions` with `contentId` = `appNumber` from Phase 0, and check `<version>` is listed. If `marketplace-mcp` isn't connected or errors, ask the user to check Marketplace → package page → Manage Versions. Don't declare the release done until one of the two confirms it.
+- `conclusion: success` → means the API call didn't error, not that the version is live. The workflow calls the Marketplace `createDraft`/`publishDraft` endpoints, which only return an accepted/rejected response for the write — they don't hand back the resulting version state, so a 200 here isn't proof the version is visible yet. Confirm with a read: `marketplace-mcp`'s `get_content_versions` with `contentId` = `appNumber` from Phase 0, and check `<version>` is listed. If `marketplace-mcp` isn't connected or errors, ask the user to check the widget's Marketplace listing page directly for `<version>`. Don't declare the release done until one of the two confirms it.
 
     Then verify the changelog PR merged (repo automation should have done it):
 
@@ -212,7 +209,7 @@ Find the run matching this tag/branch.
     gh pr list --head "tmp/<release-tag>" --json number,state
     ```
 
-    Still open after a successful publish is unexpected — check whether the workflow's `merge-changelogs-pr` step ran before merging it yourself.
+    Still open after a successful publish is unexpected — check whether the workflow's `merge-changelogs-pr` step ran. Don't merge it yourself: branch protection requires team approvals, so tell the user the PR is waiting and it's on them to gather approvals and merge.
 
 - `conclusion: failure` → **before assuming stuck-draft or escalating, check history first**:
     ```bash
