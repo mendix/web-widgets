@@ -23,14 +23,14 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "badge-web"
+        "branchName": "badge-web-mx11"
     },
     "scripts": {
         "build": "cross-env MPKOUTPUT=Badge.mpk pluggable-widgets-tools build:web",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "cross-env MPKOUTPUT=Badge.mpk pluggable-widgets-tools start:web",
-        "e2e": "run-e2e ci",
+        "e2e": "MENDIX_VERSION=11.12.2 MODERN_CLIENT=--modern-web-client ENABLE_RSPACK_BUNDLER=1 run-e2e ci",
         "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",

@@ -29,7 +29,7 @@
         "build": "pluggable-widgets-tools build:web",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
-        "e2e": "MENDIX_VERSION=11.9.1 run-e2e ci",
+        "e2e": "MENDIX_VERSION=11.12.2 MODERN_CLIENT=--modern-web-client ENABLE_RSPACK_BUNDLER=1 run-e2e ci",
         "e2e-update-project": "pnpm --filter @mendix/data-widgets run build:include-deps",
         "e2edev": "MENDIX_VERSION=11.9.1 run-e2e dev --with-preps",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
