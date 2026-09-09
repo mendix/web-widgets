@@ -64,3 +64,7 @@ $focus-outline-offset: 2px !default;
         transform: rotate(360deg);
     }
 }
+
+ul.swiper-wrapper {
+    padding-inline-start: 0;
+}
