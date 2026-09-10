@@ -80,7 +80,7 @@ export function getProperties(values: DatagridPreviewProps, defaultProperties: P
         if (values.useCustomPagination === false) {
             hidePropertyIn(defaultProperties, values, "customPagination");
         } else {
-            hidePropertiesIn(defaultProperties, values, ["pagingPosition", "showPagingButtons"]);
+            hidePropertyIn(defaultProperties, values, "showPagingButtons");
         }
     } else {
         hidePropertyIn(defaultProperties, values, "showPagingButtons");

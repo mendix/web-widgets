@@ -75,4 +75,54 @@ describe("consistency check", () => {
             expect(check(props as unknown as DatagridPreviewProps)).toEqual([]);
         });
     });
+
+    describe("custom pagination position", () => {
+        test("warns when custom pagination is enabled and position is both", () => {
+            const props = {
+                itemSelection: "None",
+                onClick: null,
+                columns: [],
+                useCustomPagination: true,
+                pagingPosition: "both"
+            };
+
+            expect(check(props as unknown as DatagridPreviewProps)).toMatchSnapshot();
+        });
+
+        test("does not warn when custom pagination is enabled and position is top", () => {
+            const props = {
+                itemSelection: "None",
+                onClick: null,
+                columns: [],
+                useCustomPagination: true,
+                pagingPosition: "top"
+            };
+
+            expect(check(props as unknown as DatagridPreviewProps)).toEqual([]);
+        });
+
+        test("does not warn when custom pagination is enabled and position is bottom", () => {
+            const props = {
+                itemSelection: "None",
+                onClick: null,
+                columns: [],
+                useCustomPagination: true,
+                pagingPosition: "bottom"
+            };
+
+            expect(check(props as unknown as DatagridPreviewProps)).toEqual([]);
+        });
+
+        test("does not warn when position is both and custom pagination is disabled", () => {
+            const props = {
+                itemSelection: "None",
+                onClick: null,
+                columns: [],
+                useCustomPagination: false,
+                pagingPosition: "both"
+            };
+
+            expect(check(props as unknown as DatagridPreviewProps)).toEqual([]);
+        });
+    });
 });

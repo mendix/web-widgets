@@ -17,6 +17,11 @@ export function check(values: DatagridPreviewProps): Problem[] {
 
     errors.push(...checkSelectionSettings(values));
 
+    const customPaginationPositionError = checkCustomPaginationPosition(values);
+    if (customPaginationPositionError) {
+        errors.push(customPaginationPositionError);
+    }
+
     return errors;
 }
 
@@ -63,6 +68,18 @@ const checkHidableSettings = (
             severity: "warning",
             message:
                 "A caption is required if 'Can hide' is Yes or Yes, hidden by default. This can be configured under 'Column capabilities' in the column item properties"
+        };
+    }
+};
+
+const checkCustomPaginationPosition = (values: DatagridPreviewProps): Problem | undefined => {
+    if (values.useCustomPagination && values.pagingPosition === "both") {
+        return {
+            property: "pagingPosition",
+            severity: "warning",
+            message:
+                "Custom pagination cannot be shown in both positions and will render below the grid. " +
+                'Set "Position of pagination" to "Above grid" or "Below grid" to choose a single position.'
         };
     }
 };
