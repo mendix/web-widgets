@@ -14,12 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Since version 2.5.0, removing a file with the default remove button removes the entry from the file list immediately, instead of leaving it in the list greyed out. This matches how removal already worked when custom buttons are configured. This change was missing from the 2.5.0 release notes.
 
-- We updated dependency react-dropzone from 14 to 20. This changes added paste-to-upload, fixing issues on dropped files, and improve accessibility of the drop area. One notable changes from this is `react-dropzone v18.0.0 (2026-07-12) — feat!: move full MIME table to file-selector/mime
-subpath to shrink bundle, BREAKING CHANGES` : the full extension-to-MIME table is no longer bundled into the core entry.
-
-    the MIME table now covers roughly 40 widespread types (PDF, CSV, Word, Excel, PowerPoint, plain text, and the common image, audio, video, font and archive formats) instead of the much longer list used before.
-
-> If you configure allowed file formats yourself, fill in the matching extensions next to the MIME type, for example `.odt` next to `application/vnd.oasis.opendocument.text` or `.dwg` next to `image/vnd.dwg`. Some browsers hand over a file without reporting its type, and the widget then has to recognize it by name: it looks the extension up in a built-in list, which now covers only the most common formats. For a type outside that list, the extensions you configured are the only thing left to match, so without them the file is rejected with the "invalid file format" message even though its format is allowed. The "Allowed file formats" presets and image mode are not affected.
+- We updated dependency react-dropzone from 14 to 20. This changes added paste-to-upload, fixing issues on dropped files, and improve accessibility of the drop area.
 
 ## [2.5.0] - 2026-06-29
 
