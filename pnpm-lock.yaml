@@ -8,7 +8,7 @@ overrides:
   '@babel/core@7': 7.29.7
   '@codemirror/state': ^6.5.2
   '@codemirror/view': ^6.38.1
-  '@mendix/pluggable-widgets-tools': 11.12.1
+  '@mendix/pluggable-widgets-tools': 11.13.0
   '@mendix/pluggable-widgets-tools>@testing-library/react-native': '-'
   '@mendix/pluggable-widgets-tools>eslint': '-'
   '@mendix/pluggable-widgets-tools>eslint-config-prettier': '-'
@@ -35,9 +35,9 @@ overrides:
 pnpmfileChecksum: sha256-s93SB6R9/asG3ZoJ8Hr+99P758r3p0dOebXMUkycQnk=
 
 patchedDependencies:
-  '@mendix/pluggable-widgets-tools@11.12.1':
-    hash: 9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2
-    path: patches/@mendix__pluggable-widgets-tools@11.12.1.patch
+  '@mendix/pluggable-widgets-tools@11.13.0':
+    hash: 1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed
+    path: patches/@mendix__pluggable-widgets-tools@11.13.0.patch
   mime-types@2.1.35:
     hash: f54449b9273bc9e74fb67a14fcd001639d788d038b7eb0b5f43c10dff2b1adfb
     path: patches/mime-types@2.1.35.patch
@@ -375,8 +375,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -400,8 +400,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -440,8 +440,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -468,8 +468,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -499,8 +499,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -539,8 +539,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -576,8 +576,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -613,8 +613,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -659,8 +659,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -693,8 +693,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -739,8 +739,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -782,8 +782,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -853,8 +853,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -899,8 +899,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -945,8 +945,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -982,8 +982,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1043,8 +1043,8 @@ importers:
         specifier: ^19.0.2
         version: 19.0.2(@jest/environment@30.3.0)(@jest/fake-timers@30.3.0)(@jest/types@30.4.1)(jest-mock@30.4.1)(jest-util@30.4.1)
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1080,8 +1080,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1126,8 +1126,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1166,8 +1166,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1224,8 +1224,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1291,8 +1291,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1325,8 +1325,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1374,8 +1374,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/rollup-web-widgets':
         specifier: workspace:*
         version: link:../../shared/rollup-web-widgets
@@ -1411,8 +1411,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1436,8 +1436,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1473,8 +1473,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1516,8 +1516,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1580,8 +1580,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1617,8 +1617,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1651,8 +1651,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1682,8 +1682,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1716,8 +1716,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1753,8 +1753,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1796,8 +1796,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1851,8 +1851,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(picomatch@4.0.5)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1903,8 +1903,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1955,8 +1955,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1986,8 +1986,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2020,8 +2020,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2054,8 +2054,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2088,8 +2088,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2137,8 +2137,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2171,8 +2171,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2313,8 +2313,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2389,8 +2389,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2423,8 +2423,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2463,8 +2463,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2506,8 +2506,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2534,8 +2534,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2580,8 +2580,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2611,8 +2611,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2645,8 +2645,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2676,8 +2676,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2704,8 +2704,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2895,8 +2895,8 @@ importers:
   packages/shared/rollup-web-widgets:
     devDependencies:
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.12.1
-        version: 11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.13.0
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       rollup-plugin-copy:
         specifier: ^3.5.0
         version: 3.5.0
@@ -4395,8 +4395,8 @@ packages:
   '@melloware/coloris@0.25.0':
     resolution: {integrity: sha512-RBWVFLjWbup7GRkOXb9g3+ZtR9AevFtJinrRz2cYPLjZ3TCkNRGMWuNbmQWbZ5cF3VU7aQDZwUsYgIY/bGrh2g==}
 
-  '@mendix/pluggable-widgets-tools@11.12.1':
-    resolution: {integrity: sha512-wSg1NsaIlUEzO8KrnKKRymUx3mb898++tsLgByBXnl0XhsNeYWtG+zNGZzjEjLTVc2Kou9C9raxh8fkxn9Njpw==}
+  '@mendix/pluggable-widgets-tools@11.13.0':
+    resolution: {integrity: sha512-hUlFNnQMOIrw9wJk/cO6eNgqYa09N9s3/B74DCQRu1ZAtTNwxXCFI/bBuAm3Z1H7kmsaa20J783pFgqwbjp/Qw==}
     engines: {node: ^22.18.0}
     hasBin: true
 
@@ -12608,102 +12608,7 @@ snapshots:
 
   '@melloware/coloris@0.25.0': {}
 
-  '@mendix/pluggable-widgets-tools@11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(picomatch@4.0.5)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)':
-    dependencies:
-      '@babel/core': 7.29.7
-      '@babel/eslint-parser': 7.29.7(@babel/core@7.29.7)(eslint@9.39.5(jiti@2.6.1))
-      '@babel/plugin-transform-class-properties': 7.29.7(@babel/core@7.29.7)
-      '@babel/plugin-transform-private-methods': 7.29.7(@babel/core@7.29.7)
-      '@babel/plugin-transform-react-jsx': 7.29.7(@babel/core@7.29.7)
-      '@babel/preset-env': 7.29.7(@babel/core@7.29.7)
-      '@babel/preset-react': 7.29.7(@babel/core@7.29.7)
-      '@prettier/plugin-xml': 3.4.2(prettier@3.9.6)
-      '@react-native/babel-preset': 0.77.3(@babel/core@7.29.7)(@babel/preset-env@7.29.7(@babel/core@7.29.7))
-      '@rollup/plugin-alias': 5.1.1(rollup@4.62.3)
-      '@rollup/plugin-babel': 6.1.0(@babel/core@7.29.7)(@types/babel__core@7.20.5)(rollup@4.62.3)
-      '@rollup/plugin-commonjs': 29.0.3(rollup@4.62.3)
-      '@rollup/plugin-image': 3.0.3(rollup@4.62.3)
-      '@rollup/plugin-json': 6.1.0(rollup@4.62.3)
-      '@rollup/plugin-node-resolve': 15.3.1(rollup@4.62.3)
-      '@rollup/plugin-terser': 1.0.0(rollup@4.62.3)
-      '@rollup/plugin-typescript': 12.3.0(rollup@4.62.3)(tslib@2.8.1)(typescript@5.9.3)
-      '@rollup/plugin-url': 8.0.2(rollup@4.62.3)
-      '@rollup/pluginutils': 5.4.0(rollup@4.62.3)
-      '@swc/core': 1.15.46
-      '@swc/jest': 0.2.39(@swc/core@1.15.46)
-      '@testing-library/dom': 10.4.1
-      '@testing-library/jest-dom': 6.9.1
-      '@testing-library/react': 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@testing-library/user-event': 14.6.1(@testing-library/dom@10.4.1)
-      '@types/react': 19.2.17
-      '@types/react-dom': 19.2.3(@types/react@19.2.17)
-      '@types/semver': 7.7.1
-      '@types/testing-library__jest-dom': 5.14.9
-      '@typescript-eslint/eslint-plugin': 8.65.0(@typescript-eslint/parser@8.65.0(eslint@9.39.5(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.5(jiti@2.6.1))(typescript@5.9.3)
-      '@typescript-eslint/parser': 8.65.0(eslint@9.39.5(jiti@2.6.1))(typescript@5.9.3)
-      ansi-colors: 4.1.3
-      babel-jest: 30.3.0(@babel/core@7.29.7)
-      big.js: 6.2.2
-      core-js: 3.49.0
-      dotenv: 17.4.2
-      fast-glob: 3.3.3
-      fs-extra: 11.4.0
-      identity-obj-proxy: 3.0.0
-      jasmine: 3.99.0
-      jasmine-core: 3.99.1
-      jest: 30.3.0(@types/node@24.12.4)(ts-node@10.9.2(@swc/core@1.15.46)(@types/node@24.12.4)(typescript@5.9.3))
-      jest-environment-jsdom: 30.3.0(canvas@3.2.3)
-      jest-jasmine2: 30.3.0
-      jest-junit: 17.0.0
-      make-dir: 5.1.0
-      mendix: 11.12.0
-      mime: 4.1.0
-      postcss: 8.5.26
-      postcss-import: 14.1.0(postcss@8.5.26)
-      postcss-url: 10.1.4(postcss@8.5.26)
-      react-test-renderer: 19.2.8(react@18.3.1)
-      recursive-copy: 2.0.14
-      resolve: 1.22.12
-      rollup: 4.62.3
-      rollup-plugin-clear: 2.0.7
-      rollup-plugin-command: 1.1.3
-      rollup-plugin-license: 3.7.1(picomatch@4.0.5)(rollup@4.62.3)
-      rollup-plugin-livereload: 2.0.5
-      rollup-plugin-postcss: 4.0.2(postcss@8.5.26)(ts-node@10.9.2(@swc/core@1.15.46)(@types/node@24.12.4)(typescript@5.9.3))
-      rollup-plugin-re: 1.0.7
-      sass: 1.102.0
-      semver: 7.8.5
-      shelljs: 0.10.0
-      shx: 0.4.0
-      ts-jest: 29.4.11(@babel/core@7.29.7)(@jest/transform@30.3.0)(@jest/types@30.4.1)(babel-jest@30.3.0(@babel/core@7.29.7))(jest-util@30.4.1)(jest@30.3.0(@types/node@24.12.4)(ts-node@10.9.2(@swc/core@1.15.46)(@types/node@24.12.4)(typescript@5.9.3)))(typescript@5.9.3)
-      ts-node: 10.9.2(@swc/core@1.15.46)(@types/node@24.12.4)(typescript@5.9.3)
-      typescript: 5.9.3
-      xml2js: 0.6.2
-      zip-a-folder: 6.1.3
-    transitivePeerDependencies:
-      - '@jest/transform'
-      - '@jest/types'
-      - '@swc/helpers'
-      - '@swc/wasm'
-      - '@types/babel__core'
-      - '@types/node'
-      - babel-plugin-macros
-      - bufferutil
-      - canvas
-      - esbuild
-      - esbuild-register
-      - eslint
-      - jest-util
-      - node-notifier
-      - picomatch
-      - prettier
-      - react
-      - react-dom
-      - supports-color
-      - tslib
-      - utf-8-validate
-
-  '@mendix/pluggable-widgets-tools@11.12.1(patch_hash=9081455b6de1f5a4af4d792640f6266f917f9ced2d61aae16e64a379ad11faa2)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)':
+  '@mendix/pluggable-widgets-tools@11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.5(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)':
     dependencies:
       '@babel/core': 7.29.7
       '@babel/eslint-parser': 7.29.7(@babel/core@7.29.7)(eslint@9.39.5(jiti@2.6.1))
