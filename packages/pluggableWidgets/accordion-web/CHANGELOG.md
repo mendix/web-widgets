@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the content of accordion groups was reloaded when the collapsed state attribute changed or was updated by a microflow.
+
 ## [2.3.5] - 2026-02-09
 
 ### Added
