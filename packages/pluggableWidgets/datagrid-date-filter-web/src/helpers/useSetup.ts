@@ -1,5 +1,6 @@
 import { Locale } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
+import { DatePickerProps } from "react-datepicker";
 import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { FilterTypeEnum } from "./base-types";
@@ -16,7 +17,7 @@ interface SetupProps {
 }
 
 type SetupResult = {
-    calendarStartDay: number;
+    calendarStartDay: DatePickerProps["calendarStartDay"];
     controller: DatePickerController;
     dateFormat: string | string[] | undefined;
     id: string;
@@ -41,7 +42,7 @@ export function useSetup(props: SetupProps): SetupResult {
     return useMemo(() => {
         const locale = getLocale();
         return {
-            calendarStartDay: locale.firstDayOfWeek,
+            calendarStartDay: locale.firstDayOfWeek as DatePickerProps["calendarStartDay"],
             dateFormat: pickerDateFormat(locale),
             controller,
             id: `DateFilter${generateUUID()}`,

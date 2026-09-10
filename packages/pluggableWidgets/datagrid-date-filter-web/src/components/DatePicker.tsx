@@ -1,11 +1,20 @@
 import classNames from "classnames";
-import { Fragment, KeyboardEventHandler, MouseEventHandler, ReactElement, RefObject, useState } from "react";
-import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
+import {
+    Fragment,
+    KeyboardEvent,
+    KeyboardEventHandler,
+    MouseEvent,
+    MouseEventHandler,
+    ReactElement,
+    RefObject,
+    useState
+} from "react";
+import ReactDatePicker, { DatePickerProps as RdpDatePickerProps, DatePicker as RdpDatePicker } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CalendarIcon from "./CalendarIcon";
 
 type InheritedProps = Pick<
-    ReactDatePickerProps<boolean>,
+    RdpDatePickerProps,
     | "calendarStartDay"
     | "dateFormat"
     | "disabled"
@@ -13,20 +22,31 @@ type InheritedProps = Pick<
     | "locale"
     | "onCalendarClose"
     | "onCalendarOpen"
-    | "onChange"
     | "onChangeRaw"
     | "onKeyDown"
     | "selected"
     | "selectsRange"
     | "startDate"
 >;
+
+/**
+ * The picker props are a union discriminated on `selectsRange`: the single-date arm
+ * hands `onChange` a `Date | null`, the range arm a `[start, end]` tuple. We accept
+ * both so one handler stays assignable to whichever arm the filter mode selects.
+ */
+export type PickerChangeHandler = (
+    value: Date | [Date | null, Date | null] | null,
+    event?: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>
+) => void;
+
 export interface DatePickerProps extends InheritedProps {
     adjustable: boolean;
     id?: string;
+    onChange?: PickerChangeHandler;
     placeholder?: string;
     screenReaderCalendarCaption?: string;
     screenReaderInputCaption?: string;
-    pickerRef?: RefObject<ReactDatePicker<undefined, undefined> | null>;
+    pickerRef?: RefObject<RdpDatePicker | null>;
     expanded: boolean;
     onButtonMouseDown?: MouseEventHandler<HTMLButtonElement>;
     onButtonKeyDown?: KeyboardEventHandler<HTMLButtonElement>;
@@ -64,14 +84,15 @@ export function DatePicker(props: DatePickerProps): ReactElement {
                 placeholderText={props.placeholder}
                 ref={props.pickerRef}
                 selected={props.selected}
-                selectsRange={props.selectsRange}
+                // Narrow `boolean` to `true | undefined` so the props union resolves to its
+                // range arm; the picker treats an absent `selectsRange` as `false` anyway.
+                selectsRange={props.selectsRange || undefined}
                 shouldCloseOnSelect={false}
                 showMonthDropdown
                 showPopperArrow={false}
                 showYearDropdown
                 startDate={props.startDate}
                 strictParsing
-                useWeekdaysShort={false}
             />
             <button
                 aria-controls={staticProps.portalId}
@@ -88,7 +109,7 @@ export function DatePicker(props: DatePickerProps): ReactElement {
     );
 }
 
-type StaticProps = Omit<ReactDatePickerProps, "onChange">;
+type StaticProps = Required<Pick<RdpDatePickerProps, "popperPlacement" | "popperProps" | "portalId">>;
 
 function useSetup(): StaticProps {
     const [props] = useState<StaticProps>(() => {

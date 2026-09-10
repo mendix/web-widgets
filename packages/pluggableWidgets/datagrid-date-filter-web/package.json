@@ -44,8 +44,8 @@
         "@mendix/widget-plugin-external-events": "workspace:*",
         "@mendix/widget-plugin-filtering": "workspace:*",
         "classnames": "^2.5.1",
-        "date-fns": "^3.6.0",
-        "react-datepicker": "^6.6.0"
+        "date-fns": "^4.1.0",
+        "react-datepicker": "^9.1.0"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -56,7 +56,6 @@
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
-        "@mendix/widget-plugin-test-utils": "workspace:*",
-        "@types/react-datepicker": "^6.2.0"
+        "@mendix/widget-plugin-test-utils": "workspace:*"
     }
 }

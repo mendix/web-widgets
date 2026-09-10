@@ -46,7 +46,7 @@
         "mobx-react-lite": "4.0.7"
     },
     "peerDependencies": {
-        "date-fns": "^3.6.0"
+        "date-fns": "^3.6.0 || ^4.1.0"
     },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",
@@ -55,7 +55,7 @@
         "@mendix/widget-plugin-test-utils": "workspace:*",
         "@swc/core": "^1.7.26",
         "@swc/jest": "^0.2.36",
-        "date-fns": "^3.6.0",
+        "date-fns": "^4.1.0",
         "jest-environment-jsdom": "^30.3.0"
     }
 }

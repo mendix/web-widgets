@@ -269,64 +269,140 @@ describe("Date Filter", () => {
             );
         });
 
-        it("has correct short week days for en-US", async () => {
-            window.mx = createMXObjectMock("en_US", "en-US");
-            render(<DatagridDateFilter {...commonProps} defaultValue={dynamic.available(new Date("2021-12-10"))} />);
-
+        async function openCalendar(): Promise<void> {
             const input = screen.getByRole("textbox");
             await act(async () => {
                 fireEvent.click(input);
             });
-            const header = screen.getByText(/december 2021/i).parentElement?.lastChild;
-            expect(header?.textContent).toEqual("SuMoTuWeThFrSa");
+        }
+
+        /**
+         * Every day name column renders a visually hidden full weekday name next to an
+         * `aria-hidden` abbreviation, so read the abbreviations rather than `textContent`.
+         */
+        function getShortWeekDays(): string[] {
+            return screen
+                .getAllByRole("columnheader")
+                .map(cell => cell.querySelector("[aria-hidden=true]")?.textContent ?? "");
+        }
+
+        it("has correct short week days for en-US", async () => {
+            window.mx = createMXObjectMock("en_US", "en-US");
+            render(<DatagridDateFilter {...commonProps} defaultValue={dynamic.available(new Date("2021-12-10"))} />);
+
+            await openCalendar();
+
+            expect(screen.getByText(/december 2021/i)).toBeInTheDocument();
+            expect(getShortWeekDays()).toEqual(["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]);
+        });
+
+        it("exposes accessible full week day names alongside the abbreviations", async () => {
+            window.mx = createMXObjectMock("en_US", "en-US");
+            render(<DatagridDateFilter {...commonProps} defaultValue={dynamic.available(new Date("2021-12-10"))} />);
+
+            await openCalendar();
+
+            const columns = screen.getAllByRole("columnheader");
+            const names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            names.forEach((name, index) => expect(columns[index]).toHaveAccessibleName(name));
         });
 
         it("has correct short week days for en-US and starts week at Monday", async () => {
             window.mx = createMXObjectMock("en_US", "en-US", 1);
             render(<DatagridDateFilter {...commonProps} defaultValue={dynamic.available(new Date("2021-12-10"))} />);
 
-            const input = screen.getByRole("textbox");
-            await act(async () => {
-                fireEvent.click(input);
-            });
-            const header = screen.getByText(/december 2021/i).parentElement?.lastChild;
-            expect(header?.textContent).toEqual("MoTuWeThFrSaSu");
+            await openCalendar();
+
+            expect(screen.getByText(/december 2021/i)).toBeInTheDocument();
+            expect(getShortWeekDays()).toEqual(["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]);
         });
 
         it("has correct short week days for pt-Br", async () => {
             window.mx = createMXObjectMock("pt_BR", "pt-BR");
             render(<DatagridDateFilter {...commonProps} defaultValue={dynamic.available(new Date("2021-12-10"))} />);
 
-            const input = screen.getByRole("textbox");
-            await act(async () => {
-                fireEvent.click(input);
-            });
-            const header = screen.getByText(/dezembro 2021/i).parentElement?.lastChild;
-            expect(header?.textContent).toEqual("domsegterquaquisexsab");
+            await openCalendar();
+
+            expect(screen.getByText(/dezembro 2021/i)).toBeInTheDocument();
+            expect(getShortWeekDays()).toEqual(["dom", "seg", "ter", "qua", "qui", "sex", "sab"]);
         });
 
         it("has correct short week days for fi-FI and starts on monday", async () => {
             window.mx = createMXObjectMock("fi_FI", "fi-FI", 1);
             render(<DatagridDateFilter {...commonProps} defaultValue={dynamic.available(new Date("2021-12-10"))} />);
 
-            const input = screen.getByRole("textbox");
-            await act(async () => {
-                fireEvent.click(input);
-            });
-            const header = screen.getByText(/joulukuu 2021/i).parentElement?.lastChild;
-            expect(header?.textContent).toEqual("matiketopelasu");
+            await openCalendar();
+
+            expect(screen.getByText(/joulukuu 2021/i)).toBeInTheDocument();
+            expect(getShortWeekDays()).toEqual(["ma", "ti", "ke", "to", "pe", "la", "su"]);
         });
 
         it("has correct short week days for fi-FI", async () => {
             window.mx = createMXObjectMock("fi_FI", "fi-FI");
             render(<DatagridDateFilter {...commonProps} defaultValue={dynamic.available(new Date("2021-12-10"))} />);
 
-            const input = screen.getByRole("textbox");
+            await openCalendar();
+
+            expect(screen.getByText(/joulukuu 2021/i)).toBeInTheDocument();
+            expect(getShortWeekDays()).toEqual(["su", "ma", "ti", "ke", "to", "pe", "la"]);
+        });
+    });
+
+    // Keep this block last: rendering the widget advances React's `useId` counter, which
+    // the filter selector snapshots above capture verbatim.
+    describe("calendar toggle button", () => {
+        beforeEach(() => {
+            const dateTimeAttribute = new ListAttributeValueBuilder()
+                .withType("DateTime")
+                .withFilterable(true)
+                .build() as unknown as AttributeMetaData<Date>;
+
+            const dateFilterStore = new DateInputFilterStore([dateTimeAttribute], null);
+
+            const filterAPI: FilterAPI = {
+                version: 3,
+                parentChannelName: "datagrid/1",
+                provider: {
+                    hasError: false,
+                    value: { type: "direct", store: dateFilterStore }
+                },
+                filterObserver: {} as ObservableFilterHost
+            };
+
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI | null>(
+                filterAPI
+            );
+            window.mx = mxObject;
+        });
+
+        it("tracks the calendar state on aria-expanded", async () => {
+            render(<DatagridDateFilter {...commonProps} />);
+
+            const button = screen.getByRole("button", { name: "Show calendar" });
+            expect(button).toHaveAttribute("aria-expanded", "false");
+
             await act(async () => {
-                fireEvent.click(input);
+                fireEvent.click(screen.getByRole("textbox"));
             });
-            const header = screen.getByText(/joulukuu 2021/i).parentElement?.lastChild;
-            expect(header?.textContent).toEqual("sumatiketopela");
+            expect(button).toHaveAttribute("aria-expanded", "true");
+
+            await act(async () => {
+                fireEvent.keyDown(screen.getByRole("textbox"), { key: "Escape", code: "Escape" });
+            });
+            expect(button).toHaveAttribute("aria-expanded", "false");
+        });
+
+        it("renders the calendar into the container referenced by aria-controls", async () => {
+            render(<DatagridDateFilter {...commonProps} />);
+
+            const portalId = screen.getByRole("button", { name: "Show calendar" }).getAttribute("aria-controls");
+            expect(portalId).toBeTruthy();
+
+            await act(async () => {
+                fireEvent.click(screen.getByRole("textbox"));
+            });
+
+            expect(document.getElementById(portalId!)?.querySelector(".react-datepicker")).toBeInTheDocument();
         });
     });
 });
