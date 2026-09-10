@@ -52,7 +52,6 @@ async function main(): Promise<void> {
                 const [unreleased] = comp.changelog.content;
                 const entry: SubComponentEntry = {
                     name: compInfo.mxpackage.name,
-                    version: compInfo.version,
                     sections: unreleased.sections
                 };
 

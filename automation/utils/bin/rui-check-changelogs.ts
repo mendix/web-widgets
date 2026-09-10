@@ -3,6 +3,7 @@
 import { Version } from "../src";
 import { parse as parseModule } from "../src/changelog-parser/parser/module/module";
 import { parse as parseWidget } from "../src/changelog-parser/parser/widget/widget";
+import type { ModuleUnreleasedVersionEntry } from "../src/changelog-parser/types";
 import { exec } from "../src/shell";
 
 interface ChangelogChange {
@@ -48,6 +49,18 @@ function compareChangelogContent(change: ChangelogChange): boolean {
         if (sectionTypes.length !== new Set(sectionTypes).size) {
             console.error(`  ❌ There are duplicated changelog types in Unreleased!`);
             return false;
+        }
+
+        if (change.type === "module") {
+            const newSubs = (newUnreleased as ModuleUnreleasedVersionEntry).subcomponents;
+            for (const sub of newSubs) {
+                console.error(
+                    `  ❌ Subcomponent entry "${sub.name.trim()}" found in [Unreleased] in the module changelog. Widget-specific changes must go in the widget's own CHANGELOG.md.`
+                );
+            }
+            if (newSubs.length > 0) {
+                return false;
+            }
         }
     } catch (error) {
         console.error(`  ❌ Failed to parse changelog: ${error instanceof Error ? error.message : String(error)}`);
