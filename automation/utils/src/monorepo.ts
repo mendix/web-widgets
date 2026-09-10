@@ -28,6 +28,14 @@ export async function listPackages(packageNames: string[]): Promise<PackageListi
     return data;
 }
 
+export async function resolvePackagePath(npmPackageName: string): Promise<string> {
+    const [pkg] = await listPackages([npmPackageName]);
+    if (!pkg) {
+        throw new Error(`No package found in the workspace named '${npmPackageName}'`);
+    }
+    return pkg.path;
+}
+
 export async function getMpkPaths(packageNames: string[]): Promise<string[]> {
     const packages = await listPackages(packageNames);
     const paths = [...find(packages.map(p => `${p.path}/dist/${p.version}/*.mpk`))];
