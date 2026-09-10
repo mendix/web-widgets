@@ -1,5 +1,15 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
+exports[`consistency check custom pagination position warns when custom pagination is enabled and position is both 1`] = `
+[
+  {
+    "message": "Custom pagination cannot be shown in both positions and will render below the grid. Set "Position of pagination" to "Above grid" or "Below grid" to choose a single position.",
+    "property": "pagingPosition",
+    "severity": "warning",
+  },
+]
+`;
+
 exports[`consistency check returns error when row select method and action trigger overlap selection: multi by row click 1`] = `
 [
   {
