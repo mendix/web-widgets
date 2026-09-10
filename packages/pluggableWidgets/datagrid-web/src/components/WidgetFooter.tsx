@@ -46,7 +46,9 @@ export const WidgetFooter = observer(function WidgetFooter(): ReactElement | nul
                     <If condition={!pgConfig.customPaginationEnabled && pgConfig.pagingPosition !== "top"}>
                         <Pagination />
                     </If>
-                    <If condition={pgConfig.customPaginationEnabled}>{customPagination.get()}</If>
+                    <If condition={pgConfig.customPaginationEnabled && pgConfig.pagingPosition !== "top"}>
+                        {customPagination.get()}
+                    </If>
                 </div>
             </div>
         </div>
