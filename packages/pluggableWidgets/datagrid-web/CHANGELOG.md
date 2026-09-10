@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - We fixed an issue where the top bar did not stack its content vertically in narrow containers.
+- We fixed an issue where custom pagination ignored "Position of pagination" and always rendered below the grid. It now renders above the grid, below the grid, or — for "Both" — once, below the grid.
 
 ### Added
 
