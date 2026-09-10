@@ -1,7 +1,7 @@
 import { ObjectItem, Option } from "mendix";
 import { association, equals, literal, or } from "mendix/filters/builders";
 import { useCallback, useEffect, useRef } from "react";
-import { getItemId } from "./helpers";
+import { getItemId, getParentId } from "./helpers";
 import { TreeNodeContainerProps } from "../../../../typings/TreeNodeProps";
 
 export type ItemType = Array<Option<ObjectItem>>;
@@ -15,6 +15,8 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
     const loadedParentsByIdRef = useRef<Map<string, ObjectItem>>(new Map());
     // loadedChilds : track the pre-loaded nodes of expanded nodes.
     const loadedChildsByIdRef = useRef<Map<string, ObjectItem>>(new Map());
+    // expandedIds : nodes the user opened, their children need to be pre-loaded as they arrive.
+    const expandedIdsRef = useRef<Set<string>>(new Set());
     const initializedRef = useRef(false);
 
     const getDatasourceFilter = useCallback(
@@ -37,29 +39,20 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
     const appendItems = useCallback(
         (newItem: ObjectItem, children?: ObjectItem[]) => {
             const parentId = getItemId(newItem);
+            expandedIdsRef.current.add(parentId);
 
-            if (loadedParentsByIdRef.current.has(parentId)) {
-                if (children && children.length > 0) {
-                    children.forEach(child => {
-                        const childId = getItemId(child);
-                        // get all expanded node's children Id, in order to pre-load them
-                        // this is needed to be able to know if a node has further level children before expanding it.
-                        loadedChildsByIdRef.current.set(childId, child);
-                    });
+            // The expanded node is a loaded parent now, it is no longer a pre-loaded child.
+            loadedParentsByIdRef.current.set(parentId, newItem);
+            loadedChildsByIdRef.current.delete(parentId);
 
-                    // if the new item is already in loadedChilds,
-                    // it means that it was pre-loaded as a child of an expanded node,
-                    // so we need to move it to loadedParents
-                    if (loadedChildsByIdRef.current.has(parentId)) {
-                        loadedParentsByIdRef.current.set(parentId, loadedChildsByIdRef.current.get(parentId)!);
-                        loadedChildsByIdRef.current.delete(parentId);
-                    } else {
-                        loadedParentsByIdRef.current.set(parentId, newItem);
-                    }
+            children?.forEach(child => {
+                const childId = getItemId(child);
+                // pre-load the children of the expanded node,
+                // this is needed to be able to know if a node has further level children before expanding it.
+                if (!loadedParentsByIdRef.current.has(childId)) {
+                    loadedChildsByIdRef.current.set(childId, child);
                 }
-            } else {
-                loadedParentsByIdRef.current.set(parentId, newItem);
-            }
+            });
 
             datasource.setFilter(getDatasourceFilter(getExpandedFilterItems()));
         },
@@ -76,6 +69,28 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
                     loadedParentsByIdRef.current.set(parentId, item);
                 });
                 datasource.setFilter(getDatasourceFilter(getExpandedFilterItems()));
+                return;
+            }
+
+            // children of an expanded node can arrive after the expansion, or be added later on.
+            // pre-load them here as well, so every visible node knows whether it has children.
+            let hasNewChilds = false;
+            datasource.items?.forEach(item => {
+                const itemId = getItemId(item);
+
+                if (loadedParentsByIdRef.current.has(itemId) || loadedChildsByIdRef.current.has(itemId)) {
+                    return;
+                }
+
+                const parentId = getParentId(item, parentAssociation);
+                if (parentId && expandedIdsRef.current.has(parentId)) {
+                    loadedChildsByIdRef.current.set(itemId, item);
+                    hasNewChilds = true;
+                }
+            });
+
+            if (hasNewChilds) {
+                datasource.setFilter(getDatasourceFilter(getExpandedFilterItems()));
             }
 
             return;
@@ -89,7 +104,7 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
         if (!startExpanded) {
             datasource.setFilter(getDatasourceFilter([undefined]));
         }
-    }, [datasource, getDatasourceFilter, getExpandedFilterItems, startExpanded]);
+    }, [datasource, getDatasourceFilter, getExpandedFilterItems, parentAssociation, startExpanded]);
 
     return {
         items: datasource.items,

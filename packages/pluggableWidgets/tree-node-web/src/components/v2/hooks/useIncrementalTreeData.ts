@@ -23,6 +23,19 @@ export interface TreeNodeV2DataItem {
     title: ReactNode;
 }
 
+function resolveRestoredState(remembered: TreeNodeState | undefined, startExpanded: boolean): TreeNodeState {
+    if (remembered === undefined) {
+        return TreeNodeState.LOADING;
+    }
+
+    // A remembered LOADING means the node was already seen in an earlier batch, so it resolves now.
+    if (remembered === TreeNodeState.LOADING) {
+        return startExpanded ? TreeNodeState.EXPANDED : TreeNodeState.COLLAPSED_WITH_JS;
+    }
+
+    return remembered;
+}
+
 export function useIncrementalTreeData(items: ObjectItem[] | undefined, config: TreeConfigRef): TreeNodeV2DataItem[] {
     const [treeData, setTreeData] = useState<TreeNodeV2DataItem[]>([]);
 
@@ -31,10 +44,19 @@ export function useIncrementalTreeData(items: ObjectItem[] | undefined, config: 
     const placementByIdRef = useRef<Map<string, NodePlacement>>(new Map());
     const previousIdsRef = useRef<Set<string>>(new Set());
     const previousConfigRef = useRef<TreeConfigRef | null>(null);
+    // Expansion state per item id, kept across rebuilds so a data refresh does not collapse the tree.
+    const statesByIdRef = useRef<Map<string, TreeNodeState>>(new Map());
 
     useEffect(() => {
-        const sourceItems = items ?? [];
+        if (items === undefined) {
+            // Datasource is (re)loading. Keep the current tree instead of treating it as an empty list.
+            return;
+        }
+
+        const sourceItems = items;
         const incomingIds = new Set<string>(sourceItems.map(getItemId));
+        // The datasource order (e.g. a sort on a sequence attribute) is the source of truth for sibling order.
+        const orderById = new Map<string, number>(sourceItems.map((item, index) => [getItemId(item), index]));
 
         const removedIdsDetected =
             incomingIds.size < previousIdsRef.current.size ||
@@ -44,6 +66,9 @@ export function useIncrementalTreeData(items: ObjectItem[] | undefined, config: 
         previousConfigRef.current = config;
 
         if (configChanged || removedIdsDetected) {
+            for (const node of nodesByIdRef.current.values()) {
+                statesByIdRef.current.set(node.id, node.treeNodeState);
+            }
             rootsRef.current = [];
             nodesByIdRef.current.clear();
             placementByIdRef.current.clear();
@@ -125,7 +150,7 @@ export function useIncrementalTreeData(items: ObjectItem[] | undefined, config: 
                 id: nodeId,
                 item,
                 parentId: nextParentId,
-                treeNodeState: TreeNodeState.LOADING,
+                treeNodeState: resolveRestoredState(statesByIdRef.current.get(nodeId), config.startExpanded),
                 title: nextTitle
             };
             nodesByIdRef.current.set(nodeId, newNode);
@@ -136,6 +161,19 @@ export function useIncrementalTreeData(items: ObjectItem[] | undefined, config: 
                 if (candidate.parentId === nodeId && candidate.id !== nodeId) {
                     placeNode(candidate);
                 }
+            }
+        }
+
+        // Re-apply the datasource order, existing nodes keep their insertion order otherwise.
+        // Nodes missing from the current batch keep their relative order at the end of the list.
+        const orderOf = (node: TreeNodeV2DataItem): number => orderById.get(node.id) ?? sourceItems.length;
+        const compareByDatasourceOrder = (a: TreeNodeV2DataItem, b: TreeNodeV2DataItem): number =>
+            orderOf(a) - orderOf(b);
+
+        rootsRef.current.sort(compareByDatasourceOrder);
+        for (const node of nodesByIdRef.current.values()) {
+            if (node.children.length > 1) {
+                node.children.sort(compareByDatasourceOrder);
             }
         }
 
