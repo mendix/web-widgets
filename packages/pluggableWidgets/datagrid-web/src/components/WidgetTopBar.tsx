@@ -4,11 +4,12 @@ import { If } from "@mendix/widget-plugin-component-kit/If";
 import { Pagination } from "./Pagination";
 import { useSelectionCounterViewModel } from "../features/selection-counter/injection-hooks";
 import { SelectionCounter } from "../features/selection-counter/SelectionCounter";
-import { usePaginationConfig } from "../model/hooks/injection-hooks";
+import { useCustomPagination, usePaginationConfig } from "../model/hooks/injection-hooks";
 
 export const WidgetTopBar = observer(function WidgetTopBar(): ReactElement {
     const pgConfig = usePaginationConfig();
     const selectionCounter = useSelectionCounterViewModel();
+    const customPagination = useCustomPagination();
 
     return (
         <div className="widget-datagrid-top-bar table-header">
@@ -21,6 +22,9 @@ export const WidgetTopBar = observer(function WidgetTopBar(): ReactElement {
                 <div className="widget-datagrid-tb-end">
                     <If condition={!pgConfig.customPaginationEnabled && pgConfig.pagingPosition !== "bottom"}>
                         <Pagination />
+                    </If>
+                    <If condition={pgConfig.customPaginationEnabled && pgConfig.pagingPosition === "top"}>
+                        {customPagination.get()}
                     </If>
                 </div>
             </div>
