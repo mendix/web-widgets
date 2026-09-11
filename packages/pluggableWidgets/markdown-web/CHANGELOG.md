@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We updated markdown-it dependencies to mitigate potential security vulnerabilities.
+
+### Added
+
+- We added plugin support for subscript and superscript.
+
 ## [1.0.3] - 2026-07-17
 
 ### Security
