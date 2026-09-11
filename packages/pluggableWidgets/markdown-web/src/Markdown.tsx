@@ -1,3 +1,4 @@
+import katex from "@vscode/markdown-it-katex";
 import classNames from "classnames";
 import MarkdownIt from "markdown-it";
 import sub from "markdown-it-sub";
@@ -10,7 +11,8 @@ const mdParser = new MarkdownIt("default", {
     linkify: true
 })
     .use(sub)
-    .use(sup);
+    .use(sup)
+    .use(katex, { enableBareBlocks: true, enableFencedBlocks: true });
 
 export default function Markdown(props: MarkdownContainerProps): ReactElement {
     const { stringAttribute } = props;

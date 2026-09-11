@@ -45,7 +45,9 @@
     },
     "dependencies": {
         "@mendix/widget-plugin-component-kit": "workspace:*",
+        "@vscode/markdown-it-katex": "^1.1.2",
         "classnames": "^2.5.1",
+        "katex": "^0.16.47",
         "markdown-it": "^15.0.1",
         "markdown-it-sub": "^2.0.0",
         "markdown-it-sup": "^2.0.0"
