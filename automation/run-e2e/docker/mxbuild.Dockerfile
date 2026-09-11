@@ -26,15 +26,28 @@ echo "Downloading mxbuild ${MENDIX_VERSION} and docker building for ${BUILDPLATF
 \
     rm -rf /var/lib/apt/lists/* && \
     apt-get update --allow-insecure-repositories -qqy && \
-    apt-get install -qqy --allow-unauthenticated libicu70 && \
+    apt-get install -qqy --allow-unauthenticated libicu70 libfontconfig1 libfreetype6 libharfbuzz0b && \
     apt-get -qqy remove --auto-remove wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
 \
     echo "#!/bin/bash -x" >/bin/mxbuild && \
+    echo "source /bin/mxlibs.sh" >>/bin/mxbuild && \
     echo "/tmp/mxbuild/modeler/mxbuild --java-home=/opt/java/openjdk --java-exe-path=/opt/java/openjdk/bin/java \$@" >>/bin/mxbuild && \
     chmod +x /bin/mxbuild && \
 \
     echo "#!/bin/bash -x" >/bin/mx && \
+    echo "source /bin/mxlibs.sh" >>/bin/mx && \
     echo "/tmp/mxbuild/modeler/mx \$@" >>/bin/mx && \
     chmod +x /bin/mx
+
+# libSkiaSharp.so shipped with mxbuild (Mendix 11) does not link libuuid/libfreetype
+# itself, so their symbols must be preloaded. Paths differ per architecture.
+RUN cat >/bin/mxlibs.sh <<'SH'
+libs=""
+for lib in libuuid.so.1 libfreetype.so.6; do
+    path=$(ls /lib/*/$lib /usr/lib/*/$lib 2>/dev/null | head -1)
+    [ -n "$path" ] && libs="$libs $path"
+done
+export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD }${libs# }"
+SH

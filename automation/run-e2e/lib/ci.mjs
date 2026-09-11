@@ -57,7 +57,7 @@ export async function ci() {
     }
 
     if (options.updateProject) {
-        await updateTestProject();
+        await updateTestProject(mendixVersion);
     }
 
     if (options.useCompose) {
@@ -127,7 +127,7 @@ async function runWithDockerRaw({ mendixVersion, ip, freePort }) {
         const mxruntimeImage = await prepareImage("mxruntime", mendixVersion);
 
         const projectFile = ls(config.mprFileGlob).toString();
-        createDeploymentBundle(mxbuildImage, projectFile);
+        createDeploymentBundle(mxbuildImage, projectFile, mendixVersion);
 
         runtimeContainerId = await startRuntime(mxruntimeImage, mendixVersion, ip, freePort);
         startPlaywright(ip, freePort);
