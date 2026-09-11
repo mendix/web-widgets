@@ -47,6 +47,7 @@ function StaticCropPreview(props: { imageUrl: string; values: ImageCropperPrevie
                 onCropChange={setCrop}
                 onCropComplete={() => undefined}
                 aspect={aspect}
+                initialCropSize={values.initialCropSize ?? 100}
                 circular={values.cropShape === "circle"}
                 resizable={false}
                 boundaryWidth={values.boundaryWidth ?? PREVIEW_BOUNDARY_WIDTH}

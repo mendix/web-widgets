@@ -27,6 +27,7 @@ export interface ImageCropperContainerProps {
     aspectRatio: AspectRatioEnum;
     customAspectWidth: DynamicValue<Big>;
     customAspectHeight: DynamicValue<Big>;
+    initialCropSize: number;
     onCropAction?: ActionValue;
     boundaryWidth: number;
     boundaryHeight: number;
@@ -69,6 +70,7 @@ export interface ImageCropperPreviewProps {
     aspectRatio: AspectRatioEnum;
     customAspectWidth: string;
     customAspectHeight: string;
+    initialCropSize: number | null;
     onCropAction: {} | null;
     boundaryWidth: number | null;
     boundaryHeight: number | null;
