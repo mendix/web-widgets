@@ -15,10 +15,10 @@
 
 ## 3. Manual verification in Studio Pro
 
-- [ ] 3.1 Place a File Uploader on a page inside a container that renders a `<form>`, upload a file, click its action button — the page does not submit or reload
-- [ ] 3.2 Force an upload failure, click retry — retry runs, no form submission
-- [ ] 3.3 Keyboard: Tab to a file action button, press Enter and Space — action runs, no form submission
-- [ ] 3.4 Confirm clicking an action button still does not activate the surrounding `.file-entry` / dropzone (the `stopPropagation()` behaviour is unchanged)
+- [x] 3.1 Place a File Uploader on a page inside a container that renders a `<form>`, upload a file, click its action button — the page does not submit or reload
+- [x] 3.2 Force an upload failure, click retry — retry runs, no form submission
+- [x] 3.3 Keyboard: Tab to a file action button, press Enter and Space — action runs, no form submission
+- [x] 3.4 Confirm clicking an action button still does not activate the surrounding `.file-entry` / dropzone (the `stopPropagation()` behaviour is unchanged)
 
 ## 4. Documentation
 

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-TBD - created by archiving change fix-untyped-action-buttons. Update Purpose after archive.
+Define how buttons rendered by the File Uploader widget behave as interactive controls: they are native `<button>` elements with an explicit `type="button"`, so activating a file action button or the retry button never submits an enclosing `<form>`, and they expose the native `button` role without redundant ARIA.
 
 ## Requirements
 
