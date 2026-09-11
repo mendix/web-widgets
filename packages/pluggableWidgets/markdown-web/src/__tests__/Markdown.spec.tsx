@@ -21,6 +21,18 @@ describe("Markdown widget", () => {
         expect(component.container).toMatchSnapshot();
     });
 
+    it("renders inline and block math expressions", () => {
+        defaultProps.stringAttribute = new EditableValueBuilder<string>()
+            .withValue("Inline $c = \\pm\\sqrt{a^2 + b^2}$\n\n$$\\int_0^1 x^2 dx$$")
+            .build();
+        const component = render(<Markdown {...defaultProps} />);
+        const markdownElement = component.container.querySelector(".widget-markdown");
+
+        expect(markdownElement?.querySelector(".katex")).toBeInTheDocument();
+        expect(markdownElement?.querySelector(".katex-display")).toBeInTheDocument();
+        expect(markdownElement?.querySelector(".katex-error")).not.toBeInTheDocument();
+    });
+
     it("does not render markdown widget when stringAttribute is unavailable", () => {
         defaultProps.stringAttribute = new EditableValueBuilder<string>().isUnavailable().build();
         const component = render(<Markdown {...defaultProps} />);
