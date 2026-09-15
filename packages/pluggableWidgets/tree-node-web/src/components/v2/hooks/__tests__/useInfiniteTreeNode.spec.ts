@@ -325,4 +325,82 @@ describe("useInfiniteTreeNodes", () => {
             expect(props.datasource.setFilter).toHaveBeenCalledTimes(2);
         });
     });
+
+    describe("unbounded cascade when startExpanded is true (WC-3564)", () => {
+        it("keeps cascading level by level for as long as new descendants appear, and stops once a level is empty — never locking in on a transient empty delivery", () => {
+            const rootItems = [makeItem("root1"), makeItem("root2")];
+            const withSecondTier = [...rootItems, makeItem("second1")];
+            const withThirdTier = [...withSecondTier, makeItem("third1")];
+            let items: ObjectItem[] = [];
+            const props = makeProps({ startExpanded: true });
+            const setFilterSpy = props.datasource.setFilter as jest.Mock;
+
+            const { rerender } = renderHook(() =>
+                useInfiniteTreeNodes({ ...props, datasource: { ...props.datasource, items } as any })
+            );
+            expect(setFilterSpy).toHaveBeenCalledTimes(0); // startExpanded skips the initial root-only filter
+
+            // Datasource stays empty across a few transient renders (still loading) — must not
+            // call setFilter on empty data (this is exactly what broke live testing with a naive
+            // fire-count-based cap instead of a content-based one).
+            rerender();
+            rerender();
+            expect(setFilterSpy).toHaveBeenCalledTimes(0);
+
+            // Real root items arrive — cascades to fetch their children.
+            items = rootItems;
+            rerender();
+            expect(setFilterSpy).toHaveBeenCalledTimes(1);
+
+            // An unchanged redelivery of the same roots must not trigger another call.
+            items = rootItems;
+            rerender();
+            expect(setFilterSpy).toHaveBeenCalledTimes(1);
+
+            // Second tier arrives — cascades one level further automatically (no click involved).
+            items = withSecondTier;
+            rerender();
+            expect(setFilterSpy).toHaveBeenCalledTimes(2);
+
+            // Third tier arrives — keeps cascading (this is the exact scenario that was broken:
+            // every level defaults to EXPANDED under startExpanded=true, so every level needs its
+            // own affordance pre-checked, not just roots + one bonus level).
+            items = withThirdTier;
+            rerender();
+            expect(setFilterSpy).toHaveBeenCalledTimes(3);
+
+            // Nothing new this time (same set redelivered) — stops here, no further call.
+            items = [...withThirdTier];
+            rerender();
+            expect(setFilterSpy).toHaveBeenCalledTimes(3);
+        });
+
+        it("stays capped at 2 rounds when startExpanded is false — only roots auto-expand, deeper tiers resolve via a real click", () => {
+            const rootItems = [makeItem("root1")];
+            const withSecondTier = [...rootItems, makeItem("second1")];
+            const withThirdTier = [...withSecondTier, makeItem("third1")];
+            let items: ObjectItem[] = [];
+            const props = makeProps({ startExpanded: false });
+            const setFilterSpy = props.datasource.setFilter as jest.Mock;
+
+            const { rerender } = renderHook(() =>
+                useInfiniteTreeNodes({ ...props, datasource: { ...props.datasource, items } as any })
+            );
+            expect(setFilterSpy).toHaveBeenCalledTimes(1); // initial root-only filter
+
+            items = rootItems;
+            rerender(); // round 1 locks in
+            expect(setFilterSpy).toHaveBeenCalledTimes(2);
+
+            items = withSecondTier;
+            rerender(); // round 2 locks in
+            expect(setFilterSpy).toHaveBeenCalledTimes(3);
+
+            // Third tier arriving must NOT trigger a further automatic round — unlike
+            // startExpanded=true, deeper tiers here only resolve via a real click (appendItems).
+            items = withThirdTier;
+            rerender();
+            expect(setFilterSpy).toHaveBeenCalledTimes(3);
+        });
+    });
 });
