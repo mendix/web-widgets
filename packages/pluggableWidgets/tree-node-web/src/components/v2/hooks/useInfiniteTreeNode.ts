@@ -38,25 +38,23 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
         (newItem: ObjectItem, children?: ObjectItem[]) => {
             const parentId = getItemId(newItem);
 
-            if (loadedParentsByIdRef.current.has(parentId)) {
-                if (children && children.length > 0) {
-                    children.forEach(child => {
-                        const childId = getItemId(child);
-                        // get all expanded node's children Id, in order to pre-load them
-                        // this is needed to be able to know if a node has further level children before expanding it.
-                        loadedChildsByIdRef.current.set(childId, child);
-                    });
+            if (children && children.length > 0) {
+                children.forEach(child => {
+                    const childId = getItemId(child);
+                    // get all expanded node's children Id, in order to pre-load them
+                    // this is needed to be able to know if a node has further level children before expanding it.
+                    // Runs on every expand, including the first one — a node's own children being
+                    // preloaded as part of its parent's expand must not delay preloading its grandchildren too.
+                    loadedChildsByIdRef.current.set(childId, child);
+                });
+            }
 
-                    // if the new item is already in loadedChilds,
-                    // it means that it was pre-loaded as a child of an expanded node,
-                    // so we need to move it to loadedParents
-                    if (loadedChildsByIdRef.current.has(parentId)) {
-                        loadedParentsByIdRef.current.set(parentId, loadedChildsByIdRef.current.get(parentId)!);
-                        loadedChildsByIdRef.current.delete(parentId);
-                    } else {
-                        loadedParentsByIdRef.current.set(parentId, newItem);
-                    }
-                }
+            // if the new item is already in loadedChilds,
+            // it means that it was pre-loaded as a child of an expanded node,
+            // so we need to move it to loadedParents
+            if (loadedChildsByIdRef.current.has(parentId)) {
+                loadedParentsByIdRef.current.set(parentId, loadedChildsByIdRef.current.get(parentId)!);
+                loadedChildsByIdRef.current.delete(parentId);
             } else {
                 loadedParentsByIdRef.current.set(parentId, newItem);
             }
