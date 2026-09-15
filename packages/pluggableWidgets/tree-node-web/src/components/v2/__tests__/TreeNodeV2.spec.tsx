@@ -20,72 +20,72 @@ jest.mock("mendix/filters/builders", () => ({
     or: jest.fn((...args: unknown[]) => ({ type: "or", args }))
 }));
 
-describe("TreeNodeV2 - Keyboard Navigation", () => {
-    const makeItem = (id: string): ObjectItem => ({ id: id as GUID });
+const makeItem = (id: string): ObjectItem => ({ id: id as GUID });
 
-    const makeListValue = (items: ObjectItem[]): ListValue =>
-        ({
-            status: ValueStatus.Available,
-            items,
-            limit: 100,
-            offset: 0,
-            hasMoreItems: false,
-            sortOrder: [],
-            filter: undefined,
-            setLimit: jest.fn(),
-            setOffset: jest.fn(),
-            setSortOrder: jest.fn(),
-            requestTotalCount: jest.fn(),
-            setFilter: jest.fn(),
-            reload: jest.fn(),
-            totalCount: undefined
-        }) as unknown as ListValue;
+const makeListValue = (items: ObjectItem[]): ListValue =>
+    ({
+        status: ValueStatus.Available,
+        items,
+        limit: 100,
+        offset: 0,
+        hasMoreItems: false,
+        sortOrder: [],
+        filter: undefined,
+        setLimit: jest.fn(),
+        setOffset: jest.fn(),
+        setSortOrder: jest.fn(),
+        requestTotalCount: jest.fn(),
+        setFilter: jest.fn(),
+        reload: jest.fn(),
+        totalCount: undefined
+    }) as unknown as ListValue;
 
-    const makeExpression = (value: string): ListExpressionValue<string> => ({
-        get: (): DynamicValue<string> => ({ status: ValueStatus.Available, value })
-    });
+const makeExpression = (value: string): ListExpressionValue<string> => ({
+    get: (): DynamicValue<string> => ({ status: ValueStatus.Available, value })
+});
 
-    const makeBoolExpression = (value: boolean): ListExpressionValue<boolean> => ({
-        get: (): DynamicValue<boolean> => ({ status: ValueStatus.Available, value })
-    });
+const makeBoolExpression = (value: boolean): ListExpressionValue<boolean> => ({
+    get: (): DynamicValue<boolean> => ({ status: ValueStatus.Available, value })
+});
 
-    /**
-     * Creates a ListReferenceValue mock where childId → parentId, all others → undefined.
-     */
-    const makeParentAssociation = (childId: string, parentId: string): ListReferenceValue =>
-        ({
-            id: "parentAssoc",
-            type: "Reference",
-            get: (item: ObjectItem): DynamicValue<ObjectItem> => {
-                if (String(item.id) === childId) {
-                    return { status: ValueStatus.Available, value: makeItem(parentId) };
-                }
-                return { status: ValueStatus.Available, value: undefined as unknown as ObjectItem };
+/**
+ * Creates a ListReferenceValue mock where childId → parentId, all others → undefined.
+ */
+const makeParentAssociation = (childId: string, parentId: string): ListReferenceValue =>
+    ({
+        id: "parentAssoc",
+        type: "Reference",
+        get: (item: ObjectItem): DynamicValue<ObjectItem> => {
+            if (String(item.id) === childId) {
+                return { status: ValueStatus.Available, value: makeItem(parentId) };
             }
-        }) as unknown as ListReferenceValue;
+            return { status: ValueStatus.Available, value: undefined as unknown as ObjectItem };
+        }
+    }) as unknown as ListReferenceValue;
 
-    /**
-     * Default props for tests that need a node with children.
-     * Datasource contains parent + child; parentAssociation links child → parent.
-     * This makes node.children.length > 0 so aria-expanded is rendered.
-     */
-    const makeDefaultProps = (startExpanded = false): TreeNodeContainerProps => ({
-        name: "treeNode",
-        class: "",
-        tabIndex: 0,
-        advancedMode: false,
-        datasource: makeListValue([makeItem("1"), makeItem("2")]),
-        parentAssociation: makeParentAssociation("2", "1"),
-        headerType: "text",
-        headerCaption: makeExpression("Node"),
-        hasChildren: makeBoolExpression(true),
-        showIcon: "right",
-        openNodeOn: "headerClick",
-        animate: false,
-        animateIcon: false,
-        startExpanded
-    });
+/**
+ * Default props for tests that need a node with children.
+ * `hasChildren` (not the datasource) is what drives aria-expanded; the
+ * datasource's parent + child items exist so the expanded body actually renders content.
+ */
+const makeDefaultProps = (startExpanded = false): TreeNodeContainerProps => ({
+    name: "treeNode",
+    class: "",
+    tabIndex: 0,
+    advancedMode: false,
+    datasource: makeListValue([makeItem("1"), makeItem("2")]),
+    parentAssociation: makeParentAssociation("2", "1"),
+    headerType: "text",
+    headerCaption: makeExpression("Node"),
+    hasChildren: makeBoolExpression(true),
+    showIcon: "right",
+    openNodeOn: "headerClick",
+    animate: false,
+    animateIcon: false,
+    startExpanded
+});
 
+describe("TreeNodeV2 - Keyboard Navigation", () => {
     it("expands node when Enter key is pressed", () => {
         render(createElement(TreeNodeV2, makeDefaultProps(false)));
         const treeItem = screen.getAllByRole("treeitem")[0];
@@ -202,5 +202,108 @@ describe("TreeNodeV2 - Keyboard Navigation", () => {
         fireEvent(childElement, event);
 
         expect(parentItem.getAttribute("aria-expanded")).toBe(initialState);
+    });
+});
+
+describe("TreeNodeV2 - Loading state (WC-3564 regressions)", () => {
+    const spinner = (container: HTMLElement): Element | null =>
+        container.querySelector(".widget-tree-node-loading-spinner");
+
+    const makeListValueWithStatus = (items: ObjectItem[], status: ValueStatus): ListValue =>
+        ({ ...makeListValue(items), status }) as unknown as ListValue;
+
+    it("never shows a stuck spinner, even when the datasource keeps redelivering the same full item set (Bug 1)", () => {
+        // "1" genuinely has a child ("2"), so its expand affordance should resolve immediately, not depend on a later delivery.
+        const props: TreeNodeContainerProps = {
+            ...makeDefaultProps(true),
+            datasource: makeListValue([makeItem("1"), makeItem("2")]),
+            parentAssociation: makeParentAssociation("2", "1")
+        };
+
+        const { container, rerender } = render(createElement(TreeNodeV2, props));
+        expect(spinner(container)).toBeNull();
+        expect(screen.getAllByRole("treeitem")[0]).toHaveAttribute("aria-expanded", "true");
+
+        // Simulate a microflow datasource ignoring setFilter and redelivering
+        // the exact same full result on a later render (new array reference).
+        rerender(
+            createElement(TreeNodeV2, {
+                ...props,
+                datasource: makeListValue([makeItem("1"), makeItem("2")])
+            })
+        );
+
+        expect(spinner(container)).toBeNull();
+        expect(screen.getAllByRole("treeitem")[0]).toHaveAttribute("aria-expanded", "true");
+    });
+
+    it("shows a spinner while the datasource is actually loading and no children are known yet", () => {
+        const noParent = makeParentAssociation("__none__", "__none__");
+        const props: TreeNodeContainerProps = {
+            ...makeDefaultProps(false),
+            datasource: makeListValueWithStatus([makeItem("1")], ValueStatus.Loading),
+            parentAssociation: noParent
+        };
+
+        const { container } = render(createElement(TreeNodeV2, props));
+        expect(spinner(container)).not.toBeNull();
+        expect(screen.getByRole("treeitem")).not.toHaveAttribute("aria-expanded");
+    });
+
+    it("clears the spinner once the datasource settles, even if it turns out the node has no children", () => {
+        const noParent = makeParentAssociation("__none__", "__none__");
+        const props: TreeNodeContainerProps = {
+            ...makeDefaultProps(false),
+            datasource: makeListValueWithStatus([makeItem("1")], ValueStatus.Loading),
+            parentAssociation: noParent
+        };
+
+        const { container, rerender } = render(createElement(TreeNodeV2, props));
+        expect(spinner(container)).not.toBeNull();
+
+        rerender(
+            createElement(TreeNodeV2, {
+                ...props,
+                datasource: makeListValueWithStatus([makeItem("1")], ValueStatus.Available)
+            })
+        );
+
+        expect(spinner(container)).toBeNull();
+        expect(screen.getByRole("treeitem")).not.toHaveAttribute("aria-expanded");
+    });
+
+    it("resolving one node's children does not affect an unrelated sibling's spinner or state (Bug 2)", () => {
+        const parentAssociation = makeParentAssociation("C", "A");
+        const props: TreeNodeContainerProps = {
+            ...makeDefaultProps(false),
+            datasource: makeListValueWithStatus([makeItem("A"), makeItem("B")], ValueStatus.Loading),
+            parentAssociation
+        };
+
+        const { container, rerender } = render(createElement(TreeNodeV2, props));
+        const [nodeA, nodeB] = screen.getAllByRole("treeitem");
+        expect(nodeA).not.toHaveAttribute("aria-expanded");
+        expect(nodeB).not.toHaveAttribute("aria-expanded");
+        // Both spin while nothing is known yet and the datasource is loading.
+        expect(container.querySelectorAll(".widget-tree-node-loading-spinner")).toHaveLength(2);
+
+        // The datasource settles, delivering a child for A only. B was never involved.
+        rerender(
+            createElement(TreeNodeV2, {
+                ...props,
+                datasource: makeListValueWithStatus(
+                    [makeItem("A"), makeItem("B"), makeItem("C")],
+                    ValueStatus.Available
+                )
+            })
+        );
+
+        const [nodeAAfter, nodeBAfter] = screen.getAllByRole("treeitem");
+        expect(nodeAAfter).toHaveAttribute("aria-expanded", "false");
+        expect(nodeAAfter.querySelector(".widget-tree-node-branch-header-icon-container")).not.toBeNull();
+        // B has no children and the datasource is no longer loading — no icon, no spinner, untouched by A's resolution.
+        expect(nodeBAfter).not.toHaveAttribute("aria-expanded");
+        expect(nodeBAfter.querySelector(".widget-tree-node-branch-header-icon-container")).toBeNull();
+        expect(container.querySelectorAll(".widget-tree-node-loading-spinner")).toHaveLength(0);
     });
 });
