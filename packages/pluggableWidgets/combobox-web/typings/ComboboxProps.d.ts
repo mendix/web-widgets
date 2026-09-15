@@ -102,7 +102,6 @@ export interface ComboboxContainerProps {
     customEditability: CustomEditabilityEnum;
     customEditabilityExpression: DynamicValue<boolean>;
     readOnlyStyle: ReadOnlyStyleEnum;
-    onChangeEvent?: ActionValue;
     onEnterEvent?: ActionValue;
     onLeaveEvent?: ActionValue;
     onChangeFilterInputEvent?: ActionValue<{ filterInput: Option<string> }>;
