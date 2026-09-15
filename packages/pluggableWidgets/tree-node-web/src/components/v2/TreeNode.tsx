@@ -15,9 +15,13 @@ function renderRecursiveNode(
     iconPlacement: TreeNodeContainerProps["showIcon"],
     openNodeOn: TreeNodeContainerProps["openNodeOn"],
     onNodeClick: (node: TreeNodeV2DataItem) => void,
+    isDatasourceLoading: boolean,
     children?: TreeNodeContainerProps["children"]
 ): ReactElement {
     const hasChildren = node.children.length > 0;
+    // We don't yet know whether this node has children (nothing placed under it yet); show a
+    // spinner only while the datasource is actually fetching, never as a stored/stale node state.
+    const showSpinner = !hasChildren && isDatasourceLoading;
     const isExpanded = node.treeNodeState === TreeNodeState.EXPANDED;
     const isIconClickable = openNodeOn === "iconClick";
     const isHeaderClickable = openNodeOn === "headerClick";
@@ -46,14 +50,14 @@ function renderRecursiveNode(
                 onClick={onHeaderClick}
             >
                 <span className="widget-tree-node-branch-header-value">{node.title}</span>
-                {(hasChildren || node.treeNodeState === TreeNodeState.LOADING) && iconPlacement !== "no" && (
+                {(hasChildren || showSpinner) && iconPlacement !== "no" && (
                     <span
                         className={classNames("widget-tree-node-branch-header-icon-container", {
                             "widget-tree-node-branch-header-clickable": hasChildren && isIconClickable
                         })}
                         onClick={onIconClick}
                     >
-                        {renderHeaderIcon(node.treeNodeState, iconPlacement)}
+                        {renderHeaderIcon(showSpinner ? TreeNodeState.LOADING : node.treeNodeState, iconPlacement)}
                     </span>
                 )}
             </span>
@@ -75,6 +79,7 @@ function renderRecursiveNode(
                                         iconPlacement,
                                         openNodeOn,
                                         onNodeClick,
+                                        isDatasourceLoading,
                                         children
                                     )}
                                 </Fragment>
@@ -120,6 +125,7 @@ export function TreeNodeV2(props: TreeNodeContainerProps): ReactElement {
     );
 
     const treeData = useIncrementalTreeData(items, treeConfig);
+    const isDatasourceLoading = props.datasource.status === ValueStatus.Loading;
     const onNodeClick = useCallback(
         (node: TreeNodeV2DataItem) => {
             if (node.treeNodeState === TreeNodeState.EXPANDED) {
@@ -160,6 +166,7 @@ export function TreeNodeV2(props: TreeNodeContainerProps): ReactElement {
                     iconPlacement,
                     props.openNodeOn,
                     onNodeClick,
+                    isDatasourceLoading,
                     props.children
                 )
             )}
