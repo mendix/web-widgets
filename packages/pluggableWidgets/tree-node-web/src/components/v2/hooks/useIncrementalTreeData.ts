@@ -111,12 +111,6 @@ export function useIncrementalTreeData(items: ObjectItem[] | undefined, config: 
                     placeNode(existingNode);
                 }
 
-                if (existingNode.treeNodeState === TreeNodeState.LOADING) {
-                    existingNode.treeNodeState = config.startExpanded
-                        ? TreeNodeState.EXPANDED
-                        : TreeNodeState.COLLAPSED_WITH_JS;
-                    nodesByIdRef.current.set(nodeId, existingNode);
-                }
                 continue;
             }
 
@@ -125,7 +119,7 @@ export function useIncrementalTreeData(items: ObjectItem[] | undefined, config: 
                 id: nodeId,
                 item,
                 parentId: nextParentId,
-                treeNodeState: TreeNodeState.LOADING,
+                treeNodeState: config.startExpanded ? TreeNodeState.EXPANDED : TreeNodeState.COLLAPSED_WITH_JS,
                 title: nextTitle
             };
             nodesByIdRef.current.set(nodeId, newNode);
