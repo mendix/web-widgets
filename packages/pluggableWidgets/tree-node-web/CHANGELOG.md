@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where a tree node's loading spinner would never disappear when using a microflow data source with "Start expanded" set to yes.
+- We fixed an issue where expanding one node could permanently remove the expand icon from an unrelated, unexpanded node elsewhere in the tree when using a microflow data source.
+- We fixed an issue where a node's expand icon for a deeper tier would not appear until that node was collapsed and expanded again.
+- We fixed an issue where, with "Start expanded" set to yes, tree nodes deeper than the second level would not show an expand icon until a parent node was manually collapsed and expanded again.
+
 ## [3.11.0] - 2026-05-27
 
 ### Added
