@@ -15,8 +15,8 @@ export const ExportProgressDialog = observer(function ExportProgressDialog(props
     return (
         <PseudoModal>
             <ExportAlert
-                alertLabel={texts.exportDialogLabel ?? "Export progress"}
-                cancelLabel={texts.cancelExportLabel ?? "Cancel data export"}
+                alertLabel={texts.exportDialogLabel}
+                cancelLabel={texts.cancelExportLabel}
                 failed={false}
                 onCancel={props.onExportCancel}
                 progress={progressSrv.loaded}

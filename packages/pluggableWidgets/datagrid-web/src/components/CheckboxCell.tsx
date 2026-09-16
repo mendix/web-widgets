@@ -19,7 +19,7 @@ export function CheckboxCell({ item, rowIndex, lastRow, ...rest }: CheckboxCellP
     const config = useDatagridConfig();
     const selectActions = useSelectActions();
     const checkboxEventsHandler = useCheckboxEventsHandler();
-    const { selectRowLabel } = useTexts();
+    const texts = useTexts();
     const keyNavProps = useFocusTargetProps<HTMLInputElement>({
         columnIndex: 0,
         rowIndex
@@ -35,7 +35,7 @@ export function CheckboxCell({ item, rowIndex, lastRow, ...rest }: CheckboxCellP
                 onChange={stub}
                 onFocus={lastRow ? scrollParentOnFocus : undefined}
                 ref={keyNavProps.ref}
-                aria-label={`${selectRowLabel ?? "Select row"} ${rowIndex + 1}`}
+                aria-label={texts.selectRowLabel(rowIndex + 1)}
                 {...useMemo(() => checkboxEventsHandler.getProps(item), [item, checkboxEventsHandler])}
             />
         </CellElement>

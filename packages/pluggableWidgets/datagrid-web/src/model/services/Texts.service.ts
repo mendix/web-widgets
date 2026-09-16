@@ -11,28 +11,28 @@ export class TextsService {
         return this.gate.props;
     }
 
-    get exportDialogLabel(): string | undefined {
-        return this.props.exportDialogLabel?.value;
+    get exportDialogLabel(): string {
+        return this.props.texts.translate("exportDialogAriaLabel");
     }
 
-    get cancelExportLabel(): string | undefined {
-        return this.props.cancelExportLabel?.value;
+    get cancelExportLabel(): string {
+        return this.props.texts.translate("cancelExportAriaLabel");
     }
 
-    get selectRowLabel(): string | undefined {
-        return this.props.selectRowLabel?.value;
+    selectRowLabel(rowIndex: number): string {
+        return this.props.texts.translate("selectRowAriaLabel", [String(rowIndex)]);
     }
 
-    get selectAllRowsLabel(): string | undefined {
-        return this.props.selectAllRowsLabel?.value;
+    get selectAllRowsLabel(): string {
+        return this.props.texts.translate("selectAllRowsAriaLabel");
     }
 
-    get singleSelectionColumnLabel(): string | undefined {
-        return this.props.singleSelectionColumnLabel?.value;
+    get singleSelectionColumnLabel(): string {
+        return this.props.texts.translate("singleSelectionColumnAriaLabel");
     }
 
-    get headerAriaLabel(): string | undefined {
-        return this.props.filterSectionTitle?.value;
+    get headerAriaLabel(): string {
+        return this.props.texts.translate("filterSectionAriaLabel");
     }
 
     get loadMoreButtonCaption(): string | undefined {

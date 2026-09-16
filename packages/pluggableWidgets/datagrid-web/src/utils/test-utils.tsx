@@ -1,5 +1,5 @@
 import { dynamic, list, listAttribute, listExpression } from "@mendix/widget-plugin-test-utils";
-import { ColumnsType, DatagridContainerProps } from "../../typings/DatagridProps";
+import { ColumnsType, DatagridContainerProps, Translations } from "../../typings/DatagridProps";
 import { ColumnStore } from "../helpers/state/column/ColumnStore";
 import { IColumnParentStore } from "../helpers/state/ColumnGroupStore";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
@@ -82,6 +82,9 @@ export function mockContainerProps(overrides?: Partial<DatagridContainerProps>):
         configurationStorageType: "attribute",
         configurationAttribute: undefined,
         storeFiltersInPersonalization: true,
+        texts: {
+            translate: <K extends keyof Translations>(key: K, ..._params: Translations[K]): string => key
+        },
         selectAllText: dynamic.available("Select all items"),
         selectAllTemplate: dynamic.available("Select all %d items"),
         allSelectedText: dynamic.available("All items selected"),

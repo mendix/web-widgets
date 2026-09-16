@@ -1,12 +1,9 @@
-import { DynamicValue } from "mendix";
 import { action, makeAutoObservable, reaction } from "mobx";
 import { SelectAllService, TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { DatagridContainerProps } from "../../../typings/DatagridProps";
 
-interface DynamicProps {
-    selectAllRowsLabel?: DynamicValue<string>;
-    cancelSelectionLabel?: DynamicValue<string>;
-}
+type DynamicProps = Pick<DatagridContainerProps, "texts">;
 
 /** @injectable */
 export class SelectionProgressDialogViewModel implements SetupComponent {
@@ -46,11 +43,11 @@ export class SelectionProgressDialogViewModel implements SetupComponent {
     }
 
     get selectingAllLabel(): string {
-        return this.gate.props.selectAllRowsLabel?.value ?? "Selecting all items...";
+        return this.gate.props.texts.translate("selectingAllAriaLabel");
     }
 
     get cancelSelectionLabel(): string {
-        return this.gate.props.cancelSelectionLabel?.value ?? "Cancel selection";
+        return this.gate.props.texts.translate("cancelSelectionAriaLabel");
     }
 
     setup(): () => void {

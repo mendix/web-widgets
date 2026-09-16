@@ -107,11 +107,25 @@ export interface ColumnsPreviewType {
     wrapText: boolean;
 }
 
+export interface Translations {
+    filterSectionAriaLabel: [];
+    exportDialogAriaLabel: [];
+    cancelExportAriaLabel: [];
+    selectRowAriaLabel: [params: [rowNumber: string]];
+    selectAllRowsAriaLabel: [];
+    singleSelectionColumnAriaLabel: [];
+    selectingAllAriaLabel: [];
+    cancelSelectionAriaLabel: [];
+}
+
 export interface DatagridContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
+    texts: {
+        translate: <K extends keyof Translations>(key: K, ...params: Translations[K]) => string;
+    };
     datasource: ListValue;
     refreshInterval: number;
     columns: ColumnsType[];
@@ -172,14 +186,6 @@ export interface DatagridContainerProps {
     configurationStorageType: ConfigurationStorageTypeEnum;
     configurationAttribute?: EditableValue<string>;
     storeFiltersInPersonalization: boolean;
-    filterSectionTitle?: DynamicValue<string>;
-    exportDialogLabel?: DynamicValue<string>;
-    cancelExportLabel?: DynamicValue<string>;
-    selectRowLabel?: DynamicValue<string>;
-    selectAllRowsLabel?: DynamicValue<string>;
-    singleSelectionColumnLabel?: DynamicValue<string>;
-    selectingAllLabel?: DynamicValue<string>;
-    cancelSelectionLabel?: DynamicValue<string>;
     selectedCountTemplateSingular?: DynamicValue<string>;
     selectedCountTemplatePlural?: DynamicValue<string>;
     selectAllText: DynamicValue<string>;
@@ -243,14 +249,6 @@ export interface DatagridPreviewProps {
     configurationAttribute: string;
     storeFiltersInPersonalization: boolean;
     onConfigurationChange: {} | null;
-    filterSectionTitle: string;
-    exportDialogLabel: string;
-    cancelExportLabel: string;
-    selectRowLabel: string;
-    selectAllRowsLabel: string;
-    singleSelectionColumnLabel: string;
-    selectingAllLabel: string;
-    cancelSelectionLabel: string;
     selectedCountTemplateSingular: string;
     selectedCountTemplatePlural: string;
     selectAllText: string;
