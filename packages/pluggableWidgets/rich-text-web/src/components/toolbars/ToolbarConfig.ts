@@ -675,7 +675,7 @@ const CT_ITEM_TO_BUTTON_MAP: Record<CtItemTypeEnum, string | null> = {
     size: "fontSize",
     color: "textColor",
     background: "backgroundColor",
-    header: "header",
+    header: "textFormat",
     fullscreen: "fullscreen",
     clean: "clearFormatting",
     tableBetter: "insertTable"
