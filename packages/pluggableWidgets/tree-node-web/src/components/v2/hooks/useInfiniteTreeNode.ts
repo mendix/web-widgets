@@ -1,7 +1,7 @@
 import { ObjectItem, Option } from "mendix";
 import { association, equals, literal, or } from "mendix/filters/builders";
 import { useCallback, useEffect, useRef } from "react";
-import { getItemId } from "./helpers";
+import { getItemId, getParentId } from "./helpers";
 import { TreeNodeContainerProps } from "../../../../typings/TreeNodeProps";
 
 export type ItemType = Array<Option<ObjectItem>>;
@@ -15,6 +15,10 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
     const loadedParentsByIdRef = useRef<Map<string, ObjectItem>>(new Map());
     // loadedChilds : track the pre-loaded nodes of expanded nodes.
     const loadedChildsByIdRef = useRef<Map<string, ObjectItem>>(new Map());
+    // expandedIds : nodes the user has opened. Their children have to be pre-loaded as they
+    // arrive, which is not always at expand time — they can still be in flight then, or be added
+    // later on by a microflow.
+    const expandedIdsRef = useRef<Set<string>>(new Set());
     const initializedRef = useRef(false);
     // Used only when startExpanded is false (only roots auto-expand; deeper tiers resolve via a
     // real click through appendItems). Round 1 (pre-existing): preload roots' children, gated on
@@ -46,6 +50,7 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
     const appendItems = useCallback(
         (newItem: ObjectItem, children?: ObjectItem[]) => {
             const parentId = getItemId(newItem);
+            expandedIdsRef.current.add(parentId);
 
             if (children && children.length > 0) {
                 children.forEach(child => {
@@ -54,7 +59,12 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
                     // this is needed to be able to know if a node has further level children before expanding it.
                     // Runs on every expand, including the first one — a node's own children being
                     // preloaded as part of its parent's expand must not delay preloading its grandchildren too.
-                    loadedChildsByIdRef.current.set(childId, child);
+                    // Skip a child that is already a loaded parent (expanded earlier, then
+                    // collapsed) — it would end up in both maps and duplicate a parent id in the
+                    // filter, which is meant to be a set.
+                    if (!loadedParentsByIdRef.current.has(childId)) {
+                        loadedChildsByIdRef.current.set(childId, child);
+                    }
                 });
             }
 
@@ -95,6 +105,12 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
                 return;
             }
 
+            // The three mechanisms below all run in the same pass and share one setFilter call.
+            // None of them may return early: round 1 fires on the first post-init update whether
+            // or not appendItems already populated the map, so returning from it would swallow
+            // the late-arrival sweep for every node the user expanded before that update.
+            let shouldRefilter = false;
+
             if (!round1DoneRef.current) {
                 // after the first load of the datasource,
                 // we want to pre-load the child nodes of roots
@@ -107,11 +123,8 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
                 if (loadedParentsByIdRef.current.size > 0) {
                     round1DoneRef.current = true;
                 }
-                datasource.setFilter(getDatasourceFilter(getExpandedFilterItems()));
-                return;
-            }
-
-            if (!round2DoneRef.current) {
+                shouldRefilter = true;
+            } else if (!round2DoneRef.current) {
                 // Roots' children have arrived — preload one level further for them too,
                 // exactly like appendItems does for a manually expanded node, so their own
                 // expand affordance is known without an extra click. Only advances once real
@@ -127,8 +140,29 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
                 });
                 if (addedAny) {
                     round2DoneRef.current = true;
-                    datasource.setFilter(getDatasourceFilter(getExpandedFilterItems()));
+                    shouldRefilter = true;
                 }
+            }
+
+            // Children of an expanded node can arrive after the expansion — still in flight when
+            // appendItems ran, or added later on. Pre-load them here too, so every visible node
+            // knows whether it has children of its own.
+            datasource.items?.forEach(item => {
+                const itemId = getItemId(item);
+
+                if (loadedParentsByIdRef.current.has(itemId) || loadedChildsByIdRef.current.has(itemId)) {
+                    return;
+                }
+
+                const parentId = getParentId(item, parentAssociation);
+                if (parentId && expandedIdsRef.current.has(parentId)) {
+                    loadedChildsByIdRef.current.set(itemId, item);
+                    shouldRefilter = true;
+                }
+            });
+
+            if (shouldRefilter) {
+                datasource.setFilter(getDatasourceFilter(getExpandedFilterItems()));
             }
 
             return;
@@ -136,6 +170,7 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
 
         initializedRef.current = true;
         loadedParentsByIdRef.current.clear();
+        expandedIdsRef.current.clear();
         round1DoneRef.current = false;
         round2DoneRef.current = false;
 
@@ -144,7 +179,7 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
         if (!startExpanded) {
             datasource.setFilter(getDatasourceFilter([undefined]));
         }
-    }, [datasource, getDatasourceFilter, getExpandedFilterItems, startExpanded]);
+    }, [datasource, getDatasourceFilter, getExpandedFilterItems, parentAssociation, startExpanded]);
 
     return {
         items: datasource.items,
