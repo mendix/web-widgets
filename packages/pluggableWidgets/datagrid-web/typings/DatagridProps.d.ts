@@ -116,13 +116,13 @@ export interface Translations {
     singleSelectionColumnAriaLabel: [];
     selectingAllAriaLabel: [];
     cancelSelectionAriaLabel: [];
-    loadMoreButtonCaption: [];
-    selectedCountTemplateSingular: [params: [count: string]];
-    selectedCountTemplatePlural: [params: [count: string]];
-    selectAllText: [];
-    selectAllTemplate: [params: [totalCount: string]];
-    allSelectedText: [params: [selectedCount: string]];
+    loadMoreButtonLabel: [];
+    selectAllButtonLabel: [];
+    selectAllWithCountButtonLabel: [params: [totalCount: string]];
     clearSelectionButtonLabel: [];
+    selectedCountSingular: [params: [count: string]];
+    selectedCountPlural: [params: [count: string]];
+    allSelectedText: [params: [selectedCount: string]];
 }
 
 export interface DatagridContainerProps {
@@ -177,7 +177,6 @@ export interface DatagridContainerProps {
     showPagingButtons: ShowPagingButtonsEnum;
     showNumberOfRows: boolean;
     pagingPosition: PagingPositionEnum;
-    loadMoreButtonCaption?: DynamicValue<string>;
     dynamicPageSize?: EditableValue<Big>;
     dynamicPage?: EditableValue<Big>;
     totalCountValue?: EditableValue<Big>;
@@ -193,12 +192,13 @@ export interface DatagridContainerProps {
     configurationStorageType: ConfigurationStorageTypeEnum;
     configurationAttribute?: EditableValue<string>;
     storeFiltersInPersonalization: boolean;
-    selectedCountTemplateSingular?: DynamicValue<string>;
-    selectedCountTemplatePlural?: DynamicValue<string>;
+    loadMoreButtonCaption?: DynamicValue<string>;
     selectAllText?: DynamicValue<string>;
     selectAllTemplate?: DynamicValue<string>;
-    allSelectedText?: DynamicValue<string>;
     clearSelectionButtonLabel?: DynamicValue<string>;
+    selectedCountTemplateSingular?: DynamicValue<string>;
+    selectedCountTemplatePlural?: DynamicValue<string>;
+    allSelectedText?: DynamicValue<string>;
 }
 
 export interface DatagridPreviewProps {
@@ -239,7 +239,6 @@ export interface DatagridPreviewProps {
     showPagingButtons: ShowPagingButtonsEnum;
     showNumberOfRows: boolean;
     pagingPosition: PagingPositionEnum;
-    loadMoreButtonCaption: string;
     dynamicPageSize: string;
     dynamicPage: string;
     totalCountValue: string;
@@ -256,10 +255,11 @@ export interface DatagridPreviewProps {
     configurationAttribute: string;
     storeFiltersInPersonalization: boolean;
     onConfigurationChange: {} | null;
-    selectedCountTemplateSingular: string;
-    selectedCountTemplatePlural: string;
+    loadMoreButtonCaption: string;
     selectAllText: string;
     selectAllTemplate: string;
-    allSelectedText: string;
     clearSelectionButtonLabel: string;
+    selectedCountTemplateSingular: string;
+    selectedCountTemplatePlural: string;
+    allSelectedText: string;
 }

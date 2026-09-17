@@ -4,12 +4,12 @@ import { Translations } from "../../typings/DatagridProps";
 import { MainGateProps } from "../../typings/MainGateProps";
 
 export const datagridOverrideMap = {
-    loadMoreButtonCaption: "loadMoreButtonCaption",
+    loadMoreButtonLabel: "loadMoreButtonCaption",
     clearSelectionButtonLabel: "clearSelectionButtonLabel",
-    selectedCountTemplateSingular: "selectedCountTemplateSingular",
-    selectedCountTemplatePlural: "selectedCountTemplatePlural",
-    selectAllText: "selectAllText",
-    selectAllTemplate: "selectAllTemplate",
+    selectedCountSingular: "selectedCountTemplateSingular",
+    selectedCountPlural: "selectedCountTemplatePlural",
+    selectAllButtonLabel: "selectAllText",
+    selectAllWithCountButtonLabel: "selectAllTemplate",
     allSelectedText: "allSelectedText"
 } satisfies OverrideMap<MainGateProps, Translations>;
 

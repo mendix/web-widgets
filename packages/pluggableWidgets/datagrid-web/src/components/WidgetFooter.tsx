@@ -38,7 +38,7 @@ export const WidgetFooter = observer(function WidgetFooter(): ReactElement | nul
                             onClick={() => paging.setPage(n => n + 1)}
                             tabIndex={0}
                         >
-                            {texts.get("loadMoreButtonCaption")}
+                            {texts.get("loadMoreButtonLabel")}
                         </button>
                     </div>
                 </If>

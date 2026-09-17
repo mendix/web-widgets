@@ -83,7 +83,7 @@ interface ObservableSelectorTexts {
 
 type SelectionTextsStore = {
     get(key: "clearSelectionButtonLabel"): string;
-    get(key: "selectedCountTemplateSingular" | "selectedCountTemplatePlural", params: string[]): string;
+    get(key: "selectedCountSingular" | "selectedCountPlural", params: string[]): string;
 };
 
 export function selectionCounterTextsStore(
@@ -96,8 +96,8 @@ export function selectionCounterTextsStore(
         },
         get selectedCountText() {
             const count = selectedCount.get();
-            if (count > 1) return textsStore.get("selectedCountTemplatePlural", [`${count}`]);
-            if (count === 1) return textsStore.get("selectedCountTemplateSingular", ["1"]);
+            if (count > 1) return textsStore.get("selectedCountPlural", [`${count}`]);
+            if (count === 1) return textsStore.get("selectedCountSingular", ["1"]);
             return "";
         }
     });

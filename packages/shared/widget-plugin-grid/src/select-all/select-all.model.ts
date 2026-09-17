@@ -32,8 +32,8 @@ export interface ObservableSelectAllTexts {
 }
 
 type SelectAllTextsStore = {
-    get(key: "selectAllText"): string;
-    get(key: "selectAllTemplate" | "allSelectedText", params: string[]): string;
+    get(key: "selectAllButtonLabel"): string;
+    get(key: "selectAllWithCountButtonLabel" | "allSelectedText", params: string[]): string;
 };
 
 /** @injectable */
@@ -47,8 +47,8 @@ export function selectAllTextsStore(
     return observable({
         get selectAllLabel() {
             const total = totalCount.get();
-            if (total > 0) return textsStore.get("selectAllTemplate", [`${total}`]);
-            return textsStore.get("selectAllText");
+            if (total > 0) return textsStore.get("selectAllWithCountButtonLabel", [`${total}`]);
+            return textsStore.get("selectAllButtonLabel");
         },
         get selectionStatus() {
             if (isAllItemsSelected.get()) return this.allSelectedText;

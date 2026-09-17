@@ -340,10 +340,6 @@
                         <enumerationValue key="both">Both</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="loadMoreButtonCaption" type="textTemplate" required="false">
-                    <caption>Load more caption</caption>
-                    <description />
-                </property>
                 <property key="dynamicPageSize" type="attribute" required="false">
                     <caption>Page size attribute</caption>
                     <description>Attribute to set the page size dynamically.</description>
@@ -446,156 +442,162 @@
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Texts">
-            <propertyGroup caption="Captions">
-                <property key="selectedCountTemplateSingular" type="textTemplate" required="false">
-                    <caption>Row count singular</caption>
-                    <description>Must include '{1}' to denote number position</description>
-                </property>
-                <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
-                    <caption>Row count plural</caption>
-                    <description>Must include '{1}' to denote number position</description>
+            <propertyGroup caption="System texts">
+                <systemProperty key="Text">
+                    <text key="filterSectionAriaLabel">
+                        <caption>[Aria label] Filter section</caption>
+                        <translations>
+                            <translation lang="en_US">Filter section</translation>
+                            <translation lang="nl_NL">Filtersectie</translation>
+                        </translations>
+                    </text>
+                    <text key="exportDialogAriaLabel">
+                        <caption>[Aria label] Export progress</caption>
+                        <translations>
+                            <translation lang="en_US">Export progress</translation>
+                            <translation lang="nl_NL">Exportvoortgang</translation>
+                        </translations>
+                    </text>
+                    <text key="cancelExportAriaLabel">
+                        <caption>[Aria label] Cancel data export</caption>
+                        <translations>
+                            <translation lang="en_US">Cancel data export</translation>
+                            <translation lang="nl_NL">Gegevensexport annuleren</translation>
+                        </translations>
+                    </text>
+                    <text key="selectRowAriaLabel">
+                        <caption>[Aria label] Select row</caption>
+                        <translations>
+                            <translation lang="en_US">Select row {1}</translation>
+                            <translation lang="nl_NL">Rij {1} selecteren</translation>
+                        </translations>
+                        <parameters>
+                            <parameter caption="Row number" />
+                        </parameters>
+                    </text>
+                    <text key="selectAllRowsAriaLabel">
+                        <caption>[Aria label] Select all rows</caption>
+                        <translations>
+                            <translation lang="en_US">Select all rows</translation>
+                            <translation lang="nl_NL">Selecteer alle rijen</translation>
+                        </translations>
+                    </text>
+                    <text key="singleSelectionColumnAriaLabel">
+                        <caption>[Aria label] Single selection column</caption>
+                        <translations>
+                            <translation lang="en_US">Select single row</translation>
+                            <translation lang="nl_NL">Selecteer enkele rij</translation>
+                        </translations>
+                    </text>
+                    <text key="selectingAllAriaLabel">
+                        <caption>[Aria label] Selecting all items</caption>
+                        <translations>
+                            <translation lang="en_US">Selecting all items...</translation>
+                            <translation lang="nl_NL">Alle items selecteren...</translation>
+                        </translations>
+                    </text>
+                    <text key="cancelSelectionAriaLabel">
+                        <caption>[Aria label] Cancel selection</caption>
+                        <translations>
+                            <translation lang="en_US">Cancel selection</translation>
+                            <translation lang="nl_NL">Selectie annuleren</translation>
+                        </translations>
+                    </text>
+                    <text key="loadMoreButtonLabel">
+                        <caption>[Button] Load more</caption>
+                        <translations>
+                            <translation lang="en_US">Load More</translation>
+                            <translation lang="nl_NL">Laad meer</translation>
+                        </translations>
+                    </text>
+                    <text key="selectAllButtonLabel">
+                        <caption>[Button] Select all</caption>
+                        <translations>
+                            <translation lang="en_US">Select all rows in the data source</translation>
+                            <translation lang="nl_NL">Alle rijen in de gegevensbron selecteren</translation>
+                        </translations>
+                    </text>
+                    <text key="selectAllWithCountButtonLabel">
+                        <caption>[Button] Select all with count</caption>
+                        <translations>
+                            <translation lang="en_US">Select all {1} rows in the data source</translation>
+                            <translation lang="nl_NL">Alle {1} rijen in de gegevensbron selecteren</translation>
+                        </translations>
+                        <parameters>
+                            <parameter caption="Total count" />
+                        </parameters>
+                    </text>
+                    <text key="clearSelectionButtonLabel">
+                        <caption>[Button] Clear selection</caption>
+                        <translations>
+                            <translation lang="en_US">Clear selection</translation>
+                            <translation lang="nl_NL">Selectie wissen</translation>
+                        </translations>
+                    </text>
+                    <text key="selectedCountSingular">
+                        <caption>[Text] Selected count singular</caption>
+                        <translations>
+                            <translation lang="en_US">{1} row selected</translation>
+                            <translation lang="nl_NL">{1} rij geselecteerd</translation>
+                        </translations>
+                        <parameters>
+                            <parameter caption="Count" />
+                        </parameters>
+                    </text>
+                    <text key="selectedCountPlural">
+                        <caption>[Text] Selected count plural</caption>
+                        <translations>
+                            <translation lang="en_US">{1} rows selected</translation>
+                            <translation lang="nl_NL">{1} rijen geselecteerd</translation>
+                        </translations>
+                        <parameters>
+                            <parameter caption="Count" />
+                        </parameters>
+                    </text>
+                    <text key="allSelectedText">
+                        <caption>[Text] All selected</caption>
+                        <translations>
+                            <translation lang="en_US">All {1} rows selected.</translation>
+                            <translation lang="nl_NL">Alle {1} rijen geselecteerd.</translation>
+                        </translations>
+                        <parameters>
+                            <parameter caption="Selected count" />
+                        </parameters>
+                    </text>
+                </systemProperty>
+            </propertyGroup>
+            <propertyGroup caption="Button">
+                <property key="loadMoreButtonCaption" type="textTemplate" required="false">
+                    <caption>Load more</caption>
+                    <description />
                 </property>
                 <property key="selectAllText" type="textTemplate" required="false">
-                    <caption>Select all (without total)</caption>
+                    <caption>Select all</caption>
                     <description>Used when total count is not available.</description>
                 </property>
                 <property key="selectAllTemplate" type="textTemplate" required="false">
-                    <caption>Select all (with total)</caption>
+                    <caption>Select all with count</caption>
                     <description>Used when total count is available. Must include '{1}' to denote number position.</description>
                 </property>
-                <property key="allSelectedText" type="textTemplate" required="false">
-                    <caption>Selection status</caption>
-                    <description>Must include '{1}' to denote number position.</description>
-                </property>
                 <property key="clearSelectionButtonLabel" type="textTemplate" required="false">
-                    <caption>Clear selection label</caption>
-                    <description>Customize the label of the 'Clear section' button</description>
+                    <caption>Clear selection</caption>
+                    <description>Customize the label of the 'Clear selection' button</description>
                 </property>
             </propertyGroup>
-        </propertyGroup>
-        <propertyGroup caption="System texts">
-            <systemProperty key="Text">
-                <text key="filterSectionAriaLabel">
-                    <caption>[Aria label] Filter section</caption>
-                    <translations>
-                        <translation lang="en_US">Filter section</translation>
-                        <translation lang="nl_NL">Filtersectie</translation>
-                    </translations>
-                </text>
-                <text key="exportDialogAriaLabel">
-                    <caption>[Aria label] Export progress</caption>
-                    <translations>
-                        <translation lang="en_US">Export progress</translation>
-                        <translation lang="nl_NL">Exportvoortgang</translation>
-                    </translations>
-                </text>
-                <text key="cancelExportAriaLabel">
-                    <caption>[Aria label] Cancel data export</caption>
-                    <translations>
-                        <translation lang="en_US">Cancel data export</translation>
-                        <translation lang="nl_NL">Gegevensexport annuleren</translation>
-                    </translations>
-                </text>
-                <text key="selectRowAriaLabel">
-                    <caption>[Aria label] Select row</caption>
-                    <translations>
-                        <translation lang="en_US">Select row {1}</translation>
-                        <translation lang="nl_NL">Rij {1} selecteren</translation>
-                    </translations>
-                    <parameters>
-                        <parameter caption="Row number" />
-                    </parameters>
-                </text>
-                <text key="selectAllRowsAriaLabel">
-                    <caption>[Aria label] Select all rows</caption>
-                    <translations>
-                        <translation lang="en_US">Select all rows</translation>
-                        <translation lang="nl_NL">Selecteer alle rijen</translation>
-                    </translations>
-                </text>
-                <text key="singleSelectionColumnAriaLabel">
-                    <caption>[Aria label] Single selection column</caption>
-                    <translations>
-                        <translation lang="en_US">Select single row</translation>
-                        <translation lang="nl_NL">Selecteer enkele rij</translation>
-                    </translations>
-                </text>
-                <text key="selectingAllAriaLabel">
-                    <caption>[Aria label] Selecting all items</caption>
-                    <translations>
-                        <translation lang="en_US">Selecting all items...</translation>
-                        <translation lang="nl_NL">Alle items selecteren...</translation>
-                    </translations>
-                </text>
-                <text key="cancelSelectionAriaLabel">
-                    <caption>[Aria label] Cancel selection</caption>
-                    <translations>
-                        <translation lang="en_US">Cancel selection</translation>
-                        <translation lang="nl_NL">Selectie annuleren</translation>
-                    </translations>
-                </text>
-                <text key="loadMoreButtonCaption">
-                    <caption>[Caption] Load more</caption>
-                    <translations>
-                        <translation lang="en_US">Load More</translation>
-                        <translation lang="nl_NL">Laad meer</translation>
-                    </translations>
-                </text>
-                <text key="selectedCountTemplateSingular">
-                    <caption>[Caption] Row count singular</caption>
-                    <translations>
-                        <translation lang="en_US">{1} row selected</translation>
-                        <translation lang="nl_NL">{1} rij geselecteerd</translation>
-                    </translations>
-                    <parameters>
-                        <parameter caption="Count" />
-                    </parameters>
-                </text>
-                <text key="selectedCountTemplatePlural">
-                    <caption>[Caption] Row count plural</caption>
-                    <translations>
-                        <translation lang="en_US">{1} rows selected</translation>
-                        <translation lang="nl_NL">{1} rijen geselecteerd</translation>
-                    </translations>
-                    <parameters>
-                        <parameter caption="Count" />
-                    </parameters>
-                </text>
-                <text key="selectAllText">
-                    <caption>[Caption] Select all (without total)</caption>
-                    <translations>
-                        <translation lang="en_US">Select all rows in the data source</translation>
-                        <translation lang="nl_NL">Alle rijen in de gegevensbron selecteren</translation>
-                    </translations>
-                </text>
-                <text key="selectAllTemplate">
-                    <caption>[Caption] Select all (with total)</caption>
-                    <translations>
-                        <translation lang="en_US">Select all {1} rows in the data source</translation>
-                        <translation lang="nl_NL">Alle {1} rijen in de gegevensbron selecteren</translation>
-                    </translations>
-                    <parameters>
-                        <parameter caption="Total count" />
-                    </parameters>
-                </text>
-                <text key="allSelectedText">
-                    <caption>[Caption] Selection status</caption>
-                    <translations>
-                        <translation lang="en_US">All {1} rows selected.</translation>
-                        <translation lang="nl_NL">Alle {1} rijen geselecteerd.</translation>
-                    </translations>
-                    <parameters>
-                        <parameter caption="Selected count" />
-                    </parameters>
-                </text>
-                <text key="clearSelectionButtonLabel">
-                    <caption>[Caption] Clear selection label</caption>
-                    <translations>
-                        <translation lang="en_US">Clear selection</translation>
-                        <translation lang="nl_NL">Selectie wissen</translation>
-                    </translations>
-                </text>
-            </systemProperty>
+            <propertyGroup caption="Text">
+                <property key="selectedCountTemplateSingular" type="textTemplate" required="false">
+                    <caption>Selected count singular</caption>
+                    <description>Must include '{1}' to denote number position</description>
+                </property>
+                <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
+                    <caption>Selected count plural</caption>
+                    <description>Must include '{1}' to denote number position</description>
+                </property>
+                <property key="allSelectedText" type="textTemplate" required="false">
+                    <caption>All selected</caption>
+                    <description>Must include '{1}' to denote number position.</description>
+                </property>
+            </propertyGroup>
         </propertyGroup>
     </properties>
 </widget>

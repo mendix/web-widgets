@@ -136,7 +136,7 @@ function WidgetFooter(): ReactElement {
                 <div className={cls.pbMid}>
                     {props.pagination === "loadMore" ? (
                         <button className="btn btn-primary widget-datagrid-load-more">
-                            {props.loadMoreButtonCaption || props.translate("loadMoreButtonCaption")}
+                            {props.loadMoreButtonCaption || props.translate("loadMoreButtonLabel")}
                         </button>
                     ) : null}
                 </div>
@@ -306,7 +306,7 @@ const SelectionCounter = (): ReactNode => {
     return (
         <div className="widget-datagrid-selection-counter">
             <span className="widget-datagrid-selection-text" aria-live="polite" aria-atomic="true">
-                {props.selectedCountTemplateSingular || props.translate("selectedCountTemplateSingular")}
+                {props.selectedCountTemplateSingular || props.translate("selectedCountSingular")}
             </span>
             &nbsp;|&nbsp;
             <button className="widget-datagrid-btn-link">
