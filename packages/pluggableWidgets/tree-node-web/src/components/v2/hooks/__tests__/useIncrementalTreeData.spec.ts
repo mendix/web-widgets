@@ -252,7 +252,6 @@ describe("useIncrementalTreeData", () => {
                 { initialProps: { items: [makeItem("a"), makeItem("b")] } }
             );
 
-            rerender({ items: [makeItem("a"), makeItem("b")] });
             expect(result.current.every(n => n.treeNodeState === TreeNodeState.EXPANDED)).toBe(true);
 
             rerender({ items: [makeItem("b"), makeItem("a")] });
@@ -276,7 +275,6 @@ describe("useIncrementalTreeData", () => {
                 { initialProps: { items: [makeItem("a"), makeItem("b")] } as { items: ObjectItem[] | undefined } }
             );
 
-            rerender({ items: [makeItem("a"), makeItem("b")] });
             expand(result.current[0]);
 
             // datasource reloading: items is undefined until the new data arrives
@@ -299,7 +297,6 @@ describe("useIncrementalTreeData", () => {
                 { initialProps: { items, config: makeConfig() } }
             );
 
-            rerender({ items: [...items], config: makeConfig() });
             expand(result.current[0]);
 
             // Mendix hands over new prop instances on every refresh, which forces a rebuild
@@ -318,7 +315,6 @@ describe("useIncrementalTreeData", () => {
                 { initialProps: { items: [makeItem("a"), makeItem("b"), makeItem("c")] } }
             );
 
-            rerender({ items: [makeItem("a"), makeItem("b"), makeItem("c")] });
             expand(result.current[0]);
 
             rerender({ items: [makeItem("a"), makeItem("c")] });
@@ -336,7 +332,6 @@ describe("useIncrementalTreeData", () => {
                 { initialProps: { items: [makeItem("a")], config } }
             );
 
-            rerender({ items: [makeItem("a")], config });
             expect(result.current[0].treeNodeState).toBe(TreeNodeState.EXPANDED);
 
             result.current[0].treeNodeState = TreeNodeState.COLLAPSED_WITH_CSS;

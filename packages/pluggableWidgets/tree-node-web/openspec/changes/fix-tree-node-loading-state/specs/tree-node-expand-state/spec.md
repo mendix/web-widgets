@@ -80,6 +80,45 @@ The v2 Tree Node widget SHALL NOT auto-cascade the preload beyond the existing c
 - **WHEN** "Start expanded" is No and a 3rd-tier item arrives as a result of the existing 2-round preload
 - **THEN** no further automatic preload round is triggered for it — expanding it further still requires a real click
 
-### Requirement: Auto-expanded root nodes (`startExpanded = Yes`) — NOT YET IMPLEMENTED
+### Requirement: A child that arrives after its parent was expanded still restores that parent's expand affordance
 
-The equivalent one-level lookahead for automatically auto-expanded root nodes (so a root's children already show their correct expand affordance without needing the root collapsed and re-expanded) was attempted and reverted after it broke a live repro project (see `design.md` D3). No requirement is claimed here for this case. A collapse+re-expand of a root node is currently still needed to reveal a 3rd tier under `startExpanded = Yes`; this is a known, pre-existing, unfixed gap, tracked for a future change once root-caused.
+The v2 Tree Node widget SHALL keep preloading one level ahead for nodes the user has already expanded, so a child that becomes known only after the expand — because it was still in flight at expand time, or because it was created later — is still preloaded, and the affected node's expand affordance is still correct. This applies whether or not the node's children were already known when `appendItems` ran for it.
+
+#### Scenario: Children still in flight at expand time are preloaded once they arrive
+
+- **WHEN** a user expands a node whose children have not been delivered yet, and those children arrive in a later datasource delivery
+- **THEN** the widget preloads those children's own children, so each arriving child shows its correct expand affordance without the user collapsing and re-expanding the parent
+
+#### Scenario: A child created after the expand is preloaded
+
+- **WHEN** a node is already expanded with known children, and a microflow adds a further child to that node
+- **THEN** the widget preloads the newly-added child's own children, so the new child shows its correct expand affordance as soon as it is rendered
+
+#### Scenario: Repeated deliveries do not re-request the same parent
+
+- **WHEN** a datasource delivery introduces no children that are not already tracked as a known parent or a known preloaded child
+- **THEN** no further preload request is issued for that delivery, and no parent id appears more than once in the preload filter
+
+### Requirement: A node's expanded or collapsed state survives a tree rebuild
+
+The v2 Tree Node widget SHALL remember each node's expanded/collapsed state by item id and restore it when that node is re-created during a rebuild of the incremental node map, so a datasource refresh never silently collapses the tree the user had opened. A remembered state MUST take precedence over the `startExpanded` default, in both directions.
+
+#### Scenario: Expansion survives new prop instances on refresh
+
+- **WHEN** the Mendix client hands the widget new prop instances on a refresh (which the widget compares by reference and therefore treats as a configuration change, rebuilding the node map)
+- **THEN** every re-created node comes back with the expanded/collapsed state it had before the rebuild, not with the `startExpanded` default
+
+#### Scenario: Expansion of remaining nodes survives an item removal
+
+- **WHEN** a single item is deleted from the datasource, triggering a rebuild of the node map
+- **THEN** the remaining nodes come back with the expanded/collapsed state they had before the removal
+
+#### Scenario: A user-collapsed node stays collapsed even when "Start expanded" is Yes
+
+- **WHEN** "Start expanded" is Yes, the user collapses a node, and a later refresh rebuilds the node map
+- **THEN** that node comes back collapsed — the remembered state wins over the `startExpanded` default
+
+#### Scenario: A node never seen before still follows the configured default
+
+- **WHEN** an item id appears that has no remembered state (a genuinely new node)
+- **THEN** that node is created directly in the state `startExpanded` dictates (`EXPANDED` or `COLLAPSED_WITH_JS`) — never in a stored `LOADING` state
