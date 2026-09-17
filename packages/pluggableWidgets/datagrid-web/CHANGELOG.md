@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.5] - 2026-09-10
+
 ### Fixed
 
 - We fixed an issue where the top bar did not stack its content vertically in narrow containers.
