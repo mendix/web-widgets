@@ -343,10 +343,6 @@
                 <property key="loadMoreButtonCaption" type="textTemplate" required="false">
                     <caption>Load more caption</caption>
                     <description />
-                    <translations>
-                        <translation lang="en_US">Load More</translation>
-                        <translation lang="nl_NL">Laad meer</translation>
-                    </translations>
                 </property>
                 <property key="dynamicPageSize" type="attribute" required="false">
                     <caption>Page size attribute</caption>
@@ -453,51 +449,27 @@
             <propertyGroup caption="Captions">
                 <property key="selectedCountTemplateSingular" type="textTemplate" required="false">
                     <caption>Row count singular</caption>
-                    <description>Must include '%d' to denote number position</description>
-                    <translations>
-                        <translation lang="en_US">%d row selected</translation>
-                        <translation lang="nl_NL">%d rij geselecteerd</translation>
-                    </translations>
+                    <description>Must include '{1}' to denote number position</description>
                 </property>
                 <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
                     <caption>Row count plural</caption>
-                    <description>Must include '%d' to denote number position</description>
-                    <translations>
-                        <translation lang="en_US">%d rows selected</translation>
-                        <translation lang="nl_NL">%d rijen geselecteerd</translation>
-                    </translations>
+                    <description>Must include '{1}' to denote number position</description>
                 </property>
-                <property key="selectAllText" type="textTemplate">
-                    <caption>Select all (without total count)</caption>
-                    <description>This caption used when total count is not available.</description>
-                    <translations>
-                        <translation lang="en_US">Select all rows in the data source</translation>
-                        <translation lang="nl_NL">Selecteer alle rijen in de gegevensbron</translation>
-                    </translations>
+                <property key="selectAllText" type="textTemplate" required="false">
+                    <caption>Select all (without total)</caption>
+                    <description>Used when total count is not available.</description>
                 </property>
-                <property key="selectAllTemplate" type="textTemplate">
-                    <caption>Select all (with total count)</caption>
-                    <description>This caption used when total count is available.</description>
-                    <translations>
-                        <translation lang="en_US">Select all %d rows in the data source</translation>
-                        <translation lang="nl_NL">Selecteer alle %d rijen in de gegevensbron</translation>
-                    </translations>
+                <property key="selectAllTemplate" type="textTemplate" required="false">
+                    <caption>Select all (with total)</caption>
+                    <description>Used when total count is available. Must include '{1}' to denote number position.</description>
                 </property>
-                <property key="allSelectedText" type="textTemplate">
+                <property key="allSelectedText" type="textTemplate" required="false">
                     <caption>Selection status</caption>
-                    <description />
-                    <translations>
-                        <translation lang="en_US">All %d rows selected.</translation>
-                        <translation lang="nl_NL">Alle %d rijen geselecteerd.</translation>
-                    </translations>
+                    <description>Must include '{1}' to denote number position.</description>
                 </property>
                 <property key="clearSelectionButtonLabel" type="textTemplate" required="false">
                     <caption>Clear selection label</caption>
                     <description>Customize the label of the 'Clear section' button</description>
-                    <translations>
-                        <translation lang="en_US">Clear selection</translation>
-                        <translation lang="nl_NL">Selectie wissen</translation>
-                    </translations>
                 </property>
             </propertyGroup>
         </propertyGroup>
@@ -560,6 +532,67 @@
                     <translations>
                         <translation lang="en_US">Cancel selection</translation>
                         <translation lang="nl_NL">Selectie annuleren</translation>
+                    </translations>
+                </text>
+                <text key="loadMoreButtonCaption">
+                    <caption>[Caption] Load more</caption>
+                    <translations>
+                        <translation lang="en_US">Load More</translation>
+                        <translation lang="nl_NL">Laad meer</translation>
+                    </translations>
+                </text>
+                <text key="selectedCountTemplateSingular">
+                    <caption>[Caption] Row count singular</caption>
+                    <translations>
+                        <translation lang="en_US">{1} row selected</translation>
+                        <translation lang="nl_NL">{1} rij geselecteerd</translation>
+                    </translations>
+                    <parameters>
+                        <parameter caption="Count" />
+                    </parameters>
+                </text>
+                <text key="selectedCountTemplatePlural">
+                    <caption>[Caption] Row count plural</caption>
+                    <translations>
+                        <translation lang="en_US">{1} rows selected</translation>
+                        <translation lang="nl_NL">{1} rijen geselecteerd</translation>
+                    </translations>
+                    <parameters>
+                        <parameter caption="Count" />
+                    </parameters>
+                </text>
+                <text key="selectAllText">
+                    <caption>[Caption] Select all (without total)</caption>
+                    <translations>
+                        <translation lang="en_US">Select all rows in the data source</translation>
+                        <translation lang="nl_NL">Alle rijen in de gegevensbron selecteren</translation>
+                    </translations>
+                </text>
+                <text key="selectAllTemplate">
+                    <caption>[Caption] Select all (with total)</caption>
+                    <translations>
+                        <translation lang="en_US">Select all {1} rows in the data source</translation>
+                        <translation lang="nl_NL">Alle {1} rijen in de gegevensbron selecteren</translation>
+                    </translations>
+                    <parameters>
+                        <parameter caption="Total count" />
+                    </parameters>
+                </text>
+                <text key="allSelectedText">
+                    <caption>[Caption] Selection status</caption>
+                    <translations>
+                        <translation lang="en_US">All {1} rows selected.</translation>
+                        <translation lang="nl_NL">Alle {1} rijen geselecteerd.</translation>
+                    </translations>
+                    <parameters>
+                        <parameter caption="Selected count" />
+                    </parameters>
+                </text>
+                <text key="clearSelectionButtonLabel">
+                    <caption>[Caption] Clear selection label</caption>
+                    <translations>
+                        <translation lang="en_US">Clear selection</translation>
+                        <translation lang="nl_NL">Selectie wissen</translation>
                     </translations>
                 </text>
             </systemProperty>

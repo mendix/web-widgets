@@ -1,12 +1,5 @@
-import { DynamicValue } from "mendix";
 import { observable, reaction } from "mobx";
-import {
-    ComputedAtom,
-    createEmitter,
-    DerivedPropsGate,
-    disposeBatch,
-    Emitter
-} from "@mendix/widget-plugin-mobx-kit/main";
+import { ComputedAtom, createEmitter, disposeBatch, Emitter } from "@mendix/widget-plugin-mobx-kit/main";
 
 export type ServiceEvents = {
     loadstart: ProgressEvent;
@@ -38,13 +31,14 @@ export interface ObservableSelectAllTexts {
     selectAllLabel: string;
 }
 
+type SelectAllTextsStore = {
+    get(key: "selectAllText"): string;
+    get(key: "selectAllTemplate" | "allSelectedText", params: string[]): string;
+};
+
 /** @injectable */
 export function selectAllTextsStore(
-    gate: DerivedPropsGate<{
-        allSelectedText?: DynamicValue<string>;
-        selectAllTemplate?: DynamicValue<string>;
-        selectAllText?: DynamicValue<string>;
-    }>,
+    textsStore: SelectAllTextsStore,
     selectedCount: ComputedAtom<number>,
     selectedTexts: { selectedCountText: string },
     totalCount: ComputedAtom<number>,
@@ -52,20 +46,16 @@ export function selectAllTextsStore(
 ): ObservableSelectAllTexts {
     return observable({
         get selectAllLabel() {
-            const selectAllFormat = gate.props.selectAllTemplate?.value || "Select all %d rows in the data source";
-            const selectAllText = gate.props.selectAllText?.value || "Select all rows in the data source";
             const total = totalCount.get();
-            if (total > 0) return selectAllFormat.replace("%d", `${total}`);
-            return selectAllText;
+            if (total > 0) return textsStore.get("selectAllTemplate", [`${total}`]);
+            return textsStore.get("selectAllText");
         },
         get selectionStatus() {
             if (isAllItemsSelected.get()) return this.allSelectedText;
             return selectedTexts.selectedCountText;
         },
         get allSelectedText() {
-            const str = gate.props.allSelectedText?.value ?? "All %d rows selected.";
-            const count = selectedCount.get();
-            return str.replace("%d", `${count}`);
+            return textsStore.get("allSelectedText", [`${selectedCount.get()}`]);
         }
     });
 }

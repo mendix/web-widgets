@@ -30,6 +30,8 @@ export type MainGateProps = Pick<
     | "rowClass"
     | "selectAllTemplate"
     | "selectAllText"
+    | "selectedCountTemplateSingular"
+    | "selectedCountTemplatePlural"
     | "selectionCounterPosition"
     | "showNumberOfRows"
     | "showPagingButtons"

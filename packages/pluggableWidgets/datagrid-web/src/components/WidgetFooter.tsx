@@ -9,7 +9,7 @@ import { useCustomPagination, usePaginationConfig, usePaginationVM, useTexts } f
 export const WidgetFooter = observer(function WidgetFooter(): ReactElement | null {
     const pgConfig = usePaginationConfig();
     const paging = usePaginationVM();
-    const { loadMoreButtonCaption } = useTexts();
+    const texts = useTexts();
     const selectionCounterVM = useSelectionCounterViewModel();
     const customPagination = useCustomPagination();
 
@@ -38,7 +38,7 @@ export const WidgetFooter = observer(function WidgetFooter(): ReactElement | nul
                             onClick={() => paging.setPage(n => n + 1)}
                             tabIndex={0}
                         >
-                            {loadMoreButtonCaption}
+                            {texts.get("loadMoreButtonCaption")}
                         </button>
                     </div>
                 </If>

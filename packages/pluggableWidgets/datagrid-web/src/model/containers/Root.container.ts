@@ -17,8 +17,8 @@ import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-
 
 import { columnCount, visibleColumnsCountAtom } from "../models/columns.model";
 import { rowsAtom } from "../models/rows.model";
+import { createDatagridTextsStore } from "../createDatagridTextsStore";
 import { DatagridSetupService } from "../services/DatagridSetup.service";
-import { TextsService } from "../services/Texts.service";
 import { PageSizeStore } from "../stores/PageSize.store";
 import { CORE_TOKENS as CORE } from "../tokens";
 
@@ -43,11 +43,9 @@ injected(
 );
 injected(isCurrentPageSelectedAtom, CORE.mainGate);
 injected(selectedCountMultiAtom, CORE.mainGate);
-injected(selectionCounterTextsStore, CORE.mainGate, CORE.selection.selectedCount);
+injected(createDatagridTextsStore, CORE.mainGate);
+injected(selectionCounterTextsStore, CORE.widgetTextsStore, CORE.selection.selectedCount);
 injected(PageSizeStore, CORE.initPageSize.optional);
-
-// other
-injected(TextsService, CORE.mainGate);
 
 /**
  * Root container for bindings that can be shared down the hierarchy.
@@ -80,7 +78,7 @@ export class RootContainer extends Container {
         this.bind(CORE.selection.isCurrentPageSelected).toInstance(isCurrentPageSelectedAtom).inTransientScope();
         this.bind(CORE.selection.selectedCounterTextsStore).toInstance(selectionCounterTextsStore).inTransientScope();
         this.bind(CORE.selection.isAllItemsSelected).toInstance(isAllItemsSelectedAtom).inTransientScope();
-        this.bind(CORE.texts).toInstance(TextsService).inTransientScope();
+        this.bind(CORE.widgetTextsStore).toInstance(createDatagridTextsStore).inTransientScope();
 
         // paging
         this.bind(CORE.pageSizeStore).toInstance(PageSizeStore).inSingletonScope();

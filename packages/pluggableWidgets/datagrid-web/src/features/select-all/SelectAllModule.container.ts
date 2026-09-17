@@ -15,7 +15,7 @@ import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../../model/tok
 
 injected(
     selectAllTextsStore,
-    SA_TOKENS.gate,
+    CORE.widgetTextsStore,
     CORE.selection.selectedCount,
     CORE.selection.selectedCounterTextsStore,
     CORE.atoms.totalCount,
@@ -34,7 +34,7 @@ injected(
 injected(
     SelectionProgressDialogViewModel,
     CORE.setupService,
-    SA_TOKENS.gate,
+    CORE.widgetTextsStore,
     SA_TOKENS.progressService,
     SA_TOKENS.selectAllService
 );

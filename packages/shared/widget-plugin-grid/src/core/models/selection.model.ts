@@ -1,4 +1,3 @@
-import { DynamicValue } from "mendix";
 import { computed, observable } from "mobx";
 import { atomFactory, ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 
@@ -82,25 +81,23 @@ interface ObservableSelectorTexts {
     selectedCountText: string;
 }
 
+type SelectionTextsStore = {
+    get(key: "clearSelectionButtonLabel"): string;
+    get(key: "selectedCountTemplateSingular" | "selectedCountTemplatePlural", params: string[]): string;
+};
+
 export function selectionCounterTextsStore(
-    gate: DerivedPropsGate<{
-        clearSelectionButtonLabel?: DynamicValue<string>;
-        selectedCountTemplateSingular?: DynamicValue<string>;
-        selectedCountTemplatePlural?: DynamicValue<string>;
-    }>,
+    textsStore: SelectionTextsStore,
     selectedCount: ComputedAtom<number>
 ): ObservableSelectorTexts {
     return observable({
         get clearSelectionButtonLabel() {
-            return gate.props.clearSelectionButtonLabel?.value || "Clear selection";
+            return textsStore.get("clearSelectionButtonLabel");
         },
         get selectedCountText() {
-            const formatSingular = gate.props.selectedCountTemplateSingular?.value || "%d item selected";
-            const formatPlural = gate.props.selectedCountTemplatePlural?.value || "%d items selected";
             const count = selectedCount.get();
-
-            if (count > 1) return formatPlural.replace("%d", `${count}`);
-            if (count === 1) return formatSingular.replace("%d", "1");
+            if (count > 1) return textsStore.get("selectedCountTemplatePlural", [`${count}`]);
+            if (count === 1) return textsStore.get("selectedCountTemplateSingular", ["1"]);
             return "";
         }
     });

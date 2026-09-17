@@ -47,7 +47,7 @@ import { DatagridConfig } from "./configs/Datagrid.config";
 import { RowClassProvider, RowKeyProvider } from "./models/rows.model";
 import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./services/DerivedLoaderController";
-import { TextsService } from "./services/Texts.service";
+import { DatagridTextsStore } from "./createDatagridTextsStore";
 import { GridSizeStore } from "./stores/GridSize.store";
 
 /** Tokens to resolve dependencies from the container. */
@@ -86,7 +86,7 @@ export const CORE_TOKENS = {
 
     setupService: token<DatagridSetupService>("DatagridSetupService"),
 
-    texts: token<TextsService>("@srv:TextsService")
+    widgetTextsStore: token<DatagridTextsStore>("@store:WidgetTextsStore")
 };
 
 /** Datagrid tokens. */

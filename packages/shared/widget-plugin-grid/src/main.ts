@@ -1,3 +1,5 @@
+export { createTextsStore } from "./core/texts.store";
+export type { DerivedTextsStore, OverrideMap } from "./core/texts.store";
 export { DatasourceService } from "./core/Datasource.service";
 export { ProgressService } from "./core/Progress.service";
 export { createClickActionHelper } from "./helpers/createClickActionHelper";

@@ -116,6 +116,13 @@ export interface Translations {
     singleSelectionColumnAriaLabel: [];
     selectingAllAriaLabel: [];
     cancelSelectionAriaLabel: [];
+    loadMoreButtonCaption: [];
+    selectedCountTemplateSingular: [params: [count: string]];
+    selectedCountTemplatePlural: [params: [count: string]];
+    selectAllText: [];
+    selectAllTemplate: [params: [totalCount: string]];
+    allSelectedText: [params: [selectedCount: string]];
+    clearSelectionButtonLabel: [];
 }
 
 export interface DatagridContainerProps {
@@ -188,9 +195,9 @@ export interface DatagridContainerProps {
     storeFiltersInPersonalization: boolean;
     selectedCountTemplateSingular?: DynamicValue<string>;
     selectedCountTemplatePlural?: DynamicValue<string>;
-    selectAllText: DynamicValue<string>;
-    selectAllTemplate: DynamicValue<string>;
-    allSelectedText: DynamicValue<string>;
+    selectAllText?: DynamicValue<string>;
+    selectAllTemplate?: DynamicValue<string>;
+    allSelectedText?: DynamicValue<string>;
     clearSelectionButtonLabel?: DynamicValue<string>;
 }
 

@@ -6,7 +6,7 @@ import { useDatagridConfig, useSelectActions, useSelectionHelper, useTexts } fro
 
 export function CheckboxColumnHeader(): ReactElement {
     const { selectAllCheckboxEnabled, checkboxColumnEnabled } = useDatagridConfig();
-    const { singleSelectionColumnLabel } = useTexts();
+    const texts = useTexts();
     const selectionHelper = useSelectionHelper();
 
     if (checkboxColumnEnabled === false) {
@@ -19,14 +19,14 @@ export function CheckboxColumnHeader(): ReactElement {
                 <Checkbox />
             </If>
             <If condition={selectionHelper?.type === "Single"}>
-                <span className="sr-only">{singleSelectionColumnLabel}</span>
+                <span className="sr-only">{texts.get("singleSelectionColumnAriaLabel")}</span>
             </If>
         </div>
     );
 }
 
 const Checkbox = observer(function Checkbox(): ReactNode {
-    const { selectAllRowsLabel } = useTexts();
+    const texts = useTexts();
     const selectionHelper = useSelectionHelper();
     const selectActions = useSelectActions();
 
@@ -37,7 +37,7 @@ const Checkbox = observer(function Checkbox(): ReactNode {
         <ThreeStateCheckBox
             value={selectionHelper.selectionStatus}
             onChange={() => selectActions.selectPage()}
-            aria-label={selectAllRowsLabel}
+            aria-label={texts.get("selectAllRowsAriaLabel")}
         />
     );
 });

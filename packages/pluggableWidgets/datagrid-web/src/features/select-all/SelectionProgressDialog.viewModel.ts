@@ -1,9 +1,7 @@
 import { action, makeAutoObservable, reaction } from "mobx";
 import { SelectAllService, TaskProgressService } from "@mendix/widget-plugin-grid/main";
-import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { DatagridContainerProps } from "../../../typings/DatagridProps";
-
-type DynamicProps = Pick<DatagridContainerProps, "texts">;
+import { SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { DatagridTextsStore } from "../../model/createDatagridTextsStore";
 
 /** @injectable */
 export class SelectionProgressDialogViewModel implements SetupComponent {
@@ -17,7 +15,7 @@ export class SelectionProgressDialogViewModel implements SetupComponent {
 
     constructor(
         host: SetupComponentHost,
-        private readonly gate: DerivedPropsGate<DynamicProps>,
+        private readonly textsStore: DatagridTextsStore,
         private readonly progress: TaskProgressService,
         private readonly selectService: SelectAllService
     ) {
@@ -43,11 +41,11 @@ export class SelectionProgressDialogViewModel implements SetupComponent {
     }
 
     get selectingAllLabel(): string {
-        return this.gate.props.texts.translate("selectingAllAriaLabel");
+        return this.textsStore.get("selectingAllAriaLabel");
     }
 
     get cancelSelectionLabel(): string {
-        return this.gate.props.texts.translate("cancelSelectionAriaLabel");
+        return this.textsStore.get("cancelSelectionAriaLabel");
     }
 
     setup(): () => void {

@@ -17,13 +17,13 @@ function HeaderContainer(props: PropsWithChildren): ReactElement {
 }
 
 export const WidgetHeader = function WidgetHeader(): ReactElement | null {
-    const { headerAriaLabel } = useTexts();
+    const texts = useTexts();
     const { filtersPlaceholder } = useMainGate().props;
 
     if (!filtersPlaceholder) return null;
 
     return (
-        <div className="widget-datagrid-header header-filters" aria-label={headerAriaLabel}>
+        <div className="widget-datagrid-header header-filters" aria-label={texts.get("filterSectionAriaLabel")}>
             <HeaderContainer>{filtersPlaceholder}</HeaderContainer>
         </div>
     );
