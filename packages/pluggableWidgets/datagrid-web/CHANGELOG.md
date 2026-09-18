@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.6] - 2026-09-18
+
 ### Fixed
 
 - We fixed an issue where custom pagination ignored "Position of pagination" and always rendered below the grid. It now renders above the grid, below the grid, or — for "Both" — once, below the grid.
+
 - We fixed an issue where exporting a date column to Excel could write the previous calendar day, or add a time that is not shown in the grid. Exported dates and times now match what the grid displays, regardless of the time zone.
 
 ## [3.11.5] - 2026-09-10
