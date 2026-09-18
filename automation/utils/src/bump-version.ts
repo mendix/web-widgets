@@ -1,56 +1,79 @@
 import { spawnSync } from "child_process";
-import { promises as fs } from "fs";
+import { existsSync, promises as fs, readFileSync } from "fs";
 import { join } from "path";
 import { nextTick } from "process";
 import chalk from "chalk";
 import { prompt } from "enquirer";
 import { PackageListing } from "./monorepo";
+import { Version } from "./version";
 
 export type BumpVersionType = "patch" | "minor" | "major" | string;
 
 export function getNewVersion(bumpVersionType: BumpVersionType, currentVersion: string): string {
-    const [major, minor, patch] = currentVersion.split(".");
+    const version = Version.fromString(currentVersion);
     switch (bumpVersionType) {
         case "patch":
-            return [major, minor, Number(patch) + 1].join(".");
+            return version.bumpPatch().format();
         case "minor":
-            return [major, Number(minor) + 1, 0].join(".");
+            return version.bumpMinor().format();
         case "major":
-            return [Number(major) + 1, 0, 0].join(".");
+            return version.bumpMajor().format();
         default:
             return bumpVersionType;
     }
 }
 
+export function packageXmlPath(path: string): string {
+    return join(path, "src", "package.xml");
+}
+
+export function hasPackageXml(path: string): boolean {
+    return existsSync(packageXmlPath(path));
+}
+
+/**
+ * `pnpm version` reports failures (invalid or unchanged version) on stderr and
+ * leaves the file alone, so the result is read back rather than trusted.
+ */
 export function bumpPackageJson(path: string, version: string): void {
-    spawnSync("pnpm", ["version", version], { cwd: path });
+    const packageJsonFile = join(path, "package.json");
+    const result = spawnSync("pnpm", ["version", version], { cwd: path, encoding: "utf8" });
+    const written = <string | undefined>JSON.parse(readFileSync(packageJsonFile, "utf8")).version;
+
+    if (written !== version) {
+        throw new Error(
+            `Failed to set version '${version}' in ${packageJsonFile}, it is still '${written}'. ${(
+                result.stderr ?? ""
+            ).trim()}`
+        );
+    }
 }
 
 export async function bumpXml(path: string, version: string): Promise<boolean> {
-    const packageXmlFile = join(path, "src", "package.xml");
-    try {
-        const content = await fs.readFile(packageXmlFile);
-        if (content) {
-            const newContent = content.toString().replace(/version=.+xmlns/, `version="${version}" xmlns`);
-            await fs.writeFile(packageXmlFile, newContent);
-            return true;
-        }
-        return false;
-    } catch (e) {
-        throw new Error("package.xml not found");
+    const packageXmlFile = packageXmlPath(path);
+
+    if (!hasPackageXml(path)) {
+        throw new Error(`package.xml not found at ${packageXmlFile}`);
     }
+
+    const content = await fs.readFile(packageXmlFile);
+    const newContent = content.toString().replace(/version=.+xmlns/, `version="${version}" xmlns`);
+    await fs.writeFile(packageXmlFile, newContent);
+    return true;
 }
 
 export async function writeVersion(pkg: PackageListing, version: string): Promise<void> {
     bumpPackageJson(pkg.path, version);
-    try {
-        await bumpXml(pkg.path, version);
-    } catch {
+
+    if (!hasPackageXml(pkg.path)) {
         nextTick(() => {
             const msg = `[WARN] Update version: package ${pkg.name} is missing package.xml, skip`;
             console.warn(chalk.yellow(msg));
         });
+        return;
     }
+
+    await bumpXml(pkg.path, version);
 }
 
 export async function selectBumpVersionType(currentVersion: string): Promise<BumpVersionType> {

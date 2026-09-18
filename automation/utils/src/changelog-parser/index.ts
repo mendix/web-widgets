@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync } from "fs";
 import { join } from "path";
+import { getPackageInfo } from "../package-info";
 import { Version } from "../version";
 import { parse as parseModuleChangelogFile } from "./parser/module/module";
 import { parse as parseWidgetChangelogFile } from "./parser/widget/widget";
@@ -301,4 +302,18 @@ export async function getWidgetChangelog(path: string): Promise<WidgetChangelogF
 
 export async function getModuleChangelog(path: string, moduleName: string): Promise<ModuleChangelogFileWrapper> {
     return ModuleChangelogFileWrapper.fromFile(join(path, "CHANGELOG.md"), moduleName);
+}
+
+/**
+ * Reads a package's CHANGELOG.md with the parser matching its format. Packages
+ * declare the format with `mxpackage.changelogType` and fall back to their
+ * `mxpackage.type` when they don't (which is all but one widget).
+ */
+export async function getPackageChangelog(
+    path: string
+): Promise<WidgetChangelogFileWrapper | ModuleChangelogFileWrapper> {
+    const info = await getPackageInfo(path);
+    return (info.mxpackage.changelogType ?? info.mxpackage.type) === "widget"
+        ? getWidgetChangelog(path)
+        : getModuleChangelog(path, info.mxpackage.name);
 }

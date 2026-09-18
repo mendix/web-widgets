@@ -32,7 +32,7 @@ export class Version {
     }
 
     bumpMajor(): Version {
-        return new Version(this.major, this.minor + 1, 0, undefined);
+        return new Version(this.major + 1, 0, 0, undefined);
     }
 
     format(withBuild = false): string {
@@ -43,6 +43,22 @@ export class Version {
         }
 
         return withBuild ? `${v}.${this.build}` : v;
+    }
+
+    isGreaterThan(anotherVersion: Version): boolean {
+        const parts = [
+            [this.major, anotherVersion.major],
+            [this.minor, anotherVersion.minor],
+            [this.patch, anotherVersion.patch]
+        ];
+
+        for (const [own, other] of parts) {
+            if (own !== other) {
+                return own > other;
+            }
+        }
+
+        return false;
     }
 
     equals(anotherVersion: Version): boolean {
