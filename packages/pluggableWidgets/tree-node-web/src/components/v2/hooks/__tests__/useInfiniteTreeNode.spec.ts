@@ -1,7 +1,7 @@
 import { act, renderHook } from "@testing-library/react";
 import { ObjectItem } from "mendix";
 import * as FilterBuilders from "mendix/filters/builders";
-import { listReference } from "@mendix/widget-plugin-test-utils";
+import { dynamic, listReference } from "@mendix/widget-plugin-test-utils";
 import { TreeNodeContainerProps } from "../../../../../typings/TreeNodeProps";
 import { useInfiniteTreeNodes } from "../useInfiniteTreeNode";
 
@@ -18,6 +18,18 @@ function makeItem(id: string): ObjectItem {
 
 function makeSetFilter(): jest.Mock {
     return jest.fn();
+}
+
+/** Ids of the parents the last setFilter call asks children for. undefined means root level. */
+function requestedParentIds(setFilter: unknown): Array<string | undefined> {
+    const calls = (setFilter as jest.Mock).mock.calls;
+    const read = (expression: any): Array<string | undefined> => {
+        if (expression?.type === "or") {
+            return expression.args.flatMap(read);
+        }
+        return [expression?.b?.v?.id];
+    };
+    return read(calls[calls.length - 1][0]);
 }
 
 function makeProps(overrides: Partial<TreeNodeContainerProps> = {}): TreeNodeContainerProps {
@@ -142,6 +154,136 @@ describe("useInfiniteTreeNodes", () => {
         });
     });
 
+    describe("appendItems — pre-loading one level ahead", () => {
+        it("asks for the children of the expanded node and of its children", () => {
+            const props = makeProps();
+            const { result } = renderHook(() => useInfiniteTreeNodes(props));
+
+            act(() => {
+                result.current.appendItems(makeItem("root"), [makeItem("child")]);
+            });
+
+            expect(requestedParentIds(props.datasource.setFilter)).toEqual([undefined, "root", "child"]);
+        });
+
+        it("keeps pre-loading when a node that was itself a pre-loaded child gets expanded", () => {
+            const props = makeProps();
+            const { result } = renderHook(() => useInfiniteTreeNodes(props));
+
+            act(() => {
+                result.current.appendItems(makeItem("root"), [makeItem("child")]);
+            });
+            act(() => {
+                result.current.appendItems(makeItem("child"), [makeItem("grandchild")]);
+            });
+
+            // without the grandchild in the filter, "child"'s children can never report
+            // whether they have children of their own
+            expect(requestedParentIds(props.datasource.setFilter)).toEqual([undefined, "root", "child", "grandchild"]);
+        });
+
+        it("does not ask for the same parent twice", () => {
+            const props = makeProps();
+            const { result } = renderHook(() => useInfiniteTreeNodes(props));
+
+            act(() => {
+                result.current.appendItems(makeItem("root"), [makeItem("child")]);
+            });
+            act(() => {
+                result.current.appendItems(makeItem("child"), [makeItem("grandchild")]);
+            });
+            act(() => {
+                result.current.appendItems(makeItem("child"), [makeItem("grandchild")]);
+            });
+
+            const requested = requestedParentIds(props.datasource.setFilter);
+            expect(requested).toEqual([...new Set(requested)]);
+        });
+
+        it("asks for the children of a node expanded while it has none yet", () => {
+            const props = makeProps();
+            const { result } = renderHook(() => useInfiniteTreeNodes(props));
+
+            act(() => {
+                result.current.appendItems(makeItem("leaf"), []);
+            });
+
+            expect(requestedParentIds(props.datasource.setFilter)).toEqual([undefined, "leaf"]);
+        });
+    });
+
+    describe("children arriving after the expansion", () => {
+        function makePropsWithParents(
+            parentMap: Record<string, string | undefined>,
+            items: ObjectItem[]
+        ): TreeNodeContainerProps {
+            const props = makeProps({
+                parentAssociation: listReference(b =>
+                    b
+                        .withId("assoc_1")
+                        .withGet((item: ObjectItem) => {
+                            const parentId = parentMap[String(item.id)];
+                            return parentId ? dynamic.available(makeItem(parentId)) : dynamic.unavailable();
+                        })
+                        .build()
+                )
+            });
+            return { ...props, datasource: { ...props.datasource, items } as any } as TreeNodeContainerProps;
+        }
+
+        it("pre-loads children that were not known when the node was expanded", () => {
+            // node expanded while its children are still in flight, so appendItems gets none
+            let props = makePropsWithParents({ parent: undefined }, []);
+            const setFilter = props.datasource.setFilter;
+
+            const { result, rerender } = renderHook(({ p }: { p: TreeNodeContainerProps }) => useInfiniteTreeNodes(p), {
+                initialProps: { p: props }
+            });
+
+            act(() => {
+                result.current.appendItems(makeItem("parent"));
+            });
+            expect(requestedParentIds(setFilter)).toEqual([undefined, "parent"]);
+
+            // the children arrive in a later datasource update
+            props = makePropsWithParents({ parent: undefined, child: "parent" }, [
+                makeItem("parent"),
+                makeItem("child")
+            ]);
+            (props.datasource as any).setFilter = setFilter;
+            rerender({ p: props });
+
+            expect(requestedParentIds(setFilter)).toEqual([undefined, "parent", "child"]);
+        });
+
+        it("pre-loads a child added to an already expanded node", () => {
+            let props = makePropsWithParents({ parent: undefined, child: "parent" }, [
+                makeItem("parent"),
+                makeItem("child")
+            ]);
+            const setFilter = props.datasource.setFilter;
+
+            const { result, rerender } = renderHook(({ p }: { p: TreeNodeContainerProps }) => useInfiniteTreeNodes(p), {
+                initialProps: { p: props }
+            });
+
+            act(() => {
+                result.current.appendItems(makeItem("parent"), [makeItem("child")]);
+            });
+
+            // a microflow adds a second child later
+            props = makePropsWithParents({ parent: undefined, child: "parent", added: "parent" }, [
+                makeItem("parent"),
+                makeItem("child"),
+                makeItem("added")
+            ]);
+            (props.datasource as any).setFilter = setFilter;
+            rerender({ p: props });
+
+            expect(requestedParentIds(setFilter)).toContain("added");
+        });
+    });
+
     describe("appendItems — re-expanding already-expanded node", () => {
         it("does not add duplicate entries when same parent expanded twice", () => {
             const parentItem = makeItem("parent");
@@ -181,6 +323,84 @@ describe("useInfiniteTreeNodes", () => {
 
             // setFilter should have been called again to load children of roots
             expect(props.datasource.setFilter).toHaveBeenCalledTimes(2);
+        });
+    });
+
+    describe("unbounded cascade when startExpanded is true (WC-3564)", () => {
+        it("keeps cascading level by level for as long as new descendants appear, and stops once a level is empty — never locking in on a transient empty delivery", () => {
+            const rootItems = [makeItem("root1"), makeItem("root2")];
+            const withSecondTier = [...rootItems, makeItem("second1")];
+            const withThirdTier = [...withSecondTier, makeItem("third1")];
+            let items: ObjectItem[] = [];
+            const props = makeProps({ startExpanded: true });
+            const setFilterSpy = props.datasource.setFilter as jest.Mock;
+
+            const { rerender } = renderHook(() =>
+                useInfiniteTreeNodes({ ...props, datasource: { ...props.datasource, items } as any })
+            );
+            expect(setFilterSpy).toHaveBeenCalledTimes(0); // startExpanded skips the initial root-only filter
+
+            // Datasource stays empty across a few transient renders (still loading) — must not
+            // call setFilter on empty data (this is exactly what broke live testing with a naive
+            // fire-count-based cap instead of a content-based one).
+            rerender();
+            rerender();
+            expect(setFilterSpy).toHaveBeenCalledTimes(0);
+
+            // Real root items arrive — cascades to fetch their children.
+            items = rootItems;
+            rerender();
+            expect(setFilterSpy).toHaveBeenCalledTimes(1);
+
+            // An unchanged redelivery of the same roots must not trigger another call.
+            items = rootItems;
+            rerender();
+            expect(setFilterSpy).toHaveBeenCalledTimes(1);
+
+            // Second tier arrives — cascades one level further automatically (no click involved).
+            items = withSecondTier;
+            rerender();
+            expect(setFilterSpy).toHaveBeenCalledTimes(2);
+
+            // Third tier arrives — keeps cascading (this is the exact scenario that was broken:
+            // every level defaults to EXPANDED under startExpanded=true, so every level needs its
+            // own affordance pre-checked, not just roots + one bonus level).
+            items = withThirdTier;
+            rerender();
+            expect(setFilterSpy).toHaveBeenCalledTimes(3);
+
+            // Nothing new this time (same set redelivered) — stops here, no further call.
+            items = [...withThirdTier];
+            rerender();
+            expect(setFilterSpy).toHaveBeenCalledTimes(3);
+        });
+
+        it("stays capped at 2 rounds when startExpanded is false — only roots auto-expand, deeper tiers resolve via a real click", () => {
+            const rootItems = [makeItem("root1")];
+            const withSecondTier = [...rootItems, makeItem("second1")];
+            const withThirdTier = [...withSecondTier, makeItem("third1")];
+            let items: ObjectItem[] = [];
+            const props = makeProps({ startExpanded: false });
+            const setFilterSpy = props.datasource.setFilter as jest.Mock;
+
+            const { rerender } = renderHook(() =>
+                useInfiniteTreeNodes({ ...props, datasource: { ...props.datasource, items } as any })
+            );
+            expect(setFilterSpy).toHaveBeenCalledTimes(1); // initial root-only filter
+
+            items = rootItems;
+            rerender(); // round 1 locks in
+            expect(setFilterSpy).toHaveBeenCalledTimes(2);
+
+            items = withSecondTier;
+            rerender(); // round 2 locks in
+            expect(setFilterSpy).toHaveBeenCalledTimes(3);
+
+            // Third tier arriving must NOT trigger a further automatic round — unlike
+            // startExpanded=true, deeper tiers here only resolve via a real click (appendItems).
+            items = withThirdTier;
+            rerender();
+            expect(setFilterSpy).toHaveBeenCalledTimes(3);
         });
     });
 });
