@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-09-15
+
 ### Changed
 
 - We updated markdown-it dependencies to mitigate potential security vulnerabilities.
@@ -13,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - We added plugin support for subscript and superscript.
+
 - We added support for math expressions (KaTeX), using `$...$` for inline math and `$$...$$`, `\begin...\end` or ```math fenced blocks for block math.
 
 ## [1.0.3] - 2026-07-17
