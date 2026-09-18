@@ -86,7 +86,7 @@ export function Accordion(props: AccordionProps): ReactElement | null {
 
     const accordionGroupElements = props.groups.map((group, index) => (
         <AccordionGroupWrapper
-            key={`${group.initiallyCollapsed}_${index}`}
+            key={`accordion-wrapper-${index}`}
             index={index}
             parent={containerRef}
             id={`${props.id}AccordionGroup${index}`}

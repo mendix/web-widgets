@@ -10,10 +10,11 @@ import { AccordionContainerProps, GroupsType } from "../typings/AccordionProps";
 
 export function Accordion(props: AccordionContainerProps): ReactElement | null {
     const id = useRef(generateUUID());
+    // Only the initial collapsed state blocks rendering: it is needed to compute the initial state.
+    // The controlled "collapsed" state may briefly go to "loading" while a microflow runs; blocking on
+    // it would unmount and remount all group content.
     const isLoading = props.groups.find(
-        group =>
-            (group.initialCollapsedState === "dynamic" && group.initiallyCollapsed.status === "loading") ||
-            (group.collapsed && group.collapsed.status === "loading")
+        group => group.initialCollapsedState === "dynamic" && group.initiallyCollapsed.status === "loading"
     );
 
     const groups: AccordionGroups | undefined = useMemo(() => translateGroups(props.groups), [props.groups]);
@@ -74,11 +75,12 @@ function translateGroups(groups: AccordionContainerProps["groups"]): AccordionGr
 }
 
 function someGroupMissingData(groups: GroupsType[]): boolean {
+    // "collapsed" is deliberately not checked: an undefined value is treated as "no new value yet" by the
+    // state management, so the last known value is kept instead of unmounting the group content.
     return groups.some(
         group =>
             group.visible.value === undefined ||
             group.headerText.value === undefined ||
-            group.initiallyCollapsed.value === undefined ||
-            (group.collapsed && group.collapsed.value === undefined)
+            group.initiallyCollapsed.value === undefined
     );
 }

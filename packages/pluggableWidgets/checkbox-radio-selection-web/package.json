@@ -2,7 +2,7 @@
     "name": "@mendix/checkbox-radio-selection-web",
     "widgetName": "CheckboxRadioSelection",
     "version": "1.1.2",
-    "description": "Configurable radio buttons and check box widget",
+    "description": "Option selector widget offering configurable checkbox and radio button controls",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
     "repository": {
@@ -22,7 +22,7 @@
     "marketplace": {
         "minimumMXVersion": "10.7.0",
         "appNumber": 245825,
-        "appName": "Checkbox Radio Selection",
+        "appName": "Option Selector",
         "reactReady": true
     },
     "testProject": {

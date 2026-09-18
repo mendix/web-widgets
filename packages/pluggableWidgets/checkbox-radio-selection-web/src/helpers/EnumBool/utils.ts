@@ -12,7 +12,7 @@ export function extractEnumerationProps(
         value: ""
     };
 
-    // Checkbox Radio Selection controls don't need clearable like combobox does
+    // Option Selector controls don't need clearable like combobox does
     const clearable = false;
 
     // No filtering needed for radio buttons/checkboxes

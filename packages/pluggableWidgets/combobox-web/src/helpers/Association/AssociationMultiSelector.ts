@@ -39,7 +39,6 @@ export class AssociationMultiSelector
     setValue(value: string[] | null): void {
         const newValue = value?.map(v => this.options._optionToValue(v)!);
         this._attr?.setValue(newValue);
-        super.setValue(value);
     }
 
     getOptions(): string[] {

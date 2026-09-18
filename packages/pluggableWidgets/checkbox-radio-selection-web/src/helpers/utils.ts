@@ -33,7 +33,7 @@ export function getCustomCaption(values: CheckboxRadioSelectionPreviewProps): st
         optionsSourceStaticDataSource,
         controlType
     } = values;
-    const emptyStringFormat = "Checkbox Radio Selection";
+    const emptyStringFormat = "Option Selector";
     if (source === "context") {
         switch (optionsSourceType) {
             case "association":

@@ -1,11 +1,10 @@
 import { isDate } from "date-fns/isDate";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
-import { BaseSyntheticEvent, ClassAttributes, createRef, KeyboardEventHandler, MouseEventHandler } from "react";
-import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
+import { createRef, KeyboardEventHandler, MouseEventHandler, MouseEvent, KeyboardEvent } from "react";
+import { DatePickerProps, DatePicker } from "react-datepicker";
 import { SetFilterValueArgs } from "@mendix/widget-plugin-external-events/typings";
 import { Date_InputFilterInterface, FilterFn } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
-
-interface DatePickerBackendProps extends ReactDatePickerProps, ClassAttributes<ReactDatePicker> {}
+import { PickerChangeHandler } from "../components/DatePicker";
 
 interface PickerState {
     startDate: Date | undefined;
@@ -31,7 +30,7 @@ export class DatePickerController {
     private _timer = -1;
     private _defaultState: Date_InputFilterInterface["defaultState"];
     expanded = false;
-    pickerRef = createRef<ReactDatePicker<undefined, undefined>>();
+    pickerRef = createRef<DatePicker>();
     adjustableFilterFunction: boolean;
 
     constructor(params: Params) {
@@ -67,7 +66,7 @@ export class DatePickerController {
         return this._filter.filterFunction === "between";
     }
 
-    handlePickerChange: DatePickerBackendProps["onChange"] = (value: Date | [Date | null, Date | null] | null) => {
+    handlePickerChange: PickerChangeHandler = value => {
         if (isDate(value)) {
             this._filter.arg1.value = value;
             return;
@@ -83,11 +82,11 @@ export class DatePickerController {
         this._filter.arg2.value = end ?? undefined;
     };
 
-    handleCalendarOpen: DatePickerBackendProps["onCalendarOpen"] = () => {
+    handleCalendarOpen: DatePickerProps["onCalendarOpen"] = () => {
         this.expanded = true;
     };
 
-    handleCalendarClose: DatePickerBackendProps["onCalendarOpen"] = () => {
+    handleCalendarClose: DatePickerProps["onCalendarClose"] = () => {
         this.expanded = false;
     };
 
@@ -149,8 +148,8 @@ export class DatePickerController {
      * This method is just UX tweak that should prevent user confusion and have very low
      * value in widget behavior. Feel free to remove this method if you refactoring code.
      */
-    UNSAFE_handleChangeRaw = (event: BaseSyntheticEvent): void => {
-        if (event.type === "change" && this._selectsRange) {
+    UNSAFE_handleChangeRaw = (event?: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>): void => {
+        if (event?.type === "change" && this._selectsRange) {
             event.preventDefault();
         }
     };
