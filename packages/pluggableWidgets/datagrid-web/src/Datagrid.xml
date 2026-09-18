@@ -503,6 +503,65 @@
                             <translation lang="nl_NL">Selectie annuleren</translation>
                         </translations>
                     </text>
+                    <text key="columnSelectorAriaLabel">
+                        <caption>[Aria label] Column selector</caption>
+                        <translations>
+                            <translation lang="en_US">Column selector</translation>
+                            <translation lang="nl_NL">Kolomselector</translation>
+                        </translations>
+                    </text>
+                    <text key="sortColumnAriaLabel">
+                        <caption>[Aria label] Sort column</caption>
+                        <translations>
+                            <translation lang="en_US">Sort {1}</translation>
+                            <translation lang="nl_NL">Sorteer {1}</translation>
+                        </translations>
+                        <parameters>
+                            <parameter caption="Column name" />
+                        </parameters>
+                    </text>
+                    <text key="paginationAriaLabel">
+                        <caption>[Aria label] Pagination</caption>
+                        <translations>
+                            <translation lang="en_US">Pagination</translation>
+                            <translation lang="nl_NL">Paginering</translation>
+                        </translations>
+                    </text>
+                    <text key="goToFirstPageAriaLabel">
+                        <caption>[Aria label] Go to first page</caption>
+                        <translations>
+                            <translation lang="en_US">Go to first page</translation>
+                            <translation lang="nl_NL">Ga naar eerste pagina</translation>
+                        </translations>
+                    </text>
+                    <text key="goToPreviousPageAriaLabel">
+                        <caption>[Aria label] Go to previous page</caption>
+                        <translations>
+                            <translation lang="en_US">Go to previous page</translation>
+                            <translation lang="nl_NL">Ga naar vorige pagina</translation>
+                        </translations>
+                    </text>
+                    <text key="pagingStatusAriaLabel">
+                        <caption>[Aria label] Paging status</caption>
+                        <translations>
+                            <translation lang="en_US">Currently showing</translation>
+                            <translation lang="nl_NL">Momenteel weergegeven</translation>
+                        </translations>
+                    </text>
+                    <text key="goToNextPageAriaLabel">
+                        <caption>[Aria label] Go to next page</caption>
+                        <translations>
+                            <translation lang="en_US">Go to next page</translation>
+                            <translation lang="nl_NL">Ga naar volgende pagina</translation>
+                        </translations>
+                    </text>
+                    <text key="goToLastPageAriaLabel">
+                        <caption>[Aria label] Go to last page</caption>
+                        <translations>
+                            <translation lang="en_US">Go to last page</translation>
+                            <translation lang="nl_NL">Ga naar laatste pagina</translation>
+                        </translations>
+                    </text>
                     <text key="loadMoreButtonLabel">
                         <caption>[Button] Load more</caption>
                         <translations>
@@ -562,6 +621,50 @@
                         </translations>
                         <parameters>
                             <parameter caption="Selected count" />
+                        </parameters>
+                    </text>
+                    <text key="pagingStatusRangeWithTotal">
+                        <caption>[Text] Paging range with total</caption>
+                        <translations>
+                            <translation lang="en_US">{1} to {2} of {3}</translation>
+                            <translation lang="nl_NL">{1} tot {2} van {3}</translation>
+                        </translations>
+                        <parameters>
+                            <parameter caption="First item" />
+                            <parameter caption="Last item" />
+                            <parameter caption="Total" />
+                        </parameters>
+                    </text>
+                    <text key="pagingStatusRange">
+                        <caption>[Text] Paging range</caption>
+                        <translations>
+                            <translation lang="en_US">{1} to {2}</translation>
+                            <translation lang="nl_NL">{1} tot {2}</translation>
+                        </translations>
+                        <parameters>
+                            <parameter caption="First item" />
+                            <parameter caption="Last item" />
+                        </parameters>
+                    </text>
+                    <text key="pagingStatusCountWithTotal">
+                        <caption>[Text] Paging count with total</caption>
+                        <translations>
+                            <translation lang="en_US">{1} of {2}</translation>
+                            <translation lang="nl_NL">{1} van {2}</translation>
+                        </translations>
+                        <parameters>
+                            <parameter caption="Loaded count" />
+                            <parameter caption="Total" />
+                        </parameters>
+                    </text>
+                    <text key="pagingStatusCount">
+                        <caption>[Text] Paging count</caption>
+                        <translations>
+                            <translation lang="en_US">{1}</translation>
+                            <translation lang="nl_NL">{1}</translation>
+                        </translations>
+                        <parameters>
+                            <parameter caption="Loaded count" />
                         </parameters>
                     </text>
                 </systemProperty>

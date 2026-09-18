@@ -5,13 +5,14 @@ import { ColumnResizer } from "./ColumnResizer";
 import { ColumnSelector } from "./ColumnSelector";
 import { Header } from "./Header";
 import { HeaderSkeletonLoader } from "./loader/HeaderSkeletonLoader";
-import { useColumnsStore, useDatagridConfig, useGridSizeStore } from "../model/hooks/injection-hooks";
+import { useColumnsStore, useDatagridConfig, useGridSizeStore, useTexts } from "../model/hooks/injection-hooks";
 import { ColumnId } from "../typings/GridColumn";
 
 export function GridHeader(): ReactElement {
     const { columnsHidable, id: gridId } = useDatagridConfig();
     const columnsStore = useColumnsStore();
     const gridSizeStore = useGridSizeStore();
+    const texts = useTexts();
     const columns = columnsStore.visibleColumns;
     const [dragOver, setDragOver] = useState<[ColumnId, "before" | "after"] | undefined>(undefined);
     const [isDragging, setIsDragging] = useState<[ColumnId | undefined, ColumnId, ColumnId | undefined] | undefined>();
@@ -46,6 +47,7 @@ export function GridHeader(): ReactElement {
                         key="headers_column_selector"
                         columns={columnsStore.availableColumns}
                         id={gridId}
+                        label={texts.get("columnSelectorAriaLabel")}
                         visibleLength={columns.length}
                     />
                 )}

@@ -40,10 +40,11 @@ export function createTextsStore<TProps extends { texts: { translate: (...args: 
             ? (gate.props[overridePropKey] as DynamicValue<string> | undefined)?.value
             : undefined;
 
-        if (override != null) {
+        if (override) {
             return params ? replaceParamPlaceholders(override, params) : override;
         }
-        return params ? gate.props.texts.translate(key, ...params) : gate.props.texts.translate(key);
+
+        return params ? gate.props.texts.translate(key, params) : gate.props.texts.translate(key);
     }
     return { get } as DerivedTextsStore<TT>;
 }

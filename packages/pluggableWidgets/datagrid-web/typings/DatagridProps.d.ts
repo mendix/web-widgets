@@ -116,6 +116,14 @@ export interface Translations {
     singleSelectionColumnAriaLabel: [];
     selectingAllAriaLabel: [];
     cancelSelectionAriaLabel: [];
+    columnSelectorAriaLabel: [];
+    sortColumnAriaLabel: [params: [columnName: string]];
+    paginationAriaLabel: [];
+    goToFirstPageAriaLabel: [];
+    goToPreviousPageAriaLabel: [];
+    pagingStatusAriaLabel: [];
+    goToNextPageAriaLabel: [];
+    goToLastPageAriaLabel: [];
     loadMoreButtonLabel: [];
     selectAllButtonLabel: [];
     selectAllWithCountButtonLabel: [params: [totalCount: string]];
@@ -123,6 +131,10 @@ export interface Translations {
     selectedCountSingular: [params: [count: string]];
     selectedCountPlural: [params: [count: string]];
     allSelectedText: [params: [selectedCount: string]];
+    pagingStatusRangeWithTotal: [params: [firstItem: string, lastItem: string, total: string]];
+    pagingStatusRange: [params: [firstItem: string, lastItem: string]];
+    pagingStatusCountWithTotal: [params: [loadedCount: string, total: string]];
+    pagingStatusCount: [params: [loadedCount: string]];
 }
 
 export interface DatagridContainerProps {

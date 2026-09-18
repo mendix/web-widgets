@@ -22,6 +22,10 @@ export interface PaginationProps {
     labelLastPage?: string;
     labelPagination?: string;
     labelPagingStatus?: string;
+    labelPagingStatusWithRange?: (firstItem: number, lastItem: number, total: number) => string;
+    labelPagingStatusRange?: (firstItem: number, lastItem: number) => string;
+    labelPagingStatusWithTotal?: (loadedCount: number, total: number) => string;
+    labelPagingStatusCount?: (loadedCount: number) => string;
     pagination: PaginationEnum;
 }
 
@@ -47,9 +51,26 @@ export function Pagination(props: PaginationProps): ReactElement | null {
         return null;
     }
 
-    const pagingStatus = `${showControls ? `${initialItem} to ${lastItem}` : lastItem} ${
-        hasLastPage ? `of ${props.numberOfItems ?? (numberOfPages ?? 1) * props.pageSize}` : ""
-    }`;
+    const pagingStatus = (() => {
+        if (showControls && hasLastPage) {
+            const total = props.numberOfItems ?? (numberOfPages ?? 1) * props.pageSize;
+            return props.labelPagingStatusWithRange
+                ? props.labelPagingStatusWithRange(initialItem, lastItem, total)
+                : `${initialItem} to ${lastItem} of ${total}`;
+        }
+        if (showControls) {
+            return props.labelPagingStatusRange
+                ? props.labelPagingStatusRange(initialItem, lastItem)
+                : `${initialItem} to ${lastItem}`;
+        }
+        if (hasLastPage) {
+            const total = props.numberOfItems ?? (numberOfPages ?? 1) * props.pageSize;
+            return props.labelPagingStatusWithTotal
+                ? props.labelPagingStatusWithTotal(lastItem, total)
+                : `${lastItem} of ${total}`;
+        }
+        return props.labelPagingStatusCount ? props.labelPagingStatusCount(lastItem) : `${lastItem}`;
+    })();
 
     return (
         <div aria-label={props.labelPagination ?? "Pagination"} className="pagination-bar">

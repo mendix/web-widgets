@@ -15,7 +15,7 @@ import { FaArrowsAltV } from "./icons/FaArrowsAltV";
 import { FaLongArrowAltDown } from "./icons/FaLongArrowAltDown";
 import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
 
-import { useColumn, useColumnsStore, useDatagridConfig } from "../model/hooks/injection-hooks";
+import { useColumn, useColumnsStore, useDatagridConfig, useTexts } from "../model/hooks/injection-hooks";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 
 export interface HeaderProps {
@@ -32,6 +32,7 @@ export function Header(props: HeaderProps): ReactElement {
     const { columnsFilterable, id: gridId, columnsDraggable, columnsResizable, columnsSortable } = useDatagridConfig();
     const columnsStore = useColumnsStore();
     const column = useColumn();
+    const texts = useTexts();
     const canDrag = columnsDraggable && column.canDrag;
     const canSort = columnsSortable && column.canSort;
     const canResize = columnsResizable && column.canResize;
@@ -77,7 +78,7 @@ export function Header(props: HeaderProps): ReactElement {
                     className={classNames("column-header", { clickable: canSort }, `align-column-${column.alignment}`)}
                     style={{ pointerEvents: props.isDragging ? "none" : undefined }}
                     {...sortProps}
-                    aria-label={canSort ? "sort " + caption : caption}
+                    aria-label={canSort ? texts.get("sortColumnAriaLabel", [caption]) : caption}
                 >
                     <span>{caption.length > 0 ? caption : "\u00a0"}</span>
                     {sortIcon}
