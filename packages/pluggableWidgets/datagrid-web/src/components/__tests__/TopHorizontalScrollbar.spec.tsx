@@ -2,7 +2,7 @@ import { act, fireEvent, render, RenderResult } from "@testing-library/react";
 import { computed, observable, runInAction } from "mobx";
 import { TopHorizontalScrollbar } from "../TopHorizontalScrollbar";
 
-const mockStore = { gridContainerRef: { current: null as HTMLDivElement | null } };
+const mockStore = { gridContainerRef: { current: null as HTMLDivElement | null }, hasVirtualScrolling: false };
 const mockLayout = observable.box("200px 800px");
 const mockStyle = computed(() => ({ "--widgets-grid-template-columns": mockLayout.get() }));
 
@@ -26,6 +26,7 @@ describe("TopHorizontalScrollbar", () => {
         content.append(grid);
         document.body.append(content);
         mockStore.gridContainerRef.current = grid;
+        mockStore.hasVirtualScrolling = false;
         Object.defineProperties(content, {
             clientWidth: { configurable: true, value: 400 },
             scrollWidth: { configurable: true, value: 1000 }
@@ -73,6 +74,30 @@ describe("TopHorizontalScrollbar", () => {
         act(() => runInAction(() => mockLayout.set("200px 800px")));
         act(() => jest.advanceTimersByTime(20));
         expect(spacer.style.width).toBe("1020px");
+    });
+
+    it("synchronizes the inner virtual grid without moving its vertical offset or the wrapper", () => {
+        mockStore.hasVirtualScrolling = true;
+        Object.defineProperties(content, {
+            clientWidth: { configurable: true, value: 400 },
+            scrollWidth: { configurable: true, value: 400 }
+        });
+        Object.defineProperties(grid, {
+            clientWidth: { configurable: true, value: 385 },
+            scrollWidth: { configurable: true, value: 1000 }
+        });
+        grid.scrollTop = 500;
+        const { top, spacer } = mount();
+        expect(top).not.toHaveClass("widget-datagrid-top-scrollbar--collapsed");
+        expect(spacer.style.width).toBe("1035px");
+        top.scrollLeft = 250;
+        fireEvent.scroll(top);
+        expect(grid.scrollLeft).toBe(250);
+        expect(grid.scrollTop).toBe(500);
+        expect(content.scrollLeft).toBe(0);
+        grid.scrollLeft = 80;
+        fireEvent.scroll(grid);
+        expect(top.scrollLeft).toBe(80);
     });
 
     it("remeasures the viewport and cleans up observers, listeners and queued frames", () => {

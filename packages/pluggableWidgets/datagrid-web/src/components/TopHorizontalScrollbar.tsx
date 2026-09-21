@@ -5,6 +5,7 @@ import { useGridSizeStore, useGridStyle } from "../model/hooks/injection-hooks";
 
 export const TopHorizontalScrollbar = observer(function TopHorizontalScrollbar(): ReactElement {
     const gridSizeStore = useGridSizeStore();
+    const hasVirtualScrolling = gridSizeStore.hasVirtualScrolling;
     const gridStyle = useGridStyle().get();
 
     const topScrollbarRef = useRef<HTMLDivElement>(null);
@@ -69,7 +70,8 @@ export const TopHorizontalScrollbar = observer(function TopHorizontalScrollbar()
                 return;
             }
 
-            content = grid.closest(".widget-datagrid-content") as HTMLDivElement | null;
+            // Virtual grids own both scroll axes; other grids scroll in the wrapper.
+            content = hasVirtualScrolling ? grid : (grid.closest(".widget-datagrid-content") as HTMLDivElement | null);
 
             if (!content) {
                 return;
@@ -82,7 +84,9 @@ export const TopHorizontalScrollbar = observer(function TopHorizontalScrollbar()
             if (typeof ResizeObserver !== "undefined") {
                 resizeObserver = new ResizeObserver(updateTopScrollbar);
                 resizeObserver.observe(content);
-                resizeObserver.observe(grid);
+                if (grid !== content) {
+                    resizeObserver.observe(grid);
+                }
             }
             window.addEventListener("resize", updateTopScrollbar);
 
@@ -105,7 +109,7 @@ export const TopHorizontalScrollbar = observer(function TopHorizontalScrollbar()
                 cancelAnimationFrame(updateFrameId);
             }
         };
-    }, [gridSizeStore, gridStyle]);
+    }, [gridSizeStore, gridStyle, hasVirtualScrolling]);
 
     const handleTopScrollbarScroll = (event: UIEvent<HTMLDivElement>): void => {
         const grid = gridSizeStore.gridContainerRef.current;
@@ -114,7 +118,9 @@ export const TopHorizontalScrollbar = observer(function TopHorizontalScrollbar()
             return;
         }
 
-        const content = grid.closest(".widget-datagrid-content") as HTMLDivElement | null;
+        const content = hasVirtualScrolling
+            ? grid
+            : (grid.closest(".widget-datagrid-content") as HTMLDivElement | null);
 
         if (!content) {
             return;
