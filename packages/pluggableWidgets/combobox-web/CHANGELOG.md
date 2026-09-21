@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.10.0] - 2026-09-21
+
 ### Fixed
 
 - We fixed an issue where selecting all of the typed text in a multi-select combobox and pressing Backspace did not permanently clear it, so the text reappeared after clicking away and back into the combobox.
