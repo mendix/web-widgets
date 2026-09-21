@@ -62,7 +62,22 @@ test.describe("enabled top scrollbar fixture", () => {
         await expect(column).toHaveCount(0);
         await page.getByRole("menuitemcheckbox", { name: "Age", exact: true }).click();
         await expect(column).toBeVisible();
+        await page.keyboard.press("Escape");
+        await expect
+            .poll(async () => {
+                const overflow = await content.evaluate(e => e.scrollWidth > e.clientWidth);
+                const collapsed = await top.evaluate(e =>
+                    e.classList.contains("widget-datagrid-top-scrollbar--collapsed")
+                );
+                return collapsed === !overflow;
+            })
+            .toBe(true);
+        await nativeResize(page, grid, 250);
         await expect(top).not.toHaveClass(/--collapsed/);
+        await top.evaluate(e => {
+            e.scrollLeft = 80;
+        });
+        await expect.poll(() => content.evaluate(e => e.scrollLeft)).toBe(80);
     });
 
     test("keeps the existing grid keyboard navigation", async ({ page }) => {
