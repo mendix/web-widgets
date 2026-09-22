@@ -93,7 +93,6 @@ function renderRecursiveNode(
 }
 
 export function TreeNodeV2(props: TreeNodeContainerProps): ReactElement {
-    const { items, appendItems } = useInfiniteTreeNodes(props);
     const [, forceRender] = useState(0);
 
     const expandedIcon = props.expandedIcon?.status === ValueStatus.Available ? props.expandedIcon.value : undefined;
@@ -124,24 +123,26 @@ export function TreeNodeV2(props: TreeNodeContainerProps): ReactElement {
         [props.headerCaption, props.headerContent, props.headerType, props.parentAssociation, props.startExpanded]
     );
 
-    const treeData = useIncrementalTreeData(items, treeConfig);
+    const treeData = useIncrementalTreeData(props.datasource.items, treeConfig);
+    // The preload filter is derived from the tree, so it has to be given the tree, and the click
+    // handler has to ask for a re-derivation after it mutates a node's state.
+    const { syncPreloadFilter } = useInfiniteTreeNodes(props, treeData);
     const isDatasourceLoading = props.datasource.status === ValueStatus.Loading;
     const onNodeClick = useCallback(
         (node: TreeNodeV2DataItem) => {
             if (node.treeNodeState === TreeNodeState.EXPANDED) {
+                // Collapsing leaves the subtree rendered (hidden by CSS), so what the tree needs
+                // from the datasource is unchanged — no re-derivation.
                 node.treeNodeState = TreeNodeState.COLLAPSED_WITH_CSS;
                 forceRender(version => version + 1);
                 return;
             }
 
             node.treeNodeState = TreeNodeState.EXPANDED;
-            appendItems(
-                node.item,
-                node.children.map(child => child.item)
-            );
+            syncPreloadFilter();
             forceRender(version => version + 1);
         },
-        [appendItems]
+        [syncPreloadFilter]
     );
 
     if (treeData.length === 0) {
