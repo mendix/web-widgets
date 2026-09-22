@@ -19,11 +19,13 @@ Git history (`dcbf9bdb51`, "fix: add empty message, loading, and keyboard nav") 
 - A node's spinner state must never be "stuck" (Bug 1) or capable of corrupting an unrelated node's state (Bug 2).
 - Preserve the original polish goal (avoid an abrupt icon pop-in) using a signal that cannot exhibit either bug.
 - Both WC-3564 bugs fixed by the same underlying mechanism (not two separate patches).
+- The preload filter must stay correct after the datasource's entire result set is replaced by an app-level constraint (a gallery filtering by department, a changed page parameter), not only across incremental deliveries of the same set.
 
 **Non-Goals:**
 
 - Not changing v1 behavior — v1 correctly reads `hasChildren` (it has no association-based alternative) and is untouched by this change.
 - Not fixing incorrect Studio Pro configuration of `hasChildren` — irrelevant to v2 now, since v2 never reads it.
+- Not changing how `useIncrementalTreeData` renders an orphan — an item whose `parentId` is set but whose parent the datasource does not deliver. It is still promoted to root level, because that promotion is what makes out-of-order delivery (child before parent) work. D6 records the consequence.
 - Not guaranteeing a spinner ever shows for every conceivable timing gap — the fix only guarantees the spinner is never stuck and never corrupts a sibling; if the datasource's `status` never reports `Loading` for a given fetch, no spinner shows for it (functionally harmless, matches original pre-`LOADING`-commit behavior).
 
 ## Decisions
@@ -116,6 +118,116 @@ The three mechanisms stay distinct and none is redundant: round1 fetches roots' 
 
 **Known gap, deliberately not widened.** Root nodes are never added to `expandedIdsRef` under `startExpanded = false`, since they auto-expand via the bootstrap path rather than `appendItems`. So a child added to a _root_ after round2 has locked in is not swept. Pre-existing in the parallel branch too, out of scope here; fixing it means deciding whether the bootstrap path should register roots as "expanded", which changes what the sweep costs on wide trees.
 
+### D6 (added — found live during this change's own verification pass; supersedes D3's round mechanism and D5's restructure): the preload parent set is _derived_ from the current tree, never accumulated from delivery history
+
+**How it was found.** Live on the `treenodev2_advanced` test page: two v2 trees over the same data side by side (`.mx-name-treeNode1` with "Start expanded" = No, `.mx-name-treeNode2` with Yes), plus a gallery that filters the datasource by department. Selecting a department replaces the datasource's entire result set. After any such switch, every node in `treeNode1` renders permanently without an expand affordance — and inert in the full sense: no icon, no `aria-expanded`, no `widget-tree-node-branch-header-clickable`, and `onKeyDownHandler` gated on `hasChildren`. The user has no way left to open it. `treeNode2`, over the same data, is correct.
+
+```
+FRESH LOAD (no department selected)
+treeNode1 (startExpanded = No)          treeNode2 (startExpanded = Yes)
+[false] Electronics :: chevron          [true] Electronics :: chevron
+  [false] Phones    :: chevron            [true] Phones    :: chevron
+    [null] iOS      :: no icon              [null] iOS      :: no icon
+  [null] Tablets    :: no icon            [null] Tablets   :: no icon
+
+AFTER selecting department "Finance"
+t1: Books | Tablets | Android | Sports  t2: Books | Tablets | Android | Sports[chevron]
+    ^ all four inert, all at root level                                  └ Fitness Equipment
+
+AFTER selecting department "IT"
+t1: Clothing | Laptops | Home & Garden  t2: Clothing[chevron] | Laptops | Home & Garden
+    ^ all three inert                         ├ Women            | Non-Fiction | Team Sports
+                                              └ Men's Clothing
+```
+
+`treeNode1`'s post-switch result set is exactly `department = X AND parent ∈ {undefined, Electronics, Phones}` — the filter from the _initial_ load, frozen. `treeNode2` is correct only incidentally: its unbounded "Start expanded" = Yes cascade (D3) had already grown its own filter to include `Books`/`Sports`, so its retrieve happened to cover the new roots. Same widget, same data, different filter age.
+
+**Two defects, one cause.** Every ref in `useInfiniteTreeNode.ts` is an append-only log scoped to the widget's mount:
+
+- **(A) The rounds never re-arm.** `round1DoneRef`/`round2DoneRef` are one-shot for the widget's lifetime. On a replaced result set the effect skips both, the late-arrival sweep finds nothing (nothing was user-expanded), `shouldRefilter` stays false, and `setFilter` is never called — so the new roots' children are never requested and `node.children.length === 0` forever. This is the reported bug.
+- **(B) The maps are never pruned.** `loadedParentsByIdRef`/`loadedChildsByIdRef`/`expandedIdsRef` only ever grow, so the filter is simultaneously stale and monotonically larger. Beyond the wasted retrieve, this is why `Tablets`/`Android`/`Laptops` appear at all under a department that excludes their parents — and, their parents being absent from the delivery, `useIncrementalTreeData`'s orphan promotion renders them at root level next to genuine roots.
+
+**Why not simply re-arm the rounds.** That would be the fourth delivery-history heuristic in the same mechanism. This change's own `## Context` condemns the original bug as "resolve a node's state when its id reappears in some later delivery" — a history signal standing in for a derived fact. D3 and D5 then replaced it with two more history flags (`round1DoneRef`, `round2DoneRef`) and a third map (`expandedIdsRef`). Bolting a "was the result set replaced?" detector on top preserves the exact shape that has now produced four bugs, and every such detector is a heuristic in its own right (`incoming ∩ previous === ∅` is wrong the moment two departments share an item). The lesson this decision records: **derive the filter from the current tree; do not log what has already been fetched.**
+
+**The rule.** One invariant replaces all of it:
+
+> For every node that is **visible**, or **one expand away from visible**, the widget must know whether it has children.
+
+```
+rendered(N)    := N.treeNodeState is EXPANDED or COLLAPSED_WITH_CSS
+visible(N)     := every ancestor of N is rendered     (a true root is always visible)
+
+desiredParents = {undefined}                          <- always: fetch true roots
+               ∪ {N : visible(N)}                     <- so every visible node's icon is correct
+               ∪ {N : visible(parent(N))}             <- lookahead: icons are right before the expand lands
+```
+
+`setFilter` is called only when `desiredParents` differs from the set last applied.
+
+**Why `rendered` and not simply `EXPANDED`** (found while implementing, not while designing): `COLLAPSED_WITH_CSS` means a node was opened and then closed, and per D1 its body stays in the DOM, hidden by CSS. If a collapse narrowed `visible`, the derived set would shrink, the next delivery would no longer carry the already-fetched grandchildren, the removed-ids check would rebuild the tree without them, and re-expanding the node would show its children with no expand icons — a fresh instance of the very defect this decision fixes. A collapse must therefore not change the set at all, which also means the click handler only re-derives on expand. `COLLAPSED_WITH_JS` (never opened, body never rendered) does stop the recursion, and that is the term that keeps `startExpanded = No` from eagerly walking the whole tree.
+
+What that single rule subsumes:
+
+| Mechanism it replaces                               | Why the rule already covers it                                                                                                                                                                 |
+| --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `round1DoneRef` (preload roots' children)           | nothing expanded ⇒ visible = roots ⇒ set is `{undefined} ∪ roots ∪ children(roots)`. Identical result, no flag.                                                                                |
+| `round2DoneRef` (one level past that)               | the same term of the same expression.                                                                                                                                                          |
+| D3's `appendItems` grandchildren preload            | expanding R makes R's children visible ⇒ their children enter the set. Falls out.                                                                                                              |
+| D5's late-arrival sweep                             | the set is recomputed from the current delivery every time, so a late child is picked up by the delivery that carries it. Falls out.                                                           |
+| D3's unbounded cascade for "Start expanded" = Yes   | every level is `EXPANDED` ⇒ every delivered node is visible ⇒ set = all delivered ∪ their children. Same cascade, same self-termination, no special case.                                      |
+| D5's known gap (roots never enter `expandedIdsRef`) | there is no `expandedIdsRef`, and root-ness is not a special case of expandedness.                                                                                                             |
+| **(A) and (B) above**                               | the set is a function of the current tree: a replaced result set yields a new set on the first delivery, and an id that left the delivery leaves the set. Nothing to re-arm, nothing to prune. |
+
+Refs deleted: `loadedParentsByIdRef`, `loadedChildsByIdRef`, `expandedIdsRef`, `round1DoneRef`, `round2DoneRef`. Refs remaining: `initializedRef`, plus a new `lastAppliedKeyRef` (the sorted ids of the last applied set, as one string). Five pieces of history collapse into one idempotence guard.
+
+The rule is implemented as `deriveDesiredParentIds(treeData, deliveredIds)` in `hooks/helpers.ts` — pure, so it is unit-tested directly. It deliberately takes no `startExpanded` argument: `treeNodeState` already encodes it (D2 creates nodes `EXPANDED` under `startExpanded = Yes`), and reading the prop as well would let the two sources disagree once the user collapses something.
+
+**"Root" means `parentId === undefined`, not "parent absent from this delivery"** — per explicit user decision. The two candidate definitions differ only for orphans, and they differ materially:
+
+```
+(a) root := parentId is undefined                       [CHOSEN]
+    Finance ⇒ desiredParents = {undefined, Books, Sports, ...their children}
+    Tablets/Android/Laptops are never requested ⇒ they leave the tree on the next
+    delivery. One settle step.
+    Cost: an orphan is never a requested parent, so it renders at root level with no
+    affordance even if it does have children.
+
+(b) root := parent absent from this delivery ("pseudo-root")
+    Finance ⇒ Tablets counted as a root ⇒ its children requested ⇒ next delivery drops
+    Tablets itself (Electronics is not in the set) ⇒ Tablets leaves the set the round
+    after. Two settle steps: the row visibly flickers in and back out, and one retrieve
+    is spent on a node that is about to disappear.
+    Gain: a genuine orphan does get its affordance.
+```
+
+(a) is chosen: an item whose parent the app will not deliver is not really a tree root, and spending a retrieve plus a visible flicker to give it an affordance dignifies an accident of configuration. The consequence is recorded as a trade-off below, not hidden.
+
+**Architecture: the feedback loop becomes explicit.** Visibility lives on `treeNodeState`, which lives in `useIncrementalTreeData` — so the filter has to be derived from the built tree. Today's code emulates that loop through an append-only log; D6 makes it a loop on purpose:
+
+```
+ datasource.items ──► useIncrementalTreeData ──► treeData (nodes + EXPANDED flags)
+        ▲                                              │
+        │                                              ▼
+   setFilter ◄──── deriveDesiredParents(treeData, startExpanded)
+                          │
+                    guard: skip while items === undefined
+                    guard: skip when the set equals lastAppliedParentIds
+```
+
+`TreeNodeV2` consequently calls `useIncrementalTreeData(props.datasource.items, treeConfig)` directly and passes the resulting `treeData` into the preload hook, instead of threading `items` out of it — `useInfiniteTreeNodes` returns `datasource.items` verbatim today, so that indirection buys nothing once the hook no longer owns the item flow. The file keeps its name so the diff stays legible against D3/D5.
+
+**Why the init block survives.** The one-time init (`initializedRef`) still applies a root-only filter when "Start expanded" is No, and still applies _no_ filter when it is Yes. That asymmetry is load-bearing: for a non-microflow datasource with "Start expanded" = Yes, the unfiltered first delivery returns the whole table in a single retrieve, and the derived set computed from it is immediately stable (everything delivered is expanded, so everything is already a desired parent) — one confirming `setFilter`, then silence. Deriving from an empty tree instead would start at `{undefined}` and walk the tree down one retrieve per level, trading one round trip for depth-many.
+
+**Convergence.** Membership in `desiredParents` depends on a node's _ancestry_ only, never on its descendants, so the set cannot feed itself: requesting P's children can add P's children to the set, but never changes P's own membership. Combined with the equality guard, that bounds the loop:
+
+- Normal datasource: the set grows only as the user expands. Each delivery recomputes to the same set ⇒ one `setFilter`, then silence.
+- Microflow datasource (WC-3564's villain, ignores `setFilter` and redelivers everything): the tree is full, the set derived from it is stable, the one `setFilter` is ignored, the next delivery is identical ⇒ no further calls. No loop and no stuck state — strictly better than D3's `addedAny` termination, which depended on deliveries differing.
+- Shrinking (a department switch): the set shrinks once and settles, per the ancestry-only argument above.
+
+**Stale `ObjectItem`s.** `setFilter` needs real `ObjectItem`s for `literal()`, and `useIncrementalTreeData` deliberately keeps nodes the current delivery did not mention (D4a). The derived set is therefore built only from ids present in the current delivery, so a node holding an `ObjectItem` from an older delivery never reaches `literal()`.
+
+**Expansion stays a mutation.** The click handler mutates `node.treeNodeState` and calls `forceRender`, so an effect keyed on `treeData` does not re-fire on expand; the handler calls the recompute imperatively instead. `appendItems(newItem, children)` therefore becomes an argument-less `syncPreloadFilter()` — the expansion state it used to be told about is now already on the node. Lifting expansion into real React state would let the effect fire on its own, but it rewrites D2/D4 territory for no behavioural gain, so it stays out.
+
 ## Risks / Trade-offs
 
 - **[Trade-off]** If a real (non-microflow) datasource's `status` never meaningfully transitions to `Loading` for some fetch (e.g. resolves synchronously from cache), the spinner simply won't show for that fetch — same as the original pre-`LOADING`-commit behavior (brief icon pop-in instead of a spinner). Cosmetic only, not a functional regression.
@@ -126,6 +238,12 @@ The three mechanisms stay distinct and none is redundant: round1 fetches roots' 
 - **[Risk]** D4's per-update sort runs over `rootsRef` plus every node's `children` array on every datasource delivery — O(n log n) across the tree rather than the previous O(1)-per-known-id. → **Mitigation**: the `children.length > 1` guard skips single-child and leaf nodes, which is most of a typical tree; the work is proportional to what the datasource just delivered, which the hook already iterates twice.
 - **[Risk]** D5 changes `setFilter` call _timing and count_ in `useInfiniteTreeNode.ts` — precisely the category the lesson above says must not be trusted on mocked unit tests alone. The round1 early return is removed and the three mechanisms now share one call per pass, which is a behavioral change to the exact code path that broke live before. → **Mitigation**: mandatory live re-verification of all four scenarios (both WC-3564 bugs, the "Expanded bug" 4-tier cascade, and the "Collapsed bug" `startExpanded = false` path) against `~/Documents/_tickets/WC-3564-2` before this change is considered done — not just the new tests passing. Tracked as its own task group.
 - **[Risk]** D4's early return on `items === undefined` means the widget renders stale nodes for the duration of a load, where it previously rendered an empty message. If a load never completes, the user sees old data with no indication rather than an empty tree. → **Mitigation**: accepted, and this is the intended behavior — D2's spinner is what indicates the in-flight load, and showing an empty tree mid-refresh was the reported bug.
+
+- **[Risk]** D6 rewrites `setFilter` timing and count a third time — the exact category task 7.1 proved cannot be trusted on mocked unit tests alone, and the category D5's risk entry already flagged. → **Mitigation**: the same mandatory live re-verification, extended with the department-switch scenario that found D6 in the first place (`treenodev2_advanced`, both `startExpanded` modes, at least two consecutive switches). A derivation is easier to reason about than three interacting flags, but that is an argument for reviewability, not a substitute for live proof.
+- **[Trade-off]** Under D6's chosen root definition, an orphan (an item whose `parentId` is set but whose parent the datasource does not deliver) is never a requested parent, so it renders at root level with no expand affordance even if it has children. → **Accepted**: the alternative (definition (b)) costs a visible flicker plus a wasted retrieve on every result-set change, to serve a case that is usually a configuration accident. Recorded as a Non-Goal above.
+- **[Trade-off]** Immediately after a result-set replacement, rows left over from the previous set (children of the previous set's parents, e.g. `Tablets` under department Finance) render once, inert, and disappear on the following delivery once the filter stops asking for their parents. A one-delivery transient, self-cleaning, and strictly better than today's behaviour where those rows persist for the widget's lifetime.
+- **[Risk]** The derived set is recomputed by walking the tree on every delivery, plus a set comparison — O(n) where the previous mechanism was O(1) per already-known id. → **Mitigation**: the same order of work D4a's per-update sort already introduced in the sibling hook, over data the hook already iterates; and it replaces up to three separate `datasource.items` passes (round1, round2, the sweep) with one.
+- **[Risk]** Making the tree → filter → tree loop explicit invites an infinite `setFilter` loop if the derivation is ever made to depend on a node's descendants. → **Mitigation**: `desiredParents` membership is defined over ancestry only, which is what makes the loop provably terminating (see D6); a unit test asserts that a repeated identical delivery triggers zero further `setFilter` calls, and the `lastAppliedParentIdsRef` equality guard is the backstop.
 
 ## Migration Plan
 
