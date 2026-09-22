@@ -137,6 +137,10 @@
                                     <enumerationValue key="manual">Manual</enumerationValue>
                                 </enumerationValues>
                             </property>
+                            <property key="size" type="integer" defaultValue="1">
+                                <caption>Column size</caption>
+                                <description />
+                            </property>
                             <property key="minWidth" type="enumeration" defaultValue="auto">
                                 <caption>Min width</caption>
                                 <description />
@@ -148,10 +152,6 @@
                             </property>
                             <property key="minWidthLimit" type="integer" defaultValue="100">
                                 <caption>Min width value (px)</caption>
-                                <description />
-                            </property>
-                            <property key="size" type="integer" defaultValue="1">
-                                <caption>Column size</caption>
                                 <description />
                             </property>
                             <property key="alignment" type="enumeration" defaultValue="left">
