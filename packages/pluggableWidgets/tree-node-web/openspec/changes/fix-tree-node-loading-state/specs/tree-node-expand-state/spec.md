@@ -73,7 +73,7 @@ Because every node defaults to expanded (not just roots) when "Start expanded" i
 
 ### Requirement: The auto-cascade does not apply when "Start expanded" is No
 
-The v2 Tree Node widget SHALL NOT auto-cascade the preload beyond the existing capped behavior (root's children, plus one level of lookahead) when "Start expanded" is No, since deeper tiers remain collapsed by default and already resolve correctly via a single real click. Auto-cascading further in this mode would only eagerly fetch descendants of branches the user has not opened.
+The v2 Tree Node widget SHALL NOT preload beyond visible nodes plus one level of lookahead when "Start expanded" is No, since deeper tiers remain collapsed by default and already resolve correctly via a single real click. Preloading further in this mode would only eagerly fetch descendants of branches the user has not opened. With nothing expanded, "visible nodes plus one level" resolves to exactly the root nodes and their children; it grows only as the user actually expands.
 
 #### Scenario: A 3rd-tier arrival does not trigger a further automatic round when collapsed by default
 
@@ -96,7 +96,7 @@ The v2 Tree Node widget SHALL keep preloading one level ahead for nodes the user
 
 #### Scenario: Repeated deliveries do not re-request the same parent
 
-- **WHEN** a datasource delivery introduces no children that are not already tracked as a known parent or a known preloaded child
+- **WHEN** a datasource delivery leaves the set of parents the widget needs unchanged from the set it last requested
 - **THEN** no further preload request is issued for that delivery, and no parent id appears more than once in the preload filter
 
 ### Requirement: A node's expanded or collapsed state survives a tree rebuild
@@ -122,3 +122,37 @@ The v2 Tree Node widget SHALL remember each node's expanded/collapsed state by i
 
 - **WHEN** an item id appears that has no remembered state (a genuinely new node)
 - **THEN** that node is created directly in the state `startExpanded` dictates (`EXPANDED` or `COLLAPSED_WITH_JS`) — never in a stored `LOADING` state
+
+### Requirement: The set of parents to preload is derived from the current tree, never accumulated from delivery history
+
+The v2 Tree Node widget SHALL determine which parents to request on every datasource delivery by deriving them from the tree as it currently stands — the roots, plus every node all of whose ancestors have their subtree rendered, plus every child of such a node — and SHALL request exactly that set. A node's subtree counts as rendered when the node is expanded, and also when it was expanded and then collapsed again (its body remains in the DOM, hidden), but not when it has never been expanded. It MUST NOT maintain a record of what has already been fetched, a one-shot "preload done" flag, or any other delivery-history state as the basis for that decision. A node counts as a root for this purpose only when it has no parent at all, not merely when its parent is absent from the current delivery.
+
+#### Scenario: A replaced result set still gets its expand affordance
+
+- **WHEN** an app-level constraint replaces the datasource's entire result set (for example the user picks a different department in a gallery that filters the tree), producing a set of roots none of which the widget has seen before
+- **THEN** the widget requests the new roots' children, and every new root that has children shows its expand affordance — it is not left inert with no icon, no `aria-expanded`, no clickable header and no keyboard expand
+
+#### Scenario: Consecutive result-set replacements each behave identically
+
+- **WHEN** the result set is replaced a second and third time in the same session, without the widget remounting
+- **THEN** each replacement is treated exactly like the first — there is no round, flag, or budget that a previous replacement can have used up
+
+#### Scenario: Parents from a previous result set are no longer requested
+
+- **WHEN** a delivery no longer contains an item that was previously a requested parent
+- **THEN** that item's id is absent from the next filter the widget applies, so its children are no longer retrieved
+
+#### Scenario: Collapsing a node does not drop what was already fetched below it
+
+- **WHEN** the user collapses a node whose descendants have already been retrieved
+- **THEN** the widget requests the same set of parents as before the collapse, and re-expanding that node shows its children with their expand affordances intact
+
+#### Scenario: An item whose parent is not delivered is not treated as a root
+
+- **WHEN** a delivered item has a parent association pointing at an object the datasource does not deliver
+- **THEN** the widget does not request that item's children on the grounds that it renders at root level, and it therefore shows no expand affordance — the item leaves the tree on the following delivery, once the filter stops asking for its parent
+
+#### Scenario: Only items in the current delivery are used to build the filter
+
+- **WHEN** the tree still holds nodes whose ids were not in the current delivery (retained per the data-refresh behaviour)
+- **THEN** the filter is built only from items the current delivery provided, so no stale object reference is used to request children

@@ -42,3 +42,17 @@ The v2 Tree Node widget SHALL treat an undefined `datasource.items` as "not yet 
 
 - **WHEN** the reload completes and the datasource delivers items again
 - **THEN** the widget applies the new items — including any additions, removals, and the current datasource order — to the tree it preserved
+
+### Requirement: A replaced result set does not leave rows from the previous one behind
+
+The v2 Tree Node widget SHALL NOT keep requesting children of parents that belong to a superseded result set. When an app-level constraint replaces the datasource's result set, rows that are only present because a previous set's parents are still being requested MUST NOT persist in the tree.
+
+#### Scenario: Leftover rows from the previous result set disappear
+
+- **WHEN** an app-level constraint replaces the result set, and the first delivery after that switch still contains items retrieved on account of the previous set's parents
+- **THEN** those items are gone from the tree by the time the widget has settled, rather than remaining alongside the new set's genuine roots for the rest of the session
+
+#### Scenario: Retrieval does not grow across result-set changes
+
+- **WHEN** the result set is replaced repeatedly during a session
+- **THEN** the number of parents the widget asks for reflects only the current tree, and does not accumulate the parents of every set seen so far
