@@ -155,6 +155,12 @@ $root: ".widget-datagrid";
     /* If Column Header has filter */
     &:has(.th .column-container .filter:not(:empty)) {
         .th {
+            /*
+                When the column is smaller than the filter can be, the filter will overflow outside of the column to the space of the next column.
+                This is not visible in normal scenario as next colum naturally hides the overflow of the previous column.
+                But when the filter selector is open in virtual scrolling, the column gets lifted with z-index and the overflow becomes visible.
+             */
+            overflow: clip;
             &.column-selector {
                 padding: var(--spacing-medium, $spacing-medium) 0;
             }
