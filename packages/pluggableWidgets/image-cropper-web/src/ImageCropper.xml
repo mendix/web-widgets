@@ -44,6 +44,10 @@
                     <description>Height side of the ratio (e.g. 2 in 3:2). Used when Aspect ratio is Custom. Can be bound to an attribute or expression.</description>
                     <returnType type="Integer" />
                 </property>
+                <property key="initialCropSize" type="integer" defaultValue="100" required="true">
+                    <caption>Initial crop size (%)</caption>
+                    <description>How much of the image the crop box covers when it first appears and after Reset, as a percentage of the image (1-100). 100 selects the full image; a lower value centers a smaller box that the user can resize afterwards.</description>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Events">
                 <property key="onCropAction" type="action" required="false">
