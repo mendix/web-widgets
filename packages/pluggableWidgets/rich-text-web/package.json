@@ -77,7 +77,7 @@
         "katex": "^0.16.22",
         "linkifyjs": "^4.3.2",
         "lodash.merge": "^4.6.2",
-        "react-dropzone": "^14.3.8",
+        "react-dropzone": "^20.1.1",
         "react-scroll-sync": "^1.0.2",
         "react-simple-code-editor": "^0.14.1"
     },
