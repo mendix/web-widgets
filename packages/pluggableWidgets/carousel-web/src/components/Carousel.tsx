@@ -19,6 +19,8 @@ export interface CarouselProps {
     animation?: boolean;
     autoplay?: boolean;
     delay?: number;
+    slidesPerView?: number;
+    slidesPerGroup?: number;
     navigation: boolean;
     className: string;
     tabIndex?: number | undefined;
@@ -27,7 +29,21 @@ export interface CarouselProps {
 }
 
 export function Carousel(props: CarouselProps): ReactElement {
-    const { items, pagination, loop, animation, autoplay, delay, navigation, className, tabIndex, id, onClick } = props;
+    const {
+        items,
+        pagination,
+        loop,
+        animation,
+        autoplay,
+        delay,
+        slidesPerView,
+        slidesPerGroup,
+        navigation,
+        className,
+        tabIndex,
+        id,
+        onClick
+    } = props;
     const [activeIndex, setActiveIndex] = useState<number>(0);
 
     const getSlideId = useCallback(
@@ -47,7 +63,8 @@ export function Carousel(props: CarouselProps): ReactElement {
     };
 
     const options: SwiperOptions = {
-        slidesPerView: 1,
+        slidesPerView,
+        slidesPerGroup,
         centeredSlides: true,
         loop,
         navigation,
@@ -76,9 +93,9 @@ export function Carousel(props: CarouselProps): ReactElement {
             <Swiper
                 onActiveIndexChange={updateSwiperIndex}
                 wrapperTag={"ul"}
-                {...options}
                 onClick={onClick}
                 onSwiper={updateSwiperIndex}
+                {...options}
             >
                 {items?.map((item, index) => (
                     <SwiperSlide tag={"li"} aria-hidden={index !== activeIndex} key={item.id} id={getSlideId(item)}>
