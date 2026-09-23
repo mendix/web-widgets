@@ -58,7 +58,9 @@ export async function dev() {
     }
     if (options.withPreps || options.updateProject) {
         // Run update project hook
-        await updateTestProject();
+        // No explicit version in dev mode — updateTestProject falls back to the
+        // version the .mpr was saved with to pick the matching Atlas release.
+        await updateTestProject(process.env.MENDIX_VERSION);
 
         console.log(
             c.yellow(

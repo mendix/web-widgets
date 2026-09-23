@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import fetch from "node-fetch";
 import c from "ansi-colors";
 import sh from "shelljs";
+import { needsDesignPropertyRename } from "./atlas.mjs";
 
 const { cat } = sh;
 
@@ -46,7 +47,7 @@ export async function prepareImage(name, mendixVersion) {
     return image;
 }
 
-export function createDeploymentBundle(mxbuildImage, projectFile) {
+export function createDeploymentBundle(mxbuildImage, projectFile, mendixVersion) {
     console.log(`Start building deployment bundle.`);
 
     const mprPath = `/source/${projectFile}`;
@@ -55,7 +56,11 @@ export function createDeploymentBundle(mxbuildImage, projectFile) {
     const subCommands = [
         // 1. Update widgets in project.
         `mx update-widgets --loose-version-check ${mprPath}`,
-        // 2. Build project to:
+        // 2. Sync the model with the Atlas version copied into the test project.
+        //    Atlas 4 (Mendix 11) renamed design properties, without this the build
+        //    fails on renamed design properties and Atlas layouts.
+        ...(needsDesignPropertyRename(mendixVersion) ? [`mx rename-design-properties ${mprPath}`] : []),
+        // 3. Build project to:
         //      a. Check errors.
         //      b. Prepare `deployment` dir for mxruntime.
         // Output file is not used, so put it to tmp.
