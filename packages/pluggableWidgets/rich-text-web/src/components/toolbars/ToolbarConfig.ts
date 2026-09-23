@@ -83,12 +83,14 @@ export interface ToolbarGroupConfig {
 
 export interface ToolbarContextType {
     activeDropdown: DropdownCommand | null;
+    pendingImageDialogFiles?: File[];
     handleDropdownToggle: (dropdownType: DropdownCommand | null) => void;
     handleDropdownClose: () => void;
 }
 
 export const ToolbarContext = createContext<ToolbarContextType>({
     activeDropdown: null,
+    pendingImageDialogFiles: [],
     handleDropdownToggle: () => {},
     handleDropdownClose: () => {}
 });

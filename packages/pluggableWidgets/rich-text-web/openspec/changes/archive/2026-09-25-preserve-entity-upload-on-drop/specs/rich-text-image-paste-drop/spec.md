@@ -1,10 +1,4 @@
-# rich-text-image-paste-drop Specification
-
-## Purpose
-
-TBD - created by archiving change add-image-paste-drop. Update Purpose after archive.
-
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Dropped image files are inserted as base64 images
 

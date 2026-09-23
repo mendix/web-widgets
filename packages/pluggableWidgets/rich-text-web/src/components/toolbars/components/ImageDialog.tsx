@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { ReactElement, useState, useEffect, KeyboardEvent } from "react";
+import { ReactElement, useState, useEffect, KeyboardEvent, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import { DialogShell } from "./DialogShell";
 import { useT } from "../../../utils/i18n";
@@ -18,9 +18,10 @@ const toPixelValue = (value: string): string | undefined => {
     return `${parsed}px`;
 };
 
-export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): ReactElement {
+export function ImageDialog({ onClose, referenceElement, initialFiles }: ImageDialogProps): ReactElement {
     const { editor, imageConfig, dialogStyle } = useCurrentEditor();
     const { imageSourceContent, enableDefaultUpload, hasImageSource } = imageConfig;
+    const showUploadTab = enableDefaultUpload;
     const t = useT();
     const [activeTab, setActiveTab] = useState<ImageSourceMode>("url");
     const [src, setSrc] = useState("");
@@ -32,11 +33,39 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [selectedEntityImage, setSelectedEntityImage] = useState<EntityImage | null>(null);
     const [dragError, setDragError] = useState<string>("");
+    const pendingEntityUploadFilesRef = useRef<File[] | null>(null);
     // The `imageSelected` event target: app-developer JS actions dispatch that event at the
     // `.toolbar-dialog` node, so `DialogShell` forwards this ref onto it rather than owning it.
     // Held in state, not a ref: the dialog is portalled, and a portal's children mount one commit
     // after the dialog itself, so a mount-time effect would still see `null`.
     const [dialogNode, setDialogNode] = useState<HTMLDivElement | null>(null);
+
+    const toFileList = (files: File[]): FileList => {
+        if (typeof DataTransfer !== "undefined") {
+            const dataTransfer = new DataTransfer();
+            files.forEach(file => dataTransfer.items.add(file));
+            return dataTransfer.files;
+        }
+
+        return files as unknown as FileList;
+    };
+
+    const handOffFilesToEntityUploader = (files: File[]): void => {
+        if (!dialogNode) {
+            return;
+        }
+
+        const input = dialogNode.querySelector(".image-dialog-entity input[type='file']") as HTMLInputElement | null;
+        if (!input) {
+            return;
+        }
+
+        Object.defineProperty(input, "files", {
+            configurable: true,
+            value: toFileList(files)
+        });
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+    };
 
     const handleTabChange = (newTab: ImageSourceMode): void => {
         setActiveTab(newTab);
@@ -166,6 +195,40 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
     };
 
     useEffect(() => {
+        if (!initialFiles?.length) {
+            return;
+        }
+
+        if (hasImageSource) {
+            pendingEntityUploadFilesRef.current = initialFiles;
+            setActiveTab("entity");
+            return;
+        }
+
+        setActiveTab(showUploadTab ? "upload" : "url");
+        if (showUploadTab) {
+            void handleFileDrop(initialFiles);
+            return;
+        }
+
+        void handleFileDrop(initialFiles);
+    }, [handleFileDrop, hasImageSource, initialFiles, showUploadTab]);
+
+    useEffect(() => {
+        if (activeTab !== "entity" || !hasImageSource || !dialogNode) {
+            return;
+        }
+
+        const files = pendingEntityUploadFilesRef.current;
+        if (!files?.length) {
+            return;
+        }
+
+        handOffFilesToEntityUploader(files);
+        pendingEntityUploadFilesRef.current = null;
+    }, [activeTab, dialogNode, hasImageSource]);
+
+    useEffect(() => {
         // event listener for image selection triggered from custom widgets JS Action
         if (dialogNode === null) {
             return;
@@ -203,7 +266,7 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
                         >
                             {t("image.tabUrl")}
                         </button>
-                        {enableDefaultUpload && (
+                        {showUploadTab && (
                             <button
                                 type="button"
                                 className={activeTab === "upload" ? "active" : ""}
@@ -242,7 +305,7 @@ export function ImageDialog({ onClose, referenceElement }: ImageDialogProps): Re
                     )}
 
                     {/* Upload Tab Content */}
-                    {enableDefaultUpload && activeTab === "upload" && (
+                    {showUploadTab && activeTab === "upload" && (
                         <div className="tab-content">
                             {(() => {
                                 const isReject = isDragActive && isDragReject;

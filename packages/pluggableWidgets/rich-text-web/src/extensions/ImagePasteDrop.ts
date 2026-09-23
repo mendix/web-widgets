@@ -23,6 +23,8 @@ import { ImageFileError, pickImageFiles, readFileAsDataUrl, validateImageFile } 
 
 /** Fired on the editor DOM node when a dropped or pasted file is rejected. */
 export const IMAGE_DROP_ERROR_EVENT = "richtextImageDropError";
+/** Fired on the editor DOM node when an image file is detected but must be handled by the editor UI. */
+export const IMAGE_REQUEST_EVENT = "richtextImageRequest";
 
 export interface ImagePasteDropOptions {
     /** Whether the widget's "Enable default upload" property is on. */
@@ -37,9 +39,12 @@ export interface ImagePasteDropOptions {
 export type ImageEventDecision =
     /** No image file present: leave the event to ProseMirror. */
     | "ignore"
-    /** Image file present but insertion not allowed: neutralise, insert nothing. */
-    | "swallow"
-    | "insert";
+    /** Image file present but insertion is blocked: neutralise and request UI handling. */
+    | "request"
+    /** Image file present and insertion is allowed: insert inline. */
+    | "insert"
+    /** Image file present but the editor is read-only: neutralise and do nothing. */
+    | "swallow";
 
 export interface ImageInsertContext {
     insertImage: (src: string, pos: number) => void;
@@ -54,7 +59,13 @@ export function decideImageEvent(
     if (files.length === 0) {
         return "ignore";
     }
-    return gate.isEnabled() && gate.isEditable() ? "insert" : "swallow";
+    if (!gate.isEditable()) {
+        return "swallow";
+    }
+    if (!gate.isEnabled()) {
+        return "request";
+    }
+    return "insert";
 }
 
 /**
@@ -192,6 +203,15 @@ export const ImagePasteDrop = Extension.create<ImagePasteDropOptions>({
                             dragDepth = 0;
                             setDragOver(view.dom as HTMLElement, false);
 
+                            if (decision === "request") {
+                                view.dom.dispatchEvent(
+                                    new CustomEvent(IMAGE_REQUEST_EVENT, {
+                                        detail: { source: "drop", files }
+                                    })
+                                );
+                                return true;
+                            }
+
                             if (decision === "swallow") {
                                 return true;
                             }
@@ -215,6 +235,14 @@ export const ImagePasteDrop = Extension.create<ImagePasteDropOptions>({
                             }
 
                             event.preventDefault();
+                            if (decision === "request") {
+                                view.dom.dispatchEvent(
+                                    new CustomEvent(IMAGE_REQUEST_EVENT, {
+                                        detail: { source: "paste", files }
+                                    })
+                                );
+                                return true;
+                            }
                             if (decision === "swallow") {
                                 return true;
                             }

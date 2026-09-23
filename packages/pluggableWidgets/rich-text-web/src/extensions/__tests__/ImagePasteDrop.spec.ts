@@ -2,7 +2,7 @@ import { Editor } from "@tiptap/core";
 import { Image } from "@tiptap/extension-image";
 import { StarterKit } from "@tiptap/starter-kit";
 import { ImageFileError } from "../../utils/imageFiles";
-import { IMAGE_DROP_ERROR_EVENT, ImagePasteDrop, insertImageFiles } from "../ImagePasteDrop";
+import { IMAGE_DROP_ERROR_EVENT, IMAGE_REQUEST_EVENT, ImagePasteDrop, insertImageFiles } from "../ImagePasteDrop";
 
 const DRAG_OVER_CLASS = "rich-text-drag-over";
 
@@ -153,9 +153,11 @@ describe("ImagePasteDrop drop handling", () => {
         expect(event.preventDefault).not.toHaveBeenCalled();
     });
 
-    it("swallows the drop when default upload is disabled", async () => {
+    it("requests the editor image dialog when default upload is disabled", async () => {
         const { editor, handlers, errors } = makeHarness({ enabled: false });
         const event = dropEvent([imageFile("a.png", "a")]);
+        const requestListener = jest.fn();
+        editor.view.dom.addEventListener(IMAGE_REQUEST_EVENT, requestListener);
 
         expect(handlers.drop(editor.view, event)).toBe(true);
         expect(event.preventDefault).toHaveBeenCalled();
@@ -163,6 +165,8 @@ describe("ImagePasteDrop drop handling", () => {
 
         expect(imagePositions(editor)).toHaveLength(0);
         expect(errors).toEqual([]);
+        expect(requestListener).toHaveBeenCalledTimes(1);
+        expect(requestListener.mock.calls[0][0].detail).toMatchObject({ source: "drop" });
     });
 
     it("swallows the drop when the editor is read-only", async () => {
@@ -199,14 +203,18 @@ describe("ImagePasteDrop paste handling", () => {
         expect(event.preventDefault).not.toHaveBeenCalled();
     });
 
-    it("swallows the paste when default upload is disabled", async () => {
+    it("requests the editor image dialog when pasted image is dropped while default upload is disabled", async () => {
         const { editor, handlers } = makeHarness({ enabled: false });
         const event = pasteEvent([imageFile("a.png", "a")]);
+        const requestListener = jest.fn();
+        editor.view.dom.addEventListener(IMAGE_REQUEST_EVENT, requestListener);
 
         expect(handlers.paste(editor.view, event)).toBe(true);
         await flush();
 
         expect(imagePositions(editor)).toHaveLength(0);
+        expect(requestListener).toHaveBeenCalledTimes(1);
+        expect(requestListener.mock.calls[0][0].detail).toMatchObject({ source: "paste" });
     });
 });
 
