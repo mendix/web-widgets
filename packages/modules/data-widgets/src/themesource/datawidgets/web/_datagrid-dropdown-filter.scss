@@ -61,6 +61,8 @@ $root: ".widget-dropdown-filter";
         padding-block: var(--wdf-button-spacing);
         padding-inline-end: var(--wdf-button-spacing);
         padding-inline-start: var(--wdf-button-spacing);
+        // Prevents the toggle indicator from visually overflowing the button boundary in narrow columns.
+        overflow: clip;
     }
 
     &-popover {
