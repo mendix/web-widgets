@@ -42,6 +42,22 @@ The image dialog configuration (image source content, default-upload flag, and w
 - **THEN** it obtains image source content, the default-upload flag, and the has-image-source flag from the editor context
 - **AND** intermediate toolbar components do not forward these values as props
 
+### Requirement: Pending files are forwarded to entity upload when available
+
+The Rich Text image dialog SHALL, when opened with `initialFiles` and `hasImageSource` is true, activate the Media Library tab and forward the files to the embedded `imageSourceContent` uploader so the external File Uploader widget handles the upload. The dialog SHALL NOT convert those files to base64 in that case. When `hasImageSource` is false, the dialog SHALL preserve the existing base64 upload behavior for `initialFiles`.
+
+#### Scenario: Entity uploader is available
+
+- **WHEN** the image dialog opens with dropped or pasted files and an image source is configured
+- **THEN** the Media Library tab becomes active
+- **AND** the files are handed to the embedded uploader
+- **AND** the dialog does not convert them to base64
+
+#### Scenario: No entity uploader is configured
+
+- **WHEN** the image dialog opens with `initialFiles` and no image source is configured
+- **THEN** the dialog preserves the base64 upload path for the files
+
 ### Requirement: Image dialog supports initial dimensions and aspect-ratio toggle
 
 The Rich Text image dialog SHALL provide a Width input, a Height input, and a "Maintain aspect ratio" checkbox that let the user set an image's initial dimensions at insert time. The checkbox SHALL default to checked. While the checkbox is checked, the Height input SHALL be disabled and only the width SHALL be applied to the inserted image (height left unset so the browser derives it proportionally). While the checkbox is unchecked, both Width and Height SHALL be applied as entered. Width and Height are optional; only filled, positive-numeric values SHALL be applied, and each applied value SHALL be expressed as a pixel string (e.g., `300` becomes `300px`). Empty or non-positive/non-numeric values SHALL be omitted, preserving the image's natural size. Toggling the checkbox SHALL NOT clear a previously entered Height value.

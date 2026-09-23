@@ -3,6 +3,7 @@
     "exclude": ["./src/assets/plugins"],
     "compilerOptions": {
         "baseUrl": "./",
+        "ignoreDeprecations": "5.0",
         "noEmitOnError": true,
         "sourceMap": true,
         "module": "esnext",

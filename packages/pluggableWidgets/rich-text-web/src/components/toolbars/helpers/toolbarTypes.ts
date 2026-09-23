@@ -43,6 +43,7 @@ export interface ColorPickerProps extends BaseDialogProps {
 export interface ImageDialogProps {
     onClose: () => void;
     referenceElement: HTMLElement | null;
+    initialFiles?: File[];
 }
 
 /**

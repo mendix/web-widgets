@@ -126,7 +126,9 @@ function EditorInner({
         };
 
         dom.addEventListener(IMAGE_DROP_ERROR_EVENT, handleDropError);
-        return () => dom.removeEventListener(IMAGE_DROP_ERROR_EVENT, handleDropError);
+        return () => {
+            dom.removeEventListener(IMAGE_DROP_ERROR_EVENT, handleDropError);
+        };
     }, [editor]);
 
     useEffect(() => {

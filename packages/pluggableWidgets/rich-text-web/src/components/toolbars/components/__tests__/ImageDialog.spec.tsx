@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { ReactElement } from "react";
 import { DialogStyleEnum } from "../../../../../typings/RichTextProps";
 import { EditorContext, ImageDialogConfig } from "../../../EditorContext";
@@ -255,6 +255,127 @@ describe("ImageDialog insertion isolation", () => {
         expect(attrs.dataEntity).toBe(true);
         expect(attrs.dataEntityId).toBe("id-1234-5678");
         expect(onClose).toHaveBeenCalledTimes(1);
+    });
+});
+
+describe("ImageDialog pending upload from drop/paste", () => {
+    it("opens the upload tab and loads the dropped file as the source when upload is enabled", async () => {
+        const setImage = jest.fn();
+        const onClose = jest.fn();
+        const chain = {
+            focus: () => chain,
+            setImage: (attrs: Record<string, unknown>) => {
+                setImage(attrs);
+                return chain;
+            },
+            run: () => true
+        };
+        const editor = { chain: () => chain } as any;
+        const file = new File(["abc"], "upload.png", { type: "image/png" });
+
+        render(
+            <EditorContext.Provider
+                value={{
+                    editor,
+                    codeViewState: { isCodeView: false, htmlCode: "", showConfirm: false },
+                    codeViewDispatch: () => undefined,
+                    dialogStyle: "inline",
+                    imageConfig: { enableDefaultUpload: true, hasImageSource: false }
+                }}
+            >
+                {(<ImageDialog onClose={onClose} referenceElement={null} initialFiles={[file]} />) as ReactElement}
+            </EditorContext.Provider>
+        );
+
+        await waitFor(() => {
+            expect(screen.getByRole("button", { name: "Upload" })).toHaveClass("active");
+        });
+
+        await waitFor(() => {
+            expect(screen.getByText("upload.png")).toBeInTheDocument();
+        });
+    });
+
+    it("opens the entity tab and hands dropped files to the embedded uploader when media-library upload is available", async () => {
+        const handleChange = jest.fn();
+        const onClose = jest.fn();
+        const file = new File(["abc"], "entity-upload.png", { type: "image/png" });
+
+        render(
+            <EditorContext.Provider
+                value={{
+                    editor: null,
+                    codeViewState: { isCodeView: false, htmlCode: "", showConfirm: false },
+                    codeViewDispatch: () => undefined,
+                    dialogStyle: "inline",
+                    imageConfig: {
+                        enableDefaultUpload: false,
+                        hasImageSource: true,
+                        imageSourceContent: (
+                            <input
+                                type="file"
+                                aria-label="entity-upload"
+                                onChange={event => {
+                                    handleChange(
+                                        Array.from(event.currentTarget.files ?? []).map(uploaded => uploaded.name)
+                                    );
+                                }}
+                            />
+                        )
+                    }
+                }}
+            >
+                {(<ImageDialog onClose={onClose} referenceElement={null} initialFiles={[file]} />) as ReactElement}
+            </EditorContext.Provider>
+        );
+
+        await waitFor(() => {
+            expect(screen.getByRole("button", { name: "Media Library" })).toHaveClass("active");
+        });
+
+        expect(screen.queryByRole("button", { name: "Upload" })).not.toBeInTheDocument();
+        expect(screen.queryByLabelText("Image URL")).not.toBeInTheDocument();
+        await waitFor(() => {
+            expect(handleChange).toHaveBeenCalledWith(["entity-upload.png"]);
+        });
+    });
+
+    it("keeps the upload tab hidden while processing a dropped file when default upload is disabled", async () => {
+        const setImage = jest.fn();
+        const onClose = jest.fn();
+        const chain = {
+            focus: () => chain,
+            setImage: (attrs: Record<string, unknown>) => {
+                setImage(attrs);
+                return chain;
+            },
+            run: () => true
+        };
+        const editor = { chain: () => chain } as any;
+        const file = new File(["abc"], "upload-disabled.png", { type: "image/png" });
+
+        render(
+            <EditorContext.Provider
+                value={{
+                    editor,
+                    codeViewState: { isCodeView: false, htmlCode: "", showConfirm: false },
+                    codeViewDispatch: () => undefined,
+                    dialogStyle: "inline",
+                    imageConfig: { enableDefaultUpload: false, hasImageSource: false }
+                }}
+            >
+                {(<ImageDialog onClose={onClose} referenceElement={null} initialFiles={[file]} />) as ReactElement}
+            </EditorContext.Provider>
+        );
+
+        await waitFor(() => {
+            expect(screen.queryByRole("button", { name: "Upload" })).not.toBeInTheDocument();
+        });
+
+        await waitFor(() => {
+            const input = screen.getByLabelText("Image URL") as HTMLInputElement;
+            expect(input.value).toMatch(/^data:image\/png;base64,/);
+        });
     });
 });
 
