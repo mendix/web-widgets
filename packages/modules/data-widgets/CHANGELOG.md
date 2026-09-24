@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the focus outline of column header filter inputs was clipped.
+
+- We fixed an issue where the dropdown filter's clear and toggle indicators visually overflowed the filter button in narrow columns.
+
+- We fixed an issue where filters and inputs overflowed their headers and cells in narrow columns.
+
 ## [3.11.6] DataWidgets - 2026-09-18
 
 ### Datagrid
