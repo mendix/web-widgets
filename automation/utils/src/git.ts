@@ -1,6 +1,9 @@
 import { exec } from "./shell";
 
 function getGHRepoAuthUrl(repoUrl: string): string {
+    if (!process.env.CI) {
+        return repoUrl;
+    }
     const url = new URL(repoUrl);
     const { GH_USERNAME, GH_PAT } = process.env;
     if (!GH_USERNAME || !GH_PAT) {
