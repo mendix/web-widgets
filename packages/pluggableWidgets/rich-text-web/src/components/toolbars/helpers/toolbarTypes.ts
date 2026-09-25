@@ -43,6 +43,7 @@ export interface ColorPickerProps extends BaseDialogProps {
 export interface ImageDialogProps {
     onClose: () => void;
     referenceElement: HTMLElement | null;
+    initialFiles?: File[];
 }
 
 /**
@@ -103,11 +104,6 @@ export type ImageSourceMode = "url" | "upload" | "entity";
 // ============================================================================
 // Constants
 // ============================================================================
-
-/**
- * Maximum file size for image uploads (5MB)
- */
-export const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 /**
  * Maximum table dimensions for TableGridSelector

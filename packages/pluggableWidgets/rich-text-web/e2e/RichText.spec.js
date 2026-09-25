@@ -1,8 +1,34 @@
 import { expect, test } from "@mendix/run-e2e/fixtures";
 import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
+/**
+ * Empties the editor before a test types its own content.
+ *
+ * `selectText()` builds a plain DOM range. ProseMirror maps that back to its own selection, and for
+ * the generated content — which contains a table — the result is not an `AllSelection`, so Backspace
+ * deletes nothing and the document survives untouched. `Ctrl/Cmd+A` goes through ProseMirror's own
+ * `selectAll` command instead, which always yields a deletable selection.
+ *
+ * Leftover content made downstream tests fail for unrelated-looking reasons: a bullet list built over
+ * the surviving paragraphs produced five `<li>` instead of one, and a double click landed on text
+ * that was not the one just typed.
+ *
+ * The `.tiptap` DOM keeps a placeholder paragraph when empty, so assert on text, not child count.
+ */
+async function clearEditor(page, editor) {
+    await expect(async () => {
+        await editor.click();
+        await page.keyboard.press("ControlOrMeta+a");
+        await page.keyboard.press("Backspace");
+        await expect(editor).toHaveText("", { timeout: 2000 });
+    }).toPass({ timeout: 15000 });
+}
+
 test.describe("RichText", () => {
-    test.describe.configure({ mode: "serial" });
+    // "default" (not "serial"): tests still run in order in a single worker, but a
+    // failure does not skip the remaining tests, so one CI run reports every
+    // screenshot diff instead of stopping at the first one.
+    test.describe.configure({ mode: "default" });
     test("compares with a screenshot baseline and checks if inline basic mode are rendered as expected", async ({
         page
     }) => {
@@ -31,12 +57,13 @@ test.describe("RichText", () => {
         await page.goto("/p/advanced");
         await waitForMendixApp(page);
         await expect(page.locator(".mx-name-richText1")).toBeVisible();
-        await expect(page.locator(".mx-name-richText1")).toHaveScreenshot(`bottomToolbarAdvancedMode.png`);
+        // Soft: a diff here must not abort the test, otherwise the dialog
+        // screenshot below is never compared and its diff never uploaded.
+        await expect.soft(page.locator(".mx-name-richText1")).toHaveScreenshot(`bottomToolbarAdvancedMode.png`);
 
         await page.click('.mx-name-richText1 .tiptap-toolbar button[title="Insert Image"]');
-        await expect(page.locator(".mx-name-richText1 .toolbar-dialog.image-dialog").first()).toHaveScreenshot(
-            `insertImageDialog.png`
-        );
+        // Dialogs render in a portal on <body>, so they are not descendants of the widget.
+        await expect(page.locator(".toolbar-dialog.image-dialog").first()).toHaveScreenshot(`insertImageDialog.png`);
     });
 
     test("compares with a screenshot baseline and checks if toolbar advanced mode are rendered as expected", async ({
@@ -46,7 +73,7 @@ test.describe("RichText", () => {
         await waitForMendixApp(page);
         await page.locator(".mx-name-richText4").scrollIntoViewIfNeeded();
         await expect(page.locator(".mx-name-richText4")).toBeVisible();
-        await expect(page.locator(".mx-name-richText4")).toHaveScreenshot(`toolbarAdvancedMode.png`);
+        await expect.soft(page.locator(".mx-name-richText4")).toHaveScreenshot(`toolbarAdvancedMode.png`);
 
         await page.click('.mx-name-richText4 .tiptap-toolbar button[title="View/Edit Code"]');
         await expect(page.locator(".mx-name-richText4 .highlighted-code-editor").first()).toHaveScreenshot(
@@ -179,9 +206,9 @@ test.describe("RichText", () => {
         await page.click(".mx-navbar-item [title='Demo']");
 
         await page.click('.mx-name-customWidget1 .tiptap-toolbar button[title="Insert YouTube Video"]');
-        await expect(page.locator(".toolbar-dialog.video-dialog").first()).toHaveScreenshot(
-            `richTextDialogInsidePopup.png`
-        );
+        await expect
+            .soft(page.locator(".toolbar-dialog.video-dialog").first())
+            .toHaveScreenshot(`richTextDialogInsidePopup.png`);
 
         await page.locator(".toolbar-dialog.video-dialog #video-url").fill("https://www.mendix.com");
         await expect(page.locator(".toolbar-dialog.video-dialog").first()).toHaveScreenshot(
@@ -210,12 +237,11 @@ test.describe("RichText", () => {
 
         // Blur the editor to trigger the save/normalize path.
         await page.keyboard.press("Tab");
-        await page.waitForTimeout(500);
 
         // The editor should now be empty. Tiptap keeps a placeholder paragraph
         // in the DOM, but the widget normalizes that empty paragraph to an
         // empty string on save (see normalizeEmpty in EditorWrapper).
-        expect((await editor.textContent())?.trim() || "").toBe("");
+        await expect(editor).toHaveText("");
         // No text nodes remain — only an empty placeholder paragraph/break.
         const strippedText = (await editor.innerHTML()).replace(/<[^>]*>/g, "").trim();
         expect(strippedText).toBe("");
@@ -231,9 +257,7 @@ test.describe("RichText", () => {
         await expect(editor).toBeVisible();
 
         // Clear any generated content so the assertions target only what we type.
-        await editor.click();
-        await editor.selectText();
-        await page.keyboard.press("Backspace");
+        await clearEditor(page, editor);
 
         // Insert a 2×2 table via the toolbar grid selector. Cells are laid out
         // row-major (10×10), so row 2 / col 2 is index (2-1)*10 + (2-1) = 11.
@@ -259,6 +283,56 @@ test.describe("RichText", () => {
         await expect(editor.locator("table li ul")).toHaveCount(1);
     });
 
+    for (const { label, button, tag } of [
+        { label: "bullet", button: "Bullet List", tag: "ul" },
+        { label: "numbered", button: "Numbered List", tag: "ol" }
+    ]) {
+        test(`enlarging a ${label} list item's first run enlarges its marker`, async ({ page }) => {
+            await page.goto("/p/advanced");
+            await waitForMendixApp(page);
+
+            const widget = page.locator(".mx-name-richText1");
+            const editor = widget.locator(".tiptap");
+            await editor.scrollIntoViewIfNeeded();
+            await expect(editor).toBeVisible();
+
+            await clearEditor(page, editor);
+
+            await widget.locator(`.tiptap-toolbar button[title="${button}"]`).click();
+            await page.keyboard.type("item");
+            await expect(editor.locator(`${tag} li`)).toHaveCount(1);
+
+            // Select the item's text, which puts the first character in the selection. The caret sits
+            // at the end of what was just typed, so a single `Shift+Home` covers it — and unlike a
+            // double click it cannot land on a neighbouring word or an empty line.
+            // Retried as a unit, and idempotent: repeating it keeps the same anchor and focus. A
+            // collapsed selection would make the font size a stored mark only, so no <span> is
+            // written and the assertions below would fail for an unrelated reason.
+            await expect(async () => {
+                await page.keyboard.press("Shift+Home");
+                expect(await page.evaluate(() => window.getSelection()?.toString().trim())).toBe("item");
+            }).toPass({ timeout: 5000 });
+
+            await widget.locator('.tiptap-toolbar button[title="Font Size"]').click();
+            await widget.locator('.tiptap-toolbar [data-value="84px"]').click();
+            await expect(editor.locator(`${tag} li span`)).toHaveCount(1);
+
+            // `::marker` is a pseudo-element, so `toHaveCSS` cannot reach it. `expect.poll`
+            // keeps the retry behaviour that a bare `evaluate` would lose.
+            await expect
+                .poll(() => editor.locator(`${tag} li`).evaluate(li => getComputedStyle(li, "::marker").fontSize))
+                .toBe("84px");
+
+            // The marker grows leftward out of the list's padding, so the gutter has to leave
+            // room for it — otherwise the number or bullet is clipped at the editor's edge.
+            const gutter = await editor
+                .locator(tag)
+                .first()
+                .evaluate(list => parseFloat(getComputedStyle(list).paddingLeft));
+            expect(gutter).toBeGreaterThan(84);
+        });
+    }
+
     test("inserting a YouTube URL renders a framable embed URL", async ({ page }) => {
         await page.goto("/p/advanced");
         await waitForMendixApp(page);
@@ -268,12 +342,11 @@ test.describe("RichText", () => {
         await editor.scrollIntoViewIfNeeded();
         await expect(editor).toBeVisible();
 
-        await editor.click();
-        await editor.selectText();
-        await page.keyboard.press("Backspace");
+        await clearEditor(page, editor);
 
         await widget.locator('.tiptap-toolbar button[title="Insert YouTube Video"]').click();
-        const dialog = widget.locator(".toolbar-dialog.video-dialog").first();
+        // Portalled to <body>, so scope the dialog to the page rather than the widget.
+        const dialog = page.locator(".toolbar-dialog.video-dialog").first();
         await expect(dialog).toBeVisible();
 
         await dialog.locator("#video-url").fill("https://www.youtube.com/watch?v=3k66DQuU31A");
@@ -286,5 +359,76 @@ test.describe("RichText", () => {
         await expect(iframe).toHaveAttribute("src", /^https:\/\/www\.youtube\.com\/embed\/3k66DQuU31A/);
         await expect(iframe).toHaveAttribute("title", /.+/);
         await expect(iframe).toHaveAttribute("allow", /encrypted-media/);
+    });
+
+    test("a dialog taller than the viewport scrolls internally and keeps its buttons usable", async ({ page }) => {
+        await page.goto("/p/advanced");
+        await waitForMendixApp(page);
+
+        // Short viewport so the image dialog cannot fit: the same situation a Media Library tab
+        // full of thumbnails creates, without needing that many images.
+        await page.setViewportSize({ width: 1024, height: 420 });
+
+        const widget = page.locator(".mx-name-richText1");
+        const editor = widget.locator(".tiptap");
+        await clearEditor(page, editor);
+
+        await widget.locator('.tiptap-toolbar button[title="Insert Image"]').click();
+
+        // Portalled to <body>, so it is not a descendant of the widget.
+        const dialog = page.locator(".toolbar-dialog.image-dialog").first();
+        await expect(dialog).toBeVisible();
+
+        // The dialog box stays inside the viewport instead of running off the bottom edge.
+        // Geometry is the behaviour under test here, so there is no CSS assertion to use instead.
+        const box = await dialog.boundingBox();
+        const viewport = page.viewportSize();
+        expect(box.y).toBeGreaterThanOrEqual(0);
+        expect(box.y + box.height).toBeLessThanOrEqual(viewport.height);
+
+        // The overflow moved into the dialog's own scroll region.
+        const scrolls = await dialog
+            .locator(".dialog-scroll")
+            .evaluate(element => element.scrollHeight > element.clientHeight);
+        expect(scrolls).toBe(true);
+
+        // The action buttons sit outside that scroll region, so they stay reachable: this is what
+        // clipping used to break.
+        await dialog.locator("#image-src").fill("https://www.mendix.com/logo.png");
+        const insert = dialog.getByRole("button", { name: "Insert", exact: true });
+        await expect(insert).toBeVisible();
+        await insert.click();
+
+        // ProseMirror injects its own `<img class="ProseMirror-separator">` cursor hack next to the
+        // inserted image, so an unfiltered `img` locator matches two elements and violates strict mode.
+        await expect(editor.locator("img:not(.ProseMirror-separator)")).toHaveAttribute(
+            "src",
+            "https://www.mendix.com/logo.png"
+        );
+    });
+
+    test("a dialog opened inside a popup page is not clipped by the popup", async ({ page }) => {
+        await page.goto("/");
+        await waitForMendixApp(page);
+
+        await page.click(".mx-navbar-item [title='Demo']");
+        await page.click('.mx-name-customWidget1 .tiptap-toolbar button[title="Insert YouTube Video"]');
+
+        // A popup page centres itself with a transform, which makes it the containing block for any
+        // fixed-positioned descendant. The dialog escapes it by rendering in a body-level portal.
+        const dialog = page.locator(".toolbar-dialog.video-dialog").first();
+        await expect(dialog).toBeVisible();
+        await expect(page.locator(".mx-name-customWidget1 .toolbar-dialog.video-dialog")).toHaveCount(0);
+
+        const box = await dialog.boundingBox();
+        const viewport = page.viewportSize();
+        expect(box.x).toBeGreaterThanOrEqual(0);
+        expect(box.y).toBeGreaterThanOrEqual(0);
+        expect(box.x + box.width).toBeLessThanOrEqual(viewport.width);
+        expect(box.y + box.height).toBeLessThanOrEqual(viewport.height);
+
+        // Still on top of the popup and interactive.
+        await dialog.locator("#video-url").fill("https://www.youtube.com/watch?v=3k66DQuU31A");
+        await expect(dialog.locator("#video-url")).toHaveValue(/3k66DQuU31A/);
     });
 });
