@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where filters and inputs overflowed their headers and cells in narrow columns.
 
+- We fixed an issue where rows with editable widgets were taller than necessary.
+
 ## [3.11.6] DataWidgets - 2026-09-18
 
 ### Datagrid

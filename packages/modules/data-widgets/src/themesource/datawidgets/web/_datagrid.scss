@@ -283,6 +283,16 @@ $root: ".widget-datagrid";
         > .td-custom-content {
             flex-grow: 1;
             min-width: 0;
+
+            // Atlas gives every .form-group a 16px margin-bottom meant for stacked form fields;
+            // inside a grid cell that just inflates the row height, so drop it on the trailing
+            // widget only (earlier ones may be deliberately stacked and need the gap between them).
+            // Skip widgets where the user explicitly picked a Spacing > Outer bottom value in
+            // Studio Pro (spacing-outer-bottom / -none / -medium / -large) — that's an explicit
+            // choice, not the Atlas default, and must win over this reset.
+            .form-group:last-child:not([class*="spacing-outer-bottom"]) {
+                margin-bottom: 0;
+            }
         }
 
         > .empty-placeholder {
