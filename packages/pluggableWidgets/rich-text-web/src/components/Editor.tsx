@@ -246,8 +246,12 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
     // deliberately keeps the editor's current `editable` on re-render, so neither
     // `configure()` values nor `editor.isEditable` follow these props. A ref
     // reassigned on every render does.
-    const configRef = useRef({ enableDefaultUpload, editable: !readOnly });
-    configRef.current = { enableDefaultUpload, editable: !readOnly };
+    // Studio Pro hides "Enable default upload" when no image source is set, but a hidden
+    // property keeps its stored value. Without an image source there is nowhere else to
+    // upload to, so a leftover `false` is ignored.
+    const uploadEnabled = enableDefaultUpload || imageSource == null;
+    const configRef = useRef({ enableDefaultUpload: uploadEnabled, editable: !readOnly });
+    configRef.current = { enableDefaultUpload: uploadEnabled, editable: !readOnly };
 
     const extensions = useMemo(
         () => [
@@ -419,7 +423,7 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
 
     const imageConfig = {
         imageSourceContent,
-        enableDefaultUpload,
+        enableDefaultUpload: uploadEnabled,
         hasImageSource: imageSource != null
     };
 
