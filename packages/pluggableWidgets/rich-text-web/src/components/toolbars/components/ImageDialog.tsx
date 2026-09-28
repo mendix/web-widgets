@@ -23,7 +23,12 @@ export function ImageDialog({ onClose, referenceElement, initialFiles }: ImageDi
     const { imageSourceContent, enableDefaultUpload, hasImageSource } = imageConfig;
     const showUploadTab = enableDefaultUpload;
     const t = useT();
-    const [activeTab, setActiveTab] = useState<ImageSourceMode>("url");
+    // Dropped/pasted files only reach the dialog when they must go to the media library's
+    // uploader (default upload off, image source set). They are taken once, at mount: the
+    // toolbar mounts a fresh dialog per opening, and re-reading them on later renders would
+    // snap the tab back and upload the same file again.
+    const hasInitialEntityFiles = hasImageSource && !!initialFiles?.length;
+    const [activeTab, setActiveTab] = useState<ImageSourceMode>(() => (hasInitialEntityFiles ? "entity" : "url"));
     const [src, setSrc] = useState("");
     const [alt, setAlt] = useState("");
     const [title, setTitle] = useState("");
@@ -33,39 +38,12 @@ export function ImageDialog({ onClose, referenceElement, initialFiles }: ImageDi
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [selectedEntityImage, setSelectedEntityImage] = useState<EntityImage | null>(null);
     const [dragError, setDragError] = useState<string>("");
-    const pendingEntityUploadFilesRef = useRef<File[] | null>(null);
+    const pendingEntityUploadFilesRef = useRef<File[] | null>(hasInitialEntityFiles ? (initialFiles ?? null) : null);
     // The `imageSelected` event target: app-developer JS actions dispatch that event at the
     // `.toolbar-dialog` node, so `DialogShell` forwards this ref onto it rather than owning it.
     // Held in state, not a ref: the dialog is portalled, and a portal's children mount one commit
     // after the dialog itself, so a mount-time effect would still see `null`.
     const [dialogNode, setDialogNode] = useState<HTMLDivElement | null>(null);
-
-    const toFileList = (files: File[]): FileList => {
-        if (typeof DataTransfer !== "undefined") {
-            const dataTransfer = new DataTransfer();
-            files.forEach(file => dataTransfer.items.add(file));
-            return dataTransfer.files;
-        }
-
-        return files as unknown as FileList;
-    };
-
-    const handOffFilesToEntityUploader = (files: File[]): void => {
-        if (!dialogNode) {
-            return;
-        }
-
-        const input = dialogNode.querySelector(".image-dialog-entity input[type='file']") as HTMLInputElement | null;
-        if (!input) {
-            return;
-        }
-
-        Object.defineProperty(input, "files", {
-            configurable: true,
-            value: toFileList(files)
-        });
-        input.dispatchEvent(new Event("change", { bubbles: true }));
-    };
 
     const handleTabChange = (newTab: ImageSourceMode): void => {
         setActiveTab(newTab);
@@ -195,37 +173,37 @@ export function ImageDialog({ onClose, referenceElement, initialFiles }: ImageDi
     };
 
     useEffect(() => {
-        if (!initialFiles?.length) {
-            return;
-        }
-
-        if (hasImageSource) {
-            pendingEntityUploadFilesRef.current = initialFiles;
-            setActiveTab("entity");
-            return;
-        }
-
-        setActiveTab(showUploadTab ? "upload" : "url");
-        if (showUploadTab) {
-            void handleFileDrop(initialFiles);
-            return;
-        }
-
-        void handleFileDrop(initialFiles);
-    }, [handleFileDrop, hasImageSource, initialFiles, showUploadTab]);
-
-    useEffect(() => {
         if (activeTab !== "entity" || !hasImageSource || !dialogNode) {
             return;
         }
 
-        const files = pendingEntityUploadFilesRef.current;
-        if (!files?.length) {
+        const container = dialogNode.querySelector(".image-dialog-entity") as HTMLElement | null;
+        if (!container || !pendingEntityUploadFilesRef.current?.length) {
             return;
         }
 
-        handOffFilesToEntityUploader(files);
-        pendingEntityUploadFilesRef.current = null;
+        const tryHandOff = (): boolean => {
+            const files = pendingEntityUploadFilesRef.current;
+            if (!files?.length || handOffFilesToEntityUploader(container, files)) {
+                pendingEntityUploadFilesRef.current = null;
+                return true;
+            }
+            return false;
+        };
+
+        if (tryHandOff()) {
+            return;
+        }
+
+        // The uploader is app-developer content and may render its file input after the
+        // dialog; keep the files pending until it appears rather than dropping them.
+        const observer = new MutationObserver(() => {
+            if (tryHandOff()) {
+                observer.disconnect();
+            }
+        });
+        observer.observe(container, { childList: true, subtree: true });
+        return () => observer.disconnect();
     }, [activeTab, dialogNode, hasImageSource]);
 
     useEffect(() => {
@@ -465,6 +443,31 @@ export function ImageDialog({ onClose, referenceElement, initialFiles }: ImageDi
             </div>
         </DialogShell>
     );
+}
+
+function toFileList(files: File[]): FileList {
+    if (typeof DataTransfer !== "undefined") {
+        const dataTransfer = new DataTransfer();
+        files.forEach(file => dataTransfer.items.add(file));
+        return dataTransfer.files;
+    }
+
+    return files as unknown as FileList;
+}
+
+/** Returns false when the uploader has not rendered its file input yet. */
+function handOffFilesToEntityUploader(container: HTMLElement, files: File[]): boolean {
+    const input = container.querySelector("input[type='file']") as HTMLInputElement | null;
+    if (!input) {
+        return false;
+    }
+
+    Object.defineProperty(input, "files", {
+        configurable: true,
+        value: toFileList(files)
+    });
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+    return true;
 }
 
 function isPromise(obj: any): boolean {

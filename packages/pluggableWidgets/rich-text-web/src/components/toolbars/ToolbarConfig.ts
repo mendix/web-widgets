@@ -84,6 +84,8 @@ export interface ToolbarGroupConfig {
 export interface ToolbarContextType {
     activeDropdown: DropdownCommand | null;
     pendingImageDialogFiles?: File[];
+    /** Changes on every drop/paste request so the image dialog remounts and takes the new files. */
+    imageDialogRequestId?: number;
     handleDropdownToggle: (dropdownType: DropdownCommand | null) => void;
     handleDropdownClose: () => void;
 }

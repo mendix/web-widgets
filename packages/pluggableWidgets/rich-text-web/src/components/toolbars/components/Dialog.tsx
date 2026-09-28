@@ -10,9 +10,8 @@ import { DialogCommand, ToolbarContext, ToolbarContextType } from "../ToolbarCon
 export function DialogToolbarButton({ config }: DialogToolbarButtonProps): ReactElement {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const t = useT();
-    const { activeDropdown, pendingImageDialogFiles, handleDropdownToggle, handleDropdownClose } = useContext(
-        ToolbarContext
-    ) as ToolbarContextType;
+    const { activeDropdown, pendingImageDialogFiles, imageDialogRequestId, handleDropdownToggle, handleDropdownClose } =
+        useContext(ToolbarContext) as ToolbarContextType;
     const dropdownType = config.command as DialogCommand;
     const isDropdownOpen = activeDropdown === dropdownType;
     const referenceElement = config.command === "insertImage" ? buttonRef.current : buttonRef.current;
@@ -31,6 +30,7 @@ export function DialogToolbarButton({ config }: DialogToolbarButtonProps): React
                         case "insertImage":
                             return (
                                 <ImageDialog
+                                    key={imageDialogRequestId}
                                     onClose={handleDropdownClose}
                                     referenceElement={referenceElement}
                                     initialFiles={pendingImageDialogFiles?.length ? pendingImageDialogFiles : undefined}

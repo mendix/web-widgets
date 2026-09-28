@@ -47,13 +47,24 @@ When the clipboard contains one or more `image/*` files and no image source is c
 
 ### Requirement: Image drop and paste are gated on default upload and edit state
 
-Image drop and paste SHALL be available for the base64 insertion path only when `enableDefaultUpload` is `true` and the editor is editable. When `enableDefaultUpload` is `false`, or the editor is read-only, the base64 insertion path for image file drop or paste SHALL insert nothing and SHALL NOT show an error message. When an image source is configured and the editor is editable, dropped or pasted image files SHALL still be accepted so the dialog can hand them off to entity upload instead of base64 insertion. In every case where an image file drop is detected — including the disabled and read-only cases — the browser's default handling SHALL be suppressed, so dropping a file can never navigate the page away or discard unsaved form data.
+Image drop and paste SHALL be available for the base64 insertion path only when default upload is effectively enabled and the editor is editable. Default upload SHALL be treated as effectively enabled when `enableDefaultUpload` is `true`, or when no image source is configured — Studio Pro hides the `enableDefaultUpload` property without an image source, so a stored `false` in that case is stale and SHALL be ignored. When default upload is not effectively enabled (`enableDefaultUpload` is `false` and an image source is configured) and the editor is editable, dropped or pasted image files SHALL be accepted and handed to the image dialog so it can forward them to entity upload instead of base64 insertion. When the editor is read-only, image file drop or paste SHALL insert nothing and SHALL NOT show an error message. In every case where an image file drop is detected — including the read-only case — the browser's default handling SHALL be suppressed, so dropping a file can never navigate the page away or discard unsaved form data.
 
-#### Scenario: Default upload disabled without an image source
+#### Scenario: Stale default-upload value without an image source
 
-- **WHEN** `enableDefaultUpload` is `false` and the user drops a valid image file onto the editor without an image source configured
-- **THEN** nothing is inserted
-- **AND** no error message is shown
+- **WHEN** `enableDefaultUpload` is `false`, no image source is configured, and the user drops a valid image file onto the editor
+- **THEN** the image is inserted inline as a base64 image at the drop position
+- **AND** the image dialog is not opened
+
+#### Scenario: Paste with stale default-upload value without an image source
+
+- **WHEN** `enableDefaultUpload` is `false`, no image source is configured, and the user pastes an image file
+- **THEN** the image is inserted inline as a base64 image at the selection
+
+#### Scenario: Default upload disabled with an image source
+
+- **WHEN** `enableDefaultUpload` is `false`, an image source is configured, and the user drops a valid image file onto the editor
+- **THEN** nothing is inserted inline
+- **AND** the image dialog opens with the dropped file
 - **AND** the browser does not navigate away from the page
 
 #### Scenario: Read-only editor
@@ -61,11 +72,6 @@ Image drop and paste SHALL be available for the base64 insertion path only when 
 - **WHEN** the editor is read-only and the user drops a valid image file onto it
 - **THEN** nothing is inserted
 - **AND** the browser does not navigate away from the page
-
-#### Scenario: Paste while default upload is disabled without an image source
-
-- **WHEN** `enableDefaultUpload` is `false` and the user pastes an image file without an image source configured
-- **THEN** nothing is inserted and no error message is shown
 
 ### Requirement: Dropped and pasted files use the same validation as the Upload tab
 

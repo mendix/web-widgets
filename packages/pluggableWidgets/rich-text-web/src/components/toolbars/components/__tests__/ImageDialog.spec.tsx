@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { DialogStyleEnum } from "../../../../../typings/RichTextProps";
 import { EditorContext, ImageDialogConfig } from "../../../EditorContext";
 import { ImageDialog } from "../ImageDialog";
@@ -259,48 +259,7 @@ describe("ImageDialog insertion isolation", () => {
 });
 
 describe("ImageDialog pending upload from drop/paste", () => {
-    it("opens the upload tab and loads the dropped file as the source when upload is enabled", async () => {
-        const setImage = jest.fn();
-        const onClose = jest.fn();
-        const chain = {
-            focus: () => chain,
-            setImage: (attrs: Record<string, unknown>) => {
-                setImage(attrs);
-                return chain;
-            },
-            run: () => true
-        };
-        const editor = { chain: () => chain } as any;
-        const file = new File(["abc"], "upload.png", { type: "image/png" });
-
-        render(
-            <EditorContext.Provider
-                value={{
-                    editor,
-                    codeViewState: { isCodeView: false, htmlCode: "", showConfirm: false },
-                    codeViewDispatch: () => undefined,
-                    dialogStyle: "inline",
-                    imageConfig: { enableDefaultUpload: true, hasImageSource: false }
-                }}
-            >
-                {(<ImageDialog onClose={onClose} referenceElement={null} initialFiles={[file]} />) as ReactElement}
-            </EditorContext.Provider>
-        );
-
-        await waitFor(() => {
-            expect(screen.getByRole("button", { name: "Upload" })).toHaveClass("active");
-        });
-
-        await waitFor(() => {
-            expect(screen.getByText("upload.png")).toBeInTheDocument();
-        });
-    });
-
-    it("opens the entity tab and hands dropped files to the embedded uploader when media-library upload is available", async () => {
-        const handleChange = jest.fn();
-        const onClose = jest.fn();
-        const file = new File(["abc"], "entity-upload.png", { type: "image/png" });
-
+    function renderWithInitialFiles(imageConfig: ImageDialogConfig, initialFiles: File[]): void {
         render(
             <EditorContext.Provider
                 value={{
@@ -308,74 +267,129 @@ describe("ImageDialog pending upload from drop/paste", () => {
                     codeViewState: { isCodeView: false, htmlCode: "", showConfirm: false },
                     codeViewDispatch: () => undefined,
                     dialogStyle: "inline",
-                    imageConfig: {
-                        enableDefaultUpload: false,
-                        hasImageSource: true,
-                        imageSourceContent: (
-                            <input
-                                type="file"
-                                aria-label="entity-upload"
-                                onChange={event => {
-                                    handleChange(
-                                        Array.from(event.currentTarget.files ?? []).map(uploaded => uploaded.name)
-                                    );
-                                }}
-                            />
-                        )
-                    }
+                    imageConfig
                 }}
             >
-                {(<ImageDialog onClose={onClose} referenceElement={null} initialFiles={[file]} />) as ReactElement}
+                {
+                    (
+                        <ImageDialog onClose={() => undefined} referenceElement={null} initialFiles={initialFiles} />
+                    ) as ReactElement
+                }
             </EditorContext.Provider>
         );
+    }
 
-        await waitFor(() => {
-            expect(screen.getByRole("button", { name: "Media Library" })).toHaveClass("active");
-        });
+    function uploaderInput(handleChange: jest.Mock): ReactElement {
+        return (
+            <input
+                type="file"
+                aria-label="entity-upload"
+                onChange={event => {
+                    handleChange(Array.from(event.currentTarget.files ?? []).map(uploaded => uploaded.name));
+                }}
+            />
+        );
+    }
 
+    function LateUploader({ handleChange }: { handleChange: jest.Mock }): ReactElement | null {
+        const [ready, setReady] = useState(false);
+        useEffect(() => {
+            const timer = setTimeout(() => setReady(true), 10);
+            return () => clearTimeout(timer);
+        }, []);
+        return ready ? uploaderInput(handleChange) : null;
+    }
+
+    const file = new File(["abc"], "entity-upload.png", { type: "image/png" });
+
+    function renderEntityDrop(handleChange: jest.Mock): void {
+        renderWithInitialFiles(
+            { enableDefaultUpload: false, hasImageSource: true, imageSourceContent: uploaderInput(handleChange) },
+            [file]
+        );
+    }
+
+    it("opens the entity tab and hands dropped files to the embedded uploader once", async () => {
+        const handleChange = jest.fn();
+        renderEntityDrop(handleChange);
+
+        expect(screen.getByRole("button", { name: "Media Library" })).toHaveClass("active");
         expect(screen.queryByRole("button", { name: "Upload" })).not.toBeInTheDocument();
         expect(screen.queryByLabelText("Image URL")).not.toBeInTheDocument();
         await waitFor(() => {
             expect(handleChange).toHaveBeenCalledWith(["entity-upload.png"]);
         });
+        expect(handleChange).toHaveBeenCalledTimes(1);
     });
 
-    it("keeps the upload tab hidden while processing a dropped file when default upload is disabled", async () => {
-        const setImage = jest.fn();
-        const onClose = jest.fn();
-        const chain = {
-            focus: () => chain,
-            setImage: (attrs: Record<string, unknown>) => {
-                setImage(attrs);
-                return chain;
-            },
-            run: () => true
-        };
-        const editor = { chain: () => chain } as any;
-        const file = new File(["abc"], "upload-disabled.png", { type: "image/png" });
+    it("stays on the URL tab and does not upload again when the URL tab is clicked after a drop", async () => {
+        const handleChange = jest.fn();
+        renderEntityDrop(handleChange);
+        await waitFor(() => expect(handleChange).toHaveBeenCalledTimes(1));
 
-        render(
-            <EditorContext.Provider
-                value={{
-                    editor,
-                    codeViewState: { isCodeView: false, htmlCode: "", showConfirm: false },
-                    codeViewDispatch: () => undefined,
-                    dialogStyle: "inline",
-                    imageConfig: { enableDefaultUpload: false, hasImageSource: false }
-                }}
-            >
-                {(<ImageDialog onClose={onClose} referenceElement={null} initialFiles={[file]} />) as ReactElement}
-            </EditorContext.Provider>
+        fireEvent.click(screen.getByRole("button", { name: "URL" }));
+
+        expect(screen.getByRole("button", { name: "URL" })).toHaveClass("active");
+        expect(screen.getByLabelText("Image URL")).toBeInTheDocument();
+        expect(handleChange).toHaveBeenCalledTimes(1);
+    });
+
+    it("does not upload again when returning to the Media Library tab", async () => {
+        const handleChange = jest.fn();
+        renderEntityDrop(handleChange);
+        await waitFor(() => expect(handleChange).toHaveBeenCalledTimes(1));
+
+        fireEvent.click(screen.getByRole("button", { name: "URL" }));
+        fireEvent.click(screen.getByRole("button", { name: "Media Library" }));
+
+        expect(screen.getByRole("button", { name: "Media Library" })).toHaveClass("active");
+        expect(handleChange).toHaveBeenCalledTimes(1);
+    });
+
+    it("does not upload again after editing dialog fields and switching tabs", async () => {
+        const handleChange = jest.fn();
+        renderEntityDrop(handleChange);
+        await waitFor(() => expect(handleChange).toHaveBeenCalledTimes(1));
+
+        fireEvent.change(screen.getByLabelText("Alt text (optional)"), { target: { value: "a cat" } });
+        fireEvent.click(screen.getByRole("button", { name: "URL" }));
+        fireEvent.click(screen.getByRole("button", { name: "Media Library" }));
+
+        expect(handleChange).toHaveBeenCalledTimes(1);
+    });
+
+    it("hands the files off once the uploader renders its input after the dialog", async () => {
+        const handleChange = jest.fn();
+        renderWithInitialFiles(
+            {
+                enableDefaultUpload: false,
+                hasImageSource: true,
+                imageSourceContent: <LateUploader handleChange={handleChange} />
+            },
+            [file]
         );
 
+        expect(screen.queryByLabelText("entity-upload")).not.toBeInTheDocument();
         await waitFor(() => {
-            expect(screen.queryByRole("button", { name: "Upload" })).not.toBeInTheDocument();
+            expect(handleChange).toHaveBeenCalledWith(["entity-upload.png"]);
         });
+        expect(handleChange).toHaveBeenCalledTimes(1);
+    });
 
-        await waitFor(() => {
-            const input = screen.getByLabelText("Image URL") as HTMLInputElement;
-            expect(input.value).toMatch(/^data:image\/png;base64,/);
-        });
+    it("ignores initial files without an image source", async () => {
+        const readAsDataURL = jest.spyOn(FileReader.prototype, "readAsDataURL");
+        renderWithInitialFiles({ enableDefaultUpload: false, hasImageSource: false }, [file]);
+
+        expect(screen.getByRole("button", { name: "URL" })).toHaveClass("active");
+        expect((screen.getByLabelText("Image URL") as HTMLInputElement).value).toBe("");
+        expect(screen.getByRole("button", { name: "Insert" })).toBeDisabled();
+
+        fireEvent.change(screen.getByLabelText("Image URL"), { target: { value: "https://example.com/a.png" } });
+        fireEvent.change(screen.getByLabelText("Alt text (optional)"), { target: { value: "a" } });
+
+        expect((screen.getByLabelText("Image URL") as HTMLInputElement).value).toBe("https://example.com/a.png");
+        expect(readAsDataURL).not.toHaveBeenCalled();
+        readAsDataURL.mockRestore();
     });
 });
 

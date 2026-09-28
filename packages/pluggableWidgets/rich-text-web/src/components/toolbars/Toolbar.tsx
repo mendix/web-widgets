@@ -166,6 +166,7 @@ export default function Toolbar(props: ToolbarProps): ReactElement | null {
     const { editor, codeViewState } = useCurrentEditor();
     const [activeDropdown, setActiveDropdown] = useState<DropdownCommand | null>(null);
     const [pendingImageDialogFiles, setPendingImageDialogFiles] = useState<File[]>([]);
+    const [imageDialogRequestId, setImageDialogRequestId] = useState(0);
 
     // Filter toolbar groups based on preset and custom configuration
     const filteredGroups = useMemo(
@@ -185,19 +186,6 @@ export default function Toolbar(props: ToolbarProps): ReactElement | null {
         [filteredGroups]
     );
 
-    if (!editor) {
-        return null;
-    }
-
-    const handleDropdownToggle = (dropdownType: DropdownCommand | null): void => {
-        setActiveDropdown(prev => (prev === dropdownType ? null : dropdownType));
-    };
-
-    const handleDropdownClose = (): void => {
-        setActiveDropdown(null);
-        setPendingImageDialogFiles([]);
-    };
-
     useEffect(() => {
         if (!editor) {
             return;
@@ -212,6 +200,7 @@ export default function Toolbar(props: ToolbarProps): ReactElement | null {
             }
 
             setPendingImageDialogFiles(files);
+            setImageDialogRequestId(id => id + 1);
             setActiveDropdown("insertImage");
         };
 
@@ -221,11 +210,27 @@ export default function Toolbar(props: ToolbarProps): ReactElement | null {
         };
     }, [editor]);
 
+    if (!editor) {
+        return null;
+    }
+
+    const handleDropdownToggle = (dropdownType: DropdownCommand | null): void => {
+        setActiveDropdown(prev => (prev === dropdownType ? null : dropdownType));
+        // Dropped files belong to the dialog they opened; a toolbar click never carries any.
+        setPendingImageDialogFiles([]);
+    };
+
+    const handleDropdownClose = (): void => {
+        setActiveDropdown(null);
+        setPendingImageDialogFiles([]);
+    };
+
     return (
         <ToolbarContext.Provider
             value={{
                 activeDropdown,
                 pendingImageDialogFiles,
+                imageDialogRequestId,
                 handleDropdownToggle,
                 handleDropdownClose
             }}
