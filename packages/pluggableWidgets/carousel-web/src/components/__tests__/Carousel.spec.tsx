@@ -199,6 +199,21 @@ describe("Carousel", () => {
         expect(asFragment()).toMatchSnapshot();
     });
 
+    it("uses fade effect for a single slide per view", () => {
+        const { container } = render(<Carousel {...defaultCarouselProps} />);
+
+        expect(container.querySelector(".swiper")).toHaveClass("swiper-fade");
+    });
+
+    it("ignores fade animation when showing multiple slides per view", () => {
+        const items = [1, 2, 3, 4].map(i => ({ id: `${i}` as GUID, content: <div>test{i}</div> }));
+        const { container } = render(
+            <Carousel {...defaultCarouselProps} items={items} slidesPerView={2} slidesPerGroup={2} />
+        );
+
+        expect(container.querySelector(".swiper")).not.toHaveClass("swiper-fade");
+    });
+
     afterEach(() => {
         jest.restoreAllMocks();
     });

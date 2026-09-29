@@ -21,6 +21,9 @@ export function getProperties(
     if (!values.autoplay) {
         hidePropertiesIn(defaultProperties, values, ["delay"]);
     }
+    if ((values.slidesPerView ?? 1) > 1 || (values.slidesPerGroup ?? 1) > 1) {
+        hidePropertiesIn(defaultProperties, values, ["animation"]);
+    }
     if (platform === "web") {
         transformGroupsIntoTabs(defaultProperties);
     }

@@ -62,18 +62,24 @@ export function Carousel(props: CarouselProps): ReactElement {
             )}" aria-label="Go to slide ${index}" class="${className}"></span>`
     };
 
+    const perView = Math.max(1, slidesPerView ?? 1);
+    const perGroup = Math.max(1, slidesPerGroup ?? 1);
+    // Swiper's fade effect forces a single slide per view/group, so only use it for single-slide carousels.
+    const isSingleSlide = perView === 1 && perGroup === 1;
+
     const options: SwiperOptions = {
-        slidesPerView,
-        slidesPerGroup,
-        centeredSlides: true,
+        slidesPerView: perView,
+        slidesPerGroup: perGroup,
+        centeredSlides: isSingleSlide,
         loop,
         navigation,
         autoplay: autoplay ? { delay, stopOnLastSlide: true } : false,
         pagination: paginationOptions,
-        ...(animation && {
-            effect: "fade",
-            fadeEffect: { crossFade: true }
-        }),
+        ...(animation &&
+            isSingleSlide && {
+                effect: "fade",
+                fadeEffect: { crossFade: true }
+            }),
         modules: [A11y, Navigation, Pagination, EffectFade, Autoplay, Keyboard],
         a11y: {
             enabled: true,
@@ -83,6 +89,8 @@ export function Carousel(props: CarouselProps): ReactElement {
             enabled: true
         }
     };
+
+    const isSlideVisible = (index: number): boolean => (index - activeIndex + items.length) % items.length < perView;
 
     const updateSwiperIndex = useCallback((swiper: SwiperClass) => {
         setActiveIndex(swiper.realIndex);
@@ -98,7 +106,7 @@ export function Carousel(props: CarouselProps): ReactElement {
                 {...options}
             >
                 {items?.map((item, index) => (
-                    <SwiperSlide tag={"li"} aria-hidden={index !== activeIndex} key={item.id} id={getSlideId(item)}>
+                    <SwiperSlide tag={"li"} aria-hidden={!isSlideVisible(index)} key={item.id} id={getSlideId(item)}>
                         {item.content}
                     </SwiperSlide>
                 ))}
