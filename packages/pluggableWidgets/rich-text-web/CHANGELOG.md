@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [5.1.0] - 2026-09-29
+
 ### Added
 
 - We added a new "Dialog style" setting to choose how the editor's dialogs are shown: "Inline" keeps them anchored to the toolbar button, while "Focused" centers them on the page over a dimmed background.
