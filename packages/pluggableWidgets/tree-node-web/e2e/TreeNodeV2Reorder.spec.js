@@ -1,12 +1,14 @@
 import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForDataReady } from "@mendix/run-e2e/mendix-helpers";
 
 /**
  * Reordering tests for the v2 (self-referencing) tree on MyFirstModule.TreeNodeV2_Advanced.
  *
  * Page contract (test project branch `tree-node-web/v2`):
  *   - gallery1 lists MyFirstModule.Department, single selection. Both trees live in a
- *     data view bound to that selection, so a department must be selected first. Not every
- *     department has enough categories to reorder, so `openAdvancedPage` picks one that does.
+ *     data view bound to that selection, so a department must be selected first. The shipped
+ *     categories span departments; the reorder tests temporarily assign two IT categories to
+ *     HR so Electronics has a sibling and a second child, then restore their department.
  *   - treeNode1 = "Start expanded: No", treeNode2 = "Start expanded: Yes".
  *     Both sort their datasource on MyFirstModule.Category/Order ascending.
  *   - Each node's custom header renders "{Order}) {Name}" plus two action buttons:
@@ -117,38 +119,30 @@ async function openAdvancedPage(page) {
 
     const gallery = page.locator(".mx-name-gallery1");
     await expect(gallery).toBeVisible();
-    const departments = gallery.locator(".widget-gallery-item");
-    await expect(departments.first()).toBeVisible();
-
-    // Departments differ in how much data they carry — some hold a single root category,
-    // which is not enough to reorder siblings. Select the first department whose tree has
-    // at least 2 root categories and at least 2 children under the first root.
-    const departmentCount = await departments.count();
-
-    for (let index = 0; index < departmentCount; index++) {
-        await departments.nth(index).click();
-
-        // Both data views render once a department is selected.
-        const collapsedRoots = rows(page.locator(TREES.startCollapsed.root));
-        const expandedRoots = rows(page.locator(TREES.startExpanded.root));
-        await expect(collapsedRoots.first()).toBeVisible();
-        await expect(expandedRoots.first()).toBeVisible();
-
-        if ((await collapsedRoots.count()) < 2) {
-            continue;
-        }
-
-        // The start-expanded tree already renders the first root's children, so counting
-        // them there needs no expand click.
-        if ((await rows(group(expandedRoots.first())).count()) >= 2) {
-            return;
-        }
-    }
-
-    throw new Error(
-        "No department on the advanced page has at least 2 root categories with at least 2 children " +
-            "under the first root — the reordering tests cannot run against this test project data."
+    await gallery.getByRole("option", { name: "HR" }).click();
+    await waitForDataReady(page);
+    await expect(labels(page.locator(TREES.startCollapsed.root), TREES.startCollapsed).first()).toHaveText(
+        byName("Electronics")
     );
+}
+
+async function openCategoryOverview(page) {
+    await page.getByRole("menuitem", { name: "Master Data" }).click();
+    await page.getByRole("button", { name: "Category", exact: true }).click();
+    await expect(page.getByRole("button", { name: "New Category" })).toBeVisible();
+}
+
+async function setCategoryDepartment(page, category, department) {
+    await page
+        .getByRole("row", { name: new RegExp(`^${category}\\s+`) })
+        .locator(".mx-name-actionButton2")
+        .click();
+    const dialog = page.getByRole("dialog", { name: "Edit Category" });
+    await expect(dialog).toBeVisible();
+    await dialog.getByRole("combobox", { name: "Department" }).click();
+    await dialog.getByRole("listbox", { name: "Department" }).getByRole("option", { name: department }).click();
+    await dialog.getByRole("button", { name: "Save" }).click();
+    await expect(dialog).toBeHidden();
 }
 
 test.describe.configure({ mode: "serial" });
@@ -170,74 +164,91 @@ test.describe("v2: reordering (advanced page)", () => {
         await expect(widget).toHaveScreenshot("treeNodeV2AdvancedExpanded.png");
     });
 
-    test("reorders root nodes while the tree is collapsed @smoke", async ({ page }) => {
-        const tree = TREES.startCollapsed;
-        const treeRoot = page.locator(tree.root);
-
-        await expect(rows(treeRoot).first()).toHaveAttribute("aria-expanded", "false");
-
-        const baseline = await readSiblings(labels(treeRoot, tree));
-        assertEnoughSiblings(baseline, "root categories");
-        assertSingleOrderBaseline(baseline);
-
-        await moveFirstToEndAndBack(treeRoot, tree, baseline.map(nameOf));
-    });
-
-    test("reorders children of an expanded node without collapsing it", async ({ page }) => {
-        const tree = TREES.startCollapsed;
-        const treeRoot = page.locator(tree.root);
-        const parentRow = rows(treeRoot).first();
-        const parentHeader = header(parentRow);
-
-        await expect(
-            parentHeader.locator(".widget-tree-node-branch-header-icon-container"),
-            "The first root category must have children for this test"
-        ).toBeVisible();
-
-        // Expand through the icon container — it carries no action button of its own.
-        await parentHeader.locator(".widget-tree-node-branch-header-icon-container").click();
-        await expect(parentRow).toHaveAttribute("aria-expanded", "true");
-
-        const childGroup = group(parentRow);
-        const baseline = await readSiblings(labels(childGroup, tree));
-        assertEnoughSiblings(baseline, "child categories under the first root");
-        assertSingleOrderBaseline(baseline);
-
-        // Every root that showed an expand affordance must still show it after the
-        // datasource redelivery triggered by the reorder microflow.
-        const rootIcons = treeRoot.locator(
-            ":scope > li > .widget-tree-node-branch-header .widget-tree-node-branch-header-icon-container"
-        );
-        const rootIconCount = await rootIcons.count();
-
-        await moveFirstToEndAndBack(childGroup, tree, baseline.map(nameOf), async () => {
-            await expect(parentRow).toHaveAttribute("aria-expanded", "true");
-            await expect(rootIcons).toHaveCount(rootIconCount);
+    test.describe("reordering", () => {
+        test.beforeEach(async ({ page }) => {
+            await openCategoryOverview(page);
+            await setCategoryDepartment(page, "Laptops", "HR");
+            await setCategoryDepartment(page, "Clothing", "HR");
+            await openAdvancedPage(page);
+            await expect(rows(page.locator(TREES.startCollapsed.root))).toHaveCount(2);
+            await expect(rows(group(rows(page.locator(TREES.startExpanded.root)).first()))).toHaveCount(2);
         });
 
-        await expect(parentRow).toHaveAttribute("aria-expanded", "true");
-    });
+        test.afterEach(async ({ page }) => {
+            await openCategoryOverview(page);
+            await setCategoryDepartment(page, "Laptops", "IT");
+            await setCategoryDepartment(page, "Clothing", "IT");
+        });
 
-    test("reorders children of an auto-expanded node when start expanded is on", async ({ page }) => {
-        const tree = TREES.startExpanded;
-        const treeRoot = page.locator(tree.root);
-        const parentRow = rows(treeRoot).first();
+        test("reorders root nodes while the tree is collapsed @smoke", async ({ page }) => {
+            const tree = TREES.startCollapsed;
+            const treeRoot = page.locator(tree.root);
 
-        await expect(parentRow).toHaveAttribute("aria-expanded", "true");
+            await expect(rows(treeRoot).first()).toHaveAttribute("aria-expanded", "false");
 
-        const childGroup = group(parentRow);
-        const baseline = await readSiblings(labels(childGroup, tree));
-        assertEnoughSiblings(baseline, "child categories under the first root");
-        assertSingleOrderBaseline(baseline);
+            const baseline = await readSiblings(labels(treeRoot, tree));
+            assertEnoughSiblings(baseline, "root categories");
+            assertSingleOrderBaseline(baseline);
 
-        const spinners = treeRoot.locator(".widget-tree-node-loading-spinner");
+            await moveFirstToEndAndBack(treeRoot, tree, baseline.map(nameOf));
+        });
 
-        await moveFirstToEndAndBack(childGroup, tree, baseline.map(nameOf), async () => {
+        test("reorders children of an expanded node without collapsing it", async ({ page }) => {
+            const tree = TREES.startCollapsed;
+            const treeRoot = page.locator(tree.root);
+            const parentRow = rows(treeRoot).first();
+            const parentHeader = header(parentRow);
+
+            await expect(
+                parentHeader.locator(".widget-tree-node-branch-header-icon-container"),
+                "The first root category must have children for this test"
+            ).toBeVisible();
+
+            // Expand through the icon container — it carries no action button of its own.
+            await parentHeader.locator(".widget-tree-node-branch-header-icon-container").click();
+            await expect(parentRow).toHaveAttribute("aria-expanded", "true");
+
+            const childGroup = group(parentRow);
+            const baseline = await readSiblings(labels(childGroup, tree));
+            assertEnoughSiblings(baseline, "child categories under the first root");
+            assertSingleOrderBaseline(baseline);
+
+            // Every root that showed an expand affordance must still show it after the
+            // datasource redelivery triggered by the reorder microflow.
+            const rootIcons = treeRoot.locator(
+                ":scope > li > .widget-tree-node-branch-header .widget-tree-node-branch-header-icon-container"
+            );
+            const rootIconCount = await rootIcons.count();
+
+            await moveFirstToEndAndBack(childGroup, tree, baseline.map(nameOf), async () => {
+                await expect(parentRow).toHaveAttribute("aria-expanded", "true");
+                await expect(rootIcons).toHaveCount(rootIconCount);
+            });
+
+            await expect(parentRow).toHaveAttribute("aria-expanded", "true");
+        });
+
+        test("reorders children of an auto-expanded node when start expanded is on", async ({ page }) => {
+            const tree = TREES.startExpanded;
+            const treeRoot = page.locator(tree.root);
+            const parentRow = rows(treeRoot).first();
+
+            await expect(parentRow).toHaveAttribute("aria-expanded", "true");
+
+            const childGroup = group(parentRow);
+            const baseline = await readSiblings(labels(childGroup, tree));
+            assertEnoughSiblings(baseline, "child categories under the first root");
+            assertSingleOrderBaseline(baseline);
+
+            const spinners = treeRoot.locator(".widget-tree-node-loading-spinner");
+
+            await moveFirstToEndAndBack(childGroup, tree, baseline.map(nameOf), async () => {
+                await expect(parentRow).toHaveAttribute("aria-expanded", "true");
+                await expect(spinners).toHaveCount(0);
+            });
+
             await expect(parentRow).toHaveAttribute("aria-expanded", "true");
             await expect(spinners).toHaveCount(0);
         });
-
-        await expect(parentRow).toHaveAttribute("aria-expanded", "true");
-        await expect(spinners).toHaveCount(0);
     });
 });
