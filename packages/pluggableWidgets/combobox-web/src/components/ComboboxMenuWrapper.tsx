@@ -49,6 +49,16 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
         onScroll
     } = props;
 
+    // Always call getMenuProps to satisfy Downshift requirements
+    const menuProps = getMenuProps?.(
+        {
+            onClick: onOptionClick,
+            onMouseDown: ForcePreventMenuCloseEventHandler,
+            onScroll
+        },
+        { suppressRefError: true }
+    );
+
     return (
         <div
             ref={alwaysOpen ? undefined : floatingRef}
@@ -64,7 +74,7 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
             }
             data-overlay-content={isOpen || undefined}
         >
-            {menuHeaderContent && (
+            {isOpen && menuHeaderContent && (
                 <div
                     className="widget-combobox-menu-header widget-combobox-item"
                     onMouseDown={PreventMenuCloseEventHandler}
@@ -73,30 +83,19 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                     {menuHeaderContent}
                 </div>
             )}
-            <ul
-                className={classNames("widget-combobox-menu-list", {
-                    "widget-combobox-menu-highlighted": (highlightedIndex ?? -1) >= 0,
-                    "widget-combobox-menu-lazy-scroll": lazyLoading && !isEmpty
-                })}
-                {...getMenuProps?.(
-                    {
-                        onClick: onOptionClick,
-                        onMouseDown: ForcePreventMenuCloseEventHandler,
-                        onScroll
-                    },
-                    { suppressRefError: true }
-                )}
-            >
-                {isOpen ? (
-                    isEmpty && !isLoading ? (
-                        <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder>
-                    ) : (
-                        children
-                    )
-                ) : null}
-                {loader}
-            </ul>
-            {menuFooterContent && (
+            {isOpen && (
+                <ul
+                    className={classNames("widget-combobox-menu-list", {
+                        "widget-combobox-menu-highlighted": (highlightedIndex ?? -1) >= 0,
+                        "widget-combobox-menu-lazy-scroll": lazyLoading && !isEmpty
+                    })}
+                    {...menuProps}
+                >
+                    {isEmpty && !isLoading ? <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder> : children}
+                    {loader}
+                </ul>
+            )}
+            {isOpen && menuFooterContent && (
                 <div tabIndex={0} className="widget-combobox-menu-footer" onMouseDown={PreventMenuCloseEventHandler}>
                     {menuFooterContent}
                 </div>
