@@ -1,5 +1,8 @@
 import { test, expect } from "@mendix/run-e2e/fixtures";
 
+// All tests share one FileHolder object in the test project, so parallel workers race on its image.
+test.describe.configure({ mode: "default" });
+
 test.describe("Image cropper", () => {
     const widget = page => page.locator(".mx-name-imageCropperE2E");
     const image = page => widget(page).locator(".widget-image-cropper__canvas img");
@@ -9,6 +12,8 @@ test.describe("Image cropper", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/p/image-cropper-e2e");
         await expect(image(page)).toBeVisible();
+        // The crop box is seeded on image load; actions before that are ignored by the widget.
+        await expect(widget(page).locator(".ReactCrop__crop-selection")).toBeVisible();
     });
 
     test("renders the image with toolbar controls @smoke", async ({ page }) => {
@@ -53,19 +58,20 @@ test.describe("Image cropper", () => {
         await expect(cropAppliedDialog(page)).toBeVisible();
     });
 
-    test("rotates the image and enables reset", async ({ page }) => {
+    test("rotates the image and restores it on reset", async ({ page }) => {
         const cropper = widget(page);
+        const canvas = cropper.locator(".widget-image-cropper__canvas");
         const reset = cropper.getByRole("button", { name: "Reset crop" });
 
         await cropper.getByRole("button", { name: "Rotate right" }).click();
 
         await expect(image(page)).toHaveAttribute("src", /^blob:/);
-        await expect(reset).toBeEnabled();
-        await expect(cropper).toHaveScreenshot("imageCropperRotated.png");
+        await expect(canvas).toHaveScreenshot("imageCropperCanvasRotated.png");
 
+        await expect(reset).toBeEnabled();
         await reset.click();
 
-        await expect(cropper).toHaveScreenshot("imageCropperDefault.png");
+        await expect(canvas).toHaveScreenshot("imageCropperCanvasDefault.png");
     });
 
     test("matches the default visual state", async ({ page }) => {
@@ -73,5 +79,8 @@ test.describe("Image cropper", () => {
 
         await expect(cropper).toBeVisible();
         await expect(cropper).toHaveScreenshot("imageCropperDefault.png");
+        await expect(cropper.locator(".widget-image-cropper__canvas")).toHaveScreenshot(
+            "imageCropperCanvasDefault.png"
+        );
     });
 });
