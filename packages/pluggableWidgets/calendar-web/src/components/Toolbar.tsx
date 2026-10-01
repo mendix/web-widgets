@@ -15,13 +15,13 @@ export function CustomToolbar({ label, localizer, onNavigate, onView, view, view
         <div className="calendar-toolbar">
             <div className="btn-group calendar-toolbar-left">
                 <Button className="btn btn-default" onClick={handlePrev}>
-                    <IconInternal icon={{ type: "glyph", iconClass: "glyphicon-backward" }} />
+                    <IconInternal icon={{ type: "icon", iconClass: "mx-icon-filled mx-icon-controls-backward" }} />
                 </Button>
                 <Button className="btn btn-default" onClick={handleToday}>
                     {localizer.messages.today}
                 </Button>
                 <Button className="btn btn-default" onClick={handleNext}>
-                    <IconInternal icon={{ type: "glyph", iconClass: "glyphicon-forward" }} />
+                    <IconInternal icon={{ type: "icon", iconClass: "mx-icon-filled mx-icon-controls-forward" }} />
                 </Button>
             </div>
 
@@ -113,7 +113,7 @@ export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props:
                 case "previous":
                     return renderButton(
                         "prev",
-                        <IconInternal icon={{ type: "glyph", iconClass: "glyphicon-backward" }} />,
+                        <IconInternal icon={{ type: "icon", iconClass: "mx-icon-filled mx-icon-controls-backward" }} />,
                         () => onNavigate(Navigate.PREVIOUS),
                         false,
                         item.renderMode,
@@ -134,7 +134,7 @@ export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props:
                 case "next":
                     return renderButton(
                         "next",
-                        <IconInternal icon={{ type: "glyph", iconClass: "glyphicon-forward" }} />,
+                        <IconInternal icon={{ type: "icon", iconClass: "mx-icon-filled mx-icon-controls-forward" }} />,
                         () => onNavigate(Navigate.NEXT),
                         false,
                         item.renderMode,
