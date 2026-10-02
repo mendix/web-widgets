@@ -94,6 +94,20 @@ In this [GitHub repository](https://github.com/mendix/testProjects). These proje
   }
 ```
 
+During `e2e` and `e2edev` the Atlas files of the test project are replaced with a pinned release from the [Atlas repository](https://github.com/mendix/atlas/releases): Atlas Core `3.17.0` for `themesource/atlas_core` and `atlasui-theme-files-2024-01-25` for `theme`. A test project built on another Atlas version (for example Atlas Core 4) can override either pin in the same section:
+
+```json
+"testProject": {
+    "githubUrl": "https://github.com/mendix/testProjects",
+    "branchName": "<branch Name>",
+    "atlasCoreVersion": "4.5.0",
+    "atlasThemeTag": "atlasui-theme-files-2025-10-08"
+  }
+```
+
+- `atlasCoreVersion` — version of an `atlas-core-v<version>` release. It should match the Atlas Core module version of the test project.
+- `atlasThemeTag` — tag of an `atlasui-theme-files-<date>` release.
+
 To update the test project you can follow the steps below:
 
 1. Clone this repository;
