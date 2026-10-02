@@ -23,11 +23,12 @@ const onDoubleClick = (
 });
 
 const canExecOnSpaceOrEnter = (_ctx: EventEntryContext, event: KeyboardEvent): boolean => {
+    const isOwn = event.currentTarget === event.target;
     if (event.code === "Space") {
-        return !event.shiftKey;
+        return !event.shiftKey && isOwn;
     }
 
-    return event.code === "Enter";
+    return event.code === "Enter" && isOwn;
 };
 
 const onSpaceOrEnter = (

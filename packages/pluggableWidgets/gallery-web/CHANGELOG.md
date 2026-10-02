@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where SPACE and ENTER keyboard events were blocked in interactive elements (inputs, textareas, buttons) nested within gallery items. These keys now work normally in nested inputs while still triggering gallery item selection when pressed on the item itself.
+
 ## [3.11.5] - 2026-09-10
 
 ### Changed
