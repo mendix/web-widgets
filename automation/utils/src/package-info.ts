@@ -67,7 +67,12 @@ export const MarketplaceSchema = z.object({
 
 export const TestProjectSchema = z.object({
     githubUrl: z.string().url(),
-    branchName: z.string().min(3)
+    branchName: z.string().min(3),
+    atlasCoreVersion: z
+        .string()
+        .regex(/^\d+\.\d+\.\d+$/)
+        .optional(),
+    atlasThemeTag: z.string().startsWith("atlasui-theme-files-").optional()
 });
 
 export const RepositorySchema = z.object({

@@ -31,12 +31,17 @@ async function downloadAndExtract(url, downloadPath, extractPath) {
 }
 
 async function updateAtlasThemeSource() {
-    console.log("Copying Atlas themesource files from latest Atlas Core release");
+    const version = packageMeta.testProject?.atlasCoreVersion ?? config.defaultAtlasCoreVersion;
+    const tag = `atlas-core-v${version}`;
+    console.log(`Copying Atlas themesource files from Atlas Core release ${tag}`);
 
     rm("-rf", config.atlasDirsToRemove);
 
-    const release = await getReleaseByTag("atlas-core-v3.17.0");
-    const { browser_download_url } = release.assets[0];
+    const release = await getReleaseByTag(tag);
+    if (!release.assets || release.assets.length === 0) {
+        throw new Error(`No assets found for release tag: ${tag}`);
+    }
+    const [{ browser_download_url }] = release.assets;
     const downloadedPath = join(await usetmp(), config.nameForDownloadedAtlasCore);
     const outPath = await usetmp();
 
@@ -57,12 +62,12 @@ async function updateAtlasThemeSource() {
 }
 
 async function updateAtlasTheme() {
-    console.log("Copying Atlas theme files from latest Atlas UI theme release");
+    const tag = packageMeta.testProject?.atlasThemeTag ?? config.defaultAtlasThemeTag;
+    console.log(`Copying Atlas theme files from Atlas UI theme release ${tag}`);
 
     rm("-rf", "tests/testProject/theme");
 
     // Fetch the specific release by tag from GitHub API
-    const tag = "atlasui-theme-files-2024-01-25";
     const release = await getReleaseByTag(tag);
     if (!release.assets || release.assets.length === 0) {
         throw new Error(`No assets found for release tag: ${tag}`);
