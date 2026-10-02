@@ -1,18 +1,13 @@
 import { test, expect } from "@mendix/run-e2e/fixtures";
 
 /**
- * These tests are dormant until the test project exists: `package.json` still has
- * `"e2e": "echo ..."` because https://github.com/mendix/testProjects has no
- * `barcode-generator-web` branch yet (only `barcode-scanner-web`).
- *
- * To enable, create that branch with a `/p/datamatrix` page containing:
- *   - dataMatrixPlain        Data Matrix, GS1 off, square, value "ABC-12345"
- *   - dataMatrixGs1          Data Matrix, GS1 on, value "(01)09501101020917(17)261231(10)ABC123"
+ * Runs against the `MyFirstModule.DataMatrix` page (`/p/datamatrix`) of the test project:
+ *   - dataMatrixPlain        Data Matrix, GS1 off, square
+ *   - dataMatrixGs1          Data Matrix, GS1 on
  *   - dataMatrixRectangle    Data Matrix, shape Rectangle
  *   - dataMatrixDownload     Data Matrix with "Allow download" on, file name "datamatrix"
  *   - textBoxCodeValue       text box bound to the attribute dataMatrixBound reads from
  *   - dataMatrixBound        Data Matrix bound to that attribute
- * then swap the `e2e` script to `run-e2e ci`.
  */
 test.describe("BarcodeGenerator", () => {
     test.beforeEach(async ({ page }) => {
@@ -67,4 +62,13 @@ test.describe("BarcodeGenerator", () => {
 
         expect(download.suggestedFilename()).toMatch(/\.png$/);
     });
+
+    for (const name of ["dataMatrixPlain", "dataMatrixGs1", "dataMatrixRectangle"]) {
+        test(`${name} matches the visual baseline`, async ({ page }) => {
+            const symbol = page.locator(`.mx-name-${name} .datamatrix-svg`);
+
+            await expect(symbol.locator("svg")).toBeVisible();
+            await expect(symbol).toHaveScreenshot(`${name}.png`);
+        });
+    }
 });
