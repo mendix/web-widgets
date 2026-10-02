@@ -6,6 +6,9 @@ export const nameForDownloadedArchive = "testProject.zip";
 export const nameForDownloadedAtlasCore = "AtlasCore.zip";
 export const nameForDownloadedAtlasTheme = "AtlasTheme.zip";
 export const atlasCoreReleaseUrl = "https://api.github.com/repos/mendix/atlas/releases";
+// Defaults, a package can override them with testProject.atlasCoreVersion and testProject.atlasThemeTag
+export const defaultAtlasCoreVersion = "3.17.0";
+export const defaultAtlasThemeTag = "atlasui-theme-files-2024-01-25";
 export const mxVersionMapUrl =
     "https://raw.githubusercontent.com/mendix/web-widgets/main/automation/run-e2e/mendix-versions.json";
 export const tmpDirPrefix = "run_e2e_files_";
