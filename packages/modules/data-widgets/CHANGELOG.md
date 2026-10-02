@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.7] DataWidgets - 2026-10-02
+
 ### Fixed
 
 - We fixed an issue where the focus outline of column header filter inputs was clipped.
@@ -15,6 +17,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - We fixed an issue where filters and inputs overflowed their headers and cells in narrow columns.
 
 - We fixed an issue where rows with editable widgets were taller than necessary.
+
+### Datagrid
+
+#### Fixed
+
+- We fixed an issue where the "Column size" property appeared away from the "Column width" property it depends on in the column Appearance tab in Studio Pro.
+
+### Gallery
+
+#### Fixed
+
+- We fixed an issue where SPACE and ENTER keyboard events were blocked in interactive elements (inputs, textareas, buttons) nested within gallery items. These keys now work normally in nested inputs while still triggering gallery item selection when pressed on the item itself.
+
+### TreeNode
+
+#### Fixed
+
+- We fixed an issue where the tree did not reflect a new data source sort order (for example after changing a sequence attribute) until the page was reopened.
+
+- We fixed an issue where all nodes collapsed when the data source refreshed. Expanded and collapsed nodes now keep their state, and the tree no longer clears while the data source is reloading.
+
+- We fixed an issue where a node did not show that it has children after a child was added to it. Expanding a node now always pre-loads one level ahead, also for children that arrive after the expansion, which restores the missing expand icon on nodes deeper than two levels.
+
+- We fixed an issue where a tree node's loading spinner would never disappear when using a microflow data source with "Start expanded" set to yes.
+
+- We fixed an issue where expanding one node could permanently remove the expand icon from an unrelated, unexpanded node elsewhere in the tree when using a microflow data source.
+
+- We fixed an issue where a node's expand icon for a deeper tier would not appear until that node was collapsed and expanded again.
+
+- We fixed an issue where, with "Start expanded" set to yes, tree nodes deeper than the second level would not show an expand icon until a parent node was manually collapsed and expanded again.
+
+- We fixed an issue where nodes shown after the data source was filtered elsewhere on the page (for example by a gallery or a list view acting as a filter) had no expand icon and could not be opened at all, even though they had children.
 
 ## [3.11.6] DataWidgets - 2026-09-18
 
