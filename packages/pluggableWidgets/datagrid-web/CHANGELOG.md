@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.7] - 2026-10-02
+
 ### Fixed
 
 - We fixed an issue where the "Column size" property appeared away from the "Column width" property it depends on in the column Appearance tab in Studio Pro.
