@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the pop-up menu could not be used with a keyboard. The menu now opens from the trigger with Enter, Space, Arrow Down or Arrow Up, and its items can be navigated with the arrow keys, Home and End, and activated with Enter or Space. Escape closes the menu and returns focus to the trigger. Tab and Shift+Tab close the menu and move focus to the next or previous element on the page, as usual. Nested pop-up menus open with Right Arrow and close with Left Arrow or Escape. Screen readers now announce the pop-up as a menu. With "Close on: Click outside", an item's action that opens a dialog now also closes the menu (previously it stayed open behind it); this applies whether the item was clicked or activated with the keyboard.
+
 ## [4.3.1] - 2026-07-17
 
 ### Fixed
