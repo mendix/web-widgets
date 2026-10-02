@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.4.0] - 2026-10-02
+
 ### Changed
 
 - We updated swiper library dependency to v14.2
@@ -13,7 +15,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - We added the option to configure number of slides per view (slides visible at the same time on slider's container) - contribution of @DiljohnSingh
+
 - We added the option to configure the numbers of slides for group sliding. Useful to use with slidesPerView > 1 - contribution of @DiljohnSingh.
+
 - When more than one slide is shown or grouped, slides now align to the start of the carousel and the fade animation is turned off, because it only supports one slide at a time.
 
 ### Fixed
