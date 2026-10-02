@@ -2,45 +2,32 @@
 
 exports[`Menu renders menu 1`] = `
 <DocumentFragment>
-  <span
-    aria-hidden="true"
-    data-floating-ui-focus-guard=""
-    data-floating-ui-inert=""
-    data-type="inside"
-    role="button"
-    style="border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; white-space: nowrap; width: 1px; top: 0px; left: 0px;"
-    tabindex="0"
-  />
   <div
     class="widget-popupmenu-root"
   >
     <ul
+      aria-labelledby=":r2:"
+      aria-orientation="vertical"
       class="popupmenu-menu"
       data-floating-ui-focusable=""
       data-overlay-content="true"
       id=":r1:"
-      role="dialog"
+      role="menu"
       style="position: absolute; left: 0px; top: 0px; transform: translate(0px, 0px);"
-      tabindex="0"
+      tabindex="-1"
     >
       <li
         class="popupmenu-basic-item"
+        role="menuitem"
+        tabindex="0"
       >
         Caption
       </li>
       <li
         class="popupmenu-basic-divider"
+        role="separator"
       />
     </ul>
   </div>
-  <span
-    aria-hidden="true"
-    data-floating-ui-focus-guard=""
-    data-floating-ui-inert=""
-    data-type="inside"
-    role="button"
-    style="border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; white-space: nowrap; width: 1px; top: 0px; left: 0px;"
-    tabindex="0"
-  />
 </DocumentFragment>
 `;
