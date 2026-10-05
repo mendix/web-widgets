@@ -15,15 +15,7 @@ import {
 } from "../utils/mx-data";
 
 export type FileStatus =
-    | "existingFile"
-    | "missing"
-    | "queued"
-    | "uploading"
-    | "done"
-    | "uploadingError"
-    | "removedFile"
-    | "validationError"
-    | "rejected";
+    "existingFile" | "missing" | "queued" | "uploading" | "done" | "uploadingError" | "validationError" | "rejected";
 
 let fileKey = 0;
 
@@ -74,7 +66,14 @@ export class FileStore {
     }
 
     markMissing(): void {
-        this.fileStatus = this.fileStatus === "uploadingError" ? "removedFile" : "missing";
+        if (this.fileStatus === "existingFile" || this.fileStatus === "done") {
+            this._rootStore.announce("removeSuccessMessage");
+        }
+
+        // a failed upload stays a failed upload when its object is gone
+        if (this.fileStatus !== "uploadingError") {
+            this.fileStatus = "missing";
+        }
 
         this._mxObject = undefined;
         this._objectItem = undefined;
@@ -134,6 +133,7 @@ export class FileStore {
         } catch (_e: unknown) {
             runInAction(() => {
                 this.fileStatus = "uploadingError";
+                this._rootStore.announce("uploadFailureGenericMessage");
                 this._rootStore.objectCreationHelper.reportCreationFailure();
             });
             return;
@@ -146,11 +146,13 @@ export class FileStore {
 
             runInAction(() => {
                 this.fileStatus = "done";
+                this._rootStore.announce("uploadSuccessMessage");
                 this._rootStore.objectCreationHelper.reportUploadSuccess(this._objectItem!);
             });
         } catch (_e: unknown) {
             runInAction(() => {
                 this.fileStatus = "uploadingError";
+                this._rootStore.announce("uploadFailureGenericMessage");
                 this._rootStore.objectCreationHelper.reportUploadFailure(this._objectItem!);
             });
         }
@@ -200,6 +202,10 @@ export class FileStore {
         try {
             await removeObject(this._objectItem);
             runInAction(() => {
+                // the datasource update may have already reported this removal
+                if (this.fileStatus !== "missing" && this._rootStore.files.includes(this)) {
+                    this._rootStore.announce("removeSuccessMessage");
+                }
                 this._rootStore.dismissFile(this);
             });
         } catch (e: unknown) {
