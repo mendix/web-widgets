@@ -32,6 +32,8 @@ export class FileUploaderStore {
 
     createActionFailed = false;
 
+    announcement: { text: string; seq: number } = { text: "", seq: 0 };
+
     private translations: TranslationsStore;
 
     constructor(props: FileUploaderContainerProps, translations: TranslationsStore) {
@@ -79,11 +81,13 @@ export class FileUploaderStore {
             processDrop: action,
             dismissFile: action,
             setCreateActionFailed: action,
+            announce: action,
             promoteQueuedFiles: action,
             processExistingFileItem: action,
             files: observable,
             existingItemsLoaded: observable,
             createActionFailed: observable,
+            announcement: observable.ref,
             allowedFormatsDescription: computed,
             maxFileSize: computed,
             maxTotalFiles: computed,
@@ -165,7 +169,6 @@ export class FileUploaderStore {
         return this.files.filter(
             f =>
                 f.fileStatus !== "missing" &&
-                f.fileStatus !== "removedFile" &&
                 f.fileStatus !== "validationError" &&
                 f.fileStatus !== "rejected" &&
                 f.fileStatus !== "uploadingError"
@@ -198,6 +201,13 @@ export class FileUploaderStore {
 
     setCreateActionFailed(failed: boolean): void {
         this.createActionFailed = failed;
+    }
+
+    announce(key: keyof FileUploaderContainerProps, ...substitutions: string[]): void {
+        this.announcement = {
+            text: this.translations.get(key, ...substitutions),
+            seq: this.announcement.seq + 1
+        };
     }
 
     private dismissValidationErrors(): void {
@@ -273,6 +283,10 @@ export class FileUploaderStore {
 
         for (const file of capacityExcess) {
             this.files.unshift(FileStore.newRejectedFile(file, this));
+        }
+
+        if (capacityExcess.length > 0) {
+            this.announce("uploadLimitReachedMessage", this.maxTotalFiles.toString());
         }
 
         for (const file of capacityFiles) {
