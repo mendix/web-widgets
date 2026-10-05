@@ -219,7 +219,7 @@
             </property>
             <property key="removeSuccessMessage" type="textTemplate">
                 <caption>File removal success</caption>
-                <description />
+                <description>Announced to screen reader users when a file is removed. Not shown in the file list.</description>
                 <translations>
                     <translation lang="en_US">Removed successfully.</translation>
                     <translation lang="nl_NL">Succesvol verwijderd.</translation>
