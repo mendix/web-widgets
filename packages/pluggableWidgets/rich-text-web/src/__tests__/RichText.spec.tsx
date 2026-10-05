@@ -1,8 +1,10 @@
 import "@testing-library/jest-dom";
-import { render } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { ListValue } from "mendix";
 import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { RichTextContainerProps, StatusBarContentEnum } from "../../typings/RichTextProps";
 
+import { IMAGE_REQUEST_EVENT } from "../extensions/ImagePasteDrop";
 import RichText from "../RichText";
 const richTextDefaultValue = `<h2><strong>Rich text default value</strong></h2>`;
 describe("Rich Text", () => {
@@ -38,6 +40,7 @@ describe("Rich Text", () => {
             tabIndex: 0,
             onChangeType: "onLeave",
             enableStatusBar: true,
+            dialogStyle: "inline",
             statusBarContent: "wordCount" as StatusBarContentEnum,
             spellCheck: true,
             minHeightUnit: "none",
@@ -95,6 +98,42 @@ describe("Rich Text", () => {
         expect(component.container).toMatchSnapshot();
     });
 
+    describe("does not write to the attribute on load", () => {
+        // The editor's serialization of a stored value is rarely byte-identical to it, and
+        // derived list marker formatting widens that gap. Writing the difference back on mount
+        // would dirty the attribute and fire the On change action without any user edit.
+        //
+        // The write is debounced by 200ms in EditorWrapper, so the timer has to be flushed —
+        // otherwise these assertions would hold no matter what the editor emitted.
+        beforeEach(() => jest.useFakeTimers());
+        afterEach(() => jest.useRealTimers());
+
+        function renderAndFlush(stringAttribute: RichTextContainerProps["stringAttribute"]): void {
+            render(<RichText {...defaultProps} stringAttribute={stringAttribute} />);
+            act(() => {
+                jest.advanceTimersByTime(500);
+            });
+        }
+
+        it("leaves an unformatted value untouched", () => {
+            const stringAttribute = new EditableValueBuilder<string>().withValue(richTextDefaultValue).build();
+
+            renderAndFlush(stringAttribute);
+
+            expect(stringAttribute.setValue).not.toHaveBeenCalled();
+        });
+
+        it("leaves a list whose first run is formatted untouched", () => {
+            const stored = `<ol><li><p><span style="font-size: 32px">Hello</span></p></li></ol>`;
+            const stringAttribute = new EditableValueBuilder<string>().withValue(stored).build();
+
+            renderAndFlush(stringAttribute);
+
+            expect(stringAttribute.setValue).not.toHaveBeenCalled();
+            expect(stringAttribute.value).toBe(stored);
+        });
+    });
+
     describe("Empty content handling", () => {
         it("handles empty string value", () => {
             const emptyAttribute = new EditableValueBuilder<string>().withValue("").build();
@@ -112,6 +151,92 @@ describe("Rich Text", () => {
             const emptyParagraphAttribute = new EditableValueBuilder<string>().withValue("<p></p>").build();
             const component = render(<RichText {...defaultProps} stringAttribute={emptyParagraphAttribute} />);
             expect(component.container).toBeTruthy();
+        });
+    });
+
+    describe("default upload without an image source", () => {
+        function dropImage(container: HTMLElement): { requested: jest.Mock } {
+            const editorDom = container.querySelector(".ProseMirror") as HTMLElement;
+            const requested = jest.fn();
+            editorDom.addEventListener(IMAGE_REQUEST_EVENT, requested);
+            const file = new File(["abc"], "drop.png", { type: "image/png" });
+            fireEvent.drop(editorDom, { dataTransfer: { files: [file], types: ["Files"] } });
+            return { requested };
+        }
+
+        it("ignores a stale disabled value and inserts dropped images inline", async () => {
+            const { container } = render(<RichText {...defaultProps} enableDefaultUpload={false} />);
+
+            const { requested } = dropImage(container);
+
+            expect(requested).not.toHaveBeenCalled();
+            await waitFor(() => {
+                expect(container.querySelector(".ProseMirror img[src^='data:image/png']")).toBeInTheDocument();
+            });
+        });
+
+        it("hands dropped images to the image dialog when an image source is configured", () => {
+            const { container } = render(
+                <RichText {...defaultProps} enableDefaultUpload={false} imageSource={{} as ListValue} />
+            );
+
+            const { requested } = dropImage(container);
+
+            expect(requested).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    describe("image dialog opened by a drop", () => {
+        function renderWithUploader(handleChange: jest.Mock): HTMLElement {
+            const uploader = (
+                <input
+                    type="file"
+                    aria-label="entity-upload"
+                    onChange={event => handleChange(Array.from(event.currentTarget.files ?? []).map(f => f.name))}
+                />
+            );
+            const { container } = render(
+                <RichText
+                    {...defaultProps}
+                    preset="full"
+                    enableDefaultUpload={false}
+                    imageSource={{} as ListValue}
+                    imageSourceContent={uploader}
+                />
+            );
+            return container.querySelector(".ProseMirror") as HTMLElement;
+        }
+
+        function drop(editorDom: HTMLElement, name: string): void {
+            const file = new File(["abc"], name, { type: "image/png" });
+            fireEvent.drop(editorDom, { dataTransfer: { files: [file], types: ["Files"] } });
+        }
+
+        it("does not re-upload the dropped file when the dialog is reopened from the toolbar", async () => {
+            const handleChange = jest.fn();
+            const editorDom = renderWithUploader(handleChange);
+
+            drop(editorDom, "first.png");
+            await waitFor(() => expect(handleChange).toHaveBeenCalledWith(["first.png"]));
+
+            const imageButton = screen.getByTitle("Insert Image");
+            fireEvent.click(imageButton);
+            fireEvent.click(imageButton);
+
+            expect(screen.getByRole("button", { name: "URL" })).toHaveClass("active");
+            expect(handleChange).toHaveBeenCalledTimes(1);
+        });
+
+        it("hands off files from a second drop while the dialog is open", async () => {
+            const handleChange = jest.fn();
+            const editorDom = renderWithUploader(handleChange);
+
+            drop(editorDom, "first.png");
+            await waitFor(() => expect(handleChange).toHaveBeenCalledWith(["first.png"]));
+            drop(editorDom, "second.png");
+
+            await waitFor(() => expect(handleChange).toHaveBeenCalledWith(["second.png"]));
+            expect(handleChange).toHaveBeenCalledTimes(2);
         });
     });
 });

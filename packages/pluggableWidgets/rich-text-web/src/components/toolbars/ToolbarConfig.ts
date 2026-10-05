@@ -83,12 +83,16 @@ export interface ToolbarGroupConfig {
 
 export interface ToolbarContextType {
     activeDropdown: DropdownCommand | null;
+    pendingImageDialogFiles?: File[];
+    /** Changes on every drop/paste request so the image dialog remounts and takes the new files. */
+    imageDialogRequestId?: number;
     handleDropdownToggle: (dropdownType: DropdownCommand | null) => void;
     handleDropdownClose: () => void;
 }
 
 export const ToolbarContext = createContext<ToolbarContextType>({
     activeDropdown: null,
+    pendingImageDialogFiles: [],
     handleDropdownToggle: () => {},
     handleDropdownClose: () => {}
 });
@@ -675,7 +679,7 @@ const CT_ITEM_TO_BUTTON_MAP: Record<CtItemTypeEnum, string | null> = {
     size: "fontSize",
     color: "textColor",
     background: "backgroundColor",
-    header: "header",
+    header: "textFormat",
     fullscreen: "fullscreen",
     clean: "clearFormatting",
     tableBetter: "insertTable"

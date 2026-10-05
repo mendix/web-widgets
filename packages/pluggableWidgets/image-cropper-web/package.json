@@ -24,13 +24,15 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "image-cropper"
+        "branchName": "image-cropper-web"
     },
     "scripts": {
         "build": "pluggable-widgets-tools build:web",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
+        "e2e": "MENDIX_VERSION=11.12.0 run-e2e ci",
+        "e2edev": "MENDIX_VERSION=11.12.0 run-e2e dev --with-preps",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
@@ -53,6 +55,7 @@
         "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/rollup-web-widgets": "workspace:*",
+        "@mendix/run-e2e": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
         "jest-canvas-mock": "^2.5.2"

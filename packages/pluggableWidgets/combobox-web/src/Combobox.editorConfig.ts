@@ -61,7 +61,7 @@ export function getProperties(
                 ...LAZY_LOADING_CONFIG
             ]);
             if (values.optionsSourceType === "boolean") {
-                hidePropertiesIn(defaultProperties, values, ["clearable"]);
+                hidePropertiesIn(defaultProperties, values, ["clearable", "emptyOptionText"]);
                 hidePropertiesIn(defaultProperties, values, ["attributeEnumeration"]);
             } else {
                 hidePropertiesIn(defaultProperties, values, ["attributeBoolean"]);

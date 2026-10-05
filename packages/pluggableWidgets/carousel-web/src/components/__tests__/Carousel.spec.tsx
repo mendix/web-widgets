@@ -156,6 +156,7 @@ describe("Carousel", () => {
         jest.resetAllMocks();
         jest.spyOn(Math, "random").mockReturnValue(0.123456789);
     });
+
     const defaultCarouselProps: CarouselProps = {
         id: "Carousel",
         className: "",
@@ -163,6 +164,8 @@ describe("Carousel", () => {
             { id: "1" as GUID, content: <div>test1</div> },
             { id: "2" as GUID, content: <div>test2</div> }
         ],
+        slidesPerView: 1,
+        slidesPerGroup: 1,
         pagination: true,
         animation: true,
         autoplay: true,
@@ -177,21 +180,40 @@ describe("Carousel", () => {
 
         expect(asFragment()).toMatchSnapshot();
     });
+
     it("renders correctly without pagination", () => {
         const { asFragment } = render(<Carousel {...defaultCarouselProps} pagination={false} />);
 
         expect(asFragment()).toMatchSnapshot();
     });
+
     it("renders correctly without navigation", () => {
         const { asFragment } = render(<Carousel {...defaultCarouselProps} navigation={false} />);
 
         expect(asFragment()).toMatchSnapshot();
     });
+
     it("renders correctly with minimal setup", () => {
         const { asFragment } = render(<Carousel {...defaultCarouselProps} pagination={false} navigation={false} />);
 
         expect(asFragment()).toMatchSnapshot();
     });
+
+    it("uses fade effect for a single slide per view", () => {
+        const { container } = render(<Carousel {...defaultCarouselProps} />);
+
+        expect(container.querySelector(".swiper")).toHaveClass("swiper-fade");
+    });
+
+    it("ignores fade animation when showing multiple slides per view", () => {
+        const items = [1, 2, 3, 4].map(i => ({ id: `${i}` as GUID, content: <div>test{i}</div> }));
+        const { container } = render(
+            <Carousel {...defaultCarouselProps} items={items} slidesPerView={2} slidesPerGroup={2} />
+        );
+
+        expect(container.querySelector(".swiper")).not.toHaveClass("swiper-fade");
+    });
+
     afterEach(() => {
         jest.restoreAllMocks();
     });

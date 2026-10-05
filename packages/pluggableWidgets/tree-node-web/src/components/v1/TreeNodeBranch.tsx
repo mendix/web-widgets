@@ -136,7 +136,7 @@ export function TreeNodeBranch({
 
     useLayoutEffect(() => {
         if (animateTreeNodeContentProp && treeNodeState !== TreeNodeState.LOADING) {
-            const animationCleanup = animateTreeNodeContent();
+            const animationCleanup = animateTreeNodeContent(treeNodeState === TreeNodeState.EXPANDED);
             if (animationCleanup) {
                 return animationCleanup;
             }
@@ -198,6 +198,12 @@ export function TreeNodeBranch({
                         id={treeNodeBranchUtils.getBodyId(id)}
                         aria-hidden={treeNodeState !== TreeNodeState.EXPANDED}
                         ref={treeNodeBranchBody}
+                        // Keep children out of view while loading so they don't flash before the expand animation
+                        style={
+                            animateTreeNodeContentProp && treeNodeState === TreeNodeState.LOADING
+                                ? { height: 0 }
+                                : undefined
+                        }
                         onTransitionEnd={cleanupAnimation}
                     >
                         {children}

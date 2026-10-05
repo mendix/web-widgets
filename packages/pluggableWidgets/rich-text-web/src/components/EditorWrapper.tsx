@@ -19,6 +19,7 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
         imageSource,
         imageSourceContent,
         enableDefaultUpload,
+        dialogStyle,
         preset,
         toolbarConfig,
         history,
@@ -121,6 +122,7 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
                         imageSource={imageSource}
                         imageSourceContent={imageSourceContent}
                         enableDefaultUpload={enableDefaultUpload}
+                        dialogStyle={dialogStyle}
                         preset={preset}
                         toolbarConfig={toolbarConfig}
                         toolbarGroups={{

@@ -21,11 +21,9 @@ function keyboardHandlers(): KeyboardHandlers {
     let pressed = false;
     return {
         onKeyDown: event => {
-            if (isTriggerKey(event)) {
+            if (isTriggerKey(event) && isOwn(event)) {
                 preventAndStop(event);
-                if (isOwn(event)) {
-                    pressed = true;
-                }
+                pressed = true;
             }
         },
         onKeyUp: event => {

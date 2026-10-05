@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { ReactElement, useState, useEffect, useMemo, PropsWithChildren } from "react";
+import { IMAGE_REQUEST_EVENT } from "../../extensions/ImagePasteDrop";
 import { useT } from "../../utils/i18n";
 import { useCurrentEditor } from "../EditorContext";
 import { CodeViewToolbarButton } from "./components/CodeView";
@@ -83,6 +84,7 @@ function ToolbarGroup(props: ToolbarGroupProps): ReactElement | null {
     const { toolbar, ...rest } = props;
     const { editor } = useCurrentEditor();
     const [, setSelectionUpdate] = useState(0);
+    const shouldRenderGroup = !toolbar.showWhen || (editor ? toolbar.showWhen(editor) : false);
 
     // Force re-render when editor selection changes
     useEffect(() => {
@@ -98,7 +100,8 @@ function ToolbarGroup(props: ToolbarGroupProps): ReactElement | null {
             editor.off("selectionUpdate", handleSelectionUpdate);
         };
     }, [editor, toolbar.showWhen]);
-    if (toolbar.showWhen && !toolbar.showWhen(editor)) {
+
+    if (!shouldRenderGroup) {
         return null;
     }
     return (
@@ -162,6 +165,8 @@ export default function Toolbar(props: ToolbarProps): ReactElement | null {
     const { preset = "basic", toolbarConfig, toolbarGroups, advancedConfig, customFonts, helpButton } = props;
     const { editor, codeViewState } = useCurrentEditor();
     const [activeDropdown, setActiveDropdown] = useState<DropdownCommand | null>(null);
+    const [pendingImageDialogFiles, setPendingImageDialogFiles] = useState<File[]>([]);
+    const [imageDialogRequestId, setImageDialogRequestId] = useState(0);
 
     // Filter toolbar groups based on preset and custom configuration
     const filteredGroups = useMemo(
@@ -181,20 +186,55 @@ export default function Toolbar(props: ToolbarProps): ReactElement | null {
         [filteredGroups]
     );
 
+    useEffect(() => {
+        if (!editor) {
+            return;
+        }
+
+        const dom = editor.view.dom;
+        const handleImageRequest = (event: Event): void => {
+            const detail = (event as CustomEvent<{ files?: File[] }>).detail;
+            const files = detail?.files ?? [];
+            if (files.length === 0) {
+                return;
+            }
+
+            setPendingImageDialogFiles(files);
+            setImageDialogRequestId(id => id + 1);
+            setActiveDropdown("insertImage");
+        };
+
+        dom.addEventListener(IMAGE_REQUEST_EVENT, handleImageRequest);
+        return () => {
+            dom.removeEventListener(IMAGE_REQUEST_EVENT, handleImageRequest);
+        };
+    }, [editor]);
+
     if (!editor) {
         return null;
     }
 
     const handleDropdownToggle = (dropdownType: DropdownCommand | null): void => {
         setActiveDropdown(prev => (prev === dropdownType ? null : dropdownType));
+        // Dropped files belong to the dialog they opened; a toolbar click never carries any.
+        setPendingImageDialogFiles([]);
     };
 
     const handleDropdownClose = (): void => {
         setActiveDropdown(null);
+        setPendingImageDialogFiles([]);
     };
 
     return (
-        <ToolbarContext.Provider value={{ activeDropdown, handleDropdownToggle, handleDropdownClose }}>
+        <ToolbarContext.Provider
+            value={{
+                activeDropdown,
+                pendingImageDialogFiles,
+                imageDialogRequestId,
+                handleDropdownToggle,
+                handleDropdownClose
+            }}
+        >
             <div className="tiptap-toolbar">
                 <ToolbarRow toolbars={filteredGroups}>
                     {showHelpButton && (
