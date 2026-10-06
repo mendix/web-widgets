@@ -520,7 +520,8 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
                 icon: "Expand",
                 action: "command",
                 command: "toggleFullscreen",
-                isActive: () => document.querySelector(".widget-rich-text")?.classList.contains("fullscreen") || false
+                isActive: editor =>
+                    editor.view.dom.closest(".widget-rich-text")?.classList.contains("fullscreen") ?? false
             }
         ]
     }
