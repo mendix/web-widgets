@@ -123,6 +123,35 @@ describe("Rich Text runtime behaviour", () => {
             expect(onChange.execute).toHaveBeenCalledTimes(1);
         });
 
+        it("does not execute onChange on blur without an edit when onChangeType is onLeave", () => {
+            const onChange = actionValue();
+            const onBlur = actionValue();
+            const { container } = render(
+                <RichText {...defaultProps} onChangeType="onLeave" onChange={onChange} onBlur={onBlur} />
+            );
+            flush();
+
+            fireEvent.focus(getEditorDom(container));
+            fireEvent.blur(getEditorDom(container));
+
+            expect(onChange.execute).not.toHaveBeenCalled();
+            expect(onBlur.execute).toHaveBeenCalledTimes(1);
+        });
+
+        it("executes onChange on leave once per edit when onChangeType is onLeave", () => {
+            const onChange = actionValue();
+            const { container } = render(<RichText {...defaultProps} onChangeType="onLeave" onChange={onChange} />);
+
+            fireEvent.focus(getEditorDom(container));
+            edit(container, "<p>edited</p>");
+            fireEvent.blur(getEditorDom(container));
+            expect(onChange.execute).toHaveBeenCalledTimes(1);
+
+            fireEvent.focus(getEditorDom(container));
+            fireEvent.blur(getEditorDom(container));
+            expect(onChange.execute).toHaveBeenCalledTimes(1);
+        });
+
         it("executes onChange on edit and not on blur when onChangeType is onDataChange", () => {
             const onChange = actionValue();
             const { container } = render(
@@ -176,6 +205,7 @@ describe("Rich Text runtime behaviour", () => {
 
             rerender(<RichText {...defaultProps} onChangeType="onLeave" {...second} />);
             fireEvent.focus(getEditorDom(container));
+            edit(container, "<p>edited</p>");
             fireEvent.blur(getEditorDom(container));
 
             expect(second.onFocus.execute).toHaveBeenCalledTimes(1);
