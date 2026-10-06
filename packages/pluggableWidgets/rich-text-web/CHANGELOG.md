@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the On change action ran when leaving the editor without changing its content.
+
 ## [5.1.0] - 2026-09-29
 
 ### Added
