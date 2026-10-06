@@ -4,7 +4,6 @@ import { Superscript } from "@tiptap/extension-superscript";
 import { TableRow } from "@tiptap/extension-table-row";
 import { TaskItem } from "@tiptap/extension-task-item";
 import { TaskList } from "@tiptap/extension-task-list";
-import { TextStyle } from "@tiptap/extension-text-style";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import {
@@ -39,6 +38,7 @@ import { TableCellBackgroundColor } from "../extensions/TableCellBackgroundColor
 import { TableHeaderBackgroundColor } from "../extensions/TableHeaderBackgroundColor";
 import { TextAlign } from "../extensions/TextAlignClass";
 import { TextColorClass } from "../extensions/TextColorClass";
+import { TextStyleClass } from "../extensions/TextStyleClass";
 import { TextDirection } from "../extensions/TextDirection";
 import { TextHighlightClass } from "../extensions/TextHighlightClass";
 import { WordPaste } from "../extensions/WordPaste";
@@ -275,7 +275,7 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
             ListItemMarkerFormat.configure({
                 styleDataFormat
             }),
-            TextStyle,
+            TextStyleClass.configure({ styleDataFormat }),
             Superscript,
             Subscript,
             TaskList,
