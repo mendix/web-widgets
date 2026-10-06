@@ -35,6 +35,10 @@ describe("StatusBar", () => {
         ])("counts %j as %i characters", (content, expected) => {
             expect(renderStatusBar(content, "characterCount")).toHaveTextContent(`Characters: ${expected}`);
         });
+
+        it("excludes trailing new lines and whitespace from the character count", () => {
+            expect(renderStatusBar("abc\n\n \t", "characterCount")).toHaveTextContent("Characters: 3");
+        });
     });
 
     describe("HTML character count", () => {
