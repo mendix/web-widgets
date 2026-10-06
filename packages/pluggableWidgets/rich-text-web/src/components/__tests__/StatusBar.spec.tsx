@@ -35,12 +35,6 @@ describe("StatusBar", () => {
         ])("counts %j as %i characters", (content, expected) => {
             expect(renderStatusBar(content, "characterCount")).toHaveTextContent(`Characters: ${expected}`);
         });
-
-        it.todo(
-            "excludes trailing new lines and whitespace from the character count — bug: blocked by BEH-15 " +
-                '(src/components/StatusBar.tsx:22-27 counts text.length without trimEnd, so "abc\\n\\n" yields 5, ' +
-                "contradicting CHANGELOG 4.12.0)"
-        );
     });
 
     describe("HTML character count", () => {

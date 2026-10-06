@@ -38,9 +38,6 @@ function selectAll(editor: Editor): void {
 let editor: Editor;
 afterEach(() => editor?.destroy());
 
-const TEXT_STYLE_BUG =
-    "bug: TextStyle mark only parses <span> with a `style` attribute, so class-mode spans carrying only data-*/class are dropped on load";
-
 // Class mode: every text-mark extension serializes its value into a data-* attribute
 // plus a marker class, and never into an inline `style` for that property. Loading the
 // class/data form back must restore the same value so getHTML() is a fixed point.
@@ -72,11 +69,6 @@ describe("text-mark extensions — class format", () => {
         }
         expect(out).not.toContain("style=");
     });
-
-    // textStyle-based marks (color, font family, font size) cannot be loaded from the class form.
-    it.todo(`TextColorClass: loads <span data-text-color class="has-text-color"> — ${TEXT_STYLE_BUG}`);
-    it.todo(`FontFamilyClass: loads <span data-font-family class="has-font-family"> — ${TEXT_STYLE_BUG}`);
-    it.todo(`FontSize: loads <span data-font-size class="has-font-size"> — ${TEXT_STYLE_BUG}`);
 
     it.each([
         {
@@ -132,10 +124,6 @@ describe("text-mark extensions — class format", () => {
 
         expect(editor.getHTML()).toBe(first);
     });
-
-    it.todo(
-        `setTextColor/setFontFamily/setFontSize: setContent(getHTML()) round-trip keeps the mark — ${TEXT_STYLE_BUG}`
-    );
 
     it("FontSize keeps only the leading number, dropping the unit", () => {
         editor = makeEditor("class");
