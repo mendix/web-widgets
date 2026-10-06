@@ -309,6 +309,36 @@ describe("Rich Text runtime behaviour", () => {
             expect(container.querySelector(".tiptap-toolbar") !== null).toBe(hasToolbar);
             expect(getEditorDom(container)).toHaveAttribute("contenteditable", "false");
         });
+
+        // Editability can change after the editor mounted (e.g. conditional editability in
+        // Studio Pro); the editor must follow without writing back to the attribute.
+        it("becomes read-only when the attribute turns read-only after mount", () => {
+            const editable = new EditableValueBuilder<string>().withValue(richTextDefaultValue).build();
+            const { container, rerender } = render(<RichText {...defaultProps} stringAttribute={editable} />);
+            expect(getEditorDom(container)).toHaveAttribute("contenteditable", "true");
+
+            const readOnly = new EditableValueBuilder<string>().withValue(richTextDefaultValue).isReadOnly().build();
+            rerender(<RichText {...defaultProps} stringAttribute={readOnly} />);
+            flush();
+
+            expect(getEditorDom(container)).toHaveAttribute("contenteditable", "false");
+            expect(editable.setValue).not.toHaveBeenCalled();
+            expect(readOnly.setValue).not.toHaveBeenCalled();
+        });
+
+        it("becomes editable when the attribute turns editable after mount", () => {
+            const readOnly = new EditableValueBuilder<string>().withValue(richTextDefaultValue).isReadOnly().build();
+            const { container, rerender } = render(<RichText {...defaultProps} stringAttribute={readOnly} />);
+            expect(getEditorDom(container)).toHaveAttribute("contenteditable", "false");
+
+            const editable = new EditableValueBuilder<string>().withValue(richTextDefaultValue).build();
+            rerender(<RichText {...defaultProps} stringAttribute={editable} />);
+            flush();
+
+            expect(getEditorDom(container)).toHaveAttribute("contenteditable", "true");
+            expect(readOnly.setValue).not.toHaveBeenCalled();
+            expect(editable.setValue).not.toHaveBeenCalled();
+        });
     });
 
     describe("toolbar location", () => {
