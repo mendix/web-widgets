@@ -415,6 +415,15 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
         }
     }, [editor, defaultValue]);
 
+    // `editable` passed to `useEditor` only applies at creation; follow later read-only
+    // changes (e.g. conditional editability). `emitUpdate: false` keeps the toggle from
+    // reaching `onUpdate`, so it never writes to the attribute or fires On change.
+    useEffect(() => {
+        if (editor && editor.isEditable === !!readOnly) {
+            editor.setEditable(!readOnly, false);
+        }
+    }, [editor, readOnly]);
+
     if (!editor) {
         return null;
     }
