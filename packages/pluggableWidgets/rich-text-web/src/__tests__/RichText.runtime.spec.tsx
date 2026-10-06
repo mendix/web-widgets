@@ -309,10 +309,6 @@ describe("Rich Text runtime behaviour", () => {
             expect(container.querySelector(".tiptap-toolbar") !== null).toBe(hasToolbar);
             expect(getEditorDom(container)).toHaveAttribute("contenteditable", "false");
         });
-
-        it.todo(
-            "becomes non-editable when the attribute turns read-only after mount — blocked by BEH-02: Editor never calls setEditable after creation, contenteditable stays true"
-        );
     });
 
     describe("toolbar location", () => {

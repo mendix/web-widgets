@@ -138,10 +138,6 @@ describe("KeyboardNavigation shortcuts", () => {
 
         expect(toolbar.contains(document.activeElement)).toBe(false);
     });
-
-    it.todo(
-        "Escape pressed on a focused toolbar button returns focus to the editor — blocked by BEH-12: handleKeyDown in src/extensions/KeyboardNavigation.ts:89-103 only receives keys dispatched inside the editor, but only acts when focus is outside it"
-    );
 });
 
 // Contract (Fullscreen extension): Escape exits fullscreen only when it is active.
@@ -344,8 +340,4 @@ describe("ConfigurationDropdown Enter/Escape", () => {
 
         expect(document.activeElement).not.toBe(input);
     });
-
-    it.todo(
-        "Escape discards the draft without committing it — bug: ConfigurationDropdown.tsx:63-66 calls blur() before the clearDraft state update applies, so onBlur (line 151) commits the draft value"
-    );
 });

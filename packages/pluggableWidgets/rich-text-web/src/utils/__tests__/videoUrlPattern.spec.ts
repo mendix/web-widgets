@@ -83,10 +83,6 @@ describe("matchPattern", () => {
     it("always targets the provider host, even when the provider name appears in another host's path", () => {
         expect(matchPattern("https://evil.com/youtu.be/abc")?.url).toBe("https://www.youtube.com/embed/abc");
     });
-
-    it.todo(
-        "Google Maps URL builds a valid embed URL — bug: src/utils/videoUrlPattern.ts:66 uses msid=$2 (path group, not msid group $3) and has a stray trailing double quote"
-    );
 });
 
 describe("getPatternMatch", () => {
