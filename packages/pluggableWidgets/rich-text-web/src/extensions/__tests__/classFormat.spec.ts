@@ -1,11 +1,11 @@
 import { Editor } from "@tiptap/core";
-import { TextStyle } from "@tiptap/extension-text-style";
 import { StarterKit } from "@tiptap/starter-kit";
 import { FontFamilyClass } from "../FontFamilyClass";
 import { FontSize } from "../FontSize";
 import { TextAlign } from "../TextAlignClass";
 import { TextColorClass } from "../TextColorClass";
 import { TextHighlightClass } from "../TextHighlightClass";
+import { TextStyleClass } from "../TextStyleClass";
 
 type StyleFormat = "inline" | "class";
 
@@ -16,7 +16,7 @@ function makeEditor(styleDataFormat: StyleFormat): Editor {
         element,
         extensions: [
             StarterKit,
-            TextStyle,
+            TextStyleClass.configure({ styleDataFormat }),
             TextColorClass.configure({ types: ["textStyle"], styleDataFormat }),
             TextHighlightClass.configure({ multicolor: true, styleDataFormat }),
             FontFamilyClass.configure({ types: ["textStyle"], styleDataFormat }),
@@ -125,6 +125,65 @@ describe("text-mark extensions — class format", () => {
         expect(editor.getHTML()).toBe(first);
     });
 
+    // BEH-17: class mode writes these spans without a `style` attribute, so they must
+    // still be recognised as textStyle marks when the saved content is loaded again.
+    it.each([
+        {
+            name: "TextColorClass",
+            html: '<p><span data-text-color="#00ff00" class="has-text-color">x</span></p>',
+            attr: "textColor",
+            value: "#00ff00"
+        },
+        {
+            name: "FontFamilyClass",
+            html: '<p><span data-font-family="Arial" data-font-value="arial" class="has-font-family">x</span></p>',
+            attr: "fontFamily",
+            value: "Arial"
+        },
+        {
+            name: "FontSize",
+            html: '<p><span data-font-size="18" class="has-font-size">x</span></p>',
+            attr: "fontSize",
+            value: "18"
+        }
+    ])("$name: loading the class/data form restores the mark attribute", ({ html, attr, value }) => {
+        editor = makeEditor("class");
+        editor.commands.setContent(html);
+        selectAll(editor);
+
+        expect(editor.getAttributes("textStyle")[attr]).toBe(value);
+        expect(editor.getHTML()).not.toContain("style=");
+    });
+
+    it.each([
+        {
+            name: "setTextColor",
+            apply: (e: Editor) => e.commands.setTextColor("#00ff00"),
+            attr: "textColor",
+            value: "#00ff00"
+        },
+        {
+            name: "setFontFamily",
+            apply: (e: Editor) => e.commands.setFontFamily("Arial"),
+            attr: "fontFamily",
+            value: "Arial"
+        },
+        // The class form stores only the number, so a reload yields the unitless value.
+        { name: "setFontSize", apply: (e: Editor) => e.commands.setFontSize("18px"), attr: "fontSize", value: "18" }
+    ])("$name: setContent(getHTML()) round-trip keeps the mark", ({ apply, attr, value }) => {
+        editor = makeEditor("class");
+        editor.commands.setContent("<p>x</p>");
+        selectAll(editor);
+        apply(editor);
+        const first = editor.getHTML();
+
+        editor.commands.setContent(first);
+        selectAll(editor);
+
+        expect(editor.getAttributes("textStyle")[attr]).toBe(value);
+        expect(editor.getHTML()).toBe(first);
+    });
+
     it("FontSize keeps only the leading number, dropping the unit", () => {
         editor = makeEditor("class");
         editor.commands.setContent("<p>x</p>");
@@ -218,5 +277,13 @@ describe("text-mark extensions — inline format", () => {
         const out = editor.getHTML();
         expect(out).toContain(style);
         expect(out).not.toMatch(/data-(text-color|text-highlight|font-family|font-size|text-align)=/);
+    });
+
+    it("does not treat a class-mode span without inline style as a text style", () => {
+        editor = makeEditor("inline");
+        editor.commands.setContent('<p><span data-text-color="#00ff00" class="has-text-color">x</span></p>');
+
+        expect(editor.getAttributes("textStyle").textColor).toBeUndefined();
+        expect(editor.getHTML()).not.toContain("<span");
     });
 });
