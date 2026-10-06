@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where pressing Escape did not close the insert table picker, or the insert link, image and video dialogs when the dialog style was "Inline".
 
+- We fixed an issue where text color, font family and font size were lost after saving and reopening content when the style data format was set to "Class".
+
 ## [5.1.1] - 2026-10-15
 
 ### Fixed
