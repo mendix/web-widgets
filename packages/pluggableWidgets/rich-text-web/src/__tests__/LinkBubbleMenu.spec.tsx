@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Editor } from "@tiptap/core";
 import { StarterKit } from "@tiptap/starter-kit";
 import { ReactElement } from "react";
@@ -113,11 +113,10 @@ describe("LinkBubbleMenu", () => {
 
             fireEvent.click(editButton()!);
             // Edit extends the selection over the link; range selections are re-evaluated after
-            // the BubbleMenu's update delay.
-            await act(() => new Promise(resolve => setTimeout(resolve, 300)));
+            // the BubbleMenu's update delay, so wait for the menu to go instead of sleeping.
+            await waitFor(() => expect(editButton()).not.toBeInTheDocument());
 
             expect(screen.getByRole("heading", { name: "Edit Link" })).toBeInTheDocument();
-            expect(editButton()).not.toBeInTheDocument();
         });
 
         it("renders nothing without an editor in context", () => {
