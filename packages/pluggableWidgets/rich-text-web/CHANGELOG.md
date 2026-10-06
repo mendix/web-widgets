@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where pressing Escape in a text or number field of a configuration dropdown, such as the table configuration, saved the typed value instead of discarding it.
+
 ## [5.1.0] - 2026-09-29
 
 ### Added
