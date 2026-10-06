@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import { Editor as CoreEditor } from "@tiptap/core";
 import { Editor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
@@ -9,7 +9,7 @@ import { RichTextContainerProps, StatusBarContentEnum } from "../../typings/Rich
 import { EditorContextProvider } from "../components/EditorContext";
 import { ConfigurationDropdown, ConfigurationSection } from "../components/toolbars/components/ConfigurationDropdown";
 import { ToolbarButton } from "../components/toolbars/components/ToolbarButton";
-import { ToolbarButtonConfig } from "../components/toolbars/ToolbarConfig";
+import { TOOLBAR_GROUPS, ToolbarButtonConfig } from "../components/toolbars/ToolbarConfig";
 import RichText from "../RichText";
 import { TranslationProvider } from "../utils/i18n";
 
@@ -163,6 +163,72 @@ describe("Fullscreen Escape", () => {
         fireEvent.keyDown(dom, { key: "Escape" });
 
         expect(widget).not.toHaveClass("fullscreen");
+    });
+});
+
+// Contract (Fullscreen extension + toolbar): with several widgets on a page, fullscreen and its
+// toolbar active state belong to the editor instance that triggered them.
+describe("Fullscreen with multiple widgets", () => {
+    function renderTwoWidgets(): {
+        widgets: HTMLElement[];
+        doms: EditorDom[];
+    } {
+        const { container } = render(
+            <div>
+                <RichText {...buildProps({ id: "RichText1", name: "RichText1" })} />
+                <RichText {...buildProps({ id: "RichText2", name: "RichText2" })} />
+            </div>
+        );
+        const widgets = Array.from(container.querySelectorAll<HTMLElement>(".widget-rich-text"));
+        const doms = Array.from(container.querySelectorAll<EditorDom>(".ProseMirror"));
+        expect(widgets).toHaveLength(2);
+        expect(doms).toHaveLength(2);
+        return { widgets, doms };
+    }
+
+    function fullscreenIsActive(editor: CoreEditor): boolean {
+        const config = TOOLBAR_GROUPS.flatMap(group => group.buttons).find(button => button.name === "fullscreen");
+        return config?.isActive?.(editor as Editor) ?? false;
+    }
+
+    it("toggleFullscreen on the second editor only affects the second widget", () => {
+        const { widgets, doms } = renderTwoWidgets();
+
+        act(() => {
+            doms[1].editor.commands.toggleFullscreen();
+        });
+
+        expect(widgets[0]).not.toHaveClass("fullscreen");
+        expect(widgets[1]).toHaveClass("fullscreen");
+    });
+
+    it("Escape in the second editor exits fullscreen only for the second widget", () => {
+        const { widgets, doms } = renderTwoWidgets();
+
+        act(() => {
+            doms[0].editor.commands.toggleFullscreen();
+            doms[1].editor.commands.toggleFullscreen();
+        });
+        expect(widgets[0]).toHaveClass("fullscreen");
+        expect(widgets[1]).toHaveClass("fullscreen");
+
+        fireEvent.keyDown(doms[1], { key: "Escape" });
+
+        expect(widgets[0]).toHaveClass("fullscreen");
+        expect(widgets[1]).not.toHaveClass("fullscreen");
+    });
+
+    it("clicking the second widget's fullscreen button marks only that button active", () => {
+        const { widgets, doms } = renderTwoWidgets();
+        const buttons = widgets.map(widget => within(widget).getByTitle("Fullscreen"));
+
+        fireEvent.click(buttons[1]);
+
+        expect(widgets[0]).not.toHaveClass("fullscreen");
+        expect(widgets[1]).toHaveClass("fullscreen");
+        expect(buttons[1]).toHaveClass("is-active");
+        expect(fullscreenIsActive(doms[0].editor)).toBe(false);
+        expect(fullscreenIsActive(doms[1].editor)).toBe(true);
     });
 });
 
