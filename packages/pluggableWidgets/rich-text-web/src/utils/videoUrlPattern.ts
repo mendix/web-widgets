@@ -63,7 +63,7 @@ const urlPatterns: UrlPattern[] = [
         type: "iframe",
         w: 425,
         h: 350,
-        url: 'maps.google.com/maps/ms?msid=$2&output=embed"'
+        url: "maps.google.com/maps/ms?msid=$3&output=embed"
     },
     {
         regex: /dailymotion\.com\/video\/([^_]+)/,

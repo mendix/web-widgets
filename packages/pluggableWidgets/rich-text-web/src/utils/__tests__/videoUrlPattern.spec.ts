@@ -55,6 +55,13 @@ describe("matchPattern", () => {
             h: 270
         },
         {
+            name: "Google Maps URL",
+            input: "https://maps.google.com/maps/ms?ie=UTF8&msa=0&msid=210840796990036384893.00047ac4ee2b8b5d0b2b5",
+            url: "https://maps.google.com/maps/ms?msid=210840796990036384893.00047ac4ee2b8b5d0b2b5&output=embed",
+            w: 425,
+            h: 350
+        },
+        {
             name: "http input keeps http",
             input: "http://youtu.be/abc123",
             url: "http://www.youtube.com/embed/abc123",
