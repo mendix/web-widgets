@@ -340,4 +340,15 @@ describe("ConfigurationDropdown Enter/Escape", () => {
 
         expect(document.activeElement).not.toBe(input);
     });
+
+    it("Escape discards the draft without committing it", () => {
+        const input = document.querySelector(".configuration-input") as HTMLInputElement;
+        input.focus();
+        fireEvent.change(input, { target: { value: "42" } });
+
+        fireEvent.keyDown(input, { key: "Escape" });
+
+        expect(onChange).not.toHaveBeenCalled();
+        expect(input.value).toBe("10");
+    });
 });
