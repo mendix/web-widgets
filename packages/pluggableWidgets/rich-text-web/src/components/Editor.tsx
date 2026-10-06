@@ -254,6 +254,9 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
     const uploadEnabled = enableDefaultUpload || imageSource == null;
     const configRef = useRef({ enableDefaultUpload: uploadEnabled, editable: !readOnly });
     configRef.current = { enableDefaultUpload: uploadEnabled, editable: !readOnly };
+    // Set only by a genuine edit (`onUpdate`); the external-value sync below uses
+    // `emitUpdate: false`, so it never marks the editor dirty.
+    const isDirtyRef = useRef(false);
 
     const extensions = useMemo(
         () => [
@@ -369,6 +372,7 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
             content: defaultValue || "",
             editable: !readOnly,
             onUpdate: ({ editor }) => {
+                isDirtyRef.current = true;
                 const html = editor.isEmpty ? "" : editor.getHTML();
                 onUpdate?.(html);
             },
@@ -377,7 +381,8 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
             },
             onBlur: () => {
                 executeAction(actionRef.current.onBlur);
-                if (actionRef.current.onChangeType === "onLeave") {
+                if (actionRef.current.onChangeType === "onLeave" && isDirtyRef.current) {
+                    isDirtyRef.current = false;
                     executeAction(actionRef.current.onChange);
                 }
             },
