@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where the editor and its toolbar did not become read-only or editable when the editability of its attribute changed after the page was loaded, for example with conditional editability.
 
+- We fixed an issue where, with multiple Rich Text widgets on a page, toggling fullscreen or pressing Escape in one editor changed the fullscreen mode of a different editor, and the fullscreen button showed the wrong state.
+
 ## [5.1.0] - 2026-09-29
 
 ### Added
