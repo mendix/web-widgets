@@ -1,5 +1,5 @@
 import Compact from "@uiw/react-color-compact";
-import { ReactElement, useState, useRef, KeyboardEvent as ReactKeyboardEvent } from "react";
+import { ReactElement, useEffect, useState, useRef, KeyboardEvent as ReactKeyboardEvent } from "react";
 import "./ConfigurationDropdown.scss";
 import "./ColorPicker.scss";
 import { ToolbarDefaultButton } from "./ToolbarDefaultButton";
@@ -66,6 +66,22 @@ export function ConfigurationDropdown({ config }: BaseToolbarButtonProps): React
             e.currentTarget.blur();
         }
     };
+
+    // The controls read their values from the editor state (getCurrentValue), so the open
+    // menu must re-render whenever the document changes. Without this the <select>s, being
+    // controlled, snap back to their stale value and the color pickers keep showing the old
+    // color after every change. Only subscribed while open to avoid needless re-renders.
+    const [, setEditorStateVersion] = useState(0);
+    useEffect(() => {
+        if (!editor || !isOpen) {
+            return;
+        }
+        const handleTransaction = (): void => setEditorStateVersion(version => version + 1);
+        editor.on("transaction", handleTransaction);
+        return () => {
+            editor.off("transaction", handleTransaction);
+        };
+    }, [editor, isOpen]);
 
     const { refs, floatingStyles } = useDropdown({
         isOpen,
