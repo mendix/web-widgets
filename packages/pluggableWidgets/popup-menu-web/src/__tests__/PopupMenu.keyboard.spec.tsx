@@ -1,4 +1,4 @@
-import { act, render, RenderResult, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, RenderResult, screen, waitFor } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { ActionValue } from "mendix";
 import { KeyboardEvent, ReactElement, ReactNode } from "react";
@@ -277,6 +277,29 @@ describe("Popup Menu keyboard interaction", () => {
 
             // An Escape the menu doesn't handle still reaches the page.
             await user.keyboard("{Escape}");
+            expect(documentKeyUp).toHaveBeenCalledTimes(1);
+            document.removeEventListener("keyup", onKeyUp);
+        });
+
+        it("lets the next Escape keyup through if the window lost focus before the handled one", async () => {
+            const documentKeyUp = jest.fn();
+            const onKeyUp = (e: globalThis.KeyboardEvent): void => {
+                if (e.key === "Escape") {
+                    documentKeyUp();
+                }
+            };
+            document.addEventListener("keyup", onKeyUp);
+            renderPage(props());
+            await openWith(user, "{Enter}");
+            await waitFor(() => expect(item("One")).toHaveFocus());
+
+            // Escape is pressed, then the window loses focus before the keyup.
+            await user.keyboard("{Escape>}");
+            expect(queryMenu()).not.toBeInTheDocument();
+            fireEvent.blur(window);
+
+            // A later Escape keyup belongs to the page again.
+            await user.keyboard("{/Escape}");
             expect(documentKeyUp).toHaveBeenCalledTimes(1);
             document.removeEventListener("keyup", onKeyUp);
         });
