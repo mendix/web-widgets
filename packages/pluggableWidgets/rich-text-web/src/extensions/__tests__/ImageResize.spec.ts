@@ -83,3 +83,17 @@ describe("ImageResize serialization", () => {
         expect(html).not.toContain("height=");
     });
 });
+
+describe("ImageResize serialization — style data format", () => {
+    it("serializes the same HTML in both formats", () => {
+        const html = (styleDataFormat: "inline" | "class"): string =>
+            new Editor({
+                element: document.createElement("div"),
+                content: '<p><img src="a.png" width="300" height="200"></p>',
+                extensions: [StarterKit, ImageResize.configure({ styleDataFormat })]
+            }).getHTML();
+
+        expect(html("class")).toBe(html("inline"));
+        expect(html("class")).not.toMatch(/style=|data-width|data-height/);
+    });
+});

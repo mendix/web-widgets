@@ -32,8 +32,9 @@ export interface CellStylingOptions {
  */
 export function buildCellStylingAttributes(styleDataFormat: CellStyleDataFormat): Record<string, any> {
     return {
-        // Column width stored as a CSS size string (e.g. "250px", "50%") applied to the cell's
-        // inline style — replaces the numeric `colwidth` array for our configuration UI.
+        // Column width stored as a CSS size string (e.g. "250px", "50%"), rendered as the cell's
+        // inline width (inline format) or `data-cell-width` (class format) — replaces the numeric
+        // `colwidth` array for our configuration UI.
         cellWidth: {
             default: null,
             parseHTML: (element: HTMLElement) => {
@@ -47,8 +48,9 @@ export function buildCellStylingAttributes(styleDataFormat: CellStyleDataFormat)
                 return {};
             }
         },
-        // Cell height stored as a CSS size string (e.g. "100px", "50%") applied to the cell's
-        // inline style. Behaves as a minimum height (content still grows the cell/row).
+        // Cell height stored as a CSS size string (e.g. "100px", "50%"), rendered as the cell's
+        // inline height (inline format) or `data-cell-height` (class format). Behaves as a
+        // minimum height (content still grows the cell/row).
         cellHeight: {
             default: null,
             parseHTML: (element: HTMLElement) => {
@@ -143,18 +145,18 @@ export function renderCellHTML(
     const classAttrs: Record<string, any> = {};
     const segments: string[] = [];
 
-    // Column width applies in both formats (always an inline width on the cell)
-    if (cellWidth) {
-        segments.push(`width: ${cellWidth}`);
-    }
-
-    // Cell height (minimum) applies in both formats
-    if (cellHeight) {
-        segments.push(`height: ${cellHeight}`);
-    }
-
     // Inline mode: build style string with border defaults
     if (styleDataFormat === "inline") {
+        // Column width
+        if (cellWidth) {
+            segments.push(`width: ${cellWidth}`);
+        }
+
+        // Cell height (minimum)
+        if (cellHeight) {
+            segments.push(`height: ${cellHeight}`);
+        }
+
         // Background color
         if (backgroundColor) {
             segments.push(`background-color: ${backgroundColor}`);
@@ -168,7 +170,7 @@ export function renderCellHTML(
 
     const styleString = segments.join("; ");
 
-    // Class mode: use data attributes
+    // Class mode: use data attributes (sizes are applied by RichTextFormatStyle.scss)
     if (styleDataFormat === "class") {
         if (cellWidth) {
             classAttrs["data-cell-width"] = cellWidth;

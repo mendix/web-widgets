@@ -1,8 +1,10 @@
 import { NodeViewWrapper, NodeViewProps } from "@tiptap/react";
 import { useState, useRef, ReactElement, MouseEvent as ReactMouseEvent } from "react";
+import { sizeProps, StyleDataFormat } from "../utils/sizeProps";
 
 export function EmbedResize(props: NodeViewProps): ReactElement {
-    const { node, updateAttributes } = props;
+    const { node, updateAttributes, extension } = props;
+    const format: StyleDataFormat = extension.options.styleDataFormat;
     const [isResizing, setIsResizing] = useState(false);
     const [size, setSize] = useState({
         width: node.attrs.width || 640,
@@ -71,13 +73,14 @@ export function EmbedResize(props: NodeViewProps): ReactElement {
         document.addEventListener("mouseup", handleMouseUp);
     };
 
+    // Class format sizes the container through data attributes and the iframe follows
+    // it in the stylesheet, so only inline format puts the size on the iframe itself.
+    const boxSize = sizeProps(format, `${size.width}px`, `${size.height}px`);
+    const mediaSize = format === "inline" ? boxSize : {};
+
     return (
         <NodeViewWrapper className={`embed-wrapper ${isResizing ? "resizing" : ""}`}>
-            <div
-                ref={containerRef}
-                className="embed-container"
-                style={{ width: `${size.width}px`, height: `${size.height}px` }}
-            >
+            <div ref={containerRef} className="embed-container" {...boxSize}>
                 <iframe
                     src={node.attrs.src}
                     title={node.attrs.title || ""}
@@ -89,10 +92,7 @@ export function EmbedResize(props: NodeViewProps): ReactElement {
                     sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
                     loading="lazy"
                     referrerPolicy="strict-origin-when-cross-origin"
-                    style={{
-                        width: `${size.width}px`,
-                        height: `${size.height}px`
-                    }}
+                    {...mediaSize}
                 />
                 <div className="resize-handles">
                     <div className="resize-handle nw" onMouseDown={e => handleMouseDown(e, "nw")} />

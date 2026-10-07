@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed image, video and embed sizes being rendered as inline styles in the widget when the style data format is set to "class". The widget now applies them through its stylesheet, which requires a browser that supports typed CSS `attr()` (Chromium 133 and above). Saved content is not affected.
+
+- We fixed table, column and cell sizes being written as inline styles when the style data format is set to "class". Sizes are now stored in data attributes only and applied by the widget stylesheet. This requires a browser that supports typed CSS `attr()` (Chromium 133 and above), like the other "class" format styles.
+
+- We fixed table and cell borders in "class" format ignoring the configured border width, and not falling back to a 1px solid border when only some border properties are set.
+
 ## [5.1.0] - 2026-09-29
 
 ### Added

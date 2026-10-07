@@ -17,10 +17,44 @@ declare module "@tiptap/core" {
     }
 }
 
+type StyleDataFormat = "inline" | "class";
+
+// Sizing data attributes the table carries in class format (see tableSizeDataAttrs)
+const TABLE_SIZE_DATA_ATTRS = ["data-width", "data-width-derived", "data-min-width", "data-min-height"];
+
+/**
+ * Class-format carriers for the table footprint, consumed by typed `attr()` rules in
+ * RichTextFormatStyle.scss. An explicit width wins; otherwise the colwidth-derived
+ * width/min-width is used. The derived width shares `data-width` with the explicit
+ * one, so it is flagged with `data-width-derived` to keep it from being parsed back
+ * as an explicit width.
+ */
+function tableSizeDataAttrs(
+    explicitWidth: string | null,
+    tableWidth: string,
+    tableMinWidth: string,
+    minHeight: string | null
+): Record<string, string> {
+    const attrs: Record<string, string> = {};
+    if (explicitWidth) {
+        attrs["data-width"] = explicitWidth;
+    } else if (tableWidth) {
+        attrs["data-width"] = tableWidth;
+        attrs["data-width-derived"] = "true";
+    } else if (tableMinWidth) {
+        attrs["data-min-width"] = tableMinWidth;
+    }
+    if (minHeight) {
+        attrs["data-min-height"] = minHeight;
+    }
+    return attrs;
+}
+
 // Helper to create colgroup (copied from TipTap source)
 function createColGroup(
     node: any,
-    cellMinWidth: number
+    cellMinWidth: number,
+    styleDataFormat: StyleDataFormat
 ): { colgroup: any[]; tableWidth: string; tableMinWidth: string } {
     let totalWidth = 0;
     let fixedWidth = true;
@@ -50,7 +84,13 @@ function createColGroup(
             }
 
             const safeCssWidth = safeSize(cssWidth);
-            cols.push(["col", safeCssWidth ? { style: `width: ${safeCssWidth}` } : {}]);
+            if (!safeCssWidth) {
+                cols.push(["col", {}]);
+            } else if (styleDataFormat === "class") {
+                cols.push(["col", { "data-col-width": safeCssWidth }]);
+            } else {
+                cols.push(["col", { style: `width: ${safeCssWidth}` }]);
+            }
         }
     }
 
@@ -69,7 +109,7 @@ export type TableBackgroundColorOptions = {
     resizable?: boolean;
     cellMinWidth?: number;
     renderWrapper?: boolean;
-    styleDataFormat: "inline" | "class";
+    styleDataFormat: StyleDataFormat;
 };
 
 export const TableBackgroundColor = Table.extend<TableBackgroundColorOptions>({
@@ -110,6 +150,10 @@ export const TableBackgroundColor = Table.extend<TableBackgroundColorOptions>({
                 default: null,
                 parseHTML: element => {
                     if (styleDataFormat === "class") {
+                        // A colwidth-derived width is recomputed from the columns, never stored
+                        if (element.hasAttribute("data-width-derived")) {
+                            return null;
+                        }
                         return element.getAttribute("data-width") || null;
                     } else {
                         return element.style.width || null;
@@ -241,32 +285,38 @@ export const TableBackgroundColor = Table.extend<TableBackgroundColorOptions>({
     },
 
     renderHTML({ node, HTMLAttributes }): DOMOutputSpec {
-        const { colgroup, tableWidth, tableMinWidth } = createColGroup(node, this.options.cellMinWidth || 25);
+        const isInline = this.options.styleDataFormat === "inline";
+        const { colgroup, tableWidth, tableMinWidth } = createColGroup(
+            node,
+            this.options.cellMinWidth || 25,
+            this.options.styleDataFormat
+        );
 
         // Get style attributes from node (all validated before entering the style string)
         const explicitWidth = safeSize(node.attrs.width);
         const minHeight = safeSize(node.attrs.minHeight);
         const backgroundColor = safeColor(node.attrs.backgroundColor);
 
-        // Build the style string by merging table width, background, and border properties
+        // Build the style string by merging table width, background, and border properties.
+        // Class format carries all of these in data attributes instead (see classAttrs).
         const segments: string[] = [];
 
-        // Explicit table width wins as the footprint; otherwise fall back to the
-        // colwidth-derived width/min-width. Per-column min-width still comes from colgroup.
-        if (explicitWidth) {
-            segments.push(`width: ${explicitWidth}`);
-        } else if (tableWidth) {
-            segments.push(`width: ${tableWidth}`);
-        } else if (tableMinWidth) {
-            segments.push(`min-width: ${tableMinWidth}`);
-        }
+        if (isInline) {
+            // Explicit table width wins as the footprint; otherwise fall back to the
+            // colwidth-derived width/min-width. Per-column min-width still comes from colgroup.
+            if (explicitWidth) {
+                segments.push(`width: ${explicitWidth}`);
+            } else if (tableWidth) {
+                segments.push(`width: ${tableWidth}`);
+            } else if (tableMinWidth) {
+                segments.push(`min-width: ${tableMinWidth}`);
+            }
 
-        // Explicit table minimum height (rows still grow with content)
-        if (minHeight) {
-            segments.push(`min-height: ${minHeight}`);
-        }
+            // Explicit table minimum height (rows still grow with content)
+            if (minHeight) {
+                segments.push(`min-height: ${minHeight}`);
+            }
 
-        if (this.options.styleDataFormat === "inline") {
             // Add background color if present
             if (backgroundColor) {
                 segments.push(`background-color: ${backgroundColor}`);
@@ -286,12 +336,7 @@ export const TableBackgroundColor = Table.extend<TableBackgroundColorOptions>({
             const borderStyle =
                 node.attrs.borderStyle && isSafeCssBorderStyle(node.attrs.borderStyle) ? node.attrs.borderStyle : null;
             const borderWidth = safeSize(node.attrs.borderWidth);
-            if (explicitWidth) {
-                classAttrs["data-width"] = explicitWidth;
-            }
-            if (minHeight) {
-                classAttrs["data-min-height"] = minHeight;
-            }
+            Object.assign(classAttrs, tableSizeDataAttrs(explicitWidth, tableWidth, tableMinWidth, minHeight));
             if (backgroundColor) {
                 classAttrs["data-background-color"] = backgroundColor;
                 classAttrs.class = "has-background-color";
@@ -438,7 +483,7 @@ class TableBackgroundColorNodeView implements NodeView {
     view: EditorView;
     getPos: () => number;
     cellMinWidth: number;
-    styleDataFormat: "inline" | "class";
+    styleDataFormat: StyleDataFormat;
     dom: HTMLElement;
     table: HTMLTableElement;
     contentDOM: HTMLElement;
@@ -455,7 +500,7 @@ class TableBackgroundColorNodeView implements NodeView {
         view: EditorView,
         getPos: () => number,
         cellMinWidth: number,
-        styleDataFormat: "inline" | "class"
+        styleDataFormat: StyleDataFormat
     ) {
         this.node = node;
         this.view = view;
@@ -465,9 +510,8 @@ class TableBackgroundColorNodeView implements NodeView {
 
         // Create wrapper div
         this.dom = document.createElement("div");
+        // Resize handles anchor to this wrapper (position: relative in TableStyle.scss)
         this.dom.className = "tableWrapper";
-        // Anchor absolutely-positioned resize handles
-        this.dom.style.position = "relative";
 
         // Create table element
         this.table = document.createElement("table");
@@ -580,7 +624,7 @@ class TableBackgroundColorNodeView implements NodeView {
         }
 
         // Create new colgroup
-        const { colgroup } = createColGroup(this.node, this.cellMinWidth);
+        const { colgroup } = createColGroup(this.node, this.cellMinWidth, this.styleDataFormat);
         const colgroupElement = this.createElementFromSpec(colgroup as unknown as DOMOutputSpec);
         this.table.insertBefore(colgroupElement, this.contentDOM);
     }
@@ -597,24 +641,25 @@ class TableBackgroundColorNodeView implements NodeView {
                 ? this.node.attrs.borderStyle
                 : null;
         const borderWidth = safeSize(this.node.attrs.borderWidth);
-        const { tableWidth, tableMinWidth } = createColGroup(this.node, this.cellMinWidth);
+        const { tableWidth, tableMinWidth } = createColGroup(this.node, this.cellMinWidth, this.styleDataFormat);
 
-        // Build style string; explicit table width wins over the colwidth-derived width
+        // Build style string (inline format only; class format uses data attributes below)
         const segments: string[] = [];
-        if (explicitWidth) {
-            segments.push(`width: ${explicitWidth}`);
-        } else if (tableWidth) {
-            segments.push(`width: ${tableWidth}`);
-        } else if (tableMinWidth) {
-            segments.push(`min-width: ${tableMinWidth}`);
-        }
-
-        // Explicit table minimum height (rows still grow with content)
-        if (minHeight) {
-            segments.push(`min-height: ${minHeight}`);
-        }
-
         if (this.styleDataFormat === "inline") {
+            // Explicit table width wins over the colwidth-derived width
+            if (explicitWidth) {
+                segments.push(`width: ${explicitWidth}`);
+            } else if (tableWidth) {
+                segments.push(`width: ${tableWidth}`);
+            } else if (tableMinWidth) {
+                segments.push(`min-width: ${tableMinWidth}`);
+            }
+
+            // Explicit table minimum height (rows still grow with content)
+            if (minHeight) {
+                segments.push(`min-height: ${minHeight}`);
+            }
+
             if (backgroundColor) {
                 segments.push(`background-color: ${backgroundColor}`);
             }
@@ -628,21 +673,20 @@ class TableBackgroundColorNodeView implements NodeView {
         }
 
         // Always assign so clearing width/height/colors resets stale inline styles
+        // (in class format this also drops the live-drag preview width/min-height)
         this.table.style.cssText = segments.join("; ");
 
         // Handle class-based mode
         if (this.styleDataFormat === "class") {
-            // Explicit size
-            if (explicitWidth) {
-                this.table.setAttribute("data-width", explicitWidth);
-            } else {
-                this.table.removeAttribute("data-width");
-            }
-            if (minHeight) {
-                this.table.setAttribute("data-min-height", minHeight);
-            } else {
-                this.table.removeAttribute("data-min-height");
-            }
+            // Size (explicit or colwidth-derived)
+            const sizeAttrs = tableSizeDataAttrs(explicitWidth, tableWidth, tableMinWidth, minHeight);
+            TABLE_SIZE_DATA_ATTRS.forEach(name => {
+                if (name in sizeAttrs) {
+                    this.table.setAttribute(name, sizeAttrs[name]);
+                } else {
+                    this.table.removeAttribute(name);
+                }
+            });
 
             // Background color
             if (backgroundColor) {

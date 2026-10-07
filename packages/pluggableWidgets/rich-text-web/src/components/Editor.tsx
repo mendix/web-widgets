@@ -331,7 +331,8 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
                 allowBase64: true,
                 HTMLAttributes: {
                     class: "tiptap-image"
-                }
+                },
+                styleDataFormat
             }),
             YouTubeResize.configure({
                 inline: false,
@@ -339,13 +340,15 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
                 height: 480,
                 HTMLAttributes: {
                     class: "tiptap-video"
-                }
+                },
+                styleDataFormat
             }),
             GenericEmbed.configure({
                 inline: false,
                 HTMLAttributes: {
                     class: "tiptap-embed"
-                }
+                },
+                styleDataFormat
             }),
             WordPaste,
             ImagePasteDrop.configure({

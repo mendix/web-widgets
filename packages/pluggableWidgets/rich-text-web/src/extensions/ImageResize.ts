@@ -7,6 +7,7 @@ export type ImageResizeOptions = {
     inline?: boolean;
     allowBase64?: boolean;
     HTMLAttributes?: Record<string, any>;
+    styleDataFormat: "inline" | "class";
 };
 
 export const ImageResize = Image.extend<ImageResizeOptions>({
@@ -17,7 +18,8 @@ export const ImageResize = Image.extend<ImageResizeOptions>({
             allowBase64: true,
             HTMLAttributes: {
                 class: "tiptap-image"
-            }
+            },
+            styleDataFormat: "inline"
         };
     },
 

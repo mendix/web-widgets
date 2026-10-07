@@ -2,6 +2,7 @@ import { getEmbedUrlFromYoutubeUrl, YoutubeOptions } from "@tiptap/extension-you
 import { NodeViewWrapper, NodeViewProps } from "@tiptap/react";
 import { useState, useRef, useMemo, ReactElement, MouseEvent as ReactMouseEvent } from "react";
 import { useT } from "../utils/i18n";
+import { sizeProps, StyleDataFormat } from "../utils/sizeProps";
 
 /** Permissions the YouTube player needs for fullscreen, autoplay and DRM-protected content. */
 const IFRAME_ALLOW =
@@ -35,6 +36,11 @@ export function YouTubeResize(props: NodeViewProps): ReactElement {
     // and the serialized output configure an identical player. Memoised on a key that is
     // stable during a resize drag: a changing src would reload the player mid-drag.
     const options = extension.options as YoutubeOptions;
+    const format: StyleDataFormat = extension.options.styleDataFormat;
+    // Class format sizes the container through data attributes and the iframe follows
+    // it in the stylesheet, so only inline format puts the size on the iframe itself.
+    const boxSize = sizeProps(format, `${size.width}px`, `${size.height}px`);
+    const mediaSize = format === "inline" ? boxSize : {};
     const embedUrl = useMemo(
         () =>
             getEmbedUrlFromYoutubeUrl({
@@ -128,7 +134,7 @@ export function YouTubeResize(props: NodeViewProps): ReactElement {
     if (!embedUrl) {
         return (
             <NodeViewWrapper className="youtube-wrapper">
-                <div className="youtube-unplayable" style={{ width: `${size.width}px`, height: `${size.height}px` }}>
+                <div className="youtube-unplayable" {...boxSize}>
                     {t("video.unplayableSource", truncateSource(node.attrs.src))}
                 </div>
             </NodeViewWrapper>
@@ -137,11 +143,7 @@ export function YouTubeResize(props: NodeViewProps): ReactElement {
 
     return (
         <NodeViewWrapper className={`youtube-wrapper ${isResizing ? "resizing" : ""}`}>
-            <div
-                ref={containerRef}
-                className="youtube-container"
-                style={{ width: `${size.width}px`, height: `${size.height}px` }}
-            >
+            <div ref={containerRef} className="youtube-container" {...boxSize}>
                 <iframe
                     src={embedUrl}
                     title={t("video.frameTitle")}
@@ -149,10 +151,7 @@ export function YouTubeResize(props: NodeViewProps): ReactElement {
                     height={size.height}
                     allow={IFRAME_ALLOW}
                     allowFullScreen
-                    style={{
-                        width: `${size.width}px`,
-                        height: `${size.height}px`
-                    }}
+                    {...mediaSize}
                 />
                 <div className="resize-handles">
                     <div className="resize-handle nw" onMouseDown={e => handleMouseDown(e, "nw")} />

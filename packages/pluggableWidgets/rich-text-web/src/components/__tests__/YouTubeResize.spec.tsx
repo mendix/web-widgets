@@ -1,9 +1,8 @@
 import { render } from "@testing-library/react";
 import { Editor } from "@tiptap/core";
-import { YoutubeOptions } from "@tiptap/extension-youtube";
 import { NodeViewProps } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
-import { YouTubeResize as YouTubeResizeExtension } from "../../extensions/YouTubeResize";
+import { YouTubeResize as YouTubeResizeExtension, YouTubeResizeOptions } from "../../extensions/YouTubeResize";
 import { YouTubeResize } from "../YouTubeResize";
 
 const VIDEO_ID = "3k66DQuU31A";
@@ -15,7 +14,7 @@ const WATCH_URL = `https://www.youtube.com/watch?v=${VIDEO_ID}`;
  */
 function renderNodeView(
     attrs: Record<string, unknown> = {},
-    optionOverrides: Partial<YoutubeOptions> = {}
+    optionOverrides: Partial<YouTubeResizeOptions> = {}
 ): HTMLElement {
     const props = {
         node: { attrs: { src: WATCH_URL, start: 0, width: 560, height: 314, ...attrs } },
@@ -27,7 +26,7 @@ function renderNodeView(
     return container;
 }
 
-function makeEditor(optionOverrides: Partial<YoutubeOptions> = {}): Editor {
+function makeEditor(optionOverrides: Partial<YouTubeResizeOptions> = {}): Editor {
     const element = document.createElement("div");
     document.body.appendChild(element);
     return new Editor({
@@ -215,5 +214,55 @@ describe("YouTubeResize extension — serialization and parsing", () => {
 
         expect(attrs).toBeDefined();
         expect(nodeViewSrc(renderNodeView({ src: attrs!.src }))).toContain(`/embed/${VIDEO_ID}`);
+    });
+});
+
+describe("YouTubeResize node view — sizing", () => {
+    it("sizes the container and iframe with inline style in inline format", () => {
+        const container = renderNodeView();
+        const box = container.querySelector(".youtube-container") as HTMLElement;
+        const iframe = container.querySelector("iframe") as HTMLIFrameElement;
+
+        expect(box.style.width).toBe("560px");
+        expect(box.style.height).toBe("314px");
+        expect(iframe.style.width).toBe("560px");
+        expect(iframe.style.height).toBe("314px");
+        expect(box.hasAttribute("data-width")).toBe(false);
+        expect(box.hasAttribute("data-height")).toBe(false);
+    });
+
+    it("carries the size in data attributes on the container in class format", () => {
+        const container = renderNodeView({}, { styleDataFormat: "class" });
+        const box = container.querySelector(".youtube-container") as HTMLElement;
+        const iframe = container.querySelector("iframe") as HTMLIFrameElement;
+
+        expect(box.getAttribute("data-width")).toBe("560px");
+        expect(box.getAttribute("data-height")).toBe("314px");
+        expect(box.hasAttribute("style")).toBe(false);
+        expect(iframe.getAttribute("width")).toBe("560");
+        expect(iframe.getAttribute("height")).toBe("314");
+        expect(iframe.hasAttribute("style")).toBe(false);
+    });
+
+    it("sizes the unplayable placeholder through data attributes in class format", () => {
+        const container = renderNodeView({ src: "not a video" }, { styleDataFormat: "class" });
+        const placeholder = container.querySelector(".youtube-unplayable") as HTMLElement;
+
+        expect(placeholder.getAttribute("data-width")).toBe("560px");
+        expect(placeholder.getAttribute("data-height")).toBe("314px");
+        expect(placeholder.hasAttribute("style")).toBe(false);
+    });
+
+    it("serializes the same HTML in both formats", () => {
+        const html = (styleDataFormat: "inline" | "class"): string => {
+            const editor = makeEditor({ styleDataFormat });
+            editor.commands.setYoutubeVideo({ src: WATCH_URL, width: 560, height: 314 });
+            const output = editor.getHTML();
+            editor.destroy();
+            return output;
+        };
+
+        expect(html("class")).toBe(html("inline"));
+        expect(html("class")).not.toMatch(/style=|data-width|data-height/);
     });
 });

@@ -16,6 +16,7 @@ function isAllowedEmbedSrc(src: string | null | undefined): boolean {
 export interface GenericEmbedOptions {
     inline: boolean;
     HTMLAttributes: Record<string, any>;
+    styleDataFormat: "inline" | "class";
 }
 
 export interface GenericEmbedAttributes {
@@ -46,7 +47,8 @@ export const GenericEmbed = Node.create<GenericEmbedOptions>({
     addOptions() {
         return {
             inline: false,
-            HTMLAttributes: {}
+            HTMLAttributes: {},
+            styleDataFormat: "inline"
         };
     },
 

@@ -1,6 +1,7 @@
 import { NodeViewWrapper, NodeViewProps } from "@tiptap/react";
 import { useState, useRef, useEffect, ReactElement } from "react";
 import { toCssLength } from "../utils/imageSize";
+import { sizeProps, StyleDataFormat } from "../utils/sizeProps";
 
 /** Stored dimensions as CSS lengths. Rich Text 4 stored bare numbers, which CSS ignores. */
 function cssSize(node: NodeViewProps["node"]): { width: string; height: string } {
@@ -11,7 +12,8 @@ function cssSize(node: NodeViewProps["node"]): { width: string; height: string }
 }
 
 export function ImageResize(props: NodeViewProps): ReactElement {
-    const { node, updateAttributes } = props;
+    const { node, updateAttributes, extension } = props;
+    const format: StyleDataFormat = extension.options.styleDataFormat;
     const [isResizing, setIsResizing] = useState(false);
     const [size, setSize] = useState(() => cssSize(node));
     const imgRef = useRef<HTMLImageElement>(null);
@@ -81,19 +83,15 @@ export function ImageResize(props: NodeViewProps): ReactElement {
         document.addEventListener("mouseup", handleMouseUp);
     };
 
+    // Class format sizes the container through data attributes and the image follows
+    // it in the stylesheet, so only inline format puts the size on the image itself.
+    const boxSize = sizeProps(format, size.width, size.height);
+    const mediaSize = format === "inline" ? boxSize : {};
+
     return (
         <NodeViewWrapper className={`image-wrapper ${isResizing ? "resizing" : ""}`}>
-            <div className="image-container" style={{ width: size.width, height: size.height }}>
-                <img
-                    ref={imgRef}
-                    src={node.attrs.src}
-                    alt={node.attrs.alt || ""}
-                    draggable={false}
-                    style={{
-                        width: size.width,
-                        height: size.height
-                    }}
-                />
+            <div className="image-container" {...boxSize}>
+                <img ref={imgRef} src={node.attrs.src} alt={node.attrs.alt || ""} draggable={false} {...mediaSize} />
                 <div className="resize-handles">
                     <div className="resize-handle nw" onMouseDown={e => handleMouseDown(e, "nw")} />
                     <div className="resize-handle ne" onMouseDown={e => handleMouseDown(e, "ne")} />

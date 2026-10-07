@@ -412,6 +412,27 @@ $rte-warning-text: #8f620b;
                     display: inline-block;
                     max-width: 100%;
 
+                    // Class mode: the node view puts the size in data attributes instead of
+                    // inline style. Custom properties hand the same value to the image,
+                    // which cannot read its parent's attributes.
+                    &[data-width] {
+                        --rt-media-width: attr(data-width type(<length-percentage>));
+                        width: var(--rt-media-width);
+
+                        > img {
+                            width: var(--rt-media-width);
+                        }
+                    }
+
+                    &[data-height] {
+                        --rt-media-height: attr(data-height type(<length-percentage>));
+                        height: var(--rt-media-height);
+
+                        > img {
+                            height: var(--rt-media-height);
+                        }
+                    }
+
                     img {
                         display: block;
                         max-width: 100%;
@@ -490,6 +511,27 @@ $rte-warning-text: #8f620b;
                     display: inline-block;
                     max-width: 100%;
 
+                    // Class mode: the node view puts the size in data attributes instead of
+                    // inline style. Custom properties hand the same value to the iframe,
+                    // which cannot read its parent's attributes.
+                    &[data-width] {
+                        --rt-media-width: attr(data-width type(<length-percentage>));
+                        width: var(--rt-media-width);
+
+                        > iframe {
+                            width: var(--rt-media-width);
+                        }
+                    }
+
+                    &[data-height] {
+                        --rt-media-height: attr(data-height type(<length-percentage>));
+                        height: var(--rt-media-height);
+
+                        > iframe {
+                            height: var(--rt-media-height);
+                        }
+                    }
+
                     iframe {
                         display: block;
                         border-radius: 8px;
@@ -552,6 +594,14 @@ $rte-warning-text: #8f620b;
                 // layout does not shift, and is not resizable. Colors match the video
                 // dialog's error state (contrast ratio above 4.5:1).
                 .youtube-unplayable {
+                    &[data-width] {
+                        width: attr(data-width type(<length-percentage>));
+                    }
+
+                    &[data-height] {
+                        height: attr(data-height type(<length-percentage>));
+                    }
+
                     display: flex;
                     align-items: center;
                     justify-content: center;
