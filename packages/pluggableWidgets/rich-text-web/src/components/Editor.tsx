@@ -79,6 +79,10 @@ export interface EditorProps extends Pick<
     className?: string;
     toolbarGroups?: ToolbarGroupsConfig;
     style?: CSSProperties;
+    /** Font family shown in the toolbar dropdown when the selection has none. Not applied to the content. */
+    defaultFontFamily?: string;
+    /** Font size shown in the toolbar dropdown when the selection has none. Not applied to the content. */
+    defaultFontSize?: string;
 }
 
 export interface EditorHandle {
@@ -98,6 +102,8 @@ interface EditorInnerProps extends Pick<
     className?: string;
     toolbarGroups?: ToolbarGroupsConfig;
     style?: CSSProperties;
+    defaultFontFamily?: string;
+    defaultFontSize?: string;
 }
 
 function EditorInner({
@@ -110,7 +116,9 @@ function EditorInner({
     advancedConfig,
     customFonts,
     helpButton,
-    style
+    style,
+    defaultFontFamily,
+    defaultFontSize
 }: EditorInnerProps): ReactElement {
     const { editor, codeViewState, codeViewDispatch } = useCurrentEditor();
     const t = useT();
@@ -168,6 +176,8 @@ function EditorInner({
                         toolbarGroups={toolbarGroups}
                         advancedConfig={advancedConfig}
                         customFonts={customFonts}
+                        defaultFontFamily={defaultFontFamily}
+                        defaultFontSize={defaultFontSize}
                         helpButton={helpButton}
                     ></Toolbar>
                 )}
