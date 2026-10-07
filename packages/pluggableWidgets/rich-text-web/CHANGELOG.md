@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where table, column and cell sizes were saved as inline styles when the style data format was set to "Class".
 
+- We fixed an issue where the table and cell configuration menus did not show the latest changes while open, so a selected border style or color appeared to snap back to its previous value.
+
 ## [5.1.0] - 2026-09-29
 
 ### Added
