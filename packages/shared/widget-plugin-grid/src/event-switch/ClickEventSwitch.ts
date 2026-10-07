@@ -10,17 +10,31 @@ export class ClickEventSwitch<Context, Element> {
 
     getClickEntry(): EventCaseEntry<Context, Element, "onClick"> {
         const { onClick = [], onDoubleClick = [] } = groupEntries(this.entries);
-        const awaitTime = 320; // ms, approx 1/3 of a second
-        let startTime = 0;
+        const sameGestureWindow = 5; // ms
+        let previous: { detail: number; timeStamp: number } | undefined;
+
         return {
             eventName: "onClick",
             handler: (ctx, event) => {
-                if (Date.now() - startTime > awaitTime) {
+                if (event.detail === 0) {
+                    return;
+                }
+
+                const isSameGesture =
+                    previous !== undefined &&
+                    previous.detail === event.detail &&
+                    event.timeStamp - previous.timeStamp < sameGestureWindow;
+
+                if (isSameGesture) {
+                    return;
+                }
+
+                previous = { detail: event.detail, timeStamp: event.timeStamp };
+
+                if (event.detail === 1) {
                     onClick.forEach(entry => this.runEntry(entry, ctx, event));
-                    startTime = Date.now();
-                } else {
+                } else if (event.detail === 2) {
                     onDoubleClick.forEach(entry => this.runEntry(entry, ctx, event));
-                    startTime = 0;
                 }
             }
         };

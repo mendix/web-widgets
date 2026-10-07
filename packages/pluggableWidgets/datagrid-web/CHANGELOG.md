@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where clicking a label inside a custom content column, such as the label of a checkbox, triggered the double click action with a single click.
+
 ## [3.11.7] - 2026-10-02
 
 ### Fixed
