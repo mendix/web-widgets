@@ -4,6 +4,7 @@ import { forwardRef, KeyboardEvent, ReactElement, RefObject, useCallback } from 
 import { Activate, MenuItem } from "./MenuItem";
 import { BasicItemsType, CustomItemsType, PopupMenuContainerProps } from "../../typings/PopupMenuProps";
 import { usePopupContext } from "../hooks/usePopupContext";
+import { stopEscapeKeyUp } from "../utils/stopEscapeKeyUp";
 
 export interface MenuProps extends PopupMenuContainerProps {
     onItemClick: (itemAction?: ActionValue) => void;
@@ -42,6 +43,9 @@ export const Menu = forwardRef((props: MenuProps, propRef: RefObject<HTMLDivElem
             // Close only this level; focus returns to the trigger or the parent item.
             e.preventDefault();
             e.stopPropagation();
+            if (e.key === "Escape") {
+                stopEscapeKeyUp();
+            }
             setOpen(false);
         }
     };

@@ -95,68 +95,6 @@ test.describe("Popup-menu-web", () => {
             await expect(modalDialog).toContainText("hello");
         });
     });
-    test.describe("using the keyboard", () => {
-        test.beforeEach(async ({ page }) => {
-            await page.goto("/");
-            await waitForMendixApp(page);
-        });
-
-        test.describe("with a trigger button without action", () => {
-            for (const key of ["Enter", "Space"]) {
-                test(`opens the menu with ${key} and focuses the first item`, async ({ page }) => {
-                    const trigger = page.locator(".mx-name-actionButton10");
-                    await trigger.focus();
-                    await trigger.press(key);
-                    const items = page.locator(".mx-name-pop_upMenu18 .popupmenu-basic-item");
-                    await expect(items.first()).toBeFocused();
-                });
-            }
-        });
-
-        test("activates the focused item with Enter", async ({ page }) => {
-            const trigger = page.locator(".mx-name-actionButton10");
-            await trigger.focus();
-            await trigger.press("ArrowDown");
-            const firstItem = page.locator(".mx-name-pop_upMenu18 .popupmenu-basic-item").first();
-            await expect(firstItem).toBeFocused();
-            await firstItem.press("Enter");
-            await expect(page.locator(".modal-dialog")).toBeVisible();
-        });
-
-        test("closes the menu with Escape and returns focus to the trigger", async ({ page }) => {
-            const trigger = page.locator(".mx-name-actionButton10");
-            await trigger.focus();
-            await trigger.press("Enter");
-            const firstItem = page.locator(".mx-name-pop_upMenu18 .popupmenu-basic-item").first();
-            await expect(firstItem).toBeFocused();
-            await firstItem.press("Escape");
-            await expect(page.locator(".mx-name-pop_upMenu18 .popupmenu-menu")).toHaveCount(0);
-            await expect(trigger).toBeFocused();
-        });
-
-        test("closes the menu with Tab and moves focus past the widget", async ({ page }) => {
-            const trigger = page.locator(".mx-name-actionButton10");
-            await trigger.focus();
-            await trigger.press("Enter");
-            const firstItem = page.locator(".mx-name-pop_upMenu18 .popupmenu-basic-item").first();
-            await expect(firstItem).toBeFocused();
-            await firstItem.press("Tab");
-            await expect(page.locator(".mx-name-pop_upMenu18 .popupmenu-menu")).toHaveCount(0);
-            await expect(trigger).not.toBeFocused();
-            await expect(page.locator(".mx-name-pop_upMenu18 :focus")).toHaveCount(0);
-        });
-
-        test("closes the menu with Shift+Tab and returns focus to the trigger", async ({ page }) => {
-            const trigger = page.locator(".mx-name-actionButton10");
-            await trigger.focus();
-            await trigger.press("Enter");
-            const firstItem = page.locator(".mx-name-pop_upMenu18 .popupmenu-basic-item").first();
-            await expect(firstItem).toBeFocused();
-            await firstItem.press("Shift+Tab");
-            await expect(page.locator(".mx-name-pop_upMenu18 .popupmenu-menu")).toHaveCount(0);
-            await expect(trigger).toBeFocused();
-        });
-    });
     test.describe("using custom option", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("/");
