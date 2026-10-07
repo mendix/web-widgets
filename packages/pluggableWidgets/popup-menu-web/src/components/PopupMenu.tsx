@@ -27,7 +27,8 @@ function PopupMenuComponent(props: PopupMenuContainerProps): ReactElement {
         hoverCloseOn: props.hoverCloseOn,
         hasItems
     });
-    const { nodeId, setActiveIndex, returnFocusRef, refs } = popup;
+    const { nodeId, setActiveIndex, returnFocusRef } = popup;
+    const floatingRef = popup.refs.floating;
     const parentId = useFloatingParentNodeId();
     const tree = useFloatingTree();
     const menuItem = useContext(MenuItemContext);
@@ -56,10 +57,10 @@ function PopupMenuComponent(props: PopupMenuContainerProps): ReactElement {
                 setActiveIndex(hasItems ? 0 : null);
                 setVisibility(true);
             },
-            contains: node => !!refs.floating.current?.contains(node),
+            contains: node => !!floatingRef.current?.contains(node),
             isOpen: open
         });
-    }, [parentItem, nodeId, open, hasItems, setActiveIndex, refs]);
+    }, [parentItem, nodeId, open, hasItems, setActiveIndex, floatingRef]);
 
     // A nested menu returns focus to its parent item.
     useLayoutEffect(() => {

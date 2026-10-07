@@ -6,8 +6,14 @@ export function stopEscapeKeyUp(): void {
     const onKeyUp = (e: KeyboardEvent): void => {
         if (e.key === "Escape") {
             e.stopPropagation();
-            document.removeEventListener("keyup", onKeyUp, true);
+            cleanup();
         }
     };
+    // The keyup never reaches the document if the window loses focus first.
+    const cleanup = (): void => {
+        document.removeEventListener("keyup", onKeyUp, true);
+        window.removeEventListener("blur", cleanup);
+    };
     document.addEventListener("keyup", onKeyUp, true);
+    window.addEventListener("blur", cleanup);
 }
