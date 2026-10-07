@@ -1,5 +1,11 @@
 import { CustomFontsType } from "../../../../typings/RichTextProps";
+import { normalizeCssSize } from "../../../utils/helpers";
 import { ToolbarButtonConfig } from "../ToolbarConfig";
+
+export interface DefaultFonts {
+    fontFamily?: string;
+    fontSize?: string;
+}
 
 export const FONT_LIST = [
     { value: "Default", description: "Default", style: "" },
@@ -72,5 +78,47 @@ export function AddCustomFontsToFontFamilyDropdown(
     return {
         ...fontFamilyButton,
         dropdownOptions: defaultOpt ? [defaultOpt, ...sortedOthers] : sortedOthers
+    };
+}
+
+/**
+ * Resolves a configured default to the value of one of the dropdown's options, so the dropdown
+ * can show it. Font families match by option value or font name ("Times New Roman",
+ * "times-new-roman"); sizes match after normalizing bare numbers to px ("14" -> "14px").
+ * Returns undefined when no option matches.
+ */
+function findDefaultOptionValue(button: ToolbarButtonConfig, configured: string): string | undefined {
+    const input = configured.trim().toLowerCase();
+    if (!input) {
+        return undefined;
+    }
+    const candidates = button.name === "fontSize" ? [normalizeCssSize(input)] : [input, input.replace(/\s+/g, "-")];
+
+    return button.dropdownOptions?.find(
+        option =>
+            option.value !== "Default" &&
+            (candidates.includes(option.value.toLowerCase()) || option.label.toLowerCase() === input)
+    )?.value;
+}
+
+/**
+ * Makes the font family / font size dropdown show the configured default while the selection
+ * has no explicit font family / font size. Display only: the default is never applied to the content.
+ */
+export function AddDefaultFontToDropdown(button: ToolbarButtonConfig, defaultFonts: DefaultFonts): ToolbarButtonConfig {
+    const configured = button.name === "fontFamily" ? defaultFonts.fontFamily : defaultFonts.fontSize;
+    const getCurrentValue = button.getCurrentValue;
+    const defaultValue = configured && getCurrentValue ? findDefaultOptionValue(button, configured) : undefined;
+    if (!defaultValue || !getCurrentValue) {
+        return button;
+    }
+
+    return {
+        ...button,
+        getCurrentValue: editor => {
+            const { fontFamily, fontValue, fontSize } = editor.getAttributes("textStyle");
+            const hasMark = button.name === "fontFamily" ? !!(fontValue || fontFamily) : !!fontSize;
+            return hasMark ? getCurrentValue(editor) : defaultValue;
+        }
     };
 }
