@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the "Default font family" and "Default font size" settings did not set the initial value of the font family and font size toolbar options.
+
 ## [5.1.0] - 2026-09-29
 
 ### Added
