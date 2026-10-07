@@ -7,7 +7,8 @@ export const PopupContext = createContext<ContextType>(null);
 
 export interface SubmenuHandle {
     open(): void;
-    close(): void;
+    /** Whether the open submenu contains the node. Unlike `isOpen`, it's current before re-render. */
+    contains(node: Node | null): boolean;
     isOpen: boolean;
 }
 

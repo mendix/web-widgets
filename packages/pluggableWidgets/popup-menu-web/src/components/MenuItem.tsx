@@ -58,12 +58,7 @@ export function MenuItem({ index, item, activate }: MenuItemProps): ReactElement
     const onFocus = (e: FocusEvent<HTMLLIElement>): void => {
         // The submenu is rendered inside this item, so Shift+Tab from it lands here, which
         // closeOnFocusOut doesn't treat as leaving. Tab leaves the whole menu hierarchy.
-        if (
-            e.target === e.currentTarget &&
-            submenu?.handle.isOpen &&
-            !mouseDownRef.current &&
-            e.currentTarget.contains(e.relatedTarget)
-        ) {
+        if (e.target === e.currentTarget && !mouseDownRef.current && submenu?.handle.contains(e.relatedTarget)) {
             tree?.events.emit("close-all");
         }
     };

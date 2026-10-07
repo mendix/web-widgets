@@ -119,7 +119,7 @@ Pressing Enter or Space on the trigger while the menu is open SHALL close it and
 
 ### Requirement: Tab closes the menu and moves on
 
-Tab and Shift+Tab SHALL NOT move focus between menu items. This includes native focusable elements inside custom item content. When focus is inside the menu, Tab SHALL close the entire menu hierarchy and move focus to the next element in the page tab order after the widget. Shift+Tab SHALL close the entire menu hierarchy and move focus to the previous element in the tab order, which is the trigger element.
+Tab and Shift+Tab SHALL follow the browser's native tab order. Only one menu item per menu level is in the tab order (roving tabindex), so Tab and Shift+Tab never move between menu items. Focusable elements inside custom item content are not managed by the menu and stay in the native tab order. When focus moves from a menu item to an element outside the widget, the entire menu hierarchy SHALL close. Shift+Tab from a menu item at any level SHALL close the entire menu hierarchy and move focus to the trigger element.
 
 #### Scenario: Tab leaves the menu
 
@@ -128,12 +128,12 @@ Tab and Shift+Tab SHALL NOT move focus between menu items. This includes native 
 - **THEN** the menu closes
 - **AND** focus moves to the next focusable element after the widget in page order
 
-#### Scenario: Tab does not stop on content inside an item
+#### Scenario: Tab reaches focusable content inside an item
 
 - **WHEN** advanced mode is on and a custom item contains a native `<button>`
 - **AND** focus is on that item
 - **AND** the user presses Tab
-- **THEN** the menu closes and focus moves past the widget, not onto the inner button
+- **THEN** the inner button has focus and the menu stays open
 
 #### Scenario: Shift+Tab returns to trigger
 
@@ -147,7 +147,6 @@ Tab and Shift+Tab SHALL NOT move focus between menu items. This includes native 
 - **AND** the user presses Shift+Tab
 - **THEN** the submenu and all its parent menus close
 - **AND** the root trigger element has focus
-- **AND** focus does not stop on the parent menu item while the submenu stays open
 
 #### Scenario: Clicking the trigger still toggles the menu
 

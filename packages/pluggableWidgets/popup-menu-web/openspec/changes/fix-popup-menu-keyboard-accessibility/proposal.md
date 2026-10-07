@@ -16,14 +16,15 @@ Code investigation confirmed the root causes:
 - The popup uses `menu` semantics. Every visible menu item (basic and custom) is a `menuitem` in a roving-tabindex sequence. Dividers are `separator`s and are skipped.
 - Arrow Up/Down (with wrap-around) and Home/End move focus between items. Enter/Space activates the focused item.
 - Activation is consistent across modes: Enter/Space does what a mouse click on the item does, i.e. runs the item's widget-level On click action. Custom item content is treated as a black box and isn't inspected or activated.
-- **Known limitation / non-goal:** interactive elements placed inside custom item content (Link/Button widgets, containers with their own On click action, inputs) aren't keyboard-operable. Tab doesn't reach them and Enter/Space doesn't forward to them. Keyboard users can reach an action only when it's configured on the Pop-up Menu item. Support for interactive item content may be added later.
+- **Known limitation / non-goal:** interactive elements placed inside custom item content (Link/Button widgets, containers with their own On click action, inputs) aren't part of arrow-key navigation, and Enter/Space on the item doesn't forward to them. They're only reachable with Tab from their item. Assistive technology treats them as part of the menuitem. Keyboard users get a proper menu action only when it's configured on the Pop-up Menu item. Support for interactive item content may be added later.
 - Opening the menu by click also moves focus to the first item (APG). Opening by hover doesn't move focus.
-- Tab/Shift+Tab never move between items, including native buttons/links inside custom content. They close the whole menu hierarchy and move focus to the next/previous element in the page tab order (APG).
+- Tab and Shift+Tab use the browser's native tab order and aren't intercepted. Tab moves focus to the next element after the menu. Shift+Tab moves it back to the trigger. When focus leaves the menu, the whole menu hierarchy closes. That includes Shift+Tab from a submenu, which closes every level and focuses the trigger.
+- The menu closes whenever focus leaves it, including when an item's action moves focus (e.g. opens a dialog). With "Close on: Click outside", the menu used to stay open behind the dialog. This applies to mouse and keyboard activation.
 - Escape closes the menu that contains focus. In a submenu it closes that level and returns focus to the parent item. At the top level it closes the menu and returns focus to the trigger element that had focus before opening. Escape is ignored when focus is outside the widget, so it doesn't compete with other Escape handlers such as Mendix pop-up pages.
 - Nested Pop-up Menus (a Pop-up Menu inside a custom item) become keyboard submenus. The parent item exposes `aria-haspopup`/`aria-expanded`. Right Arrow (or Enter/Space) opens the submenu and focuses its first item. Left Arrow or Escape closes it and returns focus to the parent item. Opening one submenu auto-closes any sibling submenu.
 - The focus indicator is visible on items during arrow navigation.
 - The trigger wrapper exposes `aria-haspopup="menu"`, `aria-expanded` and `aria-controls`, and the menu is labelled by it. These attributes stay on the widget's own wrapper, not on the trigger content (known limitation).
-- No XML/property changes. No new dependencies. Mouse and hover behavior is unchanged.
+- No XML/property changes. No new dependencies. Mouse and hover behavior is unchanged apart from focus moving to the first item on click open and the menu closing when an action moves focus.
 
 ## Capabilities
 
@@ -39,9 +40,16 @@ Code investigation confirmed the root causes:
 
 ## Impact
 
-- Code: `src/hooks/usePopup.ts` (role, list navigation, keyboard open, Escape scoping, tree events for sibling submenus), new item/submenu context in `src/components/PopupContext.tsx`, `src/components/PopupTrigger.tsx` (key handling, ARIA, focus return target), `src/components/Menu.tsx` (item roles, tabIndex, key handlers, refs), `src/components/PopupMenu.tsx` (active index state).
+- Code:
+    - `src/hooks/usePopup.ts`: role, list navigation, Escape dismissal off, click-open focus, synthetic-click guard, focus return target.
+    - `src/components/PopupTrigger.tsx`: key handling and closing on Shift+Tab.
+    - `src/components/Menu.tsx`: Escape/Left Arrow, item rendering.
+    - new `src/components/MenuItem.tsx`: item role, roving tabIndex, activation, submenu link.
+    - `src/components/PopupContext.tsx`: new item/submenu context.
+    - `src/components/PopupMenu.tsx`: submenu registration and tree events (sibling close, close-all).
+    - new `src/hooks/useMouseDownRef.ts`.
 - Tests: new unit tests with `@testing-library/user-event`. Snapshots in `src/__tests__/__snapshots__` will change (roles/tabindex). New keyboard E2E scenarios in `e2e/PopupMenu.spec.js`.
 - Styling: none expected. Atlas `_pop-up-menu.scss` already styles `.popupmenu-basic-item:focus` / `.popupmenu-custom-item:focus`.
 - Changelog: `Fixed` entry in `CHANGELOG.md` (patch/minor at release time).
 - Documentation: keyboard support section on the Pop-up Menu page in the Mendix docs (separate docs repository).
-- Behavior note: screen readers will announce "menu" instead of "dialog". Nested interactive content inside a custom item becomes presentational under `menuitem` and is no longer reachable with Tab.
+- Behavior note: screen readers will announce "menu" instead of "dialog". Nested interactive content inside a custom item becomes presentational under `menuitem`, but stays reachable with Tab.
