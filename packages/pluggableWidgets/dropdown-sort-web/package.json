@@ -23,7 +23,9 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "dropdown-sort-web/data-widgets-3.0"
+        "branchName": "dropdown-sort-web/data-widgets-3.0-atlas4",
+        "atlasCoreVersion": "4.5.0",
+        "atlasThemeTag": "atlasui-theme-files-2025-10-08"
     },
     "scripts": {
         "build": "pluggable-widgets-tools build:ts",
