@@ -244,10 +244,23 @@ describe("Popup Menu keyboard interaction", () => {
             expect(outerHandler).not.toHaveBeenCalled();
         });
 
-        it.each([
-            ["an item", false],
-            ["the trigger", true]
-        ])("doesn't let the handled Escape's keyup reach document listeners from %s", async (_, onTrigger) => {
+        it.each<[string, () => Promise<void>]>([
+            [
+                "an item",
+                async () => {
+                    renderPage(props());
+                    await openWith(user, "{Enter}");
+                    await waitFor(() => expect(item("One")).toHaveFocus());
+                }
+            ],
+            [
+                "the trigger",
+                async () => {
+                    renderPage(props({ menuToggle: true }));
+                    trigger().focus();
+                }
+            ]
+        ])("doesn't let the handled Escape's keyup reach document listeners from %s", async (_, focusInOpenMenu) => {
             // Mendix closes pop-up pages on the Escape keyup.
             const documentKeyUp = jest.fn();
             const onKeyUp = (e: globalThis.KeyboardEvent): void => {
@@ -256,14 +269,7 @@ describe("Popup Menu keyboard interaction", () => {
                 }
             };
             document.addEventListener("keyup", onKeyUp);
-            if (onTrigger) {
-                renderPage(props({ menuToggle: true }));
-                trigger().focus();
-            } else {
-                renderPage(props());
-                await openWith(user, "{Enter}");
-                await waitFor(() => expect(item("One")).toHaveFocus());
-            }
+            await focusInOpenMenu();
 
             await user.keyboard("{Escape}");
             expect(queryMenu()).not.toBeInTheDocument();
