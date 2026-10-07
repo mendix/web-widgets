@@ -68,7 +68,9 @@ The focused menu item SHALL show a visible focus indicator during keyboard navig
 
 Enter or Space on a focused item SHALL activate it the same way a mouse click on the item does. If the item has a widget-level On click action, that action SHALL be executed (respecting `canExecute`). Custom item content is treated as a black box: keyboard activation MUST NOT forward to, inspect, or activate elements inside the item's content. After activation, "Close on" SHALL be respected the same way it is for mouse clicks.
 
-Interactive elements inside custom item content (buttons, links, inputs, containers with their own action) are not keyboard-operable. This is a known limitation and out of scope for this change.
+Interactive elements inside custom item content (buttons, links, inputs, containers with their own action) are not part of arrow-key navigation and are not activated by Enter/Space on the item. This is a known limitation and out of scope for this change.
+
+When an item's action moves focus out of the menu (e.g. opens a dialog), the menu SHALL close regardless of "Close on", for both keyboard and mouse activation.
 
 #### Scenario: Basic item action via Enter
 
@@ -107,9 +109,15 @@ Interactive elements inside custom item content (buttons, links, inputs, contain
 - **AND** the user activates an item with the keyboard
 - **THEN** the menu stays open and focus stays on the activated item
 
+#### Scenario: Action that moves focus closes the menu
+
+- **WHEN** "Close on" is "Click outside"
+- **AND** the user activates an item, with the keyboard or the mouse, whose action opens a dialog
+- **THEN** the menu closes once the dialog takes focus
+
 ### Requirement: Mouse behavior is preserved
 
-Mouse click and hover behavior of the trigger and items SHALL remain unchanged, including nested Pop-up Menus placed inside custom items.
+Mouse click and hover behavior of the trigger and items SHALL remain unchanged, including nested Pop-up Menus placed inside custom items. The exceptions are focus placement on click open (see trigger-keyboard-interaction) and closing when an item's action moves focus (see Keyboard activation of items).
 
 #### Scenario: Mouse click on item
 

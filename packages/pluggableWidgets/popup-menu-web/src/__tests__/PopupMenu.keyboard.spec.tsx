@@ -166,6 +166,20 @@ describe("Popup Menu keyboard interaction", () => {
             expect(item("One")).toHaveFocus();
         });
 
+        it("resets the active item on close, so Tab enters a reopened menu at the first item", async () => {
+            renderPage(props({ trigger: "onhover" }));
+            await openWith(user, "{ArrowUp}");
+            await waitFor(() => expect(item("Three")).toHaveFocus());
+            await user.keyboard("{Escape}");
+            await waitFor(() => expect(trigger()).toHaveFocus());
+
+            await user.hover(trigger());
+            await waitFor(() => expect(queryMenu()).toBeInTheDocument());
+            await user.tab();
+
+            expect(item("One")).toHaveFocus();
+        });
+
         it("exposes popup state on the trigger wrapper", async () => {
             const { container } = renderPage(props());
             const wrapper = container.querySelector(".popupmenu-trigger")!;
@@ -228,6 +242,37 @@ describe("Popup Menu keyboard interaction", () => {
             await user.keyboard("{Escape}");
 
             expect(outerHandler).not.toHaveBeenCalled();
+        });
+
+        it.each([
+            ["an item", false],
+            ["the trigger", true]
+        ])("doesn't let the handled Escape's keyup reach document listeners from %s", async (_, onTrigger) => {
+            // Mendix closes pop-up pages on the Escape keyup.
+            const documentKeyUp = jest.fn();
+            const onKeyUp = (e: globalThis.KeyboardEvent): void => {
+                if (e.key === "Escape") {
+                    documentKeyUp();
+                }
+            };
+            document.addEventListener("keyup", onKeyUp);
+            if (onTrigger) {
+                renderPage(props({ menuToggle: true }));
+                trigger().focus();
+            } else {
+                renderPage(props());
+                await openWith(user, "{Enter}");
+                await waitFor(() => expect(item("One")).toHaveFocus());
+            }
+
+            await user.keyboard("{Escape}");
+            expect(queryMenu()).not.toBeInTheDocument();
+            expect(documentKeyUp).not.toHaveBeenCalled();
+
+            // An Escape the menu doesn't handle still reaches the page.
+            await user.keyboard("{Escape}");
+            expect(documentKeyUp).toHaveBeenCalledTimes(1);
+            document.removeEventListener("keyup", onKeyUp);
         });
     });
 

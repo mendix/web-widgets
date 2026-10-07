@@ -2,6 +2,7 @@ import { useFloatingTree, useMergeRefs } from "@floating-ui/react";
 import { FocusEvent, forwardRef, KeyboardEvent, PropsWithChildren, ReactElement, RefObject } from "react";
 import { useMouseDownRef } from "../hooks/useMouseDownRef";
 import { usePopupContext } from "../hooks/usePopupContext";
+import { stopEscapeKeyUp } from "../utils/stopEscapeKeyUp";
 
 export const PopupTrigger = forwardRef(
     ({ children }: PropsWithChildren, propRef: RefObject<HTMLDivElement>): ReactElement => {
@@ -39,6 +40,7 @@ export const PopupTrigger = forwardRef(
                 setOpen(!open);
             } else if (e.key === "Escape" && open) {
                 e.stopPropagation();
+                stopEscapeKeyUp();
                 setOpen(false);
             }
         };
