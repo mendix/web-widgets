@@ -33,6 +33,8 @@ interface ToolbarProps extends PropsWithChildren {
     toolbarGroups?: ToolbarGroupsConfig;
     advancedConfig?: AdvancedConfigType[];
     customFonts?: CustomFontsType[];
+    defaultFontFamily?: string;
+    defaultFontSize?: string;
     helpButton?: boolean;
 }
 
@@ -162,7 +164,16 @@ function ToolbarRowCode(): ReactElement {
 }
 
 export default function Toolbar(props: ToolbarProps): ReactElement | null {
-    const { preset = "basic", toolbarConfig, toolbarGroups, advancedConfig, customFonts, helpButton } = props;
+    const {
+        preset = "basic",
+        toolbarConfig,
+        toolbarGroups,
+        advancedConfig,
+        customFonts,
+        defaultFontFamily,
+        defaultFontSize,
+        helpButton
+    } = props;
     const { editor, codeViewState } = useCurrentEditor();
     const [activeDropdown, setActiveDropdown] = useState<DropdownCommand | null>(null);
     const [pendingImageDialogFiles, setPendingImageDialogFiles] = useState<File[]>([]);
@@ -170,8 +181,12 @@ export default function Toolbar(props: ToolbarProps): ReactElement | null {
 
     // Filter toolbar groups based on preset and custom configuration
     const filteredGroups = useMemo(
-        () => getFilteredToolbarGroups(preset, toolbarConfig, toolbarGroups, advancedConfig, customFonts),
-        [preset, toolbarConfig, toolbarGroups, advancedConfig, customFonts]
+        () =>
+            getFilteredToolbarGroups(preset, toolbarConfig, toolbarGroups, advancedConfig, customFonts, {
+                fontFamily: defaultFontFamily,
+                fontSize: defaultFontSize
+            }),
+        [preset, toolbarConfig, toolbarGroups, advancedConfig, customFonts, defaultFontFamily, defaultFontSize]
     );
 
     // Help button is only shown when the full set of toolbar groups is present

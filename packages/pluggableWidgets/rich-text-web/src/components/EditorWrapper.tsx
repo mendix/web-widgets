@@ -40,6 +40,8 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
         enableStatusBar,
         statusBarContent,
         customFonts,
+        defaultFontFamily,
+        defaultFontSize,
         toolbarLocation,
         readOnlyStyle,
         spellCheck,
@@ -145,6 +147,10 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
                         advancedConfig={advancedConfig}
                         customFonts={customFonts}
                         spellCheck={spellCheck}
+                        defaultFontFamily={
+                            defaultFontFamily?.status === "available" ? defaultFontFamily.value : undefined
+                        }
+                        defaultFontSize={defaultFontSize?.status === "available" ? defaultFontSize.value : undefined}
                         toolbarLocation={
                             stringAttribute.readOnly && readOnlyStyle !== "text" ? "hide" : toolbarLocation
                         }
