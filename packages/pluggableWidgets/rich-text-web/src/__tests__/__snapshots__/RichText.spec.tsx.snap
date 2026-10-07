@@ -206,6 +206,7 @@ exports[`Rich Text renders richtext widget 1`] = `
           class="tiptap ProseMirror"
           contenteditable="true"
           role="textbox"
+          spellcheck="true"
           tabindex="0"
           translate="no"
         >
@@ -690,6 +691,7 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
           class="tiptap ProseMirror"
           contenteditable="true"
           role="textbox"
+          spellcheck="true"
           tabindex="0"
           translate="no"
         >
@@ -742,6 +744,7 @@ exports[`Rich Text renders richtext widget with readonly config 1`] = `
           class="tiptap ProseMirror"
           contenteditable="false"
           role="textbox"
+          spellcheck="true"
           translate="no"
         >
           <h2
@@ -982,6 +985,7 @@ exports[`Rich Text renders with HTML character count status bar 1`] = `
           class="tiptap ProseMirror"
           contenteditable="true"
           role="textbox"
+          spellcheck="true"
           tabindex="0"
           translate="no"
         >
@@ -1223,6 +1227,7 @@ exports[`Rich Text renders with both word and character count 1`] = `
           class="tiptap ProseMirror"
           contenteditable="true"
           role="textbox"
+          spellcheck="true"
           tabindex="0"
           translate="no"
         >
@@ -1462,6 +1467,7 @@ exports[`Rich Text renders with character count status bar 1`] = `
           class="tiptap ProseMirror"
           contenteditable="true"
           role="textbox"
+          spellcheck="true"
           tabindex="0"
           translate="no"
         >

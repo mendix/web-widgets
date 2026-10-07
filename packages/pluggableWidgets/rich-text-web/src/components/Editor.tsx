@@ -64,6 +64,7 @@ export interface EditorProps extends Pick<
     | "advancedConfig"
     | "customFonts"
     | "helpButton"
+    | "spellCheck"
     | "onFocus"
     | "onBlur"
     | "onLoad"
@@ -226,6 +227,7 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
         imageSourceContent,
         enableDefaultUpload,
         dialogStyle = "inline",
+        spellCheck,
         ...others
     } = props;
     const actionRef = useMemo(
@@ -366,6 +368,11 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
             },
             content: defaultValue || "",
             editable: !readOnly,
+            editorProps: {
+                // Tiptap only adds `role="textbox"` when the view is created; re-renders
+                // apply these attributes as-is, so keep the role here to not lose it.
+                attributes: { role: "textbox", spellcheck: String(spellCheck) }
+            },
             onUpdate: ({ editor }) => {
                 const html = editor.isEmpty ? "" : editor.getHTML();
                 onUpdate?.(html);
