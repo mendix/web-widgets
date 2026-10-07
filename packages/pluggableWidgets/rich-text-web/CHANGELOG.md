@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where embedding a Google Maps link as a video produced an invalid embed address.
 
+- We fixed an issue where the "Enable spell checking" setting had no effect.
+
 ## [5.1.1] - 2026-10-15
 
 ### Fixed
