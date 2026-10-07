@@ -12,7 +12,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where clicking a file action button or the retry button submitted the surrounding form, causing the page to submit or a containing dialog to close unexpectedly.
 
+- We fixed an issue where screen readers did not announce the outcome of file actions. The widget now announces when a file is uploaded, when an upload fails, when a file is rejected because the file limit is reached, and when a file is removed.
+
 ### Changed
+
+- The "File removal success" text is now announced to screen reader users when a file is removed. It is no longer shown in the file list.
+
+- A file that failed to upload now keeps showing the upload error message, instead of switching to the "File removal success" text.
 
 - Since version 2.5.0, removing a file with the default remove button removes the entry from the file list immediately, instead of leaving it in the list greyed out. This matches how removal already worked when custom buttons are configured. This change was missing from the 2.5.0 release notes.
 
