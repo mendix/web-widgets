@@ -30,3 +30,26 @@ describe("RichTextFormatStyle.scss table borders", () => {
         expect(css).not.toMatch(/border-(width|style|color): [^;]*\bor\b/);
     });
 });
+
+// Class style mode saves table, column and cell sizes as data attributes only (no `style`
+// attribute), so the sizes must come from these rules. The attribute selectors keep them
+// off inline-mode tables.
+describe("RichTextFormatStyle.scss table sizes", () => {
+    const css = compile(join(__dirname, "../ui/RichTextFormatStyle.scss")).css;
+
+    it.each([
+        [".widget-rich-text table[data-width] {", "width: attr(data-width type(<length-percentage>));"],
+        [".widget-rich-text table[data-min-height] {", "min-height: attr(data-min-height type(<length-percentage>));"],
+        [".widget-rich-text col[data-col-width] {", "width: attr(data-col-width type(<length-percentage>));"],
+        [
+            ".widget-rich-text td[data-cell-width],\n.widget-rich-text th[data-cell-width] {",
+            "width: attr(data-cell-width type(<length-percentage>));"
+        ],
+        [
+            ".widget-rich-text td[data-cell-height],\n.widget-rich-text th[data-cell-height] {",
+            "height: attr(data-cell-height type(<length-percentage>));"
+        ]
+    ])("renders %s from a typed attr()", (selector, declaration) => {
+        expect(css).toContain(`${selector}\n  ${declaration}\n}`);
+    });
+});

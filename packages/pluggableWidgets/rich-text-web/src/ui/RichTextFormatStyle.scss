@@ -116,4 +116,29 @@
         border-style: attr(data-border-style type(<custom-ident>), solid);
         border-color: attr(data-border-color type(<color>), var(--color-neutral-300, #d9d9d9));
     }
+
+    // Table, column and cell sizes, class mode. Class mode saves sizes as data attributes
+    // (never a `style` attribute); the attribute selectors keep these rules off inline-mode
+    // tables, which carry their sizes in `style`.
+    table[data-width] {
+        width: attr(data-width type(<length-percentage>));
+    }
+
+    table[data-min-height] {
+        min-height: attr(data-min-height type(<length-percentage>));
+    }
+
+    col[data-col-width] {
+        width: attr(data-col-width type(<length-percentage>));
+    }
+
+    td[data-cell-width],
+    th[data-cell-width] {
+        width: attr(data-cell-width type(<length-percentage>));
+    }
+
+    td[data-cell-height],
+    th[data-cell-height] {
+        height: attr(data-cell-height type(<length-percentage>));
+    }
 }

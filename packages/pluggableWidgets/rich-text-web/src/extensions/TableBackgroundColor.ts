@@ -17,10 +17,13 @@ declare module "@tiptap/core" {
     }
 }
 
-// Helper to create colgroup (copied from TipTap source)
+// Helper to create colgroup (copied from TipTap source).
+// Inline format puts each column width in the <col> `style`; class format stores it in
+// `data-col-width` instead and RichTextFormatStyle.scss renders it.
 function createColGroup(
     node: any,
-    cellMinWidth: number
+    cellMinWidth: number,
+    styleDataFormat: "inline" | "class" = "inline"
 ): { colgroup: any[]; tableWidth: string; tableMinWidth: string } {
     let totalWidth = 0;
     let fixedWidth = true;
@@ -50,7 +53,11 @@ function createColGroup(
             }
 
             const safeCssWidth = safeSize(cssWidth);
-            cols.push(["col", safeCssWidth ? { style: `width: ${safeCssWidth}` } : {}]);
+            if (styleDataFormat === "class") {
+                cols.push(["col", safeCssWidth ? { "data-col-width": safeCssWidth } : {}]);
+            } else {
+                cols.push(["col", safeCssWidth ? { style: `width: ${safeCssWidth}` } : {}]);
+            }
         }
     }
 
@@ -241,7 +248,11 @@ export const TableBackgroundColor = Table.extend<TableBackgroundColorOptions>({
     },
 
     renderHTML({ node, HTMLAttributes }): DOMOutputSpec {
-        const { colgroup, tableWidth, tableMinWidth } = createColGroup(node, this.options.cellMinWidth || 25);
+        const { colgroup, tableWidth, tableMinWidth } = createColGroup(
+            node,
+            this.options.cellMinWidth || 25,
+            this.options.styleDataFormat
+        );
 
         // Get style attributes from node (all validated before entering the style string)
         const explicitWidth = safeSize(node.attrs.width);
@@ -251,22 +262,22 @@ export const TableBackgroundColor = Table.extend<TableBackgroundColorOptions>({
         // Build the style string by merging table width, background, and border properties
         const segments: string[] = [];
 
-        // Explicit table width wins as the footprint; otherwise fall back to the
-        // colwidth-derived width/min-width. Per-column min-width still comes from colgroup.
-        if (explicitWidth) {
-            segments.push(`width: ${explicitWidth}`);
-        } else if (tableWidth) {
-            segments.push(`width: ${tableWidth}`);
-        } else if (tableMinWidth) {
-            segments.push(`min-width: ${tableMinWidth}`);
-        }
-
-        // Explicit table minimum height (rows still grow with content)
-        if (minHeight) {
-            segments.push(`min-height: ${minHeight}`);
-        }
-
         if (this.options.styleDataFormat === "inline") {
+            // Explicit table width wins as the footprint; otherwise fall back to the
+            // colwidth-derived width/min-width. Per-column min-width still comes from colgroup.
+            if (explicitWidth) {
+                segments.push(`width: ${explicitWidth}`);
+            } else if (tableWidth) {
+                segments.push(`width: ${tableWidth}`);
+            } else if (tableMinWidth) {
+                segments.push(`min-width: ${tableMinWidth}`);
+            }
+
+            // Explicit table minimum height (rows still grow with content)
+            if (minHeight) {
+                segments.push(`min-height: ${minHeight}`);
+            }
+
             // Add background color if present
             if (backgroundColor) {
                 segments.push(`background-color: ${backgroundColor}`);
@@ -279,7 +290,9 @@ export const TableBackgroundColor = Table.extend<TableBackgroundColorOptions>({
 
         const styleString = segments.join("; ");
 
-        // Build class-based attributes for border properties
+        // Build class-based attributes. Class mode never emits a `style` attribute: explicit
+        // sizes are stored as data attributes (rendered by RichTextFormatStyle.scss) and the
+        // colwidth-derived width/min-width is not stored because it is recomputed.
         const classAttrs: Record<string, any> = {};
         if (this.options.styleDataFormat === "class") {
             const borderColor = safeColor(node.attrs.borderColor);
@@ -580,7 +593,7 @@ class TableBackgroundColorNodeView implements NodeView {
         }
 
         // Create new colgroup
-        const { colgroup } = createColGroup(this.node, this.cellMinWidth);
+        const { colgroup } = createColGroup(this.node, this.cellMinWidth, this.styleDataFormat);
         const colgroupElement = this.createElementFromSpec(colgroup as unknown as DOMOutputSpec);
         this.table.insertBefore(colgroupElement, this.contentDOM);
     }
