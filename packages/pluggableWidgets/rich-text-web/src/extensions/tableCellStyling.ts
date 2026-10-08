@@ -143,18 +143,18 @@ export function renderCellHTML(
     const classAttrs: Record<string, any> = {};
     const segments: string[] = [];
 
-    // Column width applies in both formats (always an inline width on the cell)
-    if (cellWidth) {
-        segments.push(`width: ${cellWidth}`);
-    }
-
-    // Cell height (minimum) applies in both formats
-    if (cellHeight) {
-        segments.push(`height: ${cellHeight}`);
-    }
-
     // Inline mode: build style string with border defaults
     if (styleDataFormat === "inline") {
+        // Column width
+        if (cellWidth) {
+            segments.push(`width: ${cellWidth}`);
+        }
+
+        // Cell height (minimum)
+        if (cellHeight) {
+            segments.push(`height: ${cellHeight}`);
+        }
+
         // Background color
         if (backgroundColor) {
             segments.push(`background-color: ${backgroundColor}`);
@@ -168,7 +168,8 @@ export function renderCellHTML(
 
     const styleString = segments.join("; ");
 
-    // Class mode: use data attributes
+    // Class mode: use data attributes only, never a `style` attribute (sizes are
+    // rendered by RichTextFormatStyle.scss from data-cell-width/data-cell-height)
     if (styleDataFormat === "class") {
         if (cellWidth) {
             classAttrs["data-cell-width"] = cellWidth;
