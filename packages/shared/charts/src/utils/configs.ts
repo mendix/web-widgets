@@ -69,11 +69,11 @@ export const getCustomLayoutOptions = ({
 }: CustomLayoutProps): Partial<Layout> => ({
     showlegend: showLegend,
     xaxis: {
-        title: { text: xAxisLabel } as Layout["xaxis"]["title"],
+        title: xAxisLabel,
         showgrid: gridLinesMode === "both" || gridLinesMode === "vertical"
     },
     yaxis: {
-        title: { text: yAxisLabel } as Layout["yaxis"]["title"],
+        title: yAxisLabel,
         showgrid: gridLinesMode === "both" || gridLinesMode === "horizontal"
     }
 });
