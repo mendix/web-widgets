@@ -30,7 +30,8 @@ export async function fetch<T = unknown>(
         response = await nodefetch(url, httpsOptions);
     } catch (error) {
         throw new Error(
-            `An error occurred while retrieving data from ${url}. Technical error: ${(error as Error).message}`
+            `An error occurred while retrieving data from ${url}. Technical error: ${(error as Error).message}`,
+            { cause: error }
         );
     }
 
