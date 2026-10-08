@@ -22,9 +22,9 @@ import {
 } from "./ToolbarConfig";
 import { PresetEnum, ToolbarConfigEnum, AdvancedConfigType, CustomFontsType } from "../../../typings/RichTextProps";
 import "./Toolbar.scss";
-// eslint-disable-next-line import/order
+// eslint-disable-next-line import-x/order
 import { ToolbarDropdown } from "./components/ToolbarDropdown";
-// eslint-disable-next-line import/order
+// eslint-disable-next-line import-x/order
 import { ToolbarSplitButton } from "./components/ToolbarSplitButton";
 
 interface ToolbarProps extends PropsWithChildren {
