@@ -371,13 +371,10 @@ function updateIndentLevel(tr: Transaction, options: IndentOptions, direction: "
     doc.nodesBetween(from, to, (node, pos) => {
         if (options.types.includes(node.type.name)) {
             const currentIndent = node.attrs.indent || 0;
-            let newIndent = currentIndent;
-
-            if (direction === "increase") {
-                newIndent = Math.min(currentIndent + options.indentStep, options.maxIndent);
-            } else {
-                newIndent = Math.max(currentIndent - options.indentStep, options.minIndent);
-            }
+            const newIndent =
+                direction === "increase"
+                    ? Math.min(currentIndent + options.indentStep, options.maxIndent)
+                    : Math.max(currentIndent - options.indentStep, options.minIndent);
 
             if (newIndent !== currentIndent) {
                 tr.setNodeMarkup(pos, undefined, {
