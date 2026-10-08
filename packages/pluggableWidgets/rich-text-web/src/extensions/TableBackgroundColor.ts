@@ -653,18 +653,21 @@ class TableBackgroundColorNodeView implements NodeView {
                 this.table.classList.remove("has-background-color");
             }
 
-            // Border properties
-            if (borderColor || borderStyle || borderWidth) {
-                if (borderColor) this.table.setAttribute("data-border-color", borderColor);
-                if (borderStyle) this.table.setAttribute("data-border-style", borderStyle);
-                if (borderWidth) this.table.setAttribute("data-border-width", borderWidth);
-                this.table.classList.add("has-table-border");
-            } else {
-                this.table.removeAttribute("data-border-color");
-                this.table.removeAttribute("data-border-style");
-                this.table.removeAttribute("data-border-width");
-                this.table.classList.remove("has-table-border");
+            // Border properties. Sync each attribute on its own so clearing one property
+            // (e.g. the color) does not leave a stale value behind for the CSS to pick up.
+            const borderAttrs: Array<[string, string | null]> = [
+                ["data-border-color", borderColor],
+                ["data-border-style", borderStyle],
+                ["data-border-width", borderWidth]
+            ];
+            for (const [name, value] of borderAttrs) {
+                if (value) {
+                    this.table.setAttribute(name, value);
+                } else {
+                    this.table.removeAttribute(name);
+                }
             }
+            this.table.classList.toggle("has-table-border", Boolean(borderColor || borderStyle || borderWidth));
         }
     }
 

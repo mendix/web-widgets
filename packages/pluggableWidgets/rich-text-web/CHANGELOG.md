@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where table and cell border settings had no effect when the style data format was set to "Class".
+
 ## [5.1.0] - 2026-09-29
 
 ### Added
