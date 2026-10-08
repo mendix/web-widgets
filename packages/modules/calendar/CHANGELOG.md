@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.6.1] Calendar - 2026-10-08
+
+### Calendar
+
+#### Changed
+
+- We replaced the glyphicons in the toolbar previous and next buttons with Atlas icons.
+
 ## [2.6.0] Calendar - 2026-08-24
 
 ### [2.6.0] Calendar
