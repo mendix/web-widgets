@@ -378,6 +378,10 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Appearance">
+                <property key="showTopScrollbar" type="boolean" defaultValue="false">
+                    <caption>Show top horizontal scrollbar</caption>
+                    <description>Shows a synchronized horizontal scrollbar above the data grid.</description>
+                </property>
                 <property key="showEmptyPlaceholder" type="enumeration" defaultValue="none">
                     <caption>Empty list message</caption>
                     <description />
