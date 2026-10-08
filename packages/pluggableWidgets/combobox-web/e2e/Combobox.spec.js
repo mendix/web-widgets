@@ -11,7 +11,7 @@ test.describe("combobox-web", () => {
 
     test.describe("data source types", () => {
         test("renders combobox using association", async ({ page }) => {
-            const comboBox = page.locator(".mx-name-comboBox1");
+            const comboBox = page.locator(".modal-body .mx-name-comboBox1");
             await expect(comboBox).toBeVisible({ timeout: 10000 });
             await expect(comboBox).toHaveScreenshot(`comboBoxAssociation.png`);
             await comboBox.click();
