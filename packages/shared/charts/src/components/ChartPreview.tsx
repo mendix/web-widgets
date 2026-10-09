@@ -12,7 +12,7 @@ export interface ChartPreviewProps {
 export function ChartPreview(props: ChartPreviewProps): ReactElement {
     const { renderer: PlaygroundSlot } = props.playground ?? { renderer: () => null };
     return (
-        <div style={{ display: "inline-flex", flexFlow: "column nowrap" }}>
+        <div style={{ display: "flex", flexFlow: "column nowrap", maxWidth: props.showLegend ? "385px" : "300px" }}>
             <div
                 style={
                     props.showPlaygroundSlot
@@ -30,11 +30,17 @@ export function ChartPreview(props: ChartPreviewProps): ReactElement {
 }
 
 ChartPreview.PlotImage = (props: { src: string; alt: string }) => {
-    return <img src={props.src} alt={props.alt} style={{ objectFit: "contain", width: "300px", height: "100%" }} />;
+    return (
+        <img
+            src={props.src}
+            alt={props.alt}
+            style={{ objectFit: "contain", flex: "1 1 0", minWidth: 0, height: "100%" }}
+        />
+    );
 };
 
 ChartPreview.PlotLegend = (props: { src: string; alt: string }) => {
-    return <img src={props.src} alt={props.alt} style={{ width: "85px" }} />;
+    return <img src={props.src} alt={props.alt} style={{ flex: "none", width: "85px" }} />;
 };
 
 function Chart(props: ChartPreviewProps): ReactElement {
@@ -43,7 +49,7 @@ function Chart(props: ChartPreviewProps): ReactElement {
             className={props.class}
             style={{
                 display: "flex",
-                width: props.showLegend ? "385px" : "300px",
+                width: "100%",
                 height: "232px"
             }}
         >

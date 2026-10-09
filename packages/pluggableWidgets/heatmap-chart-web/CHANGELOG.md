@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the chart preview in design mode overlapped other widgets when placed in a narrow container.
+
 ## [6.2.1] - 2025-07-15
 
 ### Fixed
