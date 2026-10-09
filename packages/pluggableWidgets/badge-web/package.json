@@ -23,14 +23,16 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "badge-web"
+        "branchName": "badge-web-mx11-atlas4",
+        "atlasCoreVersion": "4.5.0",
+        "atlasThemeTag": "atlasui-theme-files-2025-10-08"
     },
     "scripts": {
         "build": "cross-env MPKOUTPUT=Badge.mpk pluggable-widgets-tools build:web",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "cross-env MPKOUTPUT=Badge.mpk pluggable-widgets-tools start:web",
-        "e2e": "run-e2e ci",
+        "e2e": "MENDIX_VERSION=11.15.0 MODERN_CLIENT=--modern-web-client run-e2e ci",
         "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
