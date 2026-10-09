@@ -100,6 +100,7 @@ function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCr
         customAspectHeight: dynamic.available(new Big(1)),
         boundaryWidth: 300,
         boundaryHeight: 300,
+        initialCropSize: 100,
         resizableEnabled: true,
         enableRotation: true,
         enableGrayscale: true,

@@ -14,6 +14,7 @@ export interface CropAreaProps {
     onCropComplete: (pixelCrop: PixelCrop) => void;
     onUserInteractStart?: () => void;
     aspect: number | undefined;
+    initialCropSize: number;
     circular: boolean;
     resizable: boolean;
     boundaryWidth: number;
@@ -49,7 +50,7 @@ export function CropArea(props: CropAreaProps): ReactElement {
     const [loadError, setLoadError] = useState(false);
     const [displaySize, setDisplaySize] = useState<{ width: number; height: number } | null>(null);
 
-    const { aspect, onImageLoad, boundaryWidth, boundaryHeight, src } = props;
+    const { aspect, initialCropSize, onImageLoad, boundaryWidth, boundaryHeight, src } = props;
 
     const [prevSrc, setPrevSrc] = useState(src);
     if (prevSrc !== src) {
@@ -61,10 +62,10 @@ export function CropArea(props: CropAreaProps): ReactElement {
         (e: SyntheticEvent<HTMLImageElement>) => {
             const img = e.currentTarget;
             setDisplaySize(fitToBoundary(img.naturalWidth, img.naturalHeight, boundaryWidth, boundaryHeight));
-            const { percentCrop, pixelCrop } = buildInitialCrop(img, aspect);
+            const { percentCrop, pixelCrop } = buildInitialCrop(img, aspect, initialCropSize);
             onImageLoad(percentCrop, pixelCrop);
         },
-        [aspect, onImageLoad, boundaryWidth, boundaryHeight]
+        [aspect, initialCropSize, onImageLoad, boundaryWidth, boundaryHeight]
     );
 
     const { onCropChange, onCropComplete } = props;

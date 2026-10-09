@@ -416,7 +416,7 @@ export class ImageCropperStore implements SetupComponent {
         // what puts the box back.
         const img = this.deps.getImage();
         if (img && img.naturalWidth) {
-            const { percentCrop, pixelCrop } = buildInitialCrop(img, this.cropAspect);
+            const { percentCrop, pixelCrop } = buildInitialCrop(img, this.cropAspect, this.props.initialCropSize);
             this.liveCrop = percentCrop;
             this.committedCrop = pixelCrop;
         } else {
@@ -458,7 +458,7 @@ export class ImageCropperStore implements SetupComponent {
             // No on-screen image yet; CropArea's onLoad will seed with the now-ready ratio.
             return;
         }
-        const { percentCrop, pixelCrop } = buildInitialCrop(img, this.cropAspect);
+        const { percentCrop, pixelCrop } = buildInitialCrop(img, this.cropAspect, this.props.initialCropSize);
         this.liveCrop = percentCrop;
         this.committedCrop = pixelCrop;
         this.armed(); // programmatic re-seed must not auto-commit
