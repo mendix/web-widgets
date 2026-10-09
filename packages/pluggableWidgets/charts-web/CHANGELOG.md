@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where X-axis and Y-axis labels were not rendered correctly on charts.
+
 ## [6.3.2] Charts - 2026-07-27
 
 ### [6.3.2] CustomChart
