@@ -260,7 +260,7 @@ export class GitHub {
             await exec(command);
             console.log(`Successfully triggered workflow '${workflowId}'`);
         } catch (error) {
-            throw new Error(`Failed to trigger workflow '${workflowId}': ${error}`);
+            throw new Error(`Failed to trigger workflow '${workflowId}': ${error}`, { cause: error });
         }
     }
 
@@ -313,7 +313,8 @@ export class GitHub {
             await pipeline(response.body, fileStream);
         } catch (error) {
             throw new Error(
-                `Failed to download release asset ${assetId}: ${error instanceof Error ? error.message : String(error)}`
+                `Failed to download release asset ${assetId}: ${error instanceof Error ? error.message : String(error)}`,
+                { cause: error }
             );
         }
     }

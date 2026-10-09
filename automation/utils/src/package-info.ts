@@ -149,7 +149,7 @@ export async function getPackageFileContent(dirPath: string): Promise<PackageJso
     } catch (error) {
         console.log(error);
         console.error(`ERROR: Path does not exist: ${pkgPath}`);
-        throw new Error("Error while reading package info at " + dirPath);
+        throw new Error("Error while reading package info at " + dirPath, { cause: error });
     }
 }
 

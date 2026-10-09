@@ -1,13 +1,13 @@
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
-import reactPlugin from "eslint-plugin-react";
+import eslintReact from "@eslint-react/eslint-plugin";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
 import jestPlugin from "eslint-plugin-jest";
 import packageJson from "eslint-plugin-package-json";
 import packageJsonFieldsOrder from "@mendix/prettier-config-web-widgets/package-json-fields-order.js";
 import { defineConfig } from "eslint/config";
-import importPlugin from "eslint-plugin-import";
+import { importX } from "eslint-plugin-import-x";
 
 export default defineConfig(
     {
@@ -15,10 +15,10 @@ export default defineConfig(
     },
     {
         name: "generic eslint",
-        extends: [eslint.configs.recommended, importPlugin.flatConfigs.recommended],
+        extends: [eslint.configs.recommended, importX.flatConfigs.recommended],
         settings: {
-            "import/internal-regex": "^@mendix/",
-            "import/parsers": {
+            "import-x/internal-regex": "^@mendix/",
+            "import-x/parsers": {
                 "@typescript-eslint/parser": [".ts", ".tsx"]
             }
         },
@@ -50,6 +50,10 @@ export default defineConfig(
                 {
                     selector: "TSTypeReference[typeName.left.name='React']",
                     message: "Do not use implicit React namespace."
+                },
+                {
+                    selector: "JSXAttribute > JSXExpressionContainer > Literal[value=true]",
+                    message: "Omit the value for true boolean attributes: use `prop` instead of `prop={true}`."
                 }
             ],
             "no-return-await": "error",
@@ -77,10 +81,10 @@ export default defineConfig(
             radix: "error",
             "spaced-comment": "error",
             "sort-imports": "off",
-            "import/no-unresolved": "off",
-            "import/namespace": "off",
-            "import/named": "off",
-            "import/order": [
+            "import-x/no-unresolved": "off",
+            "import-x/namespace": "off",
+            "import-x/named": "off",
+            "import-x/order": [
                 "warn",
                 {
                     alphabetize: {
@@ -100,27 +104,22 @@ export default defineConfig(
     },
     {
         name: "react",
-        files: ["**/*.tsx", "**/*.jsx"],
-        extends: [reactPlugin.configs.flat.recommended],
-        settings: {
-            react: {
-                createClass: "createReactClass",
-                pragma: "createElement",
-                version: "detect"
-            }
-        },
+        files: ["**/*.ts", "**/*.tsx"],
+        extends: [eslintReact.configs["recommended-typescript"]],
         rules: {
-            "react/display-name": "off",
-            "react/prop-types": "off",
-            "react/no-access-state-in-setstate": "error",
-            "react/no-did-mount-set-state": "error",
-            "react/no-find-dom-node": "off",
-            "react/no-will-update-set-state": "error",
-            "react/jsx-boolean-value": ["error", "never"],
-            "react/no-deprecated": "warn",
-            "react/jsx-uses-vars": "error",
-            "react/jsx-uses-react": "off",
-            "react/react-in-jsx-scope": "off"
+            "@eslint-react/no-set-state-in-component-did-mount": "error",
+            "@eslint-react/no-set-state-in-component-will-update": "error",
+            "@eslint-react/dom-no-find-dom-node": "off",
+            // hooks rules are covered by eslint-plugin-react-hooks
+            "@eslint-react/error-boundaries": "off",
+            "@eslint-react/exhaustive-deps": "off",
+            "@eslint-react/purity": "off",
+            "@eslint-react/rules-of-hooks": "off",
+            "@eslint-react/set-state-in-effect": "off",
+            "@eslint-react/set-state-in-render": "off",
+            "@eslint-react/static-components": "off",
+            "@eslint-react/unsupported-syntax": "off",
+            "@eslint-react/use-memo": "off"
         }
     },
     {
