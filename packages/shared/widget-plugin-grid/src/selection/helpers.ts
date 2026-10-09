@@ -310,13 +310,10 @@ export class MultiSelectionHelper implements MultiSelectionService {
         }
 
         const currentIndex = this.selectableItems.findIndex(item => item.id === value.id);
-        let adjacentIndex: number = -1;
-
-        if ("direction" in event) {
-            adjacentIndex = this._findIndexInList(currentIndex, event.direction, event.size);
-        } else {
-            adjacentIndex = this._findIndexInGrid(currentIndex, event.code, event.numberOfColumns);
-        }
+        const adjacentIndex =
+            "direction" in event
+                ? this._findIndexInList(currentIndex, event.direction, event.size)
+                : this._findIndexInGrid(currentIndex, event.code, event.numberOfColumns);
 
         if (adjacentIndex === currentIndex) {
             return;
