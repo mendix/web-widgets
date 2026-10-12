@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- We fixed an issue where the editor did not become read-only or editable when the editability of its attribute changed after the page was loaded, for example with conditional editability.
+- We fixed an issue where the editor and its toolbar did not become read-only or editable when the editability of its attribute changed after the page was loaded, for example with conditional editability.
 
 ## [5.1.0] - 2026-09-29
 

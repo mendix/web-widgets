@@ -339,6 +339,34 @@ describe("Rich Text runtime behaviour", () => {
             expect(readOnly.setValue).not.toHaveBeenCalled();
             expect(editable.setValue).not.toHaveBeenCalled();
         });
+
+        // The toolbar must follow the toggle right away, not on the next editor interaction:
+        // a stale button would still run its command (e.g. undo) against read-only content.
+        it("disables every toolbar button as soon as the attribute turns read-only", () => {
+            const editable = new EditableValueBuilder<string>().withValue(richTextDefaultValue).build();
+            const { container, rerender } = render(<RichText {...defaultProps} stringAttribute={editable} />);
+            expect(screen.getByTitle("Bold")).toBeEnabled();
+
+            const readOnly = new EditableValueBuilder<string>().withValue(richTextDefaultValue).isReadOnly().build();
+            rerender(<RichText {...defaultProps} stringAttribute={readOnly} />);
+
+            const buttons = container.querySelectorAll(".tiptap-toolbar button");
+            expect(buttons.length).toBeGreaterThan(0);
+            buttons.forEach(button => expect(button).toBeDisabled());
+        });
+
+        it("enables the toolbar as soon as the attribute turns editable", () => {
+            const readOnly = new EditableValueBuilder<string>().withValue(richTextDefaultValue).isReadOnly().build();
+            const { rerender } = render(<RichText {...defaultProps} stringAttribute={readOnly} />);
+            expect(screen.getByTitle("Bold")).toBeDisabled();
+            expect(screen.getByTitle("Insert Image")).toBeDisabled();
+
+            const editable = new EditableValueBuilder<string>().withValue(richTextDefaultValue).build();
+            rerender(<RichText {...defaultProps} stringAttribute={editable} />);
+
+            expect(screen.getByTitle("Bold")).toBeEnabled();
+            expect(screen.getByTitle("Insert Image")).toBeEnabled();
+        });
     });
 
     describe("toolbar location", () => {

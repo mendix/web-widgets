@@ -13,7 +13,9 @@ import {
     ReactElement,
     useEffect,
     useImperativeHandle,
+    useLayoutEffect,
     useMemo,
+    useReducer,
     useRef,
     useState
 } from "react";
@@ -418,9 +420,14 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
     // `editable` passed to `useEditor` only applies at creation; follow later read-only
     // changes (e.g. conditional editability). `emitUpdate: false` keeps the toggle from
     // reaching `onUpdate`, so it never writes to the attribute or fires On change.
-    useEffect(() => {
+    // The toggle emits no editor event at all, so toolbar buttons — which read
+    // `editor.isEditable` while rendering — are re-rendered explicitly. A layout effect
+    // does both before paint, so a stale, still clickable toolbar is never shown.
+    const [, rerenderForEditable] = useReducer((count: number) => count + 1, 0);
+    useLayoutEffect(() => {
         if (editor && editor.isEditable === !!readOnly) {
             editor.setEditable(!readOnly, false);
+            rerenderForEditable();
         }
     }, [editor, readOnly]);
 
