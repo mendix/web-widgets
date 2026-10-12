@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- We fixed an issue where the chart preview in design mode overlapped other widgets when placed in a narrow container.
+- We fixed an issue where the chart preview in design mode did not fit narrow containers, overlapping other widgets or stretching its layout grid column.
 
 ## [6.2.1] - 2025-07-15
 

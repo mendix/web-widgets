@@ -30,11 +30,12 @@ export function ChartPreview(props: ChartPreviewProps): ReactElement {
 }
 
 ChartPreview.PlotImage = (props: { src: string; alt: string }) => {
+    // Percentage width keeps the image's min-content width at zero, so auto-fill layout grid columns don't grow to fit it.
     return (
         <img
             src={props.src}
             alt={props.alt}
-            style={{ objectFit: "contain", flex: "1 1 0", minWidth: 0, height: "100%" }}
+            style={{ objectFit: "contain", flex: "1 1 0", minWidth: 0, width: "100%", height: "100%" }}
         />
     );
 };

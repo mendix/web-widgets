@@ -32,11 +32,11 @@ describe("ChartPreview", () => {
         expect(screen.queryByRole("img", { name: "Legend" })).toBeNull();
     });
 
-    it("lets the plot image shrink instead of overflowing", () => {
+    it("lets the plot image shrink instead of overflowing or stretching its column", () => {
         renderPreview(true);
 
         const plot = screen.getByRole("img", { name: "Plot" });
-        expect(plot.style.width).toBe("");
+        expect(plot.style.width).toBe("100%");
         expect(plot.style.minWidth).toMatch(/^0(px)?$/);
     });
 });
