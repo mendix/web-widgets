@@ -40,6 +40,8 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
         enableStatusBar,
         statusBarContent,
         customFonts,
+        defaultFontFamily,
+        defaultFontSize,
         toolbarLocation,
         readOnlyStyle,
         onFocus,
@@ -143,6 +145,10 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
                         helpButton={helpButton}
                         advancedConfig={advancedConfig}
                         customFonts={customFonts}
+                        defaultFontFamily={
+                            defaultFontFamily?.status === "available" ? defaultFontFamily.value : undefined
+                        }
+                        defaultFontSize={defaultFontSize?.status === "available" ? defaultFontSize.value : undefined}
                         toolbarLocation={
                             stringAttribute.readOnly && readOnlyStyle !== "text" ? "hide" : toolbarLocation
                         }
