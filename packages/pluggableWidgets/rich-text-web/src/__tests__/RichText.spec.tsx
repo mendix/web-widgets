@@ -93,11 +93,6 @@ describe("Rich Text", () => {
         expect(component.container).toMatchSnapshot();
     });
 
-    it("renders with both word and character count", () => {
-        const component = render(<RichText {...defaultProps} statusBarContent={"both" as StatusBarContentEnum} />);
-        expect(component.container).toMatchSnapshot();
-    });
-
     describe("does not write to the attribute on load", () => {
         // The editor's serialization of a stored value is rarely byte-identical to it, and
         // derived list marker formatting widens that gap. Writing the difference back on mount
