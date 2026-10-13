@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We added a "Refresh time (in seconds)" property that periodically reloads the chart data.
 
+### Fixed
+
+- We fixed an issue where the chart in design mode overlapped other widgets on the page. The design mode preview now follows the configured width and height and stays within its parent.
+
 ## [6.2.1] - 2025-07-15
 
 ### Changed
