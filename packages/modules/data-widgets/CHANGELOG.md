@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the pagination text in Data Grid 2 and Gallery was hard to read in dark themes. The pagination text now follows the theme's default font color, so the `$caption-color` variable no longer applies to it. To keep a custom pagination color, set `color` on `.pagination-bar` in your theme.
+
 ## [3.11.8] DataWidgets - 2026-10-22
 
 ### Datagrid
