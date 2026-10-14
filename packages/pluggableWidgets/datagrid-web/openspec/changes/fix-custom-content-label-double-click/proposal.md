@@ -13,12 +13,12 @@ The `<label>` activation behavior makes the browser dispatch a **second, trusted
 
 Two clicks 0 ms apart: the 320 ms window classifies the second one as a double click, so the double click action runs from a single physical click. Clicking the checkbox square directly produces only one click, which is why the bug looks target-dependent.
 
-The browser already tracks click count in `MouseEvent.detail`, honoring the OS double-click interval. The 320 ms re-implementation is what breaks, and it carries two further latent defects: `startTime = 0` after a double click makes the classification pattern 1-2-1-2 instead of 1-2-3-4, and the hard-coded 320 ms ignores the user's OS double-click interval.
+The 320 ms window itself is not the defect: it has no way to tell a forwarded click of the same gesture from a second gesture, and that is what breaks.
 
 ## What Changes
 
-- `ClickEventSwitch.getClickEntry()` (shared `@mendix/widget-plugin-grid`) classifies from `event.detail` instead of a timer: `1` runs the click entries, `2` runs the double click entries, `0` (keyboard activation, `element.click()`) and `> 2` run neither.
-- The same switch collapses duplicate clicks belonging to **one** gesture: a click whose `detail` equals the previously handled click's `detail` and whose `timeStamp` is within 5 ms of it is ignored. This is what discards the label-forwarded duplicate without suppressing it in the DOM, so the checkbox keeps toggling.
+- `ClickEventSwitch.getClickEntry()` (shared `@mendix/widget-plugin-grid`) collapses duplicate clicks belonging to **one** gesture: a click whose `detail` equals the previously handled click's `detail` and whose `timeStamp` is within 5 ms of it is ignored. This discards the label-forwarded duplicate without suppressing it in the DOM, so the checkbox keeps toggling.
+- The 320 ms window that decides single versus double click stays, now measured with `event.timeStamp`. It keeps double taps working on touch browsers, where `detail` is not a reliable click count, and keeps clicks with `detail === 0` (assistive technology activation) running the single-click behavior.
 - Regression coverage for the switch itself (it had none) and for a data grid cell containing a checkbox with its own label.
 - Gallery inherits the same fix through the shared package (`ItemEvents.viewModel.ts` uses the same switch), so its changelog gets the equivalent entry.
 
@@ -39,4 +39,4 @@ _None — no existing `openspec/specs/` capability documents cell click classifi
 - `packages/pluggableWidgets/datagrid-web/src/features/row-interaction/__tests__/cell-custom-content.spec.tsx` — new integration regression test through the real `CellEventsController` (the existing `cell-pointer.spec.tsx` builds props with raw `eventSwitch(...)` and bypasses `ClickEventSwitch`, so it cannot cover this).
 - `packages/pluggableWidgets/datagrid-web/CHANGELOG.md`, `packages/pluggableWidgets/gallery-web/CHANGELOG.md` — user-facing fix entries.
 - No XML/property changes, no widget API changes, no version bumps. `allowEventPropagation` keeps its current meaning; it is no longer needed as a workaround for this symptom.
-- Behavior change worth noting: clicks with `detail === 0` (keyboard activation of a control inside custom content, programmatic `element.click()`) no longer run the row's click action. Keyboard activation of the row itself is handled by the separate key entries and is unaffected.
+- No behavior change beyond the fix: single/double classification, touch double taps and assistive technology clicks behave as before.

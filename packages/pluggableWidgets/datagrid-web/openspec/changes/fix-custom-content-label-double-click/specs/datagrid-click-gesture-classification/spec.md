@@ -36,33 +36,36 @@ The widget SHALL NOT suppress the forwarded DOM event itself: content inside the
 - **WHEN** the user clicks a row's selection checkbox once
 - **THEN** the row becomes selected and the grid's on-click action does not run
 
-### Requirement: Click classification follows the browser click count
+### Requirement: A second click shortly after a single click is a double click
 
-The widget SHALL derive single-versus-double click from the browser's click count for the event (`MouseEvent.detail`) rather than from a widget-owned time window, so the user's operating system double-click interval is respected.
-
-A count of 1 SHALL run the single-click behavior, a count of 2 SHALL run the double-click behavior, and counts beyond 2 SHALL run neither — the double-click behavior having already run at 2. Successive gestures SHALL be classified independently: a click after a double click is a single click again.
+A click that arrives within 320 ms of a click classified as single SHALL run the double-click behavior; any other click SHALL run the single-click behavior. Classification SHALL NOT depend on the browser's click count (`MouseEvent.detail`), because touch browsers do not report it consistently for double taps. After a double click, the next click SHALL be classified as single again.
 
 #### Scenario: Two deliberate, separated clicks
 
-- **WHEN** the user clicks a cell twice with a pause longer than the double-click interval
+- **WHEN** the user clicks a cell twice with a pause longer than 320 ms
 - **THEN** the single-click behavior runs twice and the double-click behavior does not run
+
+#### Scenario: Double tap on a touch device
+
+- **GIVEN** a browser that reports a click count of 1 for both taps of a double tap
+- **WHEN** the user double taps a cell
+- **THEN** the single-click behavior runs once and the double-click behavior runs once
 
 #### Scenario: Clicking again after a double click
 
-- **WHEN** the user double clicks a cell and then, after a pause, clicks and double clicks again
-- **THEN** each gesture is classified on its own: two single clicks and two double clicks in total, with no alternating misclassification
+- **WHEN** the user double clicks a cell and then, after a pause, double clicks again
+- **THEN** two single clicks and two double clicks run in total
 
-#### Scenario: Triple click
+### Requirement: Clicks without a pointer still run row actions
 
-- **WHEN** the user clicks three times in rapid succession
-- **THEN** the single-click behavior runs once (first click), the double-click behavior runs once (second click), and the third click runs neither
+A `click` event that reports a click count of 0 — as produced by assistive technology activating an element (NVDA/JAWS browse mode, VoiceOver) — SHALL run the row's single-click behavior, and SHALL be counted once when the browser forwards it from a `<label>` to its control.
 
-### Requirement: Clicks that are not pointer gestures do not run row actions
+#### Scenario: Screen reader activates a cell
 
-A `click` event that reports a click count of 0 — as produced by keyboard activation of a control or by a programmatic `element.click()` — SHALL NOT run the row's click or double-click behavior. Keyboard interaction with the row itself remains served by the widget's keyboard handling.
+- **WHEN** a screen reader activates a cell, dispatching a click with a click count of 0
+- **THEN** the single-click behavior runs once
 
-#### Scenario: Activating a button inside custom content with the keyboard
+#### Scenario: Screen reader activates the label of a checkbox in a custom content column
 
-- **GIVEN** a custom content column containing a button
-- **WHEN** the user focuses that button and presses Enter or Space
-- **THEN** the button's own action runs and the grid's row click action does not
+- **WHEN** a screen reader activates the label, and the browser forwards the click to the checkbox
+- **THEN** the single-click behavior runs once and the checkbox toggles

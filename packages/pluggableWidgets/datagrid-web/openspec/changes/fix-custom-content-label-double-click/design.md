@@ -21,23 +21,23 @@ Non-Goals:
 
 ## Decisions
 
-### Classify from `MouseEvent.detail`, not from elapsed time
+### Collapse duplicates inside one gesture with a small time window
 
-`detail` is the browser-maintained click counter and already honors the OS double-click interval, which a hard-coded 320 ms cannot. `1` → click entries, `2` → double click entries, `0` → neither (keyboard activation and `element.click()` report 0), `> 2` → neither (the double click group already ran at 2).
+Rule: ignore a click whose `detail` equals the previously handled click's `detail` and whose `timeStamp` is within `sameGestureWindow = 5` ms. Every other click goes on to the existing 320 ms single/double classification.
+
+Why 5 ms is safe where 320 ms was not: the forwarded label click carries the same `detail` and the same `timeStamp` as the original (measured 0 ms in Chromium, ~1-2 ms in jsdom). The two clicks of a real double click carry different `detail` values (1 then 2), so the guard cannot swallow the second one even when they land close together (~2 ms apart under `user-event` in jsdom). On touch browsers that report `detail: 1` for both taps, the taps are far more than 5 ms apart.
+
+The same guard covers assistive technology: a screen reader activating a `<label>` produces a forwarded `detail: 0` pair, which collapses to one click.
+
+### Keep the 320 ms window for single versus double click
+
+The window is measured with `event.timeStamp` (instead of `Date.now()`) so both rules use the same clock; `startTime` starts and resets to `-Infinity` because `timeStamp` counts from page load, so a reset to `0` would turn a click in the first 320 ms after load into a double click.
 
 Alternatives rejected:
 
-- Keep the timer, widen/narrow the window: no window works. The forwarded label click arrives with the _same_ timestamp, so any window that treats "two clicks close together" as a double click misfires.
+- Classify from `MouseEvent.detail` (`1` single, `2` double, `0` ignored). It honors the OS double-click interval, but touch browsers do not report a reliable tap count (iOS Safari can report `detail: 1` for both taps of a double tap), so the double-click action could become unreachable on phone and tablet profiles. Ignoring `detail === 0` also drops clicks from screen readers activating a cell in browse mode, losing the row click action and row-click selection for those users. It does not even achieve its own goal: Enter/Space on a control inside custom content still runs the row action through the key entries (see Open Questions, 2).
 - Listen to the native `dblclick` event instead: would require restructuring `CellEventsController`'s entry folding, and the entries' filters are written against a single `onClick` context.
-- Ignore clicks whose `target !== currentTarget`: would break clicking custom content deliberately, and would not fix the plain-cell 1-2-1-2 reset defect.
-
-### Collapse duplicates inside one gesture with a small time window
-
-`detail` alone is insufficient: both events of a label click carry `detail: 1`, so with classification only, a single label click would run the click entries **twice** — breaking `onClickTrigger = "single"` grids and double-selecting rows.
-
-Rule: ignore a click whose `detail` equals the previously handled click's `detail` and whose `timeStamp` is within `sameGestureWindow = 5` ms.
-
-Why 5 ms is safe where 320 ms was not: a genuinely separate fast click carries a _different_ `detail` (1 then 2), so the guard cannot swallow it. The window only has to absorb dispatch jitter between two events of the same gesture — measured 0 ms in Chromium (identical `timeStamp`) and ~1 ms in jsdom.
+- Ignore clicks whose `target !== currentTarget`: would break clicking custom content deliberately.
 
 ### State lives in the closure returned by `getClickEntry()`
 
@@ -45,9 +45,8 @@ That closure is created per `DataCell` (`useMemo` on `[item, eventsController]`)
 
 ## Risks / Trade-offs
 
-- Third and further clicks of a rapid gesture (`detail >= 3`) now run nothing. Previously they alternated click/double-click due to the `startTime = 0` reset. This is the intended shape, but it is a behavior change for triple-click users.
-- `detail === 0` clicks are now ignored. This intentionally stops keyboard activation of a control inside custom content from firing the row action; it also means a programmatic `element.click()` no longer triggers row actions, which some custom JS snippets might have relied on.
-- The 5 ms window is empirical. If a browser ever dispatches a label-forwarded click more than 5 ms after the original, the single-click action would run twice again. Chromium dispatches both in the same task with an identical timestamp.
+- The 5 ms window is empirical. If a browser ever dispatches a label-forwarded click more than 5 ms after the original, the second click would be classified as a double click again. Chromium dispatches both in the same task with an identical timestamp.
+- The 320 ms window still ignores the user's OS double-click interval and makes a triple click run single, double, single. Both are unchanged from the shipped behavior.
 
 ## Migration Plan
 
