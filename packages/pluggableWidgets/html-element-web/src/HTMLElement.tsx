@@ -1,6 +1,7 @@
 import { Fragment, JSX, ReactElement, useId } from "react";
 
 import { HTMLElementContainerProps } from "../typings/HTMLElementProps";
+import { HTMLTag } from "./components/HTMLTag";
 import {
     createAttributeResolver,
     createEventResolver,
@@ -10,7 +11,6 @@ import {
     prepareHtml,
     prepareTag
 } from "./utils/props-utils";
-import { HTMLTag } from "./components/HTMLTag";
 
 export function HTMLElement(props: HTMLElementContainerProps): ReactElement | null {
     const tag = prepareTag(props.tagName, props.tagNameCustom);

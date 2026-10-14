@@ -18,6 +18,8 @@ export interface CarouselContainerProps {
     autoplay: boolean;
     delay: number;
     loop: boolean;
+    slidesPerView: number;
+    slidesPerGroup: number;
     animation: boolean;
     onClickAction?: ActionValue;
 }
@@ -40,6 +42,8 @@ export interface CarouselPreviewProps {
     autoplay: boolean;
     delay: number | null;
     loop: boolean;
+    slidesPerView: number | null;
+    slidesPerGroup: number | null;
     animation: boolean;
     onClickAction: {} | null;
 }

@@ -1,6 +1,6 @@
+import { ListActionValue, ObjectItem } from "mendix";
 import { useEffect, useMemo } from "react";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import { ListActionValue, ObjectItem } from "mendix";
 
 export type ExecuteActionFx = (item: ObjectItem) => void;
 

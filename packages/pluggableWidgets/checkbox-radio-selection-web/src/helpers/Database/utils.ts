@@ -1,3 +1,4 @@
+import { Big } from "big.js";
 import {
     DynamicValue,
     EditableValue,
@@ -7,7 +8,6 @@ import {
     ListWidgetValue,
     ValueStatus
 } from "mendix";
-import { Big } from "big.js";
 import {
     CheckboxRadioSelectionContainerProps,
     CustomEditabilityEnum,
@@ -39,7 +39,7 @@ export function extractDatabaseProps(props: CheckboxRadioSelectionContainerProps
         value: ""
     };
 
-    // Checkbox Radio Selection controls don't need clearable like combobox does
+    // Option Selector controls don't need clearable like combobox does
     const clearable = false;
 
     const customContent = props.optionsSourceDatabaseCustomContent;

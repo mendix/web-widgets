@@ -1,5 +1,5 @@
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { FocusEvent, useMemo } from "react";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import { Selector } from "../helpers/types";
 

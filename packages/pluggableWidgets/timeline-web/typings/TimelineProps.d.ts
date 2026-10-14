@@ -3,7 +3,15 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { DynamicValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListValue, ListWidgetValue, WebIcon } from "mendix";
+import {
+    DynamicValue,
+    ListActionValue,
+    ListAttributeValue,
+    ListExpressionValue,
+    ListValue,
+    ListWidgetValue,
+    WebIcon
+} from "mendix";
 import { ComponentType, CSSProperties, ReactNode } from "react";
 
 export type GroupByKeyEnum = "day" | "month" | "year";
@@ -55,7 +63,11 @@ export interface TimelinePreviewProps {
     description: string;
     timeIndication: string;
     customVisualization: boolean;
-    icon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
+    icon:
+        | { type: "glyph"; iconClass: string }
+        | { type: "image"; imageUrl: string; iconUrl: string }
+        | { type: "icon"; iconClass: string }
+        | undefined;
     groupEvents: boolean;
     groupAttribute: string;
     groupByKey: GroupByKeyEnum;

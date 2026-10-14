@@ -1,8 +1,8 @@
 import { Fragment, ReactElement } from "react";
 import { LoadingTypeEnum } from "typings/ComboboxProps";
-import { DEFAULT_LIMIT_SIZE } from "../helpers/utils";
 import { SkeletonLoader } from "./SkeletonLoader";
 import { SpinnerLoader } from "./SpinnerLoader";
+import { DEFAULT_LIMIT_SIZE } from "../helpers/utils";
 
 type LoaderProps = {
     isEmpty: boolean;

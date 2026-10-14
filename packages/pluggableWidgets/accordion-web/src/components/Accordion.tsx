@@ -1,9 +1,9 @@
+import classNames from "classnames";
 import { Dispatch, MutableRefObject, ReactElement, useCallback, useMemo, useReducer, useRef } from "react";
 
 import { AccordionGroup, AccordionGroupProps, Target } from "./AccordionGroup";
-import { CollapsedAccordionGroupsReducerAction, getCollapsedAccordionGroupsReducer } from "../utils/reducers";
 import { AccordionContainerProps } from "../../typings/AccordionProps";
-import classNames from "classnames";
+import { CollapsedAccordionGroupsReducerAction, getCollapsedAccordionGroupsReducer } from "../utils/reducers";
 
 export type AccordionGroups = Array<
     Pick<
@@ -86,7 +86,7 @@ export function Accordion(props: AccordionProps): ReactElement | null {
 
     const accordionGroupElements = props.groups.map((group, index) => (
         <AccordionGroupWrapper
-            key={`${group.initiallyCollapsed}_${index}`}
+            key={`accordion-wrapper-${index}`}
             index={index}
             parent={containerRef}
             id={`${props.id}AccordionGroup${index}`}

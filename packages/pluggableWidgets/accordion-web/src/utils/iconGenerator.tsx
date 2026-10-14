@@ -1,8 +1,7 @@
 import { ReactElement, useCallback } from "react";
 
-import { Icon, IconProps } from "../components/Icon";
-
 import { AccordionContainerProps } from "../../typings/AccordionProps";
+import { Icon, IconProps } from "../components/Icon";
 
 export function useIconGenerator(
     animateIcon: AccordionContainerProps["animateIcon"],

@@ -52,6 +52,4 @@ export type FilterV<T> = T extends InputFilterBaseInterface<infer A, any> ? A["v
 export type FilterFn<T> = T extends InputFilterBaseInterface<any, infer Fn> ? Fn : never;
 
 export type InputFilterInterface =
-    | String_InputFilterInterface
-    | Number_InputFilterInterface
-    | Date_InputFilterInterface;
+    String_InputFilterInterface | Number_InputFilterInterface | Date_InputFilterInterface;

@@ -3,6 +3,7 @@
     "exclude": ["./src/assets/plugins"],
     "compilerOptions": {
         "baseUrl": "./",
+        "ignoreDeprecations": "5.0",
         "noEmitOnError": true,
         "sourceMap": true,
         "module": "esnext",
@@ -10,6 +11,7 @@
         "lib": ["esnext", "dom"],
         "types": ["jest", "node"],
         "moduleResolution": "node",
+        "resolveJsonModule": true,
         "declaration": false,
         "noLib": false,
         "forceConsistentCasingInFileNames": true,

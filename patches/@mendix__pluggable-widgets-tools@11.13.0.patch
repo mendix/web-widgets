@@ -1,0 +1,39 @@
+diff --git a/bin/mx-scripts.js b/bin/mx-scripts.js
+index 5698156..39fa0f4 100755
+--- a/bin/mx-scripts.js
++++ b/bin/mx-scripts.js
+@@ -10,10 +10,10 @@ const { auditPluggableWidgetsTools } = require("../dist/commands/audit.js");
+ const { prettierConfigPath } = require("../dist/utils/formatting.js");
+ const { toolsRoot, widgetRoot } = require("../dist/widget/paths.js");
+ 
+-checkNodeVersion();
++// checkNodeVersion(); // Disabled via pnpm patch
+ (async () => {
+     try {
+-        await checkMigration();
++        // await checkMigration(); // Disabled via pnpm patch
+     } catch (e) {
+         console.log(red("An error occurred while checking migration dependencies: ", e));
+     }
+diff --git a/configs/rollup.config.mjs b/configs/rollup.config.mjs
+index d267472..9eef1dc 100644
+--- a/configs/rollup.config.mjs
++++ b/configs/rollup.config.mjs
+@@ -123,7 +123,7 @@ export default async args => {
+                     extensions,
+                     transpile: production,
+                     babelConfig: {
+-                        presets: [["@babel/preset-env", { targets: { safari: "12" } }]],
++                        presets: [["@babel/preset-env", { targets: { safari: "16.3" } }]],
+                         allowAllFormats: true
+                     },
+                     external: outputFormat === "es" ? [] : webExternal,
+@@ -161,7 +161,7 @@ export default async args => {
+                     sourceMaps: !production,
+                     extensions,
+                     transpile: production,
+-                    babelConfig: { presets: [["@babel/preset-env", { targets: { safari: "12" } }]] },
++                    babelConfig: { presets: [["@babel/preset-env", { targets: { safari: "16.3" } }]] },
+                     external: commonExternalLibs
+                 })
+             ],

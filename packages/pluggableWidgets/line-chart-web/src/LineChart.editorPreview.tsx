@@ -1,5 +1,5 @@
-import { ChartPreview } from "@mendix/shared-charts/preview";
 import { ReactNode } from "react";
+import { ChartPreview } from "@mendix/shared-charts/preview";
 import { LineChartPreviewProps } from "../typings/LineChartProps";
 import LineChartLegend from "./assets/LineChart-legend.light.svg";
 import LineChartImage from "./assets/LineChart.light.svg";

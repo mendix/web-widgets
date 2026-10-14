@@ -1,4 +1,3 @@
-import { useOnScreen } from "@mendix/widget-plugin-hooks/useOnScreen";
 import classNames from "classnames";
 import {
     CSSProperties,
@@ -10,6 +9,7 @@ import {
     useRef,
     useState
 } from "react";
+import { useOnScreen } from "@mendix/widget-plugin-hooks/useOnScreen";
 
 export interface InfiniteBodyProps {
     className?: string;

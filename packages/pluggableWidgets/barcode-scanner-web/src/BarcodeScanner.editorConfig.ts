@@ -1,9 +1,9 @@
-import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { hidePropertyIn, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
+import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import { BarcodeScannerContainerProps } from "../typings/BarcodeScannerProps";
-import BarcodeScannerSvg from "./assets/barcodescanner.svg";
 import BarcodeScannerSvgDark from "./assets/barcodescanner-dark.svg";
+import BarcodeScannerSvg from "./assets/barcodescanner.svg";
 
 export function getProperties(
     values: BarcodeScannerContainerProps,

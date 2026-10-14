@@ -1,8 +1,8 @@
 import { DynamicValue, ListReferenceValue, ObjectItem } from "mendix";
+import { Writable } from "./type-utils.js";
 import { dynamic } from "../primitives/dynamic.js";
 import { nanoid } from "../primitives/nanoid.js";
 import { obj } from "../primitives/obj.js";
-import { Writable } from "./type-utils.js";
 export class ListReferenceValueBuilder {
     mock: Writable<ListReferenceValue>;
     constructor() {

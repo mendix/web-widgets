@@ -12,8 +12,6 @@ export type ToolbarLocationEnum = "auto" | "top" | "bottom" | "hide";
 
 export type ReadOnlyStyleEnum = "text" | "bordered" | "readPanel";
 
-export type FormOrientationEnum = "horizontal" | "vertical";
-
 export type WidthUnitEnum = "pixels" | "percentage";
 
 export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent" | "percentageOfView";
@@ -33,9 +31,49 @@ export interface CustomFontsType {
 
 export type StatusBarContentEnum = "wordCount" | "characterCount" | "characterCountHtml";
 
+export type StyleDataFormatEnum = "inline" | "class";
+
+export type DialogStyleEnum = "inline" | "focused";
+
 export type ToolbarConfigEnum = "basic" | "advanced";
 
-export type CtItemTypeEnum = "separator" | "undo" | "redo" | "bold" | "italic" | "underline" | "strike" | "superScript" | "subScript" | "orderedList" | "bulletList" | "lowerAlphaList" | "checkList" | "minIndent" | "plusIndent" | "direction" | "link" | "image" | "video" | "formula" | "blockquote" | "code" | "codeBlock" | "viewCode" | "align" | "centerAlign" | "rightAlign" | "font" | "size" | "color" | "background" | "header" | "fullscreen" | "clean" | "tableBetter";
+export type CtItemTypeEnum =
+    | "separator"
+    | "undo"
+    | "redo"
+    | "bold"
+    | "italic"
+    | "underline"
+    | "strike"
+    | "superScript"
+    | "subScript"
+    | "orderedList"
+    | "bulletList"
+    | "lowerAlphaList"
+    | "checkList"
+    | "minIndent"
+    | "plusIndent"
+    | "direction"
+    | "link"
+    | "image"
+    | "video"
+    | "formula"
+    | "blockquote"
+    | "code"
+    | "codeBlock"
+    | "viewCode"
+    | "leftAlign"
+    | "centerAlign"
+    | "rightAlign"
+    | "justifyAlign"
+    | "font"
+    | "size"
+    | "color"
+    | "background"
+    | "header"
+    | "fullscreen"
+    | "clean"
+    | "tableBetter";
 
 export interface AdvancedConfigType {
     ctItemType: CtItemTypeEnum;
@@ -59,7 +97,6 @@ export interface RichTextContainerProps {
     preset: PresetEnum;
     toolbarLocation: ToolbarLocationEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
-    formOrientation: FormOrientationEnum;
     widthUnit: WidthUnitEnum;
     width: number;
     heightUnit: HeightUnitEnum;
@@ -83,6 +120,8 @@ export interface RichTextContainerProps {
     imageSourceContent?: ReactNode;
     enableDefaultUpload: boolean;
     statusBarContent: StatusBarContentEnum;
+    styleDataFormat: StyleDataFormatEnum;
+    dialogStyle: DialogStyleEnum;
     toolbarConfig: ToolbarConfigEnum;
     history: boolean;
     fontStyle: boolean;
@@ -97,6 +136,7 @@ export interface RichTextContainerProps {
     view: boolean;
     remove: boolean;
     tableBetter: boolean;
+    helpButton: boolean;
     advancedConfig: AdvancedConfigType[];
 }
 
@@ -109,7 +149,6 @@ export interface RichTextPreviewProps {
     preset: PresetEnum;
     toolbarLocation: ToolbarLocationEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
-    formOrientation: FormOrientationEnum;
     widthUnit: WidthUnitEnum;
     width: number | null;
     heightUnit: HeightUnitEnum;
@@ -133,6 +172,8 @@ export interface RichTextPreviewProps {
     imageSourceContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     enableDefaultUpload: boolean;
     statusBarContent: StatusBarContentEnum;
+    styleDataFormat: StyleDataFormatEnum;
+    dialogStyle: DialogStyleEnum;
     toolbarConfig: ToolbarConfigEnum;
     history: boolean;
     fontStyle: boolean;
@@ -147,5 +188,6 @@ export interface RichTextPreviewProps {
     view: boolean;
     remove: boolean;
     tableBetter: boolean;
+    helpButton: boolean;
     advancedConfig: AdvancedConfigPreviewType[];
 }

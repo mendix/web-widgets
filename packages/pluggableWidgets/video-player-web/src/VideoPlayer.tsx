@@ -1,5 +1,5 @@
-import { Component, ReactNode } from "react";
 import classNames from "classnames";
+import { Component, ReactNode } from "react";
 
 import { SizeContainer } from "./components/SizeContainer";
 import { Video } from "./components/Video";

@@ -1,7 +1,7 @@
 import { Context, createContext, useContext, useMemo } from "react";
+import { error, Result, value } from "./result-meta.js";
 import { MultiSelectionService } from "../interfaces/MultiSelectionService.js";
 import { SelectionHelperService } from "../interfaces/SelectionHelperService.js";
-import { error, Result, value } from "./result-meta.js";
 
 const CONTEXT_OBJECT_PATH = "com.mendix.widgets.web.selectable.selectionContext" as const;
 

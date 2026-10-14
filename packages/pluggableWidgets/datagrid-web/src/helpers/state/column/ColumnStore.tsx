@@ -1,3 +1,4 @@
+import { Big } from "big.js";
 import {
     DynamicValue,
     ListAttributeListValue,
@@ -7,15 +8,14 @@ import {
     ObjectItem,
     ValueStatus
 } from "mendix";
+import { action, computed, makeObservable, observable } from "mobx";
 import { ComponentPropsWithoutRef, KeyboardEvent, ReactElement, ReactNode } from "react";
+import { BaseColumnInfo } from "./BaseColumnInfo";
 import { AlignmentEnum, ColumnsType } from "../../../../typings/DatagridProps";
 import { ColumnId, GridColumn } from "../../../typings/GridColumn";
-import { Big } from "big.js";
-import { action, computed, makeObservable, observable } from "mobx";
-import { BaseColumnInfo } from "./BaseColumnInfo";
-import { IColumnParentStore } from "../ColumnGroupStore";
-import { SortDirection } from "../../../typings/sorting";
 import { ColumnPersonalizationSettings } from "../../../typings/personalization-settings";
+import { SortDirection } from "../../../typings/sorting";
+import { IColumnParentStore } from "../ColumnGroupStore";
 
 export class ColumnStore implements GridColumn {
     columnIndex: number;
@@ -38,8 +38,8 @@ export class ColumnStore implements GridColumn {
     private _columnClass?: ListExpressionValue<string> = undefined; // can render when unavailable
     private _tooltip?: ListExpressionValue<string> = undefined; // part of attribute or dynamicText
     private _attribute?:
-        | ListAttributeValue<string | Big | boolean | Date>
-        | ListAttributeListValue<string | Big | boolean | Date> = undefined; // as "attribute"
+        ListAttributeValue<string | Big | boolean | Date> | ListAttributeListValue<string | Big | boolean | Date> =
+        undefined; // as "attribute"
     private _dynamicText?: ListExpressionValue<string> = undefined; // as "dynamicText"
     private _content?: ListWidgetValue = undefined; // as "customContent"
 

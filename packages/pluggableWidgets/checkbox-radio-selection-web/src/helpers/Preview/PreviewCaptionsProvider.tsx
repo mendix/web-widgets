@@ -1,6 +1,6 @@
-import { OptionsSourceCustomContentTypeEnum } from "../../../typings/CheckboxRadioSelectionProps";
-import { SimpleCaptionsProvider } from "./SimpleCaptionsProvider";
 import { ComponentType, ReactNode } from "react";
+import { SimpleCaptionsProvider } from "./SimpleCaptionsProvider";
+import { OptionsSourceCustomContentTypeEnum } from "../../../typings/CheckboxRadioSelectionProps";
 interface PreviewProps {
     customContentRenderer:
         | ComponentType<{ children: ReactNode; caption?: string }>
@@ -9,7 +9,7 @@ interface PreviewProps {
 }
 
 export class PreviewCaptionsProvider extends SimpleCaptionsProvider {
-    emptyCaption = "Checkbox Radio Selection";
+    emptyCaption = "Option Selector";
     private customContentRenderer: ComponentType<{ children: ReactNode; caption?: string }> = () => <div>Dropzone</div>;
     get(value: string | null): string {
         return value || this.emptyCaption;

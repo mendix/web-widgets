@@ -1,9 +1,9 @@
-import { ensure } from "@mendix/pluggable-widgets-tools";
-import { ChartWidgetProps, compareAttrValuesAsc } from "@mendix/shared-charts/main";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import Big from "big.js";
 import { ObjectItem, ValueStatus } from "mendix";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { ensure } from "@mendix/pluggable-widgets-tools";
+import { ChartWidgetProps, compareAttrValuesAsc } from "@mendix/shared-charts/main";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { PieChartContainerProps } from "../../typings/PieChartProps";
 
 type PieChartDataSeriesHooks = Pick<

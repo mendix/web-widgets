@@ -10,7 +10,6 @@ export interface ChartPlaygroundContainerProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-
 }
 
 export interface ChartPlaygroundPreviewProps {
@@ -24,5 +23,4 @@ export interface ChartPlaygroundPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
-
 }

@@ -91,7 +91,7 @@ async function runWithCompose({ mendixVersion, ip, freePort }) {
         WORKSPACE: workspace,
         MPR_PATH: mprRelPath,
         RUNTIME_PORT: String(freePort),
-        ...(process.env.MODERN_CLIENT ? { MODERN_CLIENT: `--modern-client` } : {})
+        ...(process.env.MODERN_CLIENT ? { MODERN_CLIENT: `--modern-web-client` } : {})
     };
 
     try {

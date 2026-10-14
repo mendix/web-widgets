@@ -3,8 +3,7 @@ import { EventCaseEntry } from "./base";
 import { groupEntries } from "./utils";
 
 export type ClickEntry<Context, Element> =
-    | EventCaseEntry<Context, Element, "onClick">
-    | EventCaseEntry<Context, Element, "onDoubleClick">;
+    EventCaseEntry<Context, Element, "onClick"> | EventCaseEntry<Context, Element, "onDoubleClick">;
 
 export class ClickEventSwitch<Context, Element> {
     constructor(private entries: Array<ClickEntry<Context, Element>>) {}

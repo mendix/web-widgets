@@ -1,12 +1,4 @@
 import {
-    ContainerProps,
-    datasource,
-    ImageProps,
-    StructurePreviewProps
-} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
-
-import {
     hidePropertiesIn,
     hidePropertyIn,
     moveProperty,
@@ -14,13 +6,20 @@ import {
     Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
+import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
+import {
+    ContainerProps,
+    datasource,
+    ImageProps,
+    StructurePreviewProps
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import { HeatMapPreviewProps } from "../typings/HeatMapProps";
 
-import HeatMapDark from "./assets/HeatMap.dark.svg";
-import HeatMapLight from "./assets/HeatMap.light.svg";
 import HeatMapLegendDark from "./assets/HeatMap-legend.dark.svg";
 import HeatMapLegendLight from "./assets/HeatMap-legend.light.svg";
+import HeatMapDark from "./assets/HeatMap.dark.svg";
+import HeatMapLight from "./assets/HeatMap.light.svg";
 
 function removeEmptyGroups(props: Properties): Properties {
     return props.filter(p => (p.properties?.length ?? 0) > 0 || (p.propertyGroups?.length ?? 0) > 0);

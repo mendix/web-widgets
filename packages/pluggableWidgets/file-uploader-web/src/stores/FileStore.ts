@@ -15,15 +15,7 @@ import {
 } from "../utils/mx-data";
 
 export type FileStatus =
-    | "existingFile"
-    | "missing"
-    | "queued"
-    | "uploading"
-    | "done"
-    | "uploadingError"
-    | "removedFile"
-    | "validationError"
-    | "rejected";
+    "existingFile" | "missing" | "queued" | "uploading" | "done" | "uploadingError" | "validationError" | "rejected";
 
 let fileKey = 0;
 
@@ -38,6 +30,8 @@ export class FileStore {
     private _objectItem?: ObjectItem = undefined;
     private _mxObject?: MxObject = undefined;
     private _thumbnailUrl?: string = undefined;
+    private _documentUrl?: string = undefined;
+    private _thumbnailFailed: boolean = false;
     private _rootStore: FileUploaderStore;
 
     key: number;
@@ -51,11 +45,13 @@ export class FileStore {
         this._rootStore = rootStore;
         this.fileStatus = type;
 
-        makeObservable<this, "_mxObject" | "_thumbnailUrl">(this, {
+        makeObservable<this, "_mxObject" | "_thumbnailUrl" | "_documentUrl" | "_thumbnailFailed">(this, {
             fileStatus: observable,
             _mxObject: observable,
             errorDescription: observable,
             _thumbnailUrl: observable,
+            _documentUrl: observable,
+            _thumbnailFailed: observable,
             canRemove: computed,
             canRetry: computed,
             imagePreviewUrl: computed,
@@ -64,12 +60,20 @@ export class FileStore {
             markMissing: action,
             setQueued: action,
             retry: action,
-            dismiss: action
+            dismiss: action,
+            handleThumbnailError: action
         });
     }
 
     markMissing(): void {
-        this.fileStatus = this.fileStatus === "uploadingError" ? "removedFile" : "missing";
+        if (this.fileStatus === "existingFile" || this.fileStatus === "done") {
+            this._rootStore.announce("removeSuccessMessage");
+        }
+
+        // a failed upload stays a failed upload when its object is gone
+        if (this.fileStatus !== "uploadingError") {
+            this.fileStatus = "missing";
+        }
 
         this._mxObject = undefined;
         this._objectItem = undefined;
@@ -129,6 +133,7 @@ export class FileStore {
         } catch (_e: unknown) {
             runInAction(() => {
                 this.fileStatus = "uploadingError";
+                this._rootStore.announce("uploadFailureGenericMessage");
                 this._rootStore.objectCreationHelper.reportCreationFailure();
             });
             return;
@@ -141,11 +146,13 @@ export class FileStore {
 
             runInAction(() => {
                 this.fileStatus = "done";
+                this._rootStore.announce("uploadSuccessMessage");
                 this._rootStore.objectCreationHelper.reportUploadSuccess(this._objectItem!);
             });
         } catch (_e: unknown) {
             runInAction(() => {
                 this.fileStatus = "uploadingError";
+                this._rootStore.announce("uploadFailureGenericMessage");
                 this._rootStore.objectCreationHelper.reportUploadFailure(this._objectItem!);
             });
         }
@@ -195,6 +202,10 @@ export class FileStore {
         try {
             await removeObject(this._objectItem);
             runInAction(() => {
+                // the datasource update may have already reported this removal
+                if (this.fileStatus !== "missing" && this._rootStore.files.includes(this)) {
+                    this._rootStore.announce("removeSuccessMessage");
+                }
                 this._rootStore.dismissFile(this);
             });
         } catch (e: unknown) {
@@ -212,16 +223,25 @@ export class FileStore {
         }
     }
 
+    handleThumbnailError(): void {
+        this._thumbnailFailed = true;
+    }
+
     async updateThumbnailUrl(): Promise<void> {
         if (this._rootStore.uploadMode !== "images") {
             return;
         }
 
         this._thumbnailUrl = undefined;
+        this._thumbnailFailed = false;
         if (this._mxObject) {
-            const url = await fetchImageThumbnail(this._mxObject);
+            const [thumbnailUrl, documentUrl] = await Promise.all([
+                fetchImageThumbnail(this._mxObject),
+                fetchDocumentUrl(this._mxObject)
+            ]);
             runInAction(() => {
-                this._thumbnailUrl = url;
+                this._thumbnailUrl = thumbnailUrl;
+                this._documentUrl = documentUrl;
             });
         }
     }
@@ -237,6 +257,9 @@ export class FileStore {
             return;
         }
 
+        if (this._thumbnailFailed) {
+            return this._documentUrl;
+        }
         if (this._thumbnailUrl) {
             return this._thumbnailUrl;
         }

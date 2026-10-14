@@ -1,10 +1,10 @@
-import { ReactElement, ReactNode, RefObject, SyntheticEvent, useCallback, useRef } from "react";
 import classNames from "classnames";
+import { ReactElement, ReactNode, RefObject, SyntheticEvent, useCallback, useRef } from "react";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { Dimensions, getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
+import { BarcodeFormatsType, BarcodeScannerContainerProps } from "../../typings/BarcodeScannerProps";
 import { useCustomErrorMessage } from "../hooks/useCustomErrorMessage";
 import { useReader } from "../hooks/useReader";
-import { BarcodeFormatsType, BarcodeScannerContainerProps } from "../../typings/BarcodeScannerProps";
 
 import "../ui/BarcodeScanner.scss";
 

@@ -7,9 +7,9 @@ import {
     StructurePreviewProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { ComboboxPreviewProps } from "../typings/ComboboxProps";
-import { getDatasourcePlaceholderText } from "./helpers/utils";
 import IconSVG from "./assets/StructurePreviewIcon.svg";
 import IconSVGDark from "./assets/StructurePreviewIconDark.svg";
+import { getDatasourcePlaceholderText } from "./helpers/utils";
 
 const LAZY_LOADING_CONFIG: Array<keyof ComboboxPreviewProps> = ["lazyLoading", "loadingType"];
 const DATABASE_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
@@ -61,7 +61,7 @@ export function getProperties(
                 ...LAZY_LOADING_CONFIG
             ]);
             if (values.optionsSourceType === "boolean") {
-                hidePropertiesIn(defaultProperties, values, ["clearable"]);
+                hidePropertiesIn(defaultProperties, values, ["clearable", "emptyOptionText"]);
                 hidePropertiesIn(defaultProperties, values, ["attributeEnumeration"]);
             } else {
                 hidePropertiesIn(defaultProperties, values, ["attributeBoolean"]);

@@ -1,7 +1,7 @@
+import { ListValue } from "mendix";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { SetupHost } from "@mendix/widget-plugin-mobx-kit/SetupHost";
 import { list, obj } from "@mendix/widget-plugin-test-utils";
-import { ListValue } from "mendix";
 import { DatasourceService } from "../Datasource.service";
 
 class TestControllerHost extends SetupHost {}

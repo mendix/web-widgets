@@ -1,7 +1,7 @@
-import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 import { computed, makeObservable } from "mobx";
-import { QueryService } from "../interfaces/QueryService";
+import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 import { SetPageAction } from "./pagination.model";
+import { QueryService } from "../interfaces/QueryService";
 
 type PaginationEnum = "buttons" | "virtualScrolling" | "loadMore";
 

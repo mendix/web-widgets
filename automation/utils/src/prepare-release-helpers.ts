@@ -1,13 +1,13 @@
-import { getModuleInfo, getPackageInfo, getWidgetInfo, ModuleInfo, WidgetInfo } from "./package-info";
+import chalk from "chalk";
+import { prompt } from "enquirer";
 import {
     getModuleChangelog,
-    getWidgetChangelog,
+    getPackageChangelog,
     ModuleChangelogFileWrapper,
     WidgetChangelogFileWrapper
 } from "./changelog-parser";
 import { listPackages, PackageListing } from "./monorepo";
-import chalk from "chalk";
-import { prompt } from "enquirer";
+import { getModuleInfo, getPackageInfo, getWidgetInfo, ModuleInfo, WidgetInfo } from "./package-info";
 import { exec } from "./shell";
 
 type WidgetPkg = {
@@ -28,8 +28,7 @@ type ModulePkg = {
 
 type PackagesTree = Array<WidgetPkg | ModulePkg>;
 type PackagesFullInfo =
-    | [PackageListing, WidgetInfo, WidgetChangelogFileWrapper]
-    | [PackageListing, ModuleInfo, ModuleChangelogFileWrapper];
+    [PackageListing, WidgetInfo, WidgetChangelogFileWrapper] | [PackageListing, ModuleInfo, ModuleChangelogFileWrapper];
 type PackagesFullInfoList = PackagesFullInfo[];
 type PackagesFullInfoMap = Map<string, PackagesFullInfo>;
 
@@ -43,12 +42,7 @@ async function loadPackagesFullInfo(packages: PackageListing[]): Promise<Package
             if (basicInfo.mxpackage.type === "widget") {
                 try {
                     const widgetInfo = await getWidgetInfo(pkg.path);
-                    let changelog: WidgetChangelogFileWrapper | ModuleChangelogFileWrapper;
-                    if (basicInfo.mxpackage.changelogType === "widget") {
-                        changelog = await getWidgetChangelog(pkg.path);
-                    } else {
-                        changelog = await getModuleChangelog(pkg.path, basicInfo.mxpackage.name);
-                    }
+                    const changelog = await getPackageChangelog(pkg.path);
 
                     results.push([pkg, widgetInfo, changelog]);
                 } catch (_e) {

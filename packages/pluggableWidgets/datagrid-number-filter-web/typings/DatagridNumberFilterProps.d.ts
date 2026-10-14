@@ -13,7 +13,8 @@ export interface AttributesType {
     attribute: AttributeMetaData<Big>;
 }
 
-export type DefaultFilterEnum = "greater" | "greaterEqual" | "equal" | "notEqual" | "smaller" | "smallerEqual" | "empty" | "notEmpty";
+export type DefaultFilterEnum =
+    "greater" | "greaterEqual" | "equal" | "notEqual" | "smaller" | "smallerEqual" | "empty" | "notEmpty";
 
 export interface AttributesPreviewType {
     attribute: string;

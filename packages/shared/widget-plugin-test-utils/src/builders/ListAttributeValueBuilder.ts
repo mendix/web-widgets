@@ -1,5 +1,5 @@
-import type { ListAttributeValue } from "mendix";
 import type { Big } from "big.js";
+import type { ListAttributeValue } from "mendix";
 
 export class ListAttributeValueBuilder<T extends string | boolean | Date | Big> {
     private readonly listAttribute: Partial<ListAttributeValue<T>> = {

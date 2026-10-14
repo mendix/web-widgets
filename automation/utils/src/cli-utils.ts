@@ -1,5 +1,5 @@
-import ora from "ora";
 import chalk from "chalk";
+import ora from "ora";
 
 export async function oraPromise<T>(task: Promise<T>, msg: string): Promise<T> {
     const spinner = ora(msg);

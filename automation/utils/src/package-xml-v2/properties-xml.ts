@@ -1,6 +1,6 @@
+import { readFile } from "node:fs/promises";
 import { z } from "zod";
 import { xmlTextToXmlJson } from "./index";
-import { readFile } from "node:fs/promises";
 
 export const PropertiesXMLFile = z.object({
     "?xml": z.object({

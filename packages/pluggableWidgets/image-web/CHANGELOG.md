@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.6.1] - 2026-08-14
+
+### Fixed
+
+- We fixed an issue with close icon of an enlarged image not being visible in apps deployed in non-local environments.
+
+- We fixed an issue with Structure preview showing icons in the wrong size.
+
+## [1.6.0] - 2026-07-29
+
+### Changed
+
+- We changed the default maximum height to 250 pixels for new Image widgets. Existing widgets are not affected.
+
 ### Fixed
 
 - We fixed an issue where previews in Design and Structure modes did not respect the configured minimum and maximum image height.

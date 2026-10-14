@@ -1,4 +1,4 @@
-import { ActionValue, EditableValue, ListAttributeValue, ObjectItem, SelectionSingleValue } from "mendix";
+import { EditableValue, ListAttributeValue, ObjectItem, SelectionSingleValue } from "mendix";
 import {
     ComboboxContainerProps,
     LoadingTypeEnum,
@@ -11,7 +11,6 @@ import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
 import { DatabaseOptionsProvider } from "./DatabaseOptionsProvider";
 import { DatabaseValuesProvider } from "./DatabaseValuesProvider";
 import { extractDatabaseProps, getReadonly } from "./utils";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 
 export class DatabaseSingleSelectionSelector<
     T extends string | Big,
@@ -32,7 +31,6 @@ export class DatabaseSingleSelectionSelector<
 
     validation?: string = undefined;
     values: DatabaseValuesProvider;
-    private onChangeEvent?: ActionValue;
     protected _attr: R | undefined;
     private selection?: SelectionSingleValue;
 
@@ -55,8 +53,7 @@ export class DatabaseSingleSelectionSelector<
             filterType,
             lazyLoading,
             loadingType,
-            valueSourceAttribute,
-            onChangeEvent
+            valueSourceAttribute
         } = extractDatabaseProps(props);
 
         if (ds.status === "loading" && (!lazyLoading || ds.limit !== Infinity)) {
@@ -64,7 +61,6 @@ export class DatabaseSingleSelectionSelector<
         }
 
         this._attr = targetAttribute as R;
-        this.onChangeEvent = onChangeEvent;
         this.readOnly = getReadonly(targetAttribute, props.customEditability, props.customEditabilityExpression);
         this.lazyLoader.updateProps(ds);
         this.lazyLoader.setLimit(
@@ -154,11 +150,7 @@ export class DatabaseSingleSelectionSelector<
 
     setAttributeValue(value: T): void {
         if (this._attr) {
-            const oldValue = this._attr.value;
             this._attr.setValue(value);
-            if (!_valuesIsEqual(oldValue, value)) {
-                executeAction(this.onChangeEvent);
-            }
         }
     }
 

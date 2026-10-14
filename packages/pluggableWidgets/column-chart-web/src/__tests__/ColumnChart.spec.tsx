@@ -1,6 +1,6 @@
+import { render, RenderResult } from "@testing-library/react";
 import { ChartWidget, setupBasicSeries } from "@mendix/shared-charts/main";
 import { listExpression } from "@mendix/widget-plugin-test-utils";
-import { render, RenderResult } from "@testing-library/react";
 import { ColumnChartContainerProps, SeriesType } from "../../typings/ColumnChartProps";
 import { ColumnChart } from "../ColumnChart";
 

@@ -1,7 +1,7 @@
-import { join } from "path";
 import { access } from "fs/promises";
-import { versionSchema } from "./version";
+import { join } from "path";
 import { z } from "zod";
+import { versionSchema } from "./version";
 
 export interface PackageJsonFileContent {
     name?: string;
@@ -67,7 +67,12 @@ export const MarketplaceSchema = z.object({
 
 export const TestProjectSchema = z.object({
     githubUrl: z.string().url(),
-    branchName: z.string().min(3)
+    branchName: z.string().min(3),
+    atlasCoreVersion: z
+        .string()
+        .regex(/^\d+\.\d+\.\d+$/)
+        .optional(),
+    atlasThemeTag: z.string().startsWith("atlasui-theme-files-").optional()
 });
 
 export const RepositorySchema = z.object({
@@ -151,6 +156,15 @@ export async function getPackageFileContent(dirPath: string): Promise<PackageJso
 export async function getPackageInfo(path: string): Promise<PackageInfo> {
     const packageJson = await getPackageFileContent(path);
     return PackageSchema.parse(packageJson);
+}
+
+/**
+ * A package can be released on its own only if it has a Marketplace app number.
+ * A missing number (module-wrapped widget) and `-1` (never published, e.g. the
+ * google-tag module) both mean "not independently releasable".
+ */
+export function isReleasable(info: PackageInfo): boolean {
+    return (info.marketplace.appNumber ?? -1) > 0;
 }
 
 export async function getPublishedInfo(path: string): Promise<PublishedInfo> {

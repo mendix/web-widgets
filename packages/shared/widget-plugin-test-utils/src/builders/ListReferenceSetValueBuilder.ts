@@ -1,8 +1,8 @@
 import { DynamicValue, ListReferenceSetValue, ObjectItem } from "mendix";
+import { Writable } from "./type-utils.js";
 import { dynamic } from "../primitives/dynamic.js";
 import { nanoid } from "../primitives/nanoid.js";
 import { objArray } from "../primitives/objArray.js";
-import { Writable } from "./type-utils.js";
 
 export class ListReferenceSetValueBuilder {
     mock: Writable<ListReferenceSetValue>;

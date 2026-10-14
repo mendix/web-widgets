@@ -1,5 +1,8 @@
 /** Tokens to resolve dependencies from the container. */
 
+import { token } from "brandi";
+import { ListValue, ObjectItem } from "mendix";
+import { ReactNode } from "react";
 import { Serializable } from "@mendix/filter-commons/typings/settings";
 import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter, CombinedFilterConfig } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
@@ -24,9 +27,6 @@ import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-
 import { ComputedAtom, DerivedPropsGate, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { SortAPI } from "@mendix/widget-plugin-sorting/react/context";
 import { SortInstruction } from "@mendix/widget-plugin-sorting/types/store";
-import { token } from "brandi";
-import { ListValue, ObjectItem } from "mendix";
-import { ReactNode } from "react";
 import { ItemEventsViewModel } from "../features/item-interaction/ItemEvents.viewModel";
 import { GallerySettingsSyncService } from "../features/settings-storage/GallerySettingsSync.service";
 import { ObservableStorage } from "../features/settings-storage/storage";
@@ -37,11 +37,11 @@ import { GalleryRootViewModel } from "../view-models/GalleryRoot.viewModel";
 import { GalleryConfig } from "./configs/Gallery.config";
 import { GalleryPaginationConfig } from "./configs/GalleryPagination.config";
 import { GallerySettingsConfig } from "./configs/GallerySettings.config";
+import { ItemKeyProvider } from "./models/items.model";
 import { LayoutService } from "./services/Layout.service";
 import { LoaderService } from "./services/Loader.service";
 import { QueryParamsService } from "./services/QueryParams.service";
 import { TextsService } from "./services/Texts.service";
-import { ItemKeyProvider } from "./models/items.model";
 
 const label = (name: string): string => `Gallery[${name}]`;
 

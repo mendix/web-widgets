@@ -1,8 +1,8 @@
+import { Context, createContext, useContext, useEffect } from "react";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { Context, createContext, useContext, useEffect } from "react";
-import { SortStoreHost } from "../stores/SortStoreHost";
 import { error, Result, value } from "./result-meta";
+import { SortStoreHost } from "../stores/SortStoreHost";
 
 export interface SortAPI {
     version: 1;

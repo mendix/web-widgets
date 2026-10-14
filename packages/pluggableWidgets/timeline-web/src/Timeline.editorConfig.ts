@@ -1,9 +1,9 @@
-import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { hidePropertiesIn, hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
+import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import { TimelinePreviewProps } from "../typings/TimelineProps";
-import lineAndDotSVG from "./assets/lineAndDot.svg";
 import lineAndDotSVGDark from "./assets/lineAndDot-dark.svg";
+import lineAndDotSVG from "./assets/lineAndDot.svg";
 import { getHeaderOption, GroupHeaderConfig } from "./utils/utils";
 
 export function getProperties(values: TimelinePreviewProps, defaultProperties: Properties): Properties {

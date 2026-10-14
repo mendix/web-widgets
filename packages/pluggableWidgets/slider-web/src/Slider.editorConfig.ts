@@ -1,4 +1,3 @@
-import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import {
     hidePropertiesIn,
     hidePropertyIn,
@@ -6,10 +5,11 @@ import {
     Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
+import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import { MaxValueTypeEnum, MinValueTypeEnum, SliderPreviewProps, StepSizeTypeEnum } from "../typings/SliderProps";
-import StructurePreviewSvg from "./assets/structure-preview.svg";
 import StructurePreviewSvgDark from "./assets/structure-preview-dark.svg";
+import StructurePreviewSvg from "./assets/structure-preview.svg";
 
 const keysToHideByMinValueType: Record<MinValueTypeEnum, Array<keyof SliderPreviewProps>> = {
     static: ["minAttribute", "expressionMinimumValue"],

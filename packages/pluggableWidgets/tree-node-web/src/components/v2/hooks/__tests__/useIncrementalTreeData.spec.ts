@@ -70,7 +70,7 @@ describe("useIncrementalTreeData", () => {
             expect(result.current[0].children[0].id).toBe("child");
         });
 
-        it("assigns LOADING on first render, then COLLAPSED_WITH_JS when startExpanded is false", () => {
+        it("assigns COLLAPSED_WITH_JS on first render when startExpanded is false, and never enters LOADING on redelivery (WC-3564 Bug 1)", () => {
             const items = [makeItem("a")];
             const config = makeConfig({ startExpanded: false });
             const { result, rerender } = renderHook(
@@ -78,13 +78,13 @@ describe("useIncrementalTreeData", () => {
                     useIncrementalTreeData(items, config),
                 { initialProps: { items, config } }
             );
-            expect(result.current[0].treeNodeState).toBe(TreeNodeState.LOADING);
-            // Simulate Mendix re-providing items (new array reference)
+            expect(result.current[0].treeNodeState).toBe(TreeNodeState.COLLAPSED_WITH_JS);
+            // Simulate a microflow datasource redelivering the same full result (new array reference).
             rerender({ items: [...items], config });
             expect(result.current[0].treeNodeState).toBe(TreeNodeState.COLLAPSED_WITH_JS);
         });
 
-        it("assigns LOADING on first render, then EXPANDED when startExpanded is true", () => {
+        it("assigns EXPANDED on first render when startExpanded is true, and stays EXPANDED on redelivery (WC-3564 Bug 1)", () => {
             const items = [makeItem("a")];
             const config = makeConfig({ startExpanded: true });
             const { result, rerender } = renderHook(
@@ -92,10 +92,30 @@ describe("useIncrementalTreeData", () => {
                     useIncrementalTreeData(items, config),
                 { initialProps: { items, config } }
             );
-            expect(result.current[0].treeNodeState).toBe(TreeNodeState.LOADING);
-            // Simulate Mendix re-providing items (new array reference)
+            expect(result.current[0].treeNodeState).toBe(TreeNodeState.EXPANDED);
+            // Simulate a microflow datasource redelivering the same full result (new array reference).
             rerender({ items: [...items], config });
             expect(result.current[0].treeNodeState).toBe(TreeNodeState.EXPANDED);
+        });
+
+        it("leaves an unrelated sibling's state untouched when a node's children arrive later (WC-3564 Bug 2)", () => {
+            const parent = makeItem("parent");
+            const sibling = makeItem("sibling");
+            const config = makeConfigWithParentMap({ child: "parent" }, { startExpanded: false });
+
+            const { result, rerender } = renderHook(
+                ({ items }: { items: ObjectItem[] }) => useIncrementalTreeData(items, config),
+                { initialProps: { items: [parent, sibling] } }
+            );
+
+            expect(result.current.find(n => n.id === "parent")!.treeNodeState).toBe(TreeNodeState.COLLAPSED_WITH_JS);
+            expect(result.current.find(n => n.id === "sibling")!.treeNodeState).toBe(TreeNodeState.COLLAPSED_WITH_JS);
+
+            // "parent"'s child arrives later; "sibling" was never involved.
+            rerender({ items: [parent, sibling, makeItem("child")] });
+            expect(result.current.find(n => n.id === "parent")!.children).toHaveLength(1);
+            expect(result.current.find(n => n.id === "sibling")!.treeNodeState).toBe(TreeNodeState.COLLAPSED_WITH_JS);
+            expect(result.current.find(n => n.id === "sibling")!.children).toHaveLength(0);
         });
     });
 
@@ -185,6 +205,141 @@ describe("useIncrementalTreeData", () => {
             rerender({ items: [makeItem("parent"), makeItem("child")] });
 
             expect(result.current[0].children).toHaveLength(1);
+        });
+    });
+
+    describe("reordering (datasource sort order changes)", () => {
+        it("reorders roots when the datasource returns them in a different order", () => {
+            const config = makeConfig();
+
+            const { result, rerender } = renderHook(
+                ({ items }: { items: ObjectItem[] }) => useIncrementalTreeData(items, config),
+                { initialProps: { items: [makeItem("a"), makeItem("b"), makeItem("c")] } }
+            );
+
+            expect(result.current.map(n => n.id)).toEqual(["a", "b", "c"]);
+
+            // same items, new sort order (e.g. sequence attribute changed)
+            rerender({ items: [makeItem("c"), makeItem("a"), makeItem("b")] });
+
+            expect(result.current.map(n => n.id)).toEqual(["c", "a", "b"]);
+        });
+
+        it("reorders children when the datasource returns them in a different order", () => {
+            const config = makeConfigWithParentMap({ parent: undefined, c1: "parent", c2: "parent", c3: "parent" });
+            const makeItems = (childIds: string[]): ObjectItem[] => [
+                makeItem("parent"),
+                ...childIds.map(id => makeItem(id))
+            ];
+
+            const { result, rerender } = renderHook(
+                ({ items }: { items: ObjectItem[] }) => useIncrementalTreeData(items, config),
+                { initialProps: { items: makeItems(["c1", "c2", "c3"]) } }
+            );
+
+            expect(result.current[0].children.map(n => n.id)).toEqual(["c1", "c2", "c3"]);
+
+            rerender({ items: makeItems(["c3", "c1", "c2"]) });
+
+            expect(result.current[0].children.map(n => n.id)).toEqual(["c3", "c1", "c2"]);
+        });
+
+        it("keeps expansion state while reordering", () => {
+            const config = makeConfig({ startExpanded: true });
+
+            const { result, rerender } = renderHook(
+                ({ items }: { items: ObjectItem[] }) => useIncrementalTreeData(items, config),
+                { initialProps: { items: [makeItem("a"), makeItem("b")] } }
+            );
+
+            expect(result.current.every(n => n.treeNodeState === TreeNodeState.EXPANDED)).toBe(true);
+
+            rerender({ items: [makeItem("b"), makeItem("a")] });
+
+            expect(result.current.map(n => n.id)).toEqual(["b", "a"]);
+            expect(result.current.every(n => n.treeNodeState === TreeNodeState.EXPANDED)).toBe(true);
+        });
+    });
+
+    describe("expansion state survives a data refresh", () => {
+        // Nodes are expanded by mutating treeNodeState, which is what TreeNodeV2 does on click.
+        function expand(node: { treeNodeState: TreeNodeState }): void {
+            node.treeNodeState = TreeNodeState.EXPANDED;
+        }
+
+        it("keeps the tree while the datasource is reloading", () => {
+            const config = makeConfig();
+
+            const { result, rerender } = renderHook(
+                ({ items }: { items: ObjectItem[] | undefined }) => useIncrementalTreeData(items, config),
+                { initialProps: { items: [makeItem("a"), makeItem("b")] } as { items: ObjectItem[] | undefined } }
+            );
+
+            expand(result.current[0]);
+
+            // datasource reloading: items is undefined until the new data arrives
+            rerender({ items: undefined });
+
+            expect(result.current.map(n => n.id)).toEqual(["a", "b"]);
+            expect(result.current[0].treeNodeState).toBe(TreeNodeState.EXPANDED);
+
+            rerender({ items: [makeItem("a"), makeItem("b")] });
+
+            expect(result.current[0].treeNodeState).toBe(TreeNodeState.EXPANDED);
+        });
+
+        it("keeps expansion state when config objects are recreated with the same values", () => {
+            const items = [makeItem("a"), makeItem("b")];
+
+            const { result, rerender } = renderHook(
+                ({ items, config }: { items: ObjectItem[]; config: TreeConfigRef }) =>
+                    useIncrementalTreeData(items, config),
+                { initialProps: { items, config: makeConfig() } }
+            );
+
+            expand(result.current[0]);
+
+            // Mendix hands over new prop instances on every refresh, which forces a rebuild
+            rerender({ items: [makeItem("a"), makeItem("b")], config: makeConfig() });
+
+            expect(result.current.map(n => n.id)).toEqual(["a", "b"]);
+            expect(result.current[0].treeNodeState).toBe(TreeNodeState.EXPANDED);
+            expect(result.current[1].treeNodeState).toBe(TreeNodeState.COLLAPSED_WITH_JS);
+        });
+
+        it("keeps expansion state of remaining nodes when an item is removed", () => {
+            const config = makeConfig();
+
+            const { result, rerender } = renderHook(
+                ({ items }: { items: ObjectItem[] }) => useIncrementalTreeData(items, config),
+                { initialProps: { items: [makeItem("a"), makeItem("b"), makeItem("c")] } }
+            );
+
+            expand(result.current[0]);
+
+            rerender({ items: [makeItem("a"), makeItem("c")] });
+
+            expect(result.current.map(n => n.id)).toEqual(["a", "c"]);
+            expect(result.current[0].treeNodeState).toBe(TreeNodeState.EXPANDED);
+        });
+
+        it("keeps a node collapsed after a refresh even when startExpanded is true", () => {
+            const config = makeConfig({ startExpanded: true });
+
+            const { result, rerender } = renderHook(
+                ({ items, config }: { items: ObjectItem[]; config: TreeConfigRef }) =>
+                    useIncrementalTreeData(items, config),
+                { initialProps: { items: [makeItem("a")], config } }
+            );
+
+            expect(result.current[0].treeNodeState).toBe(TreeNodeState.EXPANDED);
+
+            result.current[0].treeNodeState = TreeNodeState.COLLAPSED_WITH_CSS;
+
+            // full rebuild (new config instance, same values)
+            rerender({ items: [makeItem("a")], config: makeConfig({ startExpanded: true }) });
+
+            expect(result.current[0].treeNodeState).toBe(TreeNodeState.COLLAPSED_WITH_CSS);
         });
     });
 

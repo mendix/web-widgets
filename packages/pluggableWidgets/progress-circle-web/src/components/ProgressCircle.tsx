@@ -1,9 +1,9 @@
-import { CSSProperties, FunctionComponent, ReactNode, useCallback, useEffect, useState } from "react";
 import classNames from "classnames";
+import { CSSProperties, FunctionComponent, ReactNode, useCallback, useEffect, useState } from "react";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
+import { calculatePercentage } from "../util";
 import Circle from "./Circle/Circle";
 import { ShapeOptions } from "./Circle/Types";
-import { calculatePercentage } from "../util";
 
 export interface ProgressCircleProps {
     class: string;

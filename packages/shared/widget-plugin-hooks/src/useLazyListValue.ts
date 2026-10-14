@@ -1,7 +1,7 @@
 import type { ListValue, ObjectItem } from "mendix";
 import { useEffect, useMemo, useRef } from "react";
-import { tuple } from "@mendix/widget-plugin-platform/utils/tuple";
 import { throttle } from "@mendix/widget-plugin-platform/utils/throttle";
+import { tuple } from "@mendix/widget-plugin-platform/utils/tuple";
 
 type GetItems = () => void;
 type LoadMore = () => void;

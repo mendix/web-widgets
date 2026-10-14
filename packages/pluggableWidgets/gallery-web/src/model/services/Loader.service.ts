@@ -1,5 +1,5 @@
-import { QueryService } from "@mendix/widget-plugin-grid/main";
 import { computed, makeObservable } from "mobx";
+import { QueryService } from "@mendix/widget-plugin-grid/main";
 
 export class LoaderService {
     constructor(

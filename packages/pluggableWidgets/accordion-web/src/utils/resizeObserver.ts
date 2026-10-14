@@ -1,5 +1,5 @@
-import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { RefObject, useEffect, useMemo } from "react";
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import "../ui/accordion-main.scss";
 
 type ResizeObserverProps = {

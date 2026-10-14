@@ -11,6 +11,9 @@ import importPlugin from "eslint-plugin-import";
 
 export default defineConfig(
     {
+        ignores: ["typings/", "dist/"]
+    },
+    {
         name: "generic eslint",
         extends: [eslint.configs.recommended, importPlugin.flatConfigs.recommended],
         settings: {

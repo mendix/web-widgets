@@ -58,8 +58,8 @@ test.describe("datagrid-date-filter-web", () => {
 
     test.describe("with Default value", () => {
         test("set initial condition (apply filter right after load)", async ({ page }) => {
-            await page.goto("/#/filter_init_condition", { timeout: 1000 });
-            await page.reload();
+            await page.goto("/p/filter_init_condition");
+            await waitForMendixApp(page);
             const row1 = page.locator(".mx-name-dataGrid22 [role=row]").nth(1);
             await expect(row1).toHaveText("Chester2/20/2003");
             const row7 = page.locator(".mx-name-dataGrid22 [role=row]").nth(7);
@@ -71,8 +71,8 @@ test.describe("datagrid-date-filter-web", () => {
 
     test.describe("with Default start and Default end dates", () => {
         test("set initial condition (apply filter right after load)", async ({ page }) => {
-            await page.goto("/#/filter_init_condition", { timeout: 1000 });
-            await page.reload();
+            await page.goto("/p/filter_init_condition");
+            await waitForMendixApp(page);
             const row1 = page.locator(".mx-name-dataGrid21 [role=row]").nth(1);
             await expect(row1).toHaveText("Jayden4/21/1993");
             const row10 = page.locator(".mx-name-dataGrid21 [role=row]").nth(10);

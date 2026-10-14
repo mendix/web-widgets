@@ -3,7 +3,20 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, DynamicValue, EditableValue, ListActionValue, ListAttributeListValue, ListAttributeValue, ListExpressionValue, ListValue, ListWidgetValue, SelectionMultiValue, SelectionSingleValue } from "mendix";
+import {
+    ActionValue,
+    DynamicValue,
+    EditableValue,
+    ListActionValue,
+    ListAttributeListValue,
+    ListAttributeValue,
+    ListExpressionValue,
+    ListValue,
+    ListWidgetValue,
+    Option,
+    SelectionMultiValue,
+    SelectionSingleValue
+} from "mendix";
 import { ComponentType, CSSProperties, ReactNode } from "react";
 import { Big } from "big.js";
 
@@ -21,7 +34,8 @@ export type AlignmentEnum = "left" | "center" | "right";
 
 export interface ColumnsType {
     showContentAs: ShowContentAsEnum;
-    attribute?: ListAttributeValue<string | Big | boolean | Date> | ListAttributeListValue<string | Big | boolean | Date>;
+    attribute?:
+        ListAttributeValue<string | Big | boolean | Date> | ListAttributeListValue<string | Big | boolean | Date>;
     content?: ListWidgetValue;
     dynamicText?: ListExpressionValue<string>;
     exportValue?: ListExpressionValue<string>;
@@ -105,6 +119,25 @@ export interface DatagridContainerProps {
     onClickTrigger: OnClickTriggerEnum;
     onClick?: ListActionValue;
     onSelectionChange?: ActionValue;
+    onBeforeExport?: ActionValue<{
+        gridName: Option<string>;
+        columnTitles: Option<string>;
+        chunkSize: Option<Big>;
+        fileName: Option<string>;
+        sheetName: Option<string>;
+        startTime: Option<Date>;
+    }>;
+    onAfterExport?: ActionValue<{
+        gridName: Option<string>;
+        columnTitles: Option<string>;
+        chunkSize: Option<Big>;
+        fileName: Option<string>;
+        sheetName: Option<string>;
+        exportedItemCount: Option<Big>;
+        status: Option<string>;
+        startTime: Option<Date>;
+        endTime: Option<Date>;
+    }>;
     filtersPlaceholder?: ReactNode;
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     itemSelectionMethod: ItemSelectionMethodEnum;
@@ -173,6 +206,8 @@ export interface DatagridPreviewProps {
     onClickTrigger: OnClickTriggerEnum;
     onClick: {} | null;
     onSelectionChange: {} | null;
+    onBeforeExport: {} | null;
+    onAfterExport: {} | null;
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     itemSelection: "None" | "Single" | "Multi";
     itemSelectionMethod: ItemSelectionMethodEnum;

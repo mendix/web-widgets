@@ -1,6 +1,6 @@
-import { ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { ObjectItem } from "mendix";
 import { computed, observable } from "mobx";
+import { ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { GalleryGateProps } from "../../typings/GalleryGateProps";
 
 /** @injectable */

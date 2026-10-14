@@ -20,10 +20,7 @@ export type Params = {
 };
 
 type StringFilterFunction =
-    | FilterFunctionString
-    | FilterFunctionGeneric
-    | FilterFunctionNonValue
-    | FilterFunctionBinary;
+    FilterFunctionString | FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 
 export class StringFilterController {
     private filter: String_InputFilterInterface;

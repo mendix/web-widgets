@@ -1,3 +1,4 @@
+import { DocumentViewerPreviewProps } from "typings/DocumentViewerProps";
 import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 import {
     container,
@@ -7,7 +8,6 @@ import {
     StructurePreviewProps,
     text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { DocumentViewerPreviewProps } from "typings/DocumentViewerProps";
 
 export function getProperties(values: DocumentViewerPreviewProps, defaultProperties: Properties): Properties {
     if (values.widthUnit === "contentFit") {

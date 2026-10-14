@@ -1,8 +1,8 @@
+import { observer } from "mobx-react-lite";
+import { ReactElement } from "react";
 import { getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
 import { getGlobalSelectionContext, useCreateSelectionContextValue } from "@mendix/widget-plugin-grid/selection";
 import { getGlobalSortContext } from "@mendix/widget-plugin-sorting/react/context";
-import { observer } from "mobx-react-lite";
-import { ReactElement } from "react";
 import { useFilterAPI, useMainGate, useSelectionHelper, useSortAPI } from "../model/hooks/injection-hooks";
 
 const SelectionContext = getGlobalSelectionContext();

@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.6.1] - 2026-10-08
+
+### Changed
+
+- We replaced the glyphicons in the toolbar previous and next buttons with Atlas icons.
+
+## [2.6.0] - 2026-08-24
+
+### Added
+
+- We added a Year view, showing all 12 months at a glance with event indicators. You can choose which view opens when a day is clicked (Day, Week, Work week, Month, or Agenda).
+
+### Breaking changes
+
+- The new year view addition will be part of the standard view. This will be directly visible if you are currently using standard view mode in calendar.
+
+## [2.5.0] - 2026-07-28
+
 ### Added
 
 - We added a `showMultiDayTimes` property to control whether start/end times are displayed for multi-day events in the calendar.

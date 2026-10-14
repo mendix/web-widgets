@@ -1,16 +1,17 @@
+import { Big } from "big.js";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { TaskProgressService } from "@mendix/widget-plugin-grid/main";
-import { useCallback, useEffect, useState } from "react";
-import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { IColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
 import { ExportController } from "./ExportController";
 import { getExportRegistry } from "./registry";
+import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { IColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
 
 type ResourceEntry = {
     key: string;
     controller: ExportController;
 };
 
-type Props = Pick<DatagridContainerProps, "name" | "datasource" | "columns">;
+type Props = Pick<DatagridContainerProps, "name" | "datasource" | "columns" | "onBeforeExport" | "onAfterExport">;
 
 export function useDataExport(
     props: Props,
@@ -19,6 +20,10 @@ export function useDataExport(
 ): [abort: () => void] {
     const [entry] = useState(() => createEntry(props.name, progress));
     const abort = useCallback(() => entry?.controller.abort(), [entry]);
+    const onBeforeExportRef = useRef(props.onBeforeExport);
+    onBeforeExportRef.current = props.onBeforeExport;
+    const onAfterExportRef = useRef(props.onAfterExport);
+    onAfterExportRef.current = props.onAfterExport;
 
     // Remove entry when widget unmounted.
     useEffect(() => {
@@ -44,13 +49,48 @@ export function useDataExport(
         );
     }, [columnsStore.visibleColumns, entry]);
 
+    useEffect(() => {
+        return entry.controller.on("beforeexport", args => {
+            const action = onBeforeExportRef.current;
+            if (action?.canExecute) {
+                action.execute({
+                    gridName: args.gridName,
+                    columnTitles: args.columnTitles,
+                    chunkSize: new Big(args.chunkSize),
+                    fileName: args.fileName,
+                    sheetName: args.sheetName,
+                    startTime: args.startTime
+                });
+            }
+        });
+    }, [entry]);
+
+    useEffect(() => {
+        return entry.controller.on("afterexport", args => {
+            const action = onAfterExportRef.current;
+            if (action?.canExecute) {
+                action.execute({
+                    gridName: args.gridName,
+                    columnTitles: args.columnTitles,
+                    chunkSize: new Big(args.chunkSize),
+                    fileName: args.fileName,
+                    sheetName: args.sheetName,
+                    exportedItemCount: new Big(args.exportedItemCount),
+                    status: args.status,
+                    startTime: args.startTime,
+                    endTime: args.endTime
+                });
+            }
+        });
+    }, [entry]);
+
     return [abort];
 }
 
 function createEntry(name: string, progress: TaskProgressService): ResourceEntry {
     return {
         key: name,
-        controller: new ExportController(progress)
+        controller: new ExportController(name, progress)
     };
 }
 

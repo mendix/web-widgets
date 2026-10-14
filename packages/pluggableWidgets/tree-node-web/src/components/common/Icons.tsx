@@ -1,7 +1,7 @@
-import { ReactElement } from "react";
-import { WebIcon } from "mendix";
 import classNames from "classnames";
+import { WebIcon } from "mendix";
 import { Icon } from "mendix/components/web/Icon";
+import { ReactElement } from "react";
 
 export const ChevronIcon = ({ className }: { className: string }): ReactElement => (
     <svg

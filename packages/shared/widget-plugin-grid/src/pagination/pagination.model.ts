@@ -1,6 +1,6 @@
-import { ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { action, computed } from "mobx";
 import { ReactNode } from "react";
+import { ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { QueryService } from "../main";
 
 /** Atom for the dynamic page index provided by the widget's props. */

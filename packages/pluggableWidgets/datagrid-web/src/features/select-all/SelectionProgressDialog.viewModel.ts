@@ -1,7 +1,7 @@
-import { SelectAllService, TaskProgressService } from "@mendix/widget-plugin-grid/main";
-import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { DynamicValue } from "mendix";
 import { action, makeAutoObservable, reaction } from "mobx";
+import { SelectAllService, TaskProgressService } from "@mendix/widget-plugin-grid/main";
+import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 
 interface DynamicProps {
     selectAllRowsLabel?: DynamicValue<string>;

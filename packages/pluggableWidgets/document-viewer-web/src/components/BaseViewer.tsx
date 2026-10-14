@@ -1,7 +1,7 @@
 import { CSSProperties, Fragment, PropsWithChildren, ReactElement, ReactNode, useCallback } from "react";
-import { useZoomScale } from "../utils/useZoomScale";
 import { DocumentViewerContainerProps } from "../../typings/DocumentViewerProps";
 import { downloadFile } from "../utils/helpers";
+import { useZoomScale } from "../utils/useZoomScale";
 
 type FileFormat = {
     status: "available";
@@ -19,10 +19,11 @@ interface BaseControlViewerProps extends PropsWithChildren {
 interface BaseViewerProps extends PropsWithChildren {
     fileName: string;
     CustomControl?: ReactNode;
+    SecondaryControl?: ReactNode;
 }
 
 const BaseViewer = (props: BaseViewerProps): ReactElement => {
-    const { fileName, CustomControl, children } = props;
+    const { fileName, CustomControl, SecondaryControl, children } = props;
     return (
         <Fragment>
             <div className="widget-document-viewer-controls">
@@ -31,6 +32,7 @@ const BaseViewer = (props: BaseViewerProps): ReactElement => {
                 </div>
                 <div className="widget-document-viewer-controls-icons">{CustomControl}</div>
             </div>
+            {SecondaryControl}
             <div className="widget-document-viewer-content">{children}</div>
         </Fragment>
     );

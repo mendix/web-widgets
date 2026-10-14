@@ -1,8 +1,8 @@
-import { Button } from "@mendix/widget-plugin-component-kit/Button";
-import { IconInternal } from "@mendix/widget-plugin-component-kit/IconInternal";
 import classNames from "classnames";
 import { ReactElement, useCallback } from "react";
 import { Navigate, ToolbarProps, View } from "react-big-calendar";
+import { Button } from "@mendix/widget-plugin-component-kit/Button";
+import { IconInternal } from "@mendix/widget-plugin-component-kit/IconInternal";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 export function CustomToolbar({ label, localizer, onNavigate, onView, view, views }: ToolbarProps): ReactElement {
@@ -15,13 +15,13 @@ export function CustomToolbar({ label, localizer, onNavigate, onView, view, view
         <div className="calendar-toolbar">
             <div className="btn-group calendar-toolbar-left">
                 <Button className="btn btn-default" onClick={handlePrev}>
-                    <IconInternal icon={{ type: "glyph", iconClass: "glyphicon-backward" }} />
+                    <IconInternal icon={{ type: "icon", iconClass: "mx-icon-filled mx-icon-controls-backward" }} />
                 </Button>
                 <Button className="btn btn-default" onClick={handleToday}>
                     {localizer.messages.today}
                 </Button>
                 <Button className="btn btn-default" onClick={handleNext}>
-                    <IconInternal icon={{ type: "glyph", iconClass: "glyphicon-forward" }} />
+                    <IconInternal icon={{ type: "icon", iconClass: "mx-icon-filled mx-icon-controls-forward" }} />
                 </Button>
             </div>
 
@@ -32,13 +32,16 @@ export function CustomToolbar({ label, localizer, onNavigate, onView, view, view
             <div className="btn-group calendar-toolbar-right">
                 {Array.isArray(views) &&
                     views.map(name => {
+                        // react-big-calendar's Messages type has no "year" key (year is a custom view),
+                        // so fall back to a literal caption for it, same as createConfigurableToolbar does.
+                        const caption = (name as string) === "year" ? "Year" : localizer.messages[name];
                         return (
                             <Button
                                 key={name}
                                 onClick={() => handleView(name)}
                                 className={classNames("btn", "btn-default", { active: view === name })}
                             >
-                                {localizer.messages[name]}
+                                {caption}
                             </Button>
                         );
                     })}
@@ -48,7 +51,7 @@ export function CustomToolbar({ label, localizer, onNavigate, onView, view, view
 }
 
 export type ResolvedToolbarItem = {
-    itemType: "previous" | "today" | "next" | "title" | "month" | "week" | "work_week" | "day" | "agenda";
+    itemType: "previous" | "today" | "next" | "title" | "month" | "week" | "work_week" | "day" | "agenda" | "year";
     position: "left" | "center" | "right";
     caption?: string;
     renderMode: "button" | "link";
@@ -110,7 +113,7 @@ export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props:
                 case "previous":
                     return renderButton(
                         "prev",
-                        <IconInternal icon={{ type: "glyph", iconClass: "glyphicon-backward" }} />,
+                        <IconInternal icon={{ type: "icon", iconClass: "mx-icon-filled mx-icon-controls-backward" }} />,
                         () => onNavigate(Navigate.PREVIOUS),
                         false,
                         item.renderMode,
@@ -131,7 +134,7 @@ export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props:
                 case "next":
                     return renderButton(
                         "next",
-                        <IconInternal icon={{ type: "glyph", iconClass: "glyphicon-forward" }} />,
+                        <IconInternal icon={{ type: "icon", iconClass: "mx-icon-filled mx-icon-controls-forward" }} />,
                         () => onNavigate(Navigate.NEXT),
                         false,
                         item.renderMode,
@@ -149,13 +152,16 @@ export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props:
                 case "week":
                 case "work_week":
                 case "day":
-                case "agenda": {
-                    const name = item.itemType as View;
+                case "agenda":
+                case "year": {
+                    const name = item.itemType as View | "year";
                     // Provide default caption from localizer messages if not specified
-                    const caption = item.caption || localizer.messages[name];
+                    // For year view, use custom caption or fallback to "Year"
+                    const caption = item.caption || (name === "year" ? "Year" : localizer.messages[name as View]);
                     return renderButton(
                         name,
                         caption as unknown as ReactElement,
+                        // @ts-expect-error - year view is custom, onView accepts it at runtime
                         () => onView(name),
                         view === name,
                         item.renderMode,

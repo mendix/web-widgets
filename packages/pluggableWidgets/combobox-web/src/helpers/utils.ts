@@ -1,9 +1,9 @@
 import { Big } from "big.js";
 import { matchSorter, MatchSorterOptions } from "match-sorter";
+import { ObjectItem } from "mendix";
 import { createElement, PropsWithChildren, ReactElement } from "react";
 import { ComboboxPreviewProps, FilterTypeEnum, SelectedItemsSortingEnum } from "typings/ComboboxProps";
 import { MultiSelector, SortOrder } from "./types";
-import { ObjectItem } from "mendix";
 
 export const DEFAULT_LIMIT_SIZE = 100;
 

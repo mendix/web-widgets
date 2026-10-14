@@ -8,7 +8,8 @@ import { ComponentType, CSSProperties, ReactNode } from "react";
 
 export type HeaderRenderModeEnum = "text" | "custom";
 
-export type HeaderHeadingEnum = "headingOne" | "headingTwo" | "headingThree" | "headingFour" | "headingFive" | "headingSix";
+export type HeaderHeadingEnum =
+    "headingOne" | "headingTwo" | "headingThree" | "headingFour" | "headingFive" | "headingSix";
 
 export type LoadContentEnum = "always" | "whenExpanded";
 
@@ -81,8 +82,20 @@ export interface AccordionPreviewProps {
     expandBehavior: ExpandBehaviorEnum;
     animate: boolean;
     showIcon: ShowIconEnum;
-    icon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
-    expandIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
-    collapseIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
+    icon:
+        | { type: "glyph"; iconClass: string }
+        | { type: "image"; imageUrl: string; iconUrl: string }
+        | { type: "icon"; iconClass: string }
+        | undefined;
+    expandIcon:
+        | { type: "glyph"; iconClass: string }
+        | { type: "image"; imageUrl: string; iconUrl: string }
+        | { type: "icon"; iconClass: string }
+        | undefined;
+    collapseIcon:
+        | { type: "glyph"; iconClass: string }
+        | { type: "image"; imageUrl: string; iconUrl: string }
+        | { type: "icon"; iconClass: string }
+        | undefined;
     animateIcon: boolean;
 }

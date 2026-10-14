@@ -1,9 +1,10 @@
+import { action, autorun, comparer, computed, IReactionDisposer, makeObservable, reaction } from "mobx";
 import { FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
 import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
 import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { action, autorun, comparer, computed, IReactionDisposer, makeObservable, reaction } from "mobx";
+import { ColumnGroupStore } from "./ColumnGroupStore";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { ColumnId } from "../../typings/GridColumn";
 import {
@@ -15,7 +16,6 @@ import { getHash } from "../../utils/columns-hash";
 import { AttributePersonalizationStorage } from "../storage/AttributePersonalizationStorage";
 import { LocalStoragePersonalizationStorage } from "../storage/LocalStoragePersonalizationStorage";
 import { PersonalizationStorage } from "../storage/PersonalizationStorage";
-import { ColumnGroupStore } from "./ColumnGroupStore";
 
 type RequiredProps = Pick<
     DatagridContainerProps,

@@ -1,7 +1,7 @@
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue, EditableValue } from "mendix";
 import { IReactionDisposer, reaction } from "mobx";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 
 interface Props {
     valueAttribute?: EditableValue<string>;

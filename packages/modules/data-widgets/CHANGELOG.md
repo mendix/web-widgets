@@ -6,11 +6,136 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.7] DataWidgets - 2026-10-02
+
+### Fixed
+
+- We fixed an issue where the focus outline of column header filter inputs was clipped.
+
+- We fixed an issue where the dropdown filter's clear and toggle indicators visually overflowed the filter button in narrow columns.
+
+- We fixed an issue where filters and inputs overflowed their headers and cells in narrow columns.
+
+- We fixed an issue where rows with editable widgets were taller than necessary.
+
+### Datagrid
+
+#### Fixed
+
+- We fixed an issue where the "Column size" property appeared away from the "Column width" property it depends on in the column Appearance tab in Studio Pro.
+
+### Gallery
+
+#### Fixed
+
+- We fixed an issue where SPACE and ENTER keyboard events were blocked in interactive elements (inputs, textareas, buttons) nested within gallery items. These keys now work normally in nested inputs while still triggering gallery item selection when pressed on the item itself.
+
+### TreeNode
+
+#### Fixed
+
+- We fixed an issue where the tree did not reflect a new data source sort order (for example after changing a sequence attribute) until the page was reopened.
+
+- We fixed an issue where all nodes collapsed when the data source refreshed. Expanded and collapsed nodes now keep their state, and the tree no longer clears while the data source is reloading.
+
+- We fixed an issue where a node did not show that it has children after a child was added to it. Expanding a node now always pre-loads one level ahead, also for children that arrive after the expansion, which restores the missing expand icon on nodes deeper than two levels.
+
+- We fixed an issue where a tree node's loading spinner would never disappear when using a microflow data source with "Start expanded" set to yes.
+
+- We fixed an issue where expanding one node could permanently remove the expand icon from an unrelated, unexpanded node elsewhere in the tree when using a microflow data source.
+
+- We fixed an issue where a node's expand icon for a deeper tier would not appear until that node was collapsed and expanded again.
+
+- We fixed an issue where, with "Start expanded" set to yes, tree nodes deeper than the second level would not show an expand icon until a parent node was manually collapsed and expanded again.
+
+- We fixed an issue where nodes shown after the data source was filtered elsewhere on the page (for example by a gallery or a list view acting as a filter) had no expand icon and could not be opened at all, even though they had children.
+
+## [3.11.6] DataWidgets - 2026-09-18
+
+### Datagrid
+
+#### Fixed
+
+- We fixed an issue where custom pagination ignored "Position of pagination" and always rendered below the grid. It now renders above the grid, below the grid, or — for "Both" — once, below the grid.
+
+- We fixed an issue where exporting a date column to Excel could write the previous calendar day, or add a time that is not shown in the grid. Exported dates and times now match what the grid displays, regardless of the time zone.
+
+## [3.11.5] DataWidgets - 2026-09-10
+
+### DatagridDateFilter
+
+#### Changed
+
+- We updated the calendar picker, improving how screen readers announce the day-name row and the open calendar.
+
+### Datagrid
+
+#### Fixed
+
+- We fixed an issue where the top bar did not stack its content vertically in narrow containers.
+
+#### Added
+
+- We added two optional export event actions — **On before export** and **On after export** — so developers can log export operations via a microflow or nanoflow. `On before export` fires just before the export starts and provides the grid name, visible column titles, chunk size, file name, sheet name, and start time. `On after export` fires after the export finishes (whether completed or canceled) and also provides the total number of exported rows, a status string (`"success"` or `"aborted"`), and an end time.
+
+### Gallery
+
+#### Changed
+
+- The pagination alignment design property now offers Left, Center and Right, and is applied above and below the gallery. Aligning the pagination moves the selection count or the load more button aside so both stay visible on the same row.
+
+#### Fixed
+
+- We fixed the pagination alignment design property, which had no effect on the position of the pagination controls.
+
+- We fixed an issue where custom pagination widgets always rendered below the gallery, ignoring the "Position of pagination" setting. Selecting "Above grid" now renders them above the gallery, and the page editor shows them in the same place as the running app. With "Both" selected, custom pagination widgets render once, below the gallery.
+
+## [3.11.4] DataWidgets - 2026-08-24
+
+### [3.11.4] DropdownSort
+
+#### Fixed
+
+- We fixed React console warnings from uncontrolled input elements.
+
+### [3.11.4] Gallery
+
+#### Fixed
+
+- We fixed an issue where the Gallery widget could crash with an "invalid attribute id" error when a stored sort order referenced an attribute that was no longer available. The widget now falls back to the default sort order instead.
+
+- We fixed an issue in Studio Pro design mode where widgets placed inside a gallery item could not be selected or hovered. Double-clicking them opened the properties of the surrounding container instead.
+
+## [3.11.3] DataWidgets - 2026-07-27
+
+### [3.11.3] DatagridDropdownFilter
+
+#### Fixed
+
+- We fixed an issue with option filtering not working correctly with IME input methods.
+
+### [3.11.3] Datagrid
+
+#### Added
+
+- We added support for using the attribute's own formatting when exporting to Excel with the "Default" export type. Numbers now export as numeric cells that mirror the grid's decimals and thousands grouping, and dates export using their configured pattern, instead of unformatted values.
+
+#### Fixed
+
+- We fixed an issue where export type and format properties were visible in Studio Pro for dynamic text columns, even though they have no effect.
+
+### [3.11.3] Gallery
+
+#### Fixed
+
+- We fixed an issue where "Reset All Filters" and "Clear Selection" JavaScript actions did not work with the Gallery widget. Event listeners were not registered despite the required infrastructure being in place.
+
 ## [3.11.2] DataWidgets - 2026-06-24
 
 ### Fixed
 
 - We fixed an issue with Data Widgets not working in Dojo client in some cases.
+
 - We fixed an issue with unexpected changes in JavaScript actions of Data Widgets module.
 
 ## [3.11.1] DataWidgets - 2026-06-18

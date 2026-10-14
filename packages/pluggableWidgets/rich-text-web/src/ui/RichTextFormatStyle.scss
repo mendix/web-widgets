@@ -1,0 +1,114 @@
+@use "variables";
+
+.widget-rich-text {
+    @each $name, $font in variables.$fonts {
+        .font-family-#{$name} {
+            @include variables.font($font);
+        }
+
+        .tiptap-toolbar {
+            [data-value="#{$name}"] {
+                @include variables.font($font);
+            }
+        }
+    }
+
+    @for $i from 1 through 10 {
+        .indent-#{$i} {
+            padding-left: #{$i * 3}px;
+        }
+
+        // Lists indent as a block via margin, keeping their marker gutter
+        // (padding-left) intact so numbers/bullets are not collapsed. Matches the
+        // inline-mode margin step (2em per level).
+        ol.indent-#{$i},
+        ul.indent-#{$i} {
+            padding-left: max(1.5em, calc(var(--rt-marker-max-size, 0px) * (0.6 * var(--rt-marker-chars, 1) + 0.5)));
+            margin-left: #{$i * 2}em;
+        }
+    }
+
+    p {
+        line-height: var(--line-height-base, 1);
+        margin: 0;
+    }
+
+    .has-text-color {
+        color: attr(data-text-color type(<color>));
+    }
+
+    .has-text-highlight {
+        background-color: attr(data-text-highlight type(<color>));
+    }
+
+    .has-background-color {
+        background-color: attr(data-background-color type(<color>));
+    }
+
+    .has-font-family {
+        font-family: attr(data-font-family raw-string);
+    }
+
+    .has-font-size {
+        font-size: attr(data-font-size px);
+    }
+
+    // List marker format, class mode. These feed the same `--rt-marker-*` custom properties
+    // that inline mode writes directly, so `li::marker` in RichText.scss stays the single
+    // consumption point for both modes. Setting the font properties on `::marker` here
+    // instead would lose to that rule, which is both more specific and later in source
+    // order (`@use` hoists this file above it).
+    .has-marker-font-size {
+        --rt-marker-font-size: attr(data-marker-font-size px);
+    }
+
+    .has-marker-color {
+        --rt-marker-color: attr(data-marker-color type(<color>));
+    }
+
+    .has-marker-font-family {
+        --rt-marker-font-family: attr(data-marker-font-family raw-string);
+    }
+
+    .has-marker-bold {
+        --rt-marker-font-weight: bold;
+    }
+
+    .has-marker-italic {
+        --rt-marker-font-style: italic;
+    }
+
+    // Widens the marker gutter on the list itself; consumed by the `ol`/`ul` padding rules.
+    .has-marker-gutter {
+        --rt-marker-max-size: attr(data-marker-max-size px);
+    }
+
+    // Only present when the longest counter takes more than one character.
+    .has-marker-chars {
+        --rt-marker-chars: attr(data-marker-chars type(<number>));
+    }
+
+    .text-align-left {
+        text-align: left;
+    }
+
+    .text-align-center {
+        text-align: center;
+    }
+
+    .text-align-right {
+        text-align: right;
+    }
+
+    .text-align-justify {
+        text-align: justify;
+    }
+
+    .has-table-border,
+    .has-cell-border,
+    .has-border {
+        border-width: (attr(data-border-width px) or 1px);
+        border-style: attr(data-border-style type(*)) or solid;
+        border-color: (attr(data-border-color type(<color>)) or var(--color-neutral-300, #d9d9d9));
+    }
+}

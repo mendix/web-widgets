@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { ReactElement } from "react";
 import { BarcodeGeneratorContainerProps } from "../typings/BarcodeGeneratorProps";
 import { BarcodeRenderer } from "./components/Barcode";
+import { DataMatrixRenderer } from "./components/DataMatrix";
 import { QRCodeRenderer } from "./components/QRCode";
 import { barcodeConfig } from "./config/Barcode.config";
 
@@ -22,7 +23,13 @@ export default function BarcodeGenerator(props: BarcodeGeneratorContainerProps):
             tabIndex={props.tabIndex}
             style={props.style}
         >
-            {config.type === "qrcode" ? <QRCodeRenderer config={config} /> : <BarcodeRenderer config={config} />}
+            {config.type === "qrcode" ? (
+                <QRCodeRenderer config={config} />
+            ) : config.type === "datamatrix" ? (
+                <DataMatrixRenderer config={config} />
+            ) : (
+                <BarcodeRenderer config={config} />
+            )}
         </div>
     );
 }

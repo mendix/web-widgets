@@ -1,6 +1,6 @@
 import { ReactElement, ReactNode } from "react";
-import { CustomChartPreviewProps } from "../typings/CustomChartProps";
 import CustomChart from "./CustomChart";
+import { CustomChartPreviewProps } from "../typings/CustomChartProps";
 
 const defaultSampleData = `[{
     "type": "scatter",

@@ -1,8 +1,8 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Document, pdfjs } from "react-pdf";
-import PDFViewer from "../PDFViewer";
 import type { DocumentRendererProps } from "../documentRenderer";
+import PDFViewer from "../PDFViewer";
 
 jest.mock("react-pdf", () => ({
     Document: jest.fn((props: { children?: unknown }) => props.children ?? null),
@@ -42,27 +42,9 @@ describe("PDFViewer resource URL resolution", () => {
         window.mx = originalMx;
     });
 
-    /**
-     * Re-evaluates the PDFViewer module against the current `window` state and
-     * returns the resource `options` passed down to react-pdf's `Document`.
-     * The `origin` constant is computed at module load, so the module must be
-     * re-imported between cases for the different `window.mx` states to take effect.
-     */
     function loadOptions(): { cMapUrl: string; standardFontDataUrl: string } {
-        jest.resetModules();
-        // Re-require React, RTL, react-pdf and PDFViewer together so they all share
-        // the same freshly-evaluated React instance (resetModules resets React too).
-        /* eslint-disable @typescript-eslint/no-require-imports */
-        const { createElement } = require("react");
-        const { render: renderFresh } = require("@testing-library/react");
-        const reactPdf = require("react-pdf");
-        const FreshPDFViewer = require("../PDFViewer").default;
-        /* eslint-enable @typescript-eslint/no-require-imports */
-
-        renderFresh(createElement(FreshPDFViewer, buildProps()));
-
-        const calls = (reactPdf.Document as jest.Mock).mock.calls;
-        return calls[calls.length - 1][0].options;
+        render(<PDFViewer {...buildProps()} />);
+        return lastDocumentProps().options;
     }
 
     it("uses mx.appUrl to build absolute cMap and standard font URLs", () => {

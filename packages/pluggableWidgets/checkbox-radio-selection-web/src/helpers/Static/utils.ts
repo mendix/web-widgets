@@ -1,5 +1,5 @@
-import { ActionValue, DynamicValue, EditableValue, ValueStatus } from "mendix";
 import { Big } from "big.js";
+import { ActionValue, DynamicValue, EditableValue, ValueStatus } from "mendix";
 import {
     CheckboxRadioSelectionContainerProps,
     OptionsSourceCustomContentTypeEnum,
@@ -25,7 +25,7 @@ export function extractStaticProps(
         value: ""
     };
 
-    // Checkbox Radio Selection controls don't need clearable like combobox does
+    // Option Selector controls don't need clearable like combobox does
     const clearable = false;
 
     const onChangeEvent = props.onChangeEvent;

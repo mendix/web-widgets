@@ -8,7 +8,8 @@ import { ComponentType, CSSProperties, ReactNode } from "react";
 
 export type ItemTypeEnum = "item" | "divider";
 
-export type StyleClassEnum = "defaultStyle" | "inverseStyle" | "primaryStyle" | "infoStyle" | "successStyle" | "warningStyle" | "dangerStyle";
+export type StyleClassEnum =
+    "defaultStyle" | "inverseStyle" | "primaryStyle" | "infoStyle" | "successStyle" | "warningStyle" | "dangerStyle";
 
 export interface BasicItemsType {
     itemType: ItemTypeEnum;

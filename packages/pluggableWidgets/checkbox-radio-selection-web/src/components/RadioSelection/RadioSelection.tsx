@@ -1,11 +1,11 @@
-import { If } from "@mendix/widget-plugin-component-kit/If";
 import classNames from "classnames";
 import { ChangeEvent, MouseEvent, ReactElement } from "react";
+import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
+import { If } from "@mendix/widget-plugin-component-kit/If";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
 import { getValidationErrorId } from "../../helpers/utils";
 import { useWrapperProps } from "../../hooks/useWrapperProps";
 import { CaptionContent } from "../CaptionContent";
-import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
 import { Placeholder } from "../Placeholder";
 
 export function RadioSelection({

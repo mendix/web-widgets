@@ -1,7 +1,7 @@
-import { useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import classNames from "classnames";
 import { observer } from "mobx-react-lite";
 import { PropsWithChildren, ReactElement } from "react";
+import { useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import { usePaginationConfig, usePaginationVM } from "../model/hooks/injection-hooks";
 
 export const GalleryContent = observer(function GalleryContent({ children }: PropsWithChildren): ReactElement {

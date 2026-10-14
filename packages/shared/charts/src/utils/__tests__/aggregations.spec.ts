@@ -1,5 +1,5 @@
-import { aggregateDataPoints, AggregationType } from "../aggregations";
 import { PlotChartDataPoints } from "../../hooks/usePlotChartDataSeries";
+import { aggregateDataPoints, AggregationType } from "../aggregations";
 
 describe("aggregateDataPoints", () => {
     const createMockDataPoints = (

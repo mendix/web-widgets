@@ -31,10 +31,24 @@ export function useIncrementalTreeData(items: ObjectItem[] | undefined, config: 
     const placementByIdRef = useRef<Map<string, NodePlacement>>(new Map());
     const previousIdsRef = useRef<Set<string>>(new Set());
     const previousConfigRef = useRef<TreeConfigRef | null>(null);
+    // Expanded/collapsed state per item id, kept across rebuilds so a data refresh does not
+    // collapse the tree. A rebuild is unavoidable for a config-reference change or a removed
+    // item, but it does not have to be destructive.
+    const statesByIdRef = useRef<Map<string, TreeNodeState>>(new Map());
 
     useEffect(() => {
-        const sourceItems = items ?? [];
+        if (items === undefined) {
+            // Datasource is (re)loading. Keep the tree we already built instead of reading
+            // undefined as an empty list, which would look like every item was removed.
+            return;
+        }
+
+        const sourceItems = items;
         const incomingIds = new Set<string>(sourceItems.map(getItemId));
+        // The datasource order (e.g. a sort on a sequence attribute) is the source of truth for
+        // root and sibling order, and has to be re-applied on every update, not only when an id
+        // is first seen.
+        const orderById = new Map<string, number>(sourceItems.map((item, index) => [getItemId(item), index]));
 
         const removedIdsDetected =
             incomingIds.size < previousIdsRef.current.size ||
@@ -44,6 +58,9 @@ export function useIncrementalTreeData(items: ObjectItem[] | undefined, config: 
         previousConfigRef.current = config;
 
         if (configChanged || removedIdsDetected) {
+            for (const node of nodesByIdRef.current.values()) {
+                statesByIdRef.current.set(node.id, node.treeNodeState);
+            }
             rootsRef.current = [];
             nodesByIdRef.current.clear();
             placementByIdRef.current.clear();
@@ -111,12 +128,6 @@ export function useIncrementalTreeData(items: ObjectItem[] | undefined, config: 
                     placeNode(existingNode);
                 }
 
-                if (existingNode.treeNodeState === TreeNodeState.LOADING) {
-                    existingNode.treeNodeState = config.startExpanded
-                        ? TreeNodeState.EXPANDED
-                        : TreeNodeState.COLLAPSED_WITH_JS;
-                    nodesByIdRef.current.set(nodeId, existingNode);
-                }
                 continue;
             }
 
@@ -125,7 +136,11 @@ export function useIncrementalTreeData(items: ObjectItem[] | undefined, config: 
                 id: nodeId,
                 item,
                 parentId: nextParentId,
-                treeNodeState: TreeNodeState.LOADING,
+                // A remembered state wins over the configured default in both directions: a node
+                // the user collapsed under "Start expanded" = Yes must come back collapsed.
+                treeNodeState:
+                    statesByIdRef.current.get(nodeId) ??
+                    (config.startExpanded ? TreeNodeState.EXPANDED : TreeNodeState.COLLAPSED_WITH_JS),
                 title: nextTitle
             };
             nodesByIdRef.current.set(nodeId, newNode);
@@ -136,6 +151,21 @@ export function useIncrementalTreeData(items: ObjectItem[] | undefined, config: 
                 if (candidate.parentId === nodeId && candidate.id !== nodeId) {
                     placeNode(candidate);
                 }
+            }
+        }
+
+        // Re-apply the datasource order once all placement is done — placement itself is
+        // order-independent by design (a child can arrive before its parent), so this is the only
+        // point where the full delivery order is known. A node the current delivery does not
+        // mention sorts after every node it does, keeping the unmentioned nodes' relative order.
+        const orderOf = (node: TreeNodeV2DataItem): number => orderById.get(node.id) ?? sourceItems.length;
+        const compareByDatasourceOrder = (a: TreeNodeV2DataItem, b: TreeNodeV2DataItem): number =>
+            orderOf(a) - orderOf(b);
+
+        rootsRef.current.sort(compareByDatasourceOrder);
+        for (const node of nodesByIdRef.current.values()) {
+            if (node.children.length > 1) {
+                node.children.sort(compareByDatasourceOrder);
             }
         }
 

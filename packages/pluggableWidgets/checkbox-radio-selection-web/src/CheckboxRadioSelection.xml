@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="com.mendix.widget.web.checkboxradioselection.CheckboxRadioSelection" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
-    <name>Check box / radio selector</name>
-    <description />
+    <name>Option Selector</name>
+    <description>Select one or multiple options from a data source, shown as a checkbox list or a radio button group.</description>
     <studioProCategory>Input elements</studioProCategory>
     <studioCategory>Display</studioCategory>
     <helpUrl>https://docs.mendix.com/appstore/widgets/checkboxradioselection</helpUrl>
@@ -249,7 +249,7 @@
                 </property>
                 <property key="readOnlyStyle" type="enumeration" defaultValue="text">
                     <caption>Read-only style</caption>
-                    <description>How the checkbox radio selection will appear in read-only mode.</description>
+                    <description>How the option selector will appear in read-only mode.</description>
                     <enumerationValues>
                         <enumerationValue key="bordered">Control</enumerationValue>
                         <enumerationValue key="text">Content only</enumerationValue>

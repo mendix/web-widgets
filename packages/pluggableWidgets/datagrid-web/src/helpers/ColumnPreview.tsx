@@ -1,8 +1,8 @@
 import { ReactElement } from "react";
+import { BaseColumn } from "./ColumnBase";
 import { ColumnsPreviewType } from "../../typings/DatagridProps";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { SortDirection } from "../typings/sorting";
-import { BaseColumn } from "./ColumnBase";
 
 export class ColumnPreview extends BaseColumn implements GridColumn {
     private props: ColumnsPreviewType;

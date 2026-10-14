@@ -1,4 +1,3 @@
-import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import { AssociationMultiSelector } from "./Association/AssociationMultiSelector";
 import { AssociationSingleSelector } from "./Association/AssociationSingleSelector";
 import { DatabaseMultiSelectionSelector } from "./Database/DatabaseMultiSelectionSelector";
@@ -6,6 +5,7 @@ import { DatabaseSingleSelectionSelector } from "./Database/DatabaseSingleSelect
 import { EnumBooleanSingleSelector } from "./EnumBool/EnumBoolSingleSelector";
 import { StaticSingleSelector } from "./Static/StaticSingleSelector";
 import { Selector } from "./types";
+import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 
 export function getSelector(props: ComboboxContainerProps): Selector {
     if (props.source === "context") {

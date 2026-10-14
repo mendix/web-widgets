@@ -1,15 +1,15 @@
-import { ActionValue, EditableValue } from "mendix";
 import { Big } from "big.js";
+import { ActionValue, EditableValue } from "mendix";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import {
     CheckboxRadioSelectionContainerProps,
     OptionsSourceCustomContentTypeEnum,
     OptionsSourceStaticDataSourceType
 } from "../../../typings/CheckboxRadioSelectionProps";
 import { SingleSelector, Status } from "../types";
-import { StaticOptionsProvider } from "./StaticOptionsProvider";
 import { StaticCaptionsProvider } from "./StaticCaptionsProvider";
+import { StaticOptionsProvider } from "./StaticOptionsProvider";
 import { extractStaticProps } from "./utils";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { _valuesIsEqual } from "../utils";
 
 export class StaticSingleSelector implements SingleSelector {

@@ -1,7 +1,7 @@
-import { DerivedPropsGate, disposeBatch, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ObjectItem, SelectionMultiValue, SelectionSingleValue } from "mendix";
 import { autorun, comparer, reaction } from "mobx";
+import { DerivedPropsGate, disposeBatch, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { SelectionHelperService } from "../interfaces/SelectionHelperService";
 import { SelectionDynamicProps } from "../main";
 import { MultiSelectionHelper, SingleSelectionHelper } from "./helpers";

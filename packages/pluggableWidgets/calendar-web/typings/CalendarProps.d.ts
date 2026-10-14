@@ -3,18 +3,32 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, DynamicValue, EditableValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListValue, Option } from "mendix";
+import {
+    ActionValue,
+    DynamicValue,
+    EditableValue,
+    ListActionValue,
+    ListAttributeValue,
+    ListExpressionValue,
+    ListValue,
+    Option
+} from "mendix";
 import { CSSProperties } from "react";
 
 export type TitleTypeEnum = "attribute" | "expression";
 
 export type ViewEnum = "standard" | "custom";
 
-export type DefaultViewStandardEnum = "day" | "week" | "month";
+export type DefaultViewStandardEnum = "day" | "week" | "month" | "year";
 
-export type DefaultViewCustomEnum = "day" | "week" | "month" | "work_week" | "agenda";
+export type DefaultViewCustomEnum = "day" | "week" | "month" | "work_week" | "agenda" | "year";
 
-export type ItemTypeEnum = "day" | "month" | "agenda" | "week" | "work_week" | "title" | "previous" | "next" | "today";
+export type YearDayClickViewStandardEnum = "day" | "week" | "month";
+
+export type YearDayClickViewCustomEnum = "day" | "week" | "work_week" | "month" | "agenda";
+
+export type ItemTypeEnum =
+    "day" | "month" | "agenda" | "week" | "work_week" | "year" | "title" | "previous" | "next" | "today";
 
 export type PositionEnum = "left" | "center" | "right";
 
@@ -83,6 +97,8 @@ export interface CalendarContainerProps {
     view: ViewEnum;
     defaultViewStandard: DefaultViewStandardEnum;
     defaultViewCustom: DefaultViewCustomEnum;
+    yearDayClickViewStandard: YearDayClickViewStandardEnum;
+    yearDayClickViewCustom: YearDayClickViewCustomEnum;
     showEventDate: DynamicValue<boolean>;
     timeFormat?: DynamicValue<string>;
     topBarDateFormat?: DynamicValue<string>;
@@ -103,7 +119,12 @@ export interface CalendarContainerProps {
     customViewShowSunday: boolean;
     onEditEvent?: ListActionValue;
     onCreateEvent?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date>; allDay: Option<boolean> }>;
-    onDragDropResize?: ListActionValue<{ oldStart: Option<Date>; oldEnd: Option<Date>; newStart: Option<Date>; newEnd: Option<Date> }>;
+    onDragDropResize?: ListActionValue<{
+        oldStart: Option<Date>;
+        oldEnd: Option<Date>;
+        newStart: Option<Date>;
+        newEnd: Option<Date>;
+    }>;
     onViewRangeChange?: ActionValue<{ rangeStart: Option<Date>; rangeEnd: Option<Date>; currentView: Option<string> }>;
     widthUnit: WidthUnitEnum;
     width: number;
@@ -139,6 +160,8 @@ export interface CalendarPreviewProps {
     view: ViewEnum;
     defaultViewStandard: DefaultViewStandardEnum;
     defaultViewCustom: DefaultViewCustomEnum;
+    yearDayClickViewStandard: YearDayClickViewStandardEnum;
+    yearDayClickViewCustom: YearDayClickViewCustomEnum;
     showEventDate: string;
     timeFormat: string;
     topBarDateFormat: string;

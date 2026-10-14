@@ -1,5 +1,4 @@
 import { ReactElement, useRef } from "react";
-import { TXhHdGFnContainerProps as GoogleTagContainerProps } from "../typings/TXhHdGFnProps";
 import {
     areParametersReady,
     executeCommand,
@@ -7,6 +6,7 @@ import {
     prepareParameters,
     useDojoOnNavigation
 } from "./utils";
+import { TXhHdGFnContainerProps as GoogleTagContainerProps } from "../typings/TXhHdGFnProps";
 
 export default function GoogleTag(props: GoogleTagContainerProps): ReactElement | null {
     if (props.widgetMode === "basic") {

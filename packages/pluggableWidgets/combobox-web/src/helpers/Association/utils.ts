@@ -1,5 +1,4 @@
 import {
-    ActionValue,
     DynamicValue,
     ListAttributeValue,
     ListExpressionValue,
@@ -24,7 +23,6 @@ type ExtractionReturnValue = [
     DynamicValue<string> | undefined,
     boolean,
     FilterTypeEnum,
-    ActionValue | undefined,
     ListWidgetValue | undefined,
     OptionsSourceAssociationCustomContentTypeEnum,
     boolean,
@@ -35,7 +33,6 @@ type ExtractionReturnValue = [
 export function extractAssociationProps(props: ComboboxContainerProps): ExtractionReturnValue {
     const attr = props.attributeAssociation;
     const filterType = props.filterType;
-    const onChangeEvent = props.onChangeEvent;
     const filterInputDebounceInterval = props.filterInputDebounceInterval;
 
     if (!attr) {
@@ -77,7 +74,6 @@ export function extractAssociationProps(props: ComboboxContainerProps): Extracti
         emptyOption,
         clearable,
         filterType,
-        onChangeEvent,
         customContent,
         customContentType,
         lazyLoading,

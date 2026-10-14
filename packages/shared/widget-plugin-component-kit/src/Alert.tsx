@@ -1,5 +1,5 @@
-import { Children, ReactElement, ReactNode } from "react";
 import classNames from "classnames";
+import { Children, ReactElement, ReactNode } from "react";
 
 export interface AlertProps {
     children?: ReactNode;

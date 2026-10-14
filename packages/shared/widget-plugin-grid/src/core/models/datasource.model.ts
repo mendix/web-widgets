@@ -1,5 +1,5 @@
-import { atomFactory, ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { computed } from "mobx";
+import { atomFactory, ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 
 /**
  * Atom returns `-1` when item count is unknown.

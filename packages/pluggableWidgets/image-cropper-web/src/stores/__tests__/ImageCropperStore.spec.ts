@@ -3,6 +3,7 @@ import { ValueStatus } from "mendix";
 import { action, makeObservable, observable } from "mobx";
 import type { Crop, PixelCrop } from "react-image-crop";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
+import { dynamic } from "@mendix/widget-plugin-test-utils";
 import type { ImageCropperContainerProps } from "../../../typings/ImageCropperProps";
 
 // The store calls cropImage/rotateImage (async canvas work). Mock them so the spec asserts
@@ -21,6 +22,7 @@ jest.mock("../../utils/rotateImage", () => ({
     )
 }));
 
+import { FREE_ASPECT } from "../../utils/aspectRatio";
 import { cropImage } from "../../utils/cropImage";
 import { rotateImage } from "../../utils/rotateImage";
 import { CropperDeps, ImageCropperStore } from "../ImageCropperStore";
@@ -52,8 +54,8 @@ function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCr
         image: makeImageProp(),
         cropShape: "rect",
         aspectRatio: "square",
-        customAspectWidth: 1,
-        customAspectHeight: 1,
+        customAspectWidth: dynamic.available(new Big(1)),
+        customAspectHeight: dynamic.available(new Big(1)),
         boundaryWidth: 300,
         boundaryHeight: 300,
         resizableEnabled: true,
@@ -173,6 +175,201 @@ describe("ImageCropperStore", () => {
             expect(store.aspect).toBe(1);
             gate.setProps(makeProps({ aspectRatio: "landscape16x9" }));
             expect(store.aspect).toBeCloseTo(16 / 9);
+            dispose();
+        });
+
+        it("derives a custom ratio from the width/height expression values", () => {
+            const { store, gate, dispose } = makeStore({
+                aspectRatio: "custom",
+                customAspectWidth: dynamic.available(new Big(16)),
+                customAspectHeight: dynamic.available(new Big(9))
+            });
+            expect(store.aspect).toBeCloseTo(16 / 9);
+            gate.setProps(
+                makeProps({
+                    aspectRatio: "custom",
+                    customAspectWidth: dynamic.available(new Big(3)),
+                    customAspectHeight: dynamic.available(new Big(2))
+                })
+            );
+            expect(store.aspect).toBeCloseTo(3 / 2);
+            dispose();
+        });
+
+        it("resolves to free aspect when a custom side is Unavailable", () => {
+            const { store, dispose } = makeStore({
+                aspectRatio: "custom",
+                customAspectWidth: dynamic.unavailable(),
+                customAspectHeight: dynamic.available(new Big(9))
+            });
+            // Unavailable is terminal, so this counts as resolved-to-free, NOT pending — the box
+            // must still seed. cropAspect strips the sentinel for the crop layer.
+            expect(store.aspect).toBe(FREE_ASPECT);
+            expect(store.aspectReady).toBe(true);
+            expect(store.cropAspect).toBeUndefined();
+            dispose();
+        });
+
+        it("resolves to free aspect when a custom side is Available but empty", () => {
+            // A nullable Integer attribute with no value reports Available/undefined. That is
+            // settled, not pending — clearing the input must give a free box, not no box.
+            const { store, dispose } = makeStore({
+                aspectRatio: "custom",
+                customAspectWidth: dynamic.available(undefined as unknown as Big),
+                customAspectHeight: dynamic.available(new Big(9))
+            });
+            expect(store.aspect).toBe(FREE_ASPECT);
+            expect(store.aspectReady).toBe(true);
+            dispose();
+        });
+
+        it("retains the previous value while a custom side is Loading", () => {
+            // DynamicValue's contract: Loading carries the previous value. Reading it through
+            // keeps the ratio steady across a record swap instead of flashing free aspect.
+            const { store, dispose } = makeStore({
+                aspectRatio: "custom",
+                customAspectWidth: dynamic.loading(new Big(16)),
+                customAspectHeight: dynamic.available(new Big(9))
+            });
+            expect(store.aspect).toBeCloseTo(16 / 9);
+            expect(store.aspectReady).toBe(true);
+            dispose();
+        });
+
+        it("maps free and preset modes onto the crop layer's contract", () => {
+            const { store: free, dispose: d1 } = makeStore({ aspectRatio: "free" });
+            expect(free.aspect).toBe(FREE_ASPECT);
+            expect(free.aspectReady).toBe(true);
+            expect(free.cropAspect).toBeUndefined(); // sentinel must never reach ReactCrop
+            d1();
+
+            const { store: preset, dispose: d2 } = makeStore({ aspectRatio: "square" });
+            expect(preset.cropAspect).toBe(1);
+            d2();
+        });
+    });
+
+    // The custom ratio arrives asynchronously, so `aspect === undefined` is ambiguous: it means
+    // both "free aspect" and "not loaded yet". aspectReady disambiguates, and the seeding path
+    // must wait on it — otherwise the box seeds free and visibly jumps once the ratio lands.
+    describe("custom ratio loading window", () => {
+        const pendingCustom = {
+            aspectRatio: "custom" as const,
+            customAspectWidth: dynamic.loading<Big>(),
+            customAspectHeight: dynamic.available(new Big(2))
+        };
+        const resolvedCustom = (w: number, h: number): Partial<ImageCropperContainerProps> => ({
+            aspectRatio: "custom" as const,
+            customAspectWidth: dynamic.available(new Big(w)),
+            customAspectHeight: dynamic.available(new Big(h))
+        });
+
+        it("reports aspectReady=false only while a custom side is Loading with no prior value", () => {
+            const { store: pending, dispose: d1 } = makeStore(pendingCustom);
+            expect(pending.aspectReady).toBe(false);
+            d1();
+
+            const { store: ready, dispose: d2 } = makeStore(resolvedCustom(3, 2));
+            expect(ready.aspectReady).toBe(true);
+            d2();
+
+            // Presets resolve synchronously — never pending, even with unavailable custom sides.
+            const { store: preset, dispose: d3 } = makeStore({
+                aspectRatio: "square",
+                customAspectWidth: dynamic.loading<Big>()
+            });
+            expect(preset.aspectReady).toBe(true);
+            d3();
+        });
+
+        it("does not seed the crop box while the ratio is pending, then seeds once it resolves", () => {
+            const { store, gate, dispose } = makeStore(pendingCustom);
+
+            // The image finished loading before the expression did.
+            store.initFromImageLoad(PERCENT_CROP, PIXEL_CROP);
+            expect(store.liveCrop).toBeUndefined();
+            expect(store.committedCrop).toBeUndefined();
+
+            // Ratio lands: a single seed, at the resolved ratio (400x300 fake image, 3:2).
+            gate.setProps(makeProps(resolvedCustom(3, 2)));
+            expect(store.liveCrop).toBeDefined();
+            const seeded = store.liveCrop!;
+            expect(seeded.width / seeded.height).toBeCloseTo((3 / 2) * (300 / 400), 5);
+            dispose();
+        });
+
+        it("re-seeds on a value-to-value ratio change without committing anything", async () => {
+            const { store, gate, dispose } = makeStore(resolvedCustom(3, 2));
+            store.initFromImageLoad(PERCENT_CROP, PIXEL_CROP);
+            (gate.props.image.setValue as jest.Mock).mockClear();
+            (cropImage as jest.Mock).mockClear();
+
+            // e.g. a record swap hands over a different ratio.
+            gate.setProps(makeProps(resolvedCustom(1, 1)));
+            const reseeded = store.liveCrop!;
+            expect(reseeded.width / reseeded.height).toBeCloseTo(1 * (300 / 400), 5);
+
+            // A ratio change is programmatic — it must never push a re-cropped image back.
+            await flush();
+            expect(cropImage).not.toHaveBeenCalled();
+            expect(gate.props.image.setValue).not.toHaveBeenCalled();
+            dispose();
+        });
+
+        // The degenerate case: a ratio that NEVER resolves. Deferring forever would leave the
+        // widget with no crop box at all, so a terminal Unavailable has to seed at free aspect.
+        it("seeds at free aspect when a custom side is Unavailable from the first render", () => {
+            const { store, dispose } = makeStore({
+                aspectRatio: "custom",
+                customAspectWidth: dynamic.unavailable(),
+                customAspectHeight: dynamic.unavailable()
+            });
+
+            store.initFromImageLoad(PERCENT_CROP, PIXEL_CROP);
+
+            expect(store.liveCrop).toBe(PERCENT_CROP);
+            expect(store.committedCrop).toBe(PIXEL_CROP);
+            dispose();
+        });
+
+        // Loading with no prior value defers; once it turns terminal the box seeds rather than
+        // waiting on a value that is never coming.
+        it("seeds once a pending ratio turns Unavailable", () => {
+            const { store, gate, dispose } = makeStore(pendingCustom);
+
+            store.initFromImageLoad(PERCENT_CROP, PIXEL_CROP);
+            expect(store.liveCrop).toBeUndefined();
+
+            gate.setProps(
+                makeProps({
+                    aspectRatio: "custom",
+                    customAspectWidth: dynamic.unavailable(),
+                    customAspectHeight: dynamic.unavailable()
+                })
+            );
+
+            // Free aspect => box falls back to the image's own 400x300 ratio.
+            const seeded = store.liveCrop!;
+            expect(seeded).toBeDefined();
+            expect(seeded.width / seeded.height).toBeCloseTo(1, 5);
+            dispose();
+        });
+
+        it("retains the last valid box when the ratio goes from Available to unavailable", () => {
+            const { store, gate, dispose } = makeStore(resolvedCustom(3, 2));
+            store.initFromImageLoad(PERCENT_CROP, PIXEL_CROP);
+            const before = store.liveCrop;
+            expect(before).toBeDefined();
+
+            // Record changes: the expression briefly stops resolving. No free-aspect flash.
+            gate.setProps(
+                makeProps({
+                    aspectRatio: "custom",
+                    customAspectWidth: dynamic.loading<Big>(),
+                    customAspectHeight: dynamic.loading<Big>()
+                })
+            );
+            expect(store.liveCrop).toBe(before);
             dispose();
         });
     });
@@ -375,6 +572,24 @@ describe("ImageCropperStore", () => {
             expect(global.fetch).toHaveBeenCalledWith("http://x/new.png");
             expect(store.liveCrop).toBeUndefined();
             expect(store.committedCrop).toBeUndefined();
+            dispose();
+        });
+
+        it("ignores a re-render that carries the same uri in a new props object", async () => {
+            const { store, gate, dispose } = makeStore();
+            await flush();
+            (global.fetch as jest.Mock).mockClear();
+            store.setLiveCrop(PERCENT_CROP);
+            store.commitCrop(PIXEL_CROP);
+
+            // React hands over a fresh props object on every parent re-render, and the gate uses
+            // observable.ref by design — so identity alone must not count as an image change.
+            gate.setProps(makeProps());
+            await flush();
+
+            expect(global.fetch).not.toHaveBeenCalled();
+            expect(store.liveCrop).toEqual(PERCENT_CROP);
+            expect(store.committedCrop).toEqual(PIXEL_CROP);
             dispose();
         });
 

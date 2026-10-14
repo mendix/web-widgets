@@ -1,3 +1,4 @@
+import { Container, injected } from "brandi";
 import { WidgetFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
@@ -24,7 +25,6 @@ import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
-import { Container, injected } from "brandi";
 import { createItemEventsVMAtom } from "../../features/item-interaction/ItemEvents.viewModel";
 import { createSettingsStorage } from "../../features/settings-storage/create-settings-storage";
 import { GallerySettingsSyncService } from "../../features/settings-storage/GallerySettingsSync.service";

@@ -1,10 +1,10 @@
-import { If } from "@mendix/widget-plugin-component-kit/If";
-import { Pagination as PagingButtons } from "@mendix/widget-plugin-grid/components/Pagination";
 import cn from "classnames";
 import { GUID, ObjectItem } from "mendix";
 import { Selectable } from "mendix/preview/Selectable";
 import { createContext, CSSProperties, PropsWithChildren, ReactElement, ReactNode, useContext } from "react";
 import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps";
+import { If } from "@mendix/widget-plugin-component-kit/If";
+import { Pagination as PagingButtons } from "@mendix/widget-plugin-grid/components/Pagination";
 import { FaArrowsAltV } from "./components/icons/FaArrowsAltV";
 import { FaEye } from "./components/icons/FaEye";
 import { ColumnPreview } from "./helpers/ColumnPreview";
@@ -105,7 +105,10 @@ function WidgetTopBar(): ReactElement {
         <div className={cls.topBar}>
             <div className={cls.pagingTop}>
                 <div className={cls.ptStart}>{useTopCounter() ? <SelectionCounter /> : null}</div>
-                <div className={cls.ptEnd}>{usePagingTop() ? <Pagination /> : null}</div>
+                <div className={cls.ptEnd}>
+                    {usePagingTop() ? <Pagination /> : null}
+                    {useCustomPaginationTop() ? <CustomPagination /> : null}
+                </div>
             </div>
         </div>
     );
@@ -139,7 +142,7 @@ function WidgetFooter(): ReactElement {
                 </div>
                 <div className={cls.pbEnd}>
                     {usePagingBot() ? <Pagination /> : null}
-                    {useCustomPagination() ? <CustomPagination /> : null}
+                    {useCustomPaginationBottom() ? <CustomPagination /> : null}
                 </div>
             </div>
         </div>
@@ -403,7 +406,12 @@ function usePagingBot(): boolean {
     return visible && props.pagingPosition !== "top";
 }
 
-function useCustomPagination(): boolean {
+function useCustomPaginationTop(): boolean {
     const props = useProps();
-    return props.useCustomPagination;
+    return props.useCustomPagination && props.pagingPosition === "top";
+}
+
+function useCustomPaginationBottom(): boolean {
+    const props = useProps();
+    return props.useCustomPagination && props.pagingPosition !== "top";
 }

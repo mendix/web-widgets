@@ -1,0 +1,528 @@
+// Single stacking scale for every dialog. Dialogs are portalled to the document body, so they must
+// clear whatever Atlas modal layer the widget itself is sitting inside.
+$rte-dialog-overlay-z: 10000;
+$rte-dialog-z: 10001;
+
+// Positioned wrapper for an inline dialog, portalled to the body.
+.widget-rich-text-dialog-layer {
+    z-index: $rte-dialog-z;
+}
+
+.dialog-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+// Dimmed, scroll-locked backdrop for a focused dialog. Position and inset come from Floating UI's
+// FloatingOverlay; centering, dimming and stacking come from here.
+.widget-rich-text-dialog-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: $rte-dialog-overlay-z;
+
+    > .toolbar-dialog {
+        z-index: $rte-dialog-z;
+    }
+}
+
+.toolbar-dialog,
+.link-dialog {
+    background: white;
+    border: 1px solid var(--border-color-default, #ced0d3);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 320px;
+    max-width: 400px;
+
+    // The title and the actions stay pinned while the region between them scrolls, so a tall
+    // dialog — a Media Library listing many images, say — can never push Insert/Cancel out of
+    // reach. `max-height` is supplied by DialogShell: available space when inline, 70vh when
+    // focused.
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+        padding: 8px 16px;
+        font-size: var(--font-size-medium, 16px);
+        font-weight: 600;
+        border-bottom: 1px solid var(--border-color-default, #ced0d3);
+        flex-shrink: 0;
+    }
+
+    // Dialogs that wrap their content in a <form> (or, for the image dialog, a plain div) put this
+    // class on that wrapper, so the column layout survives the extra element.
+    .dialog-layout {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-height: 0;
+    }
+
+    // Scrollable middle region. `min-height: 0` is required: a flex item defaults to
+    // `min-height: auto`, which refuses to shrink below its content height and would defeat the
+    // dialog's max-height entirely.
+    .dialog-scroll,
+    .help-dialog-content {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+    }
+
+    .dialog-mode-selector {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--border-color-default, #ced0d3);
+
+        .mode-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            input[type="radio"] {
+                margin-right: 6px;
+                cursor: pointer;
+            }
+
+            label {
+                cursor: pointer;
+                font-size: var(--font-size-small, 13px);
+                font-weight: 500;
+                margin-bottom: 0;
+                user-select: none;
+                color: #333;
+            }
+        }
+    }
+
+    // The image upload dropzone styling lives in ui/ImageUploadDropzone.scss
+    // (widget-prefixed classes) so it mirrors the file-uploader widget without
+    // leaking onto the embedded file-uploader rendered in the "Media Library" tab.
+
+    .dialog-preview {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px;
+        border: 1px solid var(--border-color-default, #ced0d3);
+        border-radius: 4px;
+        background: white;
+        margin-bottom: 12px;
+
+        .preview-thumbnail {
+            width: 56px;
+            height: 56px;
+            object-fit: cover;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .preview-info {
+            flex: 1;
+            min-width: 0;
+
+            .preview-name {
+                font-size: var(--font-size-small, 13px);
+                font-weight: 500;
+                color: #333;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-bottom: 2px;
+            }
+
+            .preview-size {
+                font-size: var(--font-size-smaller, 11px);
+                color: #999;
+            }
+        }
+
+        .preview-clear {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 20px;
+            color: #999;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 3px;
+
+            &:hover {
+                color: var(--brand-danger, #ea3337);
+                background: #f5f5f5;
+            }
+        }
+    }
+
+    // No min-height: the embedded image-source widget is app-developer content of arbitrary height,
+    // and forcing it to grow is what used to push the dialog past the viewport. It scrolls with
+    // `.dialog-scroll` instead.
+    .image-dialog-entity {
+        margin: 0 var(--spacing-medium, 16px);
+    }
+
+    .dialog-field {
+        padding: 8px 16px;
+
+        label {
+            display: block;
+            margin-bottom: 4px;
+            font-size: var(--font-size-small, 12px);
+            font-weight: 600;
+            color: #333;
+
+            span {
+                font-weight: normal;
+            }
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="url"] {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid var(--border-color-default, #ced0d3);
+            border-radius: 3px;
+            font-size: var(--font-size-small, 13px);
+            box-sizing: border-box;
+
+            &:focus {
+                outline: none;
+                border-color: var(--brand-primary, #264ae5);
+            }
+        }
+
+        input[type="file"] {
+            font-size: var(--font-size-small, 13px);
+        }
+    }
+
+    .dialog-field-row {
+        display: flex;
+        gap: 12px;
+
+        .dialog-field {
+            flex: 1;
+        }
+    }
+
+    .dialog-field--checkbox {
+        label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+            min-width: 16px;
+            margin: 0;
+        }
+    }
+
+    .dialog-tabs,
+    .dialog-actions {
+        button {
+            width: fit-content;
+            height: 32px;
+        }
+    }
+
+    .dialog-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        padding: 8px 16px;
+        border-top: 1px solid var(--border-color-default, #ced0d3);
+        flex-shrink: 0;
+
+        button {
+            font-size: var(--font-size-small, 13px);
+
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    .dialog-radio-group {
+        label {
+            display: flex;
+            gap: 4px;
+        }
+    }
+
+    .confirm-message {
+        padding: 16px;
+        font-size: var(--font-size-default, 14px);
+        color: #666;
+        line-height: 1.5;
+    }
+
+    // Form styles for link dialog
+    .form-group {
+        margin-bottom: 16px;
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #333;
+
+            .required {
+                color: #d13438;
+                margin-left: 2px;
+            }
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 13px;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: none;
+                border-color: var(--brand-primary, #264ae5);
+                box-shadow: 0 0 0 3px rgba(38, 74, 229, 0.1);
+            }
+        }
+
+        .form-hint {
+            display: block;
+            font-size: 11px;
+            color: var(--text-color-secondary, #666);
+            margin-top: 4px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 16px;
+
+            .radio-label {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                font-size: 13px;
+                color: #333;
+
+                input[type="radio"] {
+                    margin-right: 6px;
+                    cursor: pointer;
+                }
+
+                span {
+                    user-select: none;
+                }
+            }
+        }
+    }
+}
+
+.help-dialog {
+    min-width: 360px;
+    max-width: 480px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+
+    // Height comes from the shell's max-height on `.toolbar-dialog`; the scroll behaviour comes from
+    // the shared `.help-dialog-content` rule above. Capping it again here would nest two scrollers.
+    .help-dialog-content {
+        padding: 8px 16px;
+    }
+
+    .help-category {
+        margin-bottom: 16px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .help-category-title {
+        margin: 0 0 6px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #666;
+    }
+
+    .help-shortcut-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .help-shortcut {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 4px 0;
+        font-size: 13px;
+        color: #333;
+    }
+
+    .help-shortcut-keys {
+        font-family: inherit;
+        font-size: 12px;
+        padding: 2px 6px;
+        border: 1px solid var(--border-color-default, #ced0d3);
+        border-radius: 3px;
+        background: var(--background-color-secondary, #f5f5f5);
+        color: var(--text-color-primary, #333);
+        white-space: nowrap;
+    }
+}
+
+// Overlay, centering and stacking now come from `.widget-rich-text-dialog-overlay`; only the
+// dialog's own box styling is left here.
+.confirm-dialog {
+    max-width: 400px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+// Video dialog and Image dialog enhancements
+.video-dialog,
+.image-dialog {
+    min-width: 500px;
+
+    .dialog-tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+        border-bottom: 1px solid #ddd;
+
+        button {
+            padding: 8px 16px;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.2s;
+
+            &:hover {
+                background: #f5f5f5;
+                color: #333;
+            }
+
+            &.active {
+                border-bottom-color: #0078d4;
+                color: #0078d4;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .tab-content {
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-family: "Courier New", monospace;
+            font-size: 12px;
+            resize: vertical;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: none;
+                border-color: #0078d4;
+            }
+        }
+    }
+
+    .detection-status {
+        padding: 8px 12px;
+        margin: 12px 0;
+        border-radius: 4px;
+        font-size: 13px;
+
+        &.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        &.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        small {
+            opacity: 0.8;
+            font-size: 11px;
+        }
+    }
+
+    .dialog-info {
+        padding: 8px 12px;
+        margin: var(--spacing-medium, 16px);
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+        border-radius: 4px;
+        font-size: 12px;
+
+        &.warning {
+            background: #fff3cd;
+            color: #856404;
+            border-color: #ffeeba;
+        }
+    }
+}
+
+// Generic embed wrapper styling
+.generic-embed-wrapper {
+    position: relative;
+    width: fit-content;
+
+    iframe {
+        display: block;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    &.ProseMirror-selectednode {
+        outline: 2px solid var(--brand-primary, #0078d4);
+        outline-offset: 2px;
+    }
+}
+
+.confirm-dialog {
+    &.toolbar-dialog {
+        .dialog-actions {
+            button {
+                background: inherit;
+
+                &.btn-primary {
+                    background-color: var(--brand-primary, #264ae5);
+                }
+            }
+        }
+    }
+}

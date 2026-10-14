@@ -1,5 +1,5 @@
-import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 import { makeAutoObservable } from "mobx";
+import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 
 /** @injectable */
 export class SelectionCounterViewModel {

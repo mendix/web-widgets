@@ -1,8 +1,8 @@
+import { Big } from "big.js";
+import { EditableValue } from "mendix";
+import { action, IObservableValue, makeObservable, observable, runInAction } from "mobx";
 import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { editable } from "@mendix/widget-plugin-test-utils";
-import { Big } from "big.js";
-import { action, IObservableValue, makeObservable, observable, runInAction } from "mobx";
-import { EditableValue } from "mendix";
 import { GridPageControl } from "../../interfaces/GridPageControl";
 import { DynamicPaginationFeature } from "../DynamicPagination.feature";
 

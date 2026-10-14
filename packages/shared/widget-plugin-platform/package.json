@@ -39,6 +39,6 @@
         "@swc/jest": "^0.2.36",
         "big.js": "^6.2.1",
         "classnames": "^2.5.1",
-        "jest-environment-jsdom": "^29.7.0"
+        "jest-environment-jsdom": "^30.3.0"
     }
 }

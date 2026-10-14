@@ -33,7 +33,7 @@ function InnerContainer(props: InnerContainerProps): ReactElement {
 
     const format = useMemo(
         () => createValueFormatter(props.valueAttribute.formatter as NumberFormatter, props.decimalPlaces),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
         [props.valueAttribute.formatter, props.decimalPlaces]
     );
 

@@ -1,7 +1,7 @@
 import { ObjectItem } from "mendix";
+import { SelectAdjacentFx, SelectAllFx, SelectFx, SelectionType } from "./types";
 import { SelectActionsService } from "../interfaces/SelectActionsService";
 import { SelectionHelperService } from "../interfaces/SelectionHelperService";
-import { SelectAdjacentFx, SelectAllFx, SelectFx, SelectionType } from "./types";
 
 export class SelectActionsProvider implements SelectActionsService {
     constructor(

@@ -1,5 +1,5 @@
-import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { useMemo, useRef, useState } from "react";
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import { getSelector } from "../helpers/getSelector";
 import { Selector } from "../helpers/types";

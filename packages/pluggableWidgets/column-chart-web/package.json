@@ -1,7 +1,7 @@
 {
     "name": "@mendix/column-chart-web",
     "widgetName": "ColumnChart",
-    "version": "6.3.1",
+    "version": "6.3.2",
     "description": "Shows data in a column format graph.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -46,7 +46,7 @@
         "plotly.js-dist-min": "^3.0.0"
     },
     "devDependencies": {
-        "@happy-dom/jest-environment": "^18.0.1",
+        "@happy-dom/jest-environment": "^19.0.2",
         "@mendix/automation-utils": "workspace:*",
         "@mendix/eslint-config-web-widgets": "workspace:*",
         "@mendix/pluggable-widgets-tools": "*",

@@ -1,6 +1,6 @@
+import { ListValue } from "mendix";
 import { useCallback, useEffect, useState } from "react";
 import { InfiniteBodyProps, useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
-import { ListValue } from "mendix";
 
 type UseLazyLoadingProps = Pick<InfiniteBodyProps, "hasMoreItems" | "isInfinite"> & {
     isOpen: boolean;

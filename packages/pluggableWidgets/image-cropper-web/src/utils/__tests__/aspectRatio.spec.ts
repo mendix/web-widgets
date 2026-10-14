@@ -1,8 +1,8 @@
-import { resolveAspectRatio } from "../aspectRatio";
+import { FREE_ASPECT, resolveAspectRatio, toCropAspect } from "../aspectRatio";
 
 describe("resolveAspectRatio", () => {
-    test("returns undefined for 'free'", () => {
-        expect(resolveAspectRatio("free", 0, 0)).toBeUndefined();
+    test("returns FREE_ASPECT for 'free'", () => {
+        expect(resolveAspectRatio("free", 0, 0)).toBe(FREE_ASPECT);
     });
 
     test("returns 1 for 'square'", () => {
@@ -25,15 +25,37 @@ describe("resolveAspectRatio", () => {
         expect(resolveAspectRatio("custom", 21, 9)).toBeCloseTo(21 / 9);
     });
 
-    test("returns undefined when custom width is zero", () => {
-        expect(resolveAspectRatio("custom", 0, 9)).toBeUndefined();
+    // A side that is knowable but unusable (zero/negative) is RESOLVED, not pending — it must
+    // degrade to free aspect so a bad expression still yields a crop box.
+    test.each([
+        ["width is zero", 0, 9],
+        ["height is zero", 16, 0],
+        ["width is negative", -1, 9],
+        ["height is negative", 16, -9]
+    ])("returns FREE_ASPECT for custom when %s", (_label, width, height) => {
+        expect(resolveAspectRatio("custom", width, height)).toBe(FREE_ASPECT);
     });
 
-    test("returns undefined when custom height is zero", () => {
-        expect(resolveAspectRatio("custom", 16, 0)).toBeUndefined();
+    // Sides come from expressions now, so either can be undefined while it is still loading with
+    // no previous value. That is "not knowable yet" — distinct from free — and must not be NaN.
+    test.each([
+        ["both sides undefined", undefined, undefined],
+        ["width undefined", undefined, 9],
+        ["height undefined", 16, undefined]
+    ])("returns undefined (pending) for custom when %s", (_label, width, height) => {
+        expect(resolveAspectRatio("custom", width, height)).toBeUndefined();
     });
+});
 
-    test("returns undefined when custom width is negative", () => {
-        expect(resolveAspectRatio("custom", -1, 9)).toBeUndefined();
+describe("toCropAspect", () => {
+    // The crop layer only understands "positive ratio" or "unconstrained", so both pending and
+    // the FREE_ASPECT sentinel collapse to undefined — a negative would break the geometry.
+    test.each([
+        ["a positive ratio passes through", 16 / 9, 16 / 9],
+        ["FREE_ASPECT becomes undefined", FREE_ASPECT, undefined],
+        ["pending becomes undefined", undefined, undefined],
+        ["zero becomes undefined", 0, undefined]
+    ])("%s", (_label, input, expected) => {
+        expect(toCropAspect(input)).toBe(expected);
     });
 });

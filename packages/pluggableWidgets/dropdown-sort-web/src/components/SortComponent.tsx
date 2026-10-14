@@ -1,8 +1,8 @@
-import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
-import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
 import classNames from "classnames";
 import { CSSProperties, ReactElement, useCallback, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
+import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
 
 interface SortComponentProps<Dir = "asc" | "desc"> {
     className?: string;
@@ -105,7 +105,7 @@ export function SortComponent(props: SortComponentProps): ReactElement {
         >
             <div className="dropdown-triggerer-wrapper">
                 <input
-                    value={props.value ? selected?.caption : ""}
+                    value={selected?.caption ?? ""}
                     placeholder={props.placeholder}
                     className="form-control dropdown-triggerer"
                     onClick={containerClick}

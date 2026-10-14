@@ -86,6 +86,7 @@
                         <enumerationValue key="day">Day</enumerationValue>
                         <enumerationValue key="week">Week</enumerationValue>
                         <enumerationValue key="month">Month</enumerationValue>
+                        <enumerationValue key="year">Year</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="defaultViewCustom" type="enumeration" defaultValue="month">
@@ -96,6 +97,27 @@
                         <enumerationValue key="week">Week</enumerationValue>
                         <enumerationValue key="month">Month</enumerationValue>
                         <enumerationValue key="work_week">Work week</enumerationValue>
+                        <enumerationValue key="agenda">Agenda</enumerationValue>
+                        <enumerationValue key="year">Year</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="yearDayClickViewStandard" type="enumeration" defaultValue="day">
+                    <caption>Year view: day click opens</caption>
+                    <description>Which view opens when a day is clicked in the Year view.</description>
+                    <enumerationValues>
+                        <enumerationValue key="day">Day</enumerationValue>
+                        <enumerationValue key="week">Week</enumerationValue>
+                        <enumerationValue key="month">Month</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="yearDayClickViewCustom" type="enumeration" defaultValue="day">
+                    <caption>Year view: day click opens</caption>
+                    <description>Which view opens when a day is clicked in the Year view. Only applies if that view is enabled via a toolbar item; otherwise clicking a day does nothing.</description>
+                    <enumerationValues>
+                        <enumerationValue key="day">Day</enumerationValue>
+                        <enumerationValue key="week">Week</enumerationValue>
+                        <enumerationValue key="work_week">Work week</enumerationValue>
+                        <enumerationValue key="month">Month</enumerationValue>
                         <enumerationValue key="agenda">Agenda</enumerationValue>
                     </enumerationValues>
                 </property>
@@ -161,6 +183,7 @@
                                 <enumerationValue key="agenda">Agenda view button</enumerationValue>
                                 <enumerationValue key="week">Week view button</enumerationValue>
                                 <enumerationValue key="work_week">Work week view button</enumerationValue>
+                                <enumerationValue key="year">Year view button</enumerationValue>
                                 <enumerationValue key="title">Title date text</enumerationValue>
                                 <enumerationValue key="previous">Previous button</enumerationValue>
                                 <enumerationValue key="next">Next button</enumerationValue>

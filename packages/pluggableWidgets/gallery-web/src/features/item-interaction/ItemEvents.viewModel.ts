@@ -1,3 +1,5 @@
+import { ObjectItem } from "mendix";
+import { computed } from "mobx";
 import { ElementEntry, ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
 import { ClickEntry, ClickEventSwitch } from "@mendix/widget-plugin-grid/event-switch/ClickEventSwitch";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
@@ -13,8 +15,6 @@ import {
     SelectionType
 } from "@mendix/widget-plugin-grid/selection";
 import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
-import { ObjectItem } from "mendix";
-import { computed } from "mobx";
 import { createActionHandlers } from "./action-handlers";
 import { EventEntryContext } from "./base";
 import { createFocusTargetHandlers } from "./focus-target-handlers";

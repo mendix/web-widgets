@@ -1,7 +1,7 @@
-import { ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { DynamicValue } from "mendix";
 import { makeAutoObservable } from "mobx";
 import { ReactNode } from "react";
+import { ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 
 export class EmptyPlaceholderViewModel {
     constructor(

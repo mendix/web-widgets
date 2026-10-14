@@ -1,7 +1,7 @@
-import { IconInternal } from "@mendix/widget-plugin-component-kit/IconInternal";
 import classNames from "classnames";
 import { WebIcon } from "mendix";
 import { ReactElement } from "react";
+import { IconInternal } from "@mendix/widget-plugin-component-kit/IconInternal";
 import { StarIcon } from "./StarIcon";
 
 interface IconProps {

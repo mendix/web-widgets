@@ -1,10 +1,4 @@
 import {
-    ContainerProps,
-    RowLayoutProps,
-    structurePreviewPalette,
-    StructurePreviewProps
-} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
     hidePropertyIn,
@@ -12,6 +6,12 @@ import {
     Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
+import {
+    ContainerProps,
+    RowLayoutProps,
+    structurePreviewPalette,
+    StructurePreviewProps
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import { AccordionPreviewProps, GroupsPreviewType } from "../typings/AccordionProps";
 

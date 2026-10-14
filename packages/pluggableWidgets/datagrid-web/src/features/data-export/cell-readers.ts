@@ -99,8 +99,51 @@ function hasTimeComponent(format: string): boolean {
     return /[hs]/i.test(stripped);
 }
 
+/**
+ * SheetJS turns a `t: "d"` cell into a sheet serial by reading the `Date`'s **UTC** fields, while
+ * the grid renders the same value using its local fields. A `Date` handed over by the Mendix client
+ * is local-anchored (`new Date(2007, 0, 1)`), so passing it through unchanged exports the session's
+ * UTC offset as a stray time — and, once the time is stripped, the previous calendar day.
+ *
+ * Re-anchoring the local fields onto UTC makes the cell carry exactly the wall clock the grid shows,
+ * independent of the offset or DST rule in effect.
+ */
+function toExcelWallClock(date: Date): Date {
+    return new Date(
+        Date.UTC(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+            date.getHours(),
+            date.getMinutes(),
+            date.getSeconds(),
+            date.getMilliseconds()
+        )
+    );
+}
+
+/** Expects a UTC-anchored date, as produced by {@link toExcelWallClock}. */
 function stripTime(date: Date): Date {
     return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+}
+
+const EXPLICIT_ZONE = /(?:Z|[+-]\d{2}:?\d{2})$/i;
+/** Date-only ISO forms (`YYYY`, `YYYY-MM`, `YYYY-MM-DD`), which ECMAScript parses as UTC. */
+const DATE_ONLY_ISO = /^\d{4}(?:-\d{2}(?:-\d{2})?)?$/;
+
+/**
+ * Parses an exported date string into a UTC-anchored date. A string that names a zone — or a
+ * date-only ISO string, which ECMAScript defines as UTC — already resolves to an instant whose UTC
+ * fields are the wall clock it asked for. Anything else is parsed by the browser in local time, so
+ * its fields need re-anchoring.
+ */
+function parseExportDate(value: string): Date | undefined {
+    const parsed = new Date(value);
+    if (isNaN(parsed.getTime())) {
+        return undefined;
+    }
+    const trimmed = value.trim();
+    return EXPLICIT_ZONE.test(trimmed) || DATE_ONLY_ISO.test(trimmed) ? parsed : toExcelWallClock(parsed);
 }
 
 const MAX_SAFE_SIGNIFICANT_DIGITS = 15;
@@ -165,7 +208,8 @@ const readers: ReadersByType = {
                   });
 
         if (value instanceof Date) {
-            const dateValue = format && hasTimeComponent(format) ? value : stripTime(value);
+            const wallClock = toExcelWallClock(value);
+            const dateValue = format && hasTimeComponent(format) ? wallClock : stripTime(wallClock);
             return excelDate(dateValue, format);
         }
 
@@ -218,8 +262,8 @@ const readers: ReadersByType = {
         }
 
         if (exportType === "date" && value !== "") {
-            const parsed = new Date(value);
-            if (!isNaN(parsed.getTime())) {
+            const parsed = parseExportDate(value);
+            if (parsed) {
                 const dateValue = format && hasTimeComponent(format) ? parsed : stripTime(parsed);
                 return excelDate(dateValue, format);
             }

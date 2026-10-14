@@ -58,8 +58,16 @@ export interface TreeNodePreviewProps {
     children: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     animate: boolean;
     showIcon: ShowIconEnum;
-    expandedIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
-    collapsedIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
+    expandedIcon:
+        | { type: "glyph"; iconClass: string }
+        | { type: "image"; imageUrl: string; iconUrl: string }
+        | { type: "icon"; iconClass: string }
+        | undefined;
+    collapsedIcon:
+        | { type: "glyph"; iconClass: string }
+        | { type: "image"; imageUrl: string; iconUrl: string }
+        | { type: "icon"; iconClass: string }
+        | undefined;
     animateIcon: boolean;
     noDataMessage: string;
 }

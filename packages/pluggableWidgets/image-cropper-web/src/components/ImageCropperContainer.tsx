@@ -84,7 +84,7 @@ export const ImageCropperContainer = observer(function ImageCropperContainer(
                 onCropChange={crop => store.setLiveCrop(crop)}
                 onCropComplete={pixelCrop => store.commitCrop(pixelCrop)}
                 onUserInteractStart={() => store.markUserDragged()}
-                aspect={store.aspect}
+                aspect={store.cropAspect}
                 circular={props.cropShape === "circle"}
                 resizable={props.resizableEnabled}
                 boundaryWidth={props.boundaryWidth}

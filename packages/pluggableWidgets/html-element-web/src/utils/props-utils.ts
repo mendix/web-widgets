@@ -1,9 +1,9 @@
-import { CSSProperties, DOMAttributes, HTMLAttributes, JSX, ReactNode, SyntheticEvent, useState } from "react";
-import { ObjectItem } from "mendix";
 import DOMPurify, { Config } from "dompurify";
+import { ObjectItem } from "mendix";
+import { CSSProperties, DOMAttributes, HTMLAttributes, JSX, ReactNode, SyntheticEvent, useState } from "react";
 
-import { AttributesType, EventsType, HTMLElementContainerProps, TagNameEnum } from "../../typings/HTMLElementProps";
 import { convertInlineCssToReactStyle } from "./style-utils";
+import { AttributesType, EventsType, HTMLElementContainerProps, TagNameEnum } from "../../typings/HTMLElementProps";
 
 export function prepareTag(tag: TagNameEnum, customTag: string): keyof JSX.IntrinsicElements {
     if (tag === "__customTag__") {

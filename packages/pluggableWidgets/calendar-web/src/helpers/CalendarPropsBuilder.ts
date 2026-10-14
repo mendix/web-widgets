@@ -1,14 +1,16 @@
 import { ObjectItem } from "mendix";
 import { DateLocalizer, Formats, View, ViewsProps } from "react-big-calendar";
 import { CustomWeekController } from "./CustomWeekController";
-import { CalendarContainerProps } from "../../typings/CalendarProps";
+import { YearViewController } from "./YearViewController";
+import { CalendarContainerProps, YearDayClickViewCustomEnum } from "../../typings/CalendarProps";
 import { createConfigurableToolbar, CustomToolbar, ResolvedToolbarItem } from "../components/Toolbar";
 import { eventPropGetter, getTextValue } from "../utils/calendar-utils";
 import { CalendarEvent, DragAndDropCalendarProps } from "../utils/typings";
 
 export class CalendarPropsBuilder {
     private visibleDays: Set<number>;
-    private defaultView: View;
+    private defaultView: View | "year";
+    private yearDayClickView: YearDayClickViewCustomEnum;
     private isCustomView: boolean;
     private events: CalendarEvent[];
     private minTime: Date;
@@ -21,6 +23,9 @@ export class CalendarPropsBuilder {
     constructor(private props: CalendarContainerProps) {
         this.isCustomView = props.view === "custom";
         this.defaultView = this.isCustomView ? props.defaultViewCustom : props.defaultViewStandard;
+        // Collapse the mode-specific day-click view into one field early, mirroring how
+        // `defaultView` is chosen above — the rest of the builder stays mode-agnostic.
+        this.yearDayClickView = this.isCustomView ? props.yearDayClickViewCustom : props.yearDayClickViewStandard;
         this.visibleDays = this.buildVisibleDays();
         this.events = this.buildEvents(props.databaseDataSource?.items ?? []);
         this.minTime = this.buildTime(props.minHour ?? 0);
@@ -61,7 +66,7 @@ export class CalendarPropsBuilder {
         // Ensure defaultView is actually enabled in views, otherwise pick the first enabled view
         const enabledViews = Object.entries(views)
             .filter(([_, enabled]) => enabled !== false)
-            .map(([view]) => view as View);
+            .map(([view]) => view as View | "year");
         const safeDefaultView = enabledViews.includes(this.defaultView) ? this.defaultView : enabledViews[0];
 
         // The view RBC is actually showing right now. Falls back to safeDefaultView when the
@@ -76,7 +81,9 @@ export class CalendarPropsBuilder {
             components: {
                 toolbar
             },
+            // @ts-expect-error - year view is custom, not in react-big-calendar's View type
             view: effectiveView,
+            // @ts-expect-error - year view is custom, not in react-big-calendar's View type
             defaultView: safeDefaultView,
             messages: this.buildMessages(workWeekCaption),
             events: this.events,
@@ -87,7 +94,6 @@ export class CalendarPropsBuilder {
             allDayAccessor: (event: CalendarEvent) => event.allDay,
             endAccessor: (event: CalendarEvent) => event.end,
             eventPropGetter,
-            // @ts-expect-error – navigatable prop not yet in typings but exists in runtime component
             navigatable: true,
             startAccessor: (event: CalendarEvent) => event.start,
             titleAccessor: (event: CalendarEvent) => event.title,
@@ -148,10 +154,7 @@ export class CalendarPropsBuilder {
         }
     }
 
-    private buildFormats(
-        _localizer: DateLocalizer,
-        activeView: "day" | "week" | "work_week" | "month" | "agenda"
-    ): Formats {
+    private buildFormats(_localizer: DateLocalizer, activeView: View | "year"): Formats {
         const formats: Formats = {};
 
         const timePattern = this.getSafeTimePattern();
@@ -362,29 +365,78 @@ export class CalendarPropsBuilder {
         return new Set(visibleDays);
     }
 
-    private buildVisibleViews(): ViewsProps<CalendarEvent> {
-        if (this.isCustomView) {
-            // In custom view, visible views are now fully controlled by configured toolbar items.
-            // We derive which views are enabled by inspecting toolbar items; if none provided, fall back to all.
-            const itemViews = new Set(
-                (this.toolbarItems ?? [])
-                    .map(i => i.itemType)
-                    .filter(t => ["day", "week", "work_week", "month", "agenda"].includes(t))
-            );
-            const hasAny = itemViews.size > 0;
-            return {
-                day: hasAny ? itemViews.has("day") : true,
-                week: hasAny ? itemViews.has("week") : true,
-                work_week:
-                    hasAny && itemViews.has("work_week")
-                        ? CustomWeekController.getComponent(this.visibleDays, this.props.topBarDateFormat?.value)
-                        : false,
-                month: hasAny ? itemViews.has("month") : true,
-                agenda: hasAny ? itemViews.has("agenda") : false
-            };
-        } else {
-            return { day: true, week: true, month: true };
+    // Single source of truth for which views are enabled. In Standard mode the built-in
+    // day/week/month plus the custom year view are always on. In Custom mode the enabled
+    // set is derived entirely from the configured toolbar items; if none are configured
+    // it falls back to day/week/month. This intentionally no longer force-registers a Day
+    // view when Year is enabled — the Year view's day-click target is now resolved against
+    // this set (see resolveDayClickView), so an unavailable target simply disables the
+    // drill-down instead of registering a hidden view the author never asked for.
+    private getEnabledViewNames(): Set<string> {
+        if (!this.isCustomView) {
+            return new Set(["day", "week", "month", "year"]);
         }
+
+        const itemViews = new Set(
+            (this.toolbarItems ?? [])
+                .map(i => i.itemType)
+                .filter(t => ["day", "week", "work_week", "month", "agenda", "year"].includes(t))
+        );
+        const hasAny = itemViews.size > 0;
+        const enabled = new Set<string>();
+
+        if (hasAny ? itemViews.has("day") : true) {
+            enabled.add("day");
+        }
+        if (hasAny ? itemViews.has("week") : true) {
+            enabled.add("week");
+        }
+        if (hasAny && itemViews.has("work_week")) {
+            enabled.add("work_week");
+        }
+        if (hasAny ? itemViews.has("month") : true) {
+            enabled.add("month");
+        }
+        if (hasAny && itemViews.has("agenda")) {
+            enabled.add("agenda");
+        }
+        if (hasAny && itemViews.has("year")) {
+            enabled.add("year");
+        }
+
+        return enabled;
+    }
+
+    // Resolve which view the Year view should open when a day cell is clicked. The author's
+    // choice (this.yearDayClickView) is only honored if that view is actually enabled;
+    // otherwise the drill-down is disabled (returns undefined) rather than forcing a view
+    // the author never enabled.
+    private resolveDayClickView(enabledViews: Set<string>): string | undefined {
+        if (enabledViews.has(this.yearDayClickView)) {
+            return this.yearDayClickView;
+        }
+        console.warn(
+            `[Calendar] Year view day-click target "${this.yearDayClickView}" is not an enabled view; ` +
+                `day-click is disabled. Enable that view (add its toolbar item in Custom mode) to activate it.`
+        );
+        return undefined;
+    }
+
+    private buildVisibleViews(): ViewsProps<CalendarEvent> {
+        const enabled = this.getEnabledViewNames();
+        const dayClickView = this.resolveDayClickView(enabled);
+
+        return {
+            day: enabled.has("day"),
+            week: enabled.has("week"),
+            work_week: enabled.has("work_week")
+                ? CustomWeekController.getComponent(this.visibleDays, this.props.topBarDateFormat?.value)
+                : false,
+            month: enabled.has("month"),
+            agenda: enabled.has("agenda"),
+            // @ts-expect-error - year view is custom, not in react-big-calendar's ViewsProps type
+            year: enabled.has("year") ? YearViewController.getComponent(dayClickView) : false
+        };
     }
 
     private buildToolbarItems(): ResolvedToolbarItem[] | undefined {

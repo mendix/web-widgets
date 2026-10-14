@@ -3,11 +3,11 @@ import { useSelect, UseSelectProps } from "downshift";
 import { observer } from "mobx-react-lite";
 import { CSSProperties, FocusEventHandler, ReactElement, Ref, UIEventHandler } from "react";
 import { OptionWithState } from "../../typings/OptionWithState";
+import { useMergedRefs } from "../../utils/useMergedRefs";
 import { ClearButton } from "../base/ClearButton";
 import { OptionsWrapper } from "../base/OptionsWrapper";
 import { useFloatingMenu } from "../hooks/useFloatingMenu";
 import { Arrow, classes } from "../picker-primitives";
-import { useMergedRefs } from "../../utils/useMergedRefs";
 
 interface SelectProps {
     value: string;

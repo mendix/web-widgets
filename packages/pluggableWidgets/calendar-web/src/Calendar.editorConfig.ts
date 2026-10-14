@@ -1,3 +1,4 @@
+import { hideNestedPropertiesIn, hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 import {
     container,
     rowLayout,
@@ -5,7 +6,6 @@ import {
     StructurePreviewProps,
     text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { hideNestedPropertiesIn, hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 import { CalendarPreviewProps } from "../typings/CalendarProps";
 import IconSVGDark from "./assets/StructureCalendarDark.svg";
 import IconSVG from "./assets/StructureCalendarLight.svg";
@@ -34,6 +34,7 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
     if (values.view === "standard") {
         hidePropertiesIn(defaultProperties, values, [
             "defaultViewCustom",
+            "yearDayClickViewCustom",
             "toolbarItems",
             "customViewShowMonday",
             "customViewShowTuesday",
@@ -44,7 +45,12 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
             "customViewShowSunday"
         ]);
     } else {
-        hidePropertiesIn(defaultProperties, values, ["defaultViewStandard", "topBarDateFormat", "timeFormat"]);
+        hidePropertiesIn(defaultProperties, values, [
+            "defaultViewStandard",
+            "yearDayClickViewStandard",
+            "topBarDateFormat",
+            "timeFormat"
+        ]);
     }
 
     values.toolbarItems?.forEach((item, index) => {

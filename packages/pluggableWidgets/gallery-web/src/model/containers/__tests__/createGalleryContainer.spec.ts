@@ -1,6 +1,6 @@
+import { SelectionSingleValue } from "mendix";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { list } from "@mendix/widget-plugin-test-utils";
-import { SelectionSingleValue } from "mendix";
 import { mockContainerProps } from "../../../utils/mock-container-props";
 import { CORE_TOKENS as CORE, GY_TOKENS as GY } from "../../tokens";
 import { createGalleryContainer } from "../createGalleryContainer";

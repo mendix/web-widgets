@@ -1,6 +1,6 @@
-import { SelectionType } from "@mendix/widget-plugin-grid/selection";
 import classNames from "classnames";
 import { ReactElement, ReactNode } from "react";
+import { SelectionType } from "@mendix/widget-plugin-grid/selection";
 
 type ListBoxProps = {
     lg: number;

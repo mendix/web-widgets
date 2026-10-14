@@ -1,3 +1,6 @@
+import { Big } from "big.js";
+import { EditableValue } from "mendix";
+import { reaction } from "mobx";
 import {
     ComputedAtom,
     DerivedPropsGate,
@@ -5,9 +8,6 @@ import {
     SetupComponent,
     SetupComponentHost
 } from "@mendix/widget-plugin-mobx-kit/main";
-import { Big } from "big.js";
-import { EditableValue } from "mendix";
-import { reaction } from "mobx";
 import { GridPageControl } from "../interfaces/GridPageControl";
 
 type FeatureGateProps = {

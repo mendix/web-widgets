@@ -1,6 +1,6 @@
+import { action, makeObservable, observable } from "mobx";
 import { SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
-import { action, makeObservable, observable } from "mobx";
 
 export class ResizeController implements SetupComponent {
     width = 0;

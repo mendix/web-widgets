@@ -1,5 +1,5 @@
-import { mapPreviewIconToWebIcon } from "@mendix/widget-plugin-platform/preview/map-icon";
 import { ReactElement } from "react";
+import { mapPreviewIconToWebIcon } from "@mendix/widget-plugin-platform/preview/map-icon";
 import {
     GroupByDayOptionsEnum,
     GroupByKeyEnum,

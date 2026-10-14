@@ -1,11 +1,4 @@
 import {
-    ContainerProps,
-    datasource,
-    ImageProps,
-    StructurePreviewProps
-} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
-import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
     hidePropertyIn,
@@ -13,13 +6,20 @@ import {
     Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
+import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
+import {
+    ContainerProps,
+    datasource,
+    ImageProps,
+    StructurePreviewProps
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import { LineChartPreviewProps } from "../typings/LineChartProps";
 
-import LineChartDark from "./assets/LineChart.dark.svg";
-import LineChartLight from "./assets/LineChart.light.svg";
 import LineChartLegendDark from "./assets/LineChart-legend.dark.svg";
 import LineChartLegendLight from "./assets/LineChart-legend.light.svg";
+import LineChartDark from "./assets/LineChart.dark.svg";
+import LineChartLight from "./assets/LineChart.light.svg";
 
 export function getProperties(
     values: LineChartPreviewProps,

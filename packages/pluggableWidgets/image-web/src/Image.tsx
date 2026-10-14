@@ -2,8 +2,8 @@ import { ValueStatus } from "mendix";
 import { FunctionComponent, useCallback } from "react";
 import { ImageContainerProps } from "../typings/ImageProps";
 import { Image as ImageComponent } from "./components/Image/Image";
-import { constructStyleObject } from "./utils/helpers";
 import { getImageProps } from "./utils/getImageProps";
+import { constructStyleObject } from "./utils/helpers";
 
 export const Image: FunctionComponent<ImageContainerProps> = props => {
     const onClick = useCallback(() => props.onClick?.execute(), [props.onClick]);

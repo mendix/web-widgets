@@ -1,5 +1,5 @@
-import { CSSProperties, KeyboardEvent, ReactElement } from "react";
 import classNames from "classnames";
+import { CSSProperties, KeyboardEvent, ReactElement } from "react";
 
 export interface BadgeProps {
     type: "badge" | "label";

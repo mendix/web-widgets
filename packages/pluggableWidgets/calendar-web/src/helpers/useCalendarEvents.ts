@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { CalendarEvent, EventDropOrResize } from "../utils/typings";
-import { CalendarContainerProps } from "../../typings/CalendarProps";
 import { CalendarProps, NavigateAction, View } from "react-big-calendar";
+import { CalendarContainerProps } from "../../typings/CalendarProps";
+import { CalendarEvent, EventDropOrResize } from "../utils/typings";
 
 type CalendarEventHandlers = Pick<
     CalendarProps<CalendarEvent>,

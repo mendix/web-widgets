@@ -1,6 +1,6 @@
-import { ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { computed } from "mobx";
 import { ReactNode } from "react";
+import { ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 
 /**
  * Selects 'empty placeholder' widgets from gate.

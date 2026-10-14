@@ -1,6 +1,6 @@
-import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
-import { Component, ReactNode } from "react";
 import classNames from "classnames";
+import { Component, ReactNode } from "react";
+import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 
 import { SizeContainer } from "./components/SizeContainer";
 import { Video } from "./components/Video";

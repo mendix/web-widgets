@@ -315,10 +315,4 @@ export const structurePreviewPalette = Object.freeze({
 });
 
 export type StructurePreviewProps =
-    | ImageProps
-    | ContainerProps
-    | RowLayoutProps
-    | TextProps
-    | DropZoneProps
-    | SelectableProps
-    | DatasourceProps;
+    ImageProps | ContainerProps | RowLayoutProps | TextProps | DropZoneProps | SelectableProps | DatasourceProps;

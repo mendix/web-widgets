@@ -1,5 +1,5 @@
-import { attrId } from "@mendix/widget-plugin-test-utils";
 import { makeObservable, observable } from "mobx";
+import { attrId } from "@mendix/widget-plugin-test-utils";
 import { SortStoreHost } from "../stores/SortStoreHost";
 import { ObservableSortStore, SortInstruction } from "../types/store";
 

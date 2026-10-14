@@ -1,4 +1,4 @@
-import { Options, parseAsync, renderDocument, WordDocument } from "docx-preview";
+import { Options, renderAsync } from "docx-preview";
 import { useCallback, useEffect, useRef } from "react";
 import { BaseControlViewer } from "./BaseViewer";
 import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "./documentRenderer";
@@ -17,27 +17,11 @@ const DocxViewer: DocRendererElement = (props: DocumentRendererProps) => {
     const loadContent = useCallback(
         async (arrayBuffer: any) => {
             try {
-                parseAsync(arrayBuffer, DOC_CONFIG)
-                    .then((wordDocument: WordDocument) => {
-                        if (localRef.current) {
-                            // create new dummy stylecontainer to be ignored
-                            const styleContainer = document.createElement("div");
-                            renderDocument(wordDocument, localRef.current, styleContainer, DOC_CONFIG).catch(
-                                (_error: any) => {
-                                    setDocumentStatus({
-                                        status: DocumentStatus.error,
-                                        message: "Failed to load DOCX document"
-                                    });
-                                }
-                            );
-                        }
-                    })
-                    .catch((_error: any) => {
-                        setDocumentStatus({
-                            status: DocumentStatus.error,
-                            message: "Failed to load DOCX document"
-                        });
-                    });
+                if (localRef.current) {
+                    // Keep generated styles out of the document head.
+                    const styleContainer = document.createElement("div");
+                    await renderAsync(arrayBuffer, localRef.current, styleContainer, DOC_CONFIG);
+                }
             } catch (_error: any) {
                 setDocumentStatus({
                     status: DocumentStatus.error,
@@ -56,6 +40,14 @@ const DocxViewer: DocRendererElement = (props: DocumentRendererProps) => {
                 .then(res => res.arrayBuffer())
                 .then(response => {
                     loadContent(response);
+                })
+                .catch((_error: any) => {
+                    if (!signal.aborted) {
+                        setDocumentStatus({
+                            status: DocumentStatus.error,
+                            message: "Failed to load DOCX document"
+                        });
+                    }
                 });
         }
 

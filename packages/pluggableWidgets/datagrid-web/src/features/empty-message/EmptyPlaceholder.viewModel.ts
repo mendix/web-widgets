@@ -1,6 +1,6 @@
-import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 import { makeAutoObservable } from "mobx";
 import { CSSProperties, ReactNode } from "react";
+import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 
 export class EmptyPlaceholderViewModel {
     constructor(

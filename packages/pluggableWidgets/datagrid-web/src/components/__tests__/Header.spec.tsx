@@ -1,7 +1,7 @@
-import { dynamic } from "@mendix/widget-plugin-test-utils";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ContainerProvider } from "brandi-react";
+import { dynamic } from "@mendix/widget-plugin-test-utils";
 import { createDatagridContainer } from "../../model/containers/createDatagridContainer";
 import { CORE_TOKENS } from "../../model/tokens";
 import { column, mockContainerProps } from "../../utils/test-utils";

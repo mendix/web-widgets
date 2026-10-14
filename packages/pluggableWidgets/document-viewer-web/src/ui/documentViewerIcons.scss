@@ -10,7 +10,8 @@ $icons: (
     Left: "\e902",
     ZoomIn: "\e901",
     ZoomOut: "\e900",
-    FitToWidth: "\e904"
+    FitToWidth: "\e904",
+    Search: "\e905"
 );
 
 .icons.btn {
@@ -21,24 +22,26 @@ $icons: (
     }
 }
 
+// Apply DocViewer font to all .icons elements anywhere in the widget
 div.widget-document-viewer {
     &-controls {
         button {
             margin-left: var(--spacing-smaller, 4px);
         }
-        .icons {
-            font-family: "DocViewer" !important;
-            font-size: 16px;
-            font-style: normal;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
-            padding: var(--spacing-smallest) var(--spacing-small);
+    }
 
-            @each $name, $code in $icons {
-                &.icon-#{$name}:before {
-                    content: $code;
-                }
+    .icons {
+        font-family: "DocViewer" !important;
+        font-size: 16px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        padding: var(--spacing-smallest) var(--spacing-small);
+
+        @each $name, $code in $icons {
+            &.icon-#{$name}:before {
+                content: $code;
             }
         }
     }

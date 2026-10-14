@@ -1,5 +1,5 @@
-import { CSSProperties, HTMLAttributes, ReactElement, ReactEventHandler, ReactNode } from "react";
 import classNames from "classnames";
+import { CSSProperties, HTMLAttributes, ReactElement, ReactEventHandler, ReactNode } from "react";
 import { HeightUnitEnum, WidthUnitEnum } from "../../../typings/ImageProps";
 import { LightboxProps } from "../Lightbox";
 

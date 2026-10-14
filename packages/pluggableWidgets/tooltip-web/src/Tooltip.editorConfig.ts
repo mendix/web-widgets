@@ -1,4 +1,4 @@
-import { TooltipPreviewProps } from "../typings/TooltipProps";
+import { hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 import {
     ContainerProps,
     DropZoneProps,
@@ -7,7 +7,7 @@ import {
     StructurePreviewProps,
     TextProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
+import { TooltipPreviewProps } from "../typings/TooltipProps";
 
 export function getProperties(values: TooltipPreviewProps, defaultValues: Properties): Properties {
     if (values.renderMethod === "text") {

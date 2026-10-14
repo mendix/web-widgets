@@ -6,9 +6,49 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-### Security
+### Fixed
 
-- We fixed a security vulnerability (CVE-2026-13149).
+- We fixed an issue where the editor and its toolbar did not become read-only or editable when the editability of its attribute changed after the page was loaded, for example with conditional editability.
+
+- We fixed an issue where, with multiple Rich Text widgets on a page, toggling fullscreen or pressing Escape in one editor changed the fullscreen mode of a different editor, and the fullscreen button showed the wrong state.
+
+## [5.1.0] - 2026-09-29
+
+### Added
+
+- We added a new "Dialog style" setting to choose how the editor's dialogs are shown: "Inline" keeps them anchored to the toolbar button, while "Focused" centers them on the page over a dimmed background.
+
+### Fixed
+
+- We fixed an issue where dropping a file onto the editor made the browser navigate away from the page.
+
+- We fixed an issue where images that were resized in Rich Text version 4 lost their size after upgrading to version 5 and were shown at their original size.
+
+- We fixed an issue where clicking a button inside the image dialog's Media Library content inserted the image and closed the dialog without pressing Insert.
+
+- We fixed an issue where a dialog was cut off when its content was tall or when the editor was placed inside a container that clips its content, such as a pop-up page. Dialogs now stay fully on screen and scroll inside themselves, keeping the Cancel and Insert buttons always visible.
+
+- We fixed an issue where header toolbar not showing when selected on custom mode.
+
+- We fixed an issue where the bullet or number of a list item kept its original size, color and font when the list text was formatted. Markers now follow the formatting of the item's first character, including size, bold, italic, color and font, and each item is evaluated on its own.
+
+- We fixed an issue where opening a page could mark the Rich Text value as changed and run the "On change" action even though nothing was edited.
+
+## [5.0.0] - 2026-08-14
+
+### Added
+
+- We added new configuration to allow users to use class names instead of inline styling in generated HTML to support strict CSP.
+
+- We added a help button to the toolbar that opens a dialog listing the editor's keyboard shortcuts. The button is shown when the full toolbar is enabled and can be turned off with the new "Keyboard shortcuts" setting.
+
+- We added translations for the toolbar, dialogs, and help texts. The editor UI now follows the page language automatically, with bundled translations for English, Dutch, German, French, and Spanish (falling back to English).
+
+### Changed
+
+- We changed rich text's internal WYSIWYG engine from Quill to Tiptap. This is allow rich text to have better support for nested tables. Internally, rich text still operates on HTML data stored in the attribute.ß
+
+- We removed codemirror from code dialog viewer due to unsupported strict CSP policy. A simple internally built code editor using highlightjs is now replacing it.
 
 ## [4.12.0] - 2026-04-22
 

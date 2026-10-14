@@ -1,5 +1,5 @@
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { makeAutoObservable } from "mobx";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { MainGateProps } from "../../../typings/MainGateProps";
 
 export class TextsService {

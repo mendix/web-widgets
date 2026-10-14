@@ -1,4 +1,3 @@
-import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import {
     hidePropertiesIn,
     hidePropertyIn,
@@ -6,11 +5,11 @@ import {
     Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
-
-import { VideoPlayerContainerProps, VideoPlayerPreviewProps } from "../typings/VideoPlayerProps";
+import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import StructurePreviewWithControlsSVG from "../assets/structure-preview-video-with-controls.svg";
 import StructurePreviewWithoutControlsSVG from "../assets/structure-preview-video-without-controls.svg";
+import { VideoPlayerContainerProps, VideoPlayerPreviewProps } from "../typings/VideoPlayerProps";
 
 export function getProperties(
     values: VideoPlayerContainerProps,

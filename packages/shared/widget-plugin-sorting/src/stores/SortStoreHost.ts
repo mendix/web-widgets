@@ -1,5 +1,5 @@
-import { PlainJs } from "@mendix/filter-commons/typings/settings";
 import { action, autorun, computed, makeObservable, observable, runInAction } from "mobx";
+import { PlainJs } from "@mendix/filter-commons/typings/settings";
 import { ObservableSortStore, SortInstruction } from "../types/store";
 
 export class SortStoreHost {

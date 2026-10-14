@@ -24,8 +24,8 @@ THE SOFTWARE.
 */
 
 import shifty, { Tweenable } from "shifty";
-import { extend, isFunction, isString } from "./Utils";
 import { ShapeOptions, ShapeRenderFunction } from "./Types";
+import { extend, isFunction, isString } from "./Utils";
 
 const EASING_ALIASES: { [key: string]: string } = {
     easeIn: "easeInCubic",

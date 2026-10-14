@@ -1,3 +1,4 @@
+import { Container, injected } from "brandi";
 import {
     hasMoreItemsAtom,
     isAllItemsPresentAtom,
@@ -14,7 +15,6 @@ import {
 } from "@mendix/widget-plugin-grid/core/models/selection.model";
 import { PageSizeStore } from "@mendix/widget-plugin-grid/pagination/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { Container, injected } from "brandi";
 import { GallerySetupService } from "../services/GallerySetup.service";
 import { TextsService } from "../services/Texts.service";
 import { CORE_TOKENS as CORE } from "../tokens";

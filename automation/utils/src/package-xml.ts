@@ -1,7 +1,7 @@
-import { z } from "zod";
-import { XMLBuilder, XMLParser } from "fast-xml-parser";
 import { readFile, writeFile } from "fs/promises";
 import path from "node:path";
+import { XMLBuilder, XMLParser } from "fast-xml-parser";
+import { z } from "zod";
 
 const EmptyTagWithoutAttributes = z.literal("");
 

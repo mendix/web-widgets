@@ -1,10 +1,10 @@
-import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
 import { useEffect, useMemo, useRef } from "react";
 import { MxBarcodeReader } from "src/helpers/barcode-detector";
-import { isBarcodeDetectorSupported } from "../helpers/barcode-detector-utils";
-import { UseReaderHook } from "../helpers/utils";
+import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
 import { Reader as NativeReader } from "./nativeReader";
 import { Reader as ZxReader } from "./zxReader";
+import { isBarcodeDetectorSupported } from "../helpers/barcode-detector-utils";
+import { UseReaderHook } from "../helpers/utils";
 
 export const useReader: UseReaderHook = args => {
     const videoRef = useRef<HTMLVideoElement | null>(null);

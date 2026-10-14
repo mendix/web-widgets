@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
 import { ActionValue, WebIcon } from "mendix";
+import { ReactNode } from "react";
 import { UngroupedEventsPositionEnum } from "../../typings/TimelineProps";
 
 export interface BasicItemType {

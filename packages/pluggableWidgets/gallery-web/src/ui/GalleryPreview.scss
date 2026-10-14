@@ -16,4 +16,8 @@
         rgba(255, 255, 255, 0.75) 100%
     );
     z-index: 1;
+    // Purely decorative fade. Without this, the overlay swallows hit-testing in
+    // Studio Pro design mode, so clicks on widgets inside a gallery item resolve
+    // to the surrounding container instead.
+    pointer-events: none;
 }

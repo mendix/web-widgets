@@ -1,5 +1,5 @@
-import { GateProvider } from "@mendix/widget-plugin-mobx-kit/main";
 import { autorun } from "mobx";
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/main";
 import { hasMoreItemsAtom } from "../models/datasource.model.js";
 
 describe("hasMoreItemsAtom", () => {

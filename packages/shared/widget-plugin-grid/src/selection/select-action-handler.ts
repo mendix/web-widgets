@@ -1,6 +1,6 @@
 import { ObjectItem } from "mendix";
-import { SelectionHelperService } from "../interfaces/SelectionHelperService";
 import { SelectAdjacentFx, SelectAllFx, SelectFx, SelectionType, WidgetSelectionProperty } from "./types";
+import { SelectionHelperService } from "../interfaces/SelectionHelperService";
 
 /** @deprecated use `SelectActionsProvider` instead */
 export class SelectActionHandler {

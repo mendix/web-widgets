@@ -1,12 +1,12 @@
-import { ReactElement } from "react";
-import userEvent, { UserEvent } from "@testing-library/user-event";
 import { render, RenderResult } from "@testing-library/react";
-import { objectItems } from "@mendix/widget-plugin-test-utils";
-import { EventEntryContext } from "../base";
-import { createItemHandlers } from "../item-handlers";
-import { createActionHandlers } from "../action-handlers";
+import userEvent, { UserEvent } from "@testing-library/user-event";
+import { ReactElement } from "react";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
 import { SelectionType } from "@mendix/widget-plugin-grid/selection";
+import { objectItems } from "@mendix/widget-plugin-test-utils";
+import { createActionHandlers } from "../action-handlers";
+import { EventEntryContext } from "../base";
+import { createItemHandlers } from "../item-handlers";
 
 function setup(jsx: ReactElement): { user: UserEvent } & RenderResult {
     return {

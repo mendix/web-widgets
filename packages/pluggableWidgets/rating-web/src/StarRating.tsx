@@ -1,9 +1,9 @@
-import { ReactElement, useCallback } from "react";
-import { Rating as RatingComponent } from "./components/Rating";
+import Big from "big.js";
 import { ValueStatus } from "mendix";
+import { ReactElement, useCallback } from "react";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
-import Big from "big.js";
+import { Rating as RatingComponent } from "./components/Rating";
 import { StarRatingContainerProps } from "../typings/StarRatingProps";
 import { Icon } from "./components/Icon";
 

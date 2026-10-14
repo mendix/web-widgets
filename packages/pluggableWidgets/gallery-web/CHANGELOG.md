@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.7] - 2026-10-02
+
+### Fixed
+
+- We fixed an issue where SPACE and ENTER keyboard events were blocked in interactive elements (inputs, textareas, buttons) nested within gallery items. These keys now work normally in nested inputs while still triggering gallery item selection when pressed on the item itself.
+
+## [3.11.5] - 2026-09-10
+
+### Changed
+
+- The pagination alignment design property now offers Left, Center and Right, and is applied above and below the gallery. Aligning the pagination moves the selection count or the load more button aside so both stay visible on the same row.
+
+### Fixed
+
+- We fixed the pagination alignment design property, which had no effect on the position of the pagination controls.
+
+- We fixed an issue where custom pagination widgets always rendered below the gallery, ignoring the "Position of pagination" setting. Selecting "Above grid" now renders them above the gallery, and the page editor shows them in the same place as the running app. With "Both" selected, custom pagination widgets render once, below the gallery.
+
+## [3.11.4] - 2026-08-24
+
+### Fixed
+
+- We fixed an issue where the Gallery widget could crash with an "invalid attribute id" error when a stored sort order referenced an attribute that was no longer available. The widget now falls back to the default sort order instead.
+
+- We fixed an issue in Studio Pro design mode where widgets placed inside a gallery item could not be selected or hovered. Double-clicking them opened the properties of the surrounding container instead.
+
+## [3.11.3] - 2026-07-27
+
 ### Fixed
 
 - We fixed an issue where "Reset All Filters" and "Clear Selection" JavaScript actions did not work with the Gallery widget. Event listeners were not registered despite the required infrastructure being in place.

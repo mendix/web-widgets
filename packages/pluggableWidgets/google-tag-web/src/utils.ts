@@ -1,6 +1,6 @@
-import { TXhHdGFnContainerProps as GoogleTagContainerProps, ParametersType } from "../typings/TXhHdGFnProps";
-import commonGtag from "./commonGtag";
 import { useEffect } from "react";
+import commonGtag from "./commonGtag";
+import { TXhHdGFnContainerProps as GoogleTagContainerProps, ParametersType } from "../typings/TXhHdGFnProps";
 
 export function areParametersReady(parameters: GoogleTagContainerProps["parameters"]): boolean {
     return parameters.every(p => p.valueType === "predefined" || p.customValue?.status === "available");

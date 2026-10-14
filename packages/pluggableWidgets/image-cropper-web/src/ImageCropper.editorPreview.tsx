@@ -5,7 +5,7 @@ import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { ImageCropperPreviewProps } from "../typings/ImageCropperProps";
 import CropperPlaceholderIcon from "./assets/cropper-placeholder.svg";
 import { CropArea } from "./components/CropArea";
-import { resolveAspectRatio } from "./utils/aspectRatio";
+import { resolveAspectRatio, toCropAspect } from "./utils/aspectRatio";
 import { describeConfig } from "./utils/describeConfig";
 
 declare function require(name: string): string;
@@ -21,10 +21,16 @@ function StaticCropPreview(props: { imageUrl: string; values: ImageCropperPrevie
     const [crop, setCrop] = useState<Crop | undefined>(undefined);
     const imageRef = createRef<HTMLImageElement>();
 
-    const aspect = resolveAspectRatio(
-        values.aspectRatio,
-        values.customAspectWidth ?? 0,
-        values.customAspectHeight ?? 0
+    // Preview only has the expression *text* (no runtime data). Numeric literals render a real
+    // ratio; an attribute/expression path can't be evaluated here, so it falls back to free aspect.
+    const toNumber = (v: string | null): number | undefined => {
+        const n = Number(v);
+        return v != null && v !== "" && Number.isFinite(n) ? n : undefined;
+    };
+    // toCropAspect collapses both "unresolvable expression" and free aspect to undefined — the
+    // preview has nothing to wait for, so pending and free are the same thing here.
+    const aspect = toCropAspect(
+        resolveAspectRatio(values.aspectRatio, toNumber(values.customAspectWidth), toNumber(values.customAspectHeight))
     );
 
     const handleImageLoad = (percentCrop: Crop): void => {

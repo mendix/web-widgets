@@ -45,7 +45,7 @@ function InnerContainer(props: InnerContainerProps): ReactElement {
 
     const format = useMemo(
         () => createValueFormatter(lowerBoundAttribute.formatter as NumberFormatter, props.decimalPlaces),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
         [lowerBoundAttribute.formatter, props.decimalPlaces]
     );
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import { DocumentViewerContainerProps } from "../../typings/DocumentViewerProps";
 import { DocumentRenderers } from "../components";
 import {
     DocRendererElement,
@@ -8,7 +9,6 @@ import {
     DocumentStatusEvent
 } from "../components/documentRenderer";
 import ErrorViewer from "../components/ErrorViewer";
-import { DocumentViewerContainerProps } from "../../typings/DocumentViewerProps";
 interface DocumentRenderer {
     CurrentRenderer: DocRendererElement;
     props: DocumentRendererProps;

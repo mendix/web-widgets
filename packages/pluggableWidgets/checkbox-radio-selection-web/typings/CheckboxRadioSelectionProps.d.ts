@@ -3,7 +3,19 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, DynamicValue, EditableValue, ListAttributeValue, ListExpressionValue, ListValue, ListWidgetValue, ReferenceSetValue, ReferenceValue, SelectionMultiValue, SelectionSingleValue } from "mendix";
+import {
+    ActionValue,
+    DynamicValue,
+    EditableValue,
+    ListAttributeValue,
+    ListExpressionValue,
+    ListValue,
+    ListWidgetValue,
+    ReferenceSetValue,
+    ReferenceValue,
+    SelectionMultiValue,
+    SelectionSingleValue
+} from "mendix";
 import { ComponentType, ReactNode } from "react";
 import { Big } from "big.js";
 
@@ -31,7 +43,10 @@ export type ReadOnlyStyleEnum = "bordered" | "text";
 
 export interface OptionsSourceStaticDataSourcePreviewType {
     staticDataSourceValue: string;
-    staticDataSourceCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    staticDataSourceCustomContent: {
+        widgetCount: number;
+        renderer: ComponentType<{ children: ReactNode; caption?: string }>;
+    };
     staticDataSourceCaption: string;
 }
 
@@ -95,8 +110,14 @@ export interface CheckboxRadioSelectionPreviewProps {
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourcePreviewType[];
     noOptionsText: string;
     optionsSourceCustomContentType: OptionsSourceCustomContentTypeEnum;
-    optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
-    optionsSourceDatabaseCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    optionsSourceAssociationCustomContent: {
+        widgetCount: number;
+        renderer: ComponentType<{ children: ReactNode; caption?: string }>;
+    };
+    optionsSourceDatabaseCustomContent: {
+        widgetCount: number;
+        renderer: ComponentType<{ children: ReactNode; caption?: string }>;
+    };
     controlType: ControlTypeEnum;
     groupName: string;
     customEditability: CustomEditabilityEnum;

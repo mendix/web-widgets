@@ -1,0 +1,94 @@
+// Styling for the image dialog's "Upload" tab dropzone. It mirrors the
+// file-uploader widget's dropzone so both tabs look identical, but uses
+// widget-prefixed class names so it never overrides the embedded file-uploader
+// widget rendered in the "Media Library" tab.
+//
+// This file lives in src/ui/ (one level under src) so that `url(../assets/...)`
+// is copied and rewritten correctly by the widget build tooling.
+
+$rte-dz-bg-color: #f8f8f8;
+$rte-dz-border-color-default: #ced0d3;
+$rte-dz-color-primary-lighter: #e6eaff;
+$rte-dz-brand-primary: #264ae5;
+$rte-dz-color-warning-lighter: #fbedd2;
+$rte-dz-brand-warning: #eca51c;
+$rte-dz-gray-light: #6c7180;
+$rte-dz-dropzone-color: #8f620b;
+$rte-dz-file-icon: url("../assets/file-icon.svg");
+$rte-dz-warning-icon: url("../assets/warning-icon.svg");
+
+.image-dialog-dropzone {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    margin: 16px;
+
+    height: 106px;
+
+    border-radius: 5px;
+    border: 1.5px dashed var(--border-color-default, $rte-dz-border-color-default);
+    background-color: var(--bg-color, $rte-dz-bg-color);
+
+    &:hover,
+    &:focus {
+        border: 1.5px dashed var(--brand-primary, $rte-dz-brand-primary);
+        .image-dialog-dropzone__text {
+            color: var(--brand-primary, $rte-dz-brand-primary);
+            text-decoration: underline;
+        }
+    }
+
+    &:active {
+        border: 1.5px dashed var(--brand-primary, $rte-dz-brand-primary);
+        .image-dialog-dropzone__text {
+            color: var(--brand-primary, $rte-dz-brand-primary);
+            text-decoration: underline;
+        }
+    }
+
+    &.image-dialog-dropzone--warning {
+        border: 1.5px dashed var(--brand-warning, $rte-dz-brand-warning);
+        background-color: var(--color-warning-lighter, $rte-dz-color-warning-lighter);
+        .image-dialog-dropzone__text {
+            color: var(--file-dropzone-color, $rte-dz-dropzone-color);
+        }
+    }
+
+    &.image-dialog-dropzone--active {
+        border: 1.5px solid var(--brand-primary, $rte-dz-brand-primary);
+        background-color: var(--color-primary-lighter, $rte-dz-color-primary-lighter);
+    }
+
+    .image-dialog-dropzone__icon {
+        flex: 0 0 34px;
+        background-image: var(--file-icon, $rte-dz-file-icon);
+        background-repeat: no-repeat;
+        height: 34px;
+        width: 28px;
+        margin: 5px;
+    }
+
+    .image-dialog-dropzone__text {
+        font-size: 12px;
+        line-height: 17px;
+        font-weight: 400;
+        color: var(--gray-light, $rte-dz-gray-light);
+        text-align: center;
+
+        .image-dialog-dropzone__inline-icon {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            background-repeat: no-repeat;
+            background-size: contain;
+            vertical-align: sub;
+            margin-right: 4px;
+
+            &.image-dialog-dropzone__inline-icon--warning {
+                background-image: var(--file-warning-icon, $rte-dz-warning-icon);
+            }
+        }
+    }
+}
