@@ -74,17 +74,17 @@
 
 // Grid spacing small
 .widget-gallery.widget-gallery-gridgap-small {
-    --gallery-gap: var(--spacing-small, $spacing-small);
+    --gallery-gap: var(--spacing-small, #{$spacing-small});
 }
 
 // Grid spacing medium
 .widget-gallery.widget-gallery-gridgap-medium {
-    --gallery-gap: var(--spacing-medium, $spacing-medium);
+    --gallery-gap: var(--spacing-medium, #{$spacing-medium});
 }
 
 // Grid spacing large
 .widget-gallery.widget-gallery-gridgap-large {
-    --gallery-gap: var(--spacing-large, $spacing-large);
+    --gallery-gap: var(--spacing-large, #{$spacing-large});
 }
 
 // Pagination alignment

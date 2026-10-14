@@ -24,7 +24,7 @@ $root: ".widget-gallery" !default;
 }
 
 .widget-gallery {
-    --gallery-gap: var(--spacing-small, $gallery-gap);
+    --gallery-gap: var(--spacing-small, #{$gallery-gap});
 
     .widget-gallery-items {
         display: grid;
