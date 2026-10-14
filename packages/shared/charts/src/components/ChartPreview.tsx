@@ -49,7 +49,13 @@ ChartPreview.PlotLegend = (props: { src: string; alt: string }) => {
 
 // Mirrors the runtime dimensions, but never lets the preview grow past its parent.
 function getPreviewDimensions(props: ChartPreviewProps): CSSProperties {
-    const style: CSSProperties = { boxSizing: "border-box", maxWidth: "100%", maxHeight: "100%" };
+    const style: CSSProperties = {
+        display: "flex",
+        overflow: "hidden",
+        boxSizing: "border-box",
+        maxWidth: "100%",
+        maxHeight: "100%"
+    };
 
     if (props.width) {
         style.width = props.widthUnit === "percentage" ? `${props.width}%` : `${props.width}px`;
@@ -70,7 +76,7 @@ function getPreviewDimensions(props: ChartPreviewProps): CSSProperties {
 
 function Chart(props: ChartPreviewProps): ReactElement {
     return (
-        <div className={props.class} style={{ display: "flex", overflow: "hidden", ...getPreviewDimensions(props) }}>
+        <div className={props.class} style={getPreviewDimensions(props)}>
             {props.image}
             {props.showLegend ? props.legend : null}
         </div>
