@@ -28,36 +28,35 @@ describe("ClickEventSwitch", () => {
         ]);
     });
 
-    describe("classification by detail", () => {
-        it("runs the click entries when detail is 1", () => {
+    describe("classification", () => {
+        it("runs the click entries for a single click", () => {
             dispatch(click(1, 100));
 
             expect(onSingle).toHaveBeenCalledTimes(1);
             expect(onDouble).toHaveBeenCalledTimes(0);
         });
 
-        it("runs the double click entries when detail is 2", () => {
-            dispatch(click(2, 100));
+        it("runs the double click entries for a double click", () => {
+            dispatch(click(1, 100));
+            dispatch(click(2, 250));
 
-            expect(onSingle).toHaveBeenCalledTimes(0);
+            expect(onSingle).toHaveBeenCalledTimes(1);
             expect(onDouble).toHaveBeenCalledTimes(1);
         });
 
-        it("ignores clicks that are not produced by a pointer gesture", () => {
+        it("runs the double click entries for a double tap that reports detail 1 for both taps", () => {
+            dispatch(click(1, 100));
+            dispatch(click(1, 250));
+
+            expect(onSingle).toHaveBeenCalledTimes(1);
+            expect(onDouble).toHaveBeenCalledTimes(1);
+        });
+
+        it("runs the click entries for a click without a pointer", () => {
             dispatch(click(0, 100));
 
-            expect(onSingle).toHaveBeenCalledTimes(0);
-            expect(onDouble).toHaveBeenCalledTimes(0);
-        });
-
-        it("ignores the third and further clicks of a gesture", () => {
-            dispatch(click(1, 100));
-            dispatch(click(2, 200));
-            dispatch(click(3, 300));
-            dispatch(click(4, 400));
-
             expect(onSingle).toHaveBeenCalledTimes(1);
-            expect(onDouble).toHaveBeenCalledTimes(1);
+            expect(onDouble).toHaveBeenCalledTimes(0);
         });
     });
 
@@ -88,6 +87,14 @@ describe("ClickEventSwitch", () => {
             expect(onDouble).toHaveBeenCalledTimes(1);
         });
 
+        it("runs the click entries once when a click without a pointer is forwarded", () => {
+            dispatch(click(0, 100));
+            dispatch(click(0, 100));
+
+            expect(onSingle).toHaveBeenCalledTimes(1);
+            expect(onDouble).toHaveBeenCalledTimes(0);
+        });
+
         it("does not collapse a double click into the click before it", () => {
             dispatch(click(1, 100));
             dispatch(click(2, 100.1));
@@ -100,7 +107,7 @@ describe("ClickEventSwitch", () => {
     describe("separate gestures", () => {
         it("treats two deliberate clicks as two clicks", () => {
             dispatch(click(1, 100));
-            dispatch(click(1, 400));
+            dispatch(click(1, 500));
 
             expect(onSingle).toHaveBeenCalledTimes(2);
             expect(onDouble).toHaveBeenCalledTimes(0);
