@@ -1,0 +1,19 @@
+.widget-datagrid-top-scrollbar {
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-bottom: 4px;
+    user-select: none;
+
+    &__content {
+        width: 1px;
+        height: 1px;
+    }
+}
+
+.widget-datagrid-top-scrollbar--collapsed {
+    height: 0;
+    margin-bottom: 0;
+    overflow: hidden;
+}
