@@ -6,6 +6,7 @@ This directory contains all Claude Code skills for the web-widgets repository.
 
 ```
 .agents/skills/
+├── audit-widget/             # Audit one widget (tests, perf, deps, smells, behaviours, docs) and fix by category
 ├── code-review/              # PR review skill for Mendix widget conventions
 ├── debug-widget/             # Debug Mendix pluggable widget runtime issues
 ├── openspec-apply-change/    # Implement tasks from OpenSpec change
@@ -26,6 +27,7 @@ This directory contains all Claude Code skills for the web-widgets repository.
 
 Skills are automatically loaded by Claude Code. Users can invoke them via slash commands:
 
+- `/audit-widget <widget>` — Audit one widget into `AUDIT.md`, then `/audit-widget <widget> fix` one category at a time
 - `/code-review` — Review current PR
 - `/debug-widget` — Debug widget runtime issues
 - `/openspec-*` or `/opsx:*` — OpenSpec workflow commands
