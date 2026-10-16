@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { ReactElement, createRef, useState } from "react";
+import { ReactElement, useRef, useState } from "react";
 import { type Crop } from "react-image-crop";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { ImageCropperPreviewProps } from "../typings/ImageCropperProps";
@@ -19,7 +19,7 @@ const PREVIEW_BOUNDARY_HEIGHT = 170;
 function StaticCropPreview(props: { imageUrl: string; values: ImageCropperPreviewProps }): ReactElement {
     const { imageUrl, values } = props;
     const [crop, setCrop] = useState<Crop | undefined>(undefined);
-    const imageRef = createRef<HTMLImageElement>();
+    const imageRef = useRef<HTMLImageElement>(null);
 
     // Preview only has the expression *text* (no runtime data). Numeric literals render a real
     // ratio; an attribute/expression path can't be evaluated here, so it falls back to free aspect.
