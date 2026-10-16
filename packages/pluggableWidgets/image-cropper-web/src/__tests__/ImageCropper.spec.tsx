@@ -91,6 +91,7 @@ function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCr
         customAspectHeight: dynamic.available(new Big(1)),
         boundaryWidth: 300,
         boundaryHeight: 300,
+        initialCropSize: 100,
         resizableEnabled: true,
         zoomEnabled: true,
         showZoomSlider: true,
@@ -267,12 +268,33 @@ describe("<ImageCropper>", () => {
         });
         fireEvent.click(screen.getByRole("button", { name: "Reset crop" }));
         await flushApply();
-        // Box is re-seeded (not undefined) to the default 80%-centered percent crop.
+        // Box is re-seeded (not undefined) to the default 100%-centered percent crop.
         expect(captured.crop).toBeDefined();
         expect(captured.crop!.unit).toBe("%");
-        expect(captured.crop!.width).toBeCloseTo(80, 5);
-        // centered horizontally: x = (100 - 80) / 2 = 10
-        expect(captured.crop!.x).toBeCloseTo(10, 5);
+        expect(captured.crop!.width).toBeCloseTo(100, 5);
+        // centered horizontally: x = (100 - 100) / 2 = 0
+        expect(captured.crop!.x).toBeCloseTo(0, 5);
+    });
+
+    test("reset re-seeds the cropbox at a configured initial crop size", async () => {
+        const blob = new Blob(["x"], { type: "image/png" });
+        global.fetch = jest.fn().mockResolvedValue({ ok: true, blob: () => Promise.resolve(blob) }) as jest.Mock;
+        const image = makeImageProp();
+        render(<ImageCropper {...makeProps({ image, showResetButton: true, initialCropSize: 50 })} />);
+        await act(async () => {
+            await Promise.resolve();
+            await Promise.resolve();
+        });
+        act(() => {
+            captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+        });
+        fireEvent.click(screen.getByRole("button", { name: "Reset crop" }));
+        await flushApply();
+        expect(captured.crop).toBeDefined();
+        expect(captured.crop!.unit).toBe("%");
+        expect(captured.crop!.width).toBeCloseTo(50, 5);
+        // centered horizontally: x = (100 - 50) / 2 = 25
+        expect(captured.crop!.x).toBeCloseTo(25, 5);
     });
 
     test("reset button disabled when original capture failed", async () => {

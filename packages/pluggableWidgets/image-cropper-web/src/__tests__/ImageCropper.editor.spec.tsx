@@ -17,6 +17,7 @@ function makePreviewProps(overrides: Partial<ImageCropperPreviewProps> = {}): Im
         aspectRatio: "free",
         customAspectWidth: "1",
         customAspectHeight: "1",
+        initialCropSize: null,
         onCropAction: null,
         boundaryWidth: null,
         boundaryHeight: null,

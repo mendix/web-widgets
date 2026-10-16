@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Added an "Initial crop size (%)" property to control how much of the image the crop box covers when it first appears and after Reset. Previously this was hardcoded to 80%; the default is now 100% (the full image).
+
 ## [1.1.0] - 2026-08-11
 
 ### Added
