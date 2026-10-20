@@ -1,22 +1,22 @@
 import { Locale } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import { DatePickerProps } from "react-datepicker";
-import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { FilterTypeEnum } from "./base-types";
-import { DatePickerController } from "../helpers/DatePickerController";
-import { getLocale, pickerDateFormat, setupLocales } from "../utils/date-utils";
+import { getLocale, pickerDateFormat, setupLocales } from "./date-utils";
+import { DateFilterFn } from "./DateFilterComponent";
+import { DatePickerController } from "./DatePickerController";
+import { Date_InputFilterInterface } from "../../typings/InputFilterInterface";
 
-interface SetupProps {
+export interface DatePickerSetupProps {
     filterStore: Date_InputFilterInterface;
-    defaultFilter: FilterTypeEnum;
+    defaultFilter: DateFilterFn;
     adjustableFilterFunction: boolean;
     defaultValue?: Date;
     defaultStartValue?: Date;
     defaultEndValue?: Date;
 }
 
-type SetupResult = {
+export type DatePickerSetupResult = {
     calendarStartDay: DatePickerProps["calendarStartDay"];
     controller: DatePickerController;
     dateFormat: string | string[] | undefined;
@@ -24,7 +24,7 @@ type SetupResult = {
     locale: string | Locale | undefined;
 };
 
-export function useSetup(props: SetupProps): SetupResult {
+export function useDatePickerSetup(props: DatePickerSetupProps): DatePickerSetupResult {
     const [controller] = useState(
         () =>
             new DatePickerController({

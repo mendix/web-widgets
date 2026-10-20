@@ -1,10 +1,12 @@
 import classNames from "classnames";
 import { CSSProperties, ReactElement } from "react";
-import { FilterSelector } from "@mendix/widget-plugin-filtering/controls";
 import { DatePicker, DatePickerProps } from "./DatePicker";
-import { FilterTypeEnum } from "../helpers/base-types";
+import { Date_InputFilterInterface, FilterFn } from "../../typings/InputFilterInterface";
+import { FilterSelector } from "../filter-selector/FilterSelector";
 
-export interface FilterComponentProps extends DatePickerProps {
+export type DateFilterFn = FilterFn<Date_InputFilterInterface>;
+
+export interface DateFilterComponentProps extends DatePickerProps {
     id?: string;
     class: string;
     tabIndex?: number;
@@ -13,13 +15,13 @@ export interface FilterComponentProps extends DatePickerProps {
     screenReaderButtonCaption?: string;
     screenReaderCalendarCaption?: string;
     screenReaderInputCaption?: string;
-    filterFn?: FilterTypeEnum;
-    onFilterChange: (fn: FilterTypeEnum) => void;
+    filterFn?: DateFilterFn;
+    onFilterChange: (fn: DateFilterFn) => void;
 }
 
-export type FilterComponent = typeof FilterComponent;
+export type DateFilterComponent = typeof DateFilterComponent;
 
-export function FilterComponent(props: FilterComponentProps): ReactElement {
+export function DateFilterComponent(props: DateFilterComponentProps): ReactElement {
     return (
         <div
             className={classNames("filter-container", props.class)}
@@ -49,4 +51,4 @@ const OPTIONS = [
     { value: "smallerEqual", label: "Smaller than or equal" },
     { value: "empty", label: "Empty" },
     { value: "notEmpty", label: "Not empty" }
-] as Array<{ value: FilterTypeEnum; label: string }>;
+] as Array<{ value: DateFilterFn; label: string }>;

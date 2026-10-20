@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
-import { DatePickerController } from "./DatePickerController";
+import { DatePickerController } from "@mendix/widget-plugin-filtering/controls/date-picker/DatePickerController";
 
 type HookParams = [Parameters<typeof useOnResetValueEvent>[0], Parameters<typeof useOnSetValueEvent>[0]];
 

@@ -1,6 +1,6 @@
 import * as locales from "date-fns/locale";
 import { registerLocale } from "react-datepicker";
-import { MXSessionLocale } from "../../typings/global";
+import { MXSessionLocale, mxGlobal } from "./mx-session";
 
 /**
  * This function takes format string and replace
@@ -74,8 +74,9 @@ export function setupLocales(locale: MXSessionLocale): string {
 }
 
 export function getLocale(): MXSessionLocale {
-    return window.mx
-        ? window.mx.session.getConfig().locale
+    const mx = mxGlobal();
+    return mx
+        ? mx.session.getConfig().locale
         : {
               languageTag: "en-US",
               code: "en_US",

@@ -1,0 +1,48 @@
+/* ==========================================================================
+  Dynamic filters
+
+  Layout of the Dynamic filter builder in the Data grid 2 and Gallery header.
+  The reused filter controls keep their own styles.
+========================================================================== */
+
+.widget-dynamic-filters {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-small, $spacing-small);
+    width: 100%;
+}
+
+.dynamic-filters-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-small, $spacing-small);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.dynamic-filters-row {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: var(--spacing-smaller, $spacing-smaller);
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.dynamic-filters-remove,
+.dynamic-filters-field,
+.dynamic-filters-value {
+    flex: 0 0 auto;
+}
+
+.dynamic-filters-field {
+    min-width: 10em;
+}
+
+.dynamic-filters-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-small, $spacing-small);
+}

@@ -1,11 +1,11 @@
 import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
+import { DateFilterComponent } from "@mendix/widget-plugin-filtering/controls/date-picker/DateFilterComponent";
+import { useDatePickerSetup } from "@mendix/widget-plugin-filtering/controls/date-picker/useDatePickerSetup";
 import { useDateSync } from "@mendix/widget-plugin-filtering/helpers/useDateSync";
 import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
-import { FilterComponent } from "./FilterComponent";
 import { DatagridDateFilterContainerProps } from "../../typings/DatagridDateFilterProps";
 import { useActionEvents } from "../helpers/useActionEvents";
-import { useSetup } from "../helpers/useSetup";
 
 interface ContainerProps extends DatagridDateFilterContainerProps {
     filterStore: Date_InputFilterInterface;
@@ -13,7 +13,7 @@ interface ContainerProps extends DatagridDateFilterContainerProps {
 }
 
 export const DateFilterContainer: (props: ContainerProps) => ReactElement = observer(function Container(props) {
-    const staticProps = useSetup({
+    const staticProps = useDatePickerSetup({
         defaultEndValue: props.defaultEndDate?.value,
         defaultFilter: props.defaultFilter,
         adjustableFilterFunction: props.adjustable,
@@ -29,7 +29,7 @@ export const DateFilterContainer: (props: ContainerProps) => ReactElement = obse
     useDateSync(props, props.filterStore);
 
     return (
-        <FilterComponent
+        <DateFilterComponent
             adjustable={props.adjustable}
             calendarStartDay={staticProps.calendarStartDay}
             class={props.class}
