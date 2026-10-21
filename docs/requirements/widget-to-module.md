@@ -60,9 +60,9 @@ packages/modules/calendar/
  ├─ LICENSE               ← Apache 2.0 copy
  ├─ .prettierrc.js
  └─ scripts/
-     ├─ build.ts
-     ├─ push-update.ts
-     ├─ release.ts
+     ├─ build.mts
+     ├─ push-update.mts
+     ├─ release.mts
      └─ tsconfig.json
 ```
 
@@ -84,12 +84,22 @@ packages/modules/calendar/
     },
     "scripts": {
         "build:module": "node scripts/build.mts",
+        "lint": "tsc --project scripts/tsconfig.json",
         "release:module": "node scripts/release.mts"
     }
 }
 ```
 
 Scripts are copied from `packages/modules/file-uploader/scripts/`.
+
+Node runs the scripts with native type stripping, which does not type-check them, so `lint` runs `tsc` on them instead. `scripts/tsconfig.json` must declare its own `include`, because an inherited `include` resolves relative to `automation/utils`:
+
+```json
+{
+    "extends": "@mendix/automation-utils/tsconfig",
+    "include": ["."]
+}
+```
 
 ---
 
