@@ -9,6 +9,7 @@
     "toolbar.subscript": "Subscript",
     "toolbar.bulletList": "Bullet List",
     "toolbar.orderedList": "Numbered List",
+    "toolbar.orderedListStart": "Start at",
     "toolbar.taskList": "Task List",
     "toolbar.decreaseIndent": "Decrease Indent",
     "toolbar.increaseIndent": "Increase Indent",

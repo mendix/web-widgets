@@ -9,6 +9,7 @@
     "toolbar.subscript": "Subíndice",
     "toolbar.bulletList": "Lista con viñetas",
     "toolbar.orderedList": "Lista numerada",
+    "toolbar.orderedListStart": "Empezar en",
     "toolbar.taskList": "Lista de tareas",
     "toolbar.decreaseIndent": "Reducir sangría",
     "toolbar.increaseIndent": "Aumentar sangría",

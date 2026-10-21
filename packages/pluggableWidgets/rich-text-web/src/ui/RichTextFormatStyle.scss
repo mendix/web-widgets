@@ -23,7 +23,7 @@
         // inline-mode margin step (2em per level).
         ol.indent-#{$i},
         ul.indent-#{$i} {
-            padding-left: max(1.5em, calc(var(--rt-marker-max-size, 0px) * (0.6 * var(--rt-marker-chars, 1) + 0.5)));
+            padding-left: max(1.5em, calc(var(--rt-marker-max-size, 1em) * (0.6 * var(--rt-marker-chars, 1) + 0.5)));
             margin-left: #{$i * 2}em;
         }
     }
