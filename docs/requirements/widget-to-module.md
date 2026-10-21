@@ -58,11 +58,11 @@ packages/modules/calendar/
  ├─ package.json          ← see template below
  ├─ CHANGELOG.md
  ├─ LICENSE               ← Apache 2.0 copy
- ├─ .prettierrc.js
+ ├─ .prettierrc.cjs
  └─ scripts/
-     ├─ build.mts
-     ├─ push-update.mts
-     ├─ release.mts
+     ├─ build.ts
+     ├─ push-update.ts
+     ├─ release.ts
      └─ tsconfig.json
 ```
 
@@ -82,15 +82,16 @@ packages/modules/calendar/
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "calendar-web"
     },
+    "type": "module",
     "scripts": {
-        "build:module": "node scripts/build.mts",
+        "build:module": "node scripts/build.ts",
         "lint": "tsc --project scripts/tsconfig.json",
-        "release:module": "node scripts/release.mts"
+        "release:module": "node scripts/release.ts"
     }
 }
 ```
 
-Scripts are copied from `packages/modules/file-uploader/scripts/`.
+Scripts are copied from `packages/modules/file-uploader/scripts/`. `"type": "module"` lets Node run the `.ts` scripts as ESM; `mxpackage.type` is a separate, Mendix-specific field.
 
 Node runs the scripts with native type stripping, which does not type-check them, so `lint` runs `tsc` on them instead. `scripts/tsconfig.json` must declare its own `include`, because an inherited `include` resolves relative to `automation/utils`:
 

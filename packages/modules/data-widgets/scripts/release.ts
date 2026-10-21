@@ -1,26 +1,36 @@
 #!/usr/bin/env node
 
 import {
+    addWidgetsToMpk,
+    cloneTestProject,
     copyActionsFiles,
     copyModuleLicense,
     copyThemesourceToProject,
     copyWidgetsToProject,
+    createModuleMpk,
+    moveModuleToDist,
+    removeDist,
     runModuleSteps,
     writeModuleVersion
 } from "@mendix/automation-utils/steps";
 
-import { bundleXLSX } from "./steps/bundle-xlsx.mts";
+import { bundleXLSX } from "./steps/bundle-xlsx.ts";
 
 async function main(): Promise<void> {
     await runModuleSteps({
         packagePath: process.cwd(),
         steps: [
+            removeDist,
+            cloneTestProject,
+            copyWidgetsToProject,
+            copyThemesourceToProject,
             copyActionsFiles(["Export_To_Excel.js", "Reset_All_Filters.js", "Reset_Filter.js", "Clear_Selection.js"]),
             bundleXLSX,
-            copyThemesourceToProject,
             writeModuleVersion,
             copyModuleLicense,
-            copyWidgetsToProject
+            createModuleMpk,
+            addWidgetsToMpk,
+            moveModuleToDist
         ]
     });
 }

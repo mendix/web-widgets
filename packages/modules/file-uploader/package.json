@@ -27,13 +27,14 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "fileuploader-web"
     },
+    "type": "module",
     "scripts": {
-        "build:module": "node scripts/build.mts",
+        "build:module": "node scripts/build.ts",
         "create-gh-release": "rui-create-gh-release",
         "lint": "tsc --project scripts/tsconfig.json",
         "publish-marketplace": "rui-publish-marketplace",
-        "push-update": "node scripts/push-update.mts",
-        "release:module": "node scripts/release.mts",
+        "push-update": "node scripts/push-update.ts",
+        "release:module": "node scripts/release.ts",
         "update-changelog": "rui-update-changelog-module",
         "verify": "rui-verify-package-format"
     },
