@@ -52,7 +52,7 @@ export default defineConfig(
                     message: "Do not use implicit React namespace."
                 },
                 {
-                    selector: "JSXAttribute > JSXExpressionContainer > Literal[value=true]",
+                    selector: "JSXAttribute > JSXExpressionContainer > Literal[raw='true']",
                     message: "Omit the value for true boolean attributes: use `prop` instead of `prop={true}`."
                 }
             ],
