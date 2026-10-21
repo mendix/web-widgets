@@ -1,8 +1,13 @@
-export function calculatePercentage(currentValue: number, minValue: number, maxValue: number): number {
+export function calculatePercentage(
+    currentValue: number,
+    minValue: number,
+    maxValue: number,
+    allowValueAboveMax = false
+): number {
     if (currentValue < minValue) {
         return 0;
     }
-    if (currentValue > maxValue) {
+    if (currentValue > maxValue && (!allowValueAboveMax || maxValue === minValue)) {
         return 100;
     }
     const range = maxValue - minValue;

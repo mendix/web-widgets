@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added the "Allow values above maximum" property. When enabled, a progress value higher than the maximum no longer shows an error: the circle stays full, the percentage label shows the actual value (for example 120%), and the widget gets the `widget-progress-circle-overflow` class so you can style it.
+
 ## [3.3.3] - 2026-02-10
 
 ### Added

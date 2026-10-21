@@ -71,6 +71,39 @@ describe("ProgressCircle", () => {
         expect(screen.getByText("100%"))?.toBeInTheDocument();
     });
 
+    describe("when values above the maximum are allowed", () => {
+        it("keeps the circle full and shows no error", () => {
+            renderProgressCircle({ currentValue: 120, maxValue: 100, label: "120%", allowValueAboveMax: true });
+            expect(mockedAnimate).toHaveBeenCalledWith(1);
+            expect(screen.getByText("120%")).toBeInTheDocument();
+            expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+        });
+
+        it("adds the overflow class only when the value is above the maximum", () => {
+            const { container, rerender } = renderProgressCircle({ currentValue: 120, allowValueAboveMax: true });
+            expect(container.firstChild).toHaveClass("widget-progress-circle-overflow");
+            rerender(
+                <ProgressCircle
+                    currentValue={80}
+                    minValue={0}
+                    maxValue={100}
+                    onClick={undefined}
+                    label=""
+                    class=""
+                    allowValueAboveMax
+                />
+            );
+            expect(container.firstChild).not.toHaveClass("widget-progress-circle-overflow");
+        });
+
+        it("still shows an error for a value below the minimum", () => {
+            renderProgressCircle({ currentValue: -1, label: undefined, allowValueAboveMax: true });
+            expect(screen.getByRole("alert")).toHaveTextContent(
+                "Error in progress circle values: The progress value is lower than the minimum value."
+            );
+        });
+    });
+
     it("is not clickable when there is no onClick handler provided", () => {
         renderProgressCircle({ onClick: undefined, label: undefined, currentValue: -1 });
         const labelContainer = document.querySelector(".progress-circle-label-container");
