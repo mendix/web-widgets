@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added a Dynamic filters mode that lets end users build their own filters from attributes you choose.
+
 ## [3.11.7] - 2026-10-02
 
 ### Fixed

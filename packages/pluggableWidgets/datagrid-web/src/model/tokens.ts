@@ -2,6 +2,7 @@ import { token } from "brandi";
 import { ListValue, ObjectItem } from "mendix";
 import { CSSProperties, ReactNode } from "react";
 import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
+import { DynamicFilterSet } from "@mendix/widget-plugin-filtering/dynamic/DynamicFilterSet";
 import { CombinedFilter, CombinedFilterConfig } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
 import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
@@ -47,6 +48,7 @@ import { DatagridConfig } from "./configs/Datagrid.config";
 import { RowClassProvider, RowKeyProvider } from "./models/rows.model";
 import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./services/DerivedLoaderController";
+import { DynamicFiltersService } from "./services/DynamicFilters.service";
 import { TextsService } from "./services/Texts.service";
 import { GridSizeStore } from "./stores/GridSize.store";
 
@@ -103,6 +105,9 @@ export const DG_TOKENS = {
 
     filterAPI: token<FilterAPI>("FilterAPI"),
     filterHost: token<CustomFilterHost>("FilterHost"),
+    dynamicFilters: token<DynamicFiltersService>("DynamicFiltersService"),
+    /** The Filter Set in Dynamic filtering mode, `null` in Fixed mode. */
+    dynamicFilterSet: token<DynamicFilterSet | null>("@const:DynamicFilterSet"),
 
     loaderConfig: token<DerivedLoaderControllerConfig>("DatagridLoaderConfig"),
     loaderVM: token<DerivedLoaderController>("DatagridLoaderViewModel"),

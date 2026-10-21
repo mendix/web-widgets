@@ -21,7 +21,7 @@ The Filter Set model, builder component, Dynamic mode context and theme partial 
 
 ### 1. XML follows the draft
 
-Properties are as in `dynamic-filtering-xml-draft.md`: the **General → Filtering** group (`filteringMode`, `filterFields`, `filterFieldOptions`) and a **Texts → Dynamic filters** group (`addFilterCaption`, `clearFiltersCaption`, `removeFilterAriaLabel`, `filterFieldAriaLabel`). `filterFieldOptions` is top-level because object lists can't be nested.
+Properties are as in `dynamic-filtering-xml-draft.md`: the **Filtering** tab: a **General** group (`filteringMode`, `filterFields`, `filterFieldOptions`) and a **Texts** group (`addFilterCaption`, `clearFiltersCaption`, `removeFilterAriaLabel`, `filterFieldAriaLabel`). `filterFieldOptions` is top-level because object lists can't be nested.
 
 ### 2. Config derives the effective flags
 

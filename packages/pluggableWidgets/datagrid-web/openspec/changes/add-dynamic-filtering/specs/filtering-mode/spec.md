@@ -2,7 +2,7 @@
 
 ### Requirement: Filtering mode property
 
-The widget SHALL have a `filteringMode` enumeration property with the values `fixed` ("Fixed filters", default) and `dynamic` ("Dynamic filters"), in a new **General → Filtering** group placed after **Columns**. Only one mode SHALL be active at a time. Switching mode SHALL keep the configuration of the other mode.
+The widget SHALL have a `filteringMode` enumeration property with the values `fixed` ("Fixed filters", default) and `dynamic` ("Dynamic filters"), in a new **Filtering** tab (group **General**) placed after the **General** tab. Only one mode SHALL be active at a time. Switching mode SHALL keep the configuration of the other mode.
 
 #### Scenario: Existing grid after upgrade
 

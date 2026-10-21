@@ -5,7 +5,7 @@ Vocabulary: see the root `CONTEXT.md` (Filtering Mode, Fixed Filter, Dynamic Fil
 
 ## New properties
 
-This is a new nested group, **General → Filtering**, placed after **Columns**. Existing keys stay where they are.
+This is a new tab, **Filtering** (groups **General** and **Texts**), placed after the **General** tab. Existing keys stay where they are.
 
 ```xml
 <propertyGroup caption="Filtering">

@@ -6,7 +6,7 @@ Vocabulary is in the repo root `CONTEXT.md`. Decisions are in `dynamic-filtering
 
 ## What Changes
 
-- New property group **General → Filtering** with:
+- New **Filtering** tab (after **General**) with:
     - `filteringMode`: `fixed` (default) | `dynamic`;
     - `filterFields`: an object list of `key` (string), `attribute` and `label` (textTemplate);
     - `filterFieldOptions`: an object list of `fieldKey`, `caption` and `value` that replaces the automatic values of an enumeration or Boolean field.

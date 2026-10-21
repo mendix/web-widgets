@@ -16,6 +16,7 @@ export function check(values: DatagridPreviewProps): Problem[] {
     });
 
     errors.push(...checkSelectionSettings(values));
+    errors.push(...checkFilterFields(values));
 
     const customPaginationPositionError = checkCustomPaginationPosition(values);
     if (customPaginationPositionError) {
@@ -103,4 +104,45 @@ const checkSelectionSettings = (values: DatagridPreviewProps): Problem[] => {
     }
 
     return [];
+};
+
+const checkFilterFields = (values: DatagridPreviewProps): Problem[] => {
+    const errors: Problem[] = [];
+    const fields = values.filterFields ?? [];
+    const options = values.filterFieldOptions ?? [];
+    const seen = new Set<string>();
+
+    if (values.filteringMode === "dynamic" && fields.length === 0) {
+        errors.push({
+            property: "filterFields",
+            message: "Add at least one filter field when 'Filtering mode' is set to 'Dynamic filters'."
+        });
+    }
+
+    fields.forEach((field, index) => {
+        const key = field.key.trim();
+        if (key === "") {
+            errors.push({
+                property: `filterFields/${index + 1}/key`,
+                message: `The key of filter field (${field.label || index + 1}) is empty. Enter a unique key.`
+            });
+        } else if (seen.has(key)) {
+            errors.push({
+                property: `filterFields/${index + 1}/key`,
+                message: `The filter field key '${key}' is used more than once. Filter field keys must be unique.`
+            });
+        }
+        seen.add(key);
+    });
+
+    options.forEach((option, index) => {
+        if (!seen.has(option.fieldKey.trim())) {
+            errors.push({
+                property: `filterFieldOptions/${index + 1}/fieldKey`,
+                message: `No filter field has the key '${option.fieldKey}'. Enter the key of an existing filter field.`
+            });
+        }
+    });
+
+    return errors;
 };
