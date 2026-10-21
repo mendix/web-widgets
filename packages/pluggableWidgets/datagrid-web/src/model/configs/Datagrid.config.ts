@@ -1,6 +1,6 @@
 import { SelectionMode, SelectionType } from "@mendix/widget-plugin-grid/selection";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { DatagridContainerProps, LoadingTypeEnum } from "../../../typings/DatagridProps";
+import { DatagridContainerProps, FilteringModeEnum, LoadingTypeEnum } from "../../../typings/DatagridProps";
 import { type SelectionMethod } from "../../features/row-interaction/base";
 
 /** Config for static values that don't change at runtime. */
@@ -24,6 +24,7 @@ export interface DatagridConfig {
     loadingType: LoadingTypeEnum;
     columnsDraggable: boolean;
     columnsFilterable: boolean;
+    filteringMode: FilteringModeEnum;
     columnsHidable: boolean;
     columnsResizable: boolean;
     columnsSortable: boolean;
@@ -53,7 +54,8 @@ export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
         loadingType: props.loadingType,
         columnsHidable: props.columnsHidable,
         columnsDraggable: props.columnsDraggable,
-        columnsFilterable: props.columnsFilterable,
+        columnsFilterable: props.filteringMode === "fixed" && props.columnsFilterable,
+        filteringMode: props.filteringMode,
         columnsResizable: props.columnsResizable,
         columnsSortable: props.columnsSortable,
         isInteractive: isInteractive(props)

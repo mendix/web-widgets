@@ -42,6 +42,7 @@ import { gridStyleAtom } from "../models/grid.model";
 import { rowClassProvider, rowKeyProvider } from "../models/rows.model";
 import { DatasourceParamsController } from "../services/DatasourceParamsController";
 import { DerivedLoaderController } from "../services/DerivedLoaderController";
+import { DynamicFiltersService } from "../services/DynamicFilters.service";
 import { SelectionGate } from "../services/SelectionGate.service";
 import { GridSizeStore } from "../stores/GridSize.store";
 import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
@@ -114,18 +115,27 @@ const _02_filterBindings: BindingGroup = {
     inject() {
         injected(CombinedFilter, CORE.setupService, DG.combinedFilterConfig);
         injected(WidgetFilterAPI, DG.parentChannelName, DG.filterHost);
+        injected(DynamicFiltersService, CORE.setupService, CORE.mainGate);
     },
     define(container: Container) {
         container.bind(DG.filterAPI).toInstance(WidgetFilterAPI).inSingletonScope();
+        container.bind(DG.dynamicFilters).toInstance(DynamicFiltersService).inSingletonScope();
         container.bind(DG.filterHost).toInstance(CustomFilterHost).inSingletonScope();
         container.bind(DG.combinedFilter).toInstance(CombinedFilter).inSingletonScope();
     },
     init(container, { props, config }) {
         container.bind(DG.parentChannelName).toConstant(config.filtersChannelName);
-        container.bind(DG.combinedFilterConfig).toConstant({
-            stableKey: props.name,
-            inputs: [container.get(DG.filterHost), container.get(CORE.columnsStore)]
-        });
+        if (config.filteringMode === "dynamic") {
+            const filterSet = container.get(DG.dynamicFilters).filterSet;
+            container.bind(DG.dynamicFilterSet).toConstant(filterSet);
+            container.bind(DG.combinedFilterConfig).toConstant({ stableKey: props.name, inputs: [filterSet] });
+        } else {
+            container.bind(DG.dynamicFilterSet).toConstant(null);
+            container.bind(DG.combinedFilterConfig).toConstant({
+                stableKey: props.name,
+                inputs: [container.get(DG.filterHost), container.get(CORE.columnsStore)]
+            });
+        }
     },
     postInit(container, { props }) {
         // Hydrate filters from props
@@ -161,7 +171,14 @@ const _04_emptyStateBindings: BindingGroup = {
 
 const _05_personalizationBindings: BindingGroup = {
     inject() {
-        injected(GridPersonalizationStore, CORE.setupService, CORE.mainGate, CORE.columnsStore, DG.filterHost);
+        injected(
+            GridPersonalizationStore,
+            CORE.setupService,
+            CORE.mainGate,
+            CORE.columnsStore,
+            DG.filterHost,
+            DG.dynamicFilterSet.optional
+        );
     },
     define(container: Container) {
         container.bind(DG.personalizationService).toInstance(GridPersonalizationStore).inSingletonScope();

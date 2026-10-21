@@ -52,15 +52,29 @@ export interface ColumnsType {
     hidable: HidableEnum;
     allowEventPropagation: boolean;
     width: WidthEnum;
+    size: number;
     minWidth: MinWidthEnum;
     minWidthLimit: number;
-    size: number;
     alignment: AlignmentEnum;
     columnClass?: ListExpressionValue<string>;
     wrapText: boolean;
 }
 
 export type OnClickTriggerEnum = "single" | "double";
+
+export type FilteringModeEnum = "fixed" | "dynamic";
+
+export interface FilterFieldsType {
+    key: string;
+    attribute: ListAttributeValue<string | Big | boolean | Date>;
+    label: DynamicValue<string>;
+}
+
+export interface FilterFieldOptionsType {
+    fieldKey: string;
+    caption: DynamicValue<string>;
+    value: DynamicValue<string>;
+}
 
 export type ItemSelectionMethodEnum = "checkbox" | "rowClick";
 
@@ -99,12 +113,24 @@ export interface ColumnsPreviewType {
     hidable: HidableEnum;
     allowEventPropagation: boolean;
     width: WidthEnum;
+    size: number | null;
     minWidth: MinWidthEnum;
     minWidthLimit: number | null;
-    size: number | null;
     alignment: AlignmentEnum;
     columnClass: string;
     wrapText: boolean;
+}
+
+export interface FilterFieldsPreviewType {
+    key: string;
+    attribute: string;
+    label: string;
+}
+
+export interface FilterFieldOptionsPreviewType {
+    fieldKey: string;
+    caption: string;
+    value: string;
 }
 
 export interface DatagridContainerProps {
@@ -139,6 +165,13 @@ export interface DatagridContainerProps {
         endTime: Option<Date>;
     }>;
     filtersPlaceholder?: ReactNode;
+    filteringMode: FilteringModeEnum;
+    filterFields: FilterFieldsType[];
+    filterFieldOptions: FilterFieldOptionsType[];
+    addFilterCaption?: DynamicValue<string>;
+    clearFiltersCaption?: DynamicValue<string>;
+    filterFieldAriaLabel?: DynamicValue<string>;
+    removeFilterAriaLabel?: DynamicValue<string>;
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     itemSelectionMethod: ItemSelectionMethodEnum;
     autoSelect: boolean;
@@ -209,6 +242,13 @@ export interface DatagridPreviewProps {
     onBeforeExport: {} | null;
     onAfterExport: {} | null;
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    filteringMode: FilteringModeEnum;
+    filterFields: FilterFieldsPreviewType[];
+    filterFieldOptions: FilterFieldOptionsPreviewType[];
+    addFilterCaption: string;
+    clearFiltersCaption: string;
+    filterFieldAriaLabel: string;
+    removeFilterAriaLabel: string;
     itemSelection: "None" | "Single" | "Multi";
     itemSelectionMethod: ItemSelectionMethodEnum;
     autoSelect: boolean;

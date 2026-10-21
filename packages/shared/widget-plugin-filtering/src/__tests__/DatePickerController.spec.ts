@@ -1,9 +1,9 @@
 import { AttributeMetaData } from "mendix";
 import { runInAction } from "mobx";
-import { DateInputFilterStore } from "@mendix/widget-plugin-filtering/stores/input/DateInputFilterStore";
-import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
-import { DatePickerController } from "../DatePickerController";
+import { DatePickerController } from "../controls/date-picker/DatePickerController";
+import { DateInputFilterStore } from "../stores/input/DateInputFilterStore";
+import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
 
 function setup(defaultFilter: "equal" | "between" = "equal"): {
     controller: DatePickerController;

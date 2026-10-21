@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import ReactDOM from "react-dom";
-import { doubleMonthOrDayWhenSingle } from "../../utils/date-utils";
-import { DatePicker } from "../DatePicker";
+import { doubleMonthOrDayWhenSingle } from "../controls/date-picker/date-utils";
+import { DatePicker } from "../controls/date-picker/DatePicker";
 
 describe("Date picker component", () => {
     beforeAll(() => {

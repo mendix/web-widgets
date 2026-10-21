@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx";
+import { DynamicFilterBuilderTexts } from "@mendix/widget-plugin-filtering/dynamic/DynamicFilterBuilder";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { MainGateProps } from "../../../typings/MainGateProps";
 
@@ -37,5 +38,14 @@ export class TextsService {
 
     get loadMoreButtonCaption(): string | undefined {
         return this.props.loadMoreButtonCaption?.value;
+    }
+
+    get dynamicFilterTexts(): DynamicFilterBuilderTexts {
+        return {
+            addFilter: this.props.addFilterCaption?.value ?? "",
+            clearAll: this.props.clearFiltersCaption?.value ?? "",
+            removeFilter: this.props.removeFilterAriaLabel?.value ?? "",
+            fieldPicker: this.props.filterFieldAriaLabel?.value ?? ""
+        };
     }
 }

@@ -5,6 +5,7 @@ export const [useBasicData] = createInjectionHooks(DG.basicDate);
 export const [useColumnsStore] = createInjectionHooks(CORE.columnsStore);
 export const [useDatagridConfig] = createInjectionHooks(CORE.config);
 export const [useDatagridFilterAPI] = createInjectionHooks(DG.filterAPI);
+export const [useDynamicFilterSet] = createInjectionHooks(DG.dynamicFilterSet);
 export const [useExportProgressService] = createInjectionHooks(DG.exportProgressService);
 export const [useLoaderViewModel] = createInjectionHooks(DG.loaderVM);
 export const [useMainGate] = createInjectionHooks(CORE.mainGate);

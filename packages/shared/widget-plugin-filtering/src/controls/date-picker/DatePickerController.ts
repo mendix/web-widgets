@@ -3,8 +3,8 @@ import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import { createRef, KeyboardEventHandler, MouseEventHandler, MouseEvent, KeyboardEvent } from "react";
 import { DatePickerProps, DatePicker } from "react-datepicker";
 import { SetFilterValueArgs } from "@mendix/widget-plugin-external-events/typings";
-import { Date_InputFilterInterface, FilterFn } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
-import { PickerChangeHandler } from "../components/DatePicker";
+import { PickerChangeHandler } from "./DatePicker";
+import { Date_InputFilterInterface, FilterFn } from "../../typings/InputFilterInterface";
 
 interface PickerState {
     startDate: Date | undefined;

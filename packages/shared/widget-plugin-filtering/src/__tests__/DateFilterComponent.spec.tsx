@@ -1,6 +1,9 @@
 import { render } from "@testing-library/react";
 import ReactDOM from "react-dom";
-import { FilterComponent, FilterComponentProps } from "../FilterComponent";
+import {
+    DateFilterComponent as FilterComponent,
+    DateFilterComponentProps as FilterComponentProps
+} from "../controls/date-picker/DateFilterComponent";
 
 const commonProps: FilterComponentProps = {
     adjustable: true,

@@ -1,5 +1,6 @@
 import { action, autorun, comparer, computed, IReactionDisposer, makeObservable, reaction } from "mobx";
-import { FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
+import { FiltersSettingsMap, PlainJs } from "@mendix/filter-commons/typings/settings";
+import { DynamicFilterSet } from "@mendix/widget-plugin-filtering/dynamic/DynamicFilterSet";
 import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
 import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
@@ -9,6 +10,7 @@ import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { ColumnId } from "../../typings/GridColumn";
 import {
     ColumnPersonalizationSettings,
+    DynamicFilterSettings,
     GridPersonalizationStorageSettings
 } from "../../typings/personalization-settings";
 import { SortRule } from "../../typings/sorting";
@@ -33,7 +35,9 @@ export class GridPersonalizationStore implements SetupComponent {
         host: SetupComponentHost,
         private gate: DerivedPropsGate<RequiredProps>,
         private columnsStore: ColumnGroupStore,
-        private customFilters: ObservableFilterHost
+        private customFilters: ObservableFilterHost,
+        /** Set only in Dynamic filtering mode. */
+        private dynamicFilters: DynamicFilterSet | null = null
     ) {
         host.add(this);
         const { props } = this.gate;
@@ -107,6 +111,7 @@ export class GridPersonalizationStore implements SetupComponent {
         if (this.storeFilters) {
             this.columnsStore.setColumnFilterSettings(settings.columnFilters);
             this.customFilters.settings = new Map(settings.customFilters);
+            this.dynamicFilters?.fromJSON(settings.dynamicFilters as PlainJs | undefined);
         }
     }
 
@@ -150,7 +155,10 @@ export class GridPersonalizationStore implements SetupComponent {
             this.gridColumnsHash,
             this.columnsStore.columnSettings,
             this.storeFilters ? this.columnsStore.filterSettings : new Map(),
-            this.storeFilters ? this.customFilters.settings : new Map()
+            this.storeFilters ? this.customFilters.settings : new Map(),
+            this.storeFilters && this.dynamicFilters
+                ? (this.dynamicFilters.toJSON() as unknown as DynamicFilterSettings)
+                : undefined
         );
     }
 }
@@ -177,7 +185,8 @@ function toStorageFormat(
     gridColumnsHash: string,
     columnsSettings: ColumnPersonalizationSettings[],
     columnFilters: FiltersSettingsMap<ColumnId>,
-    customFilters: FiltersSettingsMap<string>
+    customFilters: FiltersSettingsMap<string>,
+    dynamicFilters: DynamicFilterSettings | undefined
 ): GridPersonalizationStorageSettings {
     const sortOrder = columnsSettings
         .filter(c => c.sortDir && c.sortWeight !== undefined)
@@ -199,6 +208,7 @@ function toStorageFormat(
 
         columnFilters: Array.from(columnFilters),
         customFilters: Array.from(customFilters),
+        ...(dynamicFilters ? { dynamicFilters } : {}),
 
         sortOrder,
         columnOrder

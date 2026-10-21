@@ -19,8 +19,11 @@ import {
 import { ColumnsPreviewType, DatagridPreviewProps } from "../typings/DatagridProps";
 
 export function getProperties(values: DatagridPreviewProps, defaultProperties: Properties): Properties {
+    const dynamicFiltering = values.filteringMode === "dynamic";
+    const columnsFilterable = !dynamicFiltering && values.columnsFilterable;
+
     values.columns.forEach((column, index) => {
-        if (column.showContentAs !== "attribute" && !column.sortable && !values.columnsFilterable) {
+        if (column.showContentAs !== "attribute" && !column.sortable && !columnsFilterable) {
             hidePropertyIn(defaultProperties, values, "columns", index, "attribute");
         }
         if (column.showContentAs !== "dynamicText") {
@@ -39,7 +42,7 @@ export function getProperties(values: DatagridPreviewProps, defaultProperties: P
         if (!values.columnsSortable) {
             hidePropertyIn(defaultProperties, values, "columns", index, "sortable");
         }
-        if (!values.columnsFilterable) {
+        if (!columnsFilterable) {
             hidePropertyIn(defaultProperties, values, "columns", index, "filter");
         }
         if (!values.columnsResizable) {
@@ -100,6 +103,7 @@ export function getProperties(values: DatagridPreviewProps, defaultProperties: P
     }
 
     hideSelectionProperties(defaultProperties, values);
+    hideFilteringProperties(defaultProperties, values);
 
     changePropertyIn(
         defaultProperties,
@@ -131,11 +135,50 @@ export function getProperties(values: DatagridPreviewProps, defaultProperties: P
         "columns"
     );
 
+    changePropertyIn(
+        defaultProperties,
+        values,
+        prop => {
+            prop.objects?.forEach((object, index) => {
+                const field = values.filterFields[index];
+                object.captions = [`${field.label || "[No label]"} (${field.key || "[No key]"})`];
+            });
+        },
+        "filterFields"
+    );
+
+    changePropertyIn(
+        defaultProperties,
+        values,
+        prop => {
+            prop.objects?.forEach((object, index) => {
+                const option = values.filterFieldOptions[index];
+                object.captions = [`${option.fieldKey || "[No key]"}: ${option.caption || "[No caption]"}`];
+            });
+        },
+        "filterFieldOptions"
+    );
+
     if (values.configurationStorageType === "localStorage") {
         hidePropertiesIn(defaultProperties, values, ["configurationAttribute", "onConfigurationChange"]);
     }
 
     return defaultProperties;
+}
+
+function hideFilteringProperties(defaultProperties: Properties, values: DatagridPreviewProps): void {
+    if (values.filteringMode === "dynamic") {
+        hidePropertyIn(defaultProperties, values, "columnsFilterable");
+    } else {
+        hidePropertiesIn(defaultProperties, values, [
+            "filterFields",
+            "filterFieldOptions",
+            "addFilterCaption",
+            "clearFiltersCaption",
+            "removeFilterAriaLabel",
+            "filterFieldAriaLabel"
+        ]);
+    }
 }
 
 function hideSelectionProperties(defaultProperties: Properties, values: DatagridPreviewProps): void {
@@ -304,7 +347,7 @@ export const getPreview = (
                                       : palette.text.secondary
                             })(column.header ? column.header : "Header")
                         ),
-                        ...(hasColumns && values.columnsFilterable
+                        ...(hasColumns && values.columnsFilterable && values.filteringMode !== "dynamic"
                             ? [
                                   dropzone(
                                       dropzone.placeholder("Place filter widget here"),

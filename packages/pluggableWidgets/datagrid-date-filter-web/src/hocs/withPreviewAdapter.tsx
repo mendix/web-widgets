@@ -1,10 +1,10 @@
 import { ReactElement, useMemo } from "react";
+import { DateFilterComponent } from "@mendix/widget-plugin-filtering/controls/date-picker/DateFilterComponent";
 import { DatagridDateFilterPreviewProps } from "../../typings/DatagridDateFilterProps";
-import { FilterComponent } from "../components/FilterComponent";
 
 type PreviewAdapter = (props: DatagridDateFilterPreviewProps) => ReactElement;
 
-export function withPreviewAdapter(Component: FilterComponent): PreviewAdapter {
+export function withPreviewAdapter(Component: DateFilterComponent): PreviewAdapter {
     return function PreviewAdapter(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         const key = useMemo(() => Math.random(), [props.adjustable, props.defaultFilter]);

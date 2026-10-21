@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added an error message that shows when this filter is placed in the header of a Data grid 2 or Gallery that uses dynamic filters.
+
 ## [3.11.3] - 2026-07-27
 
 ### Fixed

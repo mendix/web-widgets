@@ -97,3 +97,19 @@ exports.and = (...args) => ({
     name: "and",
     args
 });
+
+const fn = name => (x, y) => ({
+    type: "function",
+    name,
+    arg1: x,
+    arg2: y
+});
+
+exports.contains = fn("contains");
+exports.startsWith = fn("starts-with");
+exports.endsWith = fn("ends-with");
+exports.greaterThan = fn(">");
+exports.greaterThanOrEqual = fn(">=");
+exports.lessThan = fn("<");
+exports.lessThanOrEqual = fn("<=");
+exports.empty = () => ({ type: "literal", value: undefined, valueType: "undefined" });

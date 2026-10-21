@@ -230,6 +230,103 @@
                 </property>
             </propertyGroup>
         </propertyGroup>
+        <propertyGroup caption="Filtering">
+            <propertyGroup caption="General">
+                <property key="filteringMode" type="enumeration" defaultValue="fixed">
+                    <caption>Filtering mode</caption>
+                    <description>Fixed filters: filter widgets placed in columns or in the header. Dynamic filters: end users build their own filters from the filter fields below.</description>
+                    <enumerationValues>
+                        <enumerationValue key="fixed">Fixed filters</enumerationValue>
+                        <enumerationValue key="dynamic">Dynamic filters</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="filterFields" type="object" isList="true" required="false">
+                    <caption>Filter fields</caption>
+                    <description>Attributes end users can filter on.</description>
+                    <properties>
+                        <propertyGroup caption="General">
+                            <property key="key" type="string" required="true">
+                                <caption>Key</caption>
+                                <description>Unique identifier used to store end-user filters. Changing it discards stored filters for this field.</description>
+                            </property>
+                            <property key="attribute" type="attribute" dataSource="../datasource" required="true">
+                                <caption>Attribute</caption>
+                                <description />
+                                <attributeTypes>
+                                    <attributeType name="String" />
+                                    <attributeType name="AutoNumber" />
+                                    <attributeType name="Boolean" />
+                                    <attributeType name="DateTime" />
+                                    <attributeType name="Decimal" />
+                                    <attributeType name="Enum" />
+                                    <attributeType name="Integer" />
+                                    <attributeType name="Long" />
+                                </attributeTypes>
+                            </property>
+                            <property key="label" type="textTemplate" required="true">
+                                <caption>Label</caption>
+                                <description>Name of the field shown to end users.</description>
+                            </property>
+                        </propertyGroup>
+                    </properties>
+                </property>
+                <property key="filterFieldOptions" type="object" isList="true" required="false">
+                    <caption>Enumeration options</caption>
+                    <description>Optional. Replaces the automatic values of an enumeration or Boolean filter field.</description>
+                    <properties>
+                        <propertyGroup caption="General">
+                            <property key="fieldKey" type="string" required="true">
+                                <caption>Filter field key</caption>
+                                <description>Key of the filter field these options belong to.</description>
+                            </property>
+                            <property key="caption" type="textTemplate">
+                                <caption>Caption</caption>
+                                <description />
+                            </property>
+                            <property key="value" type="expression">
+                                <caption>Value</caption>
+                                <description>Enumeration key, or true/false for Boolean.</description>
+                                <returnType type="String" />
+                            </property>
+                        </propertyGroup>
+                    </properties>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Texts">
+                <property key="addFilterCaption" type="textTemplate" required="false">
+                    <caption>Add filter</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">Add filter</translation>
+                        <translation lang="nl_NL">Filter toevoegen</translation>
+                    </translations>
+                </property>
+                <property key="clearFiltersCaption" type="textTemplate" required="false">
+                    <caption>Clear all</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">Clear all</translation>
+                        <translation lang="nl_NL">Alles wissen</translation>
+                    </translations>
+                </property>
+                <property key="filterFieldAriaLabel" type="textTemplate" required="false">
+                    <caption>Filter field</caption>
+                    <description>Assistive technology will read this on the field picker of a filter.</description>
+                    <translations>
+                        <translation lang="en_US">Filter field</translation>
+                        <translation lang="nl_NL">Filterveld</translation>
+                    </translations>
+                </property>
+                <property key="removeFilterAriaLabel" type="textTemplate" required="false">
+                    <caption>Remove filter</caption>
+                    <description>Assistive technology will read this, followed by the field label, on the remove button of a filter.</description>
+                    <translations>
+                        <translation lang="en_US">Remove filter</translation>
+                        <translation lang="nl_NL">Filter verwijderen</translation>
+                    </translations>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
         <propertyGroup caption="Behavior">
             <propertyGroup caption="Selection">
                 <property key="itemSelection" type="selection" dataSource="datasource">
