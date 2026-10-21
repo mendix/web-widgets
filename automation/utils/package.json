@@ -40,14 +40,15 @@
     "scripts": {
         "changelog": "node bin/rui-changelog-helper.ts",
         "check-changelogs": "node bin/rui-check-changelogs.ts",
-        "compile:parser:module": "peggy --format es -o ./src/changelog-parser/parser/widget/widget.mjs ./src/changelog-parser/parser/widget/widget.pegjs",
-        "compile:parser:widget": "peggy --format es -o ./src/changelog-parser/parser/module/module.mjs ./src/changelog-parser/parser/module/module.pegjs",
+        "compile:parser": "pnpm run compile:parser:module && pnpm run compile:parser:widget",
+        "compile:parser:module": "peggy --format es -o ./src/changelog-parser/parser/module/module.mjs ./src/changelog-parser/parser/module/module.pegjs",
+        "compile:parser:widget": "peggy --format es -o ./src/changelog-parser/parser/widget/widget.mjs ./src/changelog-parser/parser/widget/widget.pegjs",
         "format": "prettier --write .",
         "include-oss-in-artifact": "node bin/rui-include-oss-in-artifact.ts",
         "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
         "merge-changelogs-pr": "node bin/rui-merge-changelogs-pr.ts",
         "oss-clearance": "node bin/rui-oss-clearance.ts",
-        "prepare": "pnpm run compile:parser:widget && pnpm run compile:parser:module && tsc",
+        "prepare": "tsc",
         "prepare-release": "node bin/rui-prepare-release.ts",
         "start": "tsc --watch"
     },
