@@ -1,8 +1,8 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
 import { basename } from "node:path";
-import { gh } from "../src/github";
-import { findAllReadmeOssLocally, getRecommendedReadmeOss, hasReadmeOssInAssets } from "../src/oss-clearance";
+import { gh } from "../src/github.ts";
+import { findAllReadmeOssLocally, getRecommendedReadmeOss, hasReadmeOssInAssets } from "../src/oss-clearance.ts";
 
 async function main(): Promise<void> {
     const releaseTag = process.argv[2];

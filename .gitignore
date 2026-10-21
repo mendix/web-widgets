@@ -20,8 +20,8 @@ mendixProject
 **/pluggableWidgets/**/artifacts
 **/gh-*/release-notes.txt
 
-**/automation/utils/**/parser/module/module.js
-**/automation/utils/**/parser/widget/widget.js
+**/automation/utils/**/parser/module/module.mjs
+**/automation/utils/**/parser/widget/widget.mjs
 
 tests
 .turbo

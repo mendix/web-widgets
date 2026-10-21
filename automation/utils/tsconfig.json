@@ -2,8 +2,12 @@
     "include": ["./src", "./bin"],
     "compilerOptions": {
         "lib": ["ES2022"],
-        "module": "CommonJS",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
         "target": "ES2022",
+        "allowImportingTsExtensions": true,
+        "erasableSyntaxOnly": true,
+        "verbatimModuleSyntax": true,
         "types": ["node"],
         "outDir": "./dist",
         "strict": true,

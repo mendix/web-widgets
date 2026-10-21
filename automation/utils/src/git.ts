@@ -1,4 +1,4 @@
-import { exec } from "./shell";
+import { exec } from "./shell.ts";
 
 function getGHRepoAuthUrl(repoUrl: string): string {
     const url = new URL(repoUrl);

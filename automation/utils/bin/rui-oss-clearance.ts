@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
 // Enable quiet mode for fetch calls to reduce logging noise
 process.env.FETCH_QUIET = "true";
@@ -6,8 +6,8 @@ process.env.FETCH_QUIET = "true";
 import { homedir } from "node:os";
 import { basename, join } from "path";
 import chalk from "chalk";
-import { prompt } from "enquirer";
-import { gh, GitHubDraftRelease, GitHubReleaseAsset } from "../src/github";
+import enquirer from "enquirer";
+import { gh, type GitHubDraftRelease, type GitHubReleaseAsset } from "../src/github.ts";
 import {
     computeSha256,
     createSBomGeneratorFolderStructure,
@@ -16,7 +16,9 @@ import {
     getRecommendedReadmeOss,
     hasReadmeOssInAssets,
     includeReadmeOssIntoMpk
-} from "../src/oss-clearance";
+} from "../src/oss-clearance.ts";
+
+const { prompt } = enquirer;
 
 // ============================================================================
 // Constants
@@ -342,7 +344,7 @@ async function handleIncludeAsEmbeddedAction(release: GitHubDraftRelease, readme
         printProgressCheck("Download completed");
 
         // Copy HTML to temp folder
-        const { cp } = await import("../src/shell");
+        const { cp } = await import("../src/shell.ts");
         await cp(readmeToInclude, htmlPath);
 
         // Embed HTML into MPK
@@ -398,7 +400,7 @@ async function handleIncludeAsEmbeddedAction(release: GitHubDraftRelease, readme
     } finally {
         // Cleanup temp files
         printProgress("Cleaning up temporary files...");
-        const { rm } = await import("../src/shell");
+        const { rm } = await import("../src/shell.ts");
         await rm("-rf", tmpFolder);
     }
 }

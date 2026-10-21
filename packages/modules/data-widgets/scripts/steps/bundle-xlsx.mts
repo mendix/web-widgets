@@ -3,7 +3,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
 import * as rollup from "rollup";
 import type { InputOptions, OutputOptions } from "rollup";
-import { copyActionsFiles, logStep, ModuleStepParams } from "@mendix/automation-utils/steps";
+import { copyActionsFiles, logStep, type ModuleStepParams } from "@mendix/automation-utils/steps";
 
 type Entry = {
     getInputOptions: (params: ModuleStepParams) => InputOptions;

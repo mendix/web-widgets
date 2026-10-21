@@ -22,26 +22,33 @@
         "rui-upload-readme-oss": "bin/rui-upload-readme-oss.ts",
         "rui-verify-package-format": "bin/rui-verify-package-format.ts"
     },
-    "types": "index.ts",
-    "main": "index.ts",
+    "type": "module",
     "files": [
         "shell.ts",
         "steps.ts",
         "utils.ts",
         "tsconfig.json"
     ],
+    "exports": {
+        ".": "./index.ts",
+        "./shell": "./shell.ts",
+        "./steps": "./steps.ts",
+        "./utils": "./utils.ts",
+        "./tsconfig": "./tsconfig.json",
+        "./tsconfig.json": "./tsconfig.json"
+    },
     "scripts": {
-        "changelog": "ts-node bin/rui-changelog-helper.ts",
-        "check-changelogs": "ts-node bin/rui-check-changelogs.ts",
-        "compile:parser:module": "peggy -o ./src/changelog-parser/parser/widget/widget.js ./src/changelog-parser/parser/widget/widget.pegjs",
-        "compile:parser:widget": "peggy -o ./src/changelog-parser/parser/module/module.js ./src/changelog-parser/parser/module/module.pegjs",
+        "changelog": "node bin/rui-changelog-helper.ts",
+        "check-changelogs": "node bin/rui-check-changelogs.ts",
+        "compile:parser:module": "peggy --format es -o ./src/changelog-parser/parser/widget/widget.mjs ./src/changelog-parser/parser/widget/widget.pegjs",
+        "compile:parser:widget": "peggy --format es -o ./src/changelog-parser/parser/module/module.mjs ./src/changelog-parser/parser/module/module.pegjs",
         "format": "prettier --write .",
-        "include-oss-in-artifact": "ts-node bin/rui-include-oss-in-artifact.ts",
+        "include-oss-in-artifact": "node bin/rui-include-oss-in-artifact.ts",
         "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-        "merge-changelogs-pr": "ts-node bin/rui-merge-changelogs-pr.ts",
-        "oss-clearance": "ts-node bin/rui-oss-clearance.ts",
+        "merge-changelogs-pr": "node bin/rui-merge-changelogs-pr.ts",
+        "oss-clearance": "node bin/rui-oss-clearance.ts",
         "prepare": "pnpm run compile:parser:widget && pnpm run compile:parser:module && tsc",
-        "prepare-release": "ts-node bin/rui-prepare-release.ts",
+        "prepare-release": "node bin/rui-prepare-release.ts",
         "start": "tsc --watch"
     },
     "devDependencies": {
@@ -57,9 +64,8 @@
         "glob": "^11.1.0",
         "node-fetch": "^2.7.0",
         "ora": "^5.4.1",
-        "peggy": "^1.2.0",
+        "peggy": "5.1.0",
         "shelljs": "^0.8.5",
-        "ts-node": "^10.9.1",
         "zod": "^3.25.76"
     }
 }

@@ -3,9 +3,11 @@ import { existsSync, promises as fs, readFileSync } from "fs";
 import { join } from "path";
 import { nextTick } from "process";
 import chalk from "chalk";
-import { prompt } from "enquirer";
-import { PackageListing } from "./monorepo";
-import { Version } from "./version";
+import enquirer from "enquirer";
+import type { PackageListing } from "./monorepo.ts";
+import { Version } from "./version.ts";
+
+const { prompt } = enquirer;
 
 export type BumpVersionType = "patch" | "minor" | "major" | string;
 
@@ -38,7 +40,7 @@ export function hasPackageXml(path: string): boolean {
 export function bumpPackageJson(path: string, version: string): void {
     const packageJsonFile = join(path, "package.json");
     const result = spawnSync("pnpm", ["version", version], { cwd: path, encoding: "utf8" });
-    const written = <string | undefined>JSON.parse(readFileSync(packageJsonFile, "utf8")).version;
+    const written = JSON.parse(readFileSync(packageJsonFile, "utf8")).version as string | undefined;
 
     if (written !== version) {
         throw new Error(

@@ -5,8 +5,8 @@ import { homedir, tmpdir } from "node:os";
 import { pipeline } from "node:stream/promises";
 import { basename, join, parse } from "path";
 import { globSync } from "glob";
-import { GitHubReleaseAsset } from "./github";
-import { chmod, cp, exec, mkdir, mv, rm, unzip, zip } from "./shell";
+import type { GitHubReleaseAsset } from "./github.ts";
+import { chmod, cp, exec, mkdir, mv, rm, unzip, zip } from "./shell.ts";
 
 export async function computeSha256(filePath: string): Promise<string> {
     const hash = createHash("sha256");

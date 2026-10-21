@@ -83,8 +83,8 @@ packages/modules/calendar/
         "branchName": "calendar-web"
     },
     "scripts": {
-        "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
-        "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts"
+        "build:module": "node scripts/build.mts",
+        "release:module": "node scripts/release.mts"
     }
 }
 ```

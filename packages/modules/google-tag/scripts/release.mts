@@ -1,15 +1,15 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
 import {
     addWidgetsToMpk,
     cloneTestProject,
-    copyModuleLicense,
+    copyActionsFiles,
     copyWidgetsToProject,
     createModuleMpk,
     moveModuleToDist,
     removeDist,
     runModuleSteps,
-    writeModuleVersion
+    writeVersionAndLicenseToJSActions
 } from "@mendix/automation-utils/steps";
 
 async function main(): Promise<void> {
@@ -18,9 +18,9 @@ async function main(): Promise<void> {
         steps: [
             removeDist,
             cloneTestProject,
-            writeModuleVersion,
-            copyModuleLicense,
             copyWidgetsToProject,
+            copyActionsFiles(["GoogleTagAction.js"]),
+            writeVersionAndLicenseToJSActions,
             createModuleMpk,
             addWidgetsToMpk,
             moveModuleToDist

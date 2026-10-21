@@ -1,4 +1,4 @@
-import nodefetch, { RequestInit } from "node-fetch";
+import nodefetch, { type RequestInit } from "node-fetch";
 
 export interface JiraVersion {
     id: string;

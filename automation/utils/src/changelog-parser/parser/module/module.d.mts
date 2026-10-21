@@ -1,5 +1,5 @@
-import { Version } from "../../../version";
-import { ModuleChangelogFile } from "../../types";
+import type { Version } from "../../../version.ts";
+import type { ModuleChangelogFile } from "../../types.ts";
 
 declare interface Location {
     line: number;

@@ -1,7 +1,7 @@
 import { readFile, writeFile } from "fs/promises";
 import { XMLBuilder, XMLParser } from "fast-xml-parser";
-import { Version, VersionString } from "../version";
-import { ClientModulePackageFile } from "./schema";
+import { Version, type VersionString } from "../version.ts";
+import { ClientModulePackageFile } from "./schema.ts";
 
 export function xmlTextToXmlJson(xmlText: string | Buffer): unknown {
     const parser = new XMLParser({ ignoreAttributes: false });

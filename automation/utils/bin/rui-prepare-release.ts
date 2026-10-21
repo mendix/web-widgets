@@ -1,11 +1,13 @@
-import { Jira, JiraVersion } from "../src/jira";
 import chalk from "chalk";
-import { prompt } from "enquirer";
-import { bumpPackageJson, bumpXml, getNextVersion } from "../src/bump-version";
-import { exec } from "../src/shell";
-import { gh } from "../src/github";
-import { printGithubAuthHelp } from "../src/cli-utils";
-import { printPkgInformation, selectPackageV2, ensureMainBranch } from "../src/prepare-release-helpers";
+import enquirer from "enquirer";
+import { bumpPackageJson, bumpXml, getNextVersion } from "../src/bump-version.ts";
+import { printGithubAuthHelp } from "../src/cli-utils.ts";
+import { gh } from "../src/github.ts";
+import { Jira, type JiraVersion } from "../src/jira.ts";
+import { printPkgInformation, selectPackageV2, ensureMainBranch } from "../src/prepare-release-helpers.ts";
+import { exec } from "../src/shell.ts";
+
+const { prompt } = enquirer;
 
 async function main(): Promise<void> {
     try {

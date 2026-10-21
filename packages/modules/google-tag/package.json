@@ -28,11 +28,11 @@
         "branchName": "google-tag-web"
     },
     "scripts": {
-        "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
+        "build:module": "node scripts/build.mts",
         "create-gh-release": "rui-create-gh-release",
         "publish-marketplace": "rui-publish-marketplace",
-        "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
-        "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
+        "push-update": "node scripts/push-update.mts",
+        "release:module": "node scripts/release.mts",
         "update-changelog": "rui-update-changelog-module",
         "verify": "rui-verify-package-format"
     },
