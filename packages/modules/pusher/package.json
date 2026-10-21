@@ -31,6 +31,7 @@
     "scripts": {
         "build:module": "node scripts/build.mts",
         "create-gh-release": "rui-create-gh-release",
+        "lint": "tsc --project scripts/tsconfig.json",
         "publish-marketplace": "rui-publish-marketplace",
         "push-update": "node scripts/push-update.mts",
         "release:module": "node scripts/release.mts",

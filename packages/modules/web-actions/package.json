@@ -27,7 +27,7 @@
         "build:module": "node scripts/build.mts",
         "create-gh-release": "rui-create-gh-release",
         "format": "echo 'Skip as actions use special format'",
-        "lint": "eslint --ext .js src/",
+        "lint": "tsc --project scripts/tsconfig.json && eslint --ext .js src/",
         "publish-marketplace": "rui-publish-marketplace",
         "push-update": "node scripts/push-update.mts",
         "release:module": "node scripts/release.mts",
