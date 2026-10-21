@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added a "Start at" field to the numbered list options, so a numbered list can start at a number other than 1.
+
+### Fixed
+
+- We fixed an issue where long numbers in a numbered list, such as 100 or viii, were cut off at the left edge of the editor.
+
 ## [5.1.1] - 2026-10-15
 
 ### Fixed

@@ -9,6 +9,7 @@
     "toolbar.subscript": "Indice",
     "toolbar.bulletList": "Liste à puces",
     "toolbar.orderedList": "Liste numérotée",
+    "toolbar.orderedListStart": "Commencer à",
     "toolbar.taskList": "Liste de tâches",
     "toolbar.decreaseIndent": "Diminuer le retrait",
     "toolbar.increaseIndent": "Augmenter le retrait",
