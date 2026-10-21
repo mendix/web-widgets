@@ -18,7 +18,7 @@ export class EditorStore {
     set(key: "data", value: JSONString[]): void;
     set(key: "layout" | "config" | number, value: JSONString): void;
     set(...params: [number, JSONString] | ["data", JSONString[]] | ["layout" | "config", JSONString]): void {
-        let changed = false;
+        let changed: boolean;
         if (typeof params[0] === "number") {
             changed = this.setData(...params);
         } else {
