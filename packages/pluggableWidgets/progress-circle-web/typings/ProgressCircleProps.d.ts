@@ -26,6 +26,7 @@ export interface ProgressCircleContainerProps {
     staticMaxValue: number;
     dynamicMaxValue?: EditableValue<Big>;
     expressionMaxValue?: DynamicValue<Big>;
+    allowValueAboveMax: boolean;
     onClick?: ActionValue;
     showLabel: boolean;
     labelType: LabelTypeEnum;
@@ -54,6 +55,7 @@ export interface ProgressCirclePreviewProps {
     staticMaxValue: number | null;
     dynamicMaxValue: string;
     expressionMaxValue: string;
+    allowValueAboveMax: boolean;
     onClick: {} | null;
     showLabel: boolean;
     labelType: LabelTypeEnum;
