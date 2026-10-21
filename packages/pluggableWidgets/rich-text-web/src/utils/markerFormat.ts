@@ -141,15 +141,22 @@ export function computeMarkerLength(listNode: ProseMirrorNode): number {
         return 1;
     }
 
-    // The last item carries the highest counter, so it is the widest.
     const start = typeof listNode.attrs.start === "number" ? listNode.attrs.start : 1;
     const highest = Math.max(start + listNode.childCount - 1, 1);
 
     switch (resolveCounterStyle(listNode.attrs)) {
+        // Decimal and alpha lengths never shrink as the counter grows, so the last item is the
+        // widest. Roman lengths do shrink (`xcix` for 99, then `c` for 100), so every counter in
+        // the list is measured.
         case "lower-alpha":
             return alphaLength(highest);
-        case "lower-roman":
-            return romanLength(highest);
+        case "lower-roman": {
+            let longest = 0;
+            for (let counter = Math.max(start, 1); counter <= highest; counter++) {
+                longest = Math.max(longest, romanLength(counter));
+            }
+            return longest;
+        }
         default:
             return String(highest).length;
     }
@@ -293,10 +300,19 @@ export function markerFormatToAttrs(
 }
 
 /**
+ * Longest counter, in characters, that the default `1.5em` gutter fits at the base marker size.
+ */
+const BASE_GUTTER_MARKER_CHARS = 2;
+
+/**
  * Gutter attributes for an `orderedList`/`bulletList`, in the configured shape.
  *
  * `markerLength` is only emitted above 1, so a bullet list or a short numbered list keeps
  * the markup it had before this feature and falls back to the stylesheet's default of 1.
+ *
+ * Without an enlarged marker, only a counter too long for the default gutter is emitted, such
+ * as `100.` in a list that starts at 98. The stylesheet then sizes the gutter from the list's
+ * own font size.
  */
 export function maxMarkerSizeToAttrs(
     maxSize: string | null,
@@ -304,7 +320,12 @@ export function maxMarkerSizeToAttrs(
     markerLength = 1
 ): Record<string, string> {
     if (!maxSize) {
-        return {};
+        if (markerLength <= BASE_GUTTER_MARKER_CHARS) {
+            return {};
+        }
+        return styleDataFormat === "class"
+            ? { "data-marker-chars": String(markerLength), class: "has-marker-chars" }
+            : { style: `--rt-marker-chars: ${markerLength}` };
     }
 
     if (styleDataFormat === "class") {

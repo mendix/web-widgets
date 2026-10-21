@@ -9,6 +9,7 @@
     "toolbar.subscript": "Tiefgestellt",
     "toolbar.bulletList": "Aufzählung",
     "toolbar.orderedList": "Nummerierte Liste",
+    "toolbar.orderedListStart": "Beginnen bei",
     "toolbar.taskList": "Aufgabenliste",
     "toolbar.decreaseIndent": "Einzug verkleinern",
     "toolbar.increaseIndent": "Einzug vergrößern",

@@ -1,7 +1,8 @@
-import { ReactElement, useState, useRef, useEffect, KeyboardEvent } from "react";
+import { ReactElement, useState, useRef, useEffect, useId, KeyboardEvent } from "react";
+import { MAX_ORDERED_LIST_START } from "../../../extensions/OrderedListStyled";
 import { useT } from "../../../utils/i18n";
 import { useCurrentEditor } from "../../EditorContext";
-import { getIconForOrderedListStyle, OrderedListStyle } from "../helpers/listHelpers";
+import { getIconForOrderedListStyle, normalizeStartInput, OrderedListStyle } from "../helpers/listHelpers";
 import { useDropdown } from "../hooks/useDropdown";
 import { ToolbarButtonConfig, ToolbarDropdownOption } from "../ToolbarConfig";
 import { ToolbarDefaultButton } from "./ToolbarDefaultButton";
@@ -22,10 +23,53 @@ export function ToolbarSplitButton({ config }: ToolbarSplitButtonProps): ReactEl
     const [, setUpdateTrigger] = useState(0);
     const mainButtonRef = useRef<HTMLButtonElement>(null);
     const dropdownButtonRef = useRef<HTMLButtonElement>(null);
+    const startInputId = useId();
+    // Text typed in the start input that is not yet applied, or null when the input shows the
+    // list's current start. Mirrored in a ref so the close path reads the latest value: a click
+    // outside unmounts the input before its blur event fires.
+    const [startDraft, setStartDraft] = useState<string | null>(null);
+    const startDraftRef = useRef<string | null>(null);
+
+    const updateStartDraft = (value: string | null): void => {
+        startDraftRef.current = value;
+        setStartDraft(value);
+    };
+
+    const getCurrentStart = (): number => {
+        if (!editor?.isActive("orderedList")) {
+            return 1;
+        }
+        const start = Number(editor.getAttributes("orderedList").start);
+        return Number.isInteger(start) && start > 0 ? start : 1;
+    };
+
+    // Applies the pending start input value, if any. The draft is cleared first so a later blur
+    // (for example when the input unmounts) does not apply it a second time.
+    const commitStartDraft = (focusEditor: boolean): void => {
+        const raw = startDraftRef.current;
+        if (raw === null || !editor) {
+            return;
+        }
+        updateStartDraft(null);
+
+        const current = getCurrentStart();
+        const next = normalizeStartInput(raw, current, MAX_ORDERED_LIST_START);
+        if (next === current || !editor.isActive("orderedList")) {
+            return;
+        }
+
+        const chain = editor.chain();
+        (focusEditor ? chain.focus() : chain).setOrderedListStart(next).run();
+    };
+
+    const closeDropdown = (): void => {
+        commitStartDraft(false);
+        setIsDropdownOpen(false);
+    };
 
     const { refs, floatingStyles } = useDropdown({
         isOpen: isDropdownOpen,
-        onClose: () => setIsDropdownOpen(false),
+        onClose: closeDropdown,
         referenceElement: dropdownButtonRef.current
     });
 
@@ -86,7 +130,52 @@ export function ToolbarSplitButton({ config }: ToolbarSplitButtonProps): ReactEl
 
     // Dropdown button click handler
     const handleDropdownClick = (): void => {
-        setIsDropdownOpen(!isDropdownOpen);
+        if (isDropdownOpen) {
+            closeDropdown();
+        } else {
+            setIsDropdownOpen(true);
+        }
+    };
+
+    // Moves focus between the style options and the start input with the arrow keys.
+    const moveMenuFocus = (current: HTMLElement, step: 1 | -1): void => {
+        const items = Array.from(
+            refs.floating.current?.querySelectorAll<HTMLElement>("button:not(:disabled), input:not(:disabled)") ?? []
+        );
+        const index = items.indexOf(current);
+        items[index + step]?.focus();
+    };
+
+    const handleMenuItemKeyDown = (e: KeyboardEvent<HTMLButtonElement>): void => {
+        switch (e.key) {
+            case "ArrowDown":
+                e.preventDefault();
+                moveMenuFocus(e.currentTarget, 1);
+                break;
+            case "ArrowUp":
+                e.preventDefault();
+                moveMenuFocus(e.currentTarget, -1);
+                break;
+            case "Escape":
+                e.preventDefault();
+                closeDropdown();
+                dropdownButtonRef.current?.focus();
+                break;
+        }
+    };
+
+    // ArrowUp and ArrowDown are left to the number input, which uses them to change the value.
+    const handleStartInputKeyDown = (e: KeyboardEvent<HTMLInputElement>): void => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            commitStartDraft(true);
+            setIsDropdownOpen(false);
+        } else if (e.key === "Escape") {
+            e.preventDefault();
+            updateStartDraft(null);
+            setIsDropdownOpen(false);
+            editor.commands.focus();
+        }
     };
 
     // Dropdown option selection handler
@@ -180,6 +269,7 @@ export function ToolbarSplitButton({ config }: ToolbarSplitButtonProps): ReactEl
                         <ToolbarDefaultButton
                             key={option.value}
                             onClick={() => handleOptionSelect(option)}
+                            onKeyDown={handleMenuItemKeyDown}
                             className="toolbar-dropdown-item"
                             isActive={currentValue === option.value}
                             role="menuitem"
@@ -188,6 +278,24 @@ export function ToolbarSplitButton({ config }: ToolbarSplitButtonProps): ReactEl
                             <span>{t(option.label)}</span>
                         </ToolbarDefaultButton>
                     ))}
+                    <div className="toolbar-dropdown-start" role="group" aria-labelledby={`${startInputId}-label`}>
+                        <label id={`${startInputId}-label`} htmlFor={startInputId}>
+                            {t("toolbar.orderedListStart")}
+                        </label>
+                        <input
+                            id={startInputId}
+                            type="number"
+                            className="toolbar-dropdown-start-input"
+                            min={1}
+                            max={MAX_ORDERED_LIST_START}
+                            step={1}
+                            disabled={!isActive || !editor.isEditable}
+                            value={startDraft ?? String(getCurrentStart())}
+                            onChange={e => updateStartDraft(e.target.value)}
+                            onBlur={() => commitStartDraft(false)}
+                            onKeyDown={handleStartInputKeyDown}
+                        />
+                    </div>
                 </div>
             )}
         </div>

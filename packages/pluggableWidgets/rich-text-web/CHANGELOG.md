@@ -32,6 +32,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where text and list markers were shown in the browser's default font instead of the selected font family when the style data format was set to "Class".
 
+- We fixed an issue where long numbers in a numbered list, such as 100 or viii, were cut off at the left edge of the editor.
+
+### Added
+
+- We added a "Start at" field to the numbered list options, so a numbered list can start at a number other than 1.
+
 ## [5.1.1] - 2026-10-15
 
 ### Fixed
