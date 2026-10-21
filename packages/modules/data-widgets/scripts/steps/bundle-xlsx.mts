@@ -1,9 +1,12 @@
 import path from "node:path";
-import resolve from "@rollup/plugin-node-resolve";
-import terser from "@rollup/plugin-terser";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import terserPlugin from "@rollup/plugin-terser";
 import * as rollup from "rollup";
 import type { InputOptions, OutputOptions } from "rollup";
 import { copyActionsFiles, logStep, type ModuleStepParams } from "@mendix/automation-utils/steps";
+
+// The plugin's typings are resolved as CJS under NodeNext, but Node loads its ESM build whose default export is the function.
+const terser = terserPlugin as unknown as typeof terserPlugin.default;
 
 type Entry = {
     getInputOptions: (params: ModuleStepParams) => InputOptions;
@@ -14,7 +17,7 @@ const xlsxExportTools: Entry = {
     getInputOptions: ({ config }) => ({
         input: path.join(config.paths.javascriptsource, "actions/xlsx-export-tools.js"),
         plugins: [
-            resolve(),
+            nodeResolve(),
             terser({
                 module: true,
                 ecma: 2017
