@@ -74,6 +74,7 @@ export interface BubbleChartContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     lines: LinesType[];
+    refreshInterval: number;
     enableAdvancedOptions: boolean;
     showPlaygroundSlot: boolean;
     playground?: ReactNode;
@@ -102,6 +103,7 @@ export interface BubbleChartPreviewProps {
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
     lines: LinesPreviewType[];
+    refreshInterval: number | null;
     enableAdvancedOptions: boolean;
     showPlaygroundSlot: boolean;
     playground: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };

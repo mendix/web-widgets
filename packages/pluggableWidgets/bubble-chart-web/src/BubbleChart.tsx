@@ -1,4 +1,11 @@
-import { ChartWidget, ChartWidgetProps, traceEqual, usePlotChartDataSeries } from "@mendix/shared-charts/main";
+import {
+    ChartWidget,
+    ChartWidgetProps,
+    seriesDataSources,
+    traceEqual,
+    usePlotChartDataSeries,
+    useRefreshInterval
+} from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import Big from "big.js";
 import classNames from "classnames";
@@ -30,6 +37,8 @@ export const BubbleChart = memo(
     // disable eslint rule to have nice component name in component tree at devtools
 
     function BubbleChart(props: BubbleChartContainerProps): ReactElement {
+        useRefreshInterval(seriesDataSources(props.lines), props.refreshInterval);
+
         const getSizes = (line: LinesType): number[] => {
             const sizes: number[] = [];
             let dataset: LinesType["staticDataSource"] | LinesType["dynamicDataSource"] | undefined;
