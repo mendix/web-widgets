@@ -64,8 +64,12 @@ test.describe("combobox-web onChange", () => {
             await combobox.selectOption("Multi Option nr.1");
             await combobox.selectOption("Multi Option nr.2");
 
-            const entries = await getLogs(page);
-            expect(entries[entries.length - 1].multiAssocTitles).toEqual(["Multi Option nr.1", "Multi Option nr.2"]);
+            await expect
+                .poll(async () => {
+                    const entries = await getLogs(page);
+                    return entries[entries.length - 1]?.multiAssocTitles;
+                })
+                .toEqual(["Multi Option nr.1", "Multi Option nr.2"]);
         });
     });
 
