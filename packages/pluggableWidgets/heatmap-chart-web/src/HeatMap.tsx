@@ -1,4 +1,4 @@
-import { ChartWidget, ChartWidgetProps } from "@mendix/shared-charts/main";
+import { ChartWidget, ChartWidgetProps, useRefreshInterval } from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import classNames from "classnames";
 import { ReactElement, useMemo } from "react";
@@ -54,6 +54,8 @@ const heatmapChartSeriesOptions: ChartWidgetProps["seriesOptions"] = {
 };
 
 export function HeatMap(props: HeatMapContainerProps): ReactElement | null {
+    useRefreshInterval([props.seriesDataSource], props.refreshInterval);
+
     const heatmapChartData = useHeatMapDataSeries({
         customSeriesOptions: props.customSeriesOptions,
         horizontalAxisAttribute: props.horizontalAxisAttribute,
