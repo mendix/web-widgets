@@ -1,49 +1,37 @@
 import { test, expect } from "@mendix/run-e2e/fixtures";
-import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
+import { DataGridPage } from "../pages/DataGridPage";
 
 test("datagrid-web filtering integration", async ({ page }) => {
-    const rows = async () => {
-        return page.locator('.mx-name-dataGrid21 [role="row"]');
-    };
-
-    const rowCount = await rows();
+    const grid = new DataGridPage(page, "dataGrid21");
 
     await page.goto("/p/filtering-integration");
-    await waitForMendixApp(page);
 
-    await expect(rowCount).toHaveCount(51);
+    await expect(grid.rows).toHaveCount(51);
 
-    await page.getByRole("columnheader", { name: "First name" }).getByRole("textbox").fill("a");
-    //await select("First name").fill("a");
-    await expect(await rows()).toHaveCount(30);
+    await grid.headerTextbox("First name").fill("a");
+    await expect(grid.rows).toHaveCount(30);
 
-    await page.getByRole("columnheader", { name: "Birth date" }).getByRole("textbox").fill("1/1/1990");
-    //await select("Birth date").fill("1/1/1990");
-    await page.getByRole("columnheader", { name: "First name" }).getByRole("textbox").click();
-    await expect(await rows()).toHaveCount(14);
+    await grid.headerTextbox("Birth date").fill("1/1/1990");
+    await grid.headerTextbox("First name").click();
+    await expect(grid.rows).toHaveCount(14);
 
-    await page.getByRole("columnheader", { name: "Birth year" }).getByRole("textbox").fill("1995");
-    await expect(await rows()).toHaveCount(9);
+    await grid.headerTextbox("Birth year").fill("1995");
+    await expect(grid.rows).toHaveCount(9);
 
-    await page.getByRole("columnheader", { name: "Color (enum)" }).getByRole("combobox").click();
-    //await select("Color (enum)").click();
-    await page.locator(`[role="option"]:has-text("Black")`).click({ delay: 1 });
-    //await option("Black").click();
-    await expect(await rows()).toHaveCount(4);
+    // option() is page-scoped: the listbox is rendered by a sibling filter widget, not inside the grid root.
+    await grid.headerCombobox("Color (enum)").click();
+    await page.getByRole("option", { name: "Black", exact: true }).click({ delay: 1 });
+    await expect(grid.rows).toHaveCount(4);
 
-    await page.getByRole("columnheader", { name: "Roles (ref set)" }).getByRole("combobox").click();
-    //await select("Roles (ref set)").click();
-    await page.locator(`[role="option"]:has-text("Careers adviser")`).click({ delay: 1 });
-    //await option("Careers adviser").click();
-    await expect(await rows()).toHaveCount(3);
+    await grid.headerCombobox("Roles (ref set)").click();
+    await page.getByRole("option", { name: "Careers adviser", exact: true }).click({ delay: 1 });
+    await expect(grid.rows).toHaveCount(3);
 
-    await page.getByRole("columnheader", { name: "Company" }).getByRole("combobox").click();
-    //await select("Company").click();
-    await page.locator(`[role="option"]:has-text("Sierra Health Services Inc")`).click({ delay: 20 });
-    //await option("Sierra Health Services Inc").click();
-    await expect(await rows()).toHaveCount(2);
+    await grid.headerCombobox("Company").click();
+    await page.getByRole("option", { name: "Sierra Health Services Inc", exact: true }).click({ delay: 20 });
+    await expect(grid.rows).toHaveCount(2);
 
-    const row = (await rows()).nth(1);
+    const row = grid.rows.nth(1);
     await expect(row).toHaveText(
         "Lina3/3/20042004BlackEnvironmental scientistCareers adviserPrison officerMarket research analystSierra Health Services Inc"
     );
