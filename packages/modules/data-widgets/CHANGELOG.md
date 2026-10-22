@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.8] DataWidgets - 2026-10-22
+
+### Datagrid
+
+#### Fixed
+
+- We fixed an issue where clicking a label inside a custom content column, such as the label of a checkbox, triggered the double click action with a single click.
+
+### Gallery
+
+#### Fixed
+
+- We fixed an issue where clicking a label inside the item content, such as the label of a checkbox, triggered the double click action with a single click.
+
 ## [3.11.7] DataWidgets - 2026-10-02
 
 ### Fixed
