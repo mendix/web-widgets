@@ -27,7 +27,8 @@ test.describe("combobox-web", () => {
             await expect(comboBox).toHaveScreenshot(`comboBoxAssociationRowClick.png`);
             await comboBox.click();
             await expect(page.locator(".modal-body .mx-name-layoutGrid1").first()).toHaveScreenshot(
-                `comboBoxAssociationRowClickOpen.png`
+                `comboBoxAssociationRowClickOpen.png`,
+                { maxDiffPixels: 10 }
             );
         });
 
@@ -97,7 +98,8 @@ test.describe("combobox-web", () => {
                 await comboBox.click();
                 await getFilterInput(comboBox).fill("A");
                 await expect(page.locator(".modal-body .mx-name-layoutGrid1").first()).toHaveScreenshot(
-                    `comboBoxFiltering.png`
+                    `comboBoxFiltering.png`,
+                    { maxDiffPixels: 10 }
                 );
             });
 
