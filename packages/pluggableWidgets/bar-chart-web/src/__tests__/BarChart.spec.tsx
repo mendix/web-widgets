@@ -20,6 +20,7 @@ describe("The BarChart widget", () => {
         return render(
             <BarChart
                 name="bar-chart-test"
+                refreshInterval={0}
                 class="bar-chart-class"
                 barmode="group"
                 series={configs.map(setupBasicBarSeries)}

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added a "Refresh time (in seconds)" property that periodically reloads the chart data.
+
 ## [6.2.1] - 2025-07-15
 
 ### Changed
