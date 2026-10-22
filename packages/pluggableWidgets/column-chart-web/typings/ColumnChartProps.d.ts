@@ -68,6 +68,7 @@ export interface ColumnChartContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     series: SeriesType[];
+    refreshInterval: number;
     advancedOptions: boolean;
     showPlaygroundSlot: boolean;
     playground?: ReactNode;
@@ -97,6 +98,7 @@ export interface ColumnChartPreviewProps {
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
     series: SeriesPreviewType[];
+    refreshInterval: number | null;
     advancedOptions: boolean;
     showPlaygroundSlot: boolean;
     playground: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
