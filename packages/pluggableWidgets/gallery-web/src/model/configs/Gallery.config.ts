@@ -28,7 +28,7 @@ export function galleryConfig(props: GalleryContainerProps): GalleryConfig {
     return {
         id,
         name: props.name,
-        refreshIntervalMs: 0,
+        refreshIntervalMs: props.refreshInterval * 1000,
         selectionEnabled: isSelectionEnabled(props),
         selectionType: selectionType(props),
         selectionMode: props.itemSelectionMode,

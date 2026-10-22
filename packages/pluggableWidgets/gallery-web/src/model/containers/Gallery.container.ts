@@ -86,8 +86,9 @@ const _02_queryBindings: BindingGroup = {
         container.bind(GY.query).toInstance(DatasourceService).inSingletonScope();
         container.bind(GY.queryParams).toInstance(QueryParamsService).inSingletonScope();
     },
-    init(container, { mainGate }) {
+    init(container, { mainGate, config }) {
         container.bind(GY.queryGate).toConstant(mainGate);
+        container.bind(GY.refreshInterval).toConstant(config.refreshIntervalMs);
     },
     postInit(container) {
         // Create param service instance.
