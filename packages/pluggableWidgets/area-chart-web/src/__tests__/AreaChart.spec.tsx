@@ -18,6 +18,7 @@ describe("The AreaChart widget", () => {
         return render(
             <AreaChart
                 name="line-chart-test"
+                refreshInterval={0}
                 class="line-chart-class"
                 series={configs.map(setupBasicAreaSeries)}
                 showLegend={false}
