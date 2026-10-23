@@ -62,4 +62,40 @@ describe("createGalleryContainer", () => {
             selectionEnabled: false
         });
     });
+
+    it("bind refresh interval in milliseconds to the container", () => {
+        const [container] = createGalleryContainer({ ...mockContainerProps(), refreshInterval: 5 });
+
+        expect(container.get(CORE.config).refreshIntervalMs).toBe(5000);
+        expect(container.get(GY.refreshInterval)).toBe(5000);
+    });
+
+    describe("refresh interval", () => {
+        beforeEach(() => jest.useFakeTimers());
+        afterEach(() => jest.useRealTimers());
+
+        it("reloads datasource after the refresh interval", () => {
+            const props = { ...mockContainerProps(), refreshInterval: 5 };
+            const [container] = createGalleryContainer(props);
+            const dispose = container.get(CORE.setupService).setup();
+
+            jest.advanceTimersByTime(4999);
+            expect(props.datasource.reload).not.toHaveBeenCalled();
+            jest.advanceTimersByTime(1);
+            expect(props.datasource.reload).toHaveBeenCalledTimes(1);
+
+            dispose();
+        });
+
+        it("does not reload datasource when refresh interval is 0", () => {
+            const props = mockContainerProps();
+            const [container] = createGalleryContainer(props);
+            const dispose = container.get(CORE.setupService).setup();
+
+            jest.advanceTimersByTime(60_000);
+            expect(props.datasource.reload).not.toHaveBeenCalled();
+
+            dispose();
+        });
+    });
 });
