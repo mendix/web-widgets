@@ -807,3 +807,18 @@ export function getFilteredToolbarGroups(
 
     return enhancedToolbarGroups(filteredGroups, customFonts);
 }
+
+/**
+ * Get the secondary toolbar groups that belong to the given toolbar groups.
+ * A secondary group is included when any button of its parent group is present. Buttons are
+ * matched by name because the advanced custom toolbar regroups them under generated group names.
+ * @param groups - Filtered toolbar groups
+ * @returns Secondary toolbar groups to render
+ */
+export function getSecondaryToolbarGroups(groups: ToolbarGroupConfig[]): ToolbarGroupConfig[] {
+    const buttonNames = new Set(groups.flatMap(group => group.buttons.map(button => button.name)));
+    return SECONDARY_TOOLBAR_GROUP.filter(secondaryGroup => {
+        const parentGroup = TOOLBAR_GROUPS.find(group => group.name === secondaryGroup.parentName);
+        return parentGroup?.buttons.some(button => buttonNames.has(button.name)) ?? false;
+    });
+}

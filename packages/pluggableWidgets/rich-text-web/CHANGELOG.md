@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the table toolbar did not appear when the cursor was in a table and the custom toolbar was set to "Advanced" with a "Table" item.
+
 ## [5.1.1] - 2026-10-15
 
 ### Fixed
