@@ -39,6 +39,7 @@ export function preview(props: ProgressCirclePreviewProps): ReactElement {
             minValue={minValue}
             maxValue={maxValue}
             onClick={undefined}
+            allowValueAboveMax={props.allowValueAboveMax}
             label={
                 props.showLabel ? (
                     props.labelType === "custom" ? (
@@ -46,7 +47,7 @@ export function preview(props: ProgressCirclePreviewProps): ReactElement {
                             <div />
                         </props.customLabel.renderer>
                     ) : props.labelType === "percentage" ? (
-                        `${calculatePercentage(currentValue, minValue, maxValue)}%`
+                        `${calculatePercentage(currentValue, minValue, maxValue, props.allowValueAboveMax)}%`
                     ) : (
                         props.labelText
                     )

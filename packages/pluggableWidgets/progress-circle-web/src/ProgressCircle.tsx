@@ -40,12 +40,13 @@ export const ProgressCircle: FunctionComponent<ProgressCircleContainerProps> = p
             minValue={minValue}
             maxValue={maxValue}
             onClick={props.onClick ? onClick : undefined}
+            allowValueAboveMax={props.allowValueAboveMax}
             label={
                 props.showLabel
                     ? props.labelType === "custom"
                         ? props.customLabel
                         : props.labelType === "percentage"
-                          ? `${calculatePercentage(currentValue, minValue, maxValue)}%`
+                          ? `${calculatePercentage(currentValue, minValue, maxValue, props.allowValueAboveMax)}%`
                           : props.labelText?.value
                     : null
             }
