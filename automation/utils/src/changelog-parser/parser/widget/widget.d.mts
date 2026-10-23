@@ -1,4 +1,4 @@
-import { WidgetChangelogFile } from "../../types";
+import type { WidgetChangelogFile } from "../../types.ts";
 
 declare interface Location {
     line: number;

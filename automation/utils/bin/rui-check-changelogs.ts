@@ -1,10 +1,10 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
-import { Version } from "../src";
-import { parse as parseModule } from "../src/changelog-parser/parser/module/module";
-import { parse as parseWidget } from "../src/changelog-parser/parser/widget/widget";
-import type { ModuleUnreleasedVersionEntry } from "../src/changelog-parser/types";
-import { exec } from "../src/shell";
+import { parse as parseModule } from "../src/changelog-parser/parser/module/module.mjs";
+import { parse as parseWidget } from "../src/changelog-parser/parser/widget/widget.mjs";
+import type { ModuleUnreleasedVersionEntry } from "../src/changelog-parser/types.ts";
+import { Version } from "../src/index.ts";
+import { exec } from "../src/shell.ts";
 
 interface ChangelogChange {
     filePath: string;
@@ -106,7 +106,7 @@ async function getChangedFiles(baseSha: string, mergedTreeSha: string): Promise<
  * the SHA of the resulting tree.
  */
 async function getMergedTreeSha(baseSha: string, headSha: string): Promise<string | null> {
-    let stdout = "";
+    let stdout: string;
     let hasConflicts = false;
 
     try {

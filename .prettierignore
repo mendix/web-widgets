@@ -10,3 +10,4 @@ packages/modules/*/src/javascriptsource/**/*.js
 .husky
 .vscode
 pnpm-lock.yaml
+automation/utils/src/changelog-parser/parser/*/*.mjs

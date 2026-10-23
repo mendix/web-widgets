@@ -1,6 +1,6 @@
-import nodefetch, { BodyInit, RequestInit } from "node-fetch";
+import nodefetch, { type BodyInit, type RequestInit } from "node-fetch";
 
-export { BodyInit } from "node-fetch";
+export type { BodyInit } from "node-fetch";
 
 export async function fetch<T = unknown>(
     method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH",

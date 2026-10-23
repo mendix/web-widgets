@@ -1,7 +1,7 @@
-import { access } from "fs/promises";
+import { access, readFile } from "fs/promises";
 import { join } from "path";
 import { z } from "zod";
-import { versionSchema } from "./version";
+import { versionSchema } from "./version.ts";
 
 export interface PackageJsonFileContent {
     name?: string;
@@ -142,10 +142,7 @@ export async function getPackageFileContent(dirPath: string): Promise<PackageJso
     const pkgPath = join(dirPath, `package.json`);
     try {
         await access(pkgPath);
-        const result = await import(pkgPath).then(module => {
-            return module.default as PackageJsonFileContent;
-        });
-        return result;
+        return JSON.parse(await readFile(pkgPath, "utf8")) as PackageJsonFileContent;
     } catch (error) {
         console.log(error);
         console.error(`ERROR: Path does not exist: ${pkgPath}`);

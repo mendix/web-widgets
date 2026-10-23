@@ -1,13 +1,13 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { gh } from "../src/github";
+import { gh } from "../src/github.ts";
 import {
     createSBomGeneratorFolderStructure,
     generateSBomArtifactsInFolder,
     verifyAssetDigest
-} from "../src/oss-clearance";
+} from "../src/oss-clearance.ts";
 
 async function main(): Promise<void> {
     const releaseTag = process.argv[2];
