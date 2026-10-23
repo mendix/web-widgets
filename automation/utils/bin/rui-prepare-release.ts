@@ -392,7 +392,7 @@ async function initializeJiraClient(): Promise<Jira> {
         console.log(chalk.green("✅ Jira project data initialized"));
     } catch (error) {
         console.error(chalk.red(`❌ Jira init failed: ${(error as Error).message}`));
-        throw new Error("Jira initialization failed");
+        throw new Error("Jira initialization failed", { cause: error });
     }
 
     return jira;

@@ -33,9 +33,9 @@
         ".": "./index.ts",
         "./shell": "./shell.ts",
         "./steps": "./steps.ts",
-        "./utils": "./utils.ts",
         "./tsconfig": "./tsconfig.json",
-        "./tsconfig.json": "./tsconfig.json"
+        "./tsconfig.json": "./tsconfig.json",
+        "./utils": "./utils.ts"
     },
     "scripts": {
         "changelog": "node bin/rui-changelog-helper.ts",
@@ -45,7 +45,7 @@
         "compile:parser:widget": "peggy --format es -o ./src/changelog-parser/parser/widget/widget.mjs ./src/changelog-parser/parser/widget/widget.pegjs",
         "format": "prettier --write .",
         "include-oss-in-artifact": "node bin/rui-include-oss-in-artifact.ts",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "lint": "eslint . package.json",
         "merge-changelogs-pr": "node bin/rui-merge-changelogs-pr.ts",
         "oss-clearance": "node bin/rui-oss-clearance.ts",
         "prepare": "tsc",

@@ -43,10 +43,8 @@ export async function createTranslation(cwd: string) {
     if (widgetXMLName) {
         const obj = await readXml(path.join(cwd, "src", widgetXMLName));
         const res = findCaptionsAndDescriptions(obj);
-        let fileName = "result";
-        if (obj && typeof obj === "object" && obj["widget"] && obj["widget"]["@_id"]) {
-            fileName = obj["widget"]["@_id"].toLowerCase();
-        }
+        const widgetId = (obj as { widget?: { "@_id"?: string } } | undefined)?.widget?.["@_id"];
+        const fileName = widgetId ? widgetId.toLowerCase() : "result";
         writeResultToFile(res, `dist/locales/en-US/${fileName}.json`);
         writeResultToFile(res, `../../../dist/locales/en-US/${fileName}.json`);
     }

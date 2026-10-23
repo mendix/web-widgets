@@ -74,7 +74,7 @@ async function main(): Promise<void> {
             }
             // Just for new line
             console.log("");
-            throw new Error("Verification failed");
+            throw new Error("Verification failed", { cause: error });
         }
 
         throw error;

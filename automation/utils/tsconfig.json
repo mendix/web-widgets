@@ -1,5 +1,5 @@
 {
-    "include": ["./src", "./bin"],
+    "include": ["./*.ts", "./src", "./bin"],
     "compilerOptions": {
         "lib": ["ES2022"],
         "module": "NodeNext",

@@ -106,7 +106,7 @@ async function getChangedFiles(baseSha: string, mergedTreeSha: string): Promise<
  * the SHA of the resulting tree.
  */
 async function getMergedTreeSha(baseSha: string, headSha: string): Promise<string | null> {
-    let stdout = "";
+    let stdout: string;
     let hasConflicts = false;
 
     try {

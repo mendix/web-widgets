@@ -86,7 +86,7 @@ async function verifyGitHubAuth(): Promise<void> {
         console.log(chalk.cyan("   • Option C: gh auth login\n"));
         console.log(chalk.white("3. For A and B get your token at:"));
         console.log(chalk.cyan("   https://github.com/settings/tokens\n"));
-        throw new Error("GitHub authentication required");
+        throw new Error("GitHub authentication required", { cause: error });
     }
 }
 
