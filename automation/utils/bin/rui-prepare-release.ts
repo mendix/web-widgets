@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import chalk from "chalk";
 import enquirer from "enquirer";
 import { bumpPackageJson, bumpXml, getNextVersion } from "../src/bump-version.ts";

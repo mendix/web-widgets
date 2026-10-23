@@ -9,17 +9,14 @@
         "erasableSyntaxOnly": true,
         "verbatimModuleSyntax": true,
         "types": ["node"],
-        "outDir": "./dist",
         "strict": true,
         "noEmit": true,
-        "noEmitOnError": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitAny": false,
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "noUnusedParameters": true,
         "forceConsistentCasingInFileNames": true,
-        "esModuleInterop": true,
-        "declaration": true
+        "esModuleInterop": true
     }
 }
