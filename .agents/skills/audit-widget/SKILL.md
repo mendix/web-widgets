@@ -80,12 +80,10 @@ Every finding must survive this filter, or it does not go in the report:
 - **Failure scenario**: concrete inputs/config → wrong or slow result. "Could be cleaner" is not a finding.
 - **Not already handled**: check the code path once more for the guard you are claiming is absent.
 - **Not a shared-package concern** misattributed to the widget.
-- **Not handled by a library**: when the finding depends on how a framework or library behaves (for example, a callback captured by `useEditor(..., [])`), read that library's code in `node_modules` before reporting it. `@tiptap/react` forwards callbacks to the latest options, which made BEH-01 in the example report a false positive.
+- **Not handled by a library**: when the finding depends on how a framework or library behaves (for example, a callback captured by `useEditor(..., [])`), read that library's code in `node_modules` before reporting it. `@tiptap/react` forwards callbacks to the latest options, which made a stale-callback finding in a Rich Text audit a false positive.
 - **Critical needs proof**: report a finding as Critical only after a failing test or a runtime reproduction. Otherwise report it as High and add _needs repro_.
 
 Drop speculative findings silently. A short true report beats a long plausible one.
-
-A real report produced by this skill is in [examples/rich-text-web.AUDIT.md](examples/rich-text-web.AUDIT.md), including findings later marked `fixed`, `stale` and added by tests.
 
 ### 4. Write the report
 
