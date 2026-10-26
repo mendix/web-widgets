@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Security
 
-- Updated dompurify library to version 3.4.16 to incorporate latest security fixes.
+- Updated dompurify library to version 3.4.17 to incorporate latest security fixes.
 
 ## [1.0.0] - 2026-04-17
 
