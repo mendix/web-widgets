@@ -4,7 +4,7 @@ One section per audit category. Each finding you report must trace back to a con
 
 Severity scale used throughout:
 
-- **Critical** — users hit broken/incorrect behaviour, or data loss
+- **Critical** — users hit broken/incorrect behaviour, data loss, or an exploitable security hole
 - **High** — a real defect or a gap that lets defects ship undetected
 - **Medium** — degraded UX/perf, or a convention violation with maintenance cost
 - **Low** — cleanup, nice-to-have coverage
@@ -36,7 +36,7 @@ Then look for these specific gaps:
 | Spec exists but only covers the happy path of a multi-branch function                                                 | Medium   |
 | Test uses real timers/`setTimeout` sleeps instead of fake timers                                                      | Low      |
 
-Prefer `@mendix/widget-plugin-test-utils` builders (`dynamicValue`, `listValue`, `actionValue`, …) when proposing new tests — check how sibling specs in the package do it and match.
+Prefer `@mendix/widget-plugin-test-utils` builders and helpers (`EditableValueBuilder`, `ListValueBuilder`, `actionValue`, `dynamic`, `list`, `obj`) when proposing new tests — check how sibling specs in the package do it and match.
 
 ---
 
@@ -44,13 +44,13 @@ Prefer `@mendix/widget-plugin-test-utils` builders (`dynamicValue`, `listValue`,
 
 Target: `e2e/*.spec.js` run via `@mendix/run-e2e`. Rules: `docs/requirements/e2e-test-guidelines.md`.
 
-**Enumerate the surface first.** Widget features from the XML + the pages in the test project:
+**Enumerate the surface first.** Widget features from the XML + the pages in the test project. Use mxcli only if it is already installed — the script downloads it otherwise. From the repo root:
 
 ```bash
-bash automation/mxcli/mx-testproject.sh inspect <widget>   # modules, pages, entities, .mx-name-* labels
+[ -x automation/tools/mxcli ] && bash automation/mxcli/mx-testproject.sh inspect <widget>   # modules, pages, entities, .mx-name-* labels
 ```
 
-If `automation/tools/mxcli` is missing, note it and fall back to reading `e2e/*.spec.js` selectors to infer the page inventory.
+If mxcli is not installed, say so in Notes and infer the page inventory from the selectors in `e2e/*.spec.js`.
 
 Coverage gaps:
 
@@ -108,30 +108,66 @@ For each PERF finding, state the trigger: "on every keystroke", "on every parent
 
 ---
 
-## DEP — Dependency updates
+## DEP — Dependencies
 
-**Only this widget's `package.json`.** Run from the package root:
+**Only this widget's `package.json`.** Report only: never run `pnpm up`, `pnpm add`, `pnpm install` or `pnpm audit --fix` — they rewrite `package.json` or `pnpm-lock.yaml`.
+
+Outdated versions, from the package root:
 
 ```bash
 pnpm outdated
 ```
 
-Classify each result against the **range declared in this widget's `package.json`**:
+Known advisories. `pnpm audit` always scans the whole workspace, so keep only the paths that start at this widget:
 
-- **patch** — `x.y.Z`; safe, batch them together
-- **minor** — `x.Y.z`; read the changelog for behaviour changes
-- **major** — `X.y.z`; breaking; report only, propose separately, never bundle with other work
+```bash
+pnpm audit --prod --json 2>/dev/null | node -e '
+const w = process.argv[1], d = JSON.parse(require("fs").readFileSync(0, "utf8"));
+for (const a of Object.values(d.advisories ?? {})) {
+    const paths = a.findings.flatMap(f => f.paths).filter(p => p.startsWith(`packages__pluggableWidgets__${w}>`));
+    if (paths.length) console.log(a.severity, a.module_name, a.github_advisory_id, a.patched_versions, paths[0]);
+}' <widget>
+```
 
-Rules and hard constraints:
+Classify each outdated result against the **range declared in this widget's `package.json`**:
 
-- Skip every `workspace:*` / `workspace:^*` dependency — those move with the monorepo, not with this widget.
-- `react` / `react-dom` are supplied by the Mendix client and pinned repo-wide to `>=18.0.0 <19.0.0`. Never propose a React 19 bump, and reject any dep whose new version requires React 19.
-- `@mendix/pluggable-widgets-tools` is `*` — do not pin it.
+- **patch** — `x.y.Z`; safe, batch them together — Low
+- **minor** — `x.Y.z`; read the changelog for behaviour changes — Low
+- **major** — `X.y.z`; breaking; propose on its own, never bundled with other work — Low, or Medium when the installed major no longer gets fixes
+
+Each advisory is its own row with kind `advisory`. Its severity follows the advisory (critical → Critical, high → High, moderate → Medium, low → Low); lower it one level when the vulnerable code is not reachable from the widget, and say why in Risk.
+
+Rules:
+
+- Skip every `workspace:*` / `workspace:^*` dependency — those move with the monorepo, not with this widget. Advisories reached only through a shared package go in Notes.
+- `react` / `react-dom` are supplied by the Mendix client and pinned repo-wide to `>=18.0.0 <19.0.0`. Never propose a React 19 bump, and flag any dep whose new version requires React 19.
+- `@mendix/pluggable-widgets-tools` is `*` — do not propose pinning it.
 - Check the new version still supports the widget's `marketplace.minimumMXVersion` browser baseline; flag ESM-only majors, since the widget is bundled by Rollup for the Mendix client.
-- Renovate manages the repo (`.github/renovate.json`). If a bump appears to already be in an open Renovate PR, note it rather than duplicating the work.
-- Never edit lockfiles by hand. Bumps go through `pnpm up <pkg>@<version>` inside the package.
+- Renovate manages the repo (`.github/renovate.json`). If a bump is already in an open Renovate PR, say so in Risk.
 
-Report as a table: package, current, wanted, latest, kind (patch/minor/major), risk note.
+---
+
+## SEC — Security
+
+Trace untrusted data to dangerous sinks. Untrusted means anything a user or app data can control: attribute values, text templates, datasource items, pasted or dropped content, URL parameters, `postMessage` events. For each finding, name the source, the sink, and an input that exploits it (for example `<img src=x onerror=alert(1)>` or `javascript:alert(1)`).
+
+| Signal                                                                                                                                                             | Severity |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
+| Untrusted HTML reaches `dangerouslySetInnerHTML`, `innerHTML`, `outerHTML`, `insertAdjacentHTML` or `document.write` without a sanitizer (DOMPurify or equivalent) | High     |
+| Sanitizer present but configured to allow `<script>`, `on*` attributes, `<iframe>`/`<object>`/`<embed>` without an allowlist, or `style` with `url()`              | High     |
+| Pasted, dropped or imported HTML (clipboard, Word paste, file import) inserted without the same sanitizing as other input                                          | High     |
+| `href`, `src`, `action` or `formaction` built from untrusted input without a scheme allowlist (`javascript:`, `data:`, `vbscript:` pass)                           | High     |
+| `eval`, `new Function`, or `setTimeout`/`setInterval` with a string argument                                                                                       | High     |
+| `<script>` element created at runtime, or a script loaded from a URL that a property controls                                                                      | High     |
+| `message` event listener that does not check `event.origin`                                                                                                        | High     |
+| `<iframe>` embedded from a user-supplied URL without `sandbox` or an origin allowlist                                                                              | Medium   |
+| Untrusted object merged into another (`Object.assign`, spread, deep merge) without guarding `__proto__` / `constructor` keys                                       | Medium   |
+| `RegExp` built from untrusted input without escaping (ReDoS or wrong matches)                                                                                      | Medium   |
+| Sensitive data (attribute values, tokens) written to `console` or `localStorage`                                                                                   | Medium   |
+| Untrusted value written into `style` or a CSS custom property that accepts `url()`                                                                                 | Low      |
+| Secret, token or credential hardcoded in `src/`, XML defaults, or `e2e/`                                                                                           | Critical |
+
+Known-vulnerable dependencies belong in `DEP`, not here.
 
 ---
 
@@ -200,15 +236,18 @@ Accessibility (WCAG 2.2 AA — `docs/requirements/frontend-guidelines.md`):
 
 Target: the widget's page in the mx-docs repo (`$MX_DOCS_PATH`, else `~/Projects/mx-docs`). The widget's XML, `package.json`, and `CHANGELOG.md` are the source of truth; the doc page is what drifts.
 
-**Locate the page first.** Widget pages live under `content/en/docs/marketplace/platform-supported-content/widgets/`, module pages under `.../modules/` (sometimes a folder with `_index.md` plus one page per widget, e.g. `modules/data-widgets/`). Resolve by the marketplace link, which every page carries in its intro:
+**Locate the page first.** Widget pages live under `content/en/docs/marketplace/platform-supported-content/widgets/`, module pages under `.../modules/` (sometimes a folder with `_index.md` plus one page per widget, e.g. `modules/data-widgets/`). Resolve by the marketplace link, which every page carries in its intro. From the widget package root:
 
 ```bash
-cd "${MX_DOCS_PATH:-$HOME/Projects/mx-docs}"
-appNumber=$(node -p "require('<widget-path>/package.json').marketplace.appNumber")
-grep -rl "link/component/$appNumber" content/en/docs/marketplace/platform-supported-content
+appNumber=$(node -p "require('./package.json').marketplace.appNumber")
+grep -rl "link/component/$appNumber" "${MX_DOCS_PATH:-$HOME/Projects/mx-docs}/content/en/docs/marketplace/platform-supported-content"
 ```
 
-Several pages can link the same component (cross-references). Pick the one whose `url:` front matter / filename matches `marketplace.appName` and that links it in the `## Introduction` paragraph. For widgets inside a module (`packages/modules/<name>`), match the page by widget name inside the module folder. If no page is found, that is itself a finding (below) — do not invent one.
+Several pages can link the same component (cross-references). Pick the one whose `url:` front matter / filename matches `marketplace.appName` and that links it in the `## Introduction` paragraph.
+
+If `appNumber` prints `undefined`, the widget ships inside a module (for example `datagrid-web` in `data-widgets`). Find the module with `grep -l '"@mendix/<widget>"' packages/modules/*/package.json` from the repo root, then match the widget's page by name inside that module's docs folder.
+
+If no page is found, that is itself a finding (below) — do not invent one.
 
 **Then compare.** Walk the XML property groups against the page's `## Properties Pane` section — mx-docs mirrors Studio Pro's tabs as `### <Tab> Tab {#anchor}` headings (General, Events, Accessibility, Advanced, Common…), with one bold item or sub-heading per property using its XML `<caption>`.
 
@@ -225,7 +264,7 @@ Several pages can link the same component (cross-references). Pick the one whose
 | Minimum Mendix version stated on the page lower/higher than `marketplace.minimumMXVersion`                                                | Medium   |
 | "Limitations" / "Known issues" section lists something a released version fixed                                                           | Medium   |
 | Design properties listed on the page don't match `src/themesource/**/design-properties.json` (modules only — skip for standalone widgets) | Low      |
-| Screenshot/GIF shows a visibly outdated UI (old caption, removed control) — report only, never regenerate images                          | Low      |
+| Screenshot/GIF shows a visibly outdated UI (old caption, removed control)                                                                 | Low      |
 
 Evidence for each finding is **two** locations: the doc `file:line` and the widget `file:line` (XML / changelog / source) it disagrees with.
 
@@ -234,4 +273,3 @@ Rules:
 - Only released behaviour belongs in mx-docs. `[Unreleased]` changelog entries are not findings — the docs ship with the release.
 - `editorConfig.ts`-hidden properties are still documented if a user can reach them in some mode; check the hide condition before calling one "internal".
 - Wording, tone, and grammar are not findings here. Accuracy only — leave style to mx-docs' own `docs-proofread`/`docs-review` skills.
-- Phase 2 edits must follow mx-docs `CLAUDE.md`: smallest edit that fixes the accuracy problem; ask before deleting more than a sentence or renaming a `{#anchor}`/`url:` (grep for inbound references first); never add claims not sourced from the widget's XML, changelog, or code.
