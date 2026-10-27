@@ -1,6 +1,8 @@
-import { prompt } from "enquirer";
-import { oraPromise } from "./cli-utils";
-import { cp, exec, find, mkdir } from "./shell";
+import enquirer from "enquirer";
+import { oraPromise } from "./cli-utils.ts";
+import { cp, exec, find, mkdir } from "./shell.ts";
+
+const { prompt } = enquirer;
 
 type DependencyName = string;
 
@@ -24,7 +26,7 @@ export async function listPackages(packageNames: string[]): Promise<PackageListi
     const filters = packageNames.map(name => `--filter ${name}`);
     const command = [pnpmCommand, ...filters].join(" ");
     const result = (await exec(command, { stdio: "pipe" })).stdout.trim();
-    const data = <PackageListing[]>JSON.parse(result !== "" ? result : "[]");
+    const data = JSON.parse(result !== "" ? result : "[]") as PackageListing[];
     return data;
 }
 

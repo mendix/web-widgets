@@ -1,7 +1,7 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
 import { cp, mkdir, rm, unzip, zip } from "@mendix/automation-utils/shell";
-import { logStep, removeDist, runWidgetSteps, WidgetStepParams } from "@mendix/automation-utils/steps";
+import { logStep, removeDist, runWidgetSteps, type WidgetStepParams } from "@mendix/automation-utils/steps";
 import { getWidgetInfo, listPackages } from "@mendix/automation-utils/utils";
 import { dirname, join } from "node:path";
 

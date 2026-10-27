@@ -11,17 +11,24 @@ export const versionRegex = new RegExp(`^${g1}\\.${g2}\\.${g3}(?:\\.${g4})?$`, "
 
 const versionSchemaBase = z.string().regex(versionRegex);
 
-export const versionStringSchema = versionSchemaBase.transform(str => <VersionString>str);
-export const versionTuple = versionSchemaBase.transform(str => <VersionTuple>str.split(".").map(p => parseInt(p, 10)));
+export const versionStringSchema = versionSchemaBase.transform(str => str as VersionString);
+export const versionTuple = versionSchemaBase.transform(
+    str => str.split(".").map(p => parseInt(p, 10)) as VersionTuple
+);
 export const versionSchema = versionSchemaBase.transform(str => Version.fromString(str as VersionString));
 
 export class Version {
-    constructor(
-        public readonly major: number,
-        public readonly minor: number,
-        public readonly patch: number,
-        public readonly build: number | undefined
-    ) {}
+    readonly major: number;
+    readonly minor: number;
+    readonly patch: number;
+    readonly build: number | undefined;
+
+    constructor(major: number, minor: number, patch: number, build: number | undefined) {
+        this.major = major;
+        this.minor = minor;
+        this.patch = patch;
+        this.build = build;
+    }
 
     bumpPatch(): Version {
         return new Version(this.major, this.minor, this.patch + 1, undefined);

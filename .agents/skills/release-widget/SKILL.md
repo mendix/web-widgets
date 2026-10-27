@@ -234,7 +234,7 @@ Teardown list (present all, confirm once, then execute):
 
 ## Common Mistakes
 
-- **Writing inline `ts-node -e` scripts instead of using the packaged CLI helpers** — use `rui-package-info`, `rui-changelog`, `rui-bump-version`, `rui-create-jira-version`, `rui-generate-oss-sbom`, `rui-upload-readme-oss` (in `automation/utils/bin/`). Never reimplement ad hoc.
+- **Writing inline `node -e` scripts instead of using the packaged CLI helpers** — use `rui-package-info`, `rui-changelog`, `rui-bump-version`, `rui-create-jira-version`, `rui-generate-oss-sbom`, `rui-upload-readme-oss` (in `automation/utils/bin/`). Never reimplement ad hoc.
 - **Working around a helper's refusal instead of fixing the input** — go back to Phase 0/2, don't bump the widget by hand.
 - **Publishing before the asset gate passes** — never `gh release edit --draft=false` without confirming both MPK and READMEOSS are attached.
 - **Escalating a 409 without checking run history first** — check `gh run list` for the tag first.

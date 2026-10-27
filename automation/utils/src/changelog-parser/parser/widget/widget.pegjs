@@ -1,6 +1,9 @@
 // Simple Changelog Grammar
 // ==========================
 //
+// The generated parser (widget.mjs) is committed. After editing this grammar,
+// regenerate it with `pnpm run compile:parser` and commit both files.
+//
 
 ChangelogFile
   = header:ChangelogHead _ content:(UnreleasedVersionEntry/ReleasedVersionEntry/OtherNotes)+  _ { return { header, content } }

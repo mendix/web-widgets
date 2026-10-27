@@ -1,10 +1,10 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 import { join, resolve } from "path";
-import { addRemoteWithAuthentication } from "../src";
-import { updateChangelogsAndCreatePR } from "../src/changelog";
-import { gh } from "../src/github";
-import { getPublishedInfo } from "../src/package-info";
-import { exec, find } from "../src/shell";
+import { updateChangelogsAndCreatePR } from "../src/changelog.ts";
+import { gh } from "../src/github.ts";
+import { addRemoteWithAuthentication } from "../src/index.ts";
+import { getPublishedInfo } from "../src/package-info.ts";
+import { exec, find } from "../src/shell.ts";
 
 async function resolveChangelogBranch(releaseTag: string, remoteName: string): Promise<string> {
     const { stdout } = await exec(`git rev-parse --abbrev-ref HEAD`, { stdio: "pipe" });

@@ -1,5 +1,5 @@
-import { WidgetPackage, WidgetPackageSchema } from "./package-info";
-import { ClientModulePackageFile, readPackageXml } from "./package-xml";
+import { type WidgetPackage, WidgetPackageSchema } from "./package-info.ts";
+import { ClientModulePackageFile, readPackageXml } from "./package-xml.ts";
 
 type ParsedManifests = [WidgetPackage, ClientModulePackageFile];
 

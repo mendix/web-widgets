@@ -1,6 +1,6 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
-import { getPackageInfo } from "../src/package-info";
+import { getPackageInfo } from "../src/package-info.ts";
 
 async function main(): Promise<void> {
     const path = process.cwd();
