@@ -6,7 +6,7 @@ on:
 
 env:
     # EU cross-region inference profile — must match the region prefix in AWS_REGION secret (eu-*)
-    CLAUDE_MODEL: eu.anthropic.claude-sonnet-4-6
+    CLAUDE_MODEL: eu.anthropic.claude-sonnet-5-5
 
 jobs:
     auto-review:
@@ -31,12 +31,12 @@ jobs:
             actions: read
         steps:
             - name: Checkout repository
-              uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
               with:
                   fetch-depth: 1
 
             - name: Configure AWS Credentials (OIDC)
-              uses: aws-actions/configure-aws-credentials@3bb878b6ab43ba8717918141cd07a0ea68cfe7ea # v4
+              uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
               with:
                   role-to-assume: ${{ secrets.AWS_BEDROCK_ROLE_ARN }}
                   aws-region: ${{ secrets.AWS_REGION }}
@@ -64,7 +64,7 @@ jobs:
                   done
 
             - name: Run Claude Code Review
-              uses: anthropics/claude-code-action@11ba60486e4aec9ddfeafcf4bb3f00b028ac2c16 # v1.0.142
+              uses: anthropics/claude-code-action@8041f1d17e0e7d2f2cfe35002962e9f26237c0bb # v1.0.263
               with:
                   use_bedrock: "true"
                   use_sticky_comment: "true"
