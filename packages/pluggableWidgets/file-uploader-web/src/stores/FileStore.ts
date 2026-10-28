@@ -15,7 +15,14 @@ import {
 } from "../utils/mx-data";
 
 export type FileStatus =
-    "existingFile" | "missing" | "queued" | "uploading" | "done" | "uploadingError" | "validationError" | "rejected";
+    | "existingFile"
+    | "missing"
+    | "queued"
+    | "uploading"
+    | "done"
+    | "uploadingError"
+    | "validationError"
+    | "rejected";
 
 let fileKey = 0;
 
@@ -29,6 +36,7 @@ export class FileStore {
     private _file?: File = undefined;
     private _objectItem?: ObjectItem = undefined;
     private _mxObject?: MxObject = undefined;
+    private _title?: string = undefined;
     private _thumbnailUrl?: string = undefined;
     private _documentUrl?: string = undefined;
     private _thumbnailFailed: boolean = false;
@@ -45,9 +53,10 @@ export class FileStore {
         this._rootStore = rootStore;
         this.fileStatus = type;
 
-        makeObservable<this, "_mxObject" | "_thumbnailUrl" | "_documentUrl" | "_thumbnailFailed">(this, {
+        makeObservable<this, "_mxObject" | "_title" | "_thumbnailUrl" | "_documentUrl" | "_thumbnailFailed">(this, {
             fileStatus: observable,
             _mxObject: observable,
+            _title: observable,
             errorDescription: observable,
             _thumbnailUrl: observable,
             _documentUrl: observable,
@@ -76,6 +85,7 @@ export class FileStore {
         }
 
         this._mxObject = undefined;
+        this._title = undefined;
         this._objectItem = undefined;
     }
 
@@ -159,11 +169,7 @@ export class FileStore {
     }
 
     get title(): string {
-        if (this._mxObject) {
-            return this._mxObject.get2("Name")?.toString();
-        }
-
-        return this._file?.name ?? "...";
+        return this._title ?? this._file?.name ?? "...";
     }
 
     get size(): number {
@@ -218,6 +224,8 @@ export class FileStore {
             const obj = await fetchMxObject(this._objectItem!);
             runInAction(() => {
                 this._mxObject = obj;
+                // Mendix can update the same object instance without notifying MobX.
+                this._title = obj?.get2("Name")?.toString();
                 this.updateThumbnailUrl();
             });
         }
