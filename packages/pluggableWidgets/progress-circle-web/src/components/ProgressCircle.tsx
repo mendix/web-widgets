@@ -54,7 +54,7 @@ export const ProgressCircle: FunctionComponent<ProgressCircleProps> = ({
 }) => {
     const [progressCircle, setProgressCircle] = useState<Circle>();
     const alertMessage = getValuesErrorMessage(currentValue, minValue, maxValue, allowValueAboveMax);
-    const isOverflow = allowValueAboveMax && minValue <= maxValue && currentValue > maxValue;
+    const isOverflow = allowValueAboveMax && minValue < maxValue && currentValue > maxValue;
 
     const setProgressCircleElement = useCallback(
         (node: any) => {

@@ -14,6 +14,18 @@ describe("calculatePercentage", () => {
         expect(calculatePercentage(150, 100, 100, true)).toBe(100);
     });
 
+    it("returns 100 when allowed but the maximum is lower than the minimum", () => {
+        expect(calculatePercentage(120, 100, 50, true)).toBe(100);
+        expect(calculatePercentage(120, 100, 50)).toBe(100);
+    });
+
+    it("rounds decimal values without floating-point errors", () => {
+        expect(calculatePercentage(100.5, 0, 100, true)).toBe(101);
+        expect(calculatePercentage(1.005, 0, 1, true)).toBe(101);
+        expect(calculatePercentage(50.5, 0, 100)).toBe(51);
+        expect(calculatePercentage(100.4, 0, 100, true)).toBe(100);
+    });
+
     it("clamps values below the minimum to 0", () => {
         expect(calculatePercentage(-10, 0, 100, true)).toBe(0);
     });
