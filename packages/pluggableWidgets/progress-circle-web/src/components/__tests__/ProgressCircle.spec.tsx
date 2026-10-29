@@ -96,6 +96,16 @@ describe("ProgressCircle", () => {
             expect(container.firstChild).not.toHaveClass("widget-progress-circle-overflow");
         });
 
+        it("does not add the overflow class when the range is empty", () => {
+            const { container } = renderProgressCircle({
+                currentValue: 150,
+                minValue: 100,
+                maxValue: 100,
+                allowValueAboveMax: true
+            });
+            expect(container.firstChild).not.toHaveClass("widget-progress-circle-overflow");
+        });
+
         it("still shows an error for a value below the minimum", () => {
             renderProgressCircle({ currentValue: -1, label: undefined, allowValueAboveMax: true });
             expect(screen.getByRole("alert")).toHaveTextContent(
