@@ -63,14 +63,14 @@ Apps already using a widget in Studio Pro depend on its XML contract. Flag as **
 
 ### CI checks
 
-Read the `gh pr checks` output first. The review usually runs before slow checks (E2E takes ~40 minutes) finish.
+Read the `gh pr checks` output first. The review usually runs before slow checks (E2E takes ~40 minutes) finish. Ignore the `AI Code Review` check — it is this review, so it is always pending.
 
-- **Pending** → not a finding; list them in the summary as "CI pending: <check names>"
-- **Missing** (only external checks such as Snyk/triage are listed) → GitHub workflows are probably awaiting maintainer approval; say "CI workflows not run yet" in the summary
+- **Pending** → not a finding; list them on the summary's CI line as "pending: <check names>"
+- **Missing** (only external checks such as Snyk/triage are listed) → GitHub workflows are probably awaiting maintainer approval; say "workflows not run yet" on the CI line
 - **Failing** → read the log (`gh run view <run-id> --log-failed`) and decide whether this diff caused it:
     - **Related** (lint, unit, or E2E failure in a changed package) → Medium finding with the relevant error lines
     - **Unrelated** (flaky test, infrastructure, another package, external scanner) → mention in the summary only, not a finding
-- **All passing** → add "All CI checks passed ✅" to the summary
+- **All passing** → "all checks passed ✅" on the CI line
 
 ### Changelog
 
@@ -267,7 +267,7 @@ GitHub Markdown, rendered as-is — do not wrap it in a code fence. Output only 
 
 Skipped (out of scope): `dist/`, `pnpm-lock.yaml`
 
-CI: <one line — "All CI checks passed ✅", or any of: "CI pending: …", "CI workflows not run yet", "Unrelated failures: <check> (<reason>)">
+**CI:** <"all checks passed ✅", or any of "pending: <checks>", "workflows not run yet", "unrelated failures: <check> (<reason>)", joined with " · ">
 
 ---
 
