@@ -13,7 +13,7 @@ import { copyMpkFiles, getMpkPaths } from "./monorepo.ts";
 import { createModuleMpkInDocker } from "./mpk.ts";
 import type { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info.ts";
 import { addFilesToPackageXml, type PackageType } from "./package-xml.ts";
-import { chmod, cp, ensureFileExists, exec, find, mkdir, popd, pushd, rm, unzip, zip } from "./shell.ts";
+import { chmod, cp, ensureFileExists, exec, mkdir, rm, unzip, zip } from "./shell.ts";
 
 type Step<Info, Config> = (params: { info: Info; config: Config }) => Promise<void>;
 
@@ -245,10 +245,9 @@ export async function pushUpdateToTestProject({ info, config }: ModuleStepParams
         return;
     }
 
-    const { paths } = config;
-    pushd(paths.targetProject);
+    const cwd = config.paths.targetProject;
 
-    const status = (await exec(`git status --porcelain`, { stdio: "pipe" })).stdout.trim();
+    const status = (await exec(`git status --porcelain`, { cwd, stdio: "pipe" })).stdout.trim();
 
     if (status === "") {
         console.warn(chalk.yellow("Nothing to commit"));
@@ -256,11 +255,10 @@ export async function pushUpdateToTestProject({ info, config }: ModuleStepParams
         return;
     }
 
-    await setLocalGitUserInfo();
-    await exec(`git add .`);
-    await exec(`git commit -m "Automated update for ${info.mxpackage.name} module [${info.version}]"`);
-    await exec(`git push origin`);
-    popd();
+    await setLocalGitUserInfo(cwd);
+    await exec(`git add .`, { cwd });
+    await exec(`git commit -m "Automated update for ${info.mxpackage.name} module [${info.version}]"`, { cwd });
+    await exec(`git push origin`, { cwd });
 }
 
 export async function writeModuleVersion({ config, info }: ModuleStepParams): Promise<void> {
