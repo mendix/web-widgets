@@ -1,11 +1,9 @@
 import { execSync, spawn } from "node:child_process";
+import { existsSync, readFileSync } from "node:fs";
 import p from "node:path";
 import { fileURLToPath } from "node:url";
 import fetch from "node-fetch";
 import c from "ansi-colors";
-import sh from "shelljs";
-
-const { cat } = sh;
 
 export function getFullImageName(name, mendixVersion) {
     return `${name}:${mendixVersion}`;
@@ -129,7 +127,8 @@ export async function startRuntime(mxruntimeImage, mendixVersion, ip, freePort) 
     if (attempts === 0) {
         console.log("Runtime didn't start");
         console.log("Print runtime.log...");
-        console.log(cat("results/runtime.log").toString());
+        const runtimeLog = "results/runtime.log";
+        console.log(existsSync(runtimeLog) ? readFileSync(runtimeLog, "utf-8") : `${runtimeLog} not found`);
         throw new Error("Runtime didn't start in time, exiting now...");
     }
 
