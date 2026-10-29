@@ -3,7 +3,8 @@
 // Enable quiet mode for fetch calls to reduce logging noise
 process.env.FETCH_QUIET = "true";
 
-import { homedir } from "node:os";
+import { cp, mkdtemp, rm, stat } from "node:fs/promises";
+import { homedir, tmpdir } from "node:os";
 import { basename, join } from "path";
 import chalk from "chalk";
 import enquirer from "enquirer";
@@ -331,8 +332,6 @@ async function handleIncludeAsEmbeddedAction(release: GitHubDraftRelease, readme
     printInfo(`Found MPK: ${mpkAsset.name} (${mpkAsset.size} bytes)`);
 
     // Create temp folder
-    const { mkdtemp } = await import("node:fs/promises");
-    const { tmpdir } = await import("node:os");
     const tmpFolder = await mkdtemp(join(tmpdir(), "mpk-oss-embed-"));
     const mpkPath = join(tmpFolder, mpkAsset.name);
     const htmlPath = join(tmpFolder, basename(readmeToInclude));
@@ -344,7 +343,6 @@ async function handleIncludeAsEmbeddedAction(release: GitHubDraftRelease, readme
         printProgressCheck("Download completed");
 
         // Copy HTML to temp folder
-        const { cp } = await import("../src/shell.ts");
         await cp(readmeToInclude, htmlPath);
 
         // Embed HTML into MPK
@@ -353,7 +351,6 @@ async function handleIncludeAsEmbeddedAction(release: GitHubDraftRelease, readme
         printProgressCheck("Merge completed");
 
         // Get modified MPK size
-        const { stat } = await import("node:fs/promises");
         const modifiedMpkStats = await stat(mpkPath);
         const sizeDiff = modifiedMpkStats.size - mpkAsset.size;
         printInfo(`Modified MPK size: ${modifiedMpkStats.size} bytes (+${sizeDiff} bytes)`);
@@ -400,8 +397,7 @@ async function handleIncludeAsEmbeddedAction(release: GitHubDraftRelease, readme
     } finally {
         // Cleanup temp files
         printProgress("Cleaning up temporary files...");
-        const { rm } = await import("../src/shell.ts");
-        await rm("-rf", tmpFolder);
+        await rm(tmpFolder, { recursive: true, force: true });
     }
 }
 

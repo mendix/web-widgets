@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
+import { mkdir } from "node:fs/promises";
 import { join } from "path";
 import concurrently from "concurrently";
-import { mkdir } from "@mendix/automation-utils/shell";
 import { getModuleConfigs } from "@mendix/automation-utils/utils";
 
 async function main(): Promise<void> {
     const [, config] = await getModuleConfigs(process.cwd());
 
-    mkdir("-p", config.paths.targetProject);
+    await mkdir(config.paths.targetProject, { recursive: true });
 
     await concurrently(
         [
