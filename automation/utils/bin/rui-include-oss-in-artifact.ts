@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 
-import { mkdtemp, stat } from "node:fs/promises";
+import { mkdtemp, rm, stat } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import chalk from "chalk";
 import { gh } from "../src/github.ts";
 import { includeReadmeOssIntoMpk } from "../src/oss-clearance.ts";
-import { rm } from "../src/shell.ts";
 
 /**
  * This script processes GitHub release artifacts to include READMEOSS HTML files into MPK files.
@@ -107,7 +106,7 @@ async function main(): Promise<void> {
     } finally {
         // Cleanup temp files
         console.log(chalk.gray("🧹 Cleaning up temporary files..."));
-        await rm("-rf", tmpFolder);
+        await rm(tmpFolder, { recursive: true, force: true });
     }
 }
 

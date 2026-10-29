@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-import { cp, mkdir, rm, unzip, zip } from "@mendix/automation-utils/shell";
+import { unzip, zip } from "@mendix/automation-utils/shell";
 import { logStep, removeDist, runWidgetSteps, type WidgetStepParams } from "@mendix/automation-utils/steps";
 import { getWidgetInfo, listPackages } from "@mendix/automation-utils/utils";
-import { dirname, join } from "node:path";
+import { cp, mkdir, rm } from "node:fs/promises";
+import { basename, dirname, join } from "node:path";
 
 // Charts specific steps
 
@@ -16,7 +17,8 @@ async function repackChartWidgets({ config }: WidgetStepParams): Promise<void> {
     const packages = await listPackages(dependencies);
     const widgets = await Promise.all(packages.map(({ path }) => getWidgetInfo(path)));
 
-    mkdir("-p", [paths.tmp, dirname(output.files.mpk)]);
+    await mkdir(paths.tmp, { recursive: true });
+    await mkdir(dirname(output.files.mpk), { recursive: true });
 
     console.info("Unpacking mpks and create correct file tree...");
     for (const pkg of widgets) {
@@ -24,17 +26,17 @@ async function repackChartWidgets({ config }: WidgetStepParams): Promise<void> {
         const contentDir = join(paths.tmp, pkg.mxpackage.name);
         const pkgSource = join(contentDir, "com");
         const pkgXml = join(contentDir, "package.xml");
-        mkdir("-p", contentDir);
+        await mkdir(contentDir, { recursive: true });
         await unzip(pkg.mpk, contentDir);
-        cp("-r", pkgSource, paths.tmp);
-        rm("-rf", pkgSource);
-        rm(pkgXml);
+        await cp(pkgSource, join(paths.tmp, "com"), { recursive: true });
+        await rm(pkgSource, { recursive: true, force: true });
+        await rm(pkgXml);
     }
 
     console.log("Copying package.xml...");
-    cp(join(paths.package, "src", "package.xml"), join(paths.tmp, "package.xml"));
+    await cp(join(paths.package, "src", "package.xml"), join(paths.tmp, "package.xml"));
     console.log("Copying License.txt...");
-    cp(join(paths.package, "../../../LICENSE"), join(paths.tmp, "License.txt"));
+    await cp(join(paths.package, "../../../LICENSE"), join(paths.tmp, "License.txt"));
     console.log("Creating mpk...");
     await zip(paths.tmp, output.files.mpk);
 }
@@ -49,8 +51,8 @@ async function main(): Promise<void> {
                 if (copyToProject) {
                     logStep("Copy widget to targetProject");
                     const dir = join(config.paths.targetProject, "widgets");
-                    mkdir("-p", dir);
-                    cp(config.output.files.mpk, dir);
+                    await mkdir(dir, { recursive: true });
+                    await cp(config.output.files.mpk, join(dir, basename(config.output.files.mpk)));
                 }
             }
         ]
