@@ -1,4 +1,5 @@
 import { EditableValue } from "mendix";
+import { action, makeObservable, observable } from "mobx";
 import {
     ComboboxContainerProps,
     OptionsSourceStaticDataSourceType,
@@ -28,6 +29,18 @@ export class StaticSingleSelector implements SingleSelector {
     constructor() {
         this.caption = new StaticCaptionsProvider(this._objectsMap);
         this.options = new StaticOptionsProvider(this.caption, this._objectsMap);
+        makeObservable<this, "_attr">(this, {
+            attributeType: observable,
+            status: observable,
+            clearable: observable,
+            currentId: observable,
+            readOnly: observable,
+            customContentType: observable,
+            validation: observable,
+            _attr: observable.ref,
+            updateProps: action,
+            setValue: action
+        });
     }
 
     updateProps(props: ComboboxContainerProps): void {
