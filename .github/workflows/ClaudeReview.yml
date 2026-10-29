@@ -2,7 +2,7 @@ name: Claude Code Review
 
 on:
     pull_request:
-        types: [opened, synchronize, ready_for_review]
+        types: [opened, synchronize, ready_for_review, reopened]
         # Skip PRs that only touch changelogs (e.g. release notes)
         paths-ignore:
             - "**/CHANGELOG.md"
@@ -29,7 +29,6 @@ jobs:
         permissions:
             contents: read
             pull-requests: write
-            issues: write
             id-token: write
             actions: read
         steps:
@@ -78,7 +77,11 @@ jobs:
                       actions: read
                   github_token: ${{ secrets.GITHUB_TOKEN }}
                   prompt: |
-                      You are reviewing PR #${{ github.event.pull_request.number }} in the mendix/web-widgets monorepo.
+                      REPO: ${{ github.repository }}
+                      PR NUMBER: ${{ github.event.pull_request.number }}
+
+                      You are reviewing this PR in the mendix/web-widgets monorepo.
+                      The PR branch is already checked out in the current working directory.
 
                       Read these files for full context and review guidelines:
                       - `AGENTS.md` — repo conventions, commands, and constraints
