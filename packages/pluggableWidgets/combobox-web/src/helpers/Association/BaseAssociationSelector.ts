@@ -1,4 +1,5 @@
 import { ListAttributeValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
+import { action, makeObservable, observable } from "mobx";
 import {
     ComboboxContainerProps,
     LoadingTypeEnum,
@@ -28,6 +29,18 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     constructor(props: { filterInputDebounceInterval: number }) {
         this.caption = new AssociationSimpleCaptionsProvider(this._valuesMap);
         this.options = new AssociationOptionsProvider(this.caption, this._valuesMap, props.filterInputDebounceInterval);
+        makeObservable<this, "_attr">(this, {
+            status: observable,
+            clearable: observable,
+            currentId: observable.ref,
+            readOnly: observable,
+            lazyLoading: observable,
+            loadingType: observable,
+            customContentType: observable,
+            validation: observable,
+            _attr: observable.ref,
+            updateProps: action
+        });
     }
 
     updateProps(props: ComboboxContainerProps): void {

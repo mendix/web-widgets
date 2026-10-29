@@ -1,4 +1,5 @@
 import { EditableValue } from "mendix";
+import { action, makeObservable, observable } from "mobx";
 import { ComboboxContainerProps, OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
 import { SingleSelector, Status } from "../types";
 import { EnumAndBooleanSimpleCaptionsProvider } from "./EnumAndBooleanSimpleCaptionsProvider";
@@ -22,6 +23,18 @@ export class EnumBooleanSingleSelector implements SingleSelector {
     constructor() {
         this.caption = new EnumAndBooleanSimpleCaptionsProvider();
         this.options = new EnumBoolOptionsProvider(this.caption);
+        makeObservable<this, "isBoolean" | "_attr">(this, {
+            status: observable,
+            validation: observable,
+            isBoolean: observable,
+            _attr: observable.ref,
+            currentId: observable,
+            customContentType: observable,
+            clearable: observable,
+            readOnly: observable,
+            updateProps: action,
+            setValue: action
+        });
     }
 
     updateProps(props: ComboboxContainerProps): void {

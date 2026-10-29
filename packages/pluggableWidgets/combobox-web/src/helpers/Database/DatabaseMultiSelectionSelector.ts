@@ -1,4 +1,5 @@
 import { ListAttributeValue, ObjectItem, SelectionMultiValue } from "mendix";
+import { action, makeObservable, observable } from "mobx";
 import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 import {
     ComboboxContainerProps,
@@ -37,6 +38,22 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
     constructor(props: { filterInputDebounceInterval: number }) {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
         this.options = new DatabaseOptionsProvider(this.caption, this._objectsMap, props.filterInputDebounceInterval);
+        makeObservable(this, {
+            clearable: observable,
+            currentId: observable.ref,
+            customContentType: observable,
+            lazyLoading: observable,
+            loadingType: observable,
+            readOnly: observable,
+            selectAllButton: observable,
+            selectedItemsStyle: observable,
+            selection: observable.ref,
+            selectionMethod: observable,
+            status: observable,
+            selectedItemsSorting: observable,
+            updateProps: action,
+            setValue: action
+        });
     }
 
     getOptions(): string[] {
