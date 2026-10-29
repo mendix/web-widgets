@@ -1,4 +1,5 @@
 import { DynamicValue, ListAttributeValue } from "mendix";
+import { action, makeObservable, observable } from "mobx";
 import { ReactNode } from "react";
 import {
     OptionsSourceAssociationCustomContentTypeEnum,
@@ -24,7 +25,16 @@ export class StaticCaptionsProvider implements CaptionsProvider {
     emptyCaption = "";
     overrideCaption: string | null | undefined = undefined;
 
-    constructor(private optionsMap: Map<string, OptionsSourceStaticDataSourceType>) {}
+    constructor(private optionsMap: Map<string, OptionsSourceStaticDataSourceType>) {
+        makeObservable<this, "customContent" | "customContentType">(this, {
+            customContent: observable.ref,
+            customContentType: observable,
+            attribute: observable.ref,
+            emptyCaption: observable,
+            overrideCaption: observable,
+            updateProps: action
+        });
+    }
 
     updateProps(props: Props): void {
         if (!props.emptyOptionText || props.emptyOptionText.status === "unavailable") {

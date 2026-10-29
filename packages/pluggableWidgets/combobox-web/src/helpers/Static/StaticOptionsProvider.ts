@@ -1,4 +1,5 @@
 import { matchSorter } from "match-sorter";
+import { makeObservable, observable, override } from "mobx";
 import { StaticCaptionsProvider } from "./StaticCaptionsProvider";
 import { FilterTypeEnum, OptionsSourceStaticDataSourceType } from "../../../typings/ComboboxProps";
 import { BaseOptionsProvider } from "../BaseOptionsProvider";
@@ -10,15 +11,14 @@ interface Props {
 }
 
 export class StaticOptionsProvider extends BaseOptionsProvider<string | Big | boolean | Date, Props> {
-    options: string[] = [];
     ds: OptionsSourceStaticDataSourceType[] | undefined;
-    searchTerm = "";
-    filterType: FilterTypeEnum = "contains";
+
     constructor(
         caption: StaticCaptionsProvider,
         private valuesMap: Map<string, OptionsSourceStaticDataSourceType>
     ) {
         super(caption);
+        makeObservable(this, { ds: observable.ref, status: override, _updateProps: override });
     }
 
     get status(): Status {

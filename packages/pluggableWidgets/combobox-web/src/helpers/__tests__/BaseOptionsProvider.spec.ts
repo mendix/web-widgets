@@ -1,3 +1,4 @@
+import { runInAction } from "mobx";
 import { FilterTypeEnum } from "../../../typings/ComboboxProps";
 import { BaseOptionsProvider } from "../BaseOptionsProvider";
 import { CaptionsProvider } from "../types";
@@ -18,8 +19,11 @@ const captionsProvider: CaptionsProvider = {
 class TestOptionsProvider extends BaseOptionsProvider<string> {
     constructor(filterType: FilterTypeEnum) {
         super(captionsProvider);
-        this.filterType = filterType;
-        this.options = ["a", "b", "c", "d"];
+        // The provider state is observable; the test subclass seeds it the way an action would.
+        runInAction(() => {
+            this.filterType = filterType;
+            this.options = ["a", "b", "c", "d"];
+        });
     }
 }
 

@@ -1,4 +1,5 @@
 import { DynamicValue, ListAttributeValue, ObjectItem } from "mendix";
+import { action, makeObservable, observable } from "mobx";
 import { ValuesProvider } from "../types";
 
 interface Props {
@@ -10,7 +11,13 @@ export class DatabaseValuesProvider implements ValuesProvider<string | Big> {
     private attribute?: ListAttributeValue<string | Big>;
     private emptyValue?: DynamicValue<string | Big> | undefined;
 
-    constructor(private optionsMap: Map<string, ObjectItem>) {}
+    constructor(private optionsMap: Map<string, ObjectItem>) {
+        makeObservable<this, "attribute" | "emptyValue">(this, {
+            attribute: observable.ref,
+            emptyValue: observable.ref,
+            updateProps: action
+        });
+    }
 
     updateProps(props: Props): void {
         this.attribute = props.valueAttribute;
