@@ -50,9 +50,12 @@
     },
     "dependencies": {
         "@floating-ui/react": "^0.26.27",
+        "@mendix/widget-plugin-mobx-kit": "workspace:*",
+        "brandi": "^5.0.0",
         "classnames": "^2.5.1",
         "downshift": "^7.6.2",
-        "match-sorter": "^8.1.0"
+        "match-sorter": "^8.1.0",
+        "mobx": "6.12.3"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
