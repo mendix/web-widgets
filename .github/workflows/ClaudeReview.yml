@@ -70,7 +70,6 @@ jobs:
               uses: anthropics/claude-code-action@8041f1d17e0e7d2f2cfe35002962e9f26237c0bb # v1.0.263
               with:
                   use_bedrock: "true"
-                  use_sticky_comment: "true"
                   # Public repo: keep the transcript out of logs (do not upload the execution file either)
                   show_full_output: "false"
                   additional_permissions: |
