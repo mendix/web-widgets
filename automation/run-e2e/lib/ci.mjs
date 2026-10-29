@@ -1,11 +1,11 @@
 import c from "ansi-colors";
 import findFreePort from "find-free-port";
 import { execSync } from "node:child_process";
+import { globSync } from "node:fs";
 import { createServer } from "node:net";
 import { networkInterfaces } from "node:os";
 import { fileURLToPath } from "node:url";
 import p from "node:path";
-import sh from "shelljs";
 import parseArgs from "yargs-parser";
 import {
     createDeploymentBundle,
@@ -19,8 +19,6 @@ import { setupTestProject } from "./setup-test-project.mjs";
 import { updateTestProject } from "./update-test-project.mjs";
 import { fetchWithReport } from "./utils.mjs";
 import * as config from "./config.mjs";
-
-const { ls } = sh;
 
 // Path to the docker directory (contains docker-compose.yml + Dockerfiles)
 const DOCKER_DIR = fileURLToPath(new URL("../docker", import.meta.url));
@@ -114,7 +112,7 @@ async function runWithCompose({ mendixVersion, ip, freePort }) {
     await prepareImage("mxbuild", mendixVersion);
     await prepareImage("mxruntime", mendixVersion);
 
-    const projectFile = ls(config.mprFileGlob).toString();
+    const [projectFile] = globSync(config.mprFileGlob);
     if (!projectFile) {
         throw new Error(`No .mpr file found matching ${config.mprFileGlob}`);
     }
@@ -171,7 +169,7 @@ async function runWithDockerRaw({ mendixVersion, ip, freePort }) {
         const mxbuildImage = await prepareImage("mxbuild", mendixVersion);
         const mxruntimeImage = await prepareImage("mxruntime", mendixVersion);
 
-        const projectFile = ls(config.mprFileGlob).toString();
+        const [projectFile] = globSync(config.mprFileGlob);
         createDeploymentBundle(mxbuildImage, projectFile);
 
         runtimeContainerId = await startRuntime(mxruntimeImage, mendixVersion, ip, freePort, {
