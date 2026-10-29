@@ -1140,6 +1140,9 @@ importers:
       match-sorter:
         specifier: ^8.1.0
         version: 8.3.0
+      mobx:
+        specifier: 6.12.3
+        version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
