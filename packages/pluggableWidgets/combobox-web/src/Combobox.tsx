@@ -5,55 +5,30 @@ import { ComboboxContainerProps } from "../typings/ComboboxProps";
 import { MultiSelection } from "./components/MultiSelection/MultiSelection";
 import { Placeholder } from "./components/Placeholder";
 import { SingleSelection } from "./components/SingleSelection/SingleSelection";
-import { SelectionBaseProps } from "./helpers/types";
-import { textOrFallback } from "./helpers/utils";
+import { ComboboxCore } from "./core/ComboboxCore";
+import { MultiSelector, SingleSelector } from "./helpers/types";
 import { useActionEvents } from "./hooks/useActionEvents";
-import { useGetSelector } from "./hooks/useGetSelector";
+import { useComboboxCore } from "./hooks/useComboboxCore";
 
 import "./ui/Combobox.scss";
 
-const DEFAULT_CLEAR_SELECTION_LABEL = "Clear selection";
-const DEFAULT_REMOVE_VALUE_LABEL = "Remove value";
-
 export default function Combobox(props: ComboboxContainerProps): ReactElement {
-    const selector = useGetSelector(props);
+    const { core, vm } = useComboboxCore(props);
     const actionEvents = useActionEvents({
         onEnterEvent: props.onEnterEvent,
         onLeaveEvent: props.onLeaveEvent,
-        selector
+        selector: core.selector
     });
-    const commonProps: Omit<SelectionBaseProps<null>, "selector"> = {
-        tabIndex: props.tabIndex!,
-        inputId: props.id,
-        labelId: `${props.id}-label`,
-        noOptionsText: props.noOptionsText?.value,
-        readOnlyStyle: props.readOnlyStyle,
-        ariaRequired: props.ariaRequired,
-        ariaLabel: props.ariaLabel?.value,
-        a11yConfig: {
-            ariaLabels: {
-                clearSelection: textOrFallback(props.clearButtonAriaLabel?.value, DEFAULT_CLEAR_SELECTION_LABEL),
-                removeSelection: textOrFallback(props.removeValueAriaLabel?.value, DEFAULT_REMOVE_VALUE_LABEL),
-                selectAll: props.selectAllButtonCaption?.value ?? ""
-            },
-            a11yStatusMessage: {
-                a11ySelectedValue: props.a11ySelectedValue?.value ?? "",
-                a11yOptionsAvailable: props.a11yOptionsAvailable?.value ?? "",
-                a11yInstructions: props.a11yInstructions?.value ?? "",
-                a11yNoOption: textOrFallback(props.noOptionsText?.value, props.a11yNoOptions?.value ?? "")
-            }
-        },
-        menuFooterContent: props.showFooter ? props.menuFooterContent : undefined
-    };
 
     return (
         <div className="widget-combobox" {...actionEvents}>
-            {selector.status === "unavailable" ? (
+            {vm.status === "unavailable" ? (
                 <Placeholder />
-            ) : selector.type === "single" ? (
-                <SingleSelection selector={selector} {...commonProps} />
+            ) : vm.mode === "single" ? (
+                // The casts go once the views stop taking the selector (a later commit).
+                <SingleSelection core={core as ComboboxCore<SingleSelector>} vm={vm} />
             ) : (
-                <MultiSelection selector={selector} {...commonProps} />
+                <MultiSelection core={core as ComboboxCore<MultiSelector>} vm={vm} />
             )}
         </div>
     );

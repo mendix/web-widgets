@@ -1,13 +1,14 @@
 import classNames from "classnames";
 import { Fragment, KeyboardEvent, ReactElement, useEffect, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
-import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
-import { getInputLabel, getSelectedCaptionsPlaceholder, getValidationErrorId } from "../../helpers/utils";
+import { MultiSelector } from "../../helpers/types";
+import { getInputLabel, getValidationErrorId } from "../../helpers/utils";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
 import { useFloatingMenu } from "../../hooks/useFloatingMenu";
 import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import { InputPlaceholder } from "../Placeholder";
+import { SelectionProps } from "../SelectionProps";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
 import { SelectAllButton } from "./SelectAllButton";
 
@@ -38,14 +39,9 @@ function isChipNavigationPermitted(event: KeyboardEvent): boolean {
     );
 }
 
-export function MultiSelection({
-    selector,
-    tabIndex,
-    a11yConfig,
-    menuFooterContent,
-    ariaRequired,
-    ...options
-}: SelectionBaseProps<MultiSelector>): ReactElement {
+export function MultiSelection({ core, vm, keepMenuOpen }: SelectionProps<MultiSelector>): ReactElement {
+    // The downshift hook still reads the selector through the core; the markup reads the ViewModel only.
+    const inputId = vm.id;
     const inputRef = useRef<HTMLInputElement>(null);
     /** Chip DOM nodes by index, so focus can be restored after a chip is removed. */
     const chipRefs = useRef<Array<HTMLElement | null>>([]);
@@ -63,21 +59,17 @@ export function MultiSelection({
         removeSelectedItem,
         setActiveIndex,
         selectedItems,
-        items,
-        setSelectedItems,
         toggleSelectedItem
-    } = useDownshiftMultiSelectProps(selector, options, inputRef, a11yConfig.a11yStatusMessage);
+    } = useDownshiftMultiSelectProps(core, { inputId, labelId: `${inputId}-label` }, inputRef);
     // Guard keepMenuOpen so floating-ui (and its autoUpdate scroll/resize listeners) stay disabled
     // in always-open mode, matching SingleSelection. keepMenuOpen is only set by the editor preview,
     // which renders SingleSelection exclusively, so MultiSelection never receives it at runtime or in
     // preview; this is a defensive guard. The inline always-open branch (alwaysOpen on the menu wrapper)
     // is intentionally not threaded through MultiSelectionMenu because it is unreachable for multi-select.
-    const keepMenuOpen = options.keepMenuOpen;
     const { refs, floatingStyles } = useFloatingMenu(keepMenuOpen === true ? false : isOpen);
-    const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
-    const isOptionsSelected = selector.isOptionsSelected();
-    const inputLabel = getInputLabel(options.inputId);
-    const errorId = getValidationErrorId(options.inputId);
+    const isSelectedItemsBoxStyle = vm.hints.selectedItemsStyle === "boxes";
+    const inputLabel = getInputLabel(inputId);
+    const errorId = getValidationErrorId(inputId);
     const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
     const inputProps = getInputProps({
         ...getDropdownProps(
@@ -102,10 +94,10 @@ export function MultiSelection({
                 }
             }
         },
-        disabled: selector.readOnly,
-        readOnly: selector.options.filterType === "none",
-        "aria-required": ariaRequired.value,
-        "aria-label": !hasLabel && options.ariaLabel ? options.ariaLabel : undefined
+        disabled: vm.readOnly,
+        readOnly: !vm.filterable,
+        "aria-required": vm.a11y.required,
+        "aria-label": !hasLabel && vm.a11y.label ? vm.a11y.label : undefined
     });
 
     /**
@@ -141,22 +133,12 @@ export function MultiSelection({
         // focus the node that is about to unmount.
     }, [selectedItems.length]);
 
-    const memoizedselectedCaptions = useMemo(
-        () => getSelectedCaptionsPlaceholder(selector, selectedItems),
-        [selector, selectedItems]
-    );
-
-    const lazyLoading = selector.lazyLoading ?? false;
     const { onScroll } = useLazyLoading({
-        hasMoreItems: selector.options.hasMore ?? false,
-        isInfinite: lazyLoading,
+        hasMoreItems: vm.loading.hasMore,
+        isInfinite: vm.loading.lazy,
         isOpen,
-        loadMore: () => {
-            if (selector.options.loadMore) {
-                selector.options.loadMore();
-            }
-        },
-        readOnly: selector.readOnly
+        loadMore: vm.loadMore,
+        readOnly: vm.readOnly
     });
 
     return (
@@ -164,28 +146,28 @@ export function MultiSelection({
             <ComboboxWrapper
                 ref={refs.setReference}
                 isOpen={isOpen}
-                readOnly={selector.readOnly}
-                readOnlyStyle={options.readOnlyStyle}
+                readOnly={vm.readOnly}
+                readOnlyStyle={vm.hints.readOnlyStyle}
                 getToggleButtonProps={getToggleButtonProps}
-                validation={selector.validation}
-                isLoading={lazyLoading && selector.options.isLoading}
-                isMultiselectActive={selectedItems?.length > 0}
+                validation={vm.validation}
+                isLoading={vm.loading.lazy && vm.loading.isLoading}
+                isMultiselectActive={vm.chips.length > 0}
                 errorId={errorId}
             >
                 <div
                     className={classNames(
                         "widget-combobox-selected-items",
-                        `widget-combobox-${selector.selectedItemsStyle}`
+                        `widget-combobox-${vm.hints.selectedItemsStyle}`
                     )}
                 >
                     {isSelectedItemsBoxStyle &&
-                        selectedItems.map((selectedItemForRender, index) => {
+                        vm.chips.map((chip, index) => {
                             return (
                                 <div
                                     className="widget-combobox-selected-item"
-                                    key={selectedItemForRender}
+                                    key={chip.id}
                                     {...getSelectedItemProps({
-                                        selectedItem: selectedItemForRender,
+                                        selectedItem: chip.id,
                                         index,
                                         ref: (node: HTMLElement | null) => {
                                             chipRefs.current[index] = node;
@@ -199,15 +181,15 @@ export function MultiSelection({
                                         }
                                     })}
                                 >
-                                    {selector.caption.render(selectedItemForRender, "label")}
-                                    {!selector.readOnly && (
+                                    {chip.content}
+                                    {!vm.readOnly && (
                                         <span
                                             className="icon widget-combobox-clear-button"
-                                            aria-label={a11yConfig.ariaLabels?.removeSelection}
+                                            aria-label={vm.t("removeSelection")}
                                             role="button"
                                             onClick={e => {
                                                 e.stopPropagation();
-                                                removeSelectedItem(selectedItemForRender);
+                                                removeSelectedItem(chip.id);
                                             }}
                                         >
                                             <ClearButton size={10} />
@@ -218,71 +200,61 @@ export function MultiSelection({
                         })}
                     <input
                         className={classNames("widget-combobox-input", {
-                            "widget-combobox-input-nofilter": selector.options.filterType === "none"
+                            "widget-combobox-input-nofilter": !vm.filterable
                         })}
-                        tabIndex={tabIndex}
+                        tabIndex={vm.tabIndex}
                         placeholder=" "
                         {...inputProps}
                         aria-labelledby={hasLabel ? inputProps["aria-labelledby"] : undefined}
-                        aria-describedby={selector.validation ? errorId : undefined}
-                        aria-invalid={selector.validation ? true : undefined}
+                        aria-describedby={vm.a11y.describedBy}
+                        aria-invalid={vm.validation ? true : undefined}
                     />
-                    <InputPlaceholder isEmpty={selectedItems.length <= 0}>{memoizedselectedCaptions}</InputPlaceholder>
+                    <InputPlaceholder isEmpty={vm.chips.length <= 0}>{vm.selectedContent}</InputPlaceholder>
                 </div>
 
-                {!selector.readOnly &&
-                    selector.clearable &&
-                    selector.currentId !== null &&
-                    selector.currentId.length > 0 && (
-                        <button
-                            tabIndex={tabIndex}
-                            className="widget-combobox-clear-button"
-                            aria-label={a11yConfig.ariaLabels?.clearSelection}
-                            onClick={e => {
-                                e.stopPropagation();
-                                inputRef.current?.focus();
-                                if (selectedItems.length > 0) {
-                                    setSelectedItems([]);
-                                }
-                            }}
-                        >
-                            <ClearButton />
-                        </button>
-                    )}
+                {!vm.readOnly && vm.clearable && vm.value !== null && vm.value.length > 0 && (
+                    <button
+                        tabIndex={vm.tabIndex}
+                        className="widget-combobox-clear-button"
+                        aria-label={vm.t("clearSelection")}
+                        onClick={e => {
+                            e.stopPropagation();
+                            inputRef.current?.focus();
+                            if (vm.chips.length > 0) {
+                                vm.clear();
+                            }
+                        }}
+                    >
+                        <ClearButton />
+                    </button>
+                )}
             </ComboboxWrapper>
             <MultiSelectionMenu
                 menuHeaderContent={
-                    selector.selectAllButton ? (
+                    vm.canSelectAll ? (
                         <SelectAllButton
-                            disabled={items.length === 0}
-                            value={isOptionsSelected}
-                            id={`${options.inputId}-select-all-button`}
-                            ariaLabel={a11yConfig.ariaLabels.selectAll}
+                            disabled={vm.options.length === 0}
+                            value={vm.allSelected}
+                            id={`${inputId}-select-all-button`}
+                            ariaLabel={vm.t("selectAll")}
                             onChange={() => {
-                                if (isOptionsSelected === "all") {
-                                    setSelectedItems([]);
+                                if (vm.allSelected === "all") {
+                                    vm.clear();
                                 } else {
-                                    setSelectedItems(selector.options.getAll());
+                                    vm.selectAll();
                                 }
                             }}
                         />
                     ) : undefined
                 }
-                menuFooterContent={menuFooterContent}
-                inputId={options.inputId}
-                selector={selector}
+                vm={vm}
                 isOpen={isOpen}
                 highlightedIndex={highlightedIndex}
-                selectableItems={items}
                 getItemProps={getItemProps}
                 getMenuProps={getMenuProps}
-                selectedItems={selectedItems}
-                noOptionsText={options.noOptionsText}
                 onOptionClick={() => {
                     inputRef.current?.focus();
                 }}
-                isLoading={selector.options.isLoading}
-                lazyLoading={lazyLoading}
                 onScroll={onScroll}
                 floatingRef={refs.setFloating}
                 floatingStyles={floatingStyles}
