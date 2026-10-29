@@ -436,6 +436,7 @@ Rules, in order of application:
 Each step keeps the MPK, the XML, and the existing unit and E2E tests green.
 
 1. **Extract the store.** Precondition: section 11, rules 1 to 5 in place. Move `getSelector`, the providers, and the selectors into a MobX store under a Core. Replace the forced re-render in `useGetSelector` with the snapshot hook. No change to `components/`.
+   Status 2026-10-29: done in the package change `combobox-mobx-store` (stacked on the safety-net branch). The selectors and providers are observable, `useObservableSnapshot` replaces the `setState({})` trigger and subscribes to the search term only. The props gate was deferred to step 2 because the `Selector` seam still takes props by method call.
 2. **Build the ViewModel.** Add the computed slices from section 3. Rewrite `SingleSelection` and `MultiSelection` to read from the ViewModel instead of the Selector. Whatever they cannot get from the ViewModel is a gap in the contract; fix the contract, not the View.
 3. **Extract Behavior and Popover.** Make downshift controlled by the Core. Move `useDownshift*` and `useFloatingMenu` into the two hooks with the getter shapes from sections 4 and 5. Verify every item in the "behaviour that must survive" list.
 4. **Introduce classes and data attributes.** Replace literal class names with the map and modifier classes with data attributes per the table in section 6. Update `Combobox.scss` and the E2E selectors.
