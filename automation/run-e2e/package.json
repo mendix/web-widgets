@@ -29,7 +29,6 @@
         "find-free-port": "^2.0.0",
         "ip": "^2.0.1",
         "node-fetch": "^3.3.2",
-        "shelljs": "^0.10.0",
         "yargs-parser": "^22.0.0"
     },
     "devDependencies": {

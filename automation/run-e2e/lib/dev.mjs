@@ -1,16 +1,14 @@
 import { spawnSync, execSync } from "node:child_process";
+import { globSync } from "node:fs";
 import { delimiter } from "node:path";
 import { fileURLToPath } from "node:url";
 import parseArgs from "yargs-parser";
 import c from "ansi-colors";
 import enquirer from "enquirer";
-import sh from "shelljs";
 import { setupTestProject } from "./setup-test-project.mjs";
 import { updateTestProject } from "./update-test-project.mjs";
 import { await200 } from "./utils.mjs";
 import * as config from "./config.mjs";
-
-const { ls, exec } = sh;
 
 export async function dev() {
     console.log(c.cyan("Run e2e tests in development environment"));
@@ -35,9 +33,9 @@ export async function dev() {
     if (!process.env.GITHUB_TOKEN) {
         console.log("GITHUB_TOKEN not found. Fetching from GitHub CLI...");
 
-        const result = exec("gh auth token", { silent: true });
+        const result = spawnSync("gh", ["auth", "token"], { encoding: "utf-8" });
 
-        if (result.code === 0) {
+        if (result.status === 0) {
             process.env.GITHUB_TOKEN = result.stdout.trim();
             console.log("Successfully set GITHUB_TOKEN from gh CLI.");
         } else {
@@ -72,7 +70,7 @@ export async function dev() {
 
         // Print out Mendix version from MPR file
         try {
-            const mprFiles = ls(config.mprFileGlob);
+            const mprFiles = globSync(config.mprFileGlob);
             if (mprFiles.length > 0) {
                 const mprFile = mprFiles[0];
                 try {

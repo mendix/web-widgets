@@ -1,23 +1,16 @@
 #!/usr/bin/env node
-import { createWriteStream } from "node:fs";
+import { createWriteStream, existsSync, globSync, mkdirSync, renameSync, rmSync } from "node:fs";
 import { join } from "node:path";
-import sh from "shelljs";
 import crossZip from "cross-zip";
 import { packageMeta, fetchWithReport, usetmp, streamPipe } from "./utils.mjs";
 import * as config from "./config.mjs";
 
-const { ls, mkdir, rm, mv } = sh;
-
 export async function setupTestProject() {
     console.log("Copying test project from GitHub repository");
 
-    sh.config.silent = true;
-    const testsFiles = ls(config.testsDir);
-    sh.config.silent = false;
-
-    if (testsFiles.length !== 0) {
+    if (existsSync(config.testsDir)) {
         console.log("Test project directory already exists, cleaning up...");
-        rm("-rf", config.testsDir);
+        rmSync(config.testsDir, { recursive: true, force: true });
     }
 
     const archivePath = await downloadTestProject(
@@ -26,12 +19,16 @@ export async function setupTestProject() {
     );
 
     try {
-        mkdir("-p", config.testsDir);
+        mkdirSync(config.testsDir, { recursive: true });
         crossZip.unzipSync(archivePath, config.testsDir);
-        mv(config.postUnzipProjectDirGlob, config.testProjectDir);
-        rm("-f", archivePath);
+        const [unzippedProjectDir] = globSync(config.postUnzipProjectDirGlob);
+        if (!unzippedProjectDir) {
+            throw new Error(`No directory matching ${config.postUnzipProjectDirGlob} after unzipping.`);
+        }
+        renameSync(unzippedProjectDir, config.testProjectDir);
+        rmSync(archivePath, { force: true });
 
-        if (ls(config.mprFileGlob).length === 0) {
+        if (globSync(config.mprFileGlob).length === 0) {
             throw new Error('Invalid test project retrieved from GitHub: "mpr" file is missing.');
         }
     } catch (e) {
@@ -55,7 +52,7 @@ async function downloadTestProject(repository, branch) {
         );
         return downloadedArchivePath;
     } catch (e) {
-        rm("-f", downloadedArchivePath);
+        rmSync(downloadedArchivePath, { force: true });
         throw new Error("Cannot find test project in GitHub repository. Try again later.", { cause: e });
     }
 }
