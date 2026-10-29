@@ -116,9 +116,6 @@ importers:
       node-fetch:
         specifier: ^3.3.2
         version: 3.3.2
-      shelljs:
-        specifier: ^0.10.0
-        version: 0.10.0
       yargs-parser:
         specifier: ^22.0.0
         version: 22.0.0
