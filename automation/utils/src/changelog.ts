@@ -1,6 +1,6 @@
 import { gh } from "./github.ts";
 import type { PublishedInfo } from "./package-info.ts";
-import { exec, popd, pushd } from "./shell.ts";
+import { exec } from "./shell.ts";
 
 export async function updateChangelogsAndCreatePR(
     info: PublishedInfo,
@@ -20,11 +20,10 @@ export async function updateChangelogsAndCreatePR(
 
     console.log(`Committing changes and pushing '${branch}' to remote...`);
     const { stdout: root } = await exec(`git rev-parse --show-toplevel`, { stdio: "pipe" });
-    pushd(root.trim());
-    await exec(`git add '*/CHANGELOG.md'`);
-    await exec(`git commit -m "chore(${info.name}): update changelog"`);
-    await exec(`git push ${remoteName} ${branch}`);
-    popd();
+    const cwd = root.trim();
+    await exec(`git add '*/CHANGELOG.md'`, { cwd });
+    await exec(`git commit -m "chore(${info.name}): update changelog"`, { cwd });
+    await exec(`git push ${remoteName} ${branch}`, { cwd });
 
     console.log(`Creating pull request for '${branch}'`);
     await gh.createGithubPRFrom({
