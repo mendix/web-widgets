@@ -965,6 +965,12 @@ importers:
       '@floating-ui/react':
         specifier: ^0.26.27
         version: 0.26.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mendix/widget-plugin-mobx-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-mobx-kit
+      brandi:
+        specifier: ^5.0.0
+        version: 5.1.0
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
@@ -974,6 +980,9 @@ importers:
       match-sorter:
         specifier: ^8.1.0
         version: 8.3.0
+      mobx:
+        specifier: 6.12.3
+        version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -11084,7 +11093,7 @@ packages:
         optional: true
 
   xlsx@https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz:
-    resolution: {tarball: https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz}
+    resolution: {integrity: sha512-oLDq3jw7AcLqKWH2AhCpVTZl8mf6X2YReP+Neh0SJUzV/BdZYjth94tG5toiMB1PPrYtxOCfaoUCkvtuH+3AJA==, tarball: https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz}
     version: 0.20.3
     engines: {node: '>=0.8'}
     hasBin: true
