@@ -1,4 +1,5 @@
 import { EditableValue, ListAttributeValue, ObjectItem, SelectionSingleValue } from "mendix";
+import { action, makeObservable, observable } from "mobx";
 import {
     ComboboxContainerProps,
     LoadingTypeEnum,
@@ -38,6 +39,21 @@ export class DatabaseSingleSelectionSelector<
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
         this.options = new DatabaseOptionsProvider(this.caption, this._objectsMap, props.filterInputDebounceInterval);
         this.values = new DatabaseValuesProvider(this._objectsMap);
+        makeObservable<this, "_attr" | "selection">(this, {
+            clearable: observable,
+            currentId: observable,
+            customContentType: observable,
+            lazyLoading: observable,
+            loadingType: observable,
+            readOnly: observable,
+            status: observable,
+            validation: observable,
+            _attr: observable.ref,
+            selection: observable.ref,
+            updateProps: action,
+            setAttributeValue: action,
+            setValue: action
+        });
     }
 
     updateProps(props: ComboboxContainerProps): void {

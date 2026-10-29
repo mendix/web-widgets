@@ -1,4 +1,5 @@
 import { DynamicValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ObjectItem } from "mendix";
+import { action, makeObservable, observable } from "mobx";
 import { ReactNode } from "react";
 import { OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
 import { CaptionPlacement, CaptionsProvider } from "../types";
@@ -22,7 +23,17 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
     emptyCaption = "";
     overrideCaption: string | null | undefined = undefined;
 
-    constructor(private optionsMap: Map<string, ObjectItem>) {}
+    constructor(private optionsMap: Map<string, ObjectItem>) {
+        makeObservable<this, "customContent" | "customContentType">(this, {
+            formatter: observable.ref,
+            customContent: observable.ref,
+            customContentType: observable,
+            attribute: observable.ref,
+            emptyCaption: observable,
+            overrideCaption: observable,
+            updateProps: action
+        });
+    }
 
     updateProps(props: Props): void {
         if (!props.emptyOptionText || props.emptyOptionText.status === "unavailable") {

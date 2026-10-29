@@ -1,5 +1,6 @@
 import { ListAttributeValue, ListValue, ObjectItem } from "mendix";
 import { FilterCondition } from "mendix/filters";
+import { action, computed, makeObservable, observable, override } from "mobx";
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { BaseOptionsProvider } from "./BaseOptionsProvider";
 import { datasourceFilter } from "./datasourceFilter";
@@ -33,6 +34,19 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         }, filterInputDebounceInterval);
 
         this.debouncedSetFilter = debouncedFn;
+        makeObservable<this, "ds" | "attributeId" | "loading">(this, {
+            ds: observable.ref,
+            attributeId: observable.ref,
+            loading: observable,
+            sortOrder: computed,
+            status: override,
+            hasMore: override,
+            isLoading: override,
+            datasourceFilter: computed,
+            loadMore: override,
+            loadSelectedValue: action,
+            _updateProps: override
+        });
     }
 
     get sortOrder(): SortOrder {
