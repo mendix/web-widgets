@@ -1,4 +1,5 @@
 import { DynamicValue, EditableValue } from "mendix";
+import { action, makeObservable, observable } from "mobx";
 import { ReactNode } from "react";
 import { CaptionsProvider } from "../types";
 
@@ -10,6 +11,15 @@ interface EnumAndBooleanSimpleCaptionsProviderProps {
 export class EnumAndBooleanSimpleCaptionsProvider implements CaptionsProvider {
     private attr?: EditableValue<string | boolean>;
     emptyCaption = "";
+
+    constructor() {
+        makeObservable<this, "attr">(this, {
+            attr: observable.ref,
+            emptyCaption: observable,
+            updateProps: action
+        });
+    }
+
     updateProps(props: EnumAndBooleanSimpleCaptionsProviderProps): void {
         this.attr = props.attribute;
         if (!props.emptyOptionText || props.emptyOptionText.status === "unavailable") {

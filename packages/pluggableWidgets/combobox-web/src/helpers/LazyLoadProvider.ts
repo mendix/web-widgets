@@ -1,8 +1,18 @@
 import { ListValue, ValueStatus } from "mendix";
+import { action, makeObservable, observable } from "mobx";
 
 export class LazyLoadProvider {
     private ds?: ListValue;
     private limit: number = 0;
+
+    constructor() {
+        makeObservable<this, "ds" | "limit">(this, {
+            ds: observable.ref,
+            limit: observable,
+            updateProps: action,
+            getLimit: action
+        });
+    }
 
     updateProps(ds: ListValue): void {
         this.limit = ds.limit;

@@ -1,4 +1,5 @@
 import { matchSorter, MatchSorterOptions } from "match-sorter";
+import { action, computed, makeObservable, observable } from "mobx";
 import { FilterTypeEnum } from "typings/ComboboxProps";
 import { CaptionsProvider, OptionsProvider, Status } from "./types";
 import { getFilterTypeOptions } from "./utils";
@@ -14,6 +15,18 @@ export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProv
 
     constructor(caption: CaptionsProvider) {
         this.caption = caption;
+        makeObservable<this, "options">(this, {
+            options: observable.ref,
+            filterType: observable,
+            searchTerm: observable,
+            lazyLoading: observable,
+            hasMore: computed,
+            isLoading: computed,
+            status: computed,
+            setSearchTerm: action,
+            loadMore: action,
+            _updateProps: action
+        });
     }
 
     get hasMore(): boolean {
@@ -50,6 +63,7 @@ export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProv
         this.trigger?.();
     }
 
+    /** @deprecated The search term is observable; subscribe to it instead. Kept until step 2 drops it from the interface. */
     onAfterSearchTermChange(callback: () => void): void {
         this.trigger = callback;
     }

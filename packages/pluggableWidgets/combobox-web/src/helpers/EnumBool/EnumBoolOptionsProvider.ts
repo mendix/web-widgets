@@ -1,4 +1,5 @@
 import { EditableValue } from "mendix";
+import { makeObservable, observable, override } from "mobx";
 import { FilterTypeEnum } from "../../../typings/ComboboxProps";
 import { BaseOptionsProvider } from "../BaseOptionsProvider";
 
@@ -7,6 +8,11 @@ export class EnumBoolOptionsProvider<T extends boolean | string> extends BaseOpt
     { attribute: EditableValue<string | boolean> }
 > {
     private isBoolean = false;
+
+    constructor(...args: ConstructorParameters<typeof BaseOptionsProvider>) {
+        super(...args);
+        makeObservable<this, "isBoolean">(this, { isBoolean: observable, _updateProps: override });
+    }
 
     _updateProps(props: { attribute: EditableValue<string | boolean>; filterType: FilterTypeEnum }): void {
         if (props.attribute.status === "unavailable") {
