@@ -7,41 +7,11 @@ const { config } = shelljs;
 
 // Enable fast fail for all shelljs commands
 config.fatal = true;
-// Export all except exec as we will execa to execute commands
+// Only the file system helpers in use are exported; commands run through execa (see exec below).
 // KNOWN ISSUES:
 // - mv don't throw error  https://github.com/shelljs/shelljs/issues/878
-export const {
-    cat,
-    cd,
-    chmod,
-    cp,
-    dirs,
-    echo,
-    env,
-    error,
-    exit,
-    find,
-    grep,
-    head,
-    ln,
-    ls,
-    mkdir,
-    mv,
-    popd,
-    pushd,
-    pwd,
-    rm,
-    sed,
-    set,
-    sort,
-    tail,
-    tempdir,
-    test,
-    touch,
-    uniq,
-    which
-} = shelljs;
-export { config as shelljsConfig };
+export const { chmod, cp, find, mkdir, mv, rm } = shelljs;
+const { ls, popd, pushd } = shelljs;
 
 export function exec(command: string, options?: execa.Options): execa.ExecaChildProcess {
     const { stdio = "inherit", ...execaOptions } = options ?? {};
@@ -58,12 +28,13 @@ export function ensureFileExists(file: string): void {
 
 export async function zip(dir: string, fileName: string): Promise<void> {
     return new Promise((resolve, reject) => {
+        // cross-zip has no cwd option, it zips relative to the process directory
         pushd("-q", dir);
         crossZip.zip(".", fileName, err => {
+            popd("-q");
             if (err) {
                 reject(err);
             } else {
-                popd("-q");
                 resolve();
             }
         });
