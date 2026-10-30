@@ -3,29 +3,11 @@ import { matchSorter, MatchSorterOptions } from "match-sorter";
 import { ObjectItem } from "mendix";
 import { createElement, PropsWithChildren, ReactElement } from "react";
 import { ComboboxPreviewProps, FilterTypeEnum, SelectedItemsSortingEnum } from "typings/ComboboxProps";
-import { MultiSelector, SortOrder } from "./types";
+import { SortOrder } from "./types";
 
 export const DEFAULT_LIMIT_SIZE = 100;
 
 type ValueType = string | Big | boolean | Date | undefined;
-
-export function getSelectedCaptionsPlaceholder(selector: MultiSelector, selectedItems: string[]): string {
-    if (selectedItems.length === 0) {
-        return selector.caption.emptyCaption;
-    }
-
-    if (
-        selector.selectedItemsStyle !== "text" ||
-        selector.customContentType === "yes" ||
-        selector.selectionMethod === "rowclick"
-    ) {
-        return "";
-    }
-
-    const selected = selectedItems.map(v => selector.caption.get(v));
-
-    return selected.join(", ");
-}
 
 export interface CaptionContentProps extends PropsWithChildren {
     htmlFor?: string;

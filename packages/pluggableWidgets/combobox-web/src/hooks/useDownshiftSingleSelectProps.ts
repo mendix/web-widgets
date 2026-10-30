@@ -8,7 +8,8 @@ import {
 } from "downshift";
 
 import { useCallback, useMemo } from "react";
-import { A11yStatusMessage, SingleSelector } from "../helpers/types";
+import { ComboboxCore } from "../core/ComboboxCore";
+import { SingleSelector } from "../helpers/types";
 
 interface Options {
     inputId?: string;
@@ -16,10 +17,10 @@ interface Options {
 }
 
 export function useDownshiftSingleSelectProps(
-    selector: SingleSelector,
-    options: Options = {},
-    a11yStatusMessage: A11yStatusMessage
+    core: ComboboxCore<SingleSelector>,
+    options: Options = {}
 ): UseComboboxReturnValue<string> {
+    const { selector, t } = core;
     const { inputId, labelId } = options;
 
     const downshiftProps: UseComboboxProps<string> = useMemo(() => {
@@ -30,9 +31,8 @@ export function useDownshiftSingleSelectProps(
                 selector.setValue(selectedItem ?? null);
             },
             onInputValueChange({ inputValue, type }: UseComboboxStateChange<string>) {
-                if (selector.onFilterInputChange && type === useCombobox.stateChangeTypes.InputChange) {
-                    selector.options.setSearchTerm(inputValue!);
-                    selector.onFilterInputChange(inputValue!);
+                if (type === useCombobox.stateChangeTypes.InputChange) {
+                    core.setInputValue(inputValue!);
                 } else {
                     selector.options.setSearchTerm("");
                 }
@@ -41,19 +41,19 @@ export function useDownshiftSingleSelectProps(
                 const selectedItem = selector.caption.get(selector.currentId);
                 let message = selectedItem
                     ? selector.currentId
-                        ? `${a11yStatusMessage.a11ySelectedValue} ${selectedItem}. `
+                        ? `${t("a11ySelectedValue", selectedItem)}. `
                         : "No options selected."
                     : "";
                 if (!options.isOpen) {
                     return message;
                 }
                 if (!options.resultCount) {
-                    return a11yStatusMessage.a11yNoOption;
+                    return t("a11yNoOption");
                 }
                 if (options.resultCount > 0) {
-                    message += `${a11yStatusMessage.a11yOptionsAvailable} ${options.resultCount}. ${a11yStatusMessage.a11yInstructions}`;
+                    message += `${t("a11yOptionsAvailable", options.resultCount)}. ${t("a11yInstructions")}`;
                 } else {
-                    return a11yStatusMessage.a11yNoOption;
+                    return t("a11yNoOption");
                 }
 
                 return message;
@@ -107,15 +107,7 @@ export function useDownshiftSingleSelectProps(
             inputId,
             labelId
         };
-    }, [
-        selector,
-        inputId,
-        labelId,
-        a11yStatusMessage.a11ySelectedValue,
-        a11yStatusMessage.a11yOptionsAvailable,
-        a11yStatusMessage.a11yNoOption,
-        a11yStatusMessage.a11yInstructions
-    ]);
+    }, [core, selector, inputId, labelId, t]);
 
     const returnVal = useCombobox({
         ...downshiftProps,

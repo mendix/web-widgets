@@ -1,69 +1,47 @@
 import classNames from "classnames";
 import { Fragment, KeyboardEventHandler, ReactElement, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
-import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
+import { SingleSelector } from "../../helpers/types";
 import { getInputLabel, getValidationErrorId } from "../../helpers/utils";
 import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
 import { useFloatingMenu } from "../../hooks/useFloatingMenu";
 import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import { InputPlaceholder } from "../Placeholder";
+import { SelectionProps } from "../SelectionProps";
 import { SingleSelectionMenu } from "./SingleSelectionMenu";
 
-export function SingleSelection({
-    selector,
-    tabIndex = 0,
-    a11yConfig,
-    keepMenuOpen,
-    menuFooterContent,
-    ariaRequired,
-    ...options
-}: SelectionBaseProps<SingleSelector>): ReactElement {
+export function SingleSelection({ core, vm, keepMenuOpen }: SelectionProps<SingleSelector>): ReactElement {
+    // Behaviour hooks still read the selector through the core; the markup reads the ViewModel only.
+    const { selector } = core;
+    const inputId = vm.id;
+    const tabIndex = vm.tabIndex ?? 0;
     const {
         getInputProps,
         getToggleButtonProps,
         getItemProps,
-        selectedItem,
         getMenuProps,
         reset,
         isOpen,
         highlightedIndex,
         selectItem
-    } = useDownshiftSingleSelectProps(selector, options, a11yConfig.a11yStatusMessage);
+    } = useDownshiftSingleSelectProps(core, { inputId, labelId: `${inputId}-label` });
     const inputRef = useRef<HTMLInputElement>(null);
     const { refs, floatingStyles } = useFloatingMenu(keepMenuOpen === true ? false : isOpen);
-    const lazyLoading = selector.lazyLoading ?? false;
     const { onScroll } = useLazyLoading({
-        hasMoreItems: selector.options.hasMore ?? false,
-        isInfinite: lazyLoading,
+        hasMoreItems: vm.loading.hasMore,
+        isInfinite: vm.loading.lazy,
         isOpen,
-        loadMore: () => {
-            if (selector.options.loadMore) {
-                selector.options.loadMore();
-            }
-        },
+        loadMore: vm.loadMore,
         datasourceFilter: selector.options.datasourceFilter,
-        readOnly: selector.readOnly
+        readOnly: vm.readOnly
     });
 
-    const selectedItemCaption = useMemo(
-        () => selector.caption.render(selectedItem, "label"),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [
-            selectedItem,
-            selector.status,
-            selector.caption,
-            selector.caption.emptyCaption,
-            selector.currentId,
-            selector.caption.formatter
-        ]
-    );
-
-    const inputLabel = getInputLabel(options.inputId);
-    const errorId = getValidationErrorId(options.inputId);
+    const inputLabel = getInputLabel(inputId);
+    const errorId = getValidationErrorId(inputId);
     const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
     const onInputKeyDown = useMemo<KeyboardEventHandler<HTMLInputElement> | undefined>(() => {
-        if (!selector.clearable) {
+        if (!vm.clearable) {
             return undefined;
         }
 
@@ -72,72 +50,62 @@ export function SingleSelection({
                 selectItem(null);
             }
         };
-    }, [selector.clearable, selectItem]);
+    }, [vm.clearable, selectItem]);
 
     const inputProps = getInputProps(
         {
-            disabled: selector.readOnly,
-            readOnly: selector.options.filterType === "none",
+            disabled: vm.readOnly,
+            readOnly: !vm.filterable,
             ref: inputRef,
-            "aria-required": ariaRequired.value,
-            "aria-label": !hasLabel && options.ariaLabel ? options.ariaLabel : undefined,
+            "aria-required": vm.a11y.required,
+            "aria-label": !hasLabel && vm.a11y.label ? vm.a11y.label : undefined,
             onKeyDown: onInputKeyDown
         },
         { suppressRefError: true }
     );
+    const customContentEverywhere = vm.hints.customContent === "everywhere";
     return (
         <Fragment>
             <ComboboxWrapper
                 ref={refs.setReference}
                 isOpen={isOpen || keepMenuOpen === true}
-                readOnly={selector.readOnly}
-                readOnlyStyle={options.readOnlyStyle}
+                readOnly={vm.readOnly}
+                readOnlyStyle={vm.hints.readOnlyStyle}
                 getToggleButtonProps={getToggleButtonProps}
-                validation={selector.validation}
-                isLoading={lazyLoading && selector.options.isLoading}
+                validation={vm.validation}
+                isLoading={vm.loading.lazy && vm.loading.isLoading}
                 errorId={errorId}
             >
                 <div
                     className={classNames("widget-combobox-selected-items", {
-                        "widget-combobox-custom-content": selector.customContentType === "yes"
+                        "widget-combobox-custom-content": customContentEverywhere
                     })}
                 >
                     <input
                         className={classNames("widget-combobox-input", {
-                            "widget-combobox-input-nofilter":
-                                selector.options.filterType === "none" || selector.readOnly
+                            "widget-combobox-input-nofilter": !vm.filterable || vm.readOnly
                         })}
                         tabIndex={tabIndex}
                         {...inputProps}
                         placeholder=" "
                         aria-labelledby={hasLabel ? inputProps["aria-labelledby"] : undefined}
-                        aria-describedby={selector.validation ? errorId : undefined}
-                        aria-invalid={selector.validation ? true : undefined}
+                        aria-describedby={vm.a11y.describedBy}
+                        aria-invalid={vm.validation ? true : undefined}
                     />
-                    <InputPlaceholder
-                        isEmpty={!selector.currentId || !selector.caption.render(selectedItem, "label")}
-                        type={selector.customContentType === "yes" ? "custom" : "text"}
-                    >
-                        {selectedItemCaption}
+                    <InputPlaceholder isEmpty={!vm.value} type={customContentEverywhere ? "custom" : "text"}>
+                        {vm.selectedContent}
                     </InputPlaceholder>
                 </div>
-                {((!selector.readOnly && selector.clearable && selector.currentId !== null) ||
-                    (selector.selectorType === "static" &&
-                        selector.currentId !== null &&
-                        !selector.readOnly &&
-                        selector.clearable &&
-                        selector.attributeType !== "boolean")) && (
+                {!vm.readOnly && vm.clearable && vm.value !== null && (
                     <button
                         tabIndex={tabIndex}
                         className="widget-combobox-clear-button"
-                        aria-label={a11yConfig.ariaLabels?.clearSelection}
+                        aria-label={vm.t("clearSelection")}
                         onClick={e => {
                             e.stopPropagation();
                             inputRef.current?.focus();
-                            if (selectedItem || selector.selectorType === "static") {
-                                selector.setValue(null);
-                                reset();
-                            }
+                            vm.clear();
+                            reset();
                         }}
                     >
                         <ClearButton />
@@ -145,17 +113,12 @@ export function SingleSelection({
                 )}
             </ComboboxWrapper>
             <SingleSelectionMenu
-                selector={selector}
-                selectedItem={selectedItem}
+                vm={vm}
                 getMenuProps={getMenuProps}
                 getItemProps={getItemProps}
                 isOpen={isOpen || keepMenuOpen === true}
                 highlightedIndex={highlightedIndex}
-                menuFooterContent={menuFooterContent}
-                noOptionsText={options.noOptionsText}
                 alwaysOpen={keepMenuOpen}
-                isLoading={selector.options.isLoading}
-                lazyLoading={lazyLoading}
                 onScroll={onScroll}
                 floatingRef={refs.setFloating}
                 floatingStyles={floatingStyles}
