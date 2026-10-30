@@ -72,12 +72,19 @@ free-form, preset ratios, and a custom ratio built from `customAspectWidth` / `c
 ### Requirement: Default crop selection
 
 On image load, the widget SHALL seed a default crop box centered on the image at the resolved
-aspect ratio.
+aspect ratio, sized by `initialCropSize` (default 80).
 
-#### Scenario: Initial box covers 80% centered
+#### Scenario: Initial box covers the configured size, centered
 
 - **WHEN** an image finishes loading
-- **THEN** the default selection SHALL cover 80% of the image, centered, at the resolved aspect ratio (falling back to the image's own ratio when free)
+- **THEN** the default selection SHALL be `initialCropSize`% of the largest box that fits the image at the resolved aspect ratio (falling back to the image's own ratio when free), centered
+- **AND** this SHALL hold for height-limited ratios too (e.g. 1:1 on a landscape image), so the box never silently grows to the full image height
+
+#### Scenario: Out-of-range initial size
+
+- **WHEN** `initialCropSize` is below 1 or above 100
+- **THEN** Studio Pro SHALL report a consistency error on the property
+- **AND** at runtime the value SHALL be clamped to the 1-100 range
 
 ### Requirement: Resizable handles
 
@@ -189,7 +196,7 @@ image and clears zoom, rotation, and grayscale, re-seeding the default crop box.
 #### Scenario: Reset restores original state
 
 - **WHEN** the user clicks Reset
-- **THEN** zoom SHALL return to `minZoom`, grayscale SHALL turn off, the original image bytes SHALL be written back, and the default 80%-centered crop box SHALL be re-seeded
+- **THEN** zoom SHALL return to `minZoom`, grayscale SHALL turn off, the original image bytes SHALL be written back, and the default crop box SHALL be re-seeded at `initialCropSize`, centered
 - **AND** the reset itself SHALL NOT trigger an auto-apply write of a crop
 
 ### Requirement: Output encoding

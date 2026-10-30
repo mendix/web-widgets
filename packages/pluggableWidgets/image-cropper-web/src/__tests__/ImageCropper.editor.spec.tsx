@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
 import { ImageCropperPreviewProps } from "../../typings/ImageCropperProps";
-import { getPreview } from "../ImageCropper.editorConfig";
+import { check, getPreview } from "../ImageCropper.editorConfig";
 import { preview } from "../ImageCropper.editorPreview";
 
 function makePreviewProps(overrides: Partial<ImageCropperPreviewProps> = {}): ImageCropperPreviewProps {
@@ -55,6 +55,18 @@ function collectText(node: any): string[] {
     const kids = Array.isArray(node.children) ? node.children.flatMap(collectText) : [];
     return [...here, ...kids];
 }
+
+describe("ImageCropper consistency check (check)", () => {
+    test.each([1, 80, 100])("accepts initial crop size %p", initialCropSize => {
+        expect(check(makePreviewProps({ initialCropSize }))).toEqual([]);
+    });
+
+    test.each([null, 0, -5, 101])("flags initial crop size %p", initialCropSize => {
+        expect(check(makePreviewProps({ initialCropSize }))).toEqual([
+            expect.objectContaining({ property: "initialCropSize" })
+        ]);
+    });
+});
 
 describe("ImageCropper structure mode (getPreview)", () => {
     test("shows the configure placeholder when nothing is bound", () => {

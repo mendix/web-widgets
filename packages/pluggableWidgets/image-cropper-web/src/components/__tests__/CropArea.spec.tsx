@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { createRef } from "react";
 import { CropArea, type CropAreaProps } from "../CropArea";
 
@@ -9,7 +9,7 @@ function baseProps(overrides: Partial<CropAreaProps> = {}): CropAreaProps {
         onCropChange: jest.fn(),
         onCropComplete: jest.fn(),
         aspect: undefined,
-        initialCropSize: 100,
+        initialCropSize: 80,
         circular: false,
         resizable: true,
         boundaryWidth: 300,
@@ -63,5 +63,21 @@ describe("<CropArea>", () => {
             />
         );
         expect(img.style.transformOrigin).toBe("50% 50%");
+    });
+
+    test("seeds the box on image load at the configured initial crop size", () => {
+        const onImageLoad = jest.fn();
+        const { container } = render(<CropArea {...baseProps({ initialCropSize: 50, onImageLoad })} />);
+        const img = container.querySelector("img")!;
+        Object.defineProperty(img, "naturalWidth", { value: 400, configurable: true });
+        Object.defineProperty(img, "naturalHeight", { value: 300, configurable: true });
+        Object.defineProperty(img, "width", { value: 400, configurable: true });
+        Object.defineProperty(img, "height", { value: 300, configurable: true });
+        fireEvent.load(img);
+        expect(onImageLoad).toHaveBeenCalledTimes(1);
+        const [percentCrop] = onImageLoad.mock.calls[0];
+        expect(percentCrop.width).toBeCloseTo(50, 5);
+        // centered horizontally: x = (100 - 50) / 2 = 25
+        expect(percentCrop.x).toBeCloseTo(25, 5);
     });
 });
