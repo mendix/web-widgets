@@ -1,3 +1,4 @@
+import { ValueStatus } from "mendix";
 import { list } from "@mendix/widget-plugin-test-utils";
 import { LazyLoadProvider } from "../LazyLoadProvider";
 
@@ -11,43 +12,43 @@ function providerWithLimit(limit: number): LazyLoadProvider {
 
 describe("LazyLoadProvider.getLimit", () => {
     it("returns 0 while the datasource is unavailable", () => {
-        expect(providerWithLimit(100).getLimit(100, false, "unavailable", true)).toBe(0);
-        expect(providerWithLimit(100).getLimit(100, false, "unavailable", false)).toBe(0);
+        expect(providerWithLimit(100).getLimit(100, false, ValueStatus.Unavailable, true)).toBe(0);
+        expect(providerWithLimit(100).getLimit(100, false, ValueStatus.Unavailable, false)).toBe(0);
     });
 
     it("returns 0 while loading without lazy loading", () => {
-        expect(providerWithLimit(100).getLimit(100, false, "loading", false)).toBe(0);
+        expect(providerWithLimit(100).getLimit(100, false, ValueStatus.Loading, false)).toBe(0);
     });
 
     it("keeps the remembered limit while loading with lazy loading", () => {
-        expect(providerWithLimit(50).getLimit(100, false, "loading", true)).toBe(50);
+        expect(providerWithLimit(50).getLimit(100, false, ValueStatus.Loading, true)).toBe(50);
     });
 
     it("treats a remembered limit of 0 or Infinity as 0 while loading with lazy loading", () => {
-        expect(providerWithLimit(0).getLimit(100, false, "loading", true)).toBe(0);
-        expect(providerWithLimit(Infinity).getLimit(100, false, "loading", true)).toBe(0);
+        expect(providerWithLimit(0).getLimit(100, false, ValueStatus.Loading, true)).toBe(0);
+        expect(providerWithLimit(Infinity).getLimit(100, false, ValueStatus.Loading, true)).toBe(0);
     });
 
     it("returns 0 for a read-only control, so no options are loaded", () => {
-        expect(providerWithLimit(100).getLimit(100, true, "available", true)).toBe(0);
-        expect(providerWithLimit(100).getLimit(100, true, "available", false)).toBe(0);
+        expect(providerWithLimit(100).getLimit(100, true, ValueStatus.Available, true)).toBe(0);
+        expect(providerWithLimit(100).getLimit(100, true, ValueStatus.Available, false)).toBe(0);
     });
 
     it("removes the limit (undefined) when available without lazy loading", () => {
-        expect(providerWithLimit(100).getLimit(100, false, "available", false)).toBeUndefined();
+        expect(providerWithLimit(100).getLimit(100, false, ValueStatus.Available, false)).toBeUndefined();
     });
 
     it("never shrinks the limit with lazy loading", () => {
         const provider = providerWithLimit(100);
 
-        expect(provider.getLimit(50, false, "available", true)).toBe(100);
+        expect(provider.getLimit(50, false, ValueStatus.Available, true)).toBe(100);
     });
 
     it("grows and remembers the limit with lazy loading", () => {
         const provider = providerWithLimit(100);
 
-        expect(provider.getLimit(200, false, "available", true)).toBe(200);
-        expect(provider.getLimit(150, false, "available", true)).toBe(200);
+        expect(provider.getLimit(200, false, ValueStatus.Available, true)).toBe(200);
+        expect(provider.getLimit(150, false, ValueStatus.Available, true)).toBe(200);
     });
 });
 

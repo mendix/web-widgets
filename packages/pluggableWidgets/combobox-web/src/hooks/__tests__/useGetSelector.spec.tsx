@@ -10,7 +10,7 @@ type FilterAction = ActionValue<{ filterInput: string | undefined }>;
 
 function propsWithFilterAction(action: ActionValue, interval = 200): ComboboxContainerProps {
     return enumerationProps(undefined, {
-        onChangeFilterInputEvent: action as FilterAction,
+        onChangeFilterInputEvent: action as unknown as FilterAction,
         filterInputDebounceInterval: interval
     });
 }
