@@ -15,6 +15,7 @@ Although pluggable widgets are primarily client-side components, they operate wi
     - **textTemplate:** Passed as a DynamicValue<string>.
     - **objects/object:** Provided as a ListValue or ObjectValue.
     - **Simple types:** Passed as plain JS values.
+    - **Static vs dynamic props:** Simple-type props (enumerations, strings, numbers, booleans) are **constants for the lifetime of a widget instance**. They change only when the app developer reconfigures the app and redeploys, which is a completely new page load. They never change between re-renders. Only the platform value objects (EditableValue, DynamicValue, ListValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ActionValue, SelectionValue) change between re-renders. Consequences: read static props once (for example at store or controller construction) as plain fields, never as observables; never write a test that changes a static prop between renders, because that behaviour cannot occur.
     - **action:** Provided as an ActionValue with methods like `execute()`. **Exception:** when an action is linked to an attribute or association as its `onChange` handler (system-managed), the Mendix runtime invokes it automatically and it is **not** passed to the widget as a prop. Such actions are intentionally absent from the generated `*ContainerProps` typings — this is correct, not a sync issue.
 - **Offline Capable:** XML can mark widgets as offline capable, meaning they are designed to work without a network connection.
 
