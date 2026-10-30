@@ -1,41 +1,32 @@
 import { UseComboboxPropGetters } from "downshift/typings";
-import { CSSProperties, ReactElement, ReactNode, Ref } from "react";
-import { SingleSelector } from "../../helpers/types";
+import { CSSProperties, ReactElement, Ref } from "react";
+import { ComboboxViewModel } from "../../core/ComboboxViewModel";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
 import { Loader } from "../Loader";
 
 interface ComboboxMenuProps extends Partial<UseComboboxPropGetters<string>> {
+    vm: ComboboxViewModel;
     isOpen: boolean;
-    selector: SingleSelector;
     highlightedIndex: number | null;
-    selectedItem?: string | null;
-    noOptionsText?: string;
     alwaysOpen?: boolean;
-    menuFooterContent?: ReactNode;
-    isLoading: boolean;
-    lazyLoading: boolean;
     onScroll: (e: any) => void;
     floatingRef?: Ref<HTMLDivElement>;
     floatingStyles?: CSSProperties;
 }
 
 export function SingleSelectionMenu({
+    vm,
     isOpen,
-    selector,
     highlightedIndex,
     getMenuProps,
     getItemProps,
-    noOptionsText,
     alwaysOpen,
-    menuFooterContent,
-    isLoading,
-    lazyLoading,
     onScroll,
     floatingRef,
     floatingStyles
 }: ComboboxMenuProps): ReactElement {
-    const items = selector.options.getAll();
+    const { options, loading } = vm;
 
     return (
         <ComboboxMenuWrapper
@@ -43,35 +34,35 @@ export function SingleSelectionMenu({
             floatingRef={floatingRef}
             floatingStyles={floatingStyles}
             getMenuProps={getMenuProps}
-            isEmpty={items?.length <= 0}
-            isLoading={isLoading}
+            isEmpty={options.length <= 0}
+            isLoading={loading.isLoading}
             isOpen={isOpen}
-            lazyLoading={lazyLoading}
+            lazyLoading={loading.lazy}
             loader={
                 <Loader
-                    isLoading={isLoading}
+                    isLoading={loading.isLoading}
                     isOpen={isOpen}
-                    lazyLoading={lazyLoading}
-                    loadingType={selector.loadingType}
+                    lazyLoading={loading.lazy}
+                    loadingType={vm.hints.loadingType}
                     withCheckbox={false}
-                    isEmpty={items.length === 0}
+                    isEmpty={options.length === 0}
                 />
             }
-            menuFooterContent={menuFooterContent}
-            noOptionsText={noOptionsText}
-            onScroll={lazyLoading ? onScroll : undefined}
+            menuFooterContent={vm.slots.menuFooter}
+            noOptionsText={vm.t("noOptions")}
+            onScroll={loading.lazy ? onScroll : undefined}
         >
             {isOpen &&
-                items.map((item, index) => (
+                options.map((option, index) => (
                     <ComboboxOptionWrapper
-                        key={item}
+                        key={option.id}
                         isHighlighted={alwaysOpen ? false : highlightedIndex === index}
-                        isSelected={selector.currentId === item}
-                        item={item}
+                        isSelected={option.selected}
+                        item={option.id}
                         getItemProps={getItemProps}
                         index={index}
                     >
-                        {selector.caption.render(item, "options")}
+                        {option.content}
                     </ComboboxOptionWrapper>
                 ))}
         </ComboboxMenuWrapper>
