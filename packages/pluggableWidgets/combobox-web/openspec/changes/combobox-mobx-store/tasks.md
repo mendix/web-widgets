@@ -16,7 +16,7 @@
 ## 3. Refactoring
 
 - [x] 3.1 Remove the shadowing field redeclarations in `StaticOptionsProvider`.
-- [ ] 3.2 Step 2: remove `onAfterSearchTermChange` from the `OptionsProvider` interface, its base implementation and its two tests, and introduce the props gate.
+- [x] 3.2 Step 2: remove `onAfterSearchTermChange` from the `OptionsProvider` interface, its base implementation and its tests, and introduce the props gate. Done in `combobox-viewmodel` on 2026-10-30.
 
 ## 4. Verification
 
