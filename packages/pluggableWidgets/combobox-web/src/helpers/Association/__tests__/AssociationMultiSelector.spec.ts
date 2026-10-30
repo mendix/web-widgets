@@ -1,6 +1,6 @@
 import { ListValue } from "mendix";
-import { list, ReferenceSetValueBuilder } from "@mendix/widget-plugin-test-utils";
-import { allItems, associationMultiProps, itemA, itemB, itemC } from "../../__tests__/fixtures";
+import { list, ListValueBuilder, ReferenceSetValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { allItems, associationMultiProps, captionAttributeId, itemA, itemB, itemC } from "../../__tests__/fixtures";
 import { AssociationMultiSelector } from "../AssociationMultiSelector";
 
 function createSelector(): AssociationMultiSelector {
@@ -8,9 +8,10 @@ function createSelector(): AssociationMultiSelector {
 }
 
 function sortedList(direction: "asc" | "desc"): ListValue {
-    const ds = list(allItems);
-    (ds as { sortOrder: unknown }).sortOrder = [["captionAttr", direction]];
-    return ds;
+    return new ListValueBuilder()
+        .withItems(allItems)
+        .withSortOrder([[captionAttributeId, direction]])
+        .build();
 }
 
 describe("AssociationMultiSelector", () => {

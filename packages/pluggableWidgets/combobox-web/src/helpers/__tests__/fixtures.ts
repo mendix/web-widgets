@@ -10,6 +10,7 @@ import {
     SelectionSingleValue
 } from "mendix";
 import {
+    attrId,
     dynamic,
     EditableValueBuilder,
     list,
@@ -104,10 +105,10 @@ export const itemC = item("c");
 export const itemD = item("d");
 export const allItems = [itemA, itemB, itemC, itemD];
 
+export const captionAttributeId = attrId("captionAttr");
+
 export function captionAttribute(): ListAttributeValue<string> {
-    const attr = listAttribute<string>(i => captions[i.id] ?? "");
-    (attr as { id: string }).id = "captionAttr";
-    return attr;
+    return listAttribute<string>(i => captions[i.id] ?? "", captionAttributeId);
 }
 
 export function captionExpression(): ListExpressionValue<string> {
@@ -201,9 +202,7 @@ export function staticProps(
 
 /** Value attribute: obj_a → "v_a", obj_b → "v_b", ... */
 export function valueAttribute(): ListAttributeValue<string | Big> {
-    const attr = listAttribute<string>(i => `v_${i.id.slice(-1)}`) as ListAttributeValue<string | Big>;
-    (attr as { id: string }).id = "valueAttr";
-    return attr;
+    return listAttribute<string>(i => `v_${i.id.slice(-1)}`, attrId("valueAttr")) as ListAttributeValue<string | Big>;
 }
 
 interface DatabaseOverrides extends Partial<ComboboxContainerProps> {

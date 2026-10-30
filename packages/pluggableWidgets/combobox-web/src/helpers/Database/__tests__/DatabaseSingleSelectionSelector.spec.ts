@@ -1,5 +1,6 @@
-import { ListAttributeValue, ObjectItem } from "mendix";
+import { ListAttributeValue, ListValue, ObjectItem } from "mendix";
 import {
+    attrId,
     dynamic,
     EditableValueBuilder,
     list,
@@ -14,27 +15,25 @@ type PropsOverrides = {
     items: ObjectItem[];
     values: Map<string, string>;
     targetValue?: string;
+    validation?: string;
     selection?: ReturnType<SelectionSingleValueBuilder["build"]>;
+    ds?: ListValue;
 };
 
-function buildProps({ items, values, targetValue, selection }: PropsOverrides): ComboboxContainerProps {
-    const valueAttr = listAttribute<string>(item => values.get(item.id) ?? "") as ListAttributeValue<string | Big>;
-    (valueAttr as unknown as { id: string }).id = "valueAttrId" as any;
+function buildProps({ items, values, targetValue, validation, selection, ds }: PropsOverrides): ComboboxContainerProps {
+    const valueAttr = listAttribute<string>(item => values.get(item.id) ?? "", attrId("value")) as ListAttributeValue<
+        string | Big
+    >;
+    const captionAttr = listAttribute<string>(item => `caption_${item.id}`, attrId("caption"));
 
-    const captionAttr = listAttribute<string>(item => `caption_${item.id}`);
-    (captionAttr as unknown as { id: string }).id = "captionAttrId" as any;
-
-    const targetAttr =
-        targetValue === undefined
-            ? new EditableValueBuilder<string>().build()
-            : new EditableValueBuilder<string>().withValue(targetValue).build();
+    const targetAttr = new EditableValueBuilder<string>().withValue(targetValue).withValidation(validation).build();
 
     return {
         name: "comboBox",
         id: "comboBox1",
         source: "database",
         optionsSourceType: "association",
-        optionsSourceDatabaseDataSource: list(items),
+        optionsSourceDatabaseDataSource: ds ?? list(items),
         optionsSourceDatabaseItemSelection: selection ?? new SelectionSingleValueBuilder().build(),
         optionsSourceDatabaseCaptionType: "attribute",
         optionsSourceDatabaseCaptionAttribute: captionAttr,
@@ -178,8 +177,7 @@ describe("DatabaseSingleSelectionSelector — writing and read-only", () => {
     });
 
     it("ignores updates while a non-lazy datasource is loading", () => {
-        const props = buildProps({ items, values, targetValue: "v1" });
-        (props.optionsSourceDatabaseDataSource as { status: string }).status = "loading";
+        const props = buildProps({ items, values, targetValue: "v1", ds: list.loading() });
         const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
 
         selector.updateProps(props);
@@ -199,8 +197,7 @@ describe("DatabaseSingleSelectionSelector — writing and read-only", () => {
     });
 
     it("resolves captions and passes validation and clearable through", () => {
-        const props = buildProps({ items, values, targetValue: "v1" });
-        (props.databaseAttributeString as { validation?: string }).validation = "Required";
+        const props = buildProps({ items, values, targetValue: "v1", validation: "Required" });
         const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
 
         selector.updateProps(props);

@@ -1,16 +1,15 @@
 import { act, renderHook } from "@testing-library/react";
-import { ActionValue } from "mendix";
 import { actionValue } from "@mendix/widget-plugin-test-utils";
 import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 import { enumerationProps } from "../../helpers/__tests__/fixtures";
 import { Selector } from "../../helpers/types";
 import { useGetSelector } from "../useGetSelector";
 
-type FilterAction = ActionValue<{ filterInput: string | undefined }>;
+type FilterAction = NonNullable<ComboboxContainerProps["onChangeFilterInputEvent"]>;
 
-function propsWithFilterAction(action: ActionValue, interval = 200): ComboboxContainerProps {
+function propsWithFilterAction(action: FilterAction, interval = 200): ComboboxContainerProps {
     return enumerationProps(undefined, {
-        onChangeFilterInputEvent: action as unknown as FilterAction,
+        onChangeFilterInputEvent: action,
         filterInputDebounceInterval: interval
     });
 }
@@ -75,7 +74,7 @@ describe("useGetSelector", () => {
         beforeEach(() => jest.useFakeTimers());
         afterEach(() => jest.useRealTimers());
 
-        function renderAttached(action: ActionValue, interval?: number): Selector {
+        function renderAttached(action: FilterAction, interval?: number): Selector {
             const { result, rerender } = renderHook((props: ComboboxContainerProps) => useGetSelector(props), {
                 initialProps: propsWithFilterAction(action, interval)
             });
@@ -84,7 +83,7 @@ describe("useGetSelector", () => {
         }
 
         it("debounces the action and sends the last term", () => {
-            const action = actionValue();
+            const action = actionValue<FilterAction>();
             const selector = renderAttached(action);
 
             selector.onFilterInputChange!("a");
@@ -98,7 +97,7 @@ describe("useGetSelector", () => {
         });
 
         it("respects the configured interval", () => {
-            const action = actionValue();
+            const action = actionValue<FilterAction>();
             const selector = renderAttached(action, 500);
 
             selector.onFilterInputChange!("a");
@@ -110,7 +109,7 @@ describe("useGetSelector", () => {
         });
 
         it("sends undefined for an empty term", () => {
-            const action = actionValue();
+            const action = actionValue<FilterAction>();
             const selector = renderAttached(action);
 
             selector.onFilterInputChange!("");
@@ -120,12 +119,12 @@ describe("useGetSelector", () => {
         });
 
         it("skips the action when it cannot execute or is already executing", () => {
-            const cannot = actionValue(false);
+            const cannot = actionValue<FilterAction>(false);
             renderAttached(cannot).onFilterInputChange!("a");
             jest.advanceTimersByTime(200);
             expect(cannot.execute).not.toHaveBeenCalled();
 
-            const executing = actionValue(true, true);
+            const executing = actionValue<FilterAction>(true, true);
             renderAttached(executing).onFilterInputChange!("a");
             jest.advanceTimersByTime(200);
             expect(executing.execute).not.toHaveBeenCalled();

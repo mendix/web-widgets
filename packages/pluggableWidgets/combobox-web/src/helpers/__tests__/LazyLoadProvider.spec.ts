@@ -1,12 +1,10 @@
 import { ValueStatus } from "mendix";
-import { list } from "@mendix/widget-plugin-test-utils";
+import { ListValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { LazyLoadProvider } from "../LazyLoadProvider";
 
 function providerWithLimit(limit: number): LazyLoadProvider {
     const provider = new LazyLoadProvider();
-    const ds = list(2);
-    (ds as { limit: number }).limit = limit;
-    provider.updateProps(ds);
+    provider.updateProps(new ListValueBuilder().withSize(2).withLimit(limit).build());
     return provider;
 }
 
@@ -55,8 +53,7 @@ describe("LazyLoadProvider.getLimit", () => {
 describe("LazyLoadProvider.setLimit", () => {
     it("writes the limit only when it differs from the datasource limit", () => {
         const provider = new LazyLoadProvider();
-        const ds = list(2);
-        (ds as { limit: number }).limit = 100;
+        const ds = new ListValueBuilder().withSize(2).withLimit(100).build();
         provider.updateProps(ds);
 
         provider.setLimit(100);

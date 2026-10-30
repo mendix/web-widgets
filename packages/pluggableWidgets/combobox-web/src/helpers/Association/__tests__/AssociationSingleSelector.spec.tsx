@@ -1,7 +1,16 @@
 import { render } from "@testing-library/react";
 import { ListValue } from "mendix";
-import { dynamic, list, listWidget, ReferenceValueBuilder } from "@mendix/widget-plugin-test-utils";
-import { allItems, associationSingleProps, captions, itemA, itemB, itemC, itemD } from "../../__tests__/fixtures";
+import { dynamic, list, ListValueBuilder, listWidget, ReferenceValueBuilder } from "@mendix/widget-plugin-test-utils";
+import {
+    allItems,
+    associationSingleProps,
+    captionAttributeId,
+    captions,
+    itemA,
+    itemB,
+    itemC,
+    itemD
+} from "../../__tests__/fixtures";
 import { AssociationSingleSelector } from "../AssociationSingleSelector";
 
 function createSelector(): AssociationSingleSelector {
@@ -9,10 +18,7 @@ function createSelector(): AssociationSingleSelector {
 }
 
 function unavailableList(): ListValue {
-    const ds = list(allItems);
-    (ds as { status: string }).status = "unavailable";
-    (ds as { items?: unknown }).items = undefined;
-    return ds;
+    return new ListValueBuilder().withItems(allItems).isUnavailable().build();
 }
 
 describe("AssociationSingleSelector", () => {
@@ -236,8 +242,10 @@ describe("AssociationSingleSelector", () => {
         });
 
         it("reports the datasource sort order", () => {
-            const ds = list(allItems);
-            (ds as { sortOrder: unknown }).sortOrder = [["captionAttr", "desc"]];
+            const ds = new ListValueBuilder()
+                .withItems(allItems)
+                .withSortOrder([[captionAttributeId, "desc"]])
+                .build();
             const selector = createSelector();
             selector.updateProps(associationSingleProps({ ds }));
 
@@ -286,11 +294,9 @@ describe("AssociationSingleSelector", () => {
     });
 
     describe("lazy loading", () => {
-        function lazyList(limit: number, hasMore: boolean): ListValue {
-            const ds = list(allItems);
-            (ds as { limit: number }).limit = limit;
-            (ds as { hasMoreItems: boolean }).hasMoreItems = hasMore;
-            return ds;
+        function lazyList(limit: number, hasMore: boolean, loading = false): ListValue {
+            const builder = new ListValueBuilder().withItems(allItems).withLimit(limit).withHasMore(hasMore);
+            return (loading ? builder.isLoading() : builder).build();
         }
 
         it("loads the next page of 100 and reports loading until the datasource settles", () => {
@@ -319,8 +325,7 @@ describe("AssociationSingleSelector", () => {
         });
 
         it("reports loading while a lazy datasource is loading", () => {
-            const ds = lazyList(100, true);
-            (ds as { status: string }).status = "loading";
+            const ds = lazyList(100, true, true);
             const selector = createSelector();
             selector.updateProps(associationSingleProps({ ds, lazyLoading: true }));
 

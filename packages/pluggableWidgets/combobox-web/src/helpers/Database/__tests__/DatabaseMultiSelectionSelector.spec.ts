@@ -1,6 +1,6 @@
 import { ListValue } from "mendix";
-import { dynamic, list, SelectionMultiValueBuilder } from "@mendix/widget-plugin-test-utils";
-import { allItems, databaseMultiProps, itemA, itemB, itemC, itemD } from "../../__tests__/fixtures";
+import { dynamic, list, ListValueBuilder, SelectionMultiValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { allItems, captionAttributeId, databaseMultiProps, itemA, itemB, itemC, itemD } from "../../__tests__/fixtures";
 import { DatabaseMultiSelectionSelector } from "../DatabaseMultiSelectionSelector";
 
 function createSelector(): DatabaseMultiSelectionSelector {
@@ -8,9 +8,10 @@ function createSelector(): DatabaseMultiSelectionSelector {
 }
 
 function sortedList(direction: "asc" | "desc"): ListValue {
-    const ds = list(allItems);
-    (ds as { sortOrder: unknown }).sortOrder = [["captionAttr", direction]];
-    return ds;
+    return new ListValueBuilder()
+        .withItems(allItems)
+        .withSortOrder([[captionAttributeId, direction]])
+        .build();
 }
 
 describe("DatabaseMultiSelectionSelector", () => {
@@ -155,8 +156,7 @@ describe("DatabaseMultiSelectionSelector", () => {
     });
 
     it("is unavailable while the datasource or the empty-option text is unavailable", () => {
-        const ds = list(allItems);
-        (ds as { status: string }).status = "unavailable";
+        const ds = new ListValueBuilder().withItems(allItems).isUnavailable().build();
         const noDatasource = createSelector();
         noDatasource.updateProps(databaseMultiProps({ ds }));
         expect(noDatasource.status).toBe("unavailable");
