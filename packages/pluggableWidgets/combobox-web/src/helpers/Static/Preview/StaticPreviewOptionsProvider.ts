@@ -9,7 +9,6 @@ export class StaticPreviewOptionsProvider implements OptionsProvider<string, Opt
     isLoading: boolean = false;
     constructor(private optionsMap: Map<string, OptionsSourceStaticDataSourcePreviewType>) {}
     setSearchTerm(_value: string): void {}
-    onAfterSearchTermChange(_callback: () => void): void {}
     loadMore?(): void {
         throw new Error("Method not implemented.");
     }

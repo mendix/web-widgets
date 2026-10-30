@@ -1,3 +1,4 @@
+import { runInAction } from "mobx";
 import { FilterTypeEnum } from "../../../typings/ComboboxProps";
 import { BaseOptionsProvider } from "../BaseOptionsProvider";
 import { CaptionsProvider } from "../types";
@@ -18,8 +19,11 @@ const captionsProvider: CaptionsProvider = {
 class TestOptionsProvider extends BaseOptionsProvider<string> {
     constructor(filterType: FilterTypeEnum) {
         super(captionsProvider);
-        this.filterType = filterType;
-        this.options = ["a", "b", "c", "d"];
+        // The provider state is observable; the test subclass seeds it the way an action would.
+        runInAction(() => {
+            this.filterType = filterType;
+            this.options = ["a", "b", "c", "d"];
+        });
     }
 }
 
@@ -71,32 +75,7 @@ describe("BaseOptionsProvider filtering", () => {
     });
 });
 
-describe("BaseOptionsProvider search-term side channel", () => {
-    it("calls the registered callback after every search-term change", () => {
-        const provider = new TestOptionsProvider("contains");
-        const callback = jest.fn();
-        provider.onAfterSearchTermChange(callback);
-
-        provider.setSearchTerm("a");
-        provider.setSearchTerm("");
-
-        expect(callback).toHaveBeenCalledTimes(2);
-        expect(provider.searchTerm).toBe("");
-    });
-
-    it("keeps only the last registered callback", () => {
-        const provider = new TestOptionsProvider("contains");
-        const first = jest.fn();
-        const second = jest.fn();
-        provider.onAfterSearchTermChange(first);
-        provider.onAfterSearchTermChange(second);
-
-        provider.setSearchTerm("a");
-
-        expect(first).not.toHaveBeenCalled();
-        expect(second).toHaveBeenCalledTimes(1);
-    });
-
+describe("BaseOptionsProvider defaults", () => {
     it("has no lazy-loading state by default", () => {
         const provider = new TestOptionsProvider("contains");
 

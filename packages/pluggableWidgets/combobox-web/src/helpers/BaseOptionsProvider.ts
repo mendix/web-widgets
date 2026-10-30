@@ -1,4 +1,5 @@
 import { matchSorter, MatchSorterOptions } from "match-sorter";
+import { action, computed, makeObservable, observable } from "mobx";
 import { FilterTypeEnum } from "typings/ComboboxProps";
 import { CaptionsProvider, OptionsProvider, Status } from "./types";
 import { getFilterTypeOptions } from "./utils";
@@ -6,7 +7,6 @@ import { getFilterTypeOptions } from "./utils";
 export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProvider<T, P> {
     protected options: string[] = [];
     private caption: CaptionsProvider;
-    private trigger?: () => void;
 
     filterType: FilterTypeEnum = "contains";
     searchTerm = "";
@@ -14,6 +14,18 @@ export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProv
 
     constructor(caption: CaptionsProvider) {
         this.caption = caption;
+        makeObservable<this, "options">(this, {
+            options: observable.ref,
+            filterType: observable,
+            searchTerm: observable,
+            lazyLoading: observable,
+            hasMore: computed,
+            isLoading: computed,
+            status: computed,
+            setSearchTerm: action,
+            loadMore: action,
+            _updateProps: action
+        });
     }
 
     get hasMore(): boolean {
@@ -47,11 +59,6 @@ export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProv
 
     setSearchTerm(term: string): void {
         this.searchTerm = term;
-        this.trigger?.();
-    }
-
-    onAfterSearchTermChange(callback: () => void): void {
-        this.trigger = callback;
     }
 
     loadMore(): void {

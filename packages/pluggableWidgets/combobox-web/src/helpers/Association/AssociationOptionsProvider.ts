@@ -1,4 +1,5 @@
 import { ReferenceSetValue, ReferenceValue } from "mendix";
+import { makeObservable, override } from "mobx";
 import { BaseDatasourceOptionsProvider, BaseProps } from "../BaseDatasourceOptionsProvider";
 
 type Props = BaseProps & {
@@ -6,6 +7,11 @@ type Props = BaseProps & {
 };
 
 export class AssociationOptionsProvider extends BaseDatasourceOptionsProvider {
+    constructor(...args: ConstructorParameters<typeof BaseDatasourceOptionsProvider>) {
+        super(...args);
+        makeObservable(this, { _updateProps: override });
+    }
+
     _updateProps(props: Props): void {
         super._updateProps(props);
 

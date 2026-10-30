@@ -9,7 +9,8 @@ import {
     UseMultipleSelectionReturnValue
 } from "downshift";
 import { RefObject, useCallback, useMemo } from "react";
-import { A11yStatusMessage, MultiSelector } from "../helpers/types";
+import { ComboboxCore } from "../core/ComboboxCore";
+import { MultiSelector } from "../helpers/types";
 
 export type UseDownshiftMultiSelectPropsReturnValue = UseMultipleSelectionReturnValue<string> &
     Pick<
@@ -34,11 +35,11 @@ interface Options {
 }
 
 export function useDownshiftMultiSelectProps(
-    selector: MultiSelector,
+    core: ComboboxCore<MultiSelector>,
     options: Options,
-    inputRef: RefObject<HTMLInputElement | null>,
-    a11yStatusMessage: A11yStatusMessage
+    inputRef: RefObject<HTMLInputElement | null>
 ): UseDownshiftMultiSelectPropsReturnValue {
+    const { selector } = core;
     const {
         getSelectedItemProps,
         getDropdownProps,
@@ -95,17 +96,7 @@ export function useDownshiftMultiSelectProps(
         inputValue,
         setInputValue,
         closeMenu
-    } = useCombobox(
-        useComboboxProps(
-            selector,
-            selectedItems,
-            items,
-            removeSelectedItem,
-            setSelectedItems,
-            a11yStatusMessage,
-            options
-        )
-    );
+    } = useCombobox(useComboboxProps(core, selectedItems, items, removeSelectedItem, setSelectedItems, options));
 
     const toggleSelectedItem = (index: number): void => {
         const item = items[index];
@@ -146,14 +137,14 @@ export function useDownshiftMultiSelectProps(
 }
 
 function useComboboxProps(
-    selector: MultiSelector,
+    core: ComboboxCore<MultiSelector>,
     selectedItems: string[],
     items: string[],
     removeSelectedItem: (item: string) => void,
     setSelectedItems: (item: string[]) => void,
-    a11yStatusMessage: A11yStatusMessage,
     options?: Options
 ): UseComboboxProps<string> {
+    const { selector, t } = core;
     return useMemo(() => {
         return {
             items,
@@ -161,26 +152,25 @@ function useComboboxProps(
             inputId: options?.inputId,
             labelId: options?.labelId,
             onInputValueChange({ inputValue, type }: UseComboboxStateChange<string>) {
-                selector.options.setSearchTerm(inputValue!);
-                if (selector.onFilterInputChange && type === useCombobox.stateChangeTypes.InputChange) {
-                    selector.onFilterInputChange(inputValue);
+                if (type === useCombobox.stateChangeTypes.InputChange) {
+                    core.setInputValue(inputValue!);
+                } else {
+                    selector.options.setSearchTerm(inputValue!);
                 }
             },
             getA11yStatusMessage(options) {
                 let message =
                     selectedItems.length > 0
-                        ? `${a11yStatusMessage.a11ySelectedValue} ${selectedItems
-                              .map(itemId => selector.caption.get(itemId))
-                              .join(",")}. `
+                        ? `${t("a11ySelectedValue", selectedItems.map(itemId => selector.caption.get(itemId)).join(","))}. `
                         : "";
                 if (!options.resultCount) {
-                    return a11yStatusMessage.a11yNoOption;
+                    return t("a11yNoOption");
                 }
                 if (!options.isOpen) {
                     return message;
                 }
                 if (options.previousResultCount !== options.resultCount || !options.highlightedItem) {
-                    message += `${a11yStatusMessage.a11yOptionsAvailable} ${options.resultCount}. ${a11yStatusMessage.a11yInstructions}`;
+                    message += `${t("a11yOptionsAvailable", options.resultCount)}. ${t("a11yInstructions")}`;
                 }
 
                 return message;
@@ -242,16 +232,5 @@ function useComboboxProps(
         };
         // disable eslint rule as probably we should update props whenever currentId changes.
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [
-        selector,
-        selectedItems,
-        items,
-        selector.currentId,
-        removeSelectedItem,
-        setSelectedItems,
-        a11yStatusMessage.a11ySelectedValue,
-        a11yStatusMessage.a11yOptionsAvailable,
-        a11yStatusMessage.a11yNoOption,
-        a11yStatusMessage.a11yInstructions
-    ]);
+    }, [core, selector, selectedItems, items, selector.currentId, removeSelectedItem, setSelectedItems, t]);
 }

@@ -1,4 +1,5 @@
 import { ReferenceSetValue } from "mendix";
+import { action, makeObservable, observable, override } from "mobx";
 import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 import {
     ComboboxContainerProps,
@@ -19,6 +20,18 @@ export class AssociationMultiSelector
     selectionMethod: SelectionMethodEnum = "checkbox";
     selectAllButton = false;
     selectedItemsSorting: SelectedItemsSortingEnum = "none";
+
+    constructor(props: { filterInputDebounceInterval: number }) {
+        super(props);
+        makeObservable(this, {
+            selectedItemsStyle: observable,
+            selectionMethod: observable,
+            selectAllButton: observable,
+            selectedItemsSorting: observable,
+            updateProps: override,
+            setValue: action
+        });
+    }
 
     updateProps(props: ComboboxContainerProps): void {
         super.updateProps(props);

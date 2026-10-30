@@ -377,7 +377,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 11.13.0
-        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@26.6.6)(canvas@3.2.3)(eslint@10.13.0(jiti@2.6.1))(jest-util@30.4.1)(picomatch@4.0.5)(prettier@3.9.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@26.6.6)(canvas@3.2.3)(eslint@10.13.0(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -402,7 +402,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 11.13.0
-        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@26.6.6)(canvas@3.2.3)(eslint@10.13.0(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@26.6.6)(canvas@3.2.3)(eslint@10.13.0(jiti@2.6.1))(jest-util@30.4.1)(picomatch@4.0.5)(prettier@3.9.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -966,6 +966,12 @@ importers:
       '@floating-ui/react':
         specifier: ^0.26.27
         version: 0.26.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mendix/widget-plugin-mobx-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-mobx-kit
+      brandi:
+        specifier: ^5.0.0
+        version: 5.1.0
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
@@ -975,6 +981,9 @@ importers:
       match-sorter:
         specifier: ^8.1.0
         version: 8.3.0
+      mobx:
+        specifier: 6.12.3
+        version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -4722,7 +4731,6 @@ packages:
   '@plotly/mapbox-gl@1.13.4':
     resolution: {integrity: sha512-sR3/Pe5LqT/fhYgp4rT4aSFf1rTsxMbGiH6Hojc7PH36ny5Bn17iVFUjpzycafETURuFbLZUfjODO8LvSI+5zQ==}
     engines: {node: '>=6.4.0'}
-    deprecated: This package is deprecated as of August 2026. plotly.js v4 uses MapLibre for map traces — see https://github.com/maplibre/maplibre-gl-js.
 
   '@plotly/point-cluster@3.1.9':
     resolution: {integrity: sha512-MwaI6g9scKf68Orpr1pHZ597pYx9uP8UEFXLPbsCmuw3a84obwz6pnMXGc90VhgDNeNiLEdlmuK7CPo+5PIxXw==}
