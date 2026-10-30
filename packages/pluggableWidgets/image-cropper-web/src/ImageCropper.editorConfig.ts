@@ -1,4 +1,4 @@
-import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
+import { hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 import {
     StructurePreviewProps,
     structurePreviewPalette,
@@ -42,6 +42,17 @@ export function getProperties(values: ImageCropperPreviewProps, defaultPropertie
 
     hidePropertiesIn(defaultProperties, values, propsToHide);
     return defaultProperties;
+}
+
+export function check(values: ImageCropperPreviewProps): Problem[] {
+    const errors: Problem[] = [];
+    if (!values.initialCropSize || values.initialCropSize < 1 || values.initialCropSize > 100) {
+        errors.push({
+            property: "initialCropSize",
+            message: "Initial crop size must be a number between 1 and 100"
+        });
+    }
+    return errors;
 }
 
 export function getPreview(values: ImageCropperPreviewProps, isDarkMode: boolean): StructurePreviewProps {
