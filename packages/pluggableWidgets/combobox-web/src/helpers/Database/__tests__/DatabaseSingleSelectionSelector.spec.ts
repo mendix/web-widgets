@@ -138,3 +138,76 @@ describe("DatabaseSingleSelectionSelector.updateProps — external target-attrib
         expect(selector.currentId).toBe(optionA.id);
     });
 });
+
+describe("DatabaseSingleSelectionSelector — writing and read-only", () => {
+    const optionA = obj("A");
+    const optionB = obj("B");
+    const items = [optionA, optionB];
+    const values = new Map<string, string>([
+        [optionA.id, "v1"],
+        [optionB.id, "v2"]
+    ]);
+
+    it("writes the value attribute and the selection", () => {
+        const selection = new SelectionSingleValueBuilder().build();
+        const setSelection = jest.spyOn(selection, "setSelection");
+        const props = buildProps({ items, values, selection });
+        const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
+        selector.updateProps(props);
+
+        selector.setValue(optionA.id);
+
+        expect(props.databaseAttributeString!.setValue).toHaveBeenLastCalledWith("v1");
+        expect(setSelection).toHaveBeenLastCalledWith(optionA);
+        expect(selector.currentId).toBe(optionA.id);
+    });
+
+    it("clears the value attribute and the selection", () => {
+        const selection = new SelectionSingleValueBuilder().withSelected(optionA).build();
+        const setSelection = jest.spyOn(selection, "setSelection");
+        const props = buildProps({ items, values, targetValue: "v1", selection });
+        const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
+        selector.updateProps(props);
+        expect(selector.currentId).toBe(optionA.id);
+
+        selector.setValue(null);
+
+        expect(props.databaseAttributeString!.setValue).toHaveBeenLastCalledWith(undefined);
+        expect(setSelection).toHaveBeenLastCalledWith(undefined);
+        expect(selector.currentId).toBeNull();
+    });
+
+    it("ignores updates while a non-lazy datasource is loading", () => {
+        const props = buildProps({ items, values, targetValue: "v1" });
+        (props.optionsSourceDatabaseDataSource as { status: string }).status = "loading";
+        const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
+
+        selector.updateProps(props);
+
+        expect(selector.status).toBe("unavailable");
+        expect(selector.currentId).toBeNull();
+    });
+
+    it("is read-only and loads no options when custom editability is 'never'", () => {
+        const props = { ...buildProps({ items, values, targetValue: "v1" }), customEditability: "never" as const };
+        const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
+
+        selector.updateProps(props);
+
+        expect(selector.readOnly).toBe(true);
+        expect(props.optionsSourceDatabaseDataSource!.setLimit).toHaveBeenCalledWith(0);
+    });
+
+    it("resolves captions and passes validation and clearable through", () => {
+        const props = buildProps({ items, values, targetValue: "v1" });
+        (props.databaseAttributeString as { validation?: string }).validation = "Required";
+        const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
+
+        selector.updateProps(props);
+
+        expect(selector.caption.get(optionA.id)).toBe(`caption_${optionA.id}`);
+        expect(selector.caption.get(null)).toBe("Formatted v1");
+        expect(selector.validation).toBe("Required");
+        expect(selector.clearable).toBe(true);
+    });
+});
