@@ -39,6 +39,9 @@ patchedDependencies:
   '@mendix/pluggable-widgets-tools@11.13.0':
     hash: 1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed
     path: patches/@mendix__pluggable-widgets-tools@11.13.0.patch
+  cross-zip@4.0.1:
+    hash: a06378adaf63688f93addec173f7d10022c9fe92f3084a38d1bbdce2dddd1d20
+    path: patches/cross-zip@4.0.1.patch
   mime-types@2.1.35:
     hash: f54449b9273bc9e74fb67a14fcd001639d788d038b7eb0b5f43c10dff2b1adfb
     path: patches/mime-types@2.1.35.patch
@@ -102,7 +105,7 @@ importers:
         version: 4.1.3
       cross-zip:
         specifier: ^4.0.1
-        version: 4.0.1
+        version: 4.0.1(patch_hash=a06378adaf63688f93addec173f7d10022c9fe92f3084a38d1bbdce2dddd1d20)
       enquirer:
         specifier: ^2.4.1
         version: 2.4.1
@@ -197,7 +200,7 @@ importers:
         version: 5.6.2
       cross-zip:
         specifier: ^4.0.1
-        version: 4.0.1
+        version: 4.0.1(patch_hash=a06378adaf63688f93addec173f7d10022c9fe92f3084a38d1bbdce2dddd1d20)
       enquirer:
         specifier: ^2.4.1
         version: 2.4.1
@@ -15553,7 +15556,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  cross-zip@4.0.1: {}
+  cross-zip@4.0.1(patch_hash=a06378adaf63688f93addec173f7d10022c9fe92f3084a38d1bbdce2dddd1d20): {}
 
   css-declaration-sorter@6.4.1(postcss@8.5.26):
     dependencies:
