@@ -52,6 +52,14 @@ describe("CustomToolbar (Standard mode)", () => {
 
         expect(onView).toHaveBeenCalledWith("year");
     });
+
+    it("renders Atlas icons instead of glyphicons for previous and next buttons", () => {
+        const { container } = render(<CustomToolbar {...baseToolbarProps()} />);
+
+        expect(container.querySelector(".mx-icon-filled.mx-icon-controls-backward")).toBeTruthy();
+        expect(container.querySelector(".mx-icon-filled.mx-icon-controls-forward")).toBeTruthy();
+        expect(container.querySelector(".glyphicon")).toBeNull();
+    });
 });
 
 describe("createConfigurableToolbar (Custom mode)", () => {
@@ -80,5 +88,17 @@ describe("createConfigurableToolbar (Custom mode)", () => {
         render(<Toolbar {...baseToolbarProps({ view: "year" as any })} />);
 
         expect(screen.getByText("Year").closest("button")?.className).toContain("active");
+    });
+
+    it("renders Atlas icons instead of glyphicons for previous and next items", () => {
+        const Toolbar = createConfigurableToolbar([
+            { itemType: "previous", position: "left", renderMode: "button" },
+            { itemType: "next", position: "left", renderMode: "button" }
+        ]);
+        const { container } = render(<Toolbar {...baseToolbarProps()} />);
+
+        expect(container.querySelector(".mx-icon-filled.mx-icon-controls-backward")).toBeTruthy();
+        expect(container.querySelector(".mx-icon-filled.mx-icon-controls-forward")).toBeTruthy();
+        expect(container.querySelector(".glyphicon")).toBeNull();
     });
 });

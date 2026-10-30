@@ -590,6 +590,7 @@ async function buildWidget(widgetName, widgetPkg) {
 async function buildDeploymentBundle(mendixVersion) {
     const mxbuildImage = `mxbuild:${mendixVersion}`;
     const spinner = new Spinner(`Building deployment bundle ${DIM(`(${mxbuildImage})`)}`).start();
+    const modernClientFlag = process.env.MODERN_CLIENT ? "--modern-web-client" : "";
 
     try {
         const mprFiles = fs.readdirSync(PATHS.testProject);
@@ -601,7 +602,7 @@ async function buildDeploymentBundle(mendixVersion) {
             "docker run --tty --rm",
             `--volume ${REPO_ROOT}:/source`,
             mxbuildImage,
-            `bash -c "mx update-widgets --loose-version-check ${mprPath} && mxbuild --output=/source/automation.mda ${mprPath}"`
+            `bash -c "mx update-widgets --loose-version-check ${mprPath} && mxbuild ${modernClientFlag} --output=/source/automation.mda ${mprPath}"`
         ].join(" ");
 
         log(`Running: ${cmd}`);

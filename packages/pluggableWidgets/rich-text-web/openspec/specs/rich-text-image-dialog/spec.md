@@ -8,11 +8,17 @@ TBD - created by archiving change rich-text-image-dialog-tab-visibility. Update 
 
 ### Requirement: Image dialog tabs reflect widget configuration
 
-The Rich Text image dialog SHALL render only the image source tabs that are available for the current widget configuration. The URL tab SHALL always be rendered. The Upload tab SHALL be rendered only when `enableDefaultUpload` is `true`. The Entity ("Media Library") tab SHALL be rendered only when an image data source is configured (`imageSource` is not null or undefined). Hidden tabs SHALL NOT be rendered in the DOM (not merely disabled).
+The Rich Text image dialog SHALL render only the image source tabs that are available for the current widget configuration. The URL tab SHALL always be rendered. The Upload tab SHALL be rendered only when default upload is effectively enabled — that is, when `enableDefaultUpload` is `true` or no image data source is configured. The Entity ("Media Library") tab SHALL be rendered only when an image data source is configured (`imageSource` is not null or undefined). Hidden tabs SHALL NOT be rendered in the DOM (not merely disabled).
 
 #### Scenario: No image data source configured
 
 - **WHEN** the image dialog is opened and `imageSource` is null or undefined
+- **THEN** the Entity tab is not rendered
+- **AND** the URL and Upload tabs are rendered
+
+#### Scenario: Stale default-upload value without an image data source
+
+- **WHEN** the image dialog is opened, `imageSource` is null or undefined, and `enableDefaultUpload` is `false`
 - **THEN** the Entity tab is not rendered
 - **AND** the URL and Upload tabs are rendered
 
@@ -29,7 +35,7 @@ The Rich Text image dialog SHALL render only the image source tabs that are avai
 
 #### Scenario: Default URL tab remains valid
 
-- **WHEN** the image dialog is opened in any configuration
+- **WHEN** the image dialog is opened without dropped or pasted files, in any configuration
 - **THEN** the URL tab is rendered and is the initially active tab
 
 ### Requirement: Image dialog configuration delivered via editor context
@@ -41,6 +47,44 @@ The image dialog configuration (image source content, default-upload flag, and w
 - **WHEN** the image dialog renders
 - **THEN** it obtains image source content, the default-upload flag, and the has-image-source flag from the editor context
 - **AND** intermediate toolbar components do not forward these values as props
+
+### Requirement: Pending files are forwarded to entity upload when available
+
+The Rich Text image dialog SHALL, when opened with `initialFiles` and `hasImageSource` is true, activate the Media Library tab and forward the files to the embedded `imageSourceContent` uploader so the external File Uploader widget handles the upload. The dialog SHALL NOT convert those files to base64. The files SHALL be forwarded exactly once per dialog opening: switching tabs, editing dialog fields, or any other re-render SHALL NOT forward them again and SHALL NOT change the active tab. If the uploader's file input is not yet present when the Media Library tab becomes active, the dialog SHALL keep the files pending and forward them once the input appears, rather than discarding them. The dialog SHALL NOT process `initialFiles` when `hasImageSource` is false.
+
+#### Scenario: Entity uploader is available
+
+- **WHEN** the image dialog opens with dropped or pasted files and an image source is configured
+- **THEN** the Media Library tab becomes active
+- **AND** the files are handed to the embedded uploader once
+- **AND** the dialog does not convert them to base64
+
+#### Scenario: Switching to the URL tab after a drop
+
+- **WHEN** the image dialog was opened with dropped files and an image source is configured, and the user clicks the URL tab
+- **THEN** the URL tab becomes and stays active
+- **AND** the files are not handed to the uploader again
+
+#### Scenario: Returning to the Media Library tab after a drop
+
+- **WHEN** the user switches from the Media Library tab to the URL tab and back to the Media Library tab after a drop
+- **THEN** the files are not handed to the uploader again
+
+#### Scenario: Editing dialog fields after a drop
+
+- **WHEN** the user types in the Alt text, Title, Width, or Height field after a drop and then switches tabs
+- **THEN** the files are not handed to the uploader again
+
+#### Scenario: Uploader input mounts after the dialog
+
+- **WHEN** the image dialog opens with dropped files and the embedded uploader renders its file input after the Media Library tab is active
+- **THEN** the files are handed to the uploader once the input appears
+
+#### Scenario: No entity uploader is configured
+
+- **WHEN** the image dialog opens with `initialFiles` and no image source is configured
+- **THEN** the dialog does not read or convert the files
+- **AND** the URL tab is active with an empty URL field
 
 ### Requirement: Image dialog supports initial dimensions and aspect-ratio toggle
 
@@ -76,3 +120,74 @@ The Rich Text image dialog SHALL provide a Width input, a Height input, and a "M
 
 - **WHEN** the user has entered a Height value with "Maintain aspect ratio" unchecked, then checks the box, then unchecks it again
 - **THEN** the previously entered Height value is still present in the Height input
+
+### Requirement: Image insertion is triggered only by the dialog's own controls
+
+The Rich Text image dialog SHALL insert an image only in response to its own Insert control, or to Enter pressed in one of the dialog's own single-line inputs (Image URL, Alt text, Title, Width, Height). No element rendered inside the dialog by app-developer-configured content (`imageSourceContent`) or by the upload dropzone SHALL be able to trigger image insertion or dismiss the dialog. The dialog SHALL NOT expose a form owner to its descendants, so that a descendant `<button>` without an explicit `type` cannot cause implicit form submission of the dialog.
+
+#### Scenario: Untyped button inside embedded image-source content
+
+- **WHEN** the Media Library tab is active and the embedded `imageSourceContent` renders a `<button>` with no `type` attribute, and the user clicks it
+- **THEN** no image is inserted into the editor
+- **AND** the dialog stays open
+
+#### Scenario: Repeated clicks inside embedded image-source content
+
+- **WHEN** the user clicks a button inside the embedded `imageSourceContent` a second time after an `imageSelected` event has set the image source
+- **THEN** no image is inserted into the editor
+- **AND** the dialog stays open
+
+#### Scenario: Insert button inserts the image
+
+- **WHEN** an image source is set and the user activates the Insert button
+- **THEN** the image is inserted with the configured attributes
+- **AND** the dialog closes
+
+#### Scenario: Enter in a dialog input inserts the image
+
+- **WHEN** an image source is set and the user presses Enter in the Image URL, Alt text, Title, Width, or Height input
+- **THEN** the image is inserted with the configured attributes
+- **AND** the dialog closes
+
+#### Scenario: Enter inside embedded image-source content does not insert
+
+- **WHEN** the Media Library tab is active and the user presses Enter while focus is inside the embedded `imageSourceContent`
+- **THEN** no image is inserted into the editor
+- **AND** the dialog stays open
+
+#### Scenario: Insert is a no-op without an image source
+
+- **WHEN** no image source is set and the user presses Enter in one of the dialog's inputs
+- **THEN** no image is inserted into the editor
+- **AND** the dialog stays open
+
+### Requirement: Entity image selection listener reads current dialog state
+
+The image dialog's `imageSelected` listener SHALL NOT depend on state captured from an earlier render. Selecting an entity image SHALL set the image source, record the selected entity image, and activate the Media Library tab, regardless of which tab was active when the listener was registered.
+
+#### Scenario: Entity image selected after tab switching
+
+- **WHEN** the user switches tabs and then an `imageSelected` event is dispatched on the dialog element
+- **THEN** the image source and selected entity image are set from the event detail
+- **AND** the Media Library tab is the active tab
+
+### Requirement: Image dialog content scrolls instead of overflowing
+
+The Rich Text image dialog SHALL bound its height and scroll its content internally, so that embedded Media Library content of any height cannot push the Insert and Cancel controls out of reach. The Media Library region SHALL scroll within the dialog's scrollable area rather than expanding the dialog past the space available to it. This SHALL hold in both dialog styles.
+
+#### Scenario: Media Library with many images
+
+- **WHEN** the Media Library tab is active and `imageSourceContent` renders a list taller than the space available to the dialog
+- **THEN** the dialog height is capped to the available space
+- **AND** the Media Library region scrolls
+- **AND** the Insert and Cancel controls remain visible without scrolling the dialog
+
+#### Scenario: Alt text and dimension fields remain reachable
+
+- **WHEN** the Media Library tab is active with tall embedded content
+- **THEN** the Alt text, Title, Width and Height inputs are reachable by scrolling the dialog's content region
+
+#### Scenario: Short embedded content
+
+- **WHEN** the Media Library tab is active and `imageSourceContent` is shorter than the space available to the dialog
+- **THEN** the dialog is sized to its content and shows no internal scrollbar

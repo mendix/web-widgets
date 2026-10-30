@@ -1,6 +1,9 @@
 // Simple Changelog Grammar
 // ==========================
 //
+// The generated parser (module.mjs) is committed. After editing this grammar,
+// regenerate it with `pnpm run compile:parser` and commit both files.
+//
 
 ChangelogFile
   = header:ChangelogHead _ content:(ModuleVersionEntry / OtherNotes)+ _ { return { header, content, moduleName: options.moduleName } }

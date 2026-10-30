@@ -1,4 +1,4 @@
-import { readPackageXml } from "./package-xml";
+import { readPackageXml } from "./package-xml.ts";
 export interface Result {
     [key: string]: string;
 }

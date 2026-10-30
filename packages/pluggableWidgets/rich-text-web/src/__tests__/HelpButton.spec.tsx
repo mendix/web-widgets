@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen, fireEvent, within } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, within } from "@testing-library/react";
 import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { RichTextContainerProps, StatusBarContentEnum } from "../../typings/RichTextProps";
 import RichText from "../RichText";
@@ -37,6 +37,7 @@ function buildProps(overrides: Partial<RichTextContainerProps> = {}): RichTextCo
         tabIndex: 0,
         onChangeType: "onLeave",
         enableStatusBar: true,
+        dialogStyle: "inline",
         statusBarContent: "wordCount" as StatusBarContentEnum,
         spellCheck: true,
         minHeightUnit: "none",
@@ -129,11 +130,12 @@ describe("Rich Text help button", () => {
             expect(dialog).toHaveAttribute("aria-modal", "true");
         });
 
-        it("moves focus into the dialog on open", () => {
+        // The focus trap moves focus in a microtask, so this has to wait rather than assert inline.
+        it("moves focus into the dialog on open", async () => {
             render(<RichText {...buildProps()} />);
             fireEvent.click(getHelpButton()!);
             const dialog = screen.getByRole("dialog", { name: "Keyboard shortcuts" });
-            expect(dialog).toHaveFocus();
+            await waitFor(() => expect(dialog).toHaveFocus());
         });
     });
 

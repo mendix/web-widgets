@@ -154,6 +154,7 @@ export function ToolbarSplitButton({ config }: ToolbarSplitButtonProps): ReactEl
                 onClick={handleMainClick}
                 onKeyDown={e => handleKeyDown(e, "main")}
                 className="split-button-main icon-button"
+                title={t(config.title)}
                 aria-label={`${t(config.title)} - Toggle`}
                 aria-pressed={isActive}
             >
@@ -165,6 +166,7 @@ export function ToolbarSplitButton({ config }: ToolbarSplitButtonProps): ReactEl
                 onClick={handleDropdownClick}
                 onKeyDown={e => handleKeyDown(e, "dropdown")}
                 className="split-button-dropdown"
+                title={`${t(config.title)} - Style options`}
                 aria-label={`${t(config.title)} - Style options`}
                 aria-expanded={isDropdownOpen}
                 aria-haspopup="menu"

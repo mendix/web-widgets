@@ -1,9 +1,10 @@
 import { readFileSync, writeFileSync } from "fs";
 import { join } from "path";
-import { Version } from "../version";
-import { parse as parseModuleChangelogFile } from "./parser/module/module";
-import { parse as parseWidgetChangelogFile } from "./parser/widget/widget";
-import {
+import { getPackageInfo } from "../package-info.ts";
+import { Version } from "../version.ts";
+import { parse as parseModuleChangelogFile } from "./parser/module/module.mjs";
+import { parse as parseWidgetChangelogFile } from "./parser/widget/widget.mjs";
+import type {
     LogSection,
     ModuleChangelogFile,
     ModuleReleasedVersionEntry,
@@ -14,7 +15,7 @@ import {
     UnreleasedVersionEntry,
     VersionEntry,
     WidgetChangelogFile
-} from "./types";
+} from "./types.ts";
 
 function formatHeader(header: string): string[] {
     return [
@@ -104,12 +105,11 @@ function mergeUnreleased<T extends UnreleasedVersionEntry>(unreleased: T, sectio
 
 export class WidgetChangelogFileWrapper {
     changelog: WidgetChangelogFile;
+    changelogPath: string;
 
-    private constructor(
-        changelog: WidgetChangelogFile,
-        public changelogPath: string
-    ) {
+    private constructor(changelog: WidgetChangelogFile, changelogPath: string) {
         this.changelog = Object.freeze(changelog);
+        this.changelogPath = changelogPath;
     }
 
     save(): void {
@@ -187,13 +187,12 @@ export class WidgetChangelogFileWrapper {
 export class ModuleChangelogFileWrapper {
     changelog: ModuleChangelogFile;
     moduleName: string;
+    changelogPath: string;
 
-    private constructor(
-        changelog: ModuleChangelogFile,
-        public changelogPath: string
-    ) {
+    private constructor(changelog: ModuleChangelogFile, changelogPath: string) {
         this.changelog = Object.freeze(changelog);
         this.moduleName = changelog.moduleName;
+        this.changelogPath = changelogPath;
     }
 
     save(): void {
@@ -301,4 +300,18 @@ export async function getWidgetChangelog(path: string): Promise<WidgetChangelogF
 
 export async function getModuleChangelog(path: string, moduleName: string): Promise<ModuleChangelogFileWrapper> {
     return ModuleChangelogFileWrapper.fromFile(join(path, "CHANGELOG.md"), moduleName);
+}
+
+/**
+ * Reads a package's CHANGELOG.md with the parser matching its format. Packages
+ * declare the format with `mxpackage.changelogType` and fall back to their
+ * `mxpackage.type` when they don't (which is all but one widget).
+ */
+export async function getPackageChangelog(
+    path: string
+): Promise<WidgetChangelogFileWrapper | ModuleChangelogFileWrapper> {
+    const info = await getPackageInfo(path);
+    return (info.mxpackage.changelogType ?? info.mxpackage.type) === "widget"
+        ? getWidgetChangelog(path)
+        : getModuleChangelog(path, info.mxpackage.name);
 }

@@ -1,7 +1,7 @@
-import { access } from "fs/promises";
+import { access, readFile } from "fs/promises";
 import { join } from "path";
 import { z } from "zod";
-import { versionSchema } from "./version";
+import { versionSchema } from "./version.ts";
 
 export interface PackageJsonFileContent {
     name?: string;
@@ -67,7 +67,12 @@ export const MarketplaceSchema = z.object({
 
 export const TestProjectSchema = z.object({
     githubUrl: z.string().url(),
-    branchName: z.string().min(3)
+    branchName: z.string().min(3),
+    atlasCoreVersion: z
+        .string()
+        .regex(/^\d+\.\d+\.\d+$/)
+        .optional(),
+    atlasThemeTag: z.string().startsWith("atlasui-theme-files-").optional()
 });
 
 export const RepositorySchema = z.object({
@@ -137,20 +142,26 @@ export async function getPackageFileContent(dirPath: string): Promise<PackageJso
     const pkgPath = join(dirPath, `package.json`);
     try {
         await access(pkgPath);
-        const result = await import(pkgPath).then(module => {
-            return module.default as PackageJsonFileContent;
-        });
-        return result;
+        return JSON.parse(await readFile(pkgPath, "utf8")) as PackageJsonFileContent;
     } catch (error) {
         console.log(error);
         console.error(`ERROR: Path does not exist: ${pkgPath}`);
-        throw new Error("Error while reading package info at " + dirPath);
+        throw new Error("Error while reading package info at " + dirPath, { cause: error });
     }
 }
 
 export async function getPackageInfo(path: string): Promise<PackageInfo> {
     const packageJson = await getPackageFileContent(path);
     return PackageSchema.parse(packageJson);
+}
+
+/**
+ * A package can be released on its own only if it has a Marketplace app number.
+ * A missing number (module-wrapped widget) and `-1` (never published, e.g. the
+ * google-tag module) both mean "not independently releasable".
+ */
+export function isReleasable(info: PackageInfo): boolean {
+    return (info.marketplace.appNumber ?? -1) > 0;
 }
 
 export async function getPublishedInfo(path: string): Promise<PublishedInfo> {

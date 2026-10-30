@@ -2,6 +2,7 @@ import { Big } from "big.js";
 import { DynamicValue } from "mendix";
 import { actionValue, dynamic, ListValueBuilder, obj } from "@mendix/widget-plugin-test-utils";
 import { FileUploaderContainerProps } from "../../../typings/FileUploaderProps";
+import { removeObject, saveFile } from "../../utils/mx-data";
 import { FileStore } from "../FileStore";
 import { FileUploaderStore } from "../FileUploaderStore";
 import { TranslationsStore } from "../TranslationsStore";
@@ -200,13 +201,15 @@ describe("FileStore.markMissing", () => {
         expect(file.fileStatus).toBe("missing");
     });
 
-    test("transitions to 'removedFile' (not 'missing') when status is 'uploadingError'", () => {
+    test("keeps 'uploadingError' when the object of a failed upload disappears", () => {
         const rootStore = buildStore();
-        const file = new FileStore("uploadingError", rootStore, makeFile("test.txt"));
+        const file = new FileStore("uploadingError", rootStore, makeFile("test.txt"), obj("a") as any);
 
         file.markMissing();
 
-        expect(file.fileStatus).toBe("removedFile");
+        expect(file.fileStatus).toBe("uploadingError");
+        expect(file.objectItemId).toBeUndefined();
+        expect(rootStore.announcement.text).toBe("");
     });
 });
 
@@ -313,7 +316,7 @@ describe("FileStore.canRetry — reacts to freed slots", () => {
 
         // Simulate removal of the active file — slot freed
         const active = store.files.find(f => f.fileStatus === "uploading")!;
-        active.fileStatus = "removedFile" as any;
+        active.fileStatus = "missing";
 
         expect(rejected.canRetry).toBe(true);
     });
@@ -621,7 +624,7 @@ describe("FileUploaderStore — Reaction 3: queue auto-drains when queued files 
         expect(store.files.filter(f => f.fileStatus === "rejected")).toHaveLength(1);
 
         // Free a slot — rejected file must stay rejected (no auto-promote)
-        store.files[store.files.findIndex(f => f.fileStatus === "uploading")].fileStatus = "removedFile" as any;
+        store.files[store.files.findIndex(f => f.fileStatus === "uploading")].fileStatus = "missing";
 
         expect(store.files.filter(f => f.fileStatus === "rejected")).toHaveLength(1);
         expect(store.files.filter(f => f.fileStatus === "uploading")).toHaveLength(1);
@@ -1053,5 +1056,133 @@ describe("FileUploaderStore validationError files tracking", () => {
         const firstError = store.files.find(f => f.fileStatus === "validationError")!;
         store.dismissFile(firstError);
         expect(store.files.some(f => f.fileStatus === "validationError")).toBe(true);
+    });
+});
+
+describe("FileUploaderStore announcements", () => {
+    beforeEach(() => {
+        (saveFile as jest.Mock).mockReset();
+        (removeObject as jest.Mock).mockReset();
+    });
+
+    test("starts empty", () => {
+        const store = buildStore();
+
+        expect(store.announcement).toEqual({ text: "", seq: 0 });
+    });
+
+    test("announce() sets the translated text and increments seq", () => {
+        const store = buildStore();
+
+        store.announce("uploadSuccessMessage");
+        expect(store.announcement).toEqual({ text: "Uploaded successfully.", seq: 1 });
+
+        store.announce("uploadSuccessMessage");
+        expect(store.announcement).toEqual({ text: "Uploaded successfully.", seq: 2 });
+    });
+
+    test("announces upload success", async () => {
+        const store = buildStore();
+        store.objectCreationHelper.request = jest.fn().mockResolvedValue(obj("a"));
+        const file = new FileStore("queued", store, makeFile("a.txt"));
+
+        await file.upload();
+
+        expect(file.fileStatus).toBe("done");
+        expect(store.announcement.text).toBe("Uploaded successfully.");
+    });
+
+    test("announces upload failure when saving the content fails", async () => {
+        const store = buildStore();
+        store.objectCreationHelper.request = jest.fn().mockResolvedValue(obj("a"));
+        (saveFile as jest.Mock).mockRejectedValue(new Error("mocked"));
+        const file = new FileStore("queued", store, makeFile("a.txt"));
+
+        await file.upload();
+
+        expect(store.announcement.text).toBe("An error occurred during uploading.");
+    });
+
+    test("announces upload failure when object creation fails", async () => {
+        const store = buildStore();
+        store.objectCreationHelper.request = jest.fn().mockRejectedValue(new Error("mocked"));
+        const file = new FileStore("queued", store, makeFile("a.txt"));
+
+        await file.upload();
+
+        expect(store.announcement.text).toBe("An error occurred during uploading.");
+    });
+
+    test("does not announce queued or uploading files", () => {
+        const store = buildStore();
+        store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
+
+        store.processDrop([makeFile("a.txt")], []);
+
+        expect(store.files[0].fileStatus).toBe("uploading");
+        expect(store.announcement).toEqual({ text: "", seq: 0 });
+    });
+
+    test("announces the file limit once per drop when files are rejected", () => {
+        const store = buildStore({ maxFilesPerUpload: dynamic.available(new Big(2)) });
+        store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
+        store.processDrop([makeFile("a.txt")], []);
+
+        store.processDrop([makeFile("b.txt"), makeFile("c.txt"), makeFile("d.txt")], []);
+
+        expect(store.files.filter(f => f.fileStatus === "rejected")).toHaveLength(2);
+        expect(store.announcement).toEqual({ text: "Maximum file count of 2 reached.", seq: 1 });
+    });
+
+    test("announces removal with the default remove flow", async () => {
+        const store = buildStore();
+        const file = new FileStore("done", store, makeFile("a.txt"), obj("a") as any);
+        store.files.push(file);
+
+        await file.remove();
+
+        expect(store.files).toHaveLength(0);
+        expect(store.announcement).toEqual({ text: "Removed successfully.", seq: 1 });
+    });
+
+    test("does not announce when removal fails", async () => {
+        const store = buildStore();
+        const file = new FileStore("done", store, makeFile("a.txt"), obj("a") as any);
+        store.files.push(file);
+        (removeObject as jest.Mock).mockRejectedValue(new Error("mocked"));
+        const consoleError = jest.spyOn(console, "error").mockImplementation(() => {});
+
+        await file.remove();
+
+        expect(store.files).toHaveLength(1);
+        expect(store.announcement.seq).toBe(0);
+        consoleError.mockRestore();
+    });
+
+    test.each(["existingFile", "done"] as const)(
+        "announces removal when the object of a '%s' file disappears",
+        status => {
+            const store = buildStore();
+            const file = new FileStore(status, store, makeFile("a.txt"), obj("a") as any);
+            store.files.push(file);
+
+            file.markMissing();
+
+            expect(file.fileStatus).toBe("missing");
+            expect(store.announcement).toEqual({ text: "Removed successfully.", seq: 1 });
+        }
+    );
+
+    test("announces removal once when the datasource update lands before remove() resolves", async () => {
+        const store = buildStore();
+        const file = new FileStore("done", store, makeFile("a.txt"), obj("a") as any);
+        store.files.push(file);
+        (removeObject as jest.Mock).mockImplementation(async () => {
+            file.markMissing();
+        });
+
+        await file.remove();
+
+        expect(store.announcement.seq).toBe(1);
     });
 });

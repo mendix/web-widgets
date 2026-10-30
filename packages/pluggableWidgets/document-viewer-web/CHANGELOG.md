@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-08-20
+
 ### Added
 
 - We added in-document text search for PDF files, with match highlighting and previous/next navigation across pages.

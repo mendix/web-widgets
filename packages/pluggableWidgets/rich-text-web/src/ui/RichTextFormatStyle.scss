@@ -23,7 +23,7 @@
         // inline-mode margin step (2em per level).
         ol.indent-#{$i},
         ul.indent-#{$i} {
-            padding-left: 1.5em;
+            padding-left: max(1.5em, calc(var(--rt-marker-max-size, 0px) * (0.6 * var(--rt-marker-chars, 1) + 0.5)));
             margin-left: #{$i * 2}em;
         }
     }
@@ -53,6 +53,41 @@
         font-size: attr(data-font-size px);
     }
 
+    // List marker format, class mode. These feed the same `--rt-marker-*` custom properties
+    // that inline mode writes directly, so `li::marker` in RichText.scss stays the single
+    // consumption point for both modes. Setting the font properties on `::marker` here
+    // instead would lose to that rule, which is both more specific and later in source
+    // order (`@use` hoists this file above it).
+    .has-marker-font-size {
+        --rt-marker-font-size: attr(data-marker-font-size px);
+    }
+
+    .has-marker-color {
+        --rt-marker-color: attr(data-marker-color type(<color>));
+    }
+
+    .has-marker-font-family {
+        --rt-marker-font-family: attr(data-marker-font-family raw-string);
+    }
+
+    .has-marker-bold {
+        --rt-marker-font-weight: bold;
+    }
+
+    .has-marker-italic {
+        --rt-marker-font-style: italic;
+    }
+
+    // Widens the marker gutter on the list itself; consumed by the `ol`/`ul` padding rules.
+    .has-marker-gutter {
+        --rt-marker-max-size: attr(data-marker-max-size px);
+    }
+
+    // Only present when the longest counter takes more than one character.
+    .has-marker-chars {
+        --rt-marker-chars: attr(data-marker-chars type(<number>));
+    }
+
     .text-align-left {
         text-align: left;
     }
@@ -69,11 +104,41 @@
         text-align: justify;
     }
 
+    // Table and cell borders, class mode. Each declaration carries its own default through
+    // the attr() comma fallback, so a border shows even when only one property is set
+    // (matching the solid/1px defaults of inline mode). Keep the comma syntax: `or` is a
+    // Sass boolean operator and silently drops the fallback. border-style is stored from
+    // a keyword allowlist (solid, dashed, none, ...), all valid <custom-ident>s.
     .has-table-border,
     .has-cell-border,
     .has-border {
-        border-width: (attr(data-border-width px) or 1px);
-        border-style: attr(data-border-style type(*)) or solid;
-        border-color: (attr(data-border-color type(<color>)) or var(--color-neutral-300, #d9d9d9));
+        border-width: attr(data-border-width type(<length>), 1px);
+        border-style: attr(data-border-style type(<custom-ident>), solid);
+        border-color: attr(data-border-color type(<color>), var(--color-neutral-300, #d9d9d9));
+    }
+
+    // Table, column and cell sizes, class mode. Class mode saves sizes as data attributes
+    // (never a `style` attribute); the attribute selectors keep these rules off inline-mode
+    // tables, which carry their sizes in `style`.
+    table[data-width] {
+        width: attr(data-width type(<length-percentage>));
+    }
+
+    table[data-min-height] {
+        min-height: attr(data-min-height type(<length-percentage>));
+    }
+
+    col[data-col-width] {
+        width: attr(data-col-width type(<length-percentage>));
+    }
+
+    td[data-cell-width],
+    th[data-cell-width] {
+        width: attr(data-cell-width type(<length-percentage>));
+    }
+
+    td[data-cell-height],
+    th[data-cell-height] {
+        height: attr(data-cell-height type(<length-percentage>));
     }
 }

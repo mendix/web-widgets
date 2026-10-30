@@ -1,0 +1,16 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+#
+# Snyk's SCM integration scans every package.json in this monorepo as a separate
+# project and reads .snyk only from the directory of the manifest being scanned.
+# A single root .snyk therefore does NOT cover this package, so the ignore below
+# is duplicated next to each manifest that resolves deepmerge through
+# @mendix/shared-charts. The full rationale lives in the root .snyk file.
+#
+# CVE-2026-93753: prototype-poisoning guard bypass in deepmerge <= 4.3.1.
+# There is no fixed release to upgrade to; 4.3.1 is the latest published version
+# and the upstream fix (TehShrike/deepmerge#274) was closed unmerged.
+version: v1.25.0
+ignore:
+    SNYK-JS-DEEPMERGE-19964053:
+        - "*":
+              reason: "Not reachable: deepmerge only merges developer-authored Plotly chart config, which is already a trusted channel, so an attacker-controlled prototype on the result grants no new capability. Global Object.prototype is never modified. No fixed version exists upstream (PR #274 closed unmerged)."

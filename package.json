@@ -32,7 +32,7 @@
     "prettier": "@mendix/prettier-config-web-widgets",
     "packageManager": "pnpm@10.33.4+sha512.1c67b3b359b2d408119ba1ed289f34b8fc3c6873412bec6fd264fbdc82489e510fcbecb9ce9d22dae7f3b76269d8441046014bdca53b9979cd7a561ad631b800",
     "engines": {
-        "node": ">=24",
+        "node": ">=26",
         "pnpm": "<11.x.x"
     },
     "pnpm": {
@@ -53,7 +53,8 @@
             "@babel/core@7": "7.29.7",
             "@codemirror/state": "^6.5.2",
             "@codemirror/view": "^6.38.1",
-            "@mendix/pluggable-widgets-tools": "11.12.1",
+            "@mendix/pluggable-widgets-tools": "11.13.0",
+            "@mendix/pluggable-widgets-tools>@babel/eslint-parser": "-",
             "@mendix/pluggable-widgets-tools>@testing-library/react-native": "-",
             "@mendix/pluggable-widgets-tools>eslint": "-",
             "@mendix/pluggable-widgets-tools>eslint-config-prettier": "-",
@@ -67,7 +68,7 @@
             "@testing-library/dom": "^10.4.1",
             "@testing-library/react": "^16.3.2",
             "@types/big.js": "^6.2.2",
-            "@types/node": "~24.12.0",
+            "@types/node": "~26.6.0",
             "@types/react": ">=18.2.36",
             "babel-jest": "^30.0.0",
             "d3-color@<3.1.0": ">=3.1.0",
@@ -78,11 +79,12 @@
             "typescript": ">5.8.0 <6.0.0"
         },
         "patchedDependencies": {
-            "@mendix/pluggable-widgets-tools@11.12.1": "patches/@mendix__pluggable-widgets-tools@11.12.1.patch",
+            "@mendix/pluggable-widgets-tools@11.13.0": "patches/@mendix__pluggable-widgets-tools@11.13.0.patch",
             "mime-types@2.1.35": "patches/mime-types@2.1.35.patch",
             "mobx-react-lite@4.0.7": "patches/mobx-react-lite@4.0.7.patch",
             "mobx@6.12.3": "patches/mobx@6.12.3.patch",
-            "react-dropzone": "patches/react-dropzone.patch"
+            "react-dropzone": "patches/react-dropzone.patch",
+            "cross-zip@4.0.1": "patches/cross-zip@4.0.1.patch"
         },
         "ignoredBuiltDependencies": [
             "@parcel/watcher",

@@ -16,11 +16,16 @@ import { LineChart } from "../LineChart";
 
 describe("The LineChart widget", () => {
     function renderLineChart(configs: Array<Partial<LinesType>>): RenderResult {
+        return renderLineChartWithLines(configs.map(setupBasicSeries));
+    }
+
+    function renderLineChartWithLines(lines: LinesType[], refreshInterval = 0): RenderResult {
         return render(
             <LineChart
                 name="line-chart-test"
+                refreshInterval={refreshInterval}
                 class="line-chart-class"
-                lines={configs.map(setupBasicSeries)}
+                lines={lines}
                 showLegend={false}
                 enableAdvancedOptions={false}
                 widthUnit="percentage"
@@ -35,6 +40,31 @@ describe("The LineChart widget", () => {
             />
         );
     }
+
+    describe("refresh interval", () => {
+        beforeEach(() => jest.useFakeTimers());
+        afterEach(() => jest.useRealTimers());
+
+        it("reloads the data source of every series after the interval", () => {
+            const first = setupBasicSeries({});
+            const second = setupBasicSeries({});
+            renderLineChartWithLines([first, second], 5);
+
+            jest.advanceTimersByTime(4999);
+            expect(first.staticDataSource!.reload).not.toHaveBeenCalled();
+            jest.advanceTimersByTime(1);
+            expect(first.staticDataSource!.reload).toHaveBeenCalledTimes(1);
+            expect(second.staticDataSource!.reload).toHaveBeenCalledTimes(1);
+        });
+
+        it("does not reload when the interval is 0", () => {
+            const line = setupBasicSeries({});
+            renderLineChartWithLines([line], 0);
+
+            jest.advanceTimersByTime(60_000);
+            expect(line.staticDataSource!.reload).not.toHaveBeenCalled();
+        });
+    });
 
     it("visualizes data as a line chart", () => {
         renderLineChart([{}]);

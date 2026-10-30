@@ -103,16 +103,23 @@
         },
         {
             "name": "Pagination",
-            "type": "Dropdown",
-            "description": "Change the alignment of the pagination.",
+            "type": "ToggleButtonGroup",
+            "description": "Align the pagination controls. The selection counter and the load more button move aside to make room.",
             "options": [
                 {
                     "name": "Left",
+                    "icon": "Atlas_Core.Atlas.align-left",
                     "class": "widget-gallery-pagination-left"
                 },
                 {
                     "name": "Center",
+                    "icon": "Atlas_Core.Atlas.align-center",
                     "class": "widget-gallery-pagination-center"
+                },
+                {
+                    "name": "Right",
+                    "icon": "Atlas_Core.Atlas.align-right",
+                    "class": "widget-gallery-pagination-right"
                 }
             ]
         },

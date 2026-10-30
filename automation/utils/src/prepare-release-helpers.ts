@@ -1,14 +1,16 @@
 import chalk from "chalk";
-import { prompt } from "enquirer";
+import enquirer from "enquirer";
 import {
     getModuleChangelog,
-    getWidgetChangelog,
-    ModuleChangelogFileWrapper,
-    WidgetChangelogFileWrapper
-} from "./changelog-parser";
-import { listPackages, PackageListing } from "./monorepo";
-import { getModuleInfo, getPackageInfo, getWidgetInfo, ModuleInfo, WidgetInfo } from "./package-info";
-import { exec } from "./shell";
+    getPackageChangelog,
+    type ModuleChangelogFileWrapper,
+    type WidgetChangelogFileWrapper
+} from "./changelog-parser/index.ts";
+import { listPackages, type PackageListing } from "./monorepo.ts";
+import { getModuleInfo, getPackageInfo, getWidgetInfo, type ModuleInfo, type WidgetInfo } from "./package-info.ts";
+import { exec } from "./shell.ts";
+
+const { prompt } = enquirer;
 
 type WidgetPkg = {
     type: "widget";
@@ -42,12 +44,7 @@ async function loadPackagesFullInfo(packages: PackageListing[]): Promise<Package
             if (basicInfo.mxpackage.type === "widget") {
                 try {
                     const widgetInfo = await getWidgetInfo(pkg.path);
-                    let changelog: WidgetChangelogFileWrapper | ModuleChangelogFileWrapper;
-                    if (basicInfo.mxpackage.changelogType === "widget") {
-                        changelog = await getWidgetChangelog(pkg.path);
-                    } else {
-                        changelog = await getModuleChangelog(pkg.path, basicInfo.mxpackage.name);
-                    }
+                    const changelog = await getPackageChangelog(pkg.path);
 
                     results.push([pkg, widgetInfo, changelog]);
                 } catch (_e) {

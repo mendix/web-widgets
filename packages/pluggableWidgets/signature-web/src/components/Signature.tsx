@@ -25,16 +25,13 @@ export function SignatureComponent(props: SignatureContainerProps): ReactElement
         }
     };
 
-    const { canvasRef, onResize } = useSignaturePad(props, handleSignEnd);
+    const { canvasRef, containerRef } = useSignaturePad(props, handleSignEnd);
 
     return (
         <SizeContainer
             {...props}
+            ref={containerRef}
             className={classNames("widget-signature", className)}
-            classNameInner={classNames("widget-signature-wrapper", "form-control", "mx-textarea-input", "mx-textarea", {
-                disabled: readOnly
-            })}
-            onResize={onResize}
             readOnly={readOnly}
         >
             {validation && <ValidationAlert>{validation}</ValidationAlert>}

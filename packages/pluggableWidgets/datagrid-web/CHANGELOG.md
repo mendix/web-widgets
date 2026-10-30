@@ -6,6 +6,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.8] - 2026-10-22
+
+### Fixed
+
+- We fixed an issue where clicking a label inside a custom content column, such as the label of a checkbox, triggered the double click action with a single click.
+
+## [3.11.7] - 2026-10-02
+
+### Fixed
+
+- We fixed an issue where the "Column size" property appeared away from the "Column width" property it depends on in the column Appearance tab in Studio Pro.
+
+## [3.11.6] - 2026-09-18
+
+### Fixed
+
+- We fixed an issue where custom pagination ignored "Position of pagination" and always rendered below the grid. It now renders above the grid, below the grid, or — for "Both" — once, below the grid.
+
+- We fixed an issue where exporting a date column to Excel could write the previous calendar day, or add a time that is not shown in the grid. Exported dates and times now match what the grid displays, regardless of the time zone.
+
+## [3.11.5] - 2026-09-10
+
+### Fixed
+
+- We fixed an issue where the top bar did not stack its content vertically in narrow containers.
+
+### Added
+
+- We added two optional export event actions — **On before export** and **On after export** — so developers can log export operations via a microflow or nanoflow. `On before export` fires just before the export starts and provides the grid name, visible column titles, chunk size, file name, sheet name, and start time. `On after export` fires after the export finishes (whether completed or canceled) and also provides the total number of exported rows, a status string (`"success"` or `"aborted"`), and an end time.
+
 ## [3.11.3] - 2026-07-27
 
 ### Added

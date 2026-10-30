@@ -37,7 +37,7 @@ export const Fullscreen = Extension.create<FullscreenOptions>({
     addCommands() {
         return {
             toggleFullscreen: () => () => {
-                const widgetEl = document.querySelector(this.options.widgetSelector);
+                const widgetEl = this.editor.view.dom.closest(this.options.widgetSelector);
                 if (widgetEl) {
                     widgetEl.classList.toggle(this.options.fullscreenClass);
                     return true;
@@ -46,7 +46,7 @@ export const Fullscreen = Extension.create<FullscreenOptions>({
             },
 
             enterFullscreen: () => () => {
-                const widgetEl = document.querySelector(this.options.widgetSelector);
+                const widgetEl = this.editor.view.dom.closest(this.options.widgetSelector);
                 if (widgetEl && !widgetEl.classList.contains(this.options.fullscreenClass)) {
                     widgetEl.classList.add(this.options.fullscreenClass);
                     return true;
@@ -55,7 +55,7 @@ export const Fullscreen = Extension.create<FullscreenOptions>({
             },
 
             exitFullscreen: () => () => {
-                const widgetEl = document.querySelector(this.options.widgetSelector);
+                const widgetEl = this.editor.view.dom.closest(this.options.widgetSelector);
                 if (widgetEl && widgetEl.classList.contains(this.options.fullscreenClass)) {
                     widgetEl.classList.remove(this.options.fullscreenClass);
                     return true;
@@ -69,7 +69,7 @@ export const Fullscreen = Extension.create<FullscreenOptions>({
         return {
             Escape: () => {
                 // Only handle ESC if fullscreen is active
-                const widgetEl = document.querySelector(this.options.widgetSelector);
+                const widgetEl = this.editor.view.dom.closest(this.options.widgetSelector);
                 if (widgetEl?.classList.contains(this.options.fullscreenClass)) {
                     return this.editor.commands.exitFullscreen();
                 }

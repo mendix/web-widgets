@@ -1,7 +1,7 @@
 {
     "name": "@mendix/data-widgets",
     "moduleName": "Data Widgets",
-    "version": "3.11.3",
+    "version": "3.11.8",
     "description": "Data Widgets module containing a set of widgets to display data in various ways.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -36,18 +36,19 @@
         "githubUrl": "https://github.com/mendix/DataWidgets-module",
         "branchName": "main"
     },
+    "type": "module",
     "scripts": {
         "build:deps": "turbo run build --filter=@mendix/data-widgets^...",
         "build:include-deps": "pnpm run build:deps && pnpm run build:module",
-        "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
+        "build:module": "node scripts/build.ts",
         "create-gh-release": "rui-create-gh-release",
         "create-module-mpk": "turbo release:module --filter @mendix/data-widgets",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "tsc --project scripts/tsconfig.json && eslint . package.json",
         "publish-marketplace": "rui-publish-marketplace",
-        "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
-        "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
-        "start": "ts-node --project scripts/tsconfig.json scripts/start.ts",
+        "push-update": "node scripts/push-update.ts",
+        "release:module": "node scripts/release.ts",
+        "start": "node scripts/start.ts",
         "update-changelog": "rui-update-changelog-module",
         "verify": "rui-verify-package-format"
     },

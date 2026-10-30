@@ -2,8 +2,10 @@ import {
     ChartWidget,
     ChartWidgetProps,
     containerPropsEqual,
+    seriesDataSources,
     SeriesMapper,
-    usePlotChartDataSeries
+    usePlotChartDataSeries,
+    useRefreshInterval
 } from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import classNames from "classnames";
@@ -32,6 +34,8 @@ const areaChartSeriesOptions: ChartWidgetProps["seriesOptions"] = {};
 // disable eslint rule to have nice component name in component tree at devtools
 
 export const AreaChart = memo(function AreaChart(props: AreaChartContainerProps): ReactElement {
+    useRefreshInterval(seriesDataSources(props.series), props.refreshInterval);
+
     const mapSeries = useCallback<SeriesMapper<SeriesType>>((line, dataPoints, { getExpressionValue }) => {
         const lineColorExpression = line.dataSet === "static" ? line.staticLineColor : line.dynamicLineColor;
         const markerColorExpression = line.dataSet === "static" ? line.staticMarkerColor : line.dynamicMarkerColor;

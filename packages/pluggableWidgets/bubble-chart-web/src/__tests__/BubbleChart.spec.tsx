@@ -24,6 +24,7 @@ describe("The Bubble widget", () => {
         return render(
             <BubbleChart
                 name="bubble-chart-test"
+                refreshInterval={0}
                 class="bubble-chart-class"
                 lines={configs.map(setupBasicBubbleSeries)}
                 showLegend={false}

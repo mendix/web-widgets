@@ -3,7 +3,7 @@
         "marketplace-mcp": {
             "type": "stdio",
             "command": "node",
-            "args": ["./automation/marketplace-mcp/dist/index.js"],
+            "args": ["./automation/marketplace-mcp/src/index.ts"],
             "env": {
                 "MX_PAT": "${MARKETPLACE_API_TOKEN}"
             }

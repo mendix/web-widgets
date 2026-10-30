@@ -6,9 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [5.0.0] - 2026-09-08
+
+### Fixed
+
+- We fixed an issue where the browser console showed a deprecation warning for every default marker on a Google Maps map.
+
+- We fixed an issue where default markers appeared as broken images in deployed apps while rendering correctly during local development. This fix only works on react client.
+
 ### Changed
 
 - We replaced the react-leaflet dependency with a direct Leaflet integration due to licensing considerations.
+
+- We raised the minimum Mendix version to 10.24.0, because default markers rely on how the Mendix client serves widget resources.
 
 ## [4.1.0] - 2025-10-29
 

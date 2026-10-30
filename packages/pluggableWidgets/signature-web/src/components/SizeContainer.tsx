@@ -1,23 +1,19 @@
 import classNames from "classnames";
-import { CSSProperties, FC, PropsWithChildren, RefObject, useMemo } from "react";
-import { useResizeObserver } from "@mendix/widget-plugin-hooks/useResizeObserver";
+import { CSSProperties, ForwardedRef, forwardRef, PropsWithChildren, useMemo } from "react";
 import { constructWrapperStyle, DimensionsProps } from "../utils/dimensions";
+
 export interface SizeProps extends DimensionsProps, PropsWithChildren {
     className: string;
-    classNameInner?: string;
     readOnly?: boolean;
     style?: CSSProperties;
-    onResize?: () => void;
     tabIndex?: number;
 }
 
-export const SizeContainer: FC<SizeProps> = (props: SizeProps) => {
+export const SizeContainer = forwardRef(function SizeContainer(props: SizeProps, ref: ForwardedRef<HTMLDivElement>) {
     const {
         className,
         children,
-        classNameInner,
         readOnly = false,
-        onResize,
         widthUnit,
         width,
         heightUnit,
@@ -29,7 +25,6 @@ export const SizeContainer: FC<SizeProps> = (props: SizeProps) => {
         overflowY,
         tabIndex
     } = props;
-    const ref = useResizeObserver(() => onResize?.()) as RefObject<HTMLDivElement>;
     const wrapperStyle = useMemo(
         () =>
             constructWrapperStyle({
@@ -55,9 +50,19 @@ export const SizeContainer: FC<SizeProps> = (props: SizeProps) => {
             }}
             tabIndex={tabIndex}
         >
-            <div className={classNames("size-box-inner", classNameInner)} aria-disabled={readOnly}>
+            <div
+                className={classNames(
+                    "size-box-inner",
+                    "widget-signature-wrapper",
+                    "form-control",
+                    "mx-textarea-input",
+                    "mx-textarea",
+                    { disabled: readOnly }
+                )}
+                aria-disabled={readOnly}
+            >
                 {children}
             </div>
         </div>
     );
-};
+});

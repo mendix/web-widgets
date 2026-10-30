@@ -1,24 +1,24 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
 // Enable quiet mode for fetch calls to reduce logging noise
 process.env.FETCH_QUIET = "true";
 
-import { gh, GitHubDraftRelease, GitHubReleaseAsset } from "../src/github";
-import { basename, join } from "path";
-import { prompt } from "enquirer";
-import chalk from "chalk";
-import { createReadStream } from "node:fs";
-import * as crypto from "crypto";
-import { pipeline } from "stream/promises";
 import { homedir } from "node:os";
+import { basename, join } from "path";
+import chalk from "chalk";
+import enquirer from "enquirer";
+import { gh, type GitHubDraftRelease, type GitHubReleaseAsset } from "../src/github.ts";
 import {
+    computeSha256,
     createSBomGeneratorFolderStructure,
     findAllReadmeOssLocally,
     generateSBomArtifactsInFolder,
     getRecommendedReadmeOss,
     hasReadmeOssInAssets,
     includeReadmeOssIntoMpk
-} from "../src/oss-clearance";
+} from "../src/oss-clearance.ts";
+
+const { prompt } = enquirer;
 
 // ============================================================================
 // Constants
@@ -86,7 +86,7 @@ async function verifyGitHubAuth(): Promise<void> {
         console.log(chalk.cyan("   • Option C: gh auth login\n"));
         console.log(chalk.white("3. For A and B get your token at:"));
         console.log(chalk.cyan("   https://github.com/settings/tokens\n"));
-        throw new Error("GitHub authentication required");
+        throw new Error("GitHub authentication required", { cause: error });
     }
 }
 
@@ -185,7 +185,7 @@ async function downloadAndVerifyAsset(mpkAsset: GitHubReleaseAsset, downloadPath
     printProgressCheck("Download completed");
 
     printProgress("Computing SHA-256 hash...");
-    const fileHash = await computeHash(downloadPath);
+    const fileHash = await computeSha256(downloadPath);
     printProgressCheck(`Computed hash: ${fileHash}`);
 
     const expectedDigest = mpkAsset.digest.replace("sha256:", "");
@@ -212,13 +212,6 @@ async function runSbomGenerator(tmpFolder: string, releaseName: string, fileHash
     printSuccess("Completed.");
 
     return finalPath;
-}
-
-async function computeHash(filepath: string): Promise<string> {
-    const input = createReadStream(filepath);
-    const hash = crypto.createHash("sha256");
-    await pipeline(input, hash);
-    return hash.digest("hex");
 }
 
 // ============================================================================
@@ -351,7 +344,7 @@ async function handleIncludeAsEmbeddedAction(release: GitHubDraftRelease, readme
         printProgressCheck("Download completed");
 
         // Copy HTML to temp folder
-        const { cp } = await import("../src/shell");
+        const { cp } = await import("../src/shell.ts");
         await cp(readmeToInclude, htmlPath);
 
         // Embed HTML into MPK
@@ -407,7 +400,7 @@ async function handleIncludeAsEmbeddedAction(release: GitHubDraftRelease, readme
     } finally {
         // Cleanup temp files
         printProgress("Cleaning up temporary files...");
-        const { rm } = await import("../src/shell");
+        const { rm } = await import("../src/shell.ts");
         await rm("-rf", tmpFolder);
     }
 }

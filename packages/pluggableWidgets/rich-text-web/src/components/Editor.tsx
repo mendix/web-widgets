@@ -7,20 +7,34 @@ import { TaskList } from "@tiptap/extension-task-list";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
-import { CSSProperties, forwardRef, ReactElement, useEffect, useImperativeHandle, useMemo } from "react";
+import {
+    CSSProperties,
+    forwardRef,
+    ReactElement,
+    useEffect,
+    useImperativeHandle,
+    useLayoutEffect,
+    useMemo,
+    useReducer,
+    useRef,
+    useState
+} from "react";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { EditorContextProvider, useCurrentEditor } from "./EditorContext";
 import { HighlightedCodeEditor } from "./HighlightedCodeEditor";
 import { LinkBubbleMenu } from "./LinkBubbleMenu";
 import { Toolbar } from "./toolbars";
 import { RichTextContainerProps } from "../../typings/RichTextProps";
+import { BulletListStyled } from "../extensions/BulletListStyled";
 import { FontFamilyClass } from "../extensions/FontFamilyClass";
 import { FontSize } from "../extensions/FontSize";
 import { Fullscreen } from "../extensions/Fullscreen";
 import { GenericEmbed } from "../extensions/GenericEmbed";
+import { ImagePasteDrop, IMAGE_DROP_ERROR_EVENT } from "../extensions/ImagePasteDrop";
 import { ImageResize } from "../extensions/ImageResize";
 import { Indent } from "../extensions/Indent";
 import { KeyboardNavigation } from "../extensions/KeyboardNavigation";
+import { ListItemMarkerFormat } from "../extensions/ListItemMarkerFormat";
 import { OrderedListStyled } from "../extensions/OrderedListStyled";
 import { TableBackgroundColor } from "../extensions/TableBackgroundColor";
 import { TableCellBackgroundColor } from "../extensions/TableCellBackgroundColor";
@@ -32,8 +46,12 @@ import { TextHighlightClass } from "../extensions/TextHighlightClass";
 import { WordPaste } from "../extensions/WordPaste";
 import { YouTubeResize } from "../extensions/YouTubeResize";
 import { TranslationProvider, useT } from "../utils/i18n";
+import { ImageFileError } from "../utils/imageFiles";
 import { ConfirmDialog } from "./toolbars/components/ConfirmDialog";
 import { ToolbarGroupsConfig } from "./toolbars/ToolbarConfig";
+
+/** How long a rejected drop/paste message stays on screen. */
+const DROP_ERROR_TIMEOUT_MS = 5000;
 
 export interface EditorProps extends Pick<
     RichTextContainerProps,
@@ -41,6 +59,7 @@ export interface EditorProps extends Pick<
     | "imageSource"
     | "imageSourceContent"
     | "enableDefaultUpload"
+    | "dialogStyle"
     | "preset"
     | "toolbarConfig"
     | "toolbarLocation"
@@ -94,6 +113,34 @@ function EditorInner({
 }: EditorInnerProps): ReactElement {
     const { editor, codeViewState, codeViewDispatch } = useCurrentEditor();
     const t = useT();
+    // Rejected image drops/pastes are reported by the ImagePasteDrop plugin as a
+    // DOM event (it runs outside React, where `useT` is unavailable) and are
+    // translated and rendered here.
+    const [dropError, setDropError] = useState<ImageFileError | null>(null);
+
+    useEffect(() => {
+        if (!editor) {
+            return;
+        }
+        const dom = editor.view.dom;
+        const handleDropError = (event: Event): void => {
+            setDropError((event as CustomEvent<ImageFileError>).detail);
+        };
+
+        dom.addEventListener(IMAGE_DROP_ERROR_EVENT, handleDropError);
+        return () => {
+            dom.removeEventListener(IMAGE_DROP_ERROR_EVENT, handleDropError);
+        };
+    }, [editor]);
+
+    useEffect(() => {
+        if (!dropError) {
+            return;
+        }
+        const timer = window.setTimeout(() => setDropError(null), DROP_ERROR_TIMEOUT_MS);
+        return () => window.clearTimeout(timer);
+    }, [dropError]);
+
     const handleSaveCode = (): void => {
         if (!editor) return;
 
@@ -150,6 +197,11 @@ function EditorInner({
                         {!readOnly && <LinkBubbleMenu />}
                     </>
                 )}
+                {dropError && (
+                    <div className="rich-text-drop-error" role="status">
+                        {dropError.arg ? t(dropError.key, dropError.arg) : t(dropError.key)}
+                    </div>
+                )}
             </div>
             {codeViewState.showConfirm && (
                 <ConfirmDialog
@@ -175,6 +227,7 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
         imageSource,
         imageSourceContent,
         enableDefaultUpload,
+        dialogStyle = "inline",
         ...others
     } = props;
     const actionRef = useMemo(
@@ -190,16 +243,38 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
         [props]
     );
 
+    // Read by the ImagePasteDrop plugin at event time. Extension options are frozen
+    // when the editor is created (`useEditor(..., [])`), and @tiptap/react
+    // deliberately keeps the editor's current `editable` on re-render, so neither
+    // `configure()` values nor `editor.isEditable` follow these props. A ref
+    // reassigned on every render does.
+    // Studio Pro hides "Enable default upload" when no image source is set, but a hidden
+    // property keeps its stored value. Without an image source there is nowhere else to
+    // upload to, so a leftover `false` is ignored.
+    const uploadEnabled = enableDefaultUpload || imageSource == null;
+    const configRef = useRef({ enableDefaultUpload: uploadEnabled, editable: !readOnly });
+    configRef.current = { enableDefaultUpload: uploadEnabled, editable: !readOnly };
+
     const extensions = useMemo(
         () => [
             StarterKit.configure({
+                // All three list nodes are replaced below so list markers can follow the
+                // format of each item's first inline run.
                 orderedList: false,
+                bulletList: false,
+                listItem: false,
                 link: {
                     openOnClick: false,
                     HTMLAttributes: { class: "tiptap-link" }
                 }
             }),
             OrderedListStyled.configure({
+                styleDataFormat
+            }),
+            BulletListStyled.configure({
+                styleDataFormat
+            }),
+            ListItemMarkerFormat.configure({
                 styleDataFormat
             }),
             TextStyle,
@@ -274,7 +349,13 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
                     class: "tiptap-embed"
                 }
             }),
-            WordPaste
+            WordPaste,
+            ImagePasteDrop.configure({
+                isEnabled: () => configRef.current.enableDefaultUpload,
+                isEditable: () => configRef.current.editable,
+                wrapperSelector: ".tiptap-wrapper",
+                dragOverClass: "rich-text-drag-over"
+            })
         ],
         [styleDataFormat]
     );
@@ -325,9 +406,30 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
         // only do update if editor not focused, otherwise it will override the user input.
         const newContent = editor.getHTML();
         if (newContent !== defaultValue) {
-            editor.commands.setContent(defaultValue || "");
+            // `emitUpdate: false`: this direction is external value -> editor, so echoing an
+            // update back out would only write the editor's own serialization over a value
+            // the user never touched. That rewrite is not harmless — it dirties the bound
+            // attribute and fires the On change action on mere page load, for any stored
+            // value that is not already byte-identical to `getHTML()`. Derived list marker
+            // formatting makes that true of every previously saved formatted list.
+            // A genuine edit still emits normally, through the `onUpdate` handler above.
+            editor.commands.setContent(defaultValue || "", { emitUpdate: false });
         }
     }, [editor, defaultValue]);
+
+    // `editable` passed to `useEditor` only applies at creation; follow later read-only
+    // changes (e.g. conditional editability). `emitUpdate: false` keeps the toggle from
+    // reaching `onUpdate`, so it never writes to the attribute or fires On change.
+    // The toggle emits no editor event at all, so toolbar buttons — which read
+    // `editor.isEditable` while rendering — are re-rendered explicitly. A layout effect
+    // does both before paint, so a stale, still clickable toolbar is never shown.
+    const [, rerenderForEditable] = useReducer((count: number) => count + 1, 0);
+    useLayoutEffect(() => {
+        if (editor && editor.isEditable === !!readOnly) {
+            editor.setEditable(!readOnly, false);
+            rerenderForEditable();
+        }
+    }, [editor, readOnly]);
 
     if (!editor) {
         return null;
@@ -337,13 +439,13 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
 
     const imageConfig = {
         imageSourceContent,
-        enableDefaultUpload,
+        enableDefaultUpload: uploadEnabled,
         hasImageSource: imageSource != null
     };
 
     return (
         <TranslationProvider>
-            <EditorContextProvider editor={editor} imageConfig={imageConfig}>
+            <EditorContextProvider editor={editor} imageConfig={imageConfig} dialogStyle={dialogStyle}>
                 <EditorInner showToolbar={!shouldHideToolbar} readOnly={!!readOnly} className={className} {...others} />
             </EditorContextProvider>
         </TranslationProvider>

@@ -1,9 +1,10 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
-import { Version } from "../src";
-import { parse as parseModule } from "../src/changelog-parser/parser/module/module";
-import { parse as parseWidget } from "../src/changelog-parser/parser/widget/widget";
-import { exec } from "../src/shell";
+import { parse as parseModule } from "../src/changelog-parser/parser/module/module.mjs";
+import { parse as parseWidget } from "../src/changelog-parser/parser/widget/widget.mjs";
+import type { ModuleUnreleasedVersionEntry } from "../src/changelog-parser/types.ts";
+import { Version } from "../src/index.ts";
+import { exec } from "../src/shell.ts";
 
 interface ChangelogChange {
     filePath: string;
@@ -49,6 +50,18 @@ function compareChangelogContent(change: ChangelogChange): boolean {
             console.error(`  ❌ There are duplicated changelog types in Unreleased!`);
             return false;
         }
+
+        if (change.type === "module") {
+            const newSubs = (newUnreleased as ModuleUnreleasedVersionEntry).subcomponents;
+            for (const sub of newSubs) {
+                console.error(
+                    `  ❌ Subcomponent entry "${sub.name.trim()}" found in [Unreleased] in the module changelog. Widget-specific changes must go in the widget's own CHANGELOG.md.`
+                );
+            }
+            if (newSubs.length > 0) {
+                return false;
+            }
+        }
     } catch (error) {
         console.error(`  ❌ Failed to parse changelog: ${error instanceof Error ? error.message : String(error)}`);
         return false;
@@ -93,7 +106,7 @@ async function getChangedFiles(baseSha: string, mergedTreeSha: string): Promise<
  * the SHA of the resulting tree.
  */
 async function getMergedTreeSha(baseSha: string, headSha: string): Promise<string | null> {
-    let stdout = "";
+    let stdout: string;
     let hasConflicts = false;
 
     try {

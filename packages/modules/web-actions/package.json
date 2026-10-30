@@ -23,19 +23,20 @@
         "githubUrl": "https://github.com/mendix/Web-Actions",
         "branchName": "main"
     },
+    "type": "module",
     "scripts": {
-        "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
+        "build:module": "node scripts/build.ts",
         "create-gh-release": "rui-create-gh-release",
         "format": "echo 'Skip as actions use special format'",
-        "lint": "eslint --ext .js src/",
+        "lint": "tsc --project scripts/tsconfig.json && eslint --ext .js src/",
         "publish-marketplace": "rui-publish-marketplace",
-        "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
-        "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
+        "push-update": "node scripts/push-update.ts",
+        "release:module": "node scripts/release.ts",
         "update-changelog": "rui-update-changelog-widget",
         "verify": "rui-verify-package-format"
     },
     "devDependencies": {
-        "@eslint/js": "^9.32.0",
+        "@eslint/js": "^10.0.1",
         "@mendix/automation-utils": "workspace:*",
         "@mendix/prettier-config-web-widgets": "workspace:^",
         "globals": "^17.3.0"

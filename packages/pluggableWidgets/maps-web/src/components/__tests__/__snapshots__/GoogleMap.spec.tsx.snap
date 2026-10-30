@@ -12,7 +12,11 @@ exports[`Google maps renders a map with current location 1`] = `
       <div
         class="widget-google-maps"
         data-testid="map"
-      />
+      >
+        <div
+          style="height: 100%;"
+        />
+      </div>
     </div>
   </div>
 </DocumentFragment>
@@ -30,7 +34,11 @@ exports[`Google maps renders a map with markers 1`] = `
       <div
         class="widget-google-maps"
         data-testid="map"
-      />
+      >
+        <div
+          style="height: 100%;"
+        />
+      </div>
     </div>
   </div>
 </DocumentFragment>
@@ -48,7 +56,11 @@ exports[`Google maps renders a map with percentage of parent units renders the s
       <div
         class="widget-google-maps"
         data-testid="map"
-      />
+      >
+        <div
+          style="height: 100%;"
+        />
+      </div>
     </div>
   </div>
 </DocumentFragment>
@@ -66,7 +78,11 @@ exports[`Google maps renders a map with percentage of width and height units ren
       <div
         class="widget-google-maps"
         data-testid="map"
-      />
+      >
+        <div
+          style="height: 100%;"
+        />
+      </div>
     </div>
   </div>
 </DocumentFragment>
@@ -84,7 +100,11 @@ exports[`Google maps renders a map with pixels renders structure correctly 1`] =
       <div
         class="widget-google-maps"
         data-testid="map"
-      />
+      >
+        <div
+          style="height: 100%;"
+        />
+      </div>
     </div>
   </div>
 </DocumentFragment>
@@ -102,7 +122,11 @@ exports[`Google maps renders a map with right structure 1`] = `
       <div
         class="widget-google-maps"
         data-testid="map"
-      />
+      >
+        <div
+          style="height: 100%;"
+        />
+      </div>
     </div>
   </div>
 </DocumentFragment>

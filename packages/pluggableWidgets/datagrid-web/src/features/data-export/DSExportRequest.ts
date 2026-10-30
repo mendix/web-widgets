@@ -37,8 +37,8 @@ export class DSExportRequest {
     private datasource: ListValue;
     private columns: ColumnsType[];
     private offset = 0;
-    private loaded = 0;
-    private limit = 10;
+    private _loaded = 0;
+    private _limit = 10;
     private totalCount: number | undefined = undefined;
     private shouldSendHeaders = false;
     private emitter: Emitter<ExportRequestEvents>;
@@ -47,7 +47,7 @@ export class DSExportRequest {
 
     constructor(params: RequestParams) {
         const { ds, columns, withHeaders = false, limit = 0 } = params;
-        this.limit = Math.max(limit, this.limit);
+        this._limit = Math.max(limit, this._limit);
         this.emitter = createNanoEvents();
         this.datasource = ds;
         this.totalCount = ds.totalCount;
@@ -58,6 +58,14 @@ export class DSExportRequest {
 
     get status(): ExportRequestStatus {
         return this._status;
+    }
+
+    get loaded(): number {
+        return this._loaded;
+    }
+
+    get limit(): number {
+        return this._limit;
     }
 
     on<K extends keyof ExportRequestEvents>(event: K, cb: ExportRequestEvents[K]): Unsubscribe {
@@ -95,7 +103,7 @@ export class DSExportRequest {
     private createProgressEvent(type: string): ProgressEvent {
         return new ProgressEvent(type, {
             lengthComputable: typeof this.totalCount === "number",
-            loaded: this.loaded,
+            loaded: this._loaded,
             total: this.totalCount
         });
     }
@@ -104,7 +112,7 @@ export class DSExportRequest {
         this.emitLoadStart();
         this._status = "awaiting";
         this.offset = 0;
-        this.datasource.setLimit(this.limit);
+        this.datasource.setLimit(this._limit);
         this.datasource.setOffset(this.offset);
         this.datasource.reload();
         return new Promise(res => this.on("loadend", () => res()));
@@ -119,7 +127,7 @@ export class DSExportRequest {
     };
 
     onsourcechange = (ds: ListValue): void => {
-        const isReady = ds.offset === this.offset && ds.limit === this.limit && ds.status === "available";
+        const isReady = ds.offset === this.offset && ds.limit === this._limit && ds.status === "available";
         if (this._status === "awaiting" && isReady) {
             this.datasource = ds;
             if (this.shouldSendHeaders) {
@@ -201,14 +209,14 @@ export class DSExportRequest {
 
     private sendChunk(chunk: RowData[]): void {
         this._status = "sending";
-        this.loaded += chunk.length;
+        this._loaded += chunk.length;
         this.emitData(chunk);
         this.emitProgress();
     }
 
     private fetchNext(): void {
         this._status = "awaiting";
-        this.offset += this.limit;
+        this.offset += this._limit;
         this.datasource.setOffset(this.offset);
     }
 

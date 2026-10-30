@@ -131,7 +131,7 @@ Place your custom CSS here
             border-radius: 4px;
             padding: 10px;
 
-            &:not(.removed):not(.invalid) {
+            &:not(.invalid) {
                 &:hover,
                 &:focus {
                     &:not(:has(.action-button:hover)) {
@@ -147,7 +147,7 @@ Place your custom CSS here
                 }
             }
 
-            &:not(.removed):not(.invalid):active:not(:has(.action-button:active)) {
+            &:not(.invalid):active:not(:has(.action-button:active)) {
                 .download-icon {
                     background-image: var(--file-view-icon-active, $file-view-icon-active);
                 }
@@ -344,16 +344,6 @@ Place your custom CSS here
                     &.error {
                         color: var(--brand-danger, $file-brand-danger);
                     }
-                }
-            }
-
-            &.removed {
-                opacity: 0.4;
-                .download-icon {
-                    visibility: hidden;
-                }
-                .entry-details-actions {
-                    display: none;
                 }
             }
 

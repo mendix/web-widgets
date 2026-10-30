@@ -25,6 +25,7 @@ describe("The PieChart widget", () => {
         return render(
             <PieChart
                 name="line-chart-test"
+                refreshInterval={0}
                 class="line-chart-class"
                 holeRadius={0}
                 showLegend={false}

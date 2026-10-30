@@ -11,7 +11,8 @@ export function isSelectAllTrigger<T>(event: KeyboardEvent<T>): boolean {
 }
 
 export function isSelectOneTrigger<T>(event: KeyboardEvent<T>): boolean {
-    return event.code === "Space" && event.shiftKey;
+    const isOwn = event.currentTarget === event.target;
+    return event.code === "Space" && event.shiftKey && isOwn;
 }
 
 export function isOwnSpaceKey<T>(event: KeyboardEvent<T>): boolean {
@@ -157,7 +158,8 @@ export const onSelectGridAdjacentHotKey = (
 ): NavKeyEntry[] => {
     const onArrowUp: NavKeyEntry = {
         eventName: "onKeyDown",
-        filter: (ctx, event) => event.code === "ArrowUp" && ctx.selectionType === "Multi",
+        filter: (ctx, event) =>
+            event.code === "ArrowUp" && ctx.selectionType === "Multi" && event.currentTarget === event.target,
         handler: (ctx, event) =>
             selectAdjacentFx(ctx.item, event.shiftKey, getAdjacentFxMode(ctx, event), {
                 direction: "backward",
@@ -167,7 +169,8 @@ export const onSelectGridAdjacentHotKey = (
 
     const onArrowDown: NavKeyEntry = {
         eventName: "onKeyDown",
-        filter: (ctx, event) => event.code === "ArrowDown" && ctx.selectionType === "Multi",
+        filter: (ctx, event) =>
+            event.code === "ArrowDown" && ctx.selectionType === "Multi" && event.currentTarget === event.target,
         handler: (ctx, event) =>
             selectAdjacentFx(ctx.item, event.shiftKey, getAdjacentFxMode(ctx, event), {
                 direction: "forward",
@@ -177,7 +180,8 @@ export const onSelectGridAdjacentHotKey = (
 
     const onArrowLeft: NavKeyEntry = {
         eventName: "onKeyDown",
-        filter: (ctx, event) => event.code === "ArrowLeft" && ctx.selectionType === "Multi",
+        filter: (ctx, event) =>
+            event.code === "ArrowLeft" && ctx.selectionType === "Multi" && event.currentTarget === event.target,
         handler: (ctx, event) =>
             selectAdjacentFx(ctx.item, event.shiftKey, getAdjacentFxMode(ctx, event), {
                 direction: "backward",
@@ -187,7 +191,8 @@ export const onSelectGridAdjacentHotKey = (
 
     const onArrowRight: NavKeyEntry = {
         eventName: "onKeyDown",
-        filter: (ctx, event) => event.code === "ArrowRight" && ctx.selectionType === "Multi",
+        filter: (ctx, event) =>
+            event.code === "ArrowRight" && ctx.selectionType === "Multi" && event.currentTarget === event.target,
         handler: (ctx, event) =>
             selectAdjacentFx(ctx.item, event.shiftKey, getAdjacentFxMode(ctx, event), {
                 direction: "forward",
@@ -198,7 +203,8 @@ export const onSelectGridAdjacentHotKey = (
     const scrollKeys = new Set(["PageUp", "PageDown", "Home", "End"]);
     const onScrollKey: NavKeyEntry = {
         eventName: "onKeyDown",
-        filter: (ctx, event) => scrollKeys.has(event.code) && ctx.selectionType === "Multi",
+        filter: (ctx, event) =>
+            scrollKeys.has(event.code) && ctx.selectionType === "Multi" && event.currentTarget === event.target,
         handler: (ctx, event) =>
             selectAdjacentFx(ctx.item, event.shiftKey, getAdjacentFxMode(ctx, event), {
                 code: event.code as ScrollKeyCode,

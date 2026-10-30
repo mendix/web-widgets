@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-26
+
+### Added
+
+- Added Data Matrix and GS1 Data Matrix generation support, including square and rectangular symbol shapes.
+
+### Security
+
+- Updated dompurify library to version 3.4.17 to incorporate latest security fixes.
+
 ## [1.0.0] - 2026-04-17
 
 ### Added

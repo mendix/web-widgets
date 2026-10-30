@@ -19,6 +19,7 @@
                     <enumerationValues>
                         <enumerationValue key="CODE128">Barcode</enumerationValue>
                         <enumerationValue key="QRCode">QR Code</enumerationValue>
+                        <enumerationValue key="DataMatrix">Data Matrix</enumerationValue>
                         <enumerationValue key="Custom">Custom</enumerationValue>
                     </enumerationValues>
                 </property>
@@ -135,6 +136,24 @@
                     <description>The size of the QR box. Note: In preview, the max height is 200px. The QR code will render at full size in your application.</description>
                 </property>
             </propertyGroup>
+            <propertyGroup caption="Advanced Data Matrix Settings">
+                <property key="dmGs1Mode" type="boolean" defaultValue="false">
+                    <caption>GS1 Data Matrix</caption>
+                    <description>Encode as GS1 Data Matrix (FNC1 + Application Identifiers), e.g. (01)09501101020917(17)261231(10)ABC123. Used for pharma serialization.</description>
+                </property>
+                <property key="dmShape" type="enumeration" required="true" defaultValue="square">
+                    <caption>Symbol shape</caption>
+                    <description>Choose square or rectangular Data Matrix symbol shape</description>
+                    <enumerationValues>
+                        <enumerationValue key="square">Square</enumerationValue>
+                        <enumerationValue key="rectangle">Rectangle</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="dmSize" type="integer" required="true" defaultValue="128">
+                    <caption>Data Matrix size</caption>
+                    <description>The size of the Data Matrix symbol in pixels. Note: In preview, the max height is 200px. The symbol will render at full size in your application.</description>
+                </property>
+            </propertyGroup>
             <propertyGroup caption="Development">
                 <property key="logLevel" type="enumeration" required="true" defaultValue="None">
                     <caption>Log Level</caption>
@@ -172,6 +191,10 @@
                 <property key="qrMargin" type="integer" required="true" defaultValue="2">
                     <caption>Margin size</caption>
                     <description>Number of module units (QR grid cells) to use for margin. Increasing compresses the QR pattern within the fixed size. Note: not visible in preview.</description>
+                </property>
+                <property key="dmMargin" type="integer" required="true" defaultValue="2">
+                    <caption>Margin size</caption>
+                    <description>Number of module units (Data Matrix cells) to use for the quiet zone. Increasing compresses the symbol within the fixed size. Keep at least 1 to stay scannable. Note: not visible in preview.</description>
                 </property>
                 <property key="qrTitle" type="textTemplate" required="true">
                     <caption>Title</caption>

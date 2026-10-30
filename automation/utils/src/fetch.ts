@@ -1,6 +1,6 @@
-import nodefetch, { BodyInit, RequestInit } from "node-fetch";
+import nodefetch, { type BodyInit, type RequestInit } from "node-fetch";
 
-export { BodyInit } from "node-fetch";
+export type { BodyInit } from "node-fetch";
 
 export async function fetch<T = unknown>(
     method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH",
@@ -30,7 +30,8 @@ export async function fetch<T = unknown>(
         response = await nodefetch(url, httpsOptions);
     } catch (error) {
         throw new Error(
-            `An error occurred while retrieving data from ${url}. Technical error: ${(error as Error).message}`
+            `An error occurred while retrieving data from ${url}. Technical error: ${(error as Error).message}`,
+            { cause: error }
         );
     }
 

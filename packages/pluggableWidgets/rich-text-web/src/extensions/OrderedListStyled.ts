@@ -1,4 +1,6 @@
+import { mergeAttributes } from "@tiptap/core";
 import { OrderedList } from "@tiptap/extension-ordered-list";
+import { computeMarkerLength, computeMaxMarkerSize, maxMarkerSizeToAttrs } from "../utils/markerFormat";
 
 export interface OrderedListStyledOptions {
     styleDataFormat: "inline" | "class";
@@ -60,6 +62,22 @@ export const OrderedListStyled = OrderedList.extend<OrderedListStyledOptions>({
                 }
             }
         };
+    },
+
+    // Publishes the largest marker size among direct items, plus how many characters the
+    // longest counter takes, so the stylesheet can widen the marker gutter to fit. Delegates
+    // to the parent, which handles the `start` and `type` attributes specially. Kept fresh in
+    // the live view by the decoration plugin in ListItemMarkerFormat.
+    renderHTML(props) {
+        const { node, HTMLAttributes } = props;
+        const merged = mergeAttributes(
+            HTMLAttributes,
+            maxMarkerSizeToAttrs(computeMaxMarkerSize(node), this.options.styleDataFormat, computeMarkerLength(node))
+        );
+
+        // `OrderedList` always defines `renderHTML`; the fallback only guards against an
+        // upstream change removing it.
+        return this.parent?.({ ...props, HTMLAttributes: merged }) ?? ["ol", merged, 0];
     },
 
     addCommands() {
