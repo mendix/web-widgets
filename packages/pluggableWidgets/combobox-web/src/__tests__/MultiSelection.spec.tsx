@@ -13,7 +13,7 @@ import {
     ReferenceSetValueBuilder,
     setupIntersectionObserverStub
 } from "@mendix/widget-plugin-test-utils";
-import { ComboboxContainerProps, OptionsSourceAssociationCaptionTypeEnum } from "../../typings/ComboboxProps";
+import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import Combobox from "../Combobox";
 
 async function getInput(component: RenderResult): Promise<HTMLInputElement> {
@@ -437,10 +437,10 @@ describe("Combo box (Association)", () => {
     describe("with lazy loading", () => {
         it("calls loadMore only when menu opens", async () => {
             const setLimit = jest.fn();
-            const lazyLoadingProps = {
+            const lazyLoadingProps: ComboboxContainerProps = {
                 ...defaultProps,
                 lazyLoading: true,
-                optionsSourceAssociationCaptionType: "attribute" as OptionsSourceAssociationCaptionTypeEnum,
+                optionsSourceAssociationCaptionType: "attribute",
                 optionsSourceAssociationDataSource: {
                     ...defaultProps.optionsSourceAssociationDataSource,
                     hasMoreItems: true,
