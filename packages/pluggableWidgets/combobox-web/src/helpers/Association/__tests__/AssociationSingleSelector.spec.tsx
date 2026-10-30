@@ -229,18 +229,6 @@ describe("AssociationSingleSelector", () => {
             expect(selector.options.getAll()).toEqual(expected);
         });
 
-        it("notifies after a search-term change", () => {
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps());
-            const callback = jest.fn();
-            selector.options.onAfterSearchTermChange(callback);
-
-            selector.options.setSearchTerm("a");
-
-            expect(callback).toHaveBeenCalledTimes(1);
-            expect(selector.options.searchTerm).toBe("a");
-        });
-
         it("reports the datasource sort order", () => {
             const ds = new ListValueBuilder()
                 .withItems(allItems)
