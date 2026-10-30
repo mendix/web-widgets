@@ -1,4 +1,6 @@
 import {
+    attrId,
+    ListValueBuilder,
     listAttribute,
     obj,
     reference,
@@ -29,6 +31,25 @@ describe("prop mocking functions", () => {
         });
     });
 
+    describe("ListValueBuilder", () => {
+        it("sets the limit after the items", () => {
+            const prop = new ListValueBuilder().withSize(2).withLimit(100).build();
+            expect(prop.items).toHaveLength(2);
+            expect(prop.limit).toBe(100);
+        });
+
+        it("sets the sort order", () => {
+            const id = attrId("caption");
+            expect(new ListValueBuilder().withSortOrder([[id, "desc"]]).build().sortOrder).toEqual([[id, "desc"]]);
+        });
+
+        it("returns an unavailable ListValue without items", () => {
+            const prop = new ListValueBuilder().isUnavailable().build();
+            expect(prop.status).toBe("unavailable");
+            expect(prop.items).toBeUndefined();
+        });
+    });
+
     describe("listAction", () => {
         it("returns ListActionValue mock with get method", () => {
             const prop = listAction();
@@ -42,6 +63,11 @@ describe("prop mocking functions", () => {
             const t: Date = new Date("2024-09-01T00:00:00.000Z");
             const attr = listAttribute(() => new Date(t));
             expect(attr.get(obj()).value!).toEqual(t);
+        });
+
+        it("uses the given id", () => {
+            const id = attrId("caption");
+            expect(listAttribute(() => "x", id).id).toBe(id);
         });
     });
 

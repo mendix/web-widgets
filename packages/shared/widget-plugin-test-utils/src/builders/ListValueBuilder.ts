@@ -42,6 +42,17 @@ export class ListValueBuilder {
         return this;
     }
 
+    /** Call after `withItems` or `withSize`, which reset the limit to the item count. */
+    withLimit(limit: number): this {
+        this.mock.limit = limit;
+        return this;
+    }
+
+    withSortOrder(sortOrder: ListValue["sortOrder"]): this {
+        this.mock.sortOrder = sortOrder;
+        return this;
+    }
+
     isLoading(): this {
         this.mock.status = Status.Loading;
         this.mock.items = undefined;
@@ -49,7 +60,7 @@ export class ListValueBuilder {
     }
 
     isUnavailable(): this {
-        this.mock.status = Status.Loading;
+        this.mock.status = Status.Unavailable;
         this.mock.items = undefined;
         return this;
     }
