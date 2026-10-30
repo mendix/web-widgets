@@ -7,7 +7,6 @@ import { getFilterTypeOptions } from "./utils";
 export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProvider<T, P> {
     protected options: string[] = [];
     private caption: CaptionsProvider;
-    private trigger?: () => void;
 
     filterType: FilterTypeEnum = "contains";
     searchTerm = "";
@@ -60,12 +59,6 @@ export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProv
 
     setSearchTerm(term: string): void {
         this.searchTerm = term;
-        this.trigger?.();
-    }
-
-    /** @deprecated The search term is observable; subscribe to it instead. Kept until step 2 drops it from the interface. */
-    onAfterSearchTermChange(callback: () => void): void {
-        this.trigger = callback;
     }
 
     loadMore(): void {
