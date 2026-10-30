@@ -143,6 +143,7 @@ interface WidgetViewModel<Hints = {}, Texts extends TextMap = {}> {
     a11y: { label?: string; required: boolean; describedBy?: string; statusMessage?: string };
     hints: Hints; // advisory, Atlas-presentation properties from Studio Pro
     t: Translate<Texts>; // all user-facing and ARIA texts, see 7.1
+    tabIndex?: number; // Studio Pro "Tab index" system property
     className?: string; // Studio Pro "Class" system property
     style?: CSSProperties; // Studio Pro "Style" system property
 }
@@ -258,7 +259,7 @@ Concrete examples for each level live in the per-widget documents.
 The npm package is the product. The pluggable widget is the host for it inside apps. The wrapper keeps three responsibilities and sheds everything else:
 
 1. Declare the Studio Pro surface: XML, editor config, editor preview, icons, package metadata.
-2. Kickstart the Core: create on mount, feed container props on every render, dispose on unmount.
+2. Kickstart the Core: create on mount, feed container props on every render, dispose on unmount. The Core is assembled by a brandi container, the composition root pattern already used by datagrid-web, gallery-web and maps-web: static properties in a frozen config, Mendix values through a props gate, side effects as setup components.
 3. Resolve the View: read the `uiVariant` property, ask the registry, fall back to the Atlas View.
 
 ```tsx
@@ -346,15 +347,16 @@ We cannot guarantee accessibility of a custom View. We can hand the author the t
 
 ## 14. Decisions log
 
-| Date       | Decision                                                                                                                                                    |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-10-28 | Views live in the app project; the rebuild route is rejected. We stay in control of the Core and the MPK.                                                   |
-| 2026-10-28 | The project bundler compiles the View file and deduplicates the package. We ship no build step.                                                             |
-| 2026-10-28 | Registry is the client's; registration is Studio Pro's. Both hardcoded in the first iteration.                                                              |
-| 2026-10-28 | `uiVariant` is a free string.                                                                                                                               |
-| 2026-10-28 | Editor preview keeps its own simplified rendering.                                                                                                          |
-| 2026-10-28 | MobX inside the Core, never exposed. Plain snapshot ViewModel with structural sharing is the public contract.                                               |
-| 2026-10-28 | Atlas View consumes the ViewModel through the public hook, as proof the contract is complete.                                                               |
-| 2026-10-28 | Combobox first, range slider second, data grid deferred.                                                                                                    |
-| 2026-10-28 | Options carry `caption: string` always and `content?: ReactNode` when configured. Placement is a hint; the Core never decides where content is shown.       |
-| 2026-10-28 | All texts, ARIA included, come through a typed `t(key, ...params)` on the envelope, wrapping the upcoming platform system-text API. Mechanics out of scope. |
+| Date       | Decision                                                                                                                                                                                 |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-10-28 | Views live in the app project; the rebuild route is rejected. We stay in control of the Core and the MPK.                                                                                |
+| 2026-10-28 | The project bundler compiles the View file and deduplicates the package. We ship no build step.                                                                                          |
+| 2026-10-28 | Registry is the client's; registration is Studio Pro's. Both hardcoded in the first iteration.                                                                                           |
+| 2026-10-28 | `uiVariant` is a free string.                                                                                                                                                            |
+| 2026-10-28 | Editor preview keeps its own simplified rendering.                                                                                                                                       |
+| 2026-10-28 | MobX inside the Core, never exposed. Plain snapshot ViewModel with structural sharing is the public contract.                                                                            |
+| 2026-10-28 | Atlas View consumes the ViewModel through the public hook, as proof the contract is complete.                                                                                            |
+| 2026-10-28 | Combobox first, range slider second, data grid deferred.                                                                                                                                 |
+| 2026-10-28 | Options carry `caption: string` always and `content?: ReactNode` when configured. Placement is a hint; the Core never decides where content is shown.                                    |
+| 2026-10-28 | All texts, ARIA included, come through a typed `t(key, ...params)` on the envelope, wrapping the upcoming platform system-text API. Mechanics out of scope.                              |
+| 2026-10-30 | The Core is composed with a brandi container like the data grid and gallery: config, gate, selector family and setup host as bindings. The container never crosses the package boundary. |
