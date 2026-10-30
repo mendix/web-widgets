@@ -14,7 +14,6 @@ export class AssociationPreviewOptionsProvider implements OptionsProvider<Object
         protected caption: CaptionsProvider,
         protected valuesMap: Map<string, ObjectItem>
     ) {}
-    onAfterSearchTermChange(_callback: () => void): void {}
     setSearchTerm(_value: string): void {}
     loadMore?(): void {
         throw new Error("Method not implemented.");
