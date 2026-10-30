@@ -38,7 +38,6 @@ export interface OptionsProvider<T = unknown, P = object> {
 
     // search related
     setSearchTerm(term: string): void;
-    onAfterSearchTermChange(callback: () => void): void;
 
     // lazy loading related
     hasMore?: boolean;
