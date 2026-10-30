@@ -1,4 +1,4 @@
-import { DynamicValue, ListAttributeValue, ListExpressionValue, ListValue } from "mendix";
+import { ListAttributeValue, ListExpressionValue, ListValue } from "mendix";
 import { ReactNode } from "react";
 import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 import {
@@ -6,7 +6,6 @@ import {
     FilterTypeEnum,
     LoadingTypeEnum,
     OptionsSourceAssociationCustomContentTypeEnum,
-    ReadOnlyStyleEnum,
     SelectedItemsSortingEnum,
     SelectedItemsStyleEnum,
     SelectionMethodEnum
@@ -79,7 +78,6 @@ interface SelectorBase<T, V> {
 
     onEnterEvent?: () => void;
     onLeaveEvent?: () => void;
-    onFilterInputChange?: (filterValue?: string) => void;
 }
 
 export interface SingleSelector extends SelectorBase<"single", string> {}
@@ -90,32 +88,4 @@ export interface MultiSelector extends SelectorBase<"multi", string[]> {
     selectedItemsSorting: SelectedItemsSortingEnum;
     getOptions(): string[];
     isOptionsSelected(): ThreeStateCheckBoxEnum;
-}
-export interface SelectionBaseProps<Selector> {
-    inputId: string;
-    labelId?: string;
-    noOptionsText?: string;
-    readOnlyStyle: ReadOnlyStyleEnum;
-    keepMenuOpen?: boolean;
-    selector: Selector;
-    menuFooterContent?: ReactNode;
-    tabIndex: number;
-    ariaRequired: DynamicValue<boolean>;
-    ariaLabel?: string;
-    onFilterInputChange?: (filterValue: string) => void;
-    a11yConfig: {
-        ariaLabels: {
-            clearSelection: string;
-            removeSelection: string;
-            selectAll: string;
-        };
-        a11yStatusMessage: A11yStatusMessage;
-    };
-}
-
-export interface A11yStatusMessage {
-    a11ySelectedValue: string;
-    a11yOptionsAvailable: string;
-    a11yInstructions: string;
-    a11yNoOption: string;
 }
