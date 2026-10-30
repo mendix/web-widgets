@@ -13,6 +13,7 @@ export interface ProgressCircleProps {
     maxValue: number;
     onClick: (() => void) | undefined;
     label: ReactNode;
+    allowValueAboveMax?: boolean;
 }
 
 const defaultOptions: ShapeOptions = {
@@ -23,14 +24,19 @@ const defaultOptions: ShapeOptions = {
     trailWidth: 16
 };
 
-function getValuesErrorMessage(currentValue: number, minValue: number, maxValue: number): string | null {
+function getValuesErrorMessage(
+    currentValue: number,
+    minValue: number,
+    maxValue: number,
+    allowValueAboveMax: boolean
+): string | null {
     if (maxValue < minValue) {
         return "Error in progress circle values: The maximum value is lower than the minimum value.";
     }
     if (currentValue < minValue) {
         return "Error in progress circle values: The progress value is lower than the minimum value.";
     }
-    if (currentValue > maxValue) {
+    if (currentValue > maxValue && !allowValueAboveMax) {
         return "Error in progress circle values: The progress value is higher than the maximum value.";
     }
     return null;
@@ -43,10 +49,12 @@ export const ProgressCircle: FunctionComponent<ProgressCircleProps> = ({
     minValue,
     maxValue,
     onClick,
-    label
+    label,
+    allowValueAboveMax = false
 }) => {
     const [progressCircle, setProgressCircle] = useState<Circle>();
-    const alertMessage = getValuesErrorMessage(currentValue, minValue, maxValue);
+    const alertMessage = getValuesErrorMessage(currentValue, minValue, maxValue, allowValueAboveMax);
+    const isOverflow = allowValueAboveMax && minValue < maxValue && currentValue > maxValue;
 
     const setProgressCircleElement = useCallback(
         (node: any) => {
@@ -85,6 +93,7 @@ export const ProgressCircle: FunctionComponent<ProgressCircleProps> = ({
                 "widget-progress-circle",
                 "widget-progress-circle-primary",
                 "widget-progress-circle-thickness-medium",
+                { "widget-progress-circle-overflow": isOverflow },
                 className
             )}
             style={style}

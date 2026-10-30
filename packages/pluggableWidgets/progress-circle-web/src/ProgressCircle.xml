@@ -74,6 +74,10 @@
                     <description />
                     <returnType type="Decimal" />
                 </property>
+                <property key="allowValueAboveMax" type="boolean" defaultValue="false">
+                    <caption>Allow values above maximum</caption>
+                    <description>Show progress values higher than the maximum value instead of an error. The circle stays full and the percentage label shows the actual value.</description>
+                </property>
                 <systemProperty key="Visibility" />
             </propertyGroup>
             <propertyGroup caption="Events">
