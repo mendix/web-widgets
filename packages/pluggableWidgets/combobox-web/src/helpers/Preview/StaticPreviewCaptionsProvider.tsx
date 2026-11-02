@@ -3,41 +3,35 @@ import {
     OptionsSourceStaticDataSourcePreviewType,
     StaticDataSourceCustomContentTypeEnum
 } from "../../../typings/ComboboxProps";
-import { CaptionPlacement, CaptionsProvider } from "../types";
-import { CaptionContent } from "../utils";
+import { CaptionsProvider } from "../types";
+
+const FALLBACK_CAPTION = "Combo box";
 
 /** Design mode: the entry captions, with a dropzone per entry for custom content. */
 export class StaticPreviewCaptionsProvider implements CaptionsProvider {
-    readonly emptyCaption = "Combo box";
-
     constructor(
         private readonly entries: OptionsSourceStaticDataSourcePreviewType[],
         private readonly customContentType: StaticDataSourceCustomContentTypeEnum,
-        private readonly placeholder: string
+        /** Shown in the input area: nothing is selected in design mode. */
+        public readonly emptyCaption: string
     ) {}
 
     get(id: string | null): string {
         if (id === null) {
             return this.emptyCaption;
         }
-        return this.entries[Number(id)]?.staticDataSourceCaption || this.emptyCaption;
+        return this.entries[Number(id)]?.staticDataSourceCaption || FALLBACK_CAPTION;
     }
 
-    render(id: string | null, placement: CaptionPlacement, htmlFor?: string): ReactNode {
-        if (id === null) {
-            return <div>{this.placeholder}</div>;
+    customContent(id: string): ReactNode | undefined {
+        const Renderer = this.entries[Number(id)]?.staticDataSourceCustomContent?.renderer;
+        if (this.customContentType === "no" || !Renderer) {
+            return undefined;
         }
-        const { customContentType } = this;
-        if (customContentType === "no" || (placement === "label" && customContentType === "listItem")) {
-            return <CaptionContent htmlFor={htmlFor}>{this.get(id)}</CaptionContent>;
-        }
-        const Renderer = this.entries[Number(id)].staticDataSourceCustomContent!.renderer;
         return (
-            <div className="widget-combobox-caption-custom">
-                <Renderer caption={`Custom content for ${this.get(id)}`}>
-                    <div />
-                </Renderer>
-            </div>
+            <Renderer caption={`Custom content for ${this.get(id)}`}>
+                <div />
+            </Renderer>
         );
     }
 }

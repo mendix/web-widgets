@@ -1,5 +1,4 @@
 import { action, computed, makeObservable, observable, reaction } from "mobx";
-import { ReactNode } from "react";
 import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ComboboxConfig } from "./Combobox.config";
@@ -19,7 +18,7 @@ type Envelope = Pick<
     ComboboxViewModel,
     "id" | "status" | "readOnly" | "validation" | "a11y" | "tabIndex" | "className" | "style"
 >;
-type Selection = Pick<ComboboxViewModel, "value" | "selected" | "chips" | "selectedContent" | "allSelected">;
+type Selection = Pick<ComboboxViewModel, "value" | "selected" | "chips" | "selectedCaption" | "allSelected">;
 type Input = Pick<ComboboxViewModel, "inputValue" | "isOpen" | "highlightedIndex">;
 type Flags = Pick<ComboboxViewModel, "mode" | "clearable" | "filterable" | "canSelectAll">;
 type Commands = Pick<
@@ -224,22 +223,22 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
         }));
     }
 
-    private option(id: string, selected: boolean, highlighted: boolean, content: ReactNode): ComboboxOptionVM {
-        const next = { id, caption: this.selector.caption.get(id), content, selected, highlighted };
+    private option(id: string, selected: boolean, highlighted: boolean): ComboboxOptionVM {
+        const { caption } = this.selector;
+        const next = { id, caption: caption.get(id), content: caption.customContent(id), selected, highlighted };
         const vm = reuse(this.optionCache.get(id), next);
         this.optionCache.set(id, vm);
         return vm;
     }
 
     private get options(): readonly ComboboxOptionVM[] {
-        const { selector, multi, config } = this;
+        const { selector, multi } = this;
         const ids = multi ? multi.getOptions() : selector.options.getAll();
         const next = ids.map((id, index) =>
             this.option(
                 id,
                 multi ? (multi.currentId?.includes(id) ?? false) : selector.currentId === id,
-                index === this.highlightedIndex,
-                selector.caption.render(id, "options", multi ? `${config.id}_${id}` : undefined)
+                index === this.highlightedIndex
             )
         );
         return (this.prevOptions = sameItems(this.prevOptions, next));
@@ -250,23 +249,22 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
         let next: Selection;
         if (multi) {
             const ids = multi.currentId ?? [];
-            const chips = ids.map(id => this.option(id, true, false, selector.caption.render(id, "label")));
+            const chips = ids.map(id => this.option(id, true, false));
             this.prevChips = sameItems(this.prevChips, chips);
             next = {
                 value: multi.currentId,
                 selected: null,
                 chips: this.prevChips,
-                selectedContent: this.selectedCaptions(ids),
+                selectedCaption: this.selectedCaptions(ids),
                 allSelected: multi.isOptionsSelected()
             };
         } else {
             const single = selector as SingleSelector;
-            const content = selector.caption.render(single.currentId, "label");
             next = {
                 value: single.currentId,
-                selected: single.currentId === null ? null : this.option(single.currentId, true, false, content),
+                selected: single.currentId === null ? null : this.option(single.currentId, true, false),
                 chips: [],
-                selectedContent: content,
+                selectedCaption: selector.caption.get(single.currentId),
                 allSelected: "none"
             };
         }

@@ -17,6 +17,9 @@ $cb-menu-border-radius: 7px;
 $cb-skeleton-light: rgba(194, 194, 194, 0.2);
 $cb-skeleton-dark: #d2d2d2;
 
+// State is a data attribute on the element it belongs to, never a modifier class:
+// `.widget-combobox-item[data-highlighted]`, `.widget-combobox-menu:not([data-open])`.
+// See src/components/classes.ts for the element classes.
 .widget-combobox {
     flex-grow: 1;
     min-width: 0;
@@ -47,25 +50,26 @@ $cb-skeleton-dark: #d2d2d2;
             &:last-child {
                 margin-bottom: var(--dropdown-outer-padding, $cb-menu-outer-padding);
             }
-        }
-        &-lazy-scroll {
-            background:
-                /* Shadow Cover TOP */
-                linear-gradient(white 30%, rgba(255, 255, 255, 0)) center top,
-                /* Shadow Cover BOTTOM */ linear-gradient(rgba(255, 255, 255, 0), white 70%) center bottom,
-                /* Shadow TOP */ linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(197, 197, 197, 0.6)) center top,
-                /* Shadow BOTTOM */ linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(197, 197, 197, 0.6)) center
-                    bottom;
+            &[data-lazy] {
+                background:
+                    /* Shadow Cover TOP */
+                    linear-gradient(white 30%, rgba(255, 255, 255, 0)) center top,
+                    /* Shadow Cover BOTTOM */ linear-gradient(rgba(255, 255, 255, 0), white 70%) center bottom,
+                    /* Shadow TOP */ linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(197, 197, 197, 0.6)) center
+                        top,
+                    /* Shadow BOTTOM */ linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(197, 197, 197, 0.6))
+                        center bottom;
 
-            background-repeat: no-repeat;
-            background-size:
-                100% 70px,
-                100% 70px,
-                100% 35px,
-                100% 35px;
-            background-attachment: local, local, scroll, scroll;
+                background-repeat: no-repeat;
+                background-size:
+                    100% 70px,
+                    100% 70px,
+                    100% 35px,
+                    100% 35px;
+                background-attachment: local, local, scroll, scroll;
+            }
         }
-        &-hidden {
+        &:not([data-open]) {
             display: none;
         }
         &-header {
@@ -77,7 +81,7 @@ $cb-skeleton-dark: #d2d2d2;
             }
 
             &:has(input[type="checkbox"]:hover, :focus, :focus-within)
-                + .widget-combobox-menu-list:not(.widget-combobox-menu-highlighted)
+                + .widget-combobox-menu-list:not([data-highlighted])
                 input[type="checkbox"]:not(:checked):after {
                 content: "";
                 border-color: var(--btn-default-bg-hover, $cb-hover-color);
@@ -88,7 +92,7 @@ $cb-skeleton-dark: #d2d2d2;
                     transition: color 0.2s ease-in-out;
                 }
 
-                &-disabled + label {
+                &[data-disabled] + label {
                     color: var(--color-default-dark, $cb-disabled-text-color);
                 }
             }
@@ -117,10 +121,10 @@ $cb-skeleton-dark: #d2d2d2;
         overflow: hidden;
         color: var(--gray-darker, $cb-typography-color);
 
-        &-selected {
+        &[data-selected] {
             background-color: var(--color-primary-lighter, $cb-selected-item);
         }
-        &-highlighted,
+        &[data-highlighted],
         &:focus {
             background-color: var(--color-default-light, $cb-highlighted-index);
         }
@@ -148,7 +152,7 @@ $cb-skeleton-dark: #d2d2d2;
         min-width: 15ch; // overrides Atlas .form-control 50px floor; prevents collapse in column flex containers
         transition: box-shadow 150ms ease 0s;
 
-        &-disabled {
+        &[data-disabled] {
             background-color: var(--gray-lighter, $cb-disabled-color);
             pointer-events: none !important;
 
@@ -156,10 +160,9 @@ $cb-skeleton-dark: #d2d2d2;
                 background-color: transparent;
             }
         }
-    }
 
-    .widget-combobox-multiselect {
-        &:not(.widget-combobox-input-container-active) {
+        // A closed multi-select with a selection shows the chips or the text, not the input.
+        &[data-has-selection]:not([data-open]) {
             .widget-combobox-input {
                 width: 1px;
             }
@@ -174,7 +177,7 @@ $cb-skeleton-dark: #d2d2d2;
 
         // when there is no filter or the input is readonly
         // collapse input so it it not visible
-        &-nofilter,
+        &[data-readonly],
         &:placeholder-shown:not(:focus) {
             max-width: 0;
         }
@@ -182,17 +185,17 @@ $cb-skeleton-dark: #d2d2d2;
         // when input is focused (:focus) and empty (:placeholder-shown)
         // we still show custom content (so the input is "collapsed")
         // but we still have to show the input cursor, so we allow 3 pixels width
-        &:placeholder-shown:focus:not(&-nofilter):has(+ .widget-combobox-placeholder-empty) {
+        &:placeholder-shown:focus:not([data-readonly]):has(+ .widget-combobox-placeholder-text[data-empty]) {
             max-width: 3px;
             margin-right: -3px;
             background: transparent;
         }
     }
 
-    .widget-combobox-selected-items:not(.widget-combobox-boxes) {
+    .widget-combobox-selected-items:not([data-style="boxes"]) {
         .widget-combobox-input {
             // when focused but empty - allow to show only cursor
-            &:placeholder-shown:focus:not(&-nofilter) {
+            &:placeholder-shown:focus:not([data-readonly]) {
                 max-width: 3px;
                 margin-right: -3px;
                 background: transparent;
@@ -200,15 +203,13 @@ $cb-skeleton-dark: #d2d2d2;
         }
     }
 
-    &-clear-button {
+    &-clear-button,
+    &-selected-item-remove-button {
         display: flex;
         align-items: center;
         cursor: pointer;
         background: transparent;
         border: none;
-        &-icon {
-            transition: color 0.2s ease-in-out;
-        }
         path {
             stroke-width: 0;
             transition: stroke-width 0.2s ease-in-out;
@@ -219,13 +220,18 @@ $cb-skeleton-dark: #d2d2d2;
             outline: 2px solid var(--brand-primary, $cb-brand-primary);
         }
 
-        &:hover &-icon {
+        &:hover .widget-combobox-clear-button-icon {
             color: var(--brand-primary, $cb-brand-primary);
             font-weight: bold;
 
             path {
                 stroke-width: 1px;
             }
+        }
+    }
+    &-clear-button {
+        &-icon {
+            transition: color 0.2s ease-in-out;
         }
 
         & + .widget-combobox-down-arrow {
@@ -241,11 +247,11 @@ $cb-skeleton-dark: #d2d2d2;
 
         &-icon {
             transition: transform 0.2s;
-            &.active {
-                transform: rotate(180deg);
-                transition: transform 0.2s;
-            }
             stroke: var(--cb-text-color);
+        }
+        &[data-open] &-icon {
+            transform: rotate(180deg);
+            transition: transform 0.2s;
         }
     }
 
@@ -255,19 +261,23 @@ $cb-skeleton-dark: #d2d2d2;
         border: 1px solid #e7e7e9;
         cursor: not-allowed;
 
+        // The input area: one line of text, shown while the input is empty or unfocused.
+        // With `data-custom` it holds custom content instead and lays out as a block.
         &-text {
-            color: var(--cb-text-color, var(--gray-darker, $cb-typography-color));
-            inset-inline-start: 0;
-            inset-inline-end: 0;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-            pointer-events: none;
-            display: none;
-        }
+            &:not([data-custom]) {
+                color: var(--cb-text-color, var(--gray-darker, $cb-typography-color));
+                inset-inline-start: 0;
+                inset-inline-end: 0;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                pointer-events: none;
+                display: none;
+            }
 
-        &-empty {
-            color: var(--cb-text-color, var(--gray-dark, $cb-gray-dark));
+            &[data-empty] {
+                color: var(--cb-text-color, var(--gray-dark, $cb-gray-dark));
+            }
         }
     }
 
@@ -275,7 +285,7 @@ $cb-skeleton-dark: #d2d2d2;
         flex: 1;
     }
 
-    &-custom-content {
+    &-selected-items[data-custom] {
         position: relative;
         display: flex;
         flex-grow: 1;
@@ -290,7 +300,7 @@ $cb-skeleton-dark: #d2d2d2;
                 inset-inline-end: 0;
                 bottom: 0;
             }
-            &:not(:placeholder-shown) + .widget-combobox-placeholder-custom {
+            &:not(:placeholder-shown) + .widget-combobox-placeholder-text[data-custom] {
                 display: none;
             }
         }
@@ -303,11 +313,11 @@ $cb-skeleton-dark: #d2d2d2;
             flex-grow: 1;
             position: relative;
 
-            &.widget-combobox-boxes {
+            &[data-style="boxes"] {
                 flex-wrap: wrap;
                 margin: -2px 0;
                 .widget-combobox-input {
-                    &-nofilter {
+                    &[data-readonly] {
                         width: 1px;
                     }
                 }
@@ -315,13 +325,13 @@ $cb-skeleton-dark: #d2d2d2;
 
             // prevent textbox and text from wrapping
             // design requires input-like representation
-            &.widget-combobox-text {
+            &[data-style="text"] {
                 flex-wrap: nowrap;
             }
 
             input:placeholder-shown,
             input:not(:focus) {
-                & + .widget-combobox-placeholder-text {
+                & + .widget-combobox-placeholder-text:not([data-custom]) {
                     display: initial;
                     text-overflow: ellipsis;
                     align-items: center;
@@ -342,17 +352,6 @@ $cb-skeleton-dark: #d2d2d2;
             margin: var(--spacing-smallest, 2px);
             gap: 8px;
             background-color: var(--color-primary-lighter, $cb-brand-secondary-light);
-            &-remove-button {
-                padding: 0px 0px;
-                border: none;
-                background-color: transparent;
-                cursor: pointer;
-                color: var(--brand-primary, $cb-brand-primary);
-                span {
-                    display: flex;
-                    align-items: center;
-                }
-            }
             &:focus-visible {
                 outline: var(--brand-primary, $cb-brand-primary) auto 1px;
             }
@@ -414,7 +413,7 @@ $cb-skeleton-dark: #d2d2d2;
             height: 16px;
             width: 148px;
 
-            &-small {
+            &[data-size="small"] {
                 margin-inline-end: 8px;
                 width: 16px;
             }
@@ -425,7 +424,7 @@ $cb-skeleton-dark: #d2d2d2;
         justify-content: center;
         width: 100%;
 
-        &-margin {
+        &[data-margins] {
             margin: 52px 0;
         }
 
@@ -441,7 +440,7 @@ $cb-skeleton-dark: #d2d2d2;
             height: 24px;
             width: 24px;
 
-            &-small {
+            &[data-size="small"] {
                 height: 16px;
                 width: 16px;
                 padding: 2.3px;

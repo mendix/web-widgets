@@ -3,14 +3,17 @@ import { ReactNode } from "react";
 import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 
 export type Status = "unavailable" | "loading" | "available";
-export type CaptionPlacement = "label" | "options";
 export type SelectionType = "single" | "multi";
 export type Selector = SingleSelector | MultiSelector;
 export type SortOrder = "asc" | "desc";
 
 export interface CaptionsProvider {
     get(id: string | null): string;
-    render(id: string | null, placement: CaptionPlacement, htmlFor?: string): ReactNode;
+    /**
+     * The custom content configured for an option, in every placement, or `undefined` when no
+     * custom-content widget is configured. Where it is shown is the View's decision.
+     */
+    customContent(id: string): ReactNode | undefined;
     emptyCaption: string;
 }
 

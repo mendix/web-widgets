@@ -1,10 +1,13 @@
 import classNames from "classnames";
 import { Fragment, MouseEvent, ReactElement } from "react";
-import { CaptionContent } from "../helpers/utils";
+import { Caption } from "../components/Caption";
+import { classes } from "../components/classes";
+import { legacy } from "../components/legacyModifiers";
+
 export function ClearButton({ size = 14 }): ReactElement {
     return (
-        <span className="widget-combobox-icon-container">
-            <svg width={size} height={size} viewBox="0 0 32 32" className="widget-combobox-clear-button-icon">
+        <span className={classes.icon}>
+            <svg width={size} height={size} viewBox="0 0 32 32" className={classes.clearIcon}>
                 <path
                     stroke="currentColor"
                     strokeLinecap="round"
@@ -17,12 +20,13 @@ export function ClearButton({ size = 14 }): ReactElement {
     );
 }
 
+/** The chevron of the toggle. It turns when the toggle element carries `data-open`. */
 export function DownArrow({ isOpen }: { isOpen?: boolean }): ReactElement {
     return (
-        <span className="widget-combobox-icon-container">
+        <span className={classes.icon}>
             <svg
-                className={classNames("widget-combobox-down-arrow-icon", "mx-icon-lined", "mx-icon-chevron-down", {
-                    active: isOpen
+                className={classNames(classes.toggleIcon, "mx-icon-lined", "mx-icon-chevron-down", {
+                    [legacy.toggleIconOpen]: isOpen
                 })}
                 width="16"
                 height="16"
@@ -45,7 +49,7 @@ interface CheckboxProps {
 export function Checkbox({ checked, id, focusable, onClick, ariaLabel }: CheckboxProps): ReactElement {
     return (
         <Fragment>
-            <span className="widget-combobox-icon-container">
+            <span className={classes.icon}>
                 <input
                     type="checkbox"
                     tabIndex={focusable ? 0 : -1}
@@ -62,7 +66,7 @@ export function Checkbox({ checked, id, focusable, onClick, ariaLabel }: Checkbo
                     onChange={() => {}}
                 />
             </span>
-            {ariaLabel ? <CaptionContent htmlFor={id}>{ariaLabel}</CaptionContent> : undefined}
+            {ariaLabel ? <Caption htmlFor={id}>{ariaLabel}</Caption> : undefined}
         </Fragment>
     );
 }

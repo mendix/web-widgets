@@ -143,48 +143,23 @@ describe("AssociationSingleSelector", () => {
             expect(selector.caption.get(itemD.id)).toBe("Date");
         });
 
-        it("renders plain text in every placement without custom content", () => {
+        it("has no custom content without a custom-content widget", () => {
             const selector = createSelector(associationSingleProps());
 
-            const label = render(<>{selector.caption.render(itemA.id, "label")}</>);
-            expect(label.container.textContent).toBe("Apple");
-            expect(label.container.querySelector(".widget-combobox-caption-text")).not.toBeNull();
-
-            const option = render(<>{selector.caption.render(itemA.id, "options")}</>);
-            expect(option.container.textContent).toBe("Apple");
+            expect(selector.caption.customContent(itemA.id)).toBeUndefined();
+            expect(selector.caption.get(itemA.id)).toBe("Apple");
         });
 
-        it("renders custom content in the options only for 'listItem'", () => {
+        it.each(["listItem", "yes"] as const)("exposes the custom content for '%s'", customContentType => {
             const selector = createSelector(
                 associationSingleProps({
-                    optionsSourceAssociationCustomContentType: "listItem",
+                    optionsSourceAssociationCustomContentType: customContentType,
                     optionsSourceAssociationCustomContent: listWidget(i => <b>{`custom ${captions[i.id]}`}</b>)
                 })
             );
 
-            const label = render(<>{selector.caption.render(itemA.id, "label")}</>);
-            expect(label.container.textContent).toBe("Apple");
-
-            const option = render(<>{selector.caption.render(itemA.id, "options")}</>);
-            expect(option.container.textContent).toBe("custom Apple");
-            expect(option.container.querySelector(".widget-combobox-caption-custom")).not.toBeNull();
-        });
-
-        it("renders custom content everywhere for 'yes', except for the empty value", () => {
-            const selector = createSelector(
-                associationSingleProps({
-                    optionsSourceAssociationCustomContentType: "yes",
-                    optionsSourceAssociationCustomContent: listWidget(i => <b>{`custom ${captions[i.id]}`}</b>)
-                })
-            );
-
-            expect(render(<>{selector.caption.render(itemA.id, "label")}</>).container.textContent).toBe(
-                "custom Apple"
-            );
-            expect(render(<>{selector.caption.render(itemA.id, "options")}</>).container.textContent).toBe(
-                "custom Apple"
-            );
-            expect(render(<>{selector.caption.render(null, "label")}</>).container.textContent).toBe("Select...");
+            expect(render(<>{selector.caption.customContent(itemA.id)}</>).container.textContent).toBe("custom Apple");
+            expect(selector.caption.get(null)).toBe("Select...");
         });
     });
 

@@ -1,5 +1,7 @@
 import classNames from "classnames";
 import { ReactElement } from "react";
+import { classes } from "./classes";
+import { legacy } from "./legacyModifiers";
 
 type SpinnerLoaderProps = {
     size?: "small" | "medium";
@@ -8,11 +10,13 @@ type SpinnerLoaderProps = {
 
 export function SpinnerLoader({ size = "medium", withMargins = false }: SpinnerLoaderProps): ReactElement {
     return (
-        <div className={classNames("widget-combobox-spinner", { "widget-combobox-spinner-margin": withMargins })}>
+        <div
+            className={classNames(classes.spinner, { [legacy.spinnerMargins]: withMargins })}
+            data-margins={withMargins || undefined}
+        >
             <div
-                className={classNames("widget-combobox-spinner-loader", {
-                    "widget-combobox-spinner-loader-small": size === "small"
-                })}
+                className={classNames(classes.spinnerIcon, { [legacy.spinnerSmall]: size === "small" })}
+                data-size={size === "small" ? "small" : undefined}
             />
         </div>
     );

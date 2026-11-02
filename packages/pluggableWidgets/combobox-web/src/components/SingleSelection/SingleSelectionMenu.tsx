@@ -4,6 +4,7 @@ import { ComboboxBehavior } from "../../hooks/useComboboxBehavior";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
 import { Loader } from "../Loader";
+import { OptionContent } from "../OptionContent";
 
 interface ComboboxMenuProps {
     vm: ComboboxViewModel;
@@ -30,11 +31,9 @@ export function SingleSelectionMenu({
             floatingRef={floatingRef}
             floatingStyles={floatingStyles}
             menuProps={behavior.getMenuProps()}
-            highlightedIndex={vm.highlightedIndex}
             isEmpty={options.length <= 0}
             isLoading={loading.isLoading}
             isOpen={isOpen}
-            lazyLoading={loading.lazy}
             loader={
                 <Loader
                     isLoading={loading.isLoading}
@@ -49,16 +48,18 @@ export function SingleSelectionMenu({
             noOptionsText={vm.t("noOptions")}
         >
             {isOpen &&
-                options.map((option, index) => (
-                    <ComboboxOptionWrapper
-                        key={option.id}
-                        isHighlighted={alwaysOpen ? false : option.highlighted}
-                        isSelected={option.selected}
-                        optionProps={behavior.getOptionProps(index)}
-                    >
-                        {option.content}
-                    </ComboboxOptionWrapper>
-                ))}
+                options.map((option, index) => {
+                    const optionProps = behavior.getOptionProps(index);
+                    return (
+                        <ComboboxOptionWrapper
+                            key={option.id}
+                            // The editor preview keeps its menu open and never shows a highlight.
+                            optionProps={alwaysOpen ? { ...optionProps, "data-highlighted": undefined } : optionProps}
+                        >
+                            <OptionContent option={option} placement="menu" customContent={vm.hints.customContent} />
+                        </ComboboxOptionWrapper>
+                    );
+                })}
         </ComboboxMenuWrapper>
     );
 }

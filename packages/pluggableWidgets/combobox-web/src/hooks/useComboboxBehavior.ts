@@ -29,12 +29,21 @@ import { getInputLabel } from "../helpers/utils";
 export interface ComboboxBehavior {
     /** Enter and leave detection on the outermost element, through `relatedTarget`. */
     getRootProps(): { onFocus(e: FocusEvent): void; onBlur(e: FocusEvent): void };
-    getInputProps(): InputHTMLAttributes<HTMLInputElement> & { ref: Ref<HTMLInputElement> };
+    /** `data-readonly` while the input takes no typing: filtering is off or the widget is read-only. */
+    getInputProps(): InputHTMLAttributes<HTMLInputElement> & { ref: Ref<HTMLInputElement>; "data-readonly"?: true };
     /** Props for the element that toggles the menu; downshift also returns its ARIA attributes. */
-    getToggleProps(): { id?: string; onClick?(e: MouseEvent): void } & Record<string, unknown>;
-    getMenuProps(): HTMLAttributes<HTMLUListElement> & Record<string, unknown>;
-    getOptionProps(index: number): HTMLAttributes<HTMLLIElement> & Record<string, unknown>;
-    getChipProps(index: number): HTMLAttributes<HTMLDivElement> & { ref: Ref<HTMLDivElement> };
+    getToggleProps(): { id?: string; onClick?(e: MouseEvent): void; "data-open"?: true } & Record<string, unknown>;
+    /** `data-lazy` while the list loads more on scroll, `data-highlighted` while an option is highlighted. */
+    getMenuProps(): HTMLAttributes<HTMLUListElement> & {
+        "data-lazy"?: true;
+        "data-highlighted"?: true;
+    } & Record<string, unknown>;
+    getOptionProps(index: number): HTMLAttributes<HTMLLIElement> & {
+        "data-selected"?: true;
+        "data-highlighted"?: true;
+    } & Record<string, unknown>;
+    /** `data-active` on the chip that has keyboard focus. */
+    getChipProps(index: number): HTMLAttributes<HTMLDivElement> & { ref: Ref<HTMLDivElement>; "data-active"?: true };
     getChipRemoveProps(index: number): { role: "button"; "aria-label": string; onClick(e: MouseEvent): void };
     getClearProps(): { tabIndex?: number; "aria-label": string; onClick(e: MouseEvent): void };
     getSelectAllProps(): {
@@ -75,6 +84,11 @@ function isChipNavigationPermitted(event: KeyboardEvent): boolean {
 
 function stopPropagation(e: MouseEvent): void {
     e.stopPropagation();
+}
+
+/** A state attribute is present (`data-x="true"`) or absent, never `"false"`. */
+function flag(on: boolean): true | undefined {
+    return on || undefined;
 }
 
 /** The menu list must not take focus from the input, and a click inside must not close it. */
@@ -122,7 +136,8 @@ export function useComboboxBehavior(vm: ComboboxViewModel): ComboboxBehavior {
         removeSelectedItem,
         setActiveIndex,
         selectedItems,
-        setSelectedItems
+        setSelectedItems,
+        activeIndex
     } = useMultipleSelection<string>({
         selectedItems: selectedIds,
         itemToString: captionOf,
@@ -437,12 +452,13 @@ export function useComboboxBehavior(vm: ComboboxViewModel): ComboboxBehavior {
                 ...inputProps,
                 "aria-labelledby": hasLabel ? inputProps["aria-labelledby"] : undefined,
                 "aria-describedby": vm.a11y.describedBy,
-                "aria-invalid": vm.validation ? true : undefined
+                "aria-invalid": vm.validation ? true : undefined,
+                "data-readonly": flag(!vm.filterable || vm.readOnly)
             };
         },
-        getToggleProps: () => getToggleButtonProps(),
-        getMenuProps: () =>
-            getMenuProps(
+        getToggleProps: () => ({ ...getToggleButtonProps(), "data-open": flag(vm.isOpen) }),
+        getMenuProps: () => ({
+            ...getMenuProps(
                 {
                     onClick: multi ? () => inputRef.current?.focus() : undefined,
                     onMouseDown: preventMenuClose,
@@ -450,17 +466,20 @@ export function useComboboxBehavior(vm: ComboboxViewModel): ComboboxBehavior {
                 },
                 { suppressRefError: true }
             ),
+            "data-lazy": flag(vm.loading.lazy && vm.options.length > 0),
+            "data-highlighted": flag(vm.highlightedIndex >= 0)
+        }),
         getOptionProps: index => {
             const option = vm.options[index];
             return {
                 ...getItemProps({ index, item: option.id }),
-                // Quirk: in multi mode, while the selector has no value at all (not even an empty
-                // list), options get no aria-selected attribute instead of "false". Kept until step 4.
-                "aria-selected": multi && vm.value === null ? undefined : option.selected
+                "aria-selected": option.selected,
+                "data-selected": flag(option.selected),
+                "data-highlighted": flag(option.highlighted)
             };
         },
-        getChipProps: index =>
-            getSelectedItemProps({
+        getChipProps: index => ({
+            ...getSelectedItemProps({
                 selectedItem: vm.chips[index].id,
                 index,
                 ref: (node: HTMLDivElement | null) => {
@@ -474,6 +493,8 @@ export function useComboboxBehavior(vm: ComboboxViewModel): ComboboxBehavior {
                     }
                 }
             }),
+            "data-active": flag(activeIndex === index)
+        }),
         getChipRemoveProps: index => ({
             role: "button",
             "aria-label": t("removeSelection"),
