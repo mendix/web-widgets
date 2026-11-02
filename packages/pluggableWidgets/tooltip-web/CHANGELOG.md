@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- We fixed an accessibility issue where tooltip content was not announced by screen readers. Tooltip text is now immediately accessible when focusing or hovering over trigger elements through the use of `aria-describedby` pointing to always-present sr-only content.
+- We fixed an issue where screen readers did not announce tooltip content on interactive elements.
 
 ## [1.5.1] - 2026-02-10
 
