@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { Caption } from "./Caption";
-import { classes } from "./classes";
 import { ComboboxHints, ComboboxOptionVM } from "../core/ComboboxViewModel";
+import { useComboboxClasses } from "../hooks/useComboboxClasses";
 
 export type ContentPlacement = "menu" | "input";
 
@@ -18,6 +18,7 @@ interface OptionContentProps {
  * plain caption otherwise. Placement is the View's decision; the Core only carries the content.
  */
 export function OptionContent({ option, placement, customContent, htmlFor }: OptionContentProps): ReactElement {
+    const classes = useComboboxClasses();
     const custom =
         option.content !== undefined &&
         (customContent === "everywhere" || (customContent === "menuOnly" && placement === "menu"));
