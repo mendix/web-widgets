@@ -1,6 +1,15 @@
 import { Placement } from "@floating-ui/react";
 import classNames from "classnames";
-import { CSSProperties, ReactElement, ReactNode, useCallback, useEffect, useId, useRef, useState } from "react";
+import {
+    CSSProperties,
+    ReactElement,
+    ReactNode,
+    useCallback,
+    useEffect,
+    useLayoutEffect,
+    useRef,
+    useState
+} from "react";
 import { OpenOnEnum, RenderMethodEnum } from "../../typings/TooltipProps";
 import { useFloatingUI } from "../utils/useFloatingUI";
 
@@ -18,13 +27,19 @@ export interface TooltipProps {
     preview?: boolean;
 }
 
+const FOCUSABLE_SELECTOR = 'button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+const getDescribedByIds = (element: HTMLElement): string[] =>
+    element.getAttribute("aria-describedby")?.split(/\s+/).filter(Boolean) ?? [];
+
 export const Tooltip = (props: TooltipProps): ReactElement => {
     const { trigger, htmlMessage, textMessage, openOn, position, preview, renderMethod } = props;
     const [showTooltip, setShowTooltip] = useState(preview ?? false);
     const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
-    const contentId = useId();
-    const hasTooltipContent = !!(textMessage || htmlMessage);
+    const content = renderMethod === "text" ? textMessage : htmlMessage;
+    const hasTooltipContent = !!content;
     const triggerWrapperRef = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement | null>(null);
 
     const { arrowStyles, blurFocusEvents, floatingStyles, getFloatingProps, getReferenceProps, refs, staticSide } =
         useFloatingUI({
@@ -34,30 +49,47 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
             arrowElement,
             openOn
         });
+    const floatingProps = getFloatingProps?.();
+    const contentId = floatingProps?.id as string | undefined;
 
-    // Apply aria-describedby to all focusable elements inside the trigger wrapper
+    // Add the tooltip to the aria-describedby of all focusable elements inside the trigger wrapper.
+    // Trigger widgets can render late or reset the attribute, so keep watching the wrapper.
     useEffect(() => {
-        if (!hasTooltipContent || !triggerWrapperRef.current) {
+        const wrapper = triggerWrapperRef.current;
+        if (preview || !hasTooltipContent || !contentId || !wrapper) {
             return;
         }
 
-        // Find all focusable elements (button, a, input, select, textarea, etc.)
-        const focusableElements = triggerWrapperRef.current.querySelectorAll<HTMLElement>(
-            'button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
-
-        if (focusableElements.length > 0) {
-            focusableElements.forEach(element => {
-                element.setAttribute("aria-describedby", contentId);
+        const applyDescription = (): void => {
+            wrapper.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR).forEach(element => {
+                const ids = getDescribedByIds(element);
+                if (!ids.includes(contentId)) {
+                    element.setAttribute("aria-describedby", [...ids, contentId].join(" "));
+                }
             });
+        };
 
-            return () => {
-                focusableElements.forEach(element => {
+        applyDescription();
+        const observer = new MutationObserver(applyDescription);
+        observer.observe(wrapper, {
+            attributes: true,
+            attributeFilter: ["aria-describedby", "href", "tabindex"],
+            childList: true,
+            subtree: true
+        });
+
+        return () => {
+            observer.disconnect();
+            wrapper.querySelectorAll<HTMLElement>("[aria-describedby]").forEach(element => {
+                const ids = getDescribedByIds(element).filter(id => id !== contentId);
+                if (ids.length > 0) {
+                    element.setAttribute("aria-describedby", ids.join(" "));
+                } else {
                     element.removeAttribute("aria-describedby");
-                });
-            };
-        }
-    }, [hasTooltipContent, contentId]);
+                }
+            });
+        };
+    }, [hasTooltipContent, contentId, preview]);
 
     // Merge our ref with floating-ui's ref
     const setTriggerRef = useCallback(
@@ -70,6 +102,20 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
         [refs]
     );
 
+    // Floating UI only tracks the content while the tooltip is open
+    const setContentRef = useCallback(
+        (node: HTMLDivElement | null) => {
+            contentRef.current = node;
+            refs?.setFloating?.(showTooltip ? node : null);
+        },
+        [refs, showTooltip]
+    );
+
+    // Set through the DOM because React versions handle the inert prop differently
+    useLayoutEffect(() => {
+        contentRef.current?.toggleAttribute("inert", !showTooltip);
+    }, [hasTooltipContent, showTooltip]);
+
     return (
         <div className={classNames(props.class, "widget-tooltip", `widget-tooltip-${position}`)}>
             <div
@@ -81,23 +127,24 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
             >
                 {trigger}
             </div>
-            {/* Hidden content for screen readers - always in DOM, only accessible via aria-describedby */}
-            {hasTooltipContent && (
-                <div id={contentId} className="sr-only" aria-hidden="true">
-                    {renderMethod === "text" ? textMessage : htmlMessage}
-                </div>
-            )}
-            {/* Visible content for sighted users */}
-            {showTooltip && hasTooltipContent ? (
+            {/* Always in the DOM so aria-describedby can reference it, visible only while open */}
+            {hasTooltipContent ? (
                 <div
-                    className="widget-tooltip-content"
-                    ref={refs?.setFloating}
-                    style={floatingStyles}
-                    {...getFloatingProps?.()}
-                    data-overlay-content
+                    className={showTooltip ? "widget-tooltip-content" : "widget-tooltip-sr-only"}
+                    ref={setContentRef}
+                    style={showTooltip ? floatingStyles : undefined}
+                    {...floatingProps}
+                    aria-hidden={showTooltip ? undefined : true}
+                    data-overlay-content={showTooltip ? true : undefined}
                 >
-                    {renderMethod === "text" ? textMessage : htmlMessage}
-                    <div className={`widget-tooltip-arrow-${staticSide}`} ref={setArrowElement} style={arrowStyles} />
+                    {content}
+                    {showTooltip && (
+                        <div
+                            className={`widget-tooltip-arrow-${staticSide}`}
+                            ref={setArrowElement}
+                            style={arrowStyles}
+                        />
+                    )}
                 </div>
             ) : null}
         </div>
