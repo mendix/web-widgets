@@ -1,10 +1,11 @@
 import classNames from "classnames";
 import { Fragment, MouseEvent, ReactElement } from "react";
 import { Caption } from "../components/Caption";
-import { classes } from "../components/classes";
 import { legacy } from "../components/legacyModifiers";
+import { useComboboxClasses } from "../hooks/useComboboxClasses";
 
 export function ClearButton({ size = 14 }): ReactElement {
+    const classes = useComboboxClasses();
     return (
         <span className={classes.icon}>
             <svg width={size} height={size} viewBox="0 0 32 32" className={classes.clearIcon}>
@@ -22,6 +23,7 @@ export function ClearButton({ size = 14 }): ReactElement {
 
 /** The chevron of the toggle. It turns when the toggle element carries `data-open`. */
 export function DownArrow({ isOpen }: { isOpen?: boolean }): ReactElement {
+    const classes = useComboboxClasses();
     return (
         <span className={classes.icon}>
             <svg
@@ -47,6 +49,7 @@ interface CheckboxProps {
 }
 
 export function Checkbox({ checked, id, focusable, onClick, ariaLabel }: CheckboxProps): ReactElement {
+    const classes = useComboboxClasses();
     return (
         <Fragment>
             <span className={classes.icon}>

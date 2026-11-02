@@ -3,7 +3,9 @@
  * released widget always had, so app CSS that targets an element keeps matching. State is not a
  * class: it is a data attribute next to the class, `widget-combobox-item[data-highlighted]`
  * instead of `widget-combobox-item-highlighted`; the old modifier classes are still emitted for
- * one release, see legacyModifiers.ts. See docs/design/headless-combobox.md, section 6.
+ * one release, see legacyModifiers.ts. The View takes overrides per key through its `classes`
+ * prop and the parts read the result through `useComboboxClasses`. See
+ * docs/design/headless-combobox.md, section 6.
  */
 export type ComboboxClassKey =
     | "root"
@@ -64,5 +66,5 @@ export function comboboxClasses(prefix = "widget-combobox"): ComboboxClasses {
     });
 }
 
-/** The classes of the Atlas View. Migration step 5 makes them a prop of the View. */
-export const classes = comboboxClasses();
+/** The Atlas class map, the default of the View's `classes` prop. */
+export const defaultClasses = comboboxClasses();
