@@ -1,9 +1,8 @@
 import { ReactElement } from "react";
 import { ComboboxContainerProps } from "../typings/ComboboxProps";
-import { classes } from "./components/classes";
-import { MultiSelection } from "./components/MultiSelection/MultiSelection";
-import { Placeholder } from "./components/Placeholder";
-import { SingleSelection } from "./components/SingleSelection/SingleSelection";
+import { defaultClasses } from "./components/classes";
+import { ComboboxView } from "./components/ComboboxView";
+import { UnavailablePlaceholder } from "./components/UnavailablePlaceholder";
 import { useComboboxCore } from "./hooks/useComboboxCore";
 import "./ui/Combobox.scss";
 
@@ -12,10 +11,10 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
 
     if (vm.status === "unavailable") {
         return (
-            <div className={classes.root}>
-                <Placeholder />
+            <div className={defaultClasses.root}>
+                <UnavailablePlaceholder />
             </div>
         );
     }
-    return vm.mode === "single" ? <SingleSelection vm={vm} /> : <MultiSelection vm={vm} />;
+    return <ComboboxView vm={vm} />;
 }

@@ -1,20 +1,15 @@
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import { createRef } from "react";
-import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
+import { Menu } from "../Menu";
 
-const baseProps = {
-    isEmpty: false,
-    isLoading: false,
-    loader: null,
-    menuProps: {}
-};
+const baseProps = { menuProps: {} };
 
-describe("ComboboxMenuWrapper", () => {
+describe("Menu", () => {
     it("applies floating styles to the menu when open and not alwaysOpen", () => {
         const floatingRef = createRef<HTMLDivElement>();
         const { container } = render(
-            <ComboboxMenuWrapper
+            <Menu
                 {...baseProps}
                 isOpen
                 floatingRef={floatingRef}
@@ -32,7 +27,7 @@ describe("ComboboxMenuWrapper", () => {
     it("renders inline (position: relative) and ignores floating positioning when alwaysOpen", () => {
         const floatingRef = createRef<HTMLDivElement>();
         const { container } = render(
-            <ComboboxMenuWrapper
+            <Menu
                 {...baseProps}
                 isOpen
                 alwaysOpen
@@ -49,10 +44,10 @@ describe("ComboboxMenuWrapper", () => {
     });
 
     it("marks an open menu with data-open and a closed one with nothing", () => {
-        const closed = render(<ComboboxMenuWrapper {...baseProps} isOpen={false} />);
+        const closed = render(<Menu {...baseProps} isOpen={false} />);
         expect(closed.container.querySelector(".widget-combobox-menu")).not.toHaveAttribute("data-open");
 
-        const open = render(<ComboboxMenuWrapper {...baseProps} isOpen />);
+        const open = render(<Menu {...baseProps} isOpen />);
         expect(open.container.querySelector(".widget-combobox-menu")).toHaveAttribute("data-open", "true");
     });
 });

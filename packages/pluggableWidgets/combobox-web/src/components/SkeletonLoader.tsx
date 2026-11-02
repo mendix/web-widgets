@@ -1,13 +1,14 @@
 import classNames from "classnames";
 import { ReactElement } from "react";
-import { classes } from "./classes";
 import { legacy } from "./legacyModifiers";
+import { useComboboxClasses } from "../hooks/useComboboxClasses";
 
 type SkeletonLoaderProps = {
     withCheckbox?: boolean;
 };
 
 export function SkeletonLoader({ withCheckbox = false }: SkeletonLoaderProps): ReactElement {
+    const classes = useComboboxClasses();
     return (
         <div className={classes.skeleton}>
             {withCheckbox && (

@@ -56,6 +56,7 @@ function previewGateProps(props: ComboboxPreviewProps): ComboboxGateProps {
         | "selectAllButtonCaption"
         | "a11ySelectedValue"
         | "a11yOptionsAvailable"
+        | "a11yNoOptions"
         | "a11yInstructions"
         | "menuFooterContent"
         | "onChangeFilterInputEvent"
