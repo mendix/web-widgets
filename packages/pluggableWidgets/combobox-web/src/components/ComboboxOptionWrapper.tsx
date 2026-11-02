@@ -1,27 +1,22 @@
 import classNames from "classnames";
-import { UseComboboxPropGetters } from "downshift/typings";
-import { PropsWithChildren, ReactElement } from "react";
+import { HTMLAttributes, PropsWithChildren, ReactElement } from "react";
 
-interface ComboboxOptionWrapperProps extends PropsWithChildren, Partial<UseComboboxPropGetters<string>> {
+interface ComboboxOptionWrapperProps extends PropsWithChildren {
     isSelected?: boolean;
     isHighlighted?: boolean;
-    item: string;
-    index: number;
+    /** From the Behavior: id, role, aria-selected, ref and the mouse handlers of the option. */
+    optionProps: HTMLAttributes<HTMLLIElement>;
 }
 
 export function ComboboxOptionWrapper(props: ComboboxOptionWrapperProps): ReactElement {
-    const { children, isSelected, isHighlighted, item, getItemProps, index } = props;
+    const { children, isSelected, isHighlighted, optionProps } = props;
     return (
         <li
             className={classNames("widget-combobox-item", {
                 "widget-combobox-item-selected": isSelected,
                 "widget-combobox-item-highlighted": isHighlighted
             })}
-            {...getItemProps?.({
-                index,
-                item
-            })}
-            aria-selected={isSelected}
+            {...optionProps}
         >
             {children}
         </li>

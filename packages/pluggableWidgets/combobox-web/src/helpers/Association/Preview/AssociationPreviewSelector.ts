@@ -24,9 +24,6 @@ export class AssociationPreviewSelector implements SingleSelector {
     type = "single" as const;
     validation?: string;
 
-    onEnterEvent?: () => void;
-    onLeaveEvent?: () => void;
-
     constructor(props: ComboboxPreviewProps) {
         this.caption = new AssociationPreviewCaptionsProvider(new Map());
         this.clearable = props.clearable;

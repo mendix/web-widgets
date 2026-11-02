@@ -8,7 +8,7 @@ const baseProps = {
     isLoading: false,
     lazyLoading: false,
     loader: null,
-    getMenuProps: (options?: any) => ({ ...options })
+    menuProps: {}
 };
 
 describe("ComboboxMenuWrapper", () => {

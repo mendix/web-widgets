@@ -326,8 +326,12 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
         }
     }
 
+    /** Closing a single-select menu drops the filter text, so the input shows the selection again. A multi-select keeps it. */
     close(): void {
         this.isOpen = false;
+        if (this.config.mode === "single") {
+            this.setInputValue("", "reset");
+        }
     }
 
     toggle(): void {
