@@ -1,28 +1,24 @@
-import { UseComboboxPropGetters } from "downshift/typings";
 import { CSSProperties, ReactElement, Ref } from "react";
 import { ComboboxViewModel } from "../../core/ComboboxViewModel";
+import { ComboboxBehavior } from "../../hooks/useComboboxBehavior";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
 import { Loader } from "../Loader";
 
-interface ComboboxMenuProps extends Partial<UseComboboxPropGetters<string>> {
+interface ComboboxMenuProps {
     vm: ComboboxViewModel;
+    behavior: ComboboxBehavior;
     isOpen: boolean;
-    highlightedIndex: number | null;
     alwaysOpen?: boolean;
-    onScroll: (e: any) => void;
     floatingRef?: Ref<HTMLDivElement>;
     floatingStyles?: CSSProperties;
 }
 
 export function SingleSelectionMenu({
     vm,
+    behavior,
     isOpen,
-    highlightedIndex,
-    getMenuProps,
-    getItemProps,
     alwaysOpen,
-    onScroll,
     floatingRef,
     floatingStyles
 }: ComboboxMenuProps): ReactElement {
@@ -33,7 +29,8 @@ export function SingleSelectionMenu({
             alwaysOpen={alwaysOpen}
             floatingRef={floatingRef}
             floatingStyles={floatingStyles}
-            getMenuProps={getMenuProps}
+            menuProps={behavior.getMenuProps()}
+            highlightedIndex={vm.highlightedIndex}
             isEmpty={options.length <= 0}
             isLoading={loading.isLoading}
             isOpen={isOpen}
@@ -50,17 +47,14 @@ export function SingleSelectionMenu({
             }
             menuFooterContent={vm.slots.menuFooter}
             noOptionsText={vm.t("noOptions")}
-            onScroll={loading.lazy ? onScroll : undefined}
         >
             {isOpen &&
                 options.map((option, index) => (
                     <ComboboxOptionWrapper
                         key={option.id}
-                        isHighlighted={alwaysOpen ? false : highlightedIndex === index}
+                        isHighlighted={alwaysOpen ? false : option.highlighted}
                         isSelected={option.selected}
-                        item={option.id}
-                        getItemProps={getItemProps}
-                        index={index}
+                        optionProps={behavior.getOptionProps(index)}
                     >
                         {option.content}
                     </ComboboxOptionWrapper>
