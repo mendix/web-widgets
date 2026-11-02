@@ -18,4 +18,6 @@ export type ComboboxGateProps = Pick<
     | "a11yInstructions"
     | "menuFooterContent"
     | "onChangeFilterInputEvent"
+    | "onEnterEvent"
+    | "onLeaveEvent"
 >;

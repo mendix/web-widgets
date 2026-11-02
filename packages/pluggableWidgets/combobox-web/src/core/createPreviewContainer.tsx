@@ -57,7 +57,9 @@ function previewGateProps(props: ComboboxPreviewProps): ComboboxGateProps {
                 <div />
             </props.menuFooterContent.renderer>
         ),
-        onChangeFilterInputEvent: undefined
+        onChangeFilterInputEvent: undefined,
+        onEnterEvent: undefined,
+        onLeaveEvent: undefined
     };
 }
 
