@@ -6,7 +6,7 @@ exports[`Tooltip render DOM structure 1`] = `
     class="widget-tooltip widget-tooltip-right"
   >
     <div
-      aria-describedby=":r1:"
+      aria-describedby=":r0:"
       class="widget-tooltip-trigger"
     >
       <div
@@ -18,17 +18,10 @@ exports[`Tooltip render DOM structure 1`] = `
       </div>
     </div>
     <div
-      aria-hidden="true"
-      class="sr-only"
-      id=":r0:"
-    >
-      Tooltip text
-    </div>
-    <div
       class="widget-tooltip-content"
       data-floating-ui-focusable=""
       data-overlay-content="true"
-      id=":r1:"
+      id=":r0:"
       role="tooltip"
       style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
       tabindex="-1"
