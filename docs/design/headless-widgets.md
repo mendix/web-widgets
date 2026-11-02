@@ -360,3 +360,4 @@ We cannot guarantee accessibility of a custom View. We can hand the author the t
 | 2026-10-28 | Options carry `caption: string` always and `content?: ReactNode` when configured. Placement is a hint; the Core never decides where content is shown.                                    |
 | 2026-10-28 | All texts, ARIA included, come through a typed `t(key, ...params)` on the envelope, wrapping the upcoming platform system-text API. Mechanics out of scope.                              |
 | 2026-10-30 | The Core is composed with a brandi container like the data grid and gallery: config, gate, selector family and setup host as bindings. The container never crosses the package boundary. |
+| 2026-11-02 | The model derives from the gate and the config as computeds; Mendix values stay behind plain getters so an in-place change is never hidden; writes to Mendix values are setup reactions. |
