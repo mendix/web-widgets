@@ -65,6 +65,7 @@ interface ComboboxViewModel extends WidgetViewModel<ComboboxHints> {
     value: string | ReadonlyArray<string> | null;
     selected: ComboboxOptionVM | null; // single mode, the selected option with its caption and content
     chips: ReadonlyArray<ComboboxOptionVM>; // multi mode, selected items in configured order
+    selectedCaption: string; // what the input area shows while nothing is typed
     inputValue: string;
     isOpen: boolean;
     highlightedIndex: number;
@@ -141,11 +142,20 @@ interface ComboboxBehavior {
         "aria-required";
         "aria-label";
         "aria-labelledby";
-        "data-open";
-        "data-disabled";
+        "data-readonly"; // filtering off or read-only; open and disabled are aria-expanded and disabled
     };
     getToggleProps(): { tabIndex: -1; onClick; onMouseDown; "aria-label"; "data-open" };
-    getMenuProps(): { id; role: "listbox"; "aria-labelledby"; "aria-multiselectable"; onMouseDown; onScroll; ref };
+    getMenuProps(): {
+        id;
+        role: "listbox";
+        "aria-labelledby";
+        "aria-multiselectable";
+        onMouseDown;
+        onScroll;
+        ref;
+        "data-lazy";
+        "data-highlighted";
+    };
     getOptionProps(index: number): {
         id;
         role: "option";
@@ -187,38 +197,61 @@ Wraps today's `useFloatingMenu`: fixed strategy, bottom-start, flip, size capped
 type ComboboxClassKey =
     | "root"
     | "inputContainer"
+    | "selectedItems" // the input area: chips, input and placeholder
     | "input"
-    | "placeholder"
-    | "toggle"
-    | "clear"
+    | "placeholder" // what the input area shows while nothing is typed
+    | "caption"
+    | "customContent"
     | "chip"
     | "chipRemove"
-    | "selectAll"
+    | "clear"
+    | "clearIcon"
+    | "toggle"
+    | "toggleIcon"
+    | "icon"
     | "menu"
+    | "menuHeader"
+    | "selectAll"
     | "menuList"
     | "menuItem"
-    | "menuHeader"
-    | "menuFooter"
     | "noOptions"
-    | "loader"
-    | "validation";
+    | "menuFooter"
+    | "skeleton"
+    | "skeletonBar"
+    | "spinner"
+    | "spinnerIcon";
 
-function classes(prefix = "widget-combobox"): Record<ComboboxClassKey, string>;
+function comboboxClasses(prefix = "widget-combobox"): Record<ComboboxClassKey, string>;
 ```
 
-Today's modifier classes and their replacements:
+The values are the class names the released widget always had (`menuItem` is `widget-combobox-item`, `chip` is `widget-combobox-selected-item`, `toggle` is `widget-combobox-down-arrow`), so app CSS that targets an element keeps matching. Validation is `ValidationAlert` from component-kit with its Atlas classes, and the unavailable placeholder is rendered by the wrapper, not the View; neither is a key.
 
-| Today                                      | Becomes                            |
-| ------------------------------------------ | ---------------------------------- |
-| `widget-combobox-input-container-active`   | `inputContainer` + `data-open`     |
-| `widget-combobox-input-container-disabled` | `inputContainer` + `data-disabled` |
-| `widget-combobox-menu-hidden`              | `menu` without `data-open`         |
-| `widget-combobox-item-highlighted`         | `menuItem` + `data-highlighted`    |
-| `widget-combobox-item-selected`            | `menuItem` + `data-selected`       |
-| `widget-combobox-input-nofilter`           | `input` + `data-readonly`          |
-| `widget-combobox-menu-lazy-scroll`         | `menuList` + `data-lazy`           |
+State is a data attribute on the element, never a modifier class. The attributes that come from the Behavior getters are the state downshift and the Behavior own; the rest are set by the View from the ViewModel and the hints. The released modifier classes are still emitted next to the attributes for one release, from `legacyModifiers.ts` and deprecated in the CHANGELOG, so the step 4 DOM diff is additive and nothing breaks for apps.
+
+| Modifier class before step 4                                                    | Becomes                                            |
+| ------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `widget-combobox-input-container-active`                                        | `inputContainer` + `data-open`                     |
+| `widget-combobox-input-container-disabled`                                      | `inputContainer` + `data-disabled`                 |
+| `widget-combobox-multiselect`                                                   | `inputContainer` + `data-has-selection`            |
+| `widget-combobox-boxes`, `widget-combobox-text`                                 | `selectedItems` + `data-style="boxes" \| "text"`   |
+| `widget-combobox-custom-content`                                                | `selectedItems` + `data-custom`                    |
+| `widget-combobox-input-nofilter`                                                | `input` + `data-readonly` (Behavior)               |
+| `widget-combobox-placeholder-custom`                                            | `placeholder` + `data-custom`                      |
+| `widget-combobox-placeholder-empty`                                             | `placeholder` + `data-empty`                       |
+| `active` on the toggle icon                                                     | `toggle` + `data-open` (Behavior)                  |
+| `widget-combobox-menu-hidden`                                                   | `menu` without `data-open`                         |
+| `widget-combobox-menu-lazy-scroll`                                              | `menuList` + `data-lazy` (Behavior)                |
+| `widget-combobox-menu-highlighted`                                              | `menuList` + `data-highlighted` (Behavior)         |
+| `widget-combobox-item-highlighted`                                              | `menuItem` + `data-highlighted` (Behavior)         |
+| `widget-combobox-item-selected`                                                 | `menuItem` + `data-selected` (Behavior)            |
+| `widget-combobox-menu-header-select-all-button-disabled`                        | `selectAll` + `data-disabled`                      |
+| none                                                                            | `chip` + `data-active` (Behavior)                  |
+| `widget-combobox-spinner-margin`                                                | `spinner` + `data-margins`                         |
+| `widget-combobox-skeleton-loader-small`, `widget-combobox-spinner-loader-small` | `skeletonBar`, `spinnerIcon` + `data-size="small"` |
 
 `form-control` and `form-control-static` are applied by the Atlas View only, from `hints.readOnlyStyle`.
+
+Status 2026-11-02: implemented in the package change `combobox-classes`; `src/components/classes.ts` is the map, and the table above is the one in `Combobox.scss`.
 
 ## 7. Parts
 
@@ -443,6 +476,7 @@ Each step keeps the MPK, the XML, and the existing unit and E2E tests green.
    Status 2026-11-02: done in the package change `combobox-behavior`. The Core owns `isOpen` and `highlightedIndex`, `inputValue` is the search term, `enter` and `leave` run the Mendix actions and `leave` closes, the lazy first page is requested by `open()`. `useComboboxBehavior` runs downshift fully controlled and returns the section 4 getters without the data attributes (step 4); `useComboboxPopover` wraps the floating menu. The views take the ViewModel only. Deferred: `a11y.statusMessage` stays composed in the Behavior because the multi-mode text depends on downshift's previous result count; the selectors still take props through `updateProps`, split off as `combobox-selector-gate`.
    Status 2026-11-02, later the same day: `combobox-selector-gate` done. The selectors are computeds over the props gate and the frozen config, the way the data grid and gallery models derive from theirs; the datasource limit, filter and selection writes are setup reactions; `container.setProps` is the gate alone. One deliberate fix on the way: a static combo box follows an external clear of its attribute.
 4. **Introduce classes and data attributes.** Replace literal class names with the map and modifier classes with data attributes per the table in section 6. Update `Combobox.scss` and the E2E selectors.
+   Status 2026-11-02: done in the package change `combobox-classes`. `src/components/classes.ts` holds the map with the released class names as values; the Behavior getters carry the state attributes of their element and the View sets the hint-derived ones; `ComboboxOptionVM.content` is the custom content only, `OptionContent` places it per `hints.customContent`, and the captions providers lost `render`; `selectedContent` became `selectedCaption`, kept in the Core because the database selector's empty caption is the attribute's display value. The five DOM snapshots were updated once, on purpose, and the diff is additive: two data attributes next to the classes that were there. The modifier classes stay for one release, deprecated in the CHANGELOG, so app CSS keeps matching. Still deferred: `a11y.statusMessage`, until a View without our Behavior needs it (step 7).
 5. **Split into parts.** Break the Atlas View into one component per class key. Add the `classes` and `parts` props.
 6. **Move to a package.** Create `packages/headless/combobox`, point the widget at it, reduce `Combobox.tsx` to the wrapper in section 10.
 7. **Write the second View.** A throwaway Material UI View in a sandbox, run against the conformance suite. This is the real test of the ViewModel shape.
