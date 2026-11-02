@@ -18,6 +18,7 @@ export interface ComboboxOptionVM {
      */
     content: ReactNode;
     selected: boolean;
+    highlighted: boolean;
 }
 
 export interface ComboboxHints {
@@ -49,8 +50,9 @@ export interface ComboboxLoading {
 }
 
 /**
- * The combobox ViewModel. Open state, input value and highlighted index are still owned by
- * downshift; a later commit moves them here together with the Behavior hook.
+ * The combobox ViewModel. All state lives in the Core, including the open flag, the input text
+ * and the highlighted index; a behaviour library such as downshift runs in controlled mode
+ * against it.
  */
 export interface ComboboxViewModel extends WidgetViewModel<ComboboxHints, ComboboxTexts> {
     mode: "single" | "multi";
@@ -68,6 +70,11 @@ export interface ComboboxViewModel extends WidgetViewModel<ComboboxHints, Combob
      * option text when nothing is selected.
      */
     selectedContent: ReactNode;
+    /** The filter text typed in the input. Empty while nothing is typed. */
+    inputValue: string;
+    isOpen: boolean;
+    /** Index into `options` of the highlighted option, or -1. */
+    highlightedIndex: number;
     clearable: boolean;
     filterable: boolean;
     /** Multi mode: the select-all control is configured. */
@@ -78,11 +85,23 @@ export interface ComboboxViewModel extends WidgetViewModel<ComboboxHints, Combob
     slots: { menuFooter?: ReactNode };
 
     // commands, referentially stable
+    open(): void;
+    close(): void;
+    toggle(): void;
+    highlight(index: number): void;
     select(id: string): void;
     deselect(id: string): void;
     toggleItem(id: string): void;
     clear(): void;
     selectAll(): void;
-    setInputValue(text: string): void;
+    /**
+     * Sets the filter text. `input` is the user typing and also runs the "On change filter input"
+     * action; `reset` is the View clearing the text after a selection or on close and runs nothing.
+     */
+    setInputValue(text: string, reason?: "input" | "reset"): void;
     loadMore(): void;
+    /** The widget received focus from outside: runs the "On enter" action. */
+    enter(): void;
+    /** Focus left the widget: runs the "On leave" action and closes the menu. */
+    leave(): void;
 }
