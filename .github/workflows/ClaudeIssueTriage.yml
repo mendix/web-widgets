@@ -1,9 +1,10 @@
 name: Claude Issue Triage
 
-# Runs when a team member mentions @claude in an issue comment
+# Runs when someone adds the claude-triage label. GitHub only lets people with triage access or higher add labels.
+# Do not set this label in an issue template: templates apply labels for any reporter.
 on:
-    issue_comment:
-        types: [created]
+    issues:
+        types: [labeled]
 
 env:
     # EU cross-region inference profile — must match the region prefix in AWS_REGION secret (eu-*)
@@ -15,10 +16,7 @@ jobs:
     # Claude runs with read-only tools and read-only GitHub access. Only the post job can write, and it has no AWS access.
     triage:
         name: AI Issue Triage
-        if: |
-            !github.event.issue.pull_request &&
-            contains(github.event.comment.body, '@claude') &&
-            contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
+        if: github.event.label.name == 'claude-triage'
         runs-on: ubuntu-latest
         timeout-minutes: 10
         concurrency:
@@ -145,6 +143,8 @@ jobs:
                     echo "$REASON"
                   } >> "$GITHUB_STEP_SUMMARY"
 
+                  # Remove the trigger so adding the label again starts a new run
+                  gh api -X DELETE "repos/$GITHUB_REPOSITORY/issues/$ISSUE_NUMBER/labels/claude-triage" --silent || true
                   if [ "$OUTCOME" != "needs_info" ]; then
                     gh api -X DELETE "repos/$GITHUB_REPOSITORY/issues/$ISSUE_NUMBER/labels/needs-info" --silent || true
                   fi
