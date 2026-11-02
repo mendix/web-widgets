@@ -124,8 +124,10 @@ jobs:
                   elif [ "$OUTCOME" != "human_review" ]; then
                     if [ -z "$COMMENT" ] || [ "${#COMMENT}" -gt 3000 ]; then
                       HELD="empty or too long"
-                    elif grep -oiE '(https?://|www\.)[^ )>]+' <<< "$COMMENT" \
-                      | grep -qviE '^https://((support|docs|marketplace)\.mendix\.com|github\.com/mendix)(/|$)'; then
+                    # Stop at Markdown delimiters so each URL is checked alone, and hold HTML entities that can hide one
+                    elif grep -qiE '&(#|[a-z]+;)' <<< "$COMMENT" \
+                      || grep -oiE '(https?:)?//[^][[:space:]()<>]+|www\.[^][[:space:]()<>]+' <<< "$COMMENT" \
+                      | grep -qviE '^https://((support|docs|marketplace)\.mendix\.com|github\.com/mendix)(/|[.,;:!?]*$)'; then
                       HELD="links outside Mendix"
                     fi
                   fi
