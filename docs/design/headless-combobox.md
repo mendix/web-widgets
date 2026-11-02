@@ -257,27 +257,23 @@ Status 2026-11-02: implemented in the package change `combobox-classes`; `src/co
 
 ```ts
 interface ComboboxParts {
-    Root;
-    InputContainer;
-    Input;
-    Placeholder;
-    Toggle;
+    InputContainer; // the form-control box; the input area, Clear and Toggle are its children
+    Placeholder; // what the input area shows while nothing is typed
+    Chip; // one selected item of a multi-select, with its remove control
     Clear;
-    Chip;
-    ChipRemove;
-    SelectAll;
-    Menu;
-    MenuList;
+    Toggle;
+    Validation;
+    Menu; // the popover: header, list and footer; the options, NoOptions and Loader are its children
+    SelectAll; // the menu header of a multi-select
     Option;
-    MenuHeader;
-    MenuFooter;
     NoOptions;
     Loader;
-    Validation;
 }
 ```
 
-Each part receives `{ vm, className }` plus its Behavior props (for example `Option` receives `option`, `index`, `optionProps`). The Atlas View is the composition of these parts and nothing else.
+Eleven parts, each something a View author would replace as a whole, which is fewer than the class keys on purpose. The root, the input area and the input element stay in the View: they carry the Behavior wiring and nothing worth redoing without redoing the View. The chip remove control, the menu header, list and footer, the icons and the loader rows are elements inside their part and reachable through `classes`. Each part receives the ViewModel where it reads from it, plus the Behavior props of its element (`Option` receives `option`, `index` and `optionProps`; `Chip` receives `chip`, `index`, `chipProps` and `removeProps`). Parts read the resolved class map through `useComboboxClasses()`, a context the View provides, so one `classes` override reaches every element including the captions and icons rendered inside a part. The Atlas View is the composition of these parts and nothing else: one tree for both modes, the chips and the select-all control rendered in multi mode only.
+
+Status 2026-11-02: implemented in the package change `combobox-parts`; `src/components/parts.ts` is the map, `src/components/parts/` the components, `src/components/ComboboxView.tsx` the composition.
 
 ## 8. View contract
 
@@ -289,6 +285,8 @@ interface ComboboxViewProps {
 }
 type ComboboxViewComponent = ComponentType<ComboboxViewProps>;
 ```
+
+`classes` overrides replace the Atlas class of the given keys and leave the others; `parts` replaces the given parts and leaves the others. Until step 6 the Atlas View takes the ViewModel snapshot (`vm`) from the widget's `useComboboxCore` instead of the Core, plus the editor preview's `keepMenuOpen` and `className`; the wrapper of section 10 passes the Core and the View subscribes itself.
 
 ## 9. Examples per customisation level
 
@@ -331,8 +329,8 @@ export const MyCombobox: ComboboxViewComponent = props => (
 ```tsx
 import { ComboboxView, type ComboboxParts, type ComboboxViewComponent } from "@mendix/combobox-core";
 
-const MyOption: ComboboxParts["Option"] = ({ option, optionProps, className }) => (
-    <li {...optionProps} className={className}>
+const MyOption: ComboboxParts["Option"] = ({ option, optionProps }) => (
+    <li {...optionProps} className="my-option">
         <Avatar id={option.id} />
         {option.content ?? option.caption}
     </li>
@@ -341,7 +339,7 @@ const MyOption: ComboboxParts["Option"] = ({ option, optionProps, className }) =
 export const MyCombobox: ComboboxViewComponent = props => <ComboboxView {...props} parts={{ Option: MyOption }} />;
 ```
 
-Keyboard and ARIA keep working because `optionProps` still comes from our Behavior.
+Keyboard and ARIA keep working because `optionProps` still comes from our Behavior. A replaced part brings its own classes; `useComboboxClasses()` is there if it wants ours.
 
 ### Level 3a: full View with our Behavior (Tailwind, raw markup)
 
@@ -478,6 +476,7 @@ Each step keeps the MPK, the XML, and the existing unit and E2E tests green.
 4. **Introduce classes and data attributes.** Replace literal class names with the map and modifier classes with data attributes per the table in section 6. Update `Combobox.scss` and the E2E selectors.
    Status 2026-11-02: done in the package change `combobox-classes`. `src/components/classes.ts` holds the map with the released class names as values; the Behavior getters carry the state attributes of their element and the View sets the hint-derived ones; `ComboboxOptionVM.content` is the custom content only, `OptionContent` places it per `hints.customContent`, and the captions providers lost `render`; `selectedContent` became `selectedCaption`, kept in the Core because the database selector's empty caption is the attribute's display value. The five DOM snapshots were updated once, on purpose, and the diff is additive: two data attributes next to the classes that were there. The modifier classes stay for one release, deprecated in the CHANGELOG, so app CSS keeps matching. Still deferred: `a11y.statusMessage`, until a View without our Behavior needs it (step 7).
 5. **Split into parts.** Break the Atlas View into one component per class key. Add the `classes` and `parts` props.
+   Status 2026-11-02: done in the package change `combobox-parts`. Eleven parts, not one per class key: a part is something worth replacing as a whole, the rest stays inside its part and is reachable through `classes`. `ComboboxView` is one component for both modes with the `classes` and `parts` props; the parts read the resolved classes through a context hook; `SingleSelection`, `MultiSelection` and the three wrappers are gone. The five DOM snapshots are untouched. Still taking `vm` instead of the Core, until the wrapper of step 6.
 6. **Move to a package.** Create `packages/headless/combobox`, point the widget at it, reduce `Combobox.tsx` to the wrapper in section 10.
 7. **Write the second View.** A throwaway Material UI View in a sandbox, run against the conformance suite. This is the real test of the ViewModel shape.
 8. **Prove the in-project route.** Add `uiVariant` and the hardcoded first-iteration registry. Put a View file into a Mendix test project with the package in `node_modules`, let the project bundler compile it, hardcode its registration, and confirm the widget renders it with `uiVariant` set.
