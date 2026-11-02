@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We hid the "Placeholder text" property when the combobox type is set to Boolean, since boolean attributes can never be empty and the placeholder has no effect.
 
+### Deprecated
+
+- We added data attributes for the state of the combo box elements, so that custom styling targets one element and its state: for example `widget-combobox-item[data-highlighted]` and `widget-combobox-item[data-selected]` for an option, `widget-combobox-input-container[data-open]` for the open widget, and `widget-combobox-menu[data-open]` for the open menu. The state modifier classes (`widget-combobox-item-highlighted`, `widget-combobox-item-selected`, `widget-combobox-input-container-active`, `widget-combobox-menu-hidden`, ...) are still present but deprecated and will be removed in a future major version. Custom CSS that targets a modifier class keeps working until then and should move to the data attribute.
+
 ## [2.10.0] - 2026-09-21
 
 ### Fixed

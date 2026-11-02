@@ -3,8 +3,7 @@ import { DynamicValue, ListAttributeValue, ListExpressionValue, ListWidgetValue,
 import { computed, makeObservable } from "mobx";
 import { ReactNode } from "react";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
-import { CaptionPlacement, CaptionsProvider } from "./types";
-import { CaptionContent } from "./utils";
+import { CaptionsProvider } from "./types";
 import { OptionsSourceAssociationCustomContentTypeEnum } from "../../typings/ComboboxProps";
 
 /** What a datasource-backed selector exposes to its captions provider. */
@@ -51,18 +50,11 @@ export class DatasourceCaptionsProvider implements CaptionsProvider {
         return !caption || caption.status === "unavailable" ? UNAVAILABLE_CAPTION : (caption.value ?? "");
     }
 
-    getCustomContent(id: string | null): ReactNode {
+    customContent(id: string): ReactNode | undefined {
+        if (this.customContentType === "no") {
+            return undefined;
+        }
         const item = this.items.item(id);
-        return item ? this.source.props.customContent?.get(item) : null;
-    }
-
-    render(id: string | null, placement: CaptionPlacement, htmlFor?: string): ReactNode {
-        const { customContentType } = this;
-        const plain = customContentType === "no" || (placement === "label" && customContentType === "listItem");
-        return plain || id === null ? (
-            <CaptionContent htmlFor={htmlFor}>{this.get(id)}</CaptionContent>
-        ) : (
-            <div className="widget-combobox-caption-custom">{this.getCustomContent(id)}</div>
-        );
+        return item ? this.source.props.customContent?.get(item) : undefined;
     }
 }

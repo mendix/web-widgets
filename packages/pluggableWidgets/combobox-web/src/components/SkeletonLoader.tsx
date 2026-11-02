@@ -1,4 +1,7 @@
+import classNames from "classnames";
 import { ReactElement } from "react";
+import { classes } from "./classes";
+import { legacy } from "./legacyModifiers";
 
 type SkeletonLoaderProps = {
     withCheckbox?: boolean;
@@ -6,9 +9,11 @@ type SkeletonLoaderProps = {
 
 export function SkeletonLoader({ withCheckbox = false }: SkeletonLoaderProps): ReactElement {
     return (
-        <div className="widget-combobox-skeleton">
-            {withCheckbox && <span className="widget-combobox-skeleton-loader widget-combobox-skeleton-loader-small" />}
-            <span className="widget-combobox-skeleton-loader" />
+        <div className={classes.skeleton}>
+            {withCheckbox && (
+                <span className={classNames(classes.skeletonBar, legacy.skeletonSmall)} data-size="small" />
+            )}
+            <span className={classes.skeletonBar} />
         </div>
     );
 }

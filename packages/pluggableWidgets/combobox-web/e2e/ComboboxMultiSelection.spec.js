@@ -123,7 +123,7 @@ test.describe("combobox-web multi selection with checkboxes", () => {
 
         await expect(combobox.selectedOptions).toHaveCount(0);
         await expect(combobox.clearButton).toHaveCount(0);
-        await expect(combobox.selectedText).toHaveClass(/widget-combobox-placeholder-empty/);
+        await expect(combobox.selectedText).toHaveAttribute("data-empty", "true");
         await expect(combobox.input).toBeFocused();
     });
 });

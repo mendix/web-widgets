@@ -1,7 +1,6 @@
 import { Big } from "big.js";
 import { matchSorter, MatchSorterOptions } from "match-sorter";
 import { ObjectItem } from "mendix";
-import { createElement, PropsWithChildren, ReactElement } from "react";
 import { SortOrder } from "./types";
 import {
     ComboboxContainerProps,
@@ -21,27 +20,6 @@ export function required<T>(value: T | undefined, property: keyof ComboboxContai
 }
 
 type ValueType = string | Big | boolean | Date | undefined;
-
-export interface CaptionContentProps extends PropsWithChildren {
-    htmlFor?: string;
-    onClick?: (e: MouseEvent) => void;
-}
-
-export function CaptionContent(props: CaptionContentProps): ReactElement {
-    const { htmlFor, children, onClick } = props;
-    return createElement(htmlFor == null ? "span" : "label", {
-        children,
-        className: "widget-combobox-caption-text",
-        htmlFor,
-        onClick: onClick
-            ? onClick
-            : htmlFor
-              ? (e: MouseEvent) => {
-                    e.preventDefault();
-                }
-              : undefined
-    });
-}
 
 export function getDatasourcePlaceholderText(args: ComboboxPreviewProps): string {
     const {

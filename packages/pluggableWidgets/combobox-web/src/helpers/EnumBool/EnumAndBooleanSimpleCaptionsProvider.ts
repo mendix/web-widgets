@@ -1,5 +1,4 @@
 import { computed, makeObservable } from "mobx";
-import { ReactNode } from "react";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { CaptionsProvider } from "../types";
 import { enumerationAttribute, EnumerationGateProps } from "./gate";
@@ -24,7 +23,8 @@ export class EnumAndBooleanSimpleCaptionsProvider implements CaptionsProvider {
         return attribute.formatter.format(value) ?? "";
     }
 
-    render(id: string | null): ReactNode {
-        return <span className="widget-combobox-caption-text">{this.get(id)}</span>;
+    /** Enumerations and booleans have no custom content. */
+    customContent(): undefined {
+        return undefined;
     }
 }

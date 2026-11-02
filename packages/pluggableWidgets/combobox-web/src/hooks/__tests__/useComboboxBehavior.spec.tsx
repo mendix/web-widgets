@@ -19,6 +19,42 @@ describe("useComboboxBehavior", () => {
     beforeAll(() => setupIntersectionObserverStub());
     beforeEach(() => resetIdCounter());
 
+    it("carries the open, highlighted and selected state as data attributes", () => {
+        const props = enumerationProps();
+        const component = render(<Combobox {...props} />);
+        const query = (selector: string): Element => component.container.querySelector(selector)!;
+        const menu = query(".widget-combobox-menu");
+        const inputContainer = query(".widget-combobox-input-container");
+        const toggle = query(".widget-combobox-down-arrow");
+
+        expect(menu).not.toHaveAttribute("data-open");
+        expect(inputContainer).not.toHaveAttribute("data-open");
+
+        fireEvent.click(toggle);
+
+        expect(menu).toHaveAttribute("data-open", "true");
+        expect(inputContainer).toHaveAttribute("data-open", "true");
+        expect(toggle).toHaveAttribute("data-open", "true");
+        expect(query(".widget-combobox-menu-list")).toHaveAttribute("data-highlighted", "true");
+        const options = component.getAllByRole("option");
+        expect(options[0]).toHaveAttribute("data-highlighted", "true");
+        expect(options[1]).not.toHaveAttribute("data-highlighted");
+        // data-selected follows aria-selected on every option.
+        for (const option of options) {
+            expect(option.hasAttribute("data-selected")).toBe(option.getAttribute("aria-selected") === "true");
+        }
+
+        const unselected = options.find(option => option.getAttribute("aria-selected") === "false")!;
+        const caption = unselected.textContent!;
+        fireEvent.click(unselected);
+        component.rerender(<Combobox {...props} />);
+        fireEvent.click(toggle);
+
+        const selected = component.getByRole("option", { name: caption });
+        expect(selected).toHaveAttribute("aria-selected", "true");
+        expect(selected).toHaveAttribute("data-selected", "true");
+    });
+
     it("clears a clearable single selection with Backspace on an empty input", () => {
         const props = enumerationProps();
         const component = render(<Combobox {...props} />);

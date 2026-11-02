@@ -26,7 +26,11 @@ export class DatasourcePreviewSelector implements SingleSelector {
         this.readOnly = props.readOnly;
         this.clearable = props.clearable;
         this.currentId = getDatasourcePlaceholderText(props);
-        this.caption = new DatasourcePreviewCaptionsProvider(content.renderer as PreviewContentRenderer, contentType);
+        this.caption = new DatasourcePreviewCaptionsProvider(
+            content.renderer as PreviewContentRenderer,
+            contentType,
+            this.currentId
+        );
     }
 
     setValue(): void {}
