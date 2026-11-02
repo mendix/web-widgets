@@ -1,6 +1,6 @@
 ## 1. Test Setup
 
-- [x] 1.1 Add `mobx` and `@mendix/widget-plugin-mobx-kit` to `package.json` (approved by Roman on 2026-10-29), `pnpm i`.
+- [x] 1.1 Add `mobx` and `@mendix/widget-plugin-mobx-kit` to `package.json` (approved on 2026-10-29), `pnpm i`.
 - [x] 1.2 Add `jest.config.js` and `jest.setup.ts` with `enforceActions: "always"` and the `[MobX]` warning turned into an error; switch the `test` script to `jest --projects jest.config.js`.
 - [x] 1.3 Baseline under the new config: 16 suites, 194 tests, 5 snapshots, green.
 
