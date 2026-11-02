@@ -382,17 +382,17 @@ describe("useComboboxCore", () => {
         expect(result.current.vm.options.map(o => o.id)).toEqual(["green"]);
     });
 
-    it("pushes the latest props into the selector once per render", () => {
+    it("pushes the latest props through the gate on every render", () => {
         const { result, rerender } = renderHook((props: ComboboxContainerProps) => useComboboxCore(props), {
             initialProps: enumerationProps()
         });
-        const updateProps = jest.spyOn(result.current.core.selector, "updateProps");
-        const next = enumerationProps();
+        const next = enumerationProps(
+            new EditableValueBuilder<string>().withUniverse("red", "green", "blue").withValue("blue").build()
+        );
 
         rerender(next);
 
-        expect(updateProps).toHaveBeenCalledTimes(1);
-        expect(updateProps).toHaveBeenCalledWith(next);
+        expect(result.current.vm.value).toBe("blue");
     });
 
     it("reflects a props update in the same render without a render-phase update", () => {

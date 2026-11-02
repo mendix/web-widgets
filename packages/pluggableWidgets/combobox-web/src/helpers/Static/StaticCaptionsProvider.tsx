@@ -1,93 +1,52 @@
-import { DynamicValue, ListAttributeValue } from "mendix";
-import { action, makeObservable, observable } from "mobx";
+import { computed, makeObservable } from "mobx";
 import { ReactNode } from "react";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import {
     OptionsSourceAssociationCustomContentTypeEnum,
-    OptionsSourceStaticDataSourceType,
-    StaticDataSourceCustomContentTypeEnum
+    OptionsSourceStaticDataSourceType
 } from "../../../typings/ComboboxProps";
 import { CaptionPlacement, CaptionsProvider } from "../types";
 import { CaptionContent } from "../utils";
+import { StaticGateProps } from "./gate";
 
-interface Props {
-    emptyOptionText?: DynamicValue<string>;
-    customContent?: undefined;
-    customContentType: OptionsSourceAssociationCustomContentTypeEnum;
-    attribute?: ListAttributeValue<string | Big>;
-    caption?: string;
-}
+const UNAVAILABLE_CAPTION = "<...>";
 
 export class StaticCaptionsProvider implements CaptionsProvider {
-    private unavailableCaption = "<...>";
-    protected customContent?: ReactNode;
-    protected customContentType: StaticDataSourceCustomContentTypeEnum = "no";
-    attribute?: ListAttributeValue<string | Big>;
-    emptyCaption = "";
-    overrideCaption: string | null | undefined = undefined;
-
-    constructor(private optionsMap: Map<string, OptionsSourceStaticDataSourceType>) {
-        makeObservable<this, "customContent" | "customContentType">(this, {
-            customContent: observable.ref,
-            customContentType: observable,
-            attribute: observable.ref,
-            emptyCaption: observable,
-            overrideCaption: observable,
-            updateProps: action
-        });
+    constructor(
+        private readonly gate: DerivedPropsGate<StaticGateProps>,
+        private readonly customContentType: OptionsSourceAssociationCustomContentTypeEnum
+    ) {
+        makeObservable(this, { emptyCaption: computed });
     }
 
-    updateProps(props: Props): void {
-        if (!props.emptyOptionText || props.emptyOptionText.status === "unavailable") {
-            this.emptyCaption = "";
-        } else {
-            this.emptyCaption = props.emptyOptionText.value!;
-        }
-
-        this.customContent = props.customContent;
-        this.customContentType = props.customContentType;
-        this.attribute = props.attribute;
-        this.overrideCaption = props.caption;
+    get emptyCaption(): string {
+        const text = this.gate.props.emptyOptionText;
+        return !text || text.status === "unavailable" ? "" : (text.value ?? "");
     }
 
+    private entry(id: string): OptionsSourceStaticDataSourceType | undefined {
+        return this.gate.props.optionsSourceStaticDataSource[Number(id)];
+    }
+
+    /** The empty option shows the attribute's display value when it has one. */
     get(id: string | null): string {
         if (id === null) {
-            if (this.overrideCaption) {
-                return this.overrideCaption;
-            }
-            return this.emptyCaption;
+            return this.gate.props.staticAttribute.displayValue || this.emptyCaption;
         }
-
-        const item = this.optionsMap.get(id);
-        if (!item) {
-            return this.unavailableCaption;
+        const caption = this.entry(id)?.staticDataSourceCaption;
+        if (!caption || !caption.status || caption.status === "unavailable") {
+            return UNAVAILABLE_CAPTION;
         }
-        const captionValue = item.staticDataSourceCaption;
-        if (!captionValue.status || captionValue.status === "unavailable") {
-            return this.unavailableCaption;
-        }
-
-        return captionValue.value?.toString() || "";
+        return caption.value?.toString() || "";
     }
 
-    getCustomContent(value: string | null): ReactNode | null {
-        if (value === null) {
-            return null;
-        }
-        const item = this.optionsMap.get(value);
-        if (!item) {
-            return null;
-        }
-        return item.staticDataSourceCustomContent;
-    }
-
-    render(index: string | null, placement: CaptionPlacement, htmlFor?: string): ReactNode {
+    render(id: string | null, placement: CaptionPlacement, htmlFor?: string): ReactNode {
         const { customContentType } = this;
-        return customContentType === "no" ||
-            (placement === "label" && customContentType === "listItem") ||
-            index === null ? (
-            <CaptionContent htmlFor={htmlFor}>{this.get(index) ?? null}</CaptionContent>
+        const plain = customContentType === "no" || (placement === "label" && customContentType === "listItem");
+        return plain || id === null ? (
+            <CaptionContent htmlFor={htmlFor}>{this.get(id)}</CaptionContent>
         ) : (
-            <div className="widget-combobox-caption-custom">{this.getCustomContent(index)}</div>
+            <div className="widget-combobox-caption-custom">{this.entry(id)?.staticDataSourceCustomContent}</div>
         );
     }
 }

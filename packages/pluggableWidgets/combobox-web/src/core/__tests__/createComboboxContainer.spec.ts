@@ -1,9 +1,12 @@
 import {
+    EditableValueBuilder,
+    list,
     ReferenceSetValueBuilder,
     SelectionMultiValueBuilder,
     SelectionSingleValueBuilder
 } from "@mendix/widget-plugin-test-utils";
 import {
+    allItems,
     associationMultiProps,
     associationSingleProps,
     baseProps,
@@ -70,19 +73,28 @@ describe("createComboboxContainer", () => {
         expect(selector.currentId).toBe("green");
     });
 
-    it("pushes new props through the gate and the selector in one go, and ignores a props object it has seen", () => {
-        const props = enumerationProps();
-        const container = createComboboxContainer(props);
+    it("pushes new props through the gate, which the selector derives from", () => {
+        const container = createComboboxContainer(enumerationProps());
         const selector = container.get(CB.selector);
-        const updateProps = jest.spyOn(selector, "updateProps");
 
-        container.setProps(props);
-        expect(updateProps).not.toHaveBeenCalled();
-
-        const next = enumerationProps(undefined, { ariaLabel: { status: "available", value: "Colour" } as never });
+        const next = enumerationProps(
+            new EditableValueBuilder<string>().withUniverse("red", "green", "blue").withValue("blue").build(),
+            { ariaLabel: { status: "available", value: "Colour" } as never }
+        );
         container.setProps(next);
-        expect(updateProps).toHaveBeenCalledWith(next);
+
         expect(container.get(CB.gate).props.ariaLabel?.value).toBe("Colour");
+        expect(selector.currentId).toBe("blue");
+    });
+
+    it("starts the selector's side effects with the setup host", () => {
+        const ds = list(allItems);
+        const container = createComboboxContainer(associationSingleProps({ ds }));
+        expect(ds.setLimit).not.toHaveBeenCalled();
+
+        container.get(CB.setupService).setup();
+
+        expect(ds.setLimit).toHaveBeenCalledWith(undefined);
     });
 
     it("throws for an unsupported options source type", () => {

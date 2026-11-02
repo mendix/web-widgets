@@ -6,9 +6,8 @@ import { ComboboxContainer } from "./Combobox.container";
 import { ComboboxGateProps } from "./ComboboxGate";
 import { CB_TOKENS as CB } from "./tokens";
 import { ComboboxPreviewProps } from "../../typings/ComboboxProps";
-import { AssociationPreviewSelector } from "../helpers/Association/Preview/AssociationPreviewSelector";
-import { DatabasePreviewSelector } from "../helpers/Database/Preview/DatabasePreviewSelector";
-import { StaticPreviewSelector } from "../helpers/Static/Preview/StaticPreviewSelector";
+import { DatasourcePreviewSelector } from "../helpers/Preview/DatasourcePreviewSelector";
+import { StaticPreviewSelector } from "../helpers/Preview/StaticPreviewSelector";
 
 function available(value: string): DynamicValue<string> {
     return { status: ValueStatus.Available, value };
@@ -29,6 +28,9 @@ function previewConfig(props: ComboboxPreviewProps): ComboboxConfig {
         mode: "single",
         filterType: props.filterType,
         filterInputDebounceInterval: 0,
+        clearable: props.clearable,
+        captionType: "attribute",
+        customEditability: "default",
         lazyLoading: false,
         loadingType: props.loadingType,
         // The design-mode dropzone for "options only" content is rendered everywhere.
@@ -37,12 +39,29 @@ function previewConfig(props: ComboboxPreviewProps): ComboboxConfig {
         selectedItemsStyle: "text",
         selectionMethod: "checkbox",
         selectAllButton: false,
+        selectedItemsSorting: "none",
         showFooter: props.showFooter
     });
 }
 
+/** The preview selectors never read the gate, so only what the Core reads is provided. */
 function previewGateProps(props: ComboboxPreviewProps): ComboboxGateProps {
-    return {
+    const coreProps: Pick<
+        ComboboxGateProps,
+        | "ariaRequired"
+        | "ariaLabel"
+        | "noOptionsText"
+        | "clearButtonAriaLabel"
+        | "removeValueAriaLabel"
+        | "selectAllButtonCaption"
+        | "a11ySelectedValue"
+        | "a11yOptionsAvailable"
+        | "a11yInstructions"
+        | "menuFooterContent"
+        | "onChangeFilterInputEvent"
+        | "onEnterEvent"
+        | "onLeaveEvent"
+    > = {
         ariaRequired: { status: ValueStatus.Available, value: false },
         ariaLabel: undefined,
         noOptionsText: available(props.noOptionsText),
@@ -61,6 +80,7 @@ function previewGateProps(props: ComboboxPreviewProps): ComboboxGateProps {
         onEnterEvent: undefined,
         onLeaveEvent: undefined
     };
+    return coreProps as ComboboxGateProps;
 }
 
 /**
@@ -75,11 +95,7 @@ export function createPreviewContainer(props: ComboboxPreviewProps): ComboboxCon
     container
         .bind(CB.selector)
         .toConstant(
-            config.family === "static"
-                ? new StaticPreviewSelector(props)
-                : config.family === "database"
-                  ? new DatabasePreviewSelector(props)
-                  : new AssociationPreviewSelector(props)
+            config.family === "static" ? new StaticPreviewSelector(props) : new DatasourcePreviewSelector(props)
         );
     return container;
 }
