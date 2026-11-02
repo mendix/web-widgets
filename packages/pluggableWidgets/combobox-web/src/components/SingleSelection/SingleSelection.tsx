@@ -4,7 +4,11 @@ import { ClearButton } from "../../assets/icons";
 import { getValidationErrorId } from "../../helpers/utils";
 import { useComboboxBehavior } from "../../hooks/useComboboxBehavior";
 import { useComboboxPopover } from "../../hooks/useComboboxPopover";
+import { Caption } from "../Caption";
+import { classes } from "../classes";
 import { ComboboxWrapper } from "../ComboboxWrapper";
+import { legacy } from "../legacyModifiers";
+import { OptionContent } from "../OptionContent";
 import { InputPlaceholder } from "../Placeholder";
 import { SelectionProps } from "../SelectionProps";
 import { SingleSelectionMenu } from "./SingleSelectionMenu";
@@ -14,9 +18,10 @@ export function SingleSelection({ vm, keepMenuOpen, className }: SelectionProps)
     const popover = useComboboxPopover(vm, { alwaysOpen: keepMenuOpen });
     const isOpen = vm.isOpen || keepMenuOpen === true;
     const customContentEverywhere = vm.hints.customContent === "everywhere";
+    const inputProps = behavior.getInputProps();
 
     return (
-        <div className={classNames("widget-combobox", className)} {...behavior.getRootProps()}>
+        <div className={classNames(classes.root, className)} {...behavior.getRootProps()}>
             <ComboboxWrapper
                 ref={popover.setReference}
                 isOpen={isOpen}
@@ -28,22 +33,29 @@ export function SingleSelection({ vm, keepMenuOpen, className }: SelectionProps)
                 errorId={getValidationErrorId(vm.id)}
             >
                 <div
-                    className={classNames("widget-combobox-selected-items", {
-                        "widget-combobox-custom-content": customContentEverywhere
+                    className={classNames(classes.selectedItems, {
+                        [legacy.selectedItemsCustom]: customContentEverywhere
                     })}
+                    data-custom={customContentEverywhere || undefined}
                 >
                     <input
-                        className={classNames("widget-combobox-input", {
-                            "widget-combobox-input-nofilter": !vm.filterable || vm.readOnly
-                        })}
-                        {...behavior.getInputProps()}
+                        className={classNames(classes.input, { [legacy.inputReadonly]: inputProps["data-readonly"] })}
+                        {...inputProps}
                     />
-                    <InputPlaceholder isEmpty={!vm.value} type={customContentEverywhere ? "custom" : "text"}>
-                        {vm.selectedContent}
+                    <InputPlaceholder isEmpty={!vm.value} custom={customContentEverywhere}>
+                        {vm.selected ? (
+                            <OptionContent
+                                option={vm.selected}
+                                placement="input"
+                                customContent={vm.hints.customContent}
+                            />
+                        ) : (
+                            <Caption>{vm.selectedCaption}</Caption>
+                        )}
                     </InputPlaceholder>
                 </div>
                 {!vm.readOnly && vm.clearable && vm.value !== null && (
-                    <button className="widget-combobox-clear-button" {...behavior.getClearProps()}>
+                    <button className={classes.clear} {...behavior.getClearProps()}>
                         <ClearButton />
                     </button>
                 )}

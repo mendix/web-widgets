@@ -12,12 +12,12 @@ export interface ComboboxOptionVM {
     /** Always present: the caption attribute, expression or static caption. */
     caption: string;
     /**
-     * What the View places for this option. Until migration step 4 the captions provider renders it
-     * (plain caption markup or the custom content configured in Studio Pro), so the editor preview
-     * keeps its design-mode overrides. Step 4 moves the markup into the View and leaves only the
-     * custom content here.
+     * The custom content configured in Studio Pro, present whenever a custom-content widget is
+     * configured, regardless of placement. Where it is shown is the View's decision, guided by
+     * `hints.customContent`; the Atlas View shows it in the menu for `everywhere` and `menuOnly`,
+     * and in the input area and the chips for `everywhere` only.
      */
-    content: ReactNode;
+    content?: ReactNode;
     selected: boolean;
     highlighted: boolean;
 }
@@ -61,16 +61,17 @@ export interface ComboboxViewModel extends WidgetViewModel<ComboboxHints, Combob
     // state
     options: readonly ComboboxOptionVM[];
     value: string | readonly string[] | null;
-    /** Single mode: the selected option, with its content rendered for the input area. */
+    /** Single mode: the selected option. */
     selected: ComboboxOptionVM | null;
-    /** Multi mode: the selected options in the configured order, content rendered for a chip. */
+    /** Multi mode: the selected options in the configured order. */
     chips: readonly ComboboxOptionVM[];
     /**
-     * What the input area shows when it is not being typed in: the selected caption or custom
-     * content in single mode, the joined captions or an empty string in multi mode, the empty
-     * option text when nothing is selected.
+     * The text the input area shows when nothing is typed: the selected caption in single mode,
+     * the joined captions or an empty string in multi mode, the empty option text when nothing is
+     * selected. A database selector shows its attribute's display value when the value matches no
+     * option, which is why this is not derived from `selected` and `t("emptyOption")` by the View.
      */
-    selectedContent: ReactNode;
+    selectedCaption: string;
     /** The filter text typed in the input. Empty while nothing is typed. */
     inputValue: string;
     isOpen: boolean;

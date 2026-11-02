@@ -1,21 +1,22 @@
 import classNames from "classnames";
-import { CSSProperties, HTMLAttributes, MouseEvent, PropsWithChildren, ReactElement, ReactNode, Ref } from "react";
+import { CSSProperties, MouseEvent, PropsWithChildren, ReactElement, ReactNode, Ref } from "react";
+import { classes } from "./classes";
+import { legacy } from "./legacyModifiers";
 import { NoOptionsPlaceholder } from "./Placeholder";
+import { ComboboxBehavior } from "../hooks/useComboboxBehavior";
 
 interface ComboboxMenuWrapperProps extends PropsWithChildren {
     alwaysOpen?: boolean;
     floatingRef?: Ref<HTMLDivElement>;
     floatingStyles?: CSSProperties;
-    highlightedIndex?: number | null;
     isEmpty: boolean;
     isLoading: boolean;
     isOpen: boolean;
-    lazyLoading: boolean;
     loader: ReactNode;
     menuFooterContent?: ReactNode;
     menuHeaderContent?: ReactNode;
-    /** From the Behavior: role, ARIA, ref and the mouse and scroll handlers of the list. */
-    menuProps?: HTMLAttributes<HTMLUListElement>;
+    /** From the Behavior: role, ARIA, the state attributes, ref and the mouse and scroll handlers of the list. */
+    menuProps?: ReturnType<ComboboxBehavior["getMenuProps"]>;
     noOptionsText?: string;
 }
 
@@ -29,11 +30,9 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
         children,
         floatingRef,
         floatingStyles,
-        highlightedIndex,
         isEmpty,
         isLoading,
         isOpen,
-        lazyLoading,
         loader,
         menuFooterContent,
         menuHeaderContent,
@@ -44,7 +43,7 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
     return (
         <div
             ref={alwaysOpen ? undefined : floatingRef}
-            className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}
+            className={classNames(classes.menu, { [legacy.menuHidden]: !isOpen })}
             style={
                 alwaysOpen
                     ? {
@@ -54,11 +53,12 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                       }
                     : floatingStyles
             }
+            data-open={isOpen || undefined}
             data-overlay-content={isOpen || undefined}
         >
             {menuHeaderContent && (
                 <div
-                    className="widget-combobox-menu-header widget-combobox-item"
+                    className={classNames(classes.menuHeader, classes.menuItem)}
                     onMouseDown={PreventMenuCloseEventHandler}
                     tabIndex={0}
                 >
@@ -66,9 +66,9 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                 </div>
             )}
             <ul
-                className={classNames("widget-combobox-menu-list", {
-                    "widget-combobox-menu-highlighted": (highlightedIndex ?? -1) >= 0,
-                    "widget-combobox-menu-lazy-scroll": lazyLoading && !isEmpty
+                className={classNames(classes.menuList, {
+                    [legacy.menuListHighlighted]: menuProps?.["data-highlighted"],
+                    [legacy.menuListLazy]: menuProps?.["data-lazy"]
                 })}
                 {...menuProps}
             >
@@ -82,7 +82,7 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                 {loader}
             </ul>
             {menuFooterContent && (
-                <div tabIndex={0} className="widget-combobox-menu-footer" onMouseDown={PreventMenuCloseEventHandler}>
+                <div tabIndex={0} className={classes.menuFooter} onMouseDown={PreventMenuCloseEventHandler}>
                     {menuFooterContent}
                 </div>
             )}

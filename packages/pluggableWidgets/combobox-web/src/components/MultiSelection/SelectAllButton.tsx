@@ -1,7 +1,9 @@
 import classNames from "classnames";
 import { Fragment, ReactElement } from "react";
 import { ThreeStateCheckBox, ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
-import { CaptionContent } from "../../helpers/utils";
+import { Caption } from "../Caption";
+import { classes } from "../classes";
+import { legacy } from "../legacyModifiers";
 
 interface SelectAllButtonProps {
     id?: string;
@@ -15,13 +17,8 @@ export function SelectAllButton({ id, disabled, ariaLabel, value, onChange }: Se
     return (
         <Fragment>
             <span
-                className={classNames(
-                    "widget-combobox-menu-header-select-all-button",
-                    "widget-combobox-icon-container",
-                    {
-                        "widget-combobox-menu-header-select-all-button-disabled": disabled
-                    }
-                )}
+                className={classNames(classes.selectAll, classes.icon, { [legacy.selectAllDisabled]: disabled })}
+                data-disabled={disabled || undefined}
             >
                 <ThreeStateCheckBox value={disabled ? "none" : value} id={id} onChange={onChange} disabled={disabled} />
             </span>
@@ -30,9 +27,9 @@ export function SelectAllButton({ id, disabled, ariaLabel, value, onChange }: Se
                 // the actual event occurs on checkbox input inside ThreeStateCheckBox
                 // if being set to onChange, the event will be triggered twice
                 // if undefined, label click will not be triggered.
-                <CaptionContent onClick={() => {}} htmlFor={id}>
+                <Caption onClick={() => {}} htmlFor={id}>
                     {ariaLabel}
-                </CaptionContent>
+                </Caption>
             ) : undefined}
         </Fragment>
     );

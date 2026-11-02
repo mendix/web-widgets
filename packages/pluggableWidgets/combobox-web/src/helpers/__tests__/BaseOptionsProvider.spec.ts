@@ -11,7 +11,7 @@ const captions: Record<string, string> = {
 
 const captionsProvider: CaptionsProvider = {
     get: id => (id === null ? "" : captions[id]),
-    render: () => null,
+    customContent: () => undefined,
     emptyCaption: ""
 };
 

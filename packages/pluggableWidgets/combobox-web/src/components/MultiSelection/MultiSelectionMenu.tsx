@@ -5,6 +5,7 @@ import { ComboboxBehavior } from "../../hooks/useComboboxBehavior";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
 import { Loader } from "../Loader";
+import { OptionContent } from "../OptionContent";
 
 interface MultiSelectionMenuProps {
     vm: ComboboxViewModel;
@@ -29,11 +30,9 @@ export function MultiSelectionMenu({
             floatingRef={floatingRef}
             floatingStyles={floatingStyles}
             menuProps={behavior.getMenuProps()}
-            highlightedIndex={vm.highlightedIndex}
             isEmpty={options.length <= 0}
             isLoading={loading.isLoading}
             isOpen={isOpen}
-            lazyLoading={loading.lazy}
             loader={
                 <Loader
                     isEmpty={options.length === 0}
@@ -50,21 +49,16 @@ export function MultiSelectionMenu({
         >
             {isOpen &&
                 options.map((option, index) => {
-                    const optionProps = behavior.getOptionProps(index);
+                    const checkboxId = withCheckbox ? `${vm.id}_${option.id}` : undefined;
                     return (
-                        <ComboboxOptionWrapper
-                            key={option.id}
-                            isHighlighted={option.highlighted}
-                            isSelected={optionProps["aria-selected"] as boolean | undefined}
-                            optionProps={optionProps}
-                        >
-                            {withCheckbox && (
-                                <Checkbox
-                                    checked={optionProps["aria-selected"] as boolean | undefined}
-                                    id={`${vm.id}_${option.id}`}
-                                />
-                            )}
-                            {option.content}
+                        <ComboboxOptionWrapper key={option.id} optionProps={behavior.getOptionProps(index)}>
+                            {withCheckbox && <Checkbox checked={option.selected} id={checkboxId} />}
+                            <OptionContent
+                                option={option}
+                                placement="menu"
+                                customContent={vm.hints.customContent}
+                                htmlFor={checkboxId}
+                            />
                         </ComboboxOptionWrapper>
                     );
                 })}

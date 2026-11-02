@@ -6,7 +6,6 @@ import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 const baseProps = {
     isEmpty: false,
     isLoading: false,
-    lazyLoading: false,
     loader: null,
     menuProps: {}
 };
@@ -47,5 +46,13 @@ describe("ComboboxMenuWrapper", () => {
         expect(menu.style.top).toBe("");
         // floating ref must NOT be attached in alwaysOpen mode
         expect(floatingRef.current).toBeNull();
+    });
+
+    it("marks an open menu with data-open and a closed one with nothing", () => {
+        const closed = render(<ComboboxMenuWrapper {...baseProps} isOpen={false} />);
+        expect(closed.container.querySelector(".widget-combobox-menu")).not.toHaveAttribute("data-open");
+
+        const open = render(<ComboboxMenuWrapper {...baseProps} isOpen />);
+        expect(open.container.querySelector(".widget-combobox-menu")).toHaveAttribute("data-open", "true");
     });
 });

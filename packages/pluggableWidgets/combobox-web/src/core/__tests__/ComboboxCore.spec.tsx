@@ -166,7 +166,7 @@ describe("ComboboxCore", () => {
             const attr = new ReferenceSetValueBuilder().withValue([itemA, itemB]).build();
             const vm = createCore(associationMultiProps({ attr })).viewModel;
 
-            expect(vm.selectedContent).toBe("Apple, Banana");
+            expect(vm.selectedCaption).toBe("Apple, Banana");
         });
 
         it("adds, removes, toggles, clears and selects all through the association", () => {

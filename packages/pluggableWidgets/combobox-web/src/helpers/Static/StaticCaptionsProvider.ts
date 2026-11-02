@@ -5,8 +5,7 @@ import {
     OptionsSourceAssociationCustomContentTypeEnum,
     OptionsSourceStaticDataSourceType
 } from "../../../typings/ComboboxProps";
-import { CaptionPlacement, CaptionsProvider } from "../types";
-import { CaptionContent } from "../utils";
+import { CaptionsProvider } from "../types";
 import { StaticGateProps } from "./gate";
 
 const UNAVAILABLE_CAPTION = "<...>";
@@ -40,13 +39,7 @@ export class StaticCaptionsProvider implements CaptionsProvider {
         return caption.value?.toString() || "";
     }
 
-    render(id: string | null, placement: CaptionPlacement, htmlFor?: string): ReactNode {
-        const { customContentType } = this;
-        const plain = customContentType === "no" || (placement === "label" && customContentType === "listItem");
-        return plain || id === null ? (
-            <CaptionContent htmlFor={htmlFor}>{this.get(id)}</CaptionContent>
-        ) : (
-            <div className="widget-combobox-caption-custom">{this.entry(id)?.staticDataSourceCustomContent}</div>
-        );
+    customContent(id: string): ReactNode | undefined {
+        return this.customContentType === "no" ? undefined : this.entry(id)?.staticDataSourceCustomContent;
     }
 }

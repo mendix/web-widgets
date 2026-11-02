@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import { ComboboxContainerProps } from "../typings/ComboboxProps";
+import { classes } from "./components/classes";
 import { MultiSelection } from "./components/MultiSelection/MultiSelection";
 import { Placeholder } from "./components/Placeholder";
 import { SingleSelection } from "./components/SingleSelection/SingleSelection";
@@ -11,7 +12,7 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
 
     if (vm.status === "unavailable") {
         return (
-            <div className="widget-combobox">
+            <div className={classes.root}>
                 <Placeholder />
             </div>
         );

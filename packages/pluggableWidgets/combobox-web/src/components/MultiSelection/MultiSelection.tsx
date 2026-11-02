@@ -4,7 +4,10 @@ import { ClearButton } from "../../assets/icons";
 import { getValidationErrorId } from "../../helpers/utils";
 import { useComboboxBehavior } from "../../hooks/useComboboxBehavior";
 import { useComboboxPopover } from "../../hooks/useComboboxPopover";
+import { classes } from "../classes";
 import { ComboboxWrapper } from "../ComboboxWrapper";
+import { legacy } from "../legacyModifiers";
+import { OptionContent } from "../OptionContent";
 import { InputPlaceholder } from "../Placeholder";
 import { SelectionProps } from "../SelectionProps";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
@@ -20,9 +23,10 @@ export function MultiSelection({ vm, keepMenuOpen, className }: SelectionProps):
     const popover = useComboboxPopover(vm, { alwaysOpen: keepMenuOpen });
     const isSelectedItemsBoxStyle = vm.hints.selectedItemsStyle === "boxes";
     const selectAllProps = vm.canSelectAll ? behavior.getSelectAllProps() : undefined;
+    const inputProps = behavior.getInputProps();
 
     return (
-        <div className={classNames("widget-combobox", className)} {...behavior.getRootProps()}>
+        <div className={classNames(classes.root, className)} {...behavior.getRootProps()}>
             <ComboboxWrapper
                 ref={popover.setReference}
                 isOpen={vm.isOpen}
@@ -31,26 +35,23 @@ export function MultiSelection({ vm, keepMenuOpen, className }: SelectionProps):
                 toggleProps={behavior.getToggleProps()}
                 validation={vm.validation}
                 isLoading={vm.loading.lazy && vm.loading.isLoading}
-                isMultiselectActive={vm.chips.length > 0}
+                hasSelection={vm.chips.length > 0}
                 errorId={getValidationErrorId(vm.id)}
             >
                 <div
                     className={classNames(
-                        "widget-combobox-selected-items",
-                        `widget-combobox-${vm.hints.selectedItemsStyle}`
+                        classes.selectedItems,
+                        isSelectedItemsBoxStyle ? legacy.selectedItemsBoxes : legacy.selectedItemsText
                     )}
+                    data-style={vm.hints.selectedItemsStyle}
                 >
                     {isSelectedItemsBoxStyle &&
                         vm.chips.map((chip, index) => (
-                            <div
-                                className="widget-combobox-selected-item"
-                                key={chip.id}
-                                {...behavior.getChipProps(index)}
-                            >
-                                {chip.content}
+                            <div className={classes.chip} key={chip.id} {...behavior.getChipProps(index)}>
+                                <OptionContent option={chip} placement="input" customContent={vm.hints.customContent} />
                                 {!vm.readOnly && (
                                     <span
-                                        className="icon widget-combobox-clear-button"
+                                        className={classNames("icon", legacy.chipRemove, classes.chipRemove)}
                                         {...behavior.getChipRemoveProps(index)}
                                     >
                                         <ClearButton size={10} />
@@ -59,16 +60,14 @@ export function MultiSelection({ vm, keepMenuOpen, className }: SelectionProps):
                             </div>
                         ))}
                     <input
-                        className={classNames("widget-combobox-input", {
-                            "widget-combobox-input-nofilter": !vm.filterable
-                        })}
-                        {...behavior.getInputProps()}
+                        className={classNames(classes.input, { [legacy.inputReadonly]: inputProps["data-readonly"] })}
+                        {...inputProps}
                     />
-                    <InputPlaceholder isEmpty={vm.chips.length <= 0}>{vm.selectedContent}</InputPlaceholder>
+                    <InputPlaceholder isEmpty={vm.chips.length <= 0}>{vm.selectedCaption}</InputPlaceholder>
                 </div>
 
                 {!vm.readOnly && vm.clearable && vm.value !== null && vm.value.length > 0 && (
-                    <button className="widget-combobox-clear-button" {...behavior.getClearProps()}>
+                    <button className={classes.clear} {...behavior.getClearProps()}>
                         <ClearButton />
                     </button>
                 )}
