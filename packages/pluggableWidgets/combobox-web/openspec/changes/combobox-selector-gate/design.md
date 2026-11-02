@@ -22,7 +22,7 @@ The characterisation specs from `combobox-selector-safety-net` stay the net, ada
 
 ### E2E
 
-- `pnpm run e2e` locally against the test project after an app restart, then on the PR through CI. Snapshots must be identical; this change changes no DOM.
+- `pnpm run e2e` locally against the test project after an app restart, then on the PR through CI. Snapshots must be identical; this change changes no DOM. The local run on 2026-11-02 was green.
 
 ## Decisions
 
