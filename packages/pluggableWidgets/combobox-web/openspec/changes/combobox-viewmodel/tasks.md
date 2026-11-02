@@ -14,7 +14,7 @@
 ## 3. Refactoring
 
 - [x] 3.1 Remove `SelectionBaseProps` and `A11yStatusMessage` from `src/helpers/types.ts`.
-- [ ] 3.2 Step 3: `useComboboxBehavior` and `useComboboxPopover`; `isOpen`, `inputValue`, `highlightedIndex` and `highlighted` per option move into the Core; the views drop `core` and keep `vm`; the selectors derive from the gate and the config instead of `updateProps`, and `container.setProps` becomes the gate alone.
+- [x] 3.2 Step 3: `useComboboxBehavior` and `useComboboxPopover`; `isOpen`, `inputValue`, `highlightedIndex` and `highlighted` per option move into the Core; the views drop `core` and keep `vm`. Done in `combobox-behavior` on 2026-11-02. The selectors deriving from the gate instead of `updateProps` is split off as `combobox-selector-gate`.
 - [ ] 3.3 Step 4: `CaptionContent` and the custom-content wrapper move from the captions providers into the View; `ComboboxOptionVM.content` becomes the custom content only.
 
 ## 4. Verification
