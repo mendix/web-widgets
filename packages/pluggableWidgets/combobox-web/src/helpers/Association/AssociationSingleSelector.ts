@@ -1,25 +1,25 @@
 import { ReferenceValue } from "mendix";
-import { action, makeObservable, override } from "mobx";
-import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
+import { action, computed, makeObservable } from "mobx";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
+import { BaseAssociationSelector, AssociationGateProps } from "./BaseAssociationSelector";
+import { ComboboxConfig } from "../../core/Combobox.config";
+import { ComboboxSetupHost } from "../../core/ComboboxSetup.service";
 import { SingleSelector } from "../types";
-import { BaseAssociationSelector } from "./BaseAssociationSelector";
 
-export class AssociationSingleSelector
-    extends BaseAssociationSelector<string, ReferenceValue>
-    implements SingleSelector
-{
-    type = "single" as const;
+export class AssociationSingleSelector extends BaseAssociationSelector<ReferenceValue> implements SingleSelector {
+    readonly type = "single";
 
-    constructor(props: { filterInputDebounceInterval: number }) {
-        super(props);
-        makeObservable(this, { updateProps: override, setValue: action });
+    constructor(host: ComboboxSetupHost, gate: DerivedPropsGate<AssociationGateProps>, config: ComboboxConfig) {
+        super(host, gate, config);
+        makeObservable(this, { currentId: computed, setValue: action });
     }
 
-    updateProps(props: ComboboxContainerProps): void {
-        super.updateProps(props);
-        this.currentId = this._attr?.value?.id ?? null;
+    /** Mirrors the reference even while unavailable; nothing renders in that status. */
+    get currentId(): string | null {
+        return this.attr.value?.id ?? null;
     }
-    setValue(value: string | null): void {
-        this._attr?.setValue(this.options._optionToValue(value));
+
+    setValue(id: string | null): void {
+        this.attr.setValue(this.options.item(id));
     }
 }

@@ -3,13 +3,17 @@ import { Big } from "big.js";
 import {
     actionValue,
     EditableValueBuilder,
+    list,
     ReferenceSetValueBuilder,
-    ReferenceValueBuilder
+    ReferenceValueBuilder,
+    SelectionSingleValueBuilder
 } from "@mendix/widget-plugin-test-utils";
 import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 import {
+    allItems,
     associationMultiProps,
     associationSingleProps,
+    databaseSingleProps,
     enumerationProps,
     itemA,
     itemB,
@@ -376,17 +380,59 @@ describe("useComboboxCore", () => {
         expect(result.current.vm.options.map(o => o.id)).toEqual(["green"]);
     });
 
-    it("pushes the latest props into the selector once per render", () => {
+    it("pushes the latest props through the gate on every render", () => {
         const { result, rerender } = renderHook((props: ComboboxContainerProps) => useComboboxCore(props), {
             initialProps: enumerationProps()
         });
-        const updateProps = jest.spyOn(result.current.core.selector, "updateProps");
-        const next = enumerationProps();
+        const next = enumerationProps(
+            new EditableValueBuilder<string>().withUniverse("red", "green", "blue").withValue("blue").build()
+        );
 
         rerender(next);
 
-        expect(updateProps).toHaveBeenCalledTimes(1);
-        expect(updateProps).toHaveBeenCalledWith(next);
+        expect(result.current.vm.value).toBe("blue");
+    });
+
+    describe("writes to Mendix values after the render commits", () => {
+        let rendering = false;
+        function useWidget(props: ComboboxContainerProps): ReturnType<typeof useComboboxCore> {
+            rendering = true;
+            const handle = useComboboxCore(props);
+            rendering = false;
+            return handle;
+        }
+
+        it("sets the datasource limit for new props once the render commits", () => {
+            const limitWrites: boolean[] = [];
+            const loaded = list(allItems);
+            (loaded.setLimit as jest.Mock).mockImplementation(() => limitWrites.push(rendering));
+            const { rerender } = renderHook(useWidget, {
+                initialProps: associationSingleProps({ ds: list.loading() })
+            });
+
+            rerender(associationSingleProps({ ds: loaded }));
+
+            expect(limitWrites).toEqual([false]);
+        });
+
+        it("syncs the datasource selection for new props once the render commits", () => {
+            const bound = (): ComboboxContainerProps["databaseAttributeString"] =>
+                new EditableValueBuilder<string>()
+                    .withValue("v_b")
+                    .build() as ComboboxContainerProps["databaseAttributeString"];
+            const selectionWrites: boolean[] = [];
+            const selection = new SelectionSingleValueBuilder().build();
+            jest.spyOn(selection, "setSelection").mockImplementation(() => {
+                selectionWrites.push(rendering);
+            });
+            const { rerender } = renderHook(useWidget, {
+                initialProps: databaseSingleProps({ ds: list.loading(), databaseAttributeString: bound() })
+            });
+
+            rerender(databaseSingleProps({ selection, databaseAttributeString: bound() }));
+
+            expect(selectionWrites).toEqual([false]);
+        });
     });
 
     it("reflects a props update in the same render without a render-phase update", () => {

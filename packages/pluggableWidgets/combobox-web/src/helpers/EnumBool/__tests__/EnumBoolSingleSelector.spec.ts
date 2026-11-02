@@ -1,6 +1,12 @@
 import { dynamic, EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { ComboboxContainerProps } from "../../../../typings/ComboboxProps";
 import { booleanProps, enumerationProps } from "../../__tests__/fixtures";
+import { createSelector as createHarness } from "../../__tests__/harness";
 import { EnumBooleanSingleSelector } from "../EnumBoolSingleSelector";
+
+function createSelector(props: ComboboxContainerProps): EnumBooleanSingleSelector {
+    return createHarness<EnumBooleanSingleSelector>(props).selector;
+}
 
 function enumAttribute(): EditableValueBuilder<string> {
     return new EditableValueBuilder<string>().withUniverse("red", "green", "blue").withValue("green");
@@ -8,8 +14,7 @@ function enumAttribute(): EditableValueBuilder<string> {
 
 describe("EnumBooleanSingleSelector with an enumeration", () => {
     it("builds options from the attribute universe", () => {
-        const selector = new EnumBooleanSingleSelector();
-        selector.updateProps(enumerationProps(enumAttribute().build(), { clearable: true }));
+        const selector = createSelector(enumerationProps(enumAttribute().build(), { clearable: true }));
 
         expect(selector.type).toBe("single");
         expect(selector.status).toBe("available");
@@ -20,8 +25,7 @@ describe("EnumBooleanSingleSelector with an enumeration", () => {
     });
 
     it("takes captions from the attribute formatter", () => {
-        const selector = new EnumBooleanSingleSelector();
-        selector.updateProps(enumerationProps());
+        const selector = createSelector(enumerationProps());
 
         expect(selector.caption.get("red")).toBe("Formatted red");
         expect(selector.caption.get(null)).toBe("Select...");
@@ -29,8 +33,7 @@ describe("EnumBooleanSingleSelector with an enumeration", () => {
 
     it("writes enumeration values", () => {
         const attr = enumAttribute().build();
-        const selector = new EnumBooleanSingleSelector();
-        selector.updateProps(enumerationProps(attr));
+        const selector = createSelector(enumerationProps(attr));
 
         selector.setValue("blue");
         expect(attr.setValue).toHaveBeenLastCalledWith("blue");
@@ -40,8 +43,7 @@ describe("EnumBooleanSingleSelector with an enumeration", () => {
     });
 
     it("prefers the enumeration attribute when both attributes are defined", () => {
-        const selector = new EnumBooleanSingleSelector();
-        selector.updateProps(
+        const selector = createSelector(
             enumerationProps(enumAttribute().build(), {
                 attributeBoolean: new EditableValueBuilder<boolean>().withUniverse(true, false).build()
             })
@@ -51,33 +53,33 @@ describe("EnumBooleanSingleSelector with an enumeration", () => {
     });
 
     it("is unavailable while the attribute is unavailable", () => {
-        const selector = new EnumBooleanSingleSelector();
-        selector.updateProps(enumerationProps(enumAttribute().isUnavailable().build(), { clearable: false }));
+        const selector = createSelector(
+            enumerationProps(enumAttribute().isUnavailable().build(), { clearable: false })
+        );
 
         expect(selector.status).toBe("unavailable");
         expect(selector.currentId).toBeNull();
-        // Quirk: clearable resets to true, not false, while unavailable.
-        expect(selector.clearable).toBe(true);
     });
 
     it("is unavailable when the empty-option text is unavailable", () => {
-        const selector = new EnumBooleanSingleSelector();
-        selector.updateProps(enumerationProps(enumAttribute().build(), { emptyOptionText: dynamic.unavailable() }));
+        const selector = createSelector(
+            enumerationProps(enumAttribute().build(), { emptyOptionText: dynamic.unavailable() })
+        );
 
         expect(selector.status).toBe("unavailable");
     });
 
     it("passes read-only and validation through", () => {
-        const selector = new EnumBooleanSingleSelector();
-        selector.updateProps(enumerationProps(enumAttribute().isReadOnly().withValidation("Pick one").build()));
+        const selector = createSelector(
+            enumerationProps(enumAttribute().isReadOnly().withValidation("Pick one").build())
+        );
 
         expect(selector.readOnly).toBe(true);
         expect(selector.validation).toBe("Pick one");
     });
 
     it("filters by formatted caption", () => {
-        const selector = new EnumBooleanSingleSelector();
-        selector.updateProps(enumerationProps(enumAttribute().build(), { filterType: "contains" }));
+        const selector = createSelector(enumerationProps(enumAttribute().build(), { filterType: "contains" }));
 
         selector.options.setSearchTerm("gr");
 
@@ -91,8 +93,7 @@ describe("EnumBooleanSingleSelector with a boolean", () => {
     }
 
     it("maps the universe to string options and is never clearable", () => {
-        const selector = new EnumBooleanSingleSelector();
-        selector.updateProps(booleanProps(booleanAttribute(true).build(), { clearable: true }));
+        const selector = createSelector(booleanProps(booleanAttribute(true).build(), { clearable: true }));
 
         expect(selector.options.getAll()).toEqual(["true", "false"]);
         expect(selector.currentId).toBe("true");
@@ -101,8 +102,7 @@ describe("EnumBooleanSingleSelector with a boolean", () => {
 
     it("writes boolean values", () => {
         const attr = booleanAttribute(true).build();
-        const selector = new EnumBooleanSingleSelector();
-        selector.updateProps(booleanProps(attr));
+        const selector = createSelector(booleanProps(attr));
 
         selector.setValue("false");
         expect(attr.setValue).toHaveBeenLastCalledWith(false);

@@ -1,6 +1,6 @@
-import { action, computed, makeObservable, observable, reaction } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { ReactNode } from "react";
-import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ComboboxConfig } from "./Combobox.config";
 import { ComboboxGateProps } from "./ComboboxGate";
@@ -65,17 +65,14 @@ function hints(config: ComboboxConfig): ComboboxHints {
  * selector's search term) and derives the ViewModel from the selector store, the static config
  * and the props gate. MobX never leaves this class; the View reads `viewModel` through a snapshot hook.
  */
-export class ComboboxCore<S extends Selector = Selector> implements SetupComponent {
+export class ComboboxCore<S extends Selector = Selector> {
     isOpen = false;
     highlightedIndex = -1;
-    /** Lazy loading: the first page is requested once per datasource filter and read-only state. */
-    private firstPageRequested = false;
     readonly hints: ComboboxHints;
     readonly commands: Commands;
     readonly t: Translate<ComboboxTexts>;
 
     constructor(
-        host: SetupComponentHost,
         /** The selector seam: the model the Core derives from. */
         public readonly selector: S,
         private readonly config: ComboboxConfig,
@@ -83,29 +80,10 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
         private readonly filterInputEvent: FilterInputEventService
     ) {
         this.hints = hints(config);
-        this.commands = {
-            open: this.open.bind(this),
-            close: this.close.bind(this),
-            toggle: this.toggle.bind(this),
-            highlight: this.highlight.bind(this),
-            select: this.select.bind(this),
-            deselect: this.deselect.bind(this),
-            toggleItem: this.toggleItem.bind(this),
-            clear: this.clear.bind(this),
-            selectAll: this.selectAll.bind(this),
-            setInputValue: this.setInputValue.bind(this),
-            loadMore: this.loadMore.bind(this),
-            enter: this.enter.bind(this),
-            leave: this.leave.bind(this)
-        };
         this.t = (key, ...params) => this.translate(key, ...params);
-        makeObservable<
-            this,
-            "firstPageRequested" | "texts" | "envelope" | "input" | "options" | "selection" | "flags" | "loading"
-        >(this, {
+        makeObservable<this, "texts" | "envelope" | "input" | "options" | "selection" | "flags" | "loading">(this, {
             isOpen: observable,
             highlightedIndex: observable,
-            firstPageRequested: observable,
             texts: computed,
             envelope: computed,
             input: computed,
@@ -128,17 +106,22 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
             enter: action,
             leave: action
         });
-        host.add(this);
-    }
-
-    /** A new datasource filter or read-only state means the first page must be requested again. */
-    setup(): () => void {
-        return reaction(
-            () => [this.selector.readOnly, this.selector.options.datasourceFilter],
-            action(() => {
-                this.firstPageRequested = false;
-            })
-        );
+        // Bound after makeObservable, so that the bound functions are the action wrappers.
+        this.commands = {
+            open: this.open.bind(this),
+            close: this.close.bind(this),
+            toggle: this.toggle.bind(this),
+            highlight: this.highlight.bind(this),
+            select: this.select.bind(this),
+            deselect: this.deselect.bind(this),
+            toggleItem: this.toggleItem.bind(this),
+            clear: this.clear.bind(this),
+            selectAll: this.selectAll.bind(this),
+            setInputValue: this.setInputValue.bind(this),
+            loadMore: this.loadMore.bind(this),
+            enter: this.enter.bind(this),
+            leave: this.leave.bind(this)
+        };
     }
 
     get inputValue(): string {
@@ -269,7 +252,7 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
         return {
             lazy: this.config.lazyLoading,
             isLoading: options.isLoading,
-            hasMore: options.hasMore ?? false
+            hasMore: options.hasMore
         };
     }
 
@@ -293,10 +276,7 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
 
     open(): void {
         this.isOpen = true;
-        if (this.config.lazyLoading && !this.firstPageRequested) {
-            this.firstPageRequested = true;
-            this.loadMore();
-        }
+        this.selector.options.requestFirstPage();
     }
 
     /** Closing a single-select menu drops the filter text, so the input shows the selection again. A multi-select keeps it. */
@@ -373,7 +353,7 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
     }
 
     loadMore(): void {
-        this.selector.options.loadMore?.();
+        this.selector.options.loadMore();
     }
 
     enter(): void {

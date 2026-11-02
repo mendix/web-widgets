@@ -1,8 +1,14 @@
 import { Big } from "big.js";
 import { EditableValue } from "mendix";
 import { dynamic, EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { ComboboxContainerProps } from "../../../../typings/ComboboxProps";
 import { staticEntries, staticEntry, staticProps } from "../../__tests__/fixtures";
+import { createSelector as createHarness } from "../../__tests__/harness";
 import { StaticSingleSelector } from "../StaticSingleSelector";
+
+function createSelector(props: ComboboxContainerProps): StaticSingleSelector {
+    return createHarness<StaticSingleSelector>(props).selector;
+}
 
 type StaticValue = string | Big | boolean | Date;
 
@@ -17,11 +23,9 @@ function attribute(value?: StaticValue): EditableValueBuilder<StaticValue> {
 
 describe("StaticSingleSelector", () => {
     it("uses the datasource indices as option ids", () => {
-        const selector = new StaticSingleSelector();
-        selector.updateProps(staticProps(attribute().build()));
+        const selector = createSelector(staticProps(attribute().build()));
 
         expect(selector.type).toBe("single");
-        expect(selector.selectorType).toBe("static");
         expect(selector.status).toBe("available");
         expect(selector.options.getAll()).toEqual(["0", "1", "2"]);
         expect(selector.caption.get("1")).toBe("Two");
@@ -39,52 +43,49 @@ describe("StaticSingleSelector", () => {
         ],
         ["boolean", false, [staticEntry(true, "Yes"), staticEntry(false, "No")]]
     ] as const)("resolves currentId by value equality for %s", (_type, value, entries) => {
-        const selector = new StaticSingleSelector();
-        selector.updateProps(staticProps(attribute(value).build(), { optionsSourceStaticDataSource: [...entries] }));
+        const selector = createSelector(
+            staticProps(attribute(value).build(), { optionsSourceStaticDataSource: [...entries] })
+        );
 
         expect(selector.currentId).toBe("1");
     });
 
-    it("writes the entry value and updates currentId synchronously", () => {
+    it("writes the entry value and follows the attribute", () => {
         const attr = attribute("one").build();
-        const selector = new StaticSingleSelector();
-        selector.updateProps(staticProps(attr));
+        const { selector, setProps } = createHarness<StaticSingleSelector>(staticProps(attr));
         expect(selector.currentId).toBe("0");
 
         selector.setValue("2");
         expect(attr.setValue).toHaveBeenLastCalledWith("three");
+        setProps(staticProps(attr));
         expect(selector.currentId).toBe("2");
 
         selector.setValue(null);
         expect(attr.setValue).toHaveBeenLastCalledWith(undefined);
+        setProps(staticProps(attr));
         expect(selector.currentId).toBeNull();
     });
 
-    it("keeps the previous currentId when the attribute value is cleared externally", () => {
-        // Quirk: only setValue clears currentId; an external clear leaves the old selection visible.
-        const selector = new StaticSingleSelector();
-        selector.updateProps(staticProps(attribute("two").build()));
+    it("drops currentId when the attribute value is cleared externally", () => {
+        const { selector, setProps } = createHarness<StaticSingleSelector>(staticProps(attribute("two").build()));
         expect(selector.currentId).toBe("1");
 
-        selector.updateProps(staticProps(attribute(undefined).build()));
+        setProps(staticProps(attribute(undefined).build()));
 
-        expect(selector.currentId).toBe("1");
+        expect(selector.currentId).toBeNull();
     });
 
     it("uses the attribute display value as the empty caption when there is one", () => {
         // Quirk: the display value of the bound attribute overrides the empty-option text.
-        const withValue = new StaticSingleSelector();
-        withValue.updateProps(staticProps(attribute("two").build()));
+        const withValue = createSelector(staticProps(attribute("two").build()));
         expect(withValue.caption.get(null)).toBe("two");
 
-        const withoutValue = new StaticSingleSelector();
-        withoutValue.updateProps(staticProps(attribute().build()));
+        const withoutValue = createSelector(staticProps(attribute().build()));
         expect(withoutValue.caption.get(null)).toBe("Select...");
     });
 
     it("is never clearable for a boolean attribute", () => {
-        const selector = new StaticSingleSelector();
-        selector.updateProps(
+        const selector = createSelector(
             staticProps(attribute(true).build(), {
                 clearable: true,
                 optionsSourceStaticDataSource: [staticEntry(true, "Yes"), staticEntry(false, "No")]
@@ -94,25 +95,8 @@ describe("StaticSingleSelector", () => {
         expect(selector.clearable).toBe(false);
     });
 
-    it("reports the attribute type", () => {
-        const stringSelector = new StaticSingleSelector();
-        stringSelector.updateProps(staticProps(attribute("one").build()));
-        expect(stringSelector.attributeType).toBe("string");
-
-        const booleanSelector = new StaticSingleSelector();
-        booleanSelector.updateProps(
-            staticProps(new EditableValueBuilder<StaticValue>().withUniverse(true, false).withValue(true).build())
-        );
-        expect(booleanSelector.attributeType).toBe("boolean");
-
-        const dateSelector = new StaticSingleSelector();
-        dateSelector.updateProps(staticProps(new EditableValueBuilder<StaticValue>().withValue(new Date()).build()));
-        expect(dateSelector.attributeType).toBe("date");
-    });
-
     it("passes read-only and validation through", () => {
-        const selector = new StaticSingleSelector();
-        selector.updateProps(staticProps(attribute("one").isReadOnly().withValidation("Required").build()));
+        const selector = createSelector(staticProps(attribute("one").isReadOnly().withValidation("Required").build()));
 
         expect(selector.readOnly).toBe(true);
         expect(selector.validation).toBe("Required");
@@ -138,8 +122,7 @@ describe("StaticSingleSelector", () => {
             })
         ]
     ])("is unavailable while the %s is unavailable", (_label, props) => {
-        const selector = new StaticSingleSelector();
-        selector.updateProps(props);
+        const selector = createSelector(props);
 
         expect(selector.status).toBe("unavailable");
         expect(selector.currentId).toBeNull();
@@ -152,8 +135,7 @@ describe("StaticSingleSelector", () => {
         ["startsWith", "th", ["2"]],
         ["none", "zzz", ["0", "1", "2"]]
     ] as const)("filters by entry caption with filterType '%s'", (filterType, term, expected) => {
-        const selector = new StaticSingleSelector();
-        selector.updateProps(staticProps(attribute().build(), { filterType }));
+        const selector = createSelector(staticProps(attribute().build(), { filterType }));
 
         selector.options.setSearchTerm(term);
 

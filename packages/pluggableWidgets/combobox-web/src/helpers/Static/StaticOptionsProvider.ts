@@ -1,78 +1,28 @@
-import { matchSorter } from "match-sorter";
-import { makeObservable, observable, override } from "mobx";
-import { StaticCaptionsProvider } from "./StaticCaptionsProvider";
+import { computed, makeObservable } from "mobx";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { FilterTypeEnum, OptionsSourceStaticDataSourceType } from "../../../typings/ComboboxProps";
 import { BaseOptionsProvider } from "../BaseOptionsProvider";
-import { Status } from "../types";
+import { CaptionsProvider } from "../types";
+import { StaticGateProps } from "./gate";
 
-interface Props {
-    ds: OptionsSourceStaticDataSourceType[];
-    filterType: FilterTypeEnum;
-}
-
-export class StaticOptionsProvider extends BaseOptionsProvider<string | Big | boolean | Date, Props> {
-    ds: OptionsSourceStaticDataSourceType[] | undefined;
+/** The entry indices as option ids, listed in Studio Pro order even while filtering. */
+export class StaticOptionsProvider extends BaseOptionsProvider {
+    protected readonly keepSourceOrder = true;
 
     constructor(
-        caption: StaticCaptionsProvider,
-        private valuesMap: Map<string, OptionsSourceStaticDataSourceType>
+        private readonly gate: DerivedPropsGate<Pick<StaticGateProps, "optionsSourceStaticDataSource">>,
+        caption: Pick<CaptionsProvider, "get">,
+        filterType: FilterTypeEnum
     ) {
-        super(caption);
-        makeObservable(this, { ds: observable.ref, status: override, _updateProps: override });
+        super(caption, filterType);
+        makeObservable(this, { ids: computed });
     }
 
-    get status(): Status {
-        return this.ds ? "available" : "unavailable";
+    get ids(): string[] {
+        return this.gate.props.optionsSourceStaticDataSource.map((_, index) => index.toString());
     }
 
-    getAll(): string[] {
-        switch (this.filterType) {
-            case "contains":
-                return matchSorter(this.options, this.searchTerm || "", {
-                    keys: [v => this.valuesMap.get(v)?.staticDataSourceCaption.value as string],
-                    sorter: option => option
-                });
-            case "containsExact":
-                return matchSorter(this.options, this.searchTerm || "", {
-                    threshold: matchSorter.rankings.CONTAINS,
-                    keys: [v => this.valuesMap.get(v)?.staticDataSourceCaption.value as string],
-                    sorter: option => option
-                });
-            case "startsWith":
-                return matchSorter(this.options, this.searchTerm || "", {
-                    threshold: matchSorter.rankings.WORD_STARTS_WITH,
-                    keys: [v => this.valuesMap.get(v)?.staticDataSourceCaption.value as string],
-                    sorter: option => option
-                });
-            case "none":
-                return matchSorter(this.options, this.searchTerm || "", {
-                    threshold: matchSorter.rankings.NO_MATCH,
-                    keys: [v => this.valuesMap.get(v)?.staticDataSourceCaption.value as string],
-                    sorter: option => option
-                });
-        }
-    }
-
-    _optionToValue(index: string | boolean | null): string | Big | boolean | Date | undefined {
-        if (index === null) {
-            return undefined;
-        }
-        return this.valuesMap.get(index.toString())?.staticDataSourceValue.value;
-    }
-
-    _valueToOption(value: string | Big | boolean | Date | undefined): string | null {
-        const index = this.options.findIndex(option => this.valuesMap.get(option)?.staticDataSourceValue === value);
-        return index.toString() ?? null;
-    }
-
-    _updateProps(props: Props): void {
-        this.ds = props.ds;
-        this.filterType = props.filterType;
-
-        this.valuesMap.clear();
-
-        this.ds.forEach((option, index) => this.valuesMap.set(index.toString(), option));
-
-        this.options = this.ds.map((_, index) => index.toString());
+    entry(id: string | null): OptionsSourceStaticDataSourceType | undefined {
+        return id === null ? undefined : this.gate.props.optionsSourceStaticDataSource[Number(id)];
     }
 }
