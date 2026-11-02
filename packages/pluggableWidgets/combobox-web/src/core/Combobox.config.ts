@@ -1,9 +1,11 @@
 import {
     ComboboxContainerProps,
+    CustomEditabilityEnum,
     FilterTypeEnum,
     LoadingTypeEnum,
     OptionsSourceAssociationCustomContentTypeEnum,
     ReadOnlyStyleEnum,
+    SelectedItemsSortingEnum,
     SelectedItemsStyleEnum,
     SelectionMethodEnum
 } from "../../typings/ComboboxProps";
@@ -23,6 +25,12 @@ export interface ComboboxConfig {
     mode: SelectionType;
     filterType: FilterTypeEnum;
     filterInputDebounceInterval: number;
+    clearable: boolean;
+    /** Association and database: captions from an attribute (the datasource can filter on it) or from an expression. */
+    captionType: "attribute" | "expression";
+    /** Database: the editability rule next to the bound attribute's own read-only flag. */
+    customEditability: CustomEditabilityEnum;
+    /** Already resolved: an expression caption turns lazy loading off. */
     lazyLoading: boolean;
     loadingType: LoadingTypeEnum;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
@@ -31,6 +39,7 @@ export interface ComboboxConfig {
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectionMethod: SelectionMethodEnum;
     selectAllButton: boolean;
+    selectedItemsSorting: SelectedItemsSortingEnum;
     showFooter: boolean;
 }
 
@@ -47,6 +56,9 @@ export function comboboxConfig(props: ComboboxContainerProps): ComboboxConfig {
         mode,
         filterType: props.filterType,
         filterInputDebounceInterval: props.filterInputDebounceInterval,
+        clearable: props.clearable,
+        captionType: captionType(props, family),
+        customEditability: props.customEditability,
         lazyLoading: lazyLoading(props, family),
         loadingType: props.loadingType,
         customContentType,
@@ -54,6 +66,7 @@ export function comboboxConfig(props: ComboboxContainerProps): ComboboxConfig {
         selectedItemsStyle: multi ? (forcedBoxes ? "boxes" : props.selectedItemsStyle) : "text",
         selectionMethod: multi ? props.selectionMethod : "checkbox",
         selectAllButton: multi && props.selectAllButton,
+        selectedItemsSorting: multi ? props.selectedItemsSorting : "none",
         showFooter: props.showFooter
     });
 }
@@ -97,12 +110,17 @@ function customContent(
 
 /** Lazy loading needs a caption attribute to filter on; an expression caption turns it off. */
 function lazyLoading(props: ComboboxContainerProps, family: SelectorFamily): boolean {
+    const paged = family === "association" || family === "database";
+    return paged && props.lazyLoading && captionType(props, family) !== "expression";
+}
+
+function captionType(props: ComboboxContainerProps, family: SelectorFamily): "attribute" | "expression" {
     switch (family) {
         case "association":
-            return props.lazyLoading && props.optionsSourceAssociationCaptionType !== "expression";
+            return props.optionsSourceAssociationCaptionType;
         case "database":
-            return props.lazyLoading && props.optionsSourceDatabaseCaptionType !== "expression";
+            return props.optionsSourceDatabaseCaptionType;
         default:
-            return false;
+            return "attribute";
     }
 }

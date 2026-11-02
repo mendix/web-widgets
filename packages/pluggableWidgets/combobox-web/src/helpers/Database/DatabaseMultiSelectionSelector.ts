@@ -1,175 +1,95 @@
-import { ListAttributeValue, ObjectItem, SelectionMultiValue } from "mendix";
-import { action, makeObservable, observable } from "mobx";
+import { ObjectItem, SelectionMultiValue } from "mendix";
+import { action, autorun, computed, makeObservable } from "mobx";
 import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
-import {
-    ComboboxContainerProps,
-    LoadingTypeEnum,
-    OptionsSourceAssociationCustomContentTypeEnum,
-    SelectedItemsSortingEnum,
-    SelectedItemsStyleEnum,
-    SelectionMethodEnum
-} from "../../../typings/ComboboxProps";
-import { LazyLoadProvider } from "../LazyLoadProvider";
+import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { ComboboxConfig } from "../../core/Combobox.config";
+import { menuOptions, selectAllState } from "../multiSelection";
 import { MultiSelector, Status } from "../types";
 import { sortSelectedItems } from "../utils";
-import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
-import { DatabaseOptionsProvider } from "./DatabaseOptionsProvider";
-import { extractDatabaseProps } from "./utils";
+import { BaseDatabaseSelector, DatabaseGateProps } from "./BaseDatabaseSelector";
 
-export class DatabaseMultiSelectionSelector implements MultiSelector {
-    caption: DatabaseCaptionsProvider;
-    clearable = false;
-    currentId: string[] | null = null;
-    customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
-    options: DatabaseOptionsProvider;
-    lazyLoading = false;
-    loadingType?: LoadingTypeEnum;
-    readOnly = false;
-    selectAllButton = false;
-    selectedItemsStyle: SelectedItemsStyleEnum = "text";
-    selection?: SelectionMultiValue;
-    selectionMethod: SelectionMethodEnum = "checkbox";
-    status: Status = "unavailable";
-    type = "multi" as const;
-    protected lazyLoader: LazyLoadProvider = new LazyLoadProvider();
-    private _objectsMap: Map<string, ObjectItem> = new Map();
-    selectedItemsSorting: SelectedItemsSortingEnum = "none";
+export class DatabaseMultiSelectionSelector extends BaseDatabaseSelector implements MultiSelector, SetupComponent {
+    readonly type = "multi";
 
-    constructor(props: { filterInputDebounceInterval: number }) {
-        this.caption = new DatabaseCaptionsProvider(this._objectsMap);
-        this.options = new DatabaseOptionsProvider(this.caption, this._objectsMap, props.filterInputDebounceInterval);
-        makeObservable(this, {
-            clearable: observable,
-            currentId: observable.ref,
-            customContentType: observable,
-            lazyLoading: observable,
-            loadingType: observable,
-            readOnly: observable,
-            selectAllButton: observable,
-            selectedItemsStyle: observable,
-            selection: observable.ref,
-            selectionMethod: observable,
-            status: observable,
-            selectedItemsSorting: observable,
-            updateProps: action,
+    constructor(host: SetupComponentHost, gate: DerivedPropsGate<DatabaseGateProps>, config: ComboboxConfig) {
+        super(host, gate, config);
+        makeObservable<this, "available">(this, {
+            available: computed,
+            status: computed,
+            clearable: computed,
+            currentId: computed,
             setValue: action
         });
+        host.add(this);
     }
 
-    getOptions(): string[] {
-        return this.selectionMethod === "rowclick"
-            ? this.options.getAll().filter(option => !this.currentId?.includes(option))
-            : this.options.getAll();
+    private get selectionValue(): SelectionMultiValue | undefined {
+        return this.selection as SelectionMultiValue | undefined;
     }
 
-    isOptionsSelected(): ThreeStateCheckBoxEnum {
-        const options = this.options.getAll();
-        const unselectedOptions = options.filter(option => !this.currentId?.includes(option));
-        if (this.currentId && this.currentId.length > 0) {
-            if (unselectedOptions.length === 0) {
-                return "all";
-            } else {
-                return "some";
-            }
-        } else {
-            if (options.length === 0) {
-                return "some";
-            } else {
-                return "none";
-            }
-        }
+    private get available(): boolean {
+        return this.ds.status !== "unavailable" && this.formatter !== undefined && this.emptyOptionAvailable;
     }
 
-    updateProps(props: ComboboxContainerProps): void {
-        const {
-            captionProvider,
-            captionType,
-            clearable,
-            customContent,
-            customContentType,
-            ds,
-            emptyOption,
-            filterType,
-            lazyLoading,
-            loadingType,
-            valueSourceAttribute
-        } = extractDatabaseProps(props);
+    /** A multi selection has no bound attribute to be read-only. */
+    get readOnly(): boolean {
+        return false;
+    }
 
-        if (
-            !ds ||
-            ds.status === "unavailable" ||
-            !captionProvider ||
-            !emptyOption ||
-            emptyOption.status === "unavailable"
-        ) {
-            this.status = "unavailable";
-            this.currentId = null;
-            this.clearable = false;
-            return;
-        } else {
-            this.status = "available";
+    get status(): Status {
+        if (!this.available) {
+            return "unavailable";
         }
+        return this.ds.status === "loading" ? "loading" : "available";
+    }
 
-        this.lazyLoader.updateProps(ds);
-        this.lazyLoader.setLimit(this.lazyLoader.getLimit(ds.limit, false, ds.status, lazyLoading));
-        this.caption.updateProps({
-            emptyOptionText: emptyOption,
-            formattingAttributeOrExpression: captionProvider,
-            customContent,
-            customContentType,
-            attribute: valueSourceAttribute,
-            caption: undefined
-        });
-        this.options._updateProps({
-            ds,
-            filterType,
-            lazyLoading,
-            attributeId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
-        });
+    get validation(): string | undefined {
+        return undefined;
+    }
 
-        if (this.selectionMethod === "rowclick" || this.customContentType === "yes") {
-            this.selectedItemsStyle = "boxes";
+    get clearable(): boolean {
+        return this.available && this.config.clearable;
+    }
+
+    /** The selected ids in selection order, or sorted by caption when configured. */
+    get currentId(): string[] | null {
+        if (!this.available) {
+            return null;
         }
-
-        this.clearable = clearable;
-        this.customContentType = customContentType;
-        this.lazyLoading = lazyLoading;
-        this.loadingType = loadingType;
-        this.selectAllButton = props.selectAllButton;
-        this.selectedItemsStyle = props.selectedItemsStyle;
-        this.selection = props.optionsSourceDatabaseItemSelection as SelectionMultiValue;
-        this.selection.setKeepSelection?.(() => true);
-        this.selectionMethod = props.selectionMethod;
-        this.selectedItemsSorting = props.selectedItemsSorting;
-
-        this.currentId = sortSelectedItems(
-            this.selection?.selection,
-            this.selectedItemsSorting,
+        return sortSelectedItems(
+            this.selectionValue?.selection,
+            this.config.selectedItemsSorting,
             this.options.sortOrder,
             id => this.caption.get(id)
         );
     }
 
-    setValue(value: string[] | null): void {
-        const newValue = value
-            ?.map(v => {
-                const knownObject = this.options._optionToValue(v);
-                if (knownObject) {
-                    return knownObject;
+    /** Ids resolve through the loaded page or the current selection; an id known nowhere is dropped. */
+    setValue(ids: string[] | null): void {
+        const items = ids
+            ?.map(id => {
+                const item =
+                    this.options.item(id) ?? this.selectionValue?.selection.find(selected => selected.id === id);
+                if (!item) {
+                    console.warn(`Error setting value: '${id}', not found in options or selection`);
                 }
-
-                // look if this value is in the selection
-                const selectedObject = this.selection?.selection.find(item => item.id === v);
-                if (selectedObject) {
-                    return selectedObject;
-                }
-
-                console.warn(`Error setting value: '${v}', not found in options or selection`);
-                return null;
+                return item;
             })
-            .filter((v): v is ObjectItem => !!v);
-        if (newValue) {
-            this.selection?.setSelection(newValue);
+            .filter((item): item is ObjectItem => item !== undefined);
+        if (items) {
+            this.selectionValue?.setSelection(items);
         }
+    }
+
+    getOptions(): string[] {
+        return menuOptions(this.options.getAll(), this.currentId, this.config.selectionMethod);
+    }
+
+    isOptionsSelected(): ThreeStateCheckBoxEnum {
+        return selectAllState(this.options.getAll(), this.currentId);
+    }
+
+    setup(): () => void {
+        return autorun(() => this.selectionValue?.setKeepSelection?.(() => true));
     }
 }

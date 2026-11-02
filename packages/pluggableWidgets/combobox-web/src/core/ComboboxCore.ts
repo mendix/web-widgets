@@ -105,21 +105,6 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
         private readonly filterInputEvent: FilterInputEventService
     ) {
         this.hints = hints(config);
-        this.commands = {
-            open: this.open.bind(this),
-            close: this.close.bind(this),
-            toggle: this.toggle.bind(this),
-            highlight: this.highlight.bind(this),
-            select: this.select.bind(this),
-            deselect: this.deselect.bind(this),
-            toggleItem: this.toggleItem.bind(this),
-            clear: this.clear.bind(this),
-            selectAll: this.selectAll.bind(this),
-            setInputValue: this.setInputValue.bind(this),
-            loadMore: this.loadMore.bind(this),
-            enter: this.enter.bind(this),
-            leave: this.leave.bind(this)
-        };
         this.t = (key, ...params) => this.translate(key, ...params);
         makeObservable<
             this,
@@ -150,6 +135,22 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
             enter: action,
             leave: action
         });
+        // Bound after makeObservable, so that the bound functions are the action wrappers.
+        this.commands = {
+            open: this.open.bind(this),
+            close: this.close.bind(this),
+            toggle: this.toggle.bind(this),
+            highlight: this.highlight.bind(this),
+            select: this.select.bind(this),
+            deselect: this.deselect.bind(this),
+            toggleItem: this.toggleItem.bind(this),
+            clear: this.clear.bind(this),
+            selectAll: this.selectAll.bind(this),
+            setInputValue: this.setInputValue.bind(this),
+            loadMore: this.loadMore.bind(this),
+            enter: this.enter.bind(this),
+            leave: this.leave.bind(this)
+        };
         host.add(this);
     }
 
@@ -296,7 +297,7 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
         return (this.prevLoading = reuse(this.prevLoading, {
             lazy: this.config.lazyLoading,
             isLoading: options.isLoading,
-            hasMore: options.hasMore ?? false
+            hasMore: options.hasMore
         }));
     }
 
@@ -400,7 +401,7 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
     }
 
     loadMore(): void {
-        this.selector.options.loadMore?.();
+        this.selector.options.loadMore();
     }
 
     enter(): void {

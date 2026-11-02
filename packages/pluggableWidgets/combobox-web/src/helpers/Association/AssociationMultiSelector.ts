@@ -1,80 +1,37 @@
 import { ReferenceSetValue } from "mendix";
-import { action, makeObservable, observable, override } from "mobx";
+import { action, computed, makeObservable } from "mobx";
 import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
-import {
-    ComboboxContainerProps,
-    SelectedItemsSortingEnum,
-    SelectedItemsStyleEnum,
-    SelectionMethodEnum
-} from "../../../typings/ComboboxProps";
+import { DerivedPropsGate, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { ComboboxConfig } from "../../core/Combobox.config";
+import { menuOptions, selectAllState } from "../multiSelection";
 import { MultiSelector } from "../types";
 import { sortSelectedItems } from "../utils";
-import { BaseAssociationSelector } from "./BaseAssociationSelector";
+import { BaseAssociationSelector, AssociationGateProps } from "./BaseAssociationSelector";
 
-export class AssociationMultiSelector
-    extends BaseAssociationSelector<string[], ReferenceSetValue>
-    implements MultiSelector
-{
-    type = "multi" as const;
-    selectedItemsStyle: SelectedItemsStyleEnum = "text";
-    selectionMethod: SelectionMethodEnum = "checkbox";
-    selectAllButton = false;
-    selectedItemsSorting: SelectedItemsSortingEnum = "none";
+export class AssociationMultiSelector extends BaseAssociationSelector<ReferenceSetValue> implements MultiSelector {
+    readonly type = "multi";
 
-    constructor(props: { filterInputDebounceInterval: number }) {
-        super(props);
-        makeObservable(this, {
-            selectedItemsStyle: observable,
-            selectionMethod: observable,
-            selectAllButton: observable,
-            selectedItemsSorting: observable,
-            updateProps: override,
-            setValue: action
-        });
+    constructor(host: SetupComponentHost, gate: DerivedPropsGate<AssociationGateProps>, config: ComboboxConfig) {
+        super(host, gate, config);
+        makeObservable(this, { currentId: computed, setValue: action });
     }
 
-    updateProps(props: ComboboxContainerProps): void {
-        super.updateProps(props);
-        this.selectedItemsStyle = props.selectedItemsStyle;
-        this.selectionMethod = props.selectionMethod;
-        this.selectAllButton = props.selectAllButton;
-        this.selectedItemsSorting = props.selectedItemsSorting;
-
-        this.currentId = sortSelectedItems(this._attr?.value, this.selectedItemsSorting, this.options.sortOrder, id =>
+    /** The selected ids in reference order, or sorted by caption when configured. */
+    get currentId(): string[] | null {
+        return sortSelectedItems(this.attr.value, this.config.selectedItemsSorting, this.options.sortOrder, id =>
             this.caption.get(id)
         );
-
-        if (this.selectionMethod === "rowclick" || this.customContentType === "yes") {
-            this.selectedItemsStyle = "boxes";
-        }
     }
 
-    setValue(value: string[] | null): void {
-        const newValue = value?.map(v => this.options._optionToValue(v)!);
-        this._attr?.setValue(newValue);
+    setValue(ids: string[] | null): void {
+        this.attr.setValue(ids?.map(id => this.options.item(id)!));
     }
 
     getOptions(): string[] {
-        return this.selectionMethod === "rowclick"
-            ? this.options.getAll().filter(option => !this.currentId?.includes(option))
-            : this.options.getAll();
+        return menuOptions(this.options.getAll(), this.currentId, this.config.selectionMethod);
     }
 
     isOptionsSelected(): ThreeStateCheckBoxEnum {
-        const options = this.options.getAll();
-        const unselectedOptions = options.filter(option => !this.currentId?.includes(option));
-        if (this.currentId && this.currentId.length > 0) {
-            if (unselectedOptions.length === 0) {
-                return "all";
-            } else {
-                return "some";
-            }
-        } else {
-            if (options.length === 0) {
-                return "some";
-            } else {
-                return "none";
-            }
-        }
+        return selectAllState(this.options.getAll(), this.currentId);
     }
 }

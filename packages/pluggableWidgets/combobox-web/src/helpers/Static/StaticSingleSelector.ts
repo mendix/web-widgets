@@ -1,98 +1,90 @@
+import { Big } from "big.js";
 import { EditableValue } from "mendix";
-import { action, makeObservable, observable } from "mobx";
-import {
-    ComboboxContainerProps,
-    OptionsSourceStaticDataSourceType,
-    StaticDataSourceCustomContentTypeEnum
-} from "../../../typings/ComboboxProps";
+import { action, computed, makeObservable } from "mobx";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
+import { OptionsSourceStaticDataSourceType } from "../../../typings/ComboboxProps";
+import { ComboboxConfig } from "../../core/Combobox.config";
 import { SingleSelector, Status } from "../types";
+import { _valuesIsEqual } from "../utils";
+import { StaticGateProps } from "./gate";
 import { StaticCaptionsProvider } from "./StaticCaptionsProvider";
 import { StaticOptionsProvider } from "./StaticOptionsProvider";
-import { extractStaticProps } from "./utils";
-import { _valuesIsEqual } from "../utils";
 
+/** A selector over a list of entries configured in Studio Pro; the option ids are the entry indices. */
 export class StaticSingleSelector implements SingleSelector {
-    type = "single" as const;
-    attributeType: "string" | "big" | "boolean" | "date" = "string";
-    selectorType: "context" | "database" | "static" = "static";
-    status: Status = "unavailable";
-    options: StaticOptionsProvider;
-    caption: StaticCaptionsProvider;
-    clearable = false;
-    currentId: string | null = null;
-    readOnly = false;
-    customContentType: StaticDataSourceCustomContentTypeEnum = "no";
-    validation?: string = undefined;
-    protected _attr: EditableValue<string | Big | boolean | Date> | undefined;
-    private _objectsMap: Map<string, OptionsSourceStaticDataSourceType> = new Map();
+    readonly type = "single";
+    readonly options: StaticOptionsProvider;
+    readonly caption: StaticCaptionsProvider;
 
-    constructor() {
-        this.caption = new StaticCaptionsProvider(this._objectsMap);
-        this.options = new StaticOptionsProvider(this.caption, this._objectsMap);
-        makeObservable<this, "_attr">(this, {
-            attributeType: observable,
-            status: observable,
-            clearable: observable,
-            currentId: observable,
-            readOnly: observable,
-            customContentType: observable,
-            validation: observable,
-            _attr: observable.ref,
-            updateProps: action,
+    constructor(
+        private readonly gate: DerivedPropsGate<StaticGateProps>,
+        private readonly config: ComboboxConfig
+    ) {
+        this.caption = new StaticCaptionsProvider(gate, config.customContentType);
+        this.options = new StaticOptionsProvider(gate, this.caption, config.filterType);
+        makeObservable<this, "available">(this, {
+            available: computed,
+            status: computed,
+            currentId: computed,
+            readOnly: computed,
+            validation: computed,
+            clearable: computed,
             setValue: action
         });
     }
 
-    updateProps(props: ComboboxContainerProps): void {
-        const [attr, ds, emptyOption, clearable, filterType, customContentType] = extractStaticProps(props);
-        this._attr = attr;
-        this.caption.updateProps({
-            emptyOptionText: emptyOption,
-            customContentType,
-            caption: this._attr.displayValue
-        });
-
-        this.options._updateProps({
-            ds,
-            filterType
-        });
-
-        if (
-            !attr ||
-            attr.status === "unavailable" ||
-            !ds ||
-            ds[0].staticDataSourceValue.status === "unavailable" ||
-            ds[0].staticDataSourceCaption.status === "unavailable" ||
-            !emptyOption ||
-            emptyOption.status === "unavailable"
-        ) {
-            this.status = "unavailable";
-            this.currentId = null;
-            this.clearable = false;
-            return;
-        }
-        if (ds.length > 0 && ds[0].staticDataSourceValue.status === "available" && attr.value !== "") {
-            const index = ds.findIndex(option => _valuesIsEqual(option.staticDataSourceValue.value, attr.value));
-            if (index !== -1) {
-                this.currentId = index.toString();
-            }
-        }
-        this.clearable = clearable;
-        this.status = attr.status;
-        this.readOnly = attr.readOnly;
-        this.customContentType = customContentType;
-        this.validation = attr.validation;
-        this.attributeType =
-            typeof attr.universe?.[0] === "boolean"
-                ? "boolean"
-                : attr.formatter?.type === "datetime"
-                  ? "date"
-                  : "string";
+    private get attr(): EditableValue<string | Big | boolean | Date> {
+        return this.gate.props.staticAttribute;
     }
 
-    setValue(key: string | null): void {
-        const value = this._objectsMap.get(key || "");
-        this._attr?.setValue(value?.staticDataSourceValue.value);
-        this.currentId = key;
+    private get entries(): OptionsSourceStaticDataSourceType[] {
+        return this.gate.props.optionsSourceStaticDataSource;
+    }
+
+    /** The first entry stands for the list: its value and caption must have resolved. */
+    private get available(): boolean {
+        const { emptyOptionText } = this.gate.props;
+        const [first] = this.entries;
+        return (
+            this.attr.status !== "unavailable" &&
+            first?.staticDataSourceValue.status !== "unavailable" &&
+            first?.staticDataSourceCaption.status !== "unavailable" &&
+            emptyOptionText !== undefined &&
+            emptyOptionText.status !== "unavailable"
+        );
+    }
+
+    get status(): Status {
+        return this.available ? this.attr.status : "unavailable";
+    }
+
+    /** The index of the entry whose value equals the attribute's. */
+    get currentId(): string | null {
+        const { value } = this.attr;
+        if (!this.available || value === undefined || value === "") {
+            return null;
+        }
+        const index = this.entries.findIndex(
+            entry =>
+                entry.staticDataSourceValue.status === "available" &&
+                _valuesIsEqual(entry.staticDataSourceValue.value, value)
+        );
+        return index === -1 ? null : index.toString();
+    }
+
+    get readOnly(): boolean {
+        return this.attr.readOnly;
+    }
+
+    get validation(): string | undefined {
+        return this.attr.validation;
+    }
+
+    get clearable(): boolean {
+        return this.available && typeof this.attr.value !== "boolean" && this.config.clearable;
+    }
+
+    setValue(id: string | null): void {
+        this.attr.setValue(this.options.entry(id)?.staticDataSourceValue.value);
     }
 }
