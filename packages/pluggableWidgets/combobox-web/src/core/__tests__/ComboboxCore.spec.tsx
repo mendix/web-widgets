@@ -203,6 +203,102 @@ describe("ComboboxCore", () => {
         });
     });
 
+    describe("ui state", () => {
+        it("opens, closes and toggles the menu", () => {
+            const core = createCore(enumerationProps());
+            expect(core.viewModel.isOpen).toBe(false);
+
+            core.viewModel.open();
+            expect(core.viewModel.isOpen).toBe(true);
+
+            core.viewModel.toggle();
+            expect(core.viewModel.isOpen).toBe(false);
+
+            core.viewModel.toggle();
+            core.viewModel.close();
+            expect(core.viewModel.isOpen).toBe(false);
+        });
+
+        it("highlights one option at a time", () => {
+            const core = createCore(enumerationProps());
+
+            core.viewModel.highlight(1);
+
+            expect(core.viewModel.highlightedIndex).toBe(1);
+            expect(core.viewModel.options.map(o => o.highlighted)).toEqual([false, true, false]);
+
+            core.viewModel.highlight(-1);
+            expect(core.viewModel.options.every(o => !o.highlighted)).toBe(true);
+        });
+
+        it("exposes the search term as the input value and keeps a reset silent", () => {
+            jest.useFakeTimers();
+            const action = actionValue<NonNullable<ComboboxContainerProps["onChangeFilterInputEvent"]>>();
+            const core = createCore(enumerationProps(undefined, { onChangeFilterInputEvent: action }));
+
+            core.viewModel.setInputValue("gr");
+            expect(core.viewModel.inputValue).toBe("gr");
+
+            core.viewModel.setInputValue("", "reset");
+            expect(core.viewModel.inputValue).toBe("");
+            expect(core.viewModel.options).toHaveLength(3);
+
+            jest.advanceTimersByTime(200);
+            expect(action.execute).toHaveBeenCalledTimes(1);
+            expect(action.execute).toHaveBeenCalledWith({ filterInput: "gr" });
+            jest.useRealTimers();
+        });
+
+        it("runs the enter and leave actions, and leave closes the menu", () => {
+            const onEnterEvent = actionValue();
+            const onLeaveEvent = actionValue();
+            const core = createCore(enumerationProps(undefined, { onEnterEvent, onLeaveEvent }));
+
+            core.viewModel.open();
+            core.viewModel.enter();
+            expect(onEnterEvent.execute).toHaveBeenCalledTimes(1);
+            expect(core.viewModel.isOpen).toBe(true);
+
+            core.viewModel.leave();
+            expect(onLeaveEvent.execute).toHaveBeenCalledTimes(1);
+            expect(core.viewModel.isOpen).toBe(false);
+        });
+
+        it("requests the first page on open when lazy loading, once per datasource filter", () => {
+            const container = createComboboxContainer(
+                associationSingleProps({ lazyLoading: true, captionType: "attribute" })
+            );
+            const dispose = container.get(CB.setupService).setup();
+            const core = container.get(CB.core);
+            const loadMore = jest.spyOn(core.selector.options, "loadMore");
+
+            core.viewModel.open();
+            core.viewModel.close();
+            core.viewModel.open();
+            expect(loadMore).toHaveBeenCalledTimes(1);
+
+            container.setProps(
+                associationSingleProps({
+                    lazyLoading: true,
+                    captionType: "attribute",
+                    attr: new ReferenceValueBuilder().isReadOnly().build()
+                })
+            );
+            core.viewModel.open();
+            expect(loadMore).toHaveBeenCalledTimes(2);
+            dispose();
+        });
+
+        it("does not request a page on open without lazy loading", () => {
+            const core = createCore(enumerationProps());
+            const loadMore = jest.spyOn(core.selector.options, "loadMore");
+
+            core.viewModel.open();
+
+            expect(loadMore).not.toHaveBeenCalled();
+        });
+    });
+
     describe("structural sharing", () => {
         it("keeps every slice and command reference while nothing changed", () => {
             const container = createComboboxContainer(enumerationProps());

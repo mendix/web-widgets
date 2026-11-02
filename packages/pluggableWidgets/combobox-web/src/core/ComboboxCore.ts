@@ -1,6 +1,7 @@
-import { action, computed, makeObservable } from "mobx";
+import { action, computed, makeObservable, observable, reaction } from "mobx";
 import { ReactNode } from "react";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
+import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ComboboxConfig } from "./Combobox.config";
 import { ComboboxGateProps } from "./ComboboxGate";
 import {
@@ -19,10 +20,23 @@ type Envelope = Pick<
     "id" | "status" | "readOnly" | "validation" | "a11y" | "tabIndex" | "className" | "style"
 >;
 type Selection = Pick<ComboboxViewModel, "value" | "selected" | "chips" | "selectedContent" | "allSelected">;
+type Input = Pick<ComboboxViewModel, "inputValue" | "isOpen" | "highlightedIndex">;
 type Flags = Pick<ComboboxViewModel, "mode" | "clearable" | "filterable" | "canSelectAll">;
 type Commands = Pick<
     ComboboxViewModel,
-    "select" | "deselect" | "toggleItem" | "clear" | "selectAll" | "setInputValue" | "loadMore"
+    | "open"
+    | "close"
+    | "toggle"
+    | "highlight"
+    | "select"
+    | "deselect"
+    | "toggleItem"
+    | "clear"
+    | "selectAll"
+    | "setInputValue"
+    | "loadMore"
+    | "enter"
+    | "leave"
 >;
 /** The raw text per key. `emptyOption` comes from the captions provider, which already handles its status. */
 type TextValues = Record<Exclude<keyof ComboboxTexts, "emptyOption">, string>;
@@ -57,14 +71,20 @@ function hints(config: ComboboxConfig): ComboboxHints {
 }
 
 /**
- * The combobox Core: derives the ViewModel from the selector store, the static config and the
- * props gate as a tree of cached slices. Each slice keeps its reference while its values are
- * unchanged, so a View can memoise on them. MobX never leaves this class; the View reads
+ * The combobox Core: owns the UI state (open flag, highlighted index; the input text is the
+ * selector's search term) and derives the ViewModel from the selector store, the static config
+ * and the props gate as a tree of cached slices. Each slice keeps its reference while its values
+ * are unchanged, so a View can memoise on them. MobX never leaves this class; the View reads
  * `viewModel` through a snapshot hook. See docs/design/headless-widgets.md, section 6.
  */
-export class ComboboxCore<S extends Selector = Selector> {
+export class ComboboxCore<S extends Selector = Selector> implements SetupComponent {
+    isOpen = false;
+    highlightedIndex = -1;
+    /** Lazy loading: the first page is requested once per datasource filter and read-only state. */
+    private firstPageRequested = false;
     private readonly optionCache = new Map<string, ComboboxOptionVM>();
     private prevTexts?: TextValues;
+    private prevInput?: Input;
     private prevEnvelope?: Envelope;
     private prevA11y?: WidgetA11y;
     private prevOptions?: readonly ComboboxOptionVM[];
@@ -77,7 +97,8 @@ export class ComboboxCore<S extends Selector = Selector> {
     readonly t: Translate<ComboboxTexts>;
 
     constructor(
-        /** The selector seam. The downshift hooks still read it directly until migration step 3. */
+        host: SetupComponentHost,
+        /** The selector seam: the model the Core derives from. */
         public readonly selector: S,
         private readonly config: ComboboxConfig,
         private readonly gate: DerivedPropsGate<ComboboxGateProps>,
@@ -85,31 +106,65 @@ export class ComboboxCore<S extends Selector = Selector> {
     ) {
         this.hints = hints(config);
         this.commands = {
+            open: this.open.bind(this),
+            close: this.close.bind(this),
+            toggle: this.toggle.bind(this),
+            highlight: this.highlight.bind(this),
             select: this.select.bind(this),
             deselect: this.deselect.bind(this),
             toggleItem: this.toggleItem.bind(this),
             clear: this.clear.bind(this),
             selectAll: this.selectAll.bind(this),
             setInputValue: this.setInputValue.bind(this),
-            loadMore: this.loadMore.bind(this)
+            loadMore: this.loadMore.bind(this),
+            enter: this.enter.bind(this),
+            leave: this.leave.bind(this)
         };
         this.t = (key, ...params) => this.translate(key, ...params);
-        makeObservable<this, "texts" | "envelope" | "options" | "selection" | "flags" | "loading">(this, {
+        makeObservable<
+            this,
+            "firstPageRequested" | "texts" | "envelope" | "input" | "options" | "selection" | "flags" | "loading"
+        >(this, {
+            isOpen: observable,
+            highlightedIndex: observable,
+            firstPageRequested: observable,
             texts: computed,
             envelope: computed,
+            input: computed,
             options: computed,
             selection: computed,
             flags: computed,
             loading: computed,
             viewModel: computed({ keepAlive: true }),
+            open: action,
+            close: action,
+            toggle: action,
+            highlight: action,
             select: action,
             deselect: action,
             toggleItem: action,
             clear: action,
             selectAll: action,
             setInputValue: action,
-            loadMore: action
+            loadMore: action,
+            enter: action,
+            leave: action
         });
+        host.add(this);
+    }
+
+    /** A new datasource filter or read-only state means the first page must be requested again. */
+    setup(): () => void {
+        return reaction(
+            () => [this.selector.readOnly, this.selector.options.datasourceFilter],
+            action(() => {
+                this.firstPageRequested = false;
+            })
+        );
+    }
+
+    get inputValue(): string {
+        return this.selector.options.searchTerm;
     }
 
     private get multi(): MultiSelector | null {
@@ -160,8 +215,16 @@ export class ComboboxCore<S extends Selector = Selector> {
         }));
     }
 
-    private option(id: string, selected: boolean, content: ReactNode): ComboboxOptionVM {
-        const next = { id, caption: this.selector.caption.get(id), content, selected };
+    private get input(): Input {
+        return (this.prevInput = reuse(this.prevInput, {
+            inputValue: this.inputValue,
+            isOpen: this.isOpen,
+            highlightedIndex: this.highlightedIndex
+        }));
+    }
+
+    private option(id: string, selected: boolean, highlighted: boolean, content: ReactNode): ComboboxOptionVM {
+        const next = { id, caption: this.selector.caption.get(id), content, selected, highlighted };
         const vm = reuse(this.optionCache.get(id), next);
         this.optionCache.set(id, vm);
         return vm;
@@ -170,10 +233,11 @@ export class ComboboxCore<S extends Selector = Selector> {
     private get options(): readonly ComboboxOptionVM[] {
         const { selector, multi, config } = this;
         const ids = multi ? multi.getOptions() : selector.options.getAll();
-        const next = ids.map(id =>
+        const next = ids.map((id, index) =>
             this.option(
                 id,
                 multi ? (multi.currentId?.includes(id) ?? false) : selector.currentId === id,
+                index === this.highlightedIndex,
                 selector.caption.render(id, "options", multi ? `${config.id}_${id}` : undefined)
             )
         );
@@ -185,7 +249,7 @@ export class ComboboxCore<S extends Selector = Selector> {
         let next: Selection;
         if (multi) {
             const ids = multi.currentId ?? [];
-            const chips = ids.map(id => this.option(id, true, selector.caption.render(id, "label")));
+            const chips = ids.map(id => this.option(id, true, false, selector.caption.render(id, "label")));
             this.prevChips = sameItems(this.prevChips, chips);
             next = {
                 value: multi.currentId,
@@ -199,7 +263,7 @@ export class ComboboxCore<S extends Selector = Selector> {
             const content = selector.caption.render(single.currentId, "label");
             next = {
                 value: single.currentId,
-                selected: single.currentId === null ? null : this.option(single.currentId, true, content),
+                selected: single.currentId === null ? null : this.option(single.currentId, true, false, content),
                 chips: [],
                 selectedContent: content,
                 allSelected: "none"
@@ -241,6 +305,7 @@ export class ComboboxCore<S extends Selector = Selector> {
             ...this.envelope,
             ...this.flags,
             ...this.selection,
+            ...this.input,
             ...this.commands,
             hints: this.hints,
             options: this.options,
@@ -252,6 +317,30 @@ export class ComboboxCore<S extends Selector = Selector> {
 
     // Commands. Selection writes go through the selector, which writes to the Mendix value; the
     // new value then arrives through props like any other Mendix change.
+
+    open(): void {
+        this.isOpen = true;
+        if (this.config.lazyLoading && !this.firstPageRequested) {
+            this.firstPageRequested = true;
+            this.loadMore();
+        }
+    }
+
+    close(): void {
+        this.isOpen = false;
+    }
+
+    toggle(): void {
+        if (this.isOpen) {
+            this.close();
+        } else {
+            this.open();
+        }
+    }
+
+    highlight(index: number): void {
+        this.highlightedIndex = index;
+    }
 
     select(id: string): void {
         const { multi } = this;
@@ -298,13 +387,24 @@ export class ComboboxCore<S extends Selector = Selector> {
         this.multi?.setValue(this.selector.options.getAll());
     }
 
-    /** The filter text: narrows the options and, debounced, runs the "On change filter input" action. */
-    setInputValue(text: string): void {
+    /** The filter text narrows the options; typed text also runs the "On change filter input" action, debounced. */
+    setInputValue(text: string, reason: "input" | "reset" = "input"): void {
         this.selector.options.setSearchTerm(text);
-        this.filterInputEvent.notify(text);
+        if (reason === "input") {
+            this.filterInputEvent.notify(text);
+        }
     }
 
     loadMore(): void {
         this.selector.options.loadMore?.();
+    }
+
+    enter(): void {
+        executeAction(this.gate.props.onEnterEvent);
+    }
+
+    leave(): void {
+        executeAction(this.gate.props.onLeaveEvent);
+        this.close();
     }
 }
