@@ -26,7 +26,7 @@ This is the one migration step that changes the DOM on purpose, so the snapshots
 
 ### E2E
 
-- `pnpm run e2e` locally against the test project after an app restart in Studio Pro, then on the PR through CI. The visual snapshots must be identical: the SCSS is a one-to-one translation. The five assertions on `widget-combobox-placeholder-empty` become `data-empty` checks; the locator that clicked the fourth `.widget-combobox-clear-button` of a multi-select becomes the page object's clear button.
+- `pnpm run e2e` locally against the test project after an app restart in Studio Pro, then on the PR through CI. The visual snapshots must be identical: the SCSS is a one-to-one translation. The five assertions on `widget-combobox-placeholder-empty` become `data-empty` checks; the locator that clicked the fourth `.widget-combobox-clear-button` of a multi-select becomes the page object's clear button. The local run on 2026-11-02, after the downshift getter fix, was green with the visual snapshots unchanged.
 
 ## Decisions
 
