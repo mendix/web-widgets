@@ -249,6 +249,20 @@ describe("ComboboxCore", () => {
             jest.useRealTimers();
         });
 
+        it("drops the filter text when a single-select menu closes and keeps it for a multi-select", () => {
+            const single = createCore(enumerationProps());
+            single.viewModel.open();
+            single.viewModel.setInputValue("gr");
+            single.viewModel.close();
+            expect(single.viewModel.inputValue).toBe("");
+
+            const multi = createCore(associationMultiProps());
+            multi.viewModel.open();
+            multi.viewModel.setInputValue("ap");
+            multi.viewModel.close();
+            expect(multi.viewModel.inputValue).toBe("ap");
+        });
+
         it("runs the enter and leave actions, and leave closes the menu", () => {
             const onEnterEvent = actionValue();
             const onLeaveEvent = actionValue();
