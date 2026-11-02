@@ -1,9 +1,8 @@
 import classNames from "classnames";
-import { UseComboboxPropGetters } from "downshift/typings";
-import { CSSProperties, MouseEvent, PropsWithChildren, ReactElement, ReactNode, Ref } from "react";
+import { CSSProperties, HTMLAttributes, MouseEvent, PropsWithChildren, ReactElement, ReactNode, Ref } from "react";
 import { NoOptionsPlaceholder } from "./Placeholder";
 
-interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseComboboxPropGetters<string>> {
+interface ComboboxMenuWrapperProps extends PropsWithChildren {
     alwaysOpen?: boolean;
     floatingRef?: Ref<HTMLDivElement>;
     floatingStyles?: CSSProperties;
@@ -15,17 +14,12 @@ interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseCombobo
     loader: ReactNode;
     menuFooterContent?: ReactNode;
     menuHeaderContent?: ReactNode;
+    /** From the Behavior: role, ARIA, ref and the mouse and scroll handlers of the list. */
+    menuProps?: HTMLAttributes<HTMLUListElement>;
     noOptionsText?: string;
-    onOptionClick?: (e: MouseEvent) => void;
-    onScroll?: (e: any) => void;
 }
 
 function PreventMenuCloseEventHandler(e: MouseEvent): void {
-    e.stopPropagation();
-}
-
-function ForcePreventMenuCloseEventHandler(e: MouseEvent): void {
-    e.preventDefault();
     e.stopPropagation();
 }
 
@@ -35,7 +29,6 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
         children,
         floatingRef,
         floatingStyles,
-        getMenuProps,
         highlightedIndex,
         isEmpty,
         isLoading,
@@ -44,9 +37,8 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
         loader,
         menuFooterContent,
         menuHeaderContent,
-        noOptionsText,
-        onOptionClick,
-        onScroll
+        menuProps,
+        noOptionsText
     } = props;
 
     return (
@@ -78,14 +70,7 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                     "widget-combobox-menu-highlighted": (highlightedIndex ?? -1) >= 0,
                     "widget-combobox-menu-lazy-scroll": lazyLoading && !isEmpty
                 })}
-                {...getMenuProps?.(
-                    {
-                        onClick: onOptionClick,
-                        onMouseDown: ForcePreventMenuCloseEventHandler,
-                        onScroll
-                    },
-                    { suppressRefError: true }
-                )}
+                {...menuProps}
             >
                 {isOpen ? (
                     isEmpty && !isLoading ? (

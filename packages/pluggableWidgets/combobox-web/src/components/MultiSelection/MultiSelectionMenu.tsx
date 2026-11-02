@@ -1,43 +1,35 @@
-import { UseComboboxPropGetters } from "downshift/typings";
-import { CSSProperties, MouseEvent, ReactElement, ReactNode, Ref } from "react";
+import { CSSProperties, ReactElement, ReactNode, Ref } from "react";
 import { Checkbox } from "../../assets/icons";
 import { ComboboxViewModel } from "../../core/ComboboxViewModel";
+import { ComboboxBehavior } from "../../hooks/useComboboxBehavior";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
 import { Loader } from "../Loader";
 
-interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<string>> {
+interface MultiSelectionMenuProps {
     vm: ComboboxViewModel;
-    isOpen: boolean;
-    highlightedIndex: number | null;
+    behavior: ComboboxBehavior;
     menuHeaderContent?: ReactNode;
-    onOptionClick?: (e: MouseEvent) => void;
-    onScroll: (e: any) => void;
     floatingRef?: Ref<HTMLDivElement>;
     floatingStyles?: CSSProperties;
 }
 
 export function MultiSelectionMenu({
     vm,
-    isOpen,
-    getMenuProps,
-    getItemProps,
-    highlightedIndex,
+    behavior,
     menuHeaderContent,
-    onOptionClick,
-    onScroll,
     floatingRef,
     floatingStyles
 }: MultiSelectionMenuProps): ReactElement {
-    const { options, loading } = vm;
+    const { options, loading, isOpen } = vm;
     const withCheckbox = vm.hints.selectionMethod === "checkbox";
 
     return (
         <ComboboxMenuWrapper
             floatingRef={floatingRef}
             floatingStyles={floatingStyles}
-            getMenuProps={getMenuProps}
-            highlightedIndex={highlightedIndex}
+            menuProps={behavior.getMenuProps()}
+            highlightedIndex={vm.highlightedIndex}
             isEmpty={options.length <= 0}
             isLoading={loading.isLoading}
             isOpen={isOpen}
@@ -55,25 +47,23 @@ export function MultiSelectionMenu({
             menuFooterContent={vm.slots.menuFooter}
             menuHeaderContent={menuHeaderContent}
             noOptionsText={vm.t("noOptions")}
-            onOptionClick={onOptionClick}
-            onScroll={loading.lazy ? onScroll : undefined}
         >
             {isOpen &&
                 options.map((option, index) => {
-                    // Quirk: while the selector has no value at all (not even an empty list), options
-                    // used to get no aria-selected attribute instead of "false". Kept until step 4.
-                    const isSelected = vm.value === null ? undefined : option.selected;
-
+                    const optionProps = behavior.getOptionProps(index);
                     return (
                         <ComboboxOptionWrapper
                             key={option.id}
-                            isHighlighted={highlightedIndex === index}
-                            isSelected={isSelected}
-                            item={option.id}
-                            getItemProps={getItemProps}
-                            index={index}
+                            isHighlighted={option.highlighted}
+                            isSelected={optionProps["aria-selected"] as boolean | undefined}
+                            optionProps={optionProps}
                         >
-                            {withCheckbox && <Checkbox checked={isSelected} id={`${vm.id}_${option.id}`} />}
+                            {withCheckbox && (
+                                <Checkbox
+                                    checked={optionProps["aria-selected"] as boolean | undefined}
+                                    id={`${vm.id}_${option.id}`}
+                                />
+                            )}
                             {option.content}
                         </ComboboxOptionWrapper>
                     );
