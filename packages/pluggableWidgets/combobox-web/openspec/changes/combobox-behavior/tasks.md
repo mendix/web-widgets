@@ -14,7 +14,7 @@
 ## 3. Refactoring
 
 - [x] 3.1 `combobox-selector-gate`: the selectors derive from the gate and the config instead of `updateProps`; `container.setProps` becomes the gate alone; `getAll()` stops scheduling the datasource filter from a getter. Done on 2026-11-02.
-- [ ] 3.2 Step 4: classes map and data attributes; `CaptionContent` moves into the View; `a11y.statusMessage` when a second View needs it.
+- [x] 3.2 Step 4: classes map and data attributes; `CaptionContent` moves into the View. Done on 2026-11-02 as `combobox-classes`; `a11y.statusMessage` still waits for a second View.
 
 ## 4. Verification
 
