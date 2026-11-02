@@ -1,103 +1,102 @@
-import { ListAttributeValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
-import { action, makeObservable, observable } from "mobx";
-import {
-    ComboboxContainerProps,
-    LoadingTypeEnum,
-    OptionsSourceAssociationCustomContentTypeEnum
-} from "../../../typings/ComboboxProps";
-import { LazyLoadProvider } from "../LazyLoadProvider";
+import { ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
+import { computed, makeObservable } from "mobx";
+import { DerivedPropsGate, MappedGate, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { ComboboxConfig } from "../../core/Combobox.config";
+import { ComboboxGateProps } from "../../core/ComboboxGate";
+import { CaptionSource, DatasourceCaptionsProvider } from "../DatasourceCaptionsProvider";
+import { DatasourceOptionsProvider, DatasourceSource } from "../DatasourceOptionsProvider";
 import { Status } from "../types";
-import { AssociationOptionsProvider } from "./AssociationOptionsProvider";
-import { AssociationSimpleCaptionsProvider } from "./AssociationSimpleCaptionsProvider";
-import { extractAssociationProps } from "./utils";
+import { required } from "../utils";
 
-export class BaseAssociationSelector<T extends string | string[], R extends ReferenceSetValue | ReferenceValue> {
-    status: Status = "unavailable";
-    options: AssociationOptionsProvider;
-    clearable = false;
-    currentId: T | null = null;
-    caption: AssociationSimpleCaptionsProvider;
-    readOnly = false;
-    lazyLoading = false;
-    loadingType?: LoadingTypeEnum;
-    customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
-    validation?: string = undefined;
-    protected _attr: R | undefined;
-    private _valuesMap: Map<string, ObjectItem> = new Map();
-    private lazyLoader: LazyLoadProvider = new LazyLoadProvider();
+export type AssociationGateProps = Pick<
+    ComboboxGateProps,
+    | "attributeAssociation"
+    | "optionsSourceAssociationDataSource"
+    | "optionsSourceAssociationCaptionAttribute"
+    | "optionsSourceAssociationCaptionExpression"
+    | "optionsSourceAssociationCustomContent"
+    | "emptyOptionText"
+>;
 
-    constructor(props: { filterInputDebounceInterval: number }) {
-        this.caption = new AssociationSimpleCaptionsProvider(this._valuesMap);
-        this.options = new AssociationOptionsProvider(this.caption, this._valuesMap, props.filterInputDebounceInterval);
-        makeObservable<this, "_attr">(this, {
-            status: observable,
-            clearable: observable,
-            currentId: observable.ref,
-            readOnly: observable,
-            lazyLoading: observable,
-            loadingType: observable,
-            customContentType: observable,
-            validation: observable,
-            _attr: observable.ref,
-            updateProps: action
+function selectedItems(attr: ReferenceValue | ReferenceSetValue): ObjectItem[] {
+    return attr.value === undefined ? [] : Array.isArray(attr.value) ? attr.value : [attr.value];
+}
+
+/**
+ * A selector over a reference or reference set: the value is the association, the options come
+ * from its datasource. Everything is derived from the gate; `setValue` writes to the association.
+ */
+export abstract class BaseAssociationSelector<R extends ReferenceValue | ReferenceSetValue> {
+    readonly options: DatasourceOptionsProvider;
+    readonly caption: DatasourceCaptionsProvider;
+
+    constructor(
+        host: SetupComponentHost,
+        protected readonly gate: DerivedPropsGate<AssociationGateProps>,
+        protected readonly config: ComboboxConfig
+    ) {
+        const datasource = new MappedGate(gate, (props): DatasourceSource => ({
+            ds: required(props.optionsSourceAssociationDataSource, "optionsSourceAssociationDataSource"),
+            captionAttributeId:
+                config.captionType === "attribute" ? props.optionsSourceAssociationCaptionAttribute?.id : undefined,
+            selected: selectedItems(props.attributeAssociation),
+            readOnly: props.attributeAssociation.readOnly
+        }));
+        const captions = new MappedGate(gate, (props): CaptionSource => ({
+            formatter:
+                config.captionType === "attribute"
+                    ? required(
+                          props.optionsSourceAssociationCaptionAttribute,
+                          "optionsSourceAssociationCaptionAttribute"
+                      )
+                    : required(
+                          props.optionsSourceAssociationCaptionExpression,
+                          "optionsSourceAssociationCaptionExpression"
+                      ),
+            customContent: props.optionsSourceAssociationCustomContent,
+            emptyOptionText: props.emptyOptionText
+        }));
+        this.options = new DatasourceOptionsProvider(host, datasource, { get: id => this.caption.get(id) }, config);
+        this.caption = new DatasourceCaptionsProvider(captions, this.options, config.customContentType);
+        makeObservable<this, "available">(this, {
+            available: computed,
+            status: computed,
+            readOnly: computed,
+            validation: computed,
+            clearable: computed
         });
     }
 
-    updateProps(props: ComboboxContainerProps): void {
-        const [
-            attr,
-            ds,
-            captionProvider,
-            captionType,
-            emptyOption,
-            clearable,
-            filterType,
-            customContent,
-            customContentType,
-            lazyLoading,
-            loadingType
-        ] = extractAssociationProps(props);
+    /** A plain getter on purpose: a Mendix value behind a computed would hide an in-place change. */
+    protected get attr(): R {
+        return this.gate.props.attributeAssociation as R;
+    }
 
-        this.lazyLoader.updateProps(ds);
-        this.lazyLoader.setLimit(this.lazyLoader.getLimit(ds.limit, attr.readOnly, attr.status, lazyLoading));
+    /** The association, its datasource and the empty-option text are all there. */
+    protected get available(): boolean {
+        const { attributeAssociation, optionsSourceAssociationDataSource: ds, emptyOptionText } = this.gate.props;
+        return (
+            attributeAssociation.status !== "unavailable" &&
+            ds !== undefined &&
+            ds.status !== "unavailable" &&
+            emptyOptionText !== undefined &&
+            emptyOptionText.status !== "unavailable"
+        );
+    }
 
-        this._attr = attr as R;
-        this.caption.updateProps({
-            emptyOptionText: emptyOption,
-            formattingAttributeOrExpression: captionProvider,
-            customContent,
-            customContentType
-        });
+    get status(): Status {
+        return this.available ? this.attr.status : "unavailable";
+    }
 
-        this.options._updateProps({
-            attr,
-            ds,
-            filterType,
-            lazyLoading,
-            attributeId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
-        });
+    get readOnly(): boolean {
+        return this.attr.readOnly;
+    }
 
-        if (
-            !attr ||
-            attr.status === "unavailable" ||
-            !ds ||
-            ds.status === "unavailable" ||
-            !captionProvider ||
-            !emptyOption ||
-            emptyOption.status === "unavailable"
-        ) {
-            this.status = "unavailable";
-            this.currentId = null;
-            this.clearable = false;
+    get validation(): string | undefined {
+        return this.attr.validation;
+    }
 
-            return;
-        }
-        this.clearable = clearable;
-        this.status = attr.status;
-        this.readOnly = attr.readOnly;
-        this.customContentType = customContentType;
-        this.validation = attr.validation;
-        this.lazyLoading = lazyLoading;
-        this.loadingType = loadingType;
+    get clearable(): boolean {
+        return this.available && this.config.clearable;
     }
 }

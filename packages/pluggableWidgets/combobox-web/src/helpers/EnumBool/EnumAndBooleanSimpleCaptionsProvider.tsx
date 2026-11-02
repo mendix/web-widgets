@@ -1,43 +1,30 @@
-import { DynamicValue, EditableValue } from "mendix";
-import { action, makeObservable, observable } from "mobx";
+import { computed, makeObservable } from "mobx";
 import { ReactNode } from "react";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { CaptionsProvider } from "../types";
+import { enumerationAttribute, EnumerationGateProps } from "./gate";
 
-interface EnumAndBooleanSimpleCaptionsProviderProps {
-    emptyOptionText?: DynamicValue<string>;
-    attribute: EditableValue<string | boolean>;
-}
-
+/** Captions through the attribute formatter: the enumeration caption or the formatted boolean. */
 export class EnumAndBooleanSimpleCaptionsProvider implements CaptionsProvider {
-    private attr?: EditableValue<string | boolean>;
-    emptyCaption = "";
-
-    constructor() {
-        makeObservable<this, "attr">(this, {
-            attr: observable.ref,
-            emptyCaption: observable,
-            updateProps: action
-        });
+    constructor(private readonly gate: DerivedPropsGate<EnumerationGateProps>) {
+        makeObservable(this, { emptyCaption: computed });
     }
 
-    updateProps(props: EnumAndBooleanSimpleCaptionsProviderProps): void {
-        this.attr = props.attribute;
-        if (!props.emptyOptionText || props.emptyOptionText.status === "unavailable") {
-            this.emptyCaption = "";
-        } else {
-            this.emptyCaption = props.emptyOptionText.value!;
-        }
+    get emptyCaption(): string {
+        const text = this.gate.props.emptyOptionText;
+        return !text || text.status === "unavailable" ? "" : (text.value ?? "");
     }
 
-    get(value: string | boolean | null): string {
-        if (value === null) {
+    get(id: string | null): string {
+        if (id === null) {
             return this.emptyCaption;
         }
-
-        return this.attr?.formatter.format(value) ?? "";
+        const attribute = enumerationAttribute(this.gate.props);
+        const value = typeof attribute.universe?.[0] === "boolean" ? id === "true" : id;
+        return attribute.formatter.format(value) ?? "";
     }
 
-    render(value: string | null): ReactNode {
-        return <span className="widget-combobox-caption-text">{this.get(value)}</span>;
+    render(id: string | null): ReactNode {
+        return <span className="widget-combobox-caption-text">{this.get(id)}</span>;
     }
 }

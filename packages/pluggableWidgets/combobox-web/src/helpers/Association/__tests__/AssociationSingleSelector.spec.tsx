@@ -1,6 +1,7 @@
 import { render } from "@testing-library/react";
 import { ListValue } from "mendix";
 import { dynamic, list, ListValueBuilder, listWidget, ReferenceValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { ComboboxContainerProps } from "../../../../typings/ComboboxProps";
 import {
     allItems,
     associationSingleProps,
@@ -11,10 +12,11 @@ import {
     itemC,
     itemD
 } from "../../__tests__/fixtures";
+import { createSelector as createHarness } from "../../__tests__/harness";
 import { AssociationSingleSelector } from "../AssociationSingleSelector";
 
-function createSelector(): AssociationSingleSelector {
-    return new AssociationSingleSelector({ filterInputDebounceInterval: 200 });
+function createSelector(props: ComboboxContainerProps): AssociationSingleSelector {
+    return createHarness<AssociationSingleSelector>(props).selector;
 }
 
 function unavailableList(): ListValue {
@@ -24,8 +26,7 @@ function unavailableList(): ListValue {
 describe("AssociationSingleSelector", () => {
     describe("status and value", () => {
         it("exposes the bound value and flags once props are available", () => {
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps({ clearable: true, loadingType: "skeleton" }));
+            const selector = createSelector(associationSingleProps({ clearable: true, loadingType: "skeleton" }));
 
             expect(selector.type).toBe("single");
             expect(selector.status).toBe("available");
@@ -33,21 +34,17 @@ describe("AssociationSingleSelector", () => {
             expect(selector.readOnly).toBe(false);
             expect(selector.clearable).toBe(true);
             expect(selector.validation).toBeUndefined();
-            expect(selector.customContentType).toBe("no");
-            expect(selector.loadingType).toBe("skeleton");
         });
 
         it("exposes no value when the reference is empty", () => {
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps({ attr: new ReferenceValueBuilder().build() }));
+            const selector = createSelector(associationSingleProps({ attr: new ReferenceValueBuilder().build() }));
 
             expect(selector.status).toBe("available");
             expect(selector.currentId).toBeNull();
         });
 
         it("is unavailable while the reference is unavailable", () => {
-            const selector = createSelector();
-            selector.updateProps(
+            const selector = createSelector(
                 associationSingleProps({ attr: new ReferenceValueBuilder().withValue(itemA).isUnavailable().build() })
             );
 
@@ -59,49 +56,43 @@ describe("AssociationSingleSelector", () => {
         });
 
         it("is unavailable while the datasource is unavailable", () => {
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps({ ds: unavailableList() }));
+            const selector = createSelector(associationSingleProps({ ds: unavailableList() }));
 
             expect(selector.status).toBe("unavailable");
             expect(selector.clearable).toBe(false);
         });
 
         it("is unavailable when the empty-option text is unavailable or not configured", () => {
-            const withUnavailable = createSelector();
-            withUnavailable.updateProps(associationSingleProps({ emptyOptionText: dynamic.unavailable() }));
+            const withUnavailable = createSelector(associationSingleProps({ emptyOptionText: dynamic.unavailable() }));
             expect(withUnavailable.status).toBe("unavailable");
 
             // Quirk: a missing emptyOptionText makes the whole selector unavailable.
-            const withMissing = createSelector();
-            withMissing.updateProps(associationSingleProps({ emptyOptionText: undefined }));
+            const withMissing = createSelector(associationSingleProps({ emptyOptionText: undefined }));
             expect(withMissing.status).toBe("unavailable");
         });
 
         it("reports 'loading' while the reference is loading", () => {
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps({ attr: new ReferenceValueBuilder().isLoading().build() }));
+            const selector = createSelector(
+                associationSingleProps({ attr: new ReferenceValueBuilder().isLoading().build() })
+            );
 
             expect(selector.status).toBe("loading");
         });
 
         it("transitions from unavailable to available", () => {
-            const selector = createSelector();
-            selector.updateProps(
+            const { selector, setProps } = createHarness<AssociationSingleSelector>(
                 associationSingleProps({ attr: new ReferenceValueBuilder().withValue(itemB).isUnavailable().build() })
             );
             expect(selector.status).toBe("unavailable");
 
-            selector.updateProps(
-                associationSingleProps({ attr: new ReferenceValueBuilder().withValue(itemB).build() })
-            );
+            setProps(associationSingleProps({ attr: new ReferenceValueBuilder().withValue(itemB).build() }));
 
             expect(selector.status).toBe("available");
             expect(selector.currentId).toBe(itemB.id);
         });
 
         it("passes read-only and validation through", () => {
-            const selector = createSelector();
-            selector.updateProps(
+            const selector = createSelector(
                 associationSingleProps({
                     attr: new ReferenceValueBuilder().withValue(itemA).isReadOnly().withValidation("Required").build()
                 })
@@ -113,8 +104,7 @@ describe("AssociationSingleSelector", () => {
 
         it("writes the selection to the reference", () => {
             const attr = new ReferenceValueBuilder().withValue(itemA).build();
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps({ attr }));
+            const selector = createSelector(associationSingleProps({ attr }));
 
             selector.setValue(itemC.id);
             expect(attr.setValue).toHaveBeenLastCalledWith(itemC);
@@ -126,8 +116,7 @@ describe("AssociationSingleSelector", () => {
 
     describe("captions", () => {
         it("resolves captions through the caption attribute", () => {
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps({ captionType: "attribute" }));
+            const selector = createSelector(associationSingleProps({ captionType: "attribute" }));
 
             expect(selector.caption.get(itemB.id)).toBe("Banana");
             expect(selector.caption.get(null)).toBe("Select...");
@@ -136,15 +125,13 @@ describe("AssociationSingleSelector", () => {
         });
 
         it("resolves captions through the caption expression", () => {
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps({ captionType: "expression" }));
+            const selector = createSelector(associationSingleProps({ captionType: "expression" }));
 
             expect(selector.caption.get(itemB.id)).toBe("expr:Banana");
         });
 
         it("keeps a caption for a selected item that is not in the datasource page", () => {
-            const selector = createSelector();
-            selector.updateProps(
+            const selector = createSelector(
                 associationSingleProps({
                     attr: new ReferenceValueBuilder().withValue(itemD).build(),
                     ds: list([itemA, itemB])
@@ -157,8 +144,7 @@ describe("AssociationSingleSelector", () => {
         });
 
         it("renders plain text in every placement without custom content", () => {
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps());
+            const selector = createSelector(associationSingleProps());
 
             const label = render(<>{selector.caption.render(itemA.id, "label")}</>);
             expect(label.container.textContent).toBe("Apple");
@@ -169,8 +155,7 @@ describe("AssociationSingleSelector", () => {
         });
 
         it("renders custom content in the options only for 'listItem'", () => {
-            const selector = createSelector();
-            selector.updateProps(
+            const selector = createSelector(
                 associationSingleProps({
                     optionsSourceAssociationCustomContentType: "listItem",
                     optionsSourceAssociationCustomContent: listWidget(i => <b>{`custom ${captions[i.id]}`}</b>)
@@ -186,8 +171,7 @@ describe("AssociationSingleSelector", () => {
         });
 
         it("renders custom content everywhere for 'yes', except for the empty value", () => {
-            const selector = createSelector();
-            selector.updateProps(
+            const selector = createSelector(
                 associationSingleProps({
                     optionsSourceAssociationCustomContentType: "yes",
                     optionsSourceAssociationCustomContent: listWidget(i => <b>{`custom ${captions[i.id]}`}</b>)
@@ -206,8 +190,7 @@ describe("AssociationSingleSelector", () => {
 
     describe("options and client-side filtering", () => {
         it("lists options in datasource order", () => {
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps());
+            const selector = createSelector(associationSingleProps());
 
             expect(selector.options.getAll()).toEqual(allItems.map(i => i.id));
             expect(selector.options.status).toBe("available");
@@ -221,8 +204,7 @@ describe("AssociationSingleSelector", () => {
             ["startsWith", "ch", [itemC.id]],
             ["none", "zzz", allItems.map(i => i.id)]
         ] as const)("filters by caption with filterType '%s'", (filterType, term, expected) => {
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps({ filterType }));
+            const selector = createSelector(associationSingleProps({ filterType }));
 
             selector.options.setSearchTerm(term);
 
@@ -234,8 +216,7 @@ describe("AssociationSingleSelector", () => {
                 .withItems(allItems)
                 .withSortOrder([[captionAttributeId, "desc"]])
                 .build();
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps({ ds }));
+            const selector = createSelector(associationSingleProps({ ds }));
 
             expect(selector.options.sortOrder).toBe("desc");
         });
@@ -244,17 +225,21 @@ describe("AssociationSingleSelector", () => {
     describe("datasource limit", () => {
         it("removes the datasource limit when lazy loading is off", () => {
             const ds = list(allItems);
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps({ ds, lazyLoading: false }));
+            createSelector(associationSingleProps({ ds, lazyLoading: false }));
 
             expect(ds.setLimit).toHaveBeenCalledWith(undefined);
-            expect(selector.lazyLoading).toBe(false);
+        });
+
+        it("requests no items while a datasource without lazy loading is loading", () => {
+            const ds = new ListValueBuilder().withItems(allItems).isLoading().build();
+            createSelector(associationSingleProps({ ds, lazyLoading: false }));
+
+            expect(ds.setLimit).toHaveBeenCalledWith(0);
         });
 
         it("limits the datasource to zero items for a read-only control", () => {
             const ds = list(allItems);
-            const selector = createSelector();
-            selector.updateProps(
+            createSelector(
                 associationSingleProps({
                     ds,
                     attr: new ReferenceValueBuilder().withValue(itemA).isReadOnly().build()
@@ -266,18 +251,30 @@ describe("AssociationSingleSelector", () => {
 
         it("keeps the datasource limit when lazy loading is on and the limit is already right", () => {
             const ds = list(allItems);
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps({ ds, lazyLoading: true }));
+            createSelector(associationSingleProps({ ds, lazyLoading: true }));
 
-            expect(selector.lazyLoading).toBe(true);
             expect(ds.setLimit).not.toHaveBeenCalled();
         });
 
-        it("disables lazy loading when captions come from an expression", () => {
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps({ lazyLoading: true, captionType: "expression" }));
+        it("keeps the page limit while a lazy datasource is loading, and starts from nothing", () => {
+            const loadingPage = new ListValueBuilder().withItems(allItems).withLimit(100).isLoading().build();
+            createSelector(associationSingleProps({ ds: loadingPage, lazyLoading: true }));
+            expect(loadingPage.setLimit).not.toHaveBeenCalled();
 
-            expect(selector.lazyLoading).toBe(false);
+            const unpaged = new ListValueBuilder().withItems(allItems).withLimit(Infinity).isLoading().build();
+            createSelector(associationSingleProps({ ds: unpaged, lazyLoading: true }));
+            expect(unpaged.setLimit).toHaveBeenCalledWith(0);
+        });
+
+        it("filters on the client when captions come from an expression, even with lazy loading on", () => {
+            const ds = list(allItems);
+            const selector = createSelector(
+                associationSingleProps({ ds, lazyLoading: true, captionType: "expression" })
+            );
+
+            expect(ds.setLimit).toHaveBeenCalledWith(undefined);
+            selector.options.setSearchTerm("an");
+            expect(selector.options.getAll()).toEqual([itemB.id]);
         });
     });
 
@@ -289,33 +286,32 @@ describe("AssociationSingleSelector", () => {
 
         it("loads the next page of 100 and reports loading until the datasource settles", () => {
             const ds = lazyList(100, true);
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps({ ds, lazyLoading: true }));
+            const { selector, setProps } = createHarness<AssociationSingleSelector>(
+                associationSingleProps({ ds, lazyLoading: true })
+            );
 
             expect(selector.options.hasMore).toBe(true);
-            selector.options.loadMore!();
+            selector.options.loadMore();
 
             expect(ds.setLimit).toHaveBeenCalledWith(200);
             expect(selector.options.isLoading).toBe(true);
 
-            selector.updateProps(associationSingleProps({ ds, lazyLoading: true }));
+            setProps(associationSingleProps({ ds: lazyList(100, true), lazyLoading: true }));
             expect(selector.options.isLoading).toBe(false);
         });
 
         it("does nothing on loadMore when there are no more items", () => {
             const ds = lazyList(100, false);
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps({ ds, lazyLoading: true }));
+            const selector = createSelector(associationSingleProps({ ds, lazyLoading: true }));
 
-            selector.options.loadMore!();
+            selector.options.loadMore();
 
             expect(ds.setLimit).not.toHaveBeenCalled();
         });
 
         it("reports loading while a lazy datasource is loading", () => {
             const ds = lazyList(100, true, true);
-            const selector = createSelector();
-            selector.updateProps(associationSingleProps({ ds, lazyLoading: true }));
+            const selector = createSelector(associationSingleProps({ ds, lazyLoading: true }));
 
             expect(selector.options.isLoading).toBe(true);
         });
@@ -324,8 +320,7 @@ describe("AssociationSingleSelector", () => {
             jest.useFakeTimers();
             try {
                 const ds = lazyList(100, true);
-                const selector = createSelector();
-                selector.updateProps(associationSingleProps({ ds, lazyLoading: true }));
+                const selector = createSelector(associationSingleProps({ ds, lazyLoading: true }));
 
                 selector.options.setSearchTerm("an");
                 expect(selector.options.getAll()).toEqual(allItems.map(i => i.id));

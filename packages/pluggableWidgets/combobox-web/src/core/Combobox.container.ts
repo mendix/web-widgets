@@ -1,5 +1,4 @@
 import { Container, injected } from "brandi";
-import { runInAction } from "mobx";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { ComboboxConfig } from "./Combobox.config";
@@ -16,16 +15,18 @@ import { EnumBooleanSingleSelector } from "../helpers/EnumBool/EnumBoolSingleSel
 import { StaticSingleSelector } from "../helpers/Static/StaticSingleSelector";
 import { Selector } from "../helpers/types";
 
-injected(AssociationSingleSelector, CB.config);
-injected(AssociationMultiSelector, CB.config);
-injected(DatabaseSingleSelectionSelector, CB.config);
-injected(DatabaseMultiSelectionSelector, CB.config);
+injected(EnumBooleanSingleSelector, CB.gate, CB.config);
+injected(AssociationSingleSelector, CB.setupService, CB.gate, CB.config);
+injected(AssociationMultiSelector, CB.setupService, CB.gate, CB.config);
+injected(DatabaseSingleSelectionSelector, CB.setupService, CB.gate, CB.config);
+injected(DatabaseMultiSelectionSelector, CB.setupService, CB.gate, CB.config);
+injected(StaticSingleSelector, CB.gate, CB.config);
 injected(FilterInputEventService, CB.setupService, CB.gate, CB.config);
 injected(ComboboxCore, CB.setupService, CB.selector, CB.config, CB.gate, CB.filterInputEvent);
 
-type SelectorClass = new (config: ComboboxConfig) => Selector;
+type SelectorClass = new (...args: never[]) => Selector;
 
-/** One selector class per family and mode. Enumeration and static selectors take no dependencies. */
+/** One selector class per family and mode. The datasource-backed ones register with the setup host. */
 function selectorClass({ family, mode }: ComboboxConfig): SelectorClass {
     switch (family) {
         case "enumeration":
@@ -62,21 +63,14 @@ export class ComboboxContainer extends Container {
         this.bind(CB.gate).toConstant(provider.gate);
         this.bind(CB.selector).toInstance(selectorClass(config)).inSingletonScope();
 
-        // The selector seam still takes props by method call (migration step 3 replaces it with
-        // derivations over the gate), so the props go through both in one action.
-        const selector = this.get(CB.selector);
-        selector.updateProps(props);
         this.setProps = next => {
-            if (next === provider.gate.props) {
-                return;
-            }
-            runInAction(() => {
+            if (next !== provider.gate.props) {
                 provider.setProps(next);
-                selector.updateProps(next);
-            });
+            }
         };
 
-        // Create the core upfront so its setup component is registered before the host runs setup.
+        // Create the core, and with it the selector, upfront so that their setup components are
+        // registered before the host runs setup.
         this.get(CB.core);
 
         return this;

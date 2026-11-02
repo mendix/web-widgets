@@ -1,31 +1,34 @@
 import { matchSorter, MatchSorterOptions } from "match-sorter";
 import { action, computed, makeObservable, observable } from "mobx";
-import { FilterTypeEnum } from "typings/ComboboxProps";
 import { CaptionsProvider, OptionsProvider, Status } from "./types";
 import { getFilterTypeOptions } from "./utils";
+import { FilterTypeEnum } from "../../typings/ComboboxProps";
 
-export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProvider<T, P> {
-    protected options: string[] = [];
-    private caption: CaptionsProvider;
-
-    filterType: FilterTypeEnum = "contains";
+/**
+ * Options narrowed on the client by the search term, matched against the captions. Subclasses
+ * derive `ids` from their source; the search term is the only state here.
+ */
+export abstract class BaseOptionsProvider implements OptionsProvider {
     searchTerm = "";
-    lazyLoading: boolean = false;
+    /** Keep the source order for every term instead of ranking the matches. */
+    protected readonly keepSourceOrder: boolean = false;
 
-    constructor(caption: CaptionsProvider) {
-        this.caption = caption;
-        makeObservable<this, "options">(this, {
-            options: observable.ref,
-            filterType: observable,
+    constructor(
+        private readonly caption: Pick<CaptionsProvider, "get">,
+        protected readonly filterType: FilterTypeEnum
+    ) {
+        makeObservable<this, "filtered">(this, {
             searchTerm: observable,
-            lazyLoading: observable,
-            hasMore: computed,
-            isLoading: computed,
-            status: computed,
-            setSearchTerm: action,
-            loadMore: action,
-            _updateProps: action
+            filtered: computed,
+            setSearchTerm: action
         });
+    }
+
+    /** Every option id in source order. */
+    abstract get ids(): string[];
+
+    get status(): Status {
+        return "available";
     }
 
     get hasMore(): boolean {
@@ -36,25 +39,19 @@ export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProv
         return false;
     }
 
-    get status(): Status {
-        return "available";
-    }
-
     getAll(): string[] {
-        return this.getAllWithMatchSorter();
+        return this.filtered;
     }
 
-    protected getAllWithMatchSorter(): string[] {
-        const matchSorterOptions: MatchSorterOptions<string> = {
-            keys: [v => this.caption.get(v)],
+    protected get filtered(): string[] {
+        const options: MatchSorterOptions<string> = {
+            keys: [id => this.caption.get(id)],
             ...getFilterTypeOptions(this.filterType)
         };
-
-        if (this.searchTerm === "") {
-            matchSorterOptions.sorter = option => option;
+        if (this.searchTerm === "" || this.keepSourceOrder) {
+            options.sorter = matches => matches;
         }
-
-        return matchSorter(this.options, this.searchTerm || "", matchSorterOptions);
+        return matchSorter(this.ids, this.searchTerm, options);
     }
 
     setSearchTerm(term: string): void {
@@ -62,16 +59,6 @@ export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProv
     }
 
     loadMore(): void {
-        return undefined;
-    }
-
-    _updateProps(_props: P): void {
-        throw new Error("_updateProps not implemented");
-    }
-    _optionToValue(_option: string | null): T | undefined {
-        throw new Error("_optionToValue not implemented");
-    }
-    _valueToOption(_value: T | undefined): string | null {
-        throw new Error("_valueToOption not implemented");
+        // nothing to load: every option is here
     }
 }
