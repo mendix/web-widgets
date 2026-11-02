@@ -1,49 +1,28 @@
 name: Claude Issue Triage
 
+# Runs when a team member mentions @claude in an issue comment
 on:
-    issues:
-        types: [opened]
     issue_comment:
         types: [created]
-    # Try it on an existing issue: the result goes to the job summary unless dry_run is off
-    workflow_dispatch:
-        inputs:
-            issue_number:
-                description: Issue to triage
-                required: true
-                type: number
-            dry_run:
-                description: Write the result to the job summary only
-                type: boolean
-                default: true
 
 env:
     # EU cross-region inference profile — must match the region prefix in AWS_REGION secret (eu-*)
     CLAUDE_MODEL: eu.anthropic.claude-sonnet-5-5
-    ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
-    # Replies to the same issue before a human takes over
-    MAX_ROUNDS: 3
+    ISSUE_NUMBER: ${{ github.event.issue.number }}
 
 jobs:
-    # Anyone can open an issue, so this job treats all issue text as hostile: it runs Claude with
-    # read-only tools and read-only GitHub access. Only the post job can write, and it has no AWS access.
+    # A team member starts this job, but anyone can write the issue, so all issue text is treated as hostile:
+    # Claude runs with read-only tools and read-only GitHub access. Only the post job can write, and it has no AWS access.
     triage:
         name: AI Issue Triage
-        # Skip team members and bots. After the first run, only the reporter's reply to a question re-triggers.
         if: |
-            github.event_name == 'workflow_dispatch' ||
-            (github.event_name == 'issues' &&
-             github.event.issue.user.type != 'Bot' &&
-             !contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.issue.author_association)) ||
-            (github.event_name == 'issue_comment' &&
-             !github.event.issue.pull_request &&
-             github.event.comment.user.type != 'Bot' &&
-             github.event.comment.user.login == github.event.issue.user.login &&
-             contains(github.event.issue.labels.*.name, 'needs-info'))
+            !github.event.issue.pull_request &&
+            contains(github.event.comment.body, '@claude') &&
+            contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
         runs-on: ubuntu-latest
         timeout-minutes: 10
         concurrency:
-            group: claude-issue-triage-${{ github.event.issue.number || inputs.issue_number }}
+            group: claude-issue-triage-${{ github.event.issue.number }}
             cancel-in-progress: true
         permissions:
             contents: read
@@ -51,7 +30,6 @@ jobs:
             id-token: write
         outputs:
             result: ${{ steps.triage.outputs.structured_output }}
-            limit_reached: ${{ steps.context.outputs.limit_reached }}
         steps:
             - name: Checkout repository
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -60,7 +38,6 @@ jobs:
                   persist-credentials: false
 
             - name: Collect issue
-              id: context
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
@@ -83,13 +60,7 @@ jobs:
                   gh issue list --repo "$GITHUB_REPOSITORY" --state all --limit 300 --json number,title,state \
                     > .issue-triage/issues.json
 
-                  ROUNDS=$(jq '[.comments[] | select(.from_triage)] | length' .issue-triage/issue.json)
-                  if [ "$ROUNDS" -ge "$MAX_ROUNDS" ]; then
-                    echo "limit_reached=true" >> "$GITHUB_OUTPUT"
-                  fi
-
             - name: Configure AWS Credentials (OIDC)
-              if: steps.context.outputs.limit_reached != 'true'
               uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
               with:
                   role-to-assume: ${{ secrets.AWS_BEDROCK_ROLE_ARN }}
@@ -98,15 +69,12 @@ jobs:
 
             - name: Run Claude Issue Triage
               id: triage
-              if: steps.context.outputs.limit_reached != 'true'
               uses: anthropics/claude-code-action@8041f1d17e0e7d2f2cfe35002962e9f26237c0bb # v1.0.263
               with:
                   use_bedrock: "true"
                   # Public repo: keep the transcript out of logs (do not upload the execution file either)
                   show_full_output: "false"
                   github_token: ${{ secrets.GITHUB_TOKEN }}
-                  # Issue authors have no write access. This is safe only with the read-only tools below.
-                  allowed_non_write_users: "*"
                   settings: '{"permissions":{"blockReadsOutsideWorkingDirectories":true}}'
                   prompt: |
                       Triage issue ${{ env.ISSUE_NUMBER }} in ${{ github.repository }}.
@@ -130,12 +98,8 @@ jobs:
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   RESULT: ${{ needs.triage.outputs.result }}
-                  LIMIT_REACHED: ${{ needs.triage.outputs.limit_reached }}
-                  DRY_RUN: ${{ inputs.dry_run }}
               run: |
-                  if [ "$LIMIT_REACHED" = "true" ]; then
-                    RESULT='{"outcome":"human_review","reason":"Reached the limit of triage replies","comment":""}'
-                  elif [ -z "$RESULT" ]; then
+                  if [ -z "$RESULT" ]; then
                     echo "::error::Claude did not return a triage result"
                     exit 1
                   fi
@@ -178,11 +142,6 @@ jobs:
                     echo
                     echo "$REASON"
                   } >> "$GITHUB_STEP_SUMMARY"
-
-                  if [ "$DRY_RUN" = "true" ]; then
-                    printf '\n#### Comment\n\n%s\n' "$COMMENT" >> "$GITHUB_STEP_SUMMARY"
-                    exit 0
-                  fi
 
                   if [ "$OUTCOME" != "needs_info" ]; then
                     gh api -X DELETE "repos/$GITHUB_REPOSITORY/issues/$ISSUE_NUMBER/labels/needs-info" --silent || true
