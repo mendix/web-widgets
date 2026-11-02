@@ -21,7 +21,7 @@ injected(AssociationMultiSelector, CB.config);
 injected(DatabaseSingleSelectionSelector, CB.config);
 injected(DatabaseMultiSelectionSelector, CB.config);
 injected(FilterInputEventService, CB.setupService, CB.gate, CB.config);
-injected(ComboboxCore, CB.selector, CB.config, CB.gate, CB.filterInputEvent);
+injected(ComboboxCore, CB.setupService, CB.selector, CB.config, CB.gate, CB.filterInputEvent);
 
 type SelectorClass = new (config: ComboboxConfig) => Selector;
 
@@ -75,6 +75,9 @@ export class ComboboxContainer extends Container {
                 selector.updateProps(next);
             });
         };
+
+        // Create the core upfront so its setup component is registered before the host runs setup.
+        this.get(CB.core);
 
         return this;
     }
