@@ -32,7 +32,7 @@ Non-goals for the first iteration:
 | **Behavior**  | Optional hook that turns a ViewModel into DOM prop getters: keyboard handling and ARIA attributes.                |
 | **Popover**   | Optional hook that positions a floating element. Wraps floating-ui.                                               |
 | **Classes**   | Typed map of CSS hook names, one per rendered part. Overridable.                                                  |
-| **Parts**     | Small components used by the Atlas View, one per element. Individually replaceable.                               |
+| **Parts**     | Components the Atlas View is assembled from, one per thing worth replacing as a whole. Individually replaceable.  |
 | **Host**      | Whatever creates a Core and mounts a View. The pluggable widget is the host in apps; our test harness is another. |
 | **Variant**   | Free-string name of a View, set per widget instance in Studio Pro through the `uiVariant` property.               |
 
@@ -47,7 +47,7 @@ Mendix props ──▶ Core (MobX store, Mendix binding, all state)
                    ├── useXBehavior(vm)      keyboard + ARIA prop getters        optional
                    ├── useXPopover(vm)       floating refs + styles              optional
                    ├── classes()            CSS hook names                       optional
-                   └── parts                one small component per element     optional
+                   └── parts                one component per replaceable thing  optional
                               │
                               ▼
                            View  (Atlas default, or app developer's)
@@ -228,7 +228,7 @@ Overrides replace the default class for that key, they do not append. A Tailwind
 
 ### 8.4 Parts
 
-Parts are the small components the Atlas View is assembled from, one per Classes key. Each receives its slice of the ViewModel plus the matching Behavior props, and spreads them. Replacing one part keeps keyboard and ARIA working because the props still come from our Behavior.
+Parts are the components the Atlas View is assembled from, each one something a View author would replace as a whole: fewer than the Classes keys, since an element with nothing to replace on its own (an icon, the input, a wrapper that only carries wiring) stays inside its part and is reachable through Classes. Each receives its slice of the ViewModel plus the matching Behavior props, and spreads them. Replacing one part keeps keyboard and ARIA working because the props still come from our Behavior. Parts read the resolved Classes through a hook provided by the View, so one override reaches nested elements too.
 
 ## 9. The View contract and the customisation levels
 
@@ -362,3 +362,4 @@ We cannot guarantee accessibility of a custom View. We can hand the author the t
 | 2026-10-30 | The Core is composed with a brandi container like the data grid and gallery: config, gate, selector family and setup host as bindings. The container never crosses the package boundary.                                                                                         |
 | 2026-11-02 | The model derives from the gate and the config as computeds; Mendix values stay behind plain getters so an in-place change is never hidden; writes to Mendix values are setup reactions.                                                                                         |
 | 2026-11-02 | State is a data attribute on the element, never a modifier class; the class map keeps the released names as values and the old modifier classes stay for one release, so the step is additive, not breaking; the Core carries custom content, the View places it through a hint. |
+| 2026-11-02 | A part is something worth replacing as a whole, not one component per class key; parts read the resolved classes through a hook the View provides; the Atlas View is one composition for both modes.                                                                             |
