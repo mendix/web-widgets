@@ -22,7 +22,7 @@
 - [x] 4.2 `pnpm run lint`: 0 errors; 8 warnings, all pre-existing or moved with their code.
 - [x] 4.3 `pnpm exec tsc --noEmit -p tsconfig.json`: clean.
 - [x] 4.4 `pnpm run build`: MPK, editor preview and editor config build; MPK copied into the test project.
-- [ ] 4.5 E2E locally against the test project after an app restart in Studio Pro; visual snapshots identical.
+- [x] 4.5 E2E locally against the test project after an app restart in Studio Pro; visual snapshots identical. Green.
 - [ ] 4.6 E2E on the PR through CI; waits for the safety-net PR to merge and a rebase on `main`.
 
 ## Notes
