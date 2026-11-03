@@ -21,7 +21,7 @@ The DOM must not change: `pnpm run test` without `-u`, the five snapshots pass a
 
 ### E2E
 
-- `pnpm run e2e` locally against the test project after an app restart, then on the PR through CI. Snapshots must be identical; this change changes no DOM.
+- `pnpm run e2e` locally against the test project after an app restart, then on the PR through CI. Snapshots must be identical; this change changes no DOM. The local run after the app restart was green.
 
 ## Decisions
 
