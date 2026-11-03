@@ -462,4 +462,110 @@ describe("Combo box (Association)", () => {
             });
         });
     });
+
+    describe("typed text, highlight and menu state", () => {
+        // The state reducer in useDownshiftMultiSelectProps decides what the typed text, the
+        // highlight and the menu do on each event. These cases pin that behaviour at the DOM.
+        async function open(component: RenderResult): Promise<HTMLInputElement> {
+            const input = await getInput(component);
+            fireEvent.click(input);
+            await waitFor(() => {
+                expect(component.getAllByRole("option")).toHaveLength(4);
+            });
+            return input;
+        }
+
+        function highlighted(component: RenderResult): string | undefined {
+            return component.container.querySelector(".widget-combobox-item-highlighted")?.textContent ?? undefined;
+        }
+
+        function type(input: HTMLInputElement, value: string): void {
+            fireEvent.change(input, { target: { value } });
+        }
+
+        it("keeps the menu open after a keyboard selection and keeps the highlight on the picked option", async () => {
+            const component = render(<Combobox {...defaultProps} />);
+            const input = await open(component);
+            fireEvent.keyDown(input, { key: "ArrowDown" });
+            fireEvent.keyDown(input, { key: "ArrowDown" });
+            expect(highlighted(component)).toBe("obj_222");
+
+            fireEvent.keyDown(input, { key: "Enter" });
+            component.rerender(<Combobox {...defaultProps} />);
+
+            expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalledWith([
+                { id: "obj_111" },
+                { id: "obj_222" }
+            ]);
+            expect(component.getAllByRole("option")).toHaveLength(4);
+            expect(highlighted(component)).toBe("obj_222");
+        });
+
+        it("drops the typed text after a selection from a filtered list", async () => {
+            const component = render(<Combobox {...defaultProps} />);
+            const input = await open(component);
+            type(input, "222");
+            await waitFor(() => {
+                expect(component.getAllByRole("option")).toHaveLength(1);
+            });
+            fireEvent.keyDown(input, { key: "ArrowDown" });
+
+            fireEvent.keyDown(input, { key: "Enter" });
+            component.rerender(<Combobox {...defaultProps} />);
+
+            expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalledWith([
+                { id: "obj_111" },
+                { id: "obj_222" }
+            ]);
+            await waitFor(() => {
+                expect(component.getAllByRole("option")).toHaveLength(4);
+            });
+            expect(input.value).toBe("");
+            // Quirk: the reducer keeps the index of the picked option in the filtered list, and that
+            // index points to the first option once the typed text is gone.
+            expect(highlighted(component)).toBe("obj_111");
+        });
+
+        it("reopens without a highlight after the user left the widget", async () => {
+            const component = render(<Combobox {...defaultProps} />);
+            const input = await open(component);
+            fireEvent.keyDown(input, { key: "ArrowDown" });
+            expect(highlighted(component)).toBe("obj_111");
+
+            fireEvent.blur(input);
+            expect(component.queryAllByRole("option")).toHaveLength(0);
+            fireEvent.click(input);
+            await waitFor(() => {
+                expect(component.getAllByRole("option")).toHaveLength(4);
+            });
+
+            expect(highlighted(component)).toBeUndefined();
+        });
+
+        it("Escape closes the menu and keeps the typed text and the selection", async () => {
+            const component = render(<Combobox {...defaultProps} />);
+            const input = await open(component);
+            type(input, "222");
+
+            fireEvent.keyDown(input, { key: "Escape" });
+
+            expect(component.queryAllByRole("option")).toHaveLength(0);
+            expect(defaultProps.attributeAssociation?.setValue).not.toHaveBeenCalled();
+            // Quirk: unlike single mode, Escape leaves the typed text in place, so the menu reopens filtered.
+            expect(input.value).toBe("222");
+            fireEvent.click(input);
+            await waitFor(() => {
+                expect(component.getAllByRole("option")).toHaveLength(1);
+            });
+        });
+
+        it("focus keeps the menu closed", async () => {
+            const component = render(<Combobox {...defaultProps} />);
+            const input = await getInput(component);
+
+            fireEvent.focus(input);
+
+            expect(component.queryAllByRole("option")).toHaveLength(0);
+        });
+    });
 });

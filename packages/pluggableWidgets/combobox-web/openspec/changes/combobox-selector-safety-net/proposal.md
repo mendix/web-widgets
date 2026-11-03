@@ -1,6 +1,6 @@
 ## Why
 
-The selectors, options providers and captions providers under `src/helpers/` are the model of the combobox: they turn Mendix values into options, captions, a current value and status, and write selections back. Any refactoring of that layer (a different state container, a split of the families, a fix to one of the quirks below) has no net under it. Unit coverage today is 29 component cases on `SingleSelection`, `MultiSelection` and `StaticSelection`, plus 20 helper cases that only cover the database selector and its utils. The association, static, enumeration and boolean selectors have no direct tests. Neither do lazy loading, the filter-input debounce, the limit management in `LazyLoadProvider`, the client-side filter modes, or the re-render side channel in `useGetSelector`.
+The selectors, options providers and captions providers under `src/helpers/` are the model of the combobox: they turn Mendix values into options, captions, a current value and status, and write selections back. Any refactoring of that layer (a different state container, a split of the families, a fix to one of the quirks below) has no net under it. Unit coverage today is 29 component cases on `SingleSelection`, `MultiSelection` and `StaticSelection`, plus 20 helper cases that only cover the database selector and its utils. The association, static, enumeration and boolean selectors have no direct tests. Neither do lazy loading, the filter-input debounce, the limit management in `LazyLoadProvider`, the client-side filter modes, or the re-render side channel in `useGetSelector`. The component cases cover open, toggle, select and clear, not what the downshift reducers do with the typed text and the highlight on leave, Escape or focus.
 
 ## Root Cause
 
@@ -24,10 +24,12 @@ This change adds tests only. No production code changes.
     - `src/helpers/__tests__/LazyLoadProvider.spec.ts` (limit arithmetic)
     - `src/helpers/__tests__/datasourceFilter.spec.ts`
     - `src/hooks/__tests__/useGetSelector.spec.tsx` (instance stability, re-render side channel, filter-input debounce)
+- View cases in `src/__tests__/SingleSelection.spec.tsx` and `MultiSelection.spec.tsx` for the downshift state reducers: what the typed text, the highlight and the menu do on leave, toggle, Enter, Escape, focus and Backspace. These were only covered by the E2E suite.
+- `jest.config.js` and `jest.setup.ts`: a test fails on any `downshift:` console error. downshift reports a getter that was not called or a ref that was not applied with `console.error` only, which Jest showed without failing.
 
 ## Impact
 
-- **Code**: new test files and one fixture module only. `src/helpers/`, `src/hooks/`, `src/components/` and the E2E suite are untouched.
+- **Code**: new test files, one fixture module, cases in two existing component specs and the Jest setup only. `src/helpers/`, `src/hooks/`, `src/components/` and the E2E suite are untouched.
 - **Behaviour**: none. Every test must pass on the current code without modification. Where a test pins down a quirk (for example `StaticSingleSelector` keeps a stale `currentId` when the attribute is cleared externally), the quirk is marked in the test and listed in `design.md` under Notes, so a refactoring preserves it and a later change can fix it deliberately.
 - **Release**: no CHANGELOG entry. Nothing user-facing changes.
 - **Dependencies**: none added.

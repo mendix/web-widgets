@@ -234,9 +234,36 @@ All tests are unit tests at the `Selector` seam unless marked otherwise. They ar
 - Sends `undefined` for an empty term
 - Skips the action when `canExecute` is false or `isExecuting` is true
 
+### Views: typed text, highlight and menu (`SingleSelection.spec.tsx`, `MultiSelection.spec.tsx`, React)
+
+The state reducers in `useDownshiftSingleSelectProps` and `useDownshiftMultiSelectProps` decide what the typed filter text, the highlight and the menu do on each downshift event. The component specs only exercised open, toggle, select and clear, so these cases pin the rest at the DOM, through the widget root.
+
+- Single: leaving the widget closes the menu and drops the typed text and the filter
+    - **Given**: menu open, `"222"` typed, one option left
+    - **When**: blur on the input
+    - **Then**: no options, input empty; the next open lists all four options
+- Single: the toggle button drops the typed text when it closes the menu
+- Single: a keyboard selection keeps the input empty and shows the caption next to it
+    - **Given**: menu open, ArrowDown highlights the second option
+    - **When**: Enter
+    - **Then**: `setValue` with that item, menu closed, input empty, placeholder shows the caption
+- Single: Escape closes the menu, drops the typed text and keeps the selection, also over a closed menu (downshift would clear the selection there)
+- Single: focus keeps the menu closed
+- Single: Backspace in the empty input clears the selection when clearable, and does nothing otherwise
+- Multi: a keyboard selection keeps the menu open and the highlight on the picked option
+- Multi: a selection from a filtered list drops the typed text; the highlight lands on the first option (quirk, see Notes)
+- Multi: after leaving the widget the menu reopens without a highlight
+- Multi: Escape closes the menu and keeps the selection; the typed text stays (quirk, see Notes)
+- Multi: focus keeps the menu closed
+
+### Jest setup
+
+`jest.config.js` extends the tools config with `jest.setup.ts`, which turns any `console.error` starting with `downshift:` into a test failure. downshift reports in development when a getter of a mounted hook was not called or its ref was not applied, and it only logs. The suite is clean, so no test changes; a future miss fails the component specs instead of flooding the browser console.
+
 ## Notes
 
 - Quirks pinned on purpose (see the tests marked `Quirk`): static selector keeps a stale `currentId` on external clear; `useGetSelector` only attaches `onFilterInputChange` from the second render; `isOptionsSelected` returns `"some"` when there are no options; `emptyOptionText: undefined` makes every family unavailable; a read-only control limits its datasource to zero items. Each is a candidate for a deliberate fix in its own change, never a silent one inside a refactoring.
+- Quirks pinned in the view cases: in multi mode Escape leaves the typed text in place, so the menu reopens filtered (single mode drops it); after selecting from a filtered list in multi mode, the reducer keeps the index of the picked option within the filtered list, which points to the first option once the text is gone. The single-mode focus branch that means to drop the highlight while a value is selected is not observable: downshift only dispatches the focus event over a closed menu, and its focus changes carry no `selectedItem`.
 - `caption.render` is tested lightly. It is a rendering concern and the component tests cover it with their snapshots.
 - Preview providers (`helpers/*/Preview/`) stay untested here. They are exercised only by the editor preview, which keeps its own rendering.
 - The datasource `setFilter` debounce and the filter-input action debounce are two separate timers with the same interval. Both are covered with fake timers.
@@ -248,5 +275,7 @@ Real bugs, each to be fixed in its own change by flipping the pinned expectation
 1. Static selector keeps a stale `currentId` on external clear. Medium. Same class as WC-3355 on the database selector. Needs a changelog line.
 2. Chip sorting by caption is descending when the datasource has no sort order. Medium-low. Default `sortOrder` to `"asc"`.
 3. Database multi never forces the boxes style for row click or custom content. Low. Changes rendering, so it needs a reviewed snapshot diff; check first whether the editor config already blocks the combination.
+
+Low, from the view cases (rated 2026-11-03): multi-mode Escape keeping the typed text is arguably a feature, but it differs from single mode; the highlight landing on the first option after a selection from a filtered list is a cosmetic slip, fixed by resolving the index against the unfiltered list.
 
 Not bugs: association `currentId` while unavailable (nothing renders in that state); missing `emptyOptionText` makes the selector unavailable (Studio Pro always supplies it); read-only limits the datasource to zero (deliberate); filter callback wired from the second render on (no practical effect).
