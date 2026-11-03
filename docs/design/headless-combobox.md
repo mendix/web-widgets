@@ -115,6 +115,8 @@ interface ComboboxTexts {
 
 The status message that downshift builds today by concatenating `a11ySelectedValue`, the count, `a11yOptionsAvailable`, and `a11yInstructions` becomes `a11y.statusMessage`, composed by the Core through `t`. A View using our Behavior gets it in the live region; a View without Behavior reads it directly. Parametrised keys replace today's string concatenation, so word order is no longer fixed to English.
 
+Status 2026-11-03: implemented in the package change `combobox-second-view`. The Core composes `a11y.statusMessage` and the Behavior hands it to downshift; the parametrised keys are still English-ordered templates until the system-text API exists.
+
 ### Structural sharing slices
 
 `inputSlice` (inputValue, isOpen, highlightedIndex), `selectionSlice` (value, selected, chips, allSelected), `optionsSlice` (array of per-id `optionSlice` entries), `loadingSlice`, `staticSlice` (hints, t, clearable, filterable, a11y). Typing a character rebuilds `inputSlice` only. Moving the highlight creates exactly two new option objects.
@@ -479,6 +481,7 @@ Each step keeps the MPK, the XML, and the existing unit and E2E tests green.
    Status 2026-11-02: done in the package change `combobox-parts`. Eleven parts, not one per class key: a part is something worth replacing as a whole, the rest stays inside its part and is reachable through `classes`. `ComboboxView` is one component for both modes with the `classes` and `parts` props; the parts read the resolved classes through a context hook; `SingleSelection`, `MultiSelection` and the three wrappers are gone. The five DOM snapshots are untouched. Still taking `vm` instead of the Core, until the wrapper of step 6.
 6. **Move to a package.** Create `packages/headless/combobox`, point the widget at it, reduce `Combobox.tsx` to the wrapper in section 10.
 7. **Write the second View.** A throwaway Material UI View in a sandbox, run against the conformance suite. This is the real test of the ViewModel shape.
+   Status 2026-11-03: done before step 6, in the package change `combobox-second-view`. `src/conformance/describeComboboxConformance.tsx` is the suite of section 11 of the generic design: sixteen role-based cases over a live Core, run by the Atlas View and by `src/sandbox/BareView.tsx`, a hand-rolled View with its own keyboard handling and ARIA over the ViewModel commands instead of the Material UI View sketched here (same ViewModel surface, no dependency, deletable). The suite found one Atlas gap (`aria-multiselectable` on the multi-select list, fixed) and the status message moved into the Core. The ViewModel needed no change; what a View without the Behavior does itself is recorded in the change's `design.md`.
 8. **Prove the in-project route.** Add `uiVariant` and the hardcoded first-iteration registry. Put a View file into a Mendix test project with the package in `node_modules`, let the project bundler compile it, hardcode its registration, and confirm the widget renders it with `uiVariant` set.
 
 Publishing to npm comes after step 8.
@@ -486,4 +489,5 @@ Publishing to npm comes after step 8.
 ## 13. Open questions (combobox)
 
 - Which Mendix test project proves step 8, and where exactly does the hardcoded registration call live?
+- `ComboboxTexts` has no key for the toggle control; the Atlas toggle is decorative and the bare View hides its own. Add `toggleMenu` when the texts move to the system-text API, or keep the toggle out of the accessibility tree by contract?
 - Does the existing combobox OpenSpec folder get one change per migration step, or one change for the whole split?
