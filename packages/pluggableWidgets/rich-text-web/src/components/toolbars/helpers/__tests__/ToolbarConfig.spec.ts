@@ -8,6 +8,31 @@ describe("buildAdvancedToolbar", () => {
         expect(groups[0].buttons).toHaveLength(1);
         expect(groups[0].buttons[0].name).toBe("textFormat");
     });
+
+    it("shows an item only once when it is added to more than one group", () => {
+        const groups = buildAdvancedToolbar([
+            { ctItemType: "bold" },
+            { ctItemType: "tableBetter" },
+            { ctItemType: "separator" },
+            { ctItemType: "tableBetter" },
+            { ctItemType: "italic" }
+        ]);
+
+        expect(groups.map(group => group.buttons.map(button => button.name))).toEqual([
+            ["bold", "insertTable"],
+            ["italic"]
+        ]);
+    });
+
+    it("drops a group whose items are all shown in an earlier group", () => {
+        const groups = buildAdvancedToolbar([
+            { ctItemType: "link" },
+            { ctItemType: "separator" },
+            { ctItemType: "link" }
+        ]);
+
+        expect(groups.map(group => group.buttons.map(button => button.name))).toEqual([["insertLink"]]);
+    });
 });
 
 describe("getSecondaryToolbarGroups", () => {

@@ -439,4 +439,43 @@ describe("Rich Text runtime behaviour", () => {
             expect(tableConfigurationButton(container)).not.toBeInTheDocument();
         });
     });
+
+    describe("table grid picker", () => {
+        function renderAdvancedToolbar(advancedConfig: RichTextContainerProps["advancedConfig"]): RenderResult {
+            return render(
+                <RichText {...defaultProps} preset="custom" toolbarConfig="advanced" advancedConfig={advancedConfig} />
+            );
+        }
+
+        function insertTableButtons(container: HTMLElement): NodeListOf<HTMLButtonElement> {
+            return container.querySelectorAll('button[title="Insert Table"]');
+        }
+
+        it("opens one picker when the table item is added to more than one group", () => {
+            const { container } = renderAdvancedToolbar([
+                { ctItemType: "tableBetter" },
+                { ctItemType: "separator" },
+                { ctItemType: "tableBetter" }
+            ]);
+
+            expect(insertTableButtons(container)).toHaveLength(1);
+            fireEvent.click(insertTableButtons(container)[0]);
+
+            expect(container.querySelectorAll(".table-grid-selector")).toHaveLength(1);
+        });
+
+        it("closes on Escape without the Escape reaching the editor", () => {
+            const { container } = renderAdvancedToolbar([{ ctItemType: "tableBetter" }]);
+            const editorKeyDown = jest.fn();
+            getEditorDom(container).addEventListener("keydown", editorKeyDown);
+
+            fireEvent.click(insertTableButtons(container)[0]);
+            expect(container.querySelector(".table-grid-selector")).toBeInTheDocument();
+
+            fireEvent.keyDown(getEditorDom(container), { key: "Escape" });
+
+            expect(container.querySelector(".table-grid-selector")).not.toBeInTheDocument();
+            expect(editorKeyDown).not.toHaveBeenCalled();
+        });
+    });
 });

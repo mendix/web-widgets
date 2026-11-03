@@ -705,6 +705,7 @@ function findButtonByName(buttonName: string): ToolbarButtonConfig | null {
  */
 export function buildAdvancedToolbar(advancedConfig: AdvancedConfigType[]): ToolbarGroupConfig[] {
     const groups: ToolbarGroupConfig[] = [];
+    const addedButtonNames = new Set<string>();
     let currentGroup: ToolbarButtonConfig[] = [];
 
     for (const item of advancedConfig) {
@@ -723,11 +724,11 @@ export function buildAdvancedToolbar(advancedConfig: AdvancedConfigType[]): Tool
             const buttonName = CT_ITEM_TO_BUTTON_MAP[item.ctItemType];
             if (buttonName) {
                 const button = findButtonByName(buttonName);
-                if (button) {
-                    // Avoid duplicate buttons in the same group
-                    if (!currentGroup.find(b => b.name === button.name)) {
-                        currentGroup.push(button);
-                    }
+                // Add each button once across the whole toolbar: copies of a button share one open
+                // state, so clicking one would open the dropdown or dialog under every copy.
+                if (button && !addedButtonNames.has(button.name)) {
+                    addedButtonNames.add(button.name);
+                    currentGroup.push(button);
                 }
             }
         }

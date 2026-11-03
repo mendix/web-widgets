@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where the table toolbar did not appear when the cursor was in a table and the custom toolbar was set to "Advanced" with a "Table" item.
 
+- We fixed an issue where an item added more than once to the "Advanced" custom toolbar was shown more than once, and clicking one of its buttons, such as "Table" or "Link", opened a picker or dialog under every copy. Each item is now shown once.
+
+- We fixed an issue where pressing Escape did not close the insert table picker, or the insert link, image and video dialogs when the dialog style was "Inline".
+
 ## [5.1.1] - 2026-10-15
 
 ### Fixed
