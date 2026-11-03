@@ -258,40 +258,8 @@ export function useComboboxBehavior(vm: ComboboxViewModel): ComboboxBehavior {
         // A single-select menu opens on its first option; a multi-select opens with no highlight.
         defaultHighlightedIndex: multi ? undefined : 0,
         stateReducer,
-        getA11yStatusMessage(options) {
-            if (multi) {
-                let message =
-                    selectedIds.length > 0 ? `${t("a11ySelectedValue", selectedIds.map(captionOf).join(","))}. ` : "";
-                if (!options.resultCount) {
-                    return t("a11yNoOption");
-                }
-                if (!options.isOpen) {
-                    return message;
-                }
-                if (options.previousResultCount !== options.resultCount || !options.highlightedItem) {
-                    message += `${t("a11yOptionsAvailable", options.resultCount)}. ${t("a11yInstructions")}`;
-                }
-                return message;
-            }
-            const current = vm.value as string | null;
-            const selectedItem = captionOf(current);
-            let message = selectedItem
-                ? current
-                    ? `${t("a11ySelectedValue", selectedItem)}. `
-                    : "No options selected."
-                : "";
-            if (!options.isOpen) {
-                return message;
-            }
-            if (!options.resultCount) {
-                return t("a11yNoOption");
-            }
-            if (options.resultCount > 0) {
-                message += `${t("a11yOptionsAvailable", options.resultCount)}. ${t("a11yInstructions")}`;
-            } else {
-                return t("a11yNoOption");
-            }
-            return message;
+        getA11yStatusMessage() {
+            return vm.a11y.statusMessage ?? "";
         },
         onIsOpenChange({ isOpen }) {
             if (isOpen) {
