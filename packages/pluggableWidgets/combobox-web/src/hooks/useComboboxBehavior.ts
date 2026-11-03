@@ -434,6 +434,7 @@ export function useComboboxBehavior(vm: ComboboxViewModel): ComboboxBehavior {
                 },
                 { suppressRefError: true }
             ),
+            "aria-multiselectable": multi || undefined,
             "data-lazy": flag(vm.loading.lazy && vm.options.length > 0),
             "data-highlighted": flag(vm.highlightedIndex >= 0)
         }),
