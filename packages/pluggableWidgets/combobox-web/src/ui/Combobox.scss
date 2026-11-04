@@ -319,6 +319,20 @@ $cb-skeleton-dark: #d2d2d2;
                 flex-wrap: nowrap;
             }
 
+            // input and caption share one grid cell; minmax(0, 1fr) lets the cell shrink below the
+            // caption width, so a long caption is truncated instead of widening the parent
+            // (e.g. an Auto-fill layout grid column), while auto-width parents still fit the caption
+            &:not(.widget-combobox-boxes):not(.widget-combobox-custom-content) {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr);
+                align-items: center;
+
+                > * {
+                    grid-area: 1 / 1;
+                    min-width: 0;
+                }
+            }
+
             input:placeholder-shown,
             input:not(:focus) {
                 & + .widget-combobox-placeholder-text {
