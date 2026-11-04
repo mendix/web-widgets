@@ -57,5 +57,14 @@ function getMendixUrl(path: string): string {
 }
 
 function getCsrfToken(): string {
-    return (window as any).mx?.sessionData?.csrftoken || "";
+    const session = (window as any).mx?.session;
+    try {
+        const token = session?.getConfig?.("csrftoken");
+        if (token) {
+            return token;
+        }
+    } catch {
+        // getConfig throws when session data is not loaded yet; fall through.
+    }
+    return session?.sessionData?.csrftoken || "";
 }
