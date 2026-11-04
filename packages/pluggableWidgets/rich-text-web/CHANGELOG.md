@@ -40,6 +40,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We added a "Start at" field to the numbered list options, so a numbered list can start at a number other than 1.
 
+### Changed
+
+- We updated the react-dropzone library to version 20.
+
+- When several images are dropped at once in the image dialog, the first image is now used. Previously, nothing was added.
+
 ## [5.1.1] - 2026-10-15
 
 ### Fixed
