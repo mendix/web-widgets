@@ -46,7 +46,9 @@ exports[`Combo box (Static values) renders combobox widget 1`] = `
           class="widget-combobox-icon-container"
         >
           <svg
+            aria-hidden="true"
             class="widget-combobox-clear-button-icon"
+            focusable="false"
             height="14"
             viewBox="0 0 32 32"
             width="14"
@@ -68,7 +70,9 @@ exports[`Combo box (Static values) renders combobox widget 1`] = `
           class="widget-combobox-icon-container"
         >
           <svg
+            aria-hidden="true"
             class="widget-combobox-down-arrow-icon mx-icon-lined mx-icon-chevron-down"
+            focusable="false"
             height="16"
             viewBox="0 0 32 32"
             width="16"

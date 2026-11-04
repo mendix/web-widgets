@@ -12,7 +12,12 @@ export function Placeholder(): ReactElement {
     );
 }
 
-export function NoOptionsPlaceholder(props: PropsWithChildren): ReactElement {
+export function NoOptionsPlaceholder(props: PropsWithChildren): ReactElement | null {
+    // Without text there is nothing to announce, so don't expose an empty option.
+    if (!props.children) {
+        return null;
+    }
+
     return (
         <li className="widget-combobox-item widget-combobox-no-options" role="option">
             {props.children}
