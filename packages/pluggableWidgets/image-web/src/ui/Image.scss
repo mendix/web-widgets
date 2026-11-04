@@ -44,6 +44,15 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    // Show the image at its natural size, scaled down to fit the viewport.
+    img {
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: 90vw;
+        max-height: 85vh;
+    }
 }
 
 .mx-image-viewer.mx-image-background {
