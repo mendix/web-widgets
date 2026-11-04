@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where an image enlarged on click was shown smaller than the image on the page when its width was a percentage or a maximum height was set. The enlarged image now shows at its natural size, scaled down to fit the screen.
+
 ## [1.6.1] - 2026-08-14
 
 ### Fixed
