@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Removed
+
+- We removed the "Default font family" and "Default font size" settings, as they had no effect. When the selected text has no font family or font size, the toolbar now shows the "Font Family" and "Font Size" placeholders.
+
 ### Fixed
 
 - We fixed an issue where the table toolbar did not appear when the cursor was in a table and the custom toolbar was set to "Advanced" with a "Table" item.
@@ -25,8 +29,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - We fixed an issue where embedding a Google Maps link as a video produced an invalid embed address.
 
 - We fixed an issue where the "Enable spell checking" setting had no effect.
-
-- We fixed an issue where the "Default font family" and "Default font size" settings did not set the initial value of the font family and font size toolbar options.
 
 ## [5.1.1] - 2026-10-15
 

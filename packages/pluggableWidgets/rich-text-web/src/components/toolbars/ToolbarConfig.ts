@@ -1,13 +1,7 @@
 import { Editor } from "@tiptap/react";
 import { createContext } from "react";
 import { createTableConfigurationSections, createCellConfigurationSections } from "./helpers/configurationHelpers";
-import {
-    AddCustomFontsToFontFamilyDropdown,
-    AddDefaultFontToDropdown,
-    DefaultFonts,
-    FONT_LIST,
-    FONT_SIZE_LIST
-} from "./helpers/fontHelpers";
+import { AddCustomFontsToFontFamilyDropdown, FONT_LIST, FONT_SIZE_LIST } from "./helpers/fontHelpers";
 import {
     PresetEnum,
     ToolbarConfigEnum,
@@ -753,34 +747,23 @@ export function buildAdvancedToolbar(advancedConfig: AdvancedConfigType[]): Tool
 }
 
 /**
- * Enhances toolbar groups by merging custom fonts into the fontFamilySelect dropdown and
- * letting the font family / size dropdowns show the configured defaults
+ * Enhances toolbar groups by merging custom fonts into the fontFamilySelect dropdown
  * @param groups - Toolbar groups to enhance
  * @param customFonts - User-provided custom fonts to add
- * @param defaultFonts - Configured default font family / size shown when the selection has none
  * @returns Enhanced toolbar groups with merged and sorted fonts
  */
-function enhancedToolbarGroups(
-    groups: ToolbarGroupConfig[],
-    customFonts?: CustomFontsType[],
-    defaultFonts?: DefaultFonts
-): ToolbarGroupConfig[] {
-    const hasCustomFonts = !!customFonts && customFonts.length > 0;
-    if (!hasCustomFonts && !defaultFonts?.fontFamily && !defaultFonts?.fontSize) {
+function enhancedToolbarGroups(groups: ToolbarGroupConfig[], customFonts?: CustomFontsType[]): ToolbarGroupConfig[] {
+    // Enhance with custom fonts if provided
+    if (!customFonts || customFonts.length === 0) {
         return groups;
     }
+    // Map over groups and enhance fontFamilySelect button
     return groups.map(group => ({
         ...group,
         buttons: group.buttons.map(button => {
             switch (button.name) {
-                case "fontFamily": {
-                    const withCustomFonts = hasCustomFonts
-                        ? AddCustomFontsToFontFamilyDropdown(button, customFonts)
-                        : button;
-                    return defaultFonts ? AddDefaultFontToDropdown(withCustomFonts, defaultFonts) : withCustomFonts;
-                }
-                case "fontSize":
-                    return defaultFonts ? AddDefaultFontToDropdown(button, defaultFonts) : button;
+                case "fontFamily":
+                    return AddCustomFontsToFontFamilyDropdown(button, customFonts);
                 default:
                     return button;
             }
@@ -795,7 +778,6 @@ function enhancedToolbarGroups(
  * @param customConfig - Custom toolbar group configuration
  * @param advancedConfig - Advanced toolbar configuration
  * @param customFonts - Optional user-provided custom fonts to add to font family dropdown
- * @param defaultFonts - Optional default font family / size shown when the selection has none
  * @returns Filtered and enhanced toolbar groups
  */
 export function getFilteredToolbarGroups(
@@ -803,8 +785,7 @@ export function getFilteredToolbarGroups(
     toolbarConfig?: ToolbarConfigEnum,
     customConfig?: ToolbarGroupsConfig,
     advancedConfig?: AdvancedConfigType[],
-    customFonts?: CustomFontsType[],
-    defaultFonts?: DefaultFonts
+    customFonts?: CustomFontsType[]
 ): ToolbarGroupConfig[] {
     let filteredGroups: ToolbarGroupConfig[];
 
@@ -825,7 +806,7 @@ export function getFilteredToolbarGroups(
         filteredGroups = TOOLBAR_GROUPS.filter(group => !group.presetValue || group.presetValue <= maxPresetValue);
     }
 
-    return enhancedToolbarGroups(filteredGroups, customFonts, defaultFonts);
+    return enhancedToolbarGroups(filteredGroups, customFonts);
 }
 
 /**
