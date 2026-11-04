@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.9] - 2026-11-04
+
 ### Fixed
 
 - We fixed an issue where the "Refresh time (in seconds)" property had no effect and the gallery did not reload its data periodically.
