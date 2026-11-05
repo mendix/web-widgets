@@ -121,9 +121,10 @@ export function useComboboxBehavior(vm: ComboboxViewModel): ComboboxBehavior {
     }, [vm.options, vm.chips, vm.selected]);
     const { t, setInputValue, toggleItem, select, deselect, clear, selectAll, open, close, highlight, enter, leave } =
         vm;
+    const { placeholder } = vm;
     const captionOf = useCallback(
-        (id: string | null): string => (id === null ? t("emptyOption") : (captions.get(id) ?? "")),
-        [captions, t]
+        (id: string | null): string => (id === null ? placeholder : (captions.get(id) ?? "")),
+        [captions, placeholder]
     );
     const selectedIds = useMemo<string[]>(
         () => (multi && Array.isArray(vm.value) ? [...vm.value] : []),
@@ -259,7 +260,7 @@ export function useComboboxBehavior(vm: ComboboxViewModel): ComboboxBehavior {
         defaultHighlightedIndex: multi ? undefined : 0,
         stateReducer,
         getA11yStatusMessage() {
-            return vm.a11y.statusMessage ?? "";
+            return vm.a11y.statusMessage;
         },
         onIsOpenChange({ isOpen }) {
             if (isOpen) {
