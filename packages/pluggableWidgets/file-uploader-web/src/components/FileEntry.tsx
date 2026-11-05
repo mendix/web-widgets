@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { observer } from "mobx-react-lite";
-import { KeyboardEvent, MouseEvent, ReactElement, ReactNode, useCallback } from "react";
+import { KeyboardEvent, MouseEvent, ReactElement, ReactNode, useCallback, useEffect } from "react";
 import { ActionsBar } from "./ActionsBar";
 import { FileIcon } from "./FileIcon";
 import { ProgressBar } from "./ProgressBar";
@@ -8,6 +8,7 @@ import { UploadInfo } from "./UploadInfo";
 import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
 import { FileStatus, FileStore } from "../stores/FileStore";
 import { fileSize } from "../utils/fileSize";
+import { subscribeToFileName } from "../utils/mx-data";
 
 interface FileEntryContainerProps {
     store: FileStore;
@@ -15,6 +16,18 @@ interface FileEntryContainerProps {
 }
 
 export const FileEntryContainer = observer(({ store, actions }: FileEntryContainerProps): ReactElement | null => {
+    const objectItemId = store.objectItemId;
+
+    useEffect(() => {
+        if (!objectItemId) {
+            return;
+        }
+
+        return subscribeToFileName(objectItemId, () => {
+            store.fetchMxObject().catch(error => console.error("Could not refresh file name:", error));
+        });
+    }, [store, objectItemId]);
+
     const defaultAction = actions?.find(a => {
         return a.buttonIsDefault;
     });
