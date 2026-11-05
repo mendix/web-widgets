@@ -12,7 +12,7 @@
 
 ## 3. Refactoring
 
-- [ ] 3.1 Step 6: move the Core, hooks, Atlas View, conformance suite and sandbox into `packages/headless/combobox`; the View takes the Core; the suite becomes importable by an app project.
+- [ ] 3.1 Step 6: move the Core, hooks, Atlas View, conformance suite and sandbox into `packages/kits/combobox-kit`; the View takes the Core; the suite becomes importable by an app project.
 
 ## 4. Verification
 

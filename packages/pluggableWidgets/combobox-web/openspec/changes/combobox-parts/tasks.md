@@ -14,7 +14,7 @@
 
 ## 3. Refactoring
 
-- [ ] 3.1 Step 6: move the Core, hooks and Atlas View into `packages/headless/combobox`; the View takes the Core.
+- [ ] 3.1 Step 6: move the Core, hooks and Atlas View into `packages/kits/combobox-kit`; the View takes the Core.
 
 ## 4. Verification
 
