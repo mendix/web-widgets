@@ -7,6 +7,7 @@ import CropperPlaceholderIcon from "./assets/cropper-placeholder.svg";
 import { CropArea } from "./components/CropArea";
 import { resolveAspectRatio, toCropAspect } from "./utils/aspectRatio";
 import { describeConfig } from "./utils/describeConfig";
+import { DEFAULT_INITIAL_CROP_SIZE } from "./utils/initialCrop";
 
 declare function require(name: string): string;
 
@@ -47,6 +48,7 @@ function StaticCropPreview(props: { imageUrl: string; values: ImageCropperPrevie
                 onCropChange={setCrop}
                 onCropComplete={() => undefined}
                 aspect={aspect}
+                initialCropSize={values.initialCropSize ?? DEFAULT_INITIAL_CROP_SIZE}
                 circular={values.cropShape === "circle"}
                 resizable={false}
                 boundaryWidth={values.boundaryWidth ?? PREVIEW_BOUNDARY_WIDTH}
