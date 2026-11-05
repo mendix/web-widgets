@@ -311,7 +311,7 @@ All of these are files in the app project, see the delivery section of the gener
 ### Level 1: a few class touches
 
 ```tsx
-import { ComboboxView, type ComboboxViewComponent } from "@mendix/combobox-core";
+import { ComboboxView, type ComboboxViewComponent } from "@mendix/combobox-kit";
 
 export const MyCombobox: ComboboxViewComponent = props => (
     <ComboboxView {...props} classes={{ menuItem: "my-brand-option", toggle: "my-brand-caret" }} />
@@ -332,7 +332,7 @@ export const MyCombobox: ComboboxViewComponent = props => (
 ### Level 2: replace one part
 
 ```tsx
-import { ComboboxView, type ComboboxParts, type ComboboxViewComponent } from "@mendix/combobox-core";
+import { ComboboxView, type ComboboxParts, type ComboboxViewComponent } from "@mendix/combobox-kit";
 
 const MyOption: ComboboxParts["Option"] = ({ option, optionProps }) => (
     <li {...optionProps} className="my-option">
@@ -349,7 +349,7 @@ Keyboard and ARIA keep working because `optionProps` still comes from our Behavi
 ### Level 3a: full View with our Behavior (Tailwind, raw markup)
 
 ```tsx
-import { useComboboxBehavior, useComboboxPopover, type ComboboxViewComponent } from "@mendix/combobox-core/atlas";
+import { useComboboxBehavior, useComboboxPopover, type ComboboxViewComponent } from "@mendix/combobox-kit/atlas";
 
 export const MyCombobox: ComboboxViewComponent = ({ vm }) => {
     const b = useComboboxBehavior(vm);
@@ -380,7 +380,7 @@ export const MyCombobox: ComboboxViewComponent = ({ vm }) => {
 ```tsx
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import type { ComboboxViewComponent } from "@mendix/combobox-core";
+import type { ComboboxViewComponent } from "@mendix/combobox-kit";
 
 export const MyCombobox: ComboboxViewComponent = ({ vm }) => {
     const byId = (id: string | null) => vm.options.find(o => o.id === id) ?? null;
@@ -425,14 +425,20 @@ The wrapper renders no element: the View's root is the View's. The combobox has 
 
 ```
 packages/
-  headless/combobox/               @mendix/combobox-core
-    src/core/                      ComboboxCore, store, providers (from helpers/), ViewModel builder
-    src/hooks/                     useComboboxViewModel, useComboboxState
-    src/atlas/                     ComboboxView, parts/, classes.ts, useComboboxBehavior, useComboboxPopover, Combobox.scss
-    src/conformance/               shared test suite
-    examples/                      the five Views above
+  kits/combobox-kit/      @mendix/combobox-kit
+    src/main.ts                    ".": ComboboxViewModel and its types, useComboboxCore, createComboboxContainer
+    src/atlas.ts                   "./atlas": ComboboxView, parts, classes, useComboboxBehavior, useComboboxPopover
+    src/conformance.ts             "./conformance": describeComboboxConformance
+    src/preview.ts                 "./preview": createPreviewContainer, the placeholder text for the editor
+    src/core/                      ComboboxCore, container, config, gate, services, ViewModel builder
+    src/helpers/                   the selectors and providers per data source family
+    src/preview/                   the editor preview selectors
+    src/hooks/, src/atlas/         the Atlas View and its hooks
+    src/sandbox/                   BareView, tested and not built
+    src/typings/ComboboxProps.ts   copy of the widget's generated typings, guarded by a spec
     AGENTS.md
-  pluggableWidgets/combobox-web/   Combobox.tsx wrapper, XML, editorConfig, editorPreview, icons
+  pluggableWidgets/combobox-web/   Combobox.tsx wrapper, uiRegistry (trial), XML, editorConfig, editorPreview,
+                                   icons, ui/Combobox.scss, the three widget specs with their snapshots
 ```
 
 `Combobox.xml` gains one property: `uiVariant`, string, default `atlas`, in the Advanced group. `Combobox.editorPreview.tsx` stays as it is.
@@ -477,7 +483,8 @@ Each step keeps the MPK, the XML, and the existing unit and E2E tests green.
    Status 2026-11-02: done in the package change `combobox-classes`. `src/components/classes.ts` holds the map with the released class names as values; the Behavior getters carry the state attributes of their element and the View sets the hint-derived ones; `ComboboxOptionVM.content` is the custom content only, `OptionContent` places it per `hints.customContent`, and the captions providers lost `render`; `selectedContent` became `selectedCaption`, kept in the Core because the database selector's empty caption is the attribute's display value. The five DOM snapshots were updated once, on purpose, and the diff is additive: two data attributes next to the classes that were there. The modifier classes stay for one release, deprecated in the CHANGELOG, so app CSS keeps matching. Still deferred: `a11y.statusMessage`, until a View without our Behavior needs it (step 7).
 5. **Split into parts.** Break the Atlas View into one component per class key. Add the `classes` and `parts` props.
    Status 2026-11-02: done in the package change `combobox-parts`. Eleven parts, not one per class key: a part is something worth replacing as a whole, the rest stays inside its part and is reachable through `classes`. `ComboboxView` is one component for both modes with the `classes` and `parts` props; the parts read the resolved classes through a context hook; `SingleSelection`, `MultiSelection` and the three wrappers are gone. The five DOM snapshots are untouched. Still taking `vm` instead of the Core, until the wrapper of step 6.
-6. **Move to a package.** Create `packages/headless/combobox`, point the widget at it, reduce `Combobox.tsx` to the wrapper in section 10.
+6. **Move to a package.** Create `packages/kits/combobox-kit`, point the widget at it, reduce `Combobox.tsx` to the wrapper in section 10.
+   Status 2026-11-05: done in the package change `combobox-package-move`. Two private workspace packages: `@mendix/widget-kit` holds the envelope, the input facet, `focusBoundaryProps` and `useObservableSnapshot`; `@mendix/combobox-kit` holds the core, helpers, hooks, the Atlas View, the conformance suite, the preview selectors and the sandbox, with the four entries of section 10. The widget keeps the XML, the editor files, the icons, the stylesheet, the wrapper, the trial registry and its three specs, and depends on the package as `workspace:*`; the MPK bundles it and is byte-for-byte the same shape. The Behavior's root props and the bare View use the shared focus helper. 91 files moved with history; the widget's 51 tests and 5 snapshots pass unchanged against `dist`, the package runs 226 and the generic package 3.
 7. **Write the second View.** A throwaway Material UI View in a sandbox, run against the conformance suite. This is the real test of the ViewModel shape.
    Status 2026-11-03: done before step 6, in the package change `combobox-second-view`. `src/conformance/describeComboboxConformance.tsx` is the suite of section 11 of the generic design: sixteen role-based cases over a live Core, run by the Atlas View and by `src/sandbox/BareView.tsx`, a hand-rolled View with its own keyboard handling and ARIA over the ViewModel commands instead of the Material UI View sketched here (same ViewModel surface, no dependency, deletable). The suite found one Atlas gap (`aria-multiselectable` on the multi-select list, fixed) and the status message moved into the Core. The ViewModel needed no change; what a View without the Behavior does itself is recorded in the change's `design.md`.
 8. **Prove the in-project route.** Add `uiVariant` and the hardcoded first-iteration registry. Put a View file into a Mendix test project with the package in `node_modules`, let the project bundler compile it, hardcode its registration, and confirm the widget renders it with `uiVariant` set.
