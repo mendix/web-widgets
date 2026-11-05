@@ -4,6 +4,7 @@ import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-
 import { ComboboxConfig } from "./Combobox.config";
 import { ComboboxGateProps } from "./ComboboxGate";
 import {
+    ComboboxA11y,
     ComboboxHints,
     ComboboxLoading,
     ComboboxOptionVM,
@@ -11,14 +12,14 @@ import {
     ComboboxViewModel
 } from "./ComboboxViewModel";
 import { FilterInputEventService } from "./FilterInputEvent.service";
-import { Translate, WidgetA11y, WidgetStatus } from "./WidgetViewModel";
+import { Translate, WidgetStatus } from "./WidgetViewModel";
 import { MultiSelector, Selector, SingleSelector, Status } from "../helpers/types";
 
-type Envelope = Pick<
+type Envelope = Pick<ComboboxViewModel, "id" | "status" | "readOnly" | "validation" | "a11y" | "tabIndex">;
+type Selection = Pick<
     ComboboxViewModel,
-    "id" | "status" | "readOnly" | "validation" | "a11y" | "tabIndex" | "className" | "style"
+    "value" | "selected" | "chips" | "selectedCaption" | "placeholder" | "allSelected"
 >;
-type Selection = Pick<ComboboxViewModel, "value" | "selected" | "chips" | "selectedCaption" | "allSelected">;
 type Input = Pick<ComboboxViewModel, "inputValue" | "isOpen" | "highlightedIndex">;
 type Flags = Pick<ComboboxViewModel, "mode" | "clearable" | "filterable" | "canSelectAll">;
 type Commands = Pick<
@@ -37,8 +38,8 @@ type Commands = Pick<
     | "enter"
     | "leave"
 >;
-/** The raw text per key. `emptyOption` comes from the captions provider, which already handles its status. */
-type TextValues = Record<Exclude<keyof ComboboxTexts, "emptyOption">, string>;
+/** The raw text per key. */
+type TextValues = Record<keyof ComboboxTexts, string>;
 
 function shallowEqual<T extends object>(a: T, b: T): boolean {
     const keys = Object.keys(a) as Array<keyof T>;
@@ -85,7 +86,7 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
     private prevTexts?: TextValues;
     private prevInput?: Input;
     private prevEnvelope?: Envelope;
-    private prevA11y?: WidgetA11y;
+    private prevA11y?: ComboboxA11y;
     private prevOptions?: readonly ComboboxOptionVM[];
     private prevChips?: readonly ComboboxOptionVM[];
     private prevSelection?: Selection;
@@ -196,13 +197,11 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
 
     private translate<K extends keyof ComboboxTexts>(key: K, ...params: ComboboxTexts[K]): string {
         switch (key) {
-            case "emptyOption":
-                return this.selector.caption.emptyCaption;
             case "a11ySelectedValue":
             case "a11yOptionsAvailable":
                 return `${this.texts[key as "a11ySelectedValue" | "a11yOptionsAvailable"]} ${params[0]}`;
             default:
-                return this.texts[key as keyof TextValues];
+                return this.texts[key];
         }
     }
 
@@ -290,6 +289,7 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
                 selected: null,
                 chips: this.prevChips,
                 selectedCaption: this.selectedCaptions(ids),
+                placeholder: selector.caption.get(null),
                 allSelected: multi.isOptionsSelected()
             };
         } else {
@@ -298,19 +298,19 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
                 value: single.currentId,
                 selected: single.currentId === null ? null : this.option(single.currentId, true, false),
                 chips: [],
-                selectedCaption: selector.caption.get(single.currentId),
+                selectedCaption: single.currentId === null ? "" : selector.caption.get(single.currentId),
+                // The captions provider resolves the empty caption: the empty option text, or the
+                // attribute's display value for a database combobox whose value matches no option.
+                placeholder: selector.caption.get(null),
                 allSelected: "none"
             };
         }
         return (this.prevSelection = reuse(this.prevSelection, next));
     }
 
-    /** What the input area shows for a multi selection: the empty caption, nothing (boxes), or the joined captions. */
+    /** The joined captions of a multi selection in the "text" style; the "boxes" style shows chips instead. */
     private selectedCaptions(ids: string[]): string {
         const { caption } = this.selector;
-        if (ids.length === 0) {
-            return caption.emptyCaption;
-        }
         return this.config.selectedItemsStyle === "text" ? ids.map(id => caption.get(id)).join(", ") : "";
     }
 
