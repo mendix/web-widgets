@@ -62,7 +62,8 @@ export function DialogShell({
     const isInline = mode === "inline";
 
     // Inline positioning. `trackAvailableHeight` reports the room left at the resolved placement so
-    // the dialog shrinks to fit instead of overflowing the viewport.
+    // the dialog shrinks to fit instead of overflowing the viewport. Inline Escape is handled by
+    // `useDropdown`; focused mode handles it below.
     const {
         refs: inlineRefs,
         floatingStyles,
@@ -71,7 +72,8 @@ export function DialogShell({
         isOpen: isInline,
         onClose,
         referenceElement,
-        trackAvailableHeight: true
+        trackAvailableHeight: true,
+        closeOnEscape: true
     });
 
     // Focused mode interactions. Hooks run in both modes — React requires an unconditional call —

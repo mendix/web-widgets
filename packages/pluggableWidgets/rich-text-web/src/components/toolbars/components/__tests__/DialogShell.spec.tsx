@@ -43,6 +43,29 @@ describe("DialogShell inline mode", () => {
 
         expect(onClose).not.toHaveBeenCalled();
     });
+
+    it("closes on Escape", () => {
+        const { onClose } = renderShell("inline");
+
+        fireEvent.keyDown(screen.getByRole("button", { name: "Close" }), { key: "Escape" });
+
+        expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    it("stops Escape before it reaches other listeners", () => {
+        const spy = jest.fn();
+        document.body.addEventListener("keydown", spy, true);
+
+        try {
+            const { onClose } = renderShell("inline");
+            fireEvent.keyDown(screen.getByRole("button", { name: "Close" }), { key: "Escape" });
+
+            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(spy).not.toHaveBeenCalled();
+        } finally {
+            document.body.removeEventListener("keydown", spy, true);
+        }
+    });
 });
 
 describe("DialogShell focused mode", () => {

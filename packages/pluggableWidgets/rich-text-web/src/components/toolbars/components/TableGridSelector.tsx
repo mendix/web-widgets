@@ -11,7 +11,8 @@ export function TableGridSelector({ editor, onClose, referenceElement }: TableGr
     const { refs, floatingStyles } = useDropdown({
         isOpen: true,
         onClose,
-        referenceElement
+        referenceElement,
+        closeOnEscape: true
     });
 
     const handleCellHover = (row: number, col: number): void => {

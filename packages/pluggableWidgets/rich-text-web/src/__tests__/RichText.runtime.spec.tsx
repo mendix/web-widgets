@@ -385,4 +385,97 @@ describe("Rich Text runtime behaviour", () => {
             expect(container.querySelector(".tiptap-toolbar") !== null).toBe(hasToolbar);
         });
     });
+
+    describe("table toolbar", () => {
+        const tableValue = "<table><tbody><tr><td><p>Cell</p></td></tr></tbody></table>";
+
+        function renderWithCaretInTable(props: Partial<RichTextContainerProps>): RenderResult {
+            const result = render(
+                <RichText
+                    {...defaultProps}
+                    {...props}
+                    preset="custom"
+                    stringAttribute={new EditableValueBuilder<string>().withValue(tableValue).build()}
+                />
+            );
+            const editor = getEditor(result.container);
+            let cellTextPos = -1;
+            editor.state.doc.descendants((node, pos) => {
+                if (cellTextPos === -1 && node.isText) {
+                    cellTextPos = pos;
+                }
+            });
+            act(() => {
+                editor.commands.setTextSelection(cellTextPos);
+            });
+            return result;
+        }
+
+        function tableConfigurationButton(container: HTMLElement): Element | null {
+            return container.querySelector('button[title="Table Configuration"]');
+        }
+
+        it("shows the table toolbar with the basic custom toolbar when the table group is enabled", () => {
+            const { container } = renderWithCaretInTable({ toolbarConfig: "basic", tableBetter: true });
+
+            expect(tableConfigurationButton(container)).toBeInTheDocument();
+        });
+
+        it("shows the table toolbar with the advanced custom toolbar when it contains the table item", () => {
+            const { container } = renderWithCaretInTable({
+                toolbarConfig: "advanced",
+                advancedConfig: [{ ctItemType: "bold" }, { ctItemType: "separator" }, { ctItemType: "tableBetter" }]
+            });
+
+            expect(tableConfigurationButton(container)).toBeInTheDocument();
+        });
+
+        it("hides the table toolbar with the advanced custom toolbar when it has no table item", () => {
+            const { container } = renderWithCaretInTable({
+                toolbarConfig: "advanced",
+                advancedConfig: [{ ctItemType: "bold" }]
+            });
+
+            expect(tableConfigurationButton(container)).not.toBeInTheDocument();
+        });
+    });
+
+    describe("table grid picker", () => {
+        function renderAdvancedToolbar(advancedConfig: RichTextContainerProps["advancedConfig"]): RenderResult {
+            return render(
+                <RichText {...defaultProps} preset="custom" toolbarConfig="advanced" advancedConfig={advancedConfig} />
+            );
+        }
+
+        function insertTableButtons(container: HTMLElement): NodeListOf<HTMLButtonElement> {
+            return container.querySelectorAll('button[title="Insert Table"]');
+        }
+
+        it("opens one picker when the table item is added to more than one group", () => {
+            const { container } = renderAdvancedToolbar([
+                { ctItemType: "tableBetter" },
+                { ctItemType: "separator" },
+                { ctItemType: "tableBetter" }
+            ]);
+
+            expect(insertTableButtons(container)).toHaveLength(1);
+            fireEvent.click(insertTableButtons(container)[0]);
+
+            expect(container.querySelectorAll(".table-grid-selector")).toHaveLength(1);
+        });
+
+        it("closes on Escape without the Escape reaching the editor", () => {
+            const { container } = renderAdvancedToolbar([{ ctItemType: "tableBetter" }]);
+            const editorKeyDown = jest.fn();
+            getEditorDom(container).addEventListener("keydown", editorKeyDown);
+
+            fireEvent.click(insertTableButtons(container)[0]);
+            expect(container.querySelector(".table-grid-selector")).toBeInTheDocument();
+
+            fireEvent.keyDown(getEditorDom(container), { key: "Escape" });
+
+            expect(container.querySelector(".table-grid-selector")).not.toBeInTheDocument();
+            expect(editorKeyDown).not.toHaveBeenCalled();
+        });
+    });
 });
