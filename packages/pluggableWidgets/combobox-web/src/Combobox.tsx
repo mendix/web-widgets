@@ -1,10 +1,8 @@
 import { ReactElement, Suspense } from "react";
+import { useComboboxCore } from "@mendix/combobox-kit";
+import { ComboboxView, defaultClasses, UnavailablePlaceholder } from "@mendix/combobox-kit/atlas";
 import { ComboboxContainerProps } from "../typings/ComboboxProps";
-import { defaultClasses } from "./components/classes";
-import { ComboboxView } from "./components/ComboboxView";
-import { uiVariantFromName, uiVariants } from "./components/uiRegistry";
-import { UnavailablePlaceholder } from "./components/UnavailablePlaceholder";
-import { useComboboxCore } from "./hooks/useComboboxCore";
+import { uiVariantFromName, uiVariants } from "./uiRegistry";
 import "./ui/Combobox.scss";
 
 export default function Combobox(props: ComboboxContainerProps): ReactElement {
