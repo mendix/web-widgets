@@ -1,8 +1,7 @@
 import { ReactElement, useMemo } from "react";
+import { ComboboxView } from "@mendix/combobox-kit/atlas";
+import { CB_TOKENS as CB, createPreviewContainer } from "@mendix/combobox-kit/preview";
 import { ComboboxPreviewProps } from "../typings/ComboboxProps";
-import { ComboboxView } from "./components/ComboboxView";
-import { createPreviewContainer } from "./core/createPreviewContainer";
-import { CB_TOKENS as CB } from "./core/tokens";
 import "./ui/Combobox.scss";
 
 export const preview = (props: ComboboxPreviewProps): ReactElement => {
