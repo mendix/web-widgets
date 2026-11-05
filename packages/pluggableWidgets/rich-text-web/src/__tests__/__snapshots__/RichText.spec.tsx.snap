@@ -489,7 +489,7 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
               <span
                 class="dropdown-label"
               >
-                14px
+                Font Size
               </span>
               <span
                 class="icons icon-Arrow-down dropdown-arrow"

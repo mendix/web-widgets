@@ -417,6 +417,22 @@ describe("Rich Text runtime behaviour", () => {
     });
 
     describe("font size dropdown", () => {
+        // The editor cannot know the size the theme gives unformatted text, so it shows the
+        // placeholder instead of guessing one of the options.
+        it("shows the placeholder for text without a font size", () => {
+            const { container } = render(
+                <RichText
+                    {...defaultProps}
+                    preset="standard"
+                    stringAttribute={new EditableValueBuilder<string>().withValue("<p>Plain</p>").build()}
+                />
+            );
+
+            expect(container.querySelector(".toolbar-dropdown-button.fontSize .dropdown-label")?.textContent).toBe(
+                "Font Size"
+            );
+        });
+
         // The class form stores the size without a unit, so loading it must still match the
         // px options of the dropdown, the same as the inline form.
         it.each([
