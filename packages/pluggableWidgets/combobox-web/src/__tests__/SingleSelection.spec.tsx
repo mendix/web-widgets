@@ -1,5 +1,7 @@
 import "@testing-library/jest-dom";
-jest.mock("../hooks/useFloatingMenu");
+jest.mock("@mendix/combobox-kit/hooks/useFloatingMenu", () =>
+    jest.requireActual("@mendix/combobox-kit/hooks/__mocks__/useFloatingMenu")
+);
 import { act, fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
 import { resetIdCounter } from "downshift";
 import { ListValue } from "mendix";

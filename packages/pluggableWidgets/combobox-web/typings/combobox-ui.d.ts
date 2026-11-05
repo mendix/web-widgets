@@ -5,35 +5,35 @@
  */
 declare module "@combobox-ui/atlas" {
     import { ComponentType } from "react";
-    import { ComboboxViewModel } from "src/core/ComboboxViewModel";
+    import { ComboboxViewModel } from "@mendix/combobox-kit";
 
     export const Combobox: ComponentType<{ vm: ComboboxViewModel }>;
 }
 
 declare module "@combobox-ui/tailwind" {
     import { ComponentType } from "react";
-    import { ComboboxViewModel } from "src/core/ComboboxViewModel";
+    import { ComboboxViewModel } from "@mendix/combobox-kit";
 
     export const Combobox: ComponentType<{ vm: ComboboxViewModel }>;
 }
 
 declare module "@combobox-ui/mui" {
     import { ComponentType } from "react";
-    import { ComboboxViewModel } from "src/core/ComboboxViewModel";
+    import { ComboboxViewModel } from "@mendix/combobox-kit";
 
     export const Combobox: ComponentType<{ vm: ComboboxViewModel }>;
 }
 
 declare module "@combobox-ui/antd" {
     import { ComponentType } from "react";
-    import { ComboboxViewModel } from "src/core/ComboboxViewModel";
+    import { ComboboxViewModel } from "@mendix/combobox-kit";
 
     export const Combobox: ComponentType<{ vm: ComboboxViewModel }>;
 }
 
 declare module "@combobox-ui/ix" {
     import { ComponentType } from "react";
-    import { ComboboxViewModel } from "src/core/ComboboxViewModel";
+    import { ComboboxViewModel } from "@mendix/combobox-kit";
 
     export const Combobox: ComponentType<{ vm: ComboboxViewModel }>;
 }
