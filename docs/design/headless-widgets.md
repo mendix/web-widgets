@@ -302,17 +302,27 @@ A new package type beside `pluggableWidgets` and `shared`:
 
 ```
 packages/
-  headless/<widget>/             @mendix/<widget>-core      public npm package
+  kits/widget-kit/      @mendix/widget-kit    what every headless widget shares
+    src/WidgetViewModel.ts       the envelope, the input facet, Translate and TextMap
+    src/focusBoundaryProps.ts    the focus boundary helper (section 8.5)
+    src/useObservableSnapshot.ts the snapshot hook a host uses
+  kits/<widget>-kit/    @mendix/<widget>-kit  the widget's package
+    src/main.ts                  "."            the contract, useXCore, the container
+    src/atlas.ts                 "./atlas"      XView, parts, classes, useXBehavior, useXPopover
+    src/conformance.ts           "./conformance" the suite (section 11)
+    src/preview.ts               "./preview"    what the editor preview needs
     src/core/                    store, providers, ViewModel builder
-    src/hooks/                   useXViewModel, useXState
-    src/atlas/                   XView, parts, classes, useXBehavior, useXPopover, X.scss
-    src/conformance/             shared test suite (section 11)
-    examples/                    one View per customisation level
+    src/hooks/, src/atlas/       the Atlas View and its hooks
+    src/sandbox/                 throwaway Views, tested, not built
+    src/typings/XProps.ts        a copy of the widget's generated typings, guarded by a spec
     AGENTS.md                    agent-facing guide to the contract
-  pluggableWidgets/<widget>-web/ thin wrapper, depends on the core as workspace:*
+  pluggableWidgets/<widget>-web/ thin wrapper, XML, editor config and preview, icons, X.scss;
+                                 depends on the package as workspace:* and bundles it into the MPK
 ```
 
-In the first iteration a Core accepts the generated `XContainerProps` directly. That couples the npm package to the XML, so they move together. A narrower config type is a later refinement.
+Both packages are private workspace packages until step 8 is done, built with `tsc` into `dist` like the shared plugin packages, with a wildcard `exports` map so that every file is importable by path and the four entries by name. The Atlas stylesheet stays in the widget: the MPK is what ships CSS, the client merges it into one `widgets.css`, and a View in the app project styles against the classes the MPK already loaded.
+
+In the first iteration a Core accepts the generated `XContainerProps` directly. That couples the npm package to the XML, so they move together: the package carries a copy of the generated typings as a `.ts` file (declarations are not emitted from a `.d.ts`), and a spec fails when the copy drifts from the widget's generated file. A narrower config type is a later refinement.
 
 ### 10.3 Delivery: Views live in the app project
 
@@ -395,6 +405,8 @@ Status 2026-11-04: five Views ran in Studio Pro over the combobox ViewModel with
 | 2026-11-03 | The second View comes before the package move and brings its own keyboard handling and ARIA instead of a component library: it exercises the ViewModel command surface a library View needs, adds no dependency and can be deleted. The conformance suite is role-based and takes any component that renders the ViewModel; the live-region text is composed by the Core.                                             |
 | 2026-11-04 | Behavior and Popover are the Atlas View's: downshift and floating-ui are its dependencies, not the Core's. The contract is the ViewModel plus the conformance suite; a library View brings its own keyboard handling and ARIA.                                                                                                                                                                                        |
 | 2026-11-04 | `className` and `style` leave the envelope: a widget with the Label system property never receives them, a widget without it adds them to its own ViewModel. The widget's duty towards the label is `id` on the element the label targets.                                                                                                                                                                            |
+| 2026-11-04 | The combobox ViewModel carries `placeholder` next to `selectedCaption`, and the empty option text leaves the text map because the Core resolves it. The highlight is optional input: a View whose library does not report it gets a status message with the option count only. A View ships its own CSS and never global element rules, since a lazily loaded View cannot join the client's merged widget stylesheet. |
 | 2026-11-05 | The View receives the snapshot `vm`, never the Core, so MobX stays inside the MPK and a library View needs no runtime code from the package. The host renders no element of its own; the focus boundary is a pure helper the View spreads on its root, and filling the container is a contract rule.                                                                                                                  |
 | 2026-11-05 | The registry stays in-house for now; the target is a client-resolved View handed to the widget as a prop, behind the same resolving function.                                                                                                                                                                                                                                                                         |
-| 2026-11-04 | The combobox ViewModel carries `placeholder` next to `selectedCaption`, and the empty option text leaves the text map because the Core resolves it. The highlight is optional input: a View whose library does not report it gets a status message with the option count only. A View ships its own CSS and never global element rules, since a lazily loaded View cannot join the client's merged widget stylesheet. |
+| 2026-11-05 | One envelope of five fields every widget fills (`id`, `status`, `hints`, `t`, `tabIndex`) and one facet, `InputViewModel`, for Studio Pro's input-widget bundle (`readOnly`, `validation`, `a11y`, `enter`, `leave`). No further facets: a named facet needs shared code that consumes it; a field one widget fills stays in that widget's ViewModel.                                                                 |
+| 2026-11-05 | Step 6 done: `@mendix/widget-kit` (envelope, input facet, focus helper, snapshot hook) and `@mendix/combobox-kit` (core, Atlas View, conformance, preview) as private workspace packages built with `tsc`; the widget is XML, editor files, stylesheet, the wrapper and the trial registry. The generated typings are copied into the package and guarded by a spec; the stylesheet stays with the MPK.               |
