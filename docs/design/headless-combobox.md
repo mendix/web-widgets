@@ -33,9 +33,9 @@ All of `isOpen`, `inputValue`, and `highlightedIndex` live in the Core:
 
 - `inputValue` drives the datasource filter (`setSearchTerm`) and the `onChangeFilterInputEvent` with its debounce.
 - `onLeaveEvent` closes the menu, so the Core must own `isOpen`.
-- `highlightedIndex` is needed for the ARIA status message, and a library View simply ignores it.
+- `highlightedIndex` is needed for the ARIA status message. A library View feeds it when its library reports the highlight (Material UI does) and leaves it at -1 when it does not (Ant Design); the status message then carries the option count only.
 
-Downshift stays for keyboard and ARIA, but fully controlled: `isOpen`, `inputValue`, `selectedItem`, and `highlightedIndex` are all passed in from the Core and every `onXChange` forwards to a Core command. The key handling and accumulated bug fixes in the two downshift hooks survive the move unchanged.
+Downshift stays as the Atlas View's keyboard handling and ARIA (section 4), fully controlled: `isOpen`, `inputValue`, `selectedItem`, and `highlightedIndex` are all passed in from the Core and every `onXChange` forwards to a Core command. The key handling and accumulated bug fixes in the two downshift hooks survive the move unchanged. No other View needs it: the hand-rolled Views of the Studio Pro trial (step 8) handle keys over the commands, the library Views bring their own.
 
 Chip order for multi-select (`selectedItemsSorting`) is a model concern, exposed as the order of `chips`, because it is a Studio Pro property with data meaning. It is not a hint.
 
@@ -57,15 +57,17 @@ interface ComboboxHints {
     customContent: "none" | "everywhere" | "menuOnly"; // Studio Pro "no" | "yes" | "listItem"
 }
 
-interface ComboboxViewModel extends WidgetViewModel<ComboboxHints> {
+interface ComboboxViewModel extends WidgetViewModel<ComboboxHints, ComboboxTexts>, InputViewModel {
     mode: "single" | "multi";
+    a11y: InputA11y & { statusMessage: string }; // the live-region text, composed by the Core
 
     // state
     options: ReadonlyArray<ComboboxOptionVM>;
     value: string | ReadonlyArray<string> | null;
     selected: ComboboxOptionVM | null; // single mode, the selected option with its caption and content
     chips: ReadonlyArray<ComboboxOptionVM>; // multi mode, selected items in configured order
-    selectedCaption: string; // what the input area shows while nothing is typed
+    selectedCaption: string; // the selection's caption: single caption, joined captions in the multi "text" style, else ""
+    placeholder: string; // what the input area shows while nothing is selected
     inputValue: string;
     isOpen: boolean;
     highlightedIndex: number;
@@ -87,8 +89,7 @@ interface ComboboxViewModel extends WidgetViewModel<ComboboxHints> {
     selectAll(): void;
     setInputValue(text: string): void;
     loadMore(): void;
-    enter(): void; // widget received focus from outside, fires onEnterEvent
-    leave(): void; // focus left the widget, fires onLeaveEvent and closes
+    leave(): void; // from the input facet, narrowed: also closes the menu
 }
 ```
 
@@ -97,12 +98,12 @@ Notes:
 - `caption` is always a string. The Core needs it anyway for filtering, downshift's `itemToString`, and the ARIA status message.
 - `content` is the widget tree the app developer configured under "Custom content" (`optionsSourceAssociationCustomContent` and its database and static siblings). It is the one place React leaks into the contract. The Core builds it whenever the widget is configured and never decides where it is shown. Placement is the View's decision, guided by `hints.customContent`: the Atlas View renders `content` in the menu for `everywhere` and `menuOnly`, and in the input and chips for `everywhere` only. A custom View renders `content ?? caption` wherever it likes. This is safe because every use of the placement today is presentational: `CaptionsProvider.render`, the class and placeholder toggles in `SingleSelection`, and `getSelectedCaptionsPlaceholder`.
 - `enter` and `leave` exist so a View that does not use our Behavior can still fire the Mendix enter and leave events.
+- `placeholder` is separate from `selectedCaption` since 2026-11-04. One field had carried the empty option text, the selected caption, the joined captions and the empty string depending on mode and style, and three library Views got the placeholder wrong on the first try. The empty option text is not a key in the text map either: the Core resolves it, because a database combobox shows the attribute's display value while its value matches no option.
 - All texts come through `vm.t`, see the generic document, section 7.1. The combobox text map:
 
 ```ts
 interface ComboboxTexts {
     noOptions: [];
-    emptyOption: [];
     clearSelection: [];
     removeSelection: [];
     selectAll: [];
@@ -122,6 +123,8 @@ Status 2026-11-03: implemented in the package change `combobox-second-view`. The
 `inputSlice` (inputValue, isOpen, highlightedIndex), `selectionSlice` (value, selected, chips, allSelected), `optionsSlice` (array of per-id `optionSlice` entries), `loadingSlice`, `staticSlice` (hints, t, clearable, filterable, a11y). Typing a character rebuilds `inputSlice` only. Moving the highlight creates exactly two new option objects.
 
 ## 4. Behavior
+
+The Atlas View's keyboard handling and ARIA: downshift in controlled mode behind prop getters. It ships beside the Atlas View and a raw-markup View may reuse it (level 3a); the contract does not require it, see the generic document, section 4, rule 6.
 
 ```ts
 interface ComboboxBehavior {
@@ -281,14 +284,14 @@ Status 2026-11-02: implemented in the package change `combobox-parts`; `src/comp
 
 ```ts
 interface ComboboxViewProps {
-    core: ComboboxCore;
+    vm: ComboboxViewModel;
     classes?: Partial<ComboboxClasses>;
     parts?: Partial<ComboboxParts>;
 }
 type ComboboxViewComponent = ComponentType<ComboboxViewProps>;
 ```
 
-`classes` overrides replace the Atlas class of the given keys and leave the others; `parts` replaces the given parts and leaves the others. Until step 6 the Atlas View takes the ViewModel snapshot (`vm`) from the widget's `useComboboxCore` instead of the Core, plus the editor preview's `keepMenuOpen` and `className`; the wrapper of section 10 passes the Core and the View subscribes itself.
+`classes` overrides replace the Atlas class of the given keys and leave the others; `parts` replaces the given parts and leaves the others. The View takes the snapshot and the wrapper subscribes (generic document, section 9); the Atlas View additionally takes the editor preview's `keepMenuOpen` and `className`. Every View puts `vm.id` on the combobox input, which is where the Studio Pro label points, spreads the focus boundary on its root and lets that root fill its container.
 
 ## 9. Examples per customisation level
 
@@ -346,15 +349,9 @@ Keyboard and ARIA keep working because `optionProps` still comes from our Behavi
 ### Level 3a: full View with our Behavior (Tailwind, raw markup)
 
 ```tsx
-import {
-    useComboboxViewModel,
-    useComboboxBehavior,
-    useComboboxPopover,
-    type ComboboxViewComponent
-} from "@mendix/combobox-core";
+import { useComboboxBehavior, useComboboxPopover, type ComboboxViewComponent } from "@mendix/combobox-core/atlas";
 
-export const MyCombobox: ComboboxViewComponent = ({ core }) => {
-    const vm = useComboboxViewModel(core);
+export const MyCombobox: ComboboxViewComponent = ({ vm }) => {
     const b = useComboboxBehavior(vm);
     const pop = useComboboxPopover(vm);
     return (
@@ -383,10 +380,9 @@ export const MyCombobox: ComboboxViewComponent = ({ core }) => {
 ```tsx
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { useComboboxViewModel, type ComboboxViewComponent } from "@mendix/combobox-core";
+import type { ComboboxViewComponent } from "@mendix/combobox-core";
 
-export const MyCombobox: ComboboxViewComponent = ({ core }) => {
-    const vm = useComboboxViewModel(core);
+export const MyCombobox: ComboboxViewComponent = ({ vm }) => {
     const byId = (id: string | null) => vm.options.find(o => o.id === id) ?? null;
     return (
         <Autocomplete
@@ -419,18 +415,20 @@ Material UI owns keyboard and ARIA here. The Core still owns data, Mendix bindin
 ```tsx
 // packages/pluggableWidgets/combobox-web/src/Combobox.tsx
 export default function Combobox(props: ComboboxContainerProps) {
-    const core = useComboboxCore(props);
+    const { vm } = useComboboxCore(props);
     const View = useWidgetView("Combobox", props.uiVariant);
-    return <View core={core} />;
+    return <View vm={vm} />;
 }
 ```
+
+The wrapper renders no element: the View's root is the View's. The combobox has the Label system property, so the client renders the form-group wrapper with the label, Class and Style, and the View links the label by putting `vm.id` on the input.
 
 ```
 packages/
   headless/combobox/               @mendix/combobox-core
     src/core/                      ComboboxCore, store, providers (from helpers/), ViewModel builder
-    src/hooks/                     useComboboxViewModel, useComboboxState, useComboboxBehavior, useComboboxPopover
-    src/atlas/                     ComboboxView, parts/, classes.ts, Combobox.scss
+    src/hooks/                     useComboboxViewModel, useComboboxState
+    src/atlas/                     ComboboxView, parts/, classes.ts, useComboboxBehavior, useComboboxPopover, Combobox.scss
     src/conformance/               shared test suite
     examples/                      the five Views above
     AGENTS.md
@@ -483,11 +481,13 @@ Each step keeps the MPK, the XML, and the existing unit and E2E tests green.
 7. **Write the second View.** A throwaway Material UI View in a sandbox, run against the conformance suite. This is the real test of the ViewModel shape.
    Status 2026-11-03: done before step 6, in the package change `combobox-second-view`. `src/conformance/describeComboboxConformance.tsx` is the suite of section 11 of the generic design: sixteen role-based cases over a live Core, run by the Atlas View and by `src/sandbox/BareView.tsx`, a hand-rolled View with its own keyboard handling and ARIA over the ViewModel commands instead of the Material UI View sketched here (same ViewModel surface, no dependency, deletable). The suite found one Atlas gap (`aria-multiselectable` on the multi-select list, fixed) and the status message moved into the Core. The ViewModel needed no change; what a View without the Behavior does itself is recorded in the change's `design.md`.
 8. **Prove the in-project route.** Add `uiVariant` and the hardcoded first-iteration registry. Put a View file into a Mendix test project with the package in `node_modules`, let the project bundler compile it, hardcode its registration, and confirm the widget renders it with `uiVariant` set.
+   Status 2026-11-04: proven ahead of step 6 in a scratch Mendix project, as a trial that is not committed. The widget's Name suffix stood in for `uiVariant` (Class cannot be the switch: with the Label system property the client keeps Class and Style on the form-group wrapper), and a registry of five `lazy(() => import("@combobox-ui/<name>"))` entries, left external by the widget's rollup config, stood in for the registration. Studio Pro's bundler resolves each specifier from the project's `node_modules` into a lazy chunk, so no registration call exists; the price is that the specifiers are a fixed list (section 13). Five Views ran over the ViewModel without a change to it: two hand-rolled (plain CSS, and Tailwind compiled into the chunk), Material UI Autocomplete, Ant Design Select, and the Siemens iX dropdown (web components, token-only CSS). What they taught is folded into the sections above: `placeholder` split from `selectedCaption` (section 3); `className` and `style` dropped from the envelope, the focus boundary made a helper and the full-width root a contract rule (generic document, sections 7 and 8.5), because every View repeated the full-width root, the focus boundary and the menu `mousedown` guard; the highlight as optional input (section 2); downshift as the Atlas View's (section 4); per-View CSS, the conformance split and the chip-navigation gap (generic document, sections 11 and 14).
 
 Publishing to npm comes after step 8.
 
 ## 13. Open questions (combobox)
 
-- Which Mendix test project proves step 8, and where exactly does the hardcoded registration call live?
+- Step 8's extension point: the registry is a fixed list of import specifiers because the widget's bundler must know them. Named slots, or one conventional app package that exports the variants by name for `uiVariant` to select among?
+- Chip keyboard navigation (ArrowLeft, ArrowRight, Backspace, Delete on the chips) is Atlas Behavior today and absent from the conformance suite; two hand-rolled Views shipped without it. Does the suite require it of every View?
 - `ComboboxTexts` has no key for the toggle control; the Atlas toggle is decorative and the bare View hides its own. Add `toggleMenu` when the texts move to the system-text API, or keep the toggle out of the accessibility tree by contract?
 - Does the existing combobox OpenSpec folder get one change per migration step, or one change for the whole split?

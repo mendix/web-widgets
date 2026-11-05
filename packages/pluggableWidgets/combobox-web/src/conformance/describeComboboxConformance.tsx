@@ -67,6 +67,18 @@ export function describeComboboxConformance(name: string, View: ComboboxConforma
 
                 expect(input).toHaveAttribute("aria-expanded", "false");
                 expect(screen.queryAllByRole("option")).toHaveLength(0);
+                // The Studio Pro label is rendered by the client as `<label for={widget id}>`.
+                expect(input).toHaveAttribute("id", "comboBox1");
+            });
+
+            it("shows the empty option text while nothing is selected", () => {
+                const attribute = new EditableValueBuilder<string>().withUniverse("red", "green").build();
+                mount(View, enumerationProps(attribute));
+
+                // As visible text or as the input's placeholder, whichever the View chooses.
+                expect(
+                    screen.queryByText("Select...") ?? screen.queryByPlaceholderText("Select...")
+                ).toBeInTheDocument();
             });
 
             it("opens on click, lists every option with its caption and marks the selected one", () => {

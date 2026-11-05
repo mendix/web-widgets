@@ -112,8 +112,6 @@ export function BareView({ vm }: { vm: ComboboxViewModel }): ReactElement {
 
     return (
         <div
-            className={vm.className}
-            style={vm.style}
             onFocus={e => {
                 if (crossesBoundary(e)) {
                     vm.enter();
@@ -173,7 +171,9 @@ export function BareView({ vm }: { vm: ComboboxViewModel }): ReactElement {
                     }
                 }}
             />
-            {!multi && vm.inputValue === "" && <span aria-hidden="true">{vm.selectedCaption}</span>}
+            {!multi && vm.inputValue === "" && (
+                <span aria-hidden="true">{vm.selected !== null ? vm.selectedCaption : vm.placeholder}</span>
+            )}
             {vm.clearable && !vm.readOnly && hasValue && (
                 <button
                     type="button"

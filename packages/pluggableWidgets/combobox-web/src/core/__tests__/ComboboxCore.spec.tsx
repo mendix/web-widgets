@@ -66,15 +66,18 @@ describe("ComboboxCore", () => {
             ]);
             expect(vm.value).toBe("green");
             expect(vm.selected).toMatchObject({ id: "green", caption: "Formatted green", selected: true });
+            expect(vm.selectedCaption).toBe("Formatted green");
+            expect(vm.placeholder).toBe("Select...");
         });
 
-        it("has no selected option when the attribute is empty", () => {
+        it("has no selected option and shows the empty option text when the attribute is empty", () => {
             const attribute = new EditableValueBuilder<string>().withUniverse("red", "green").build();
             const vm = createCore(enumerationProps(attribute)).viewModel;
 
             expect(vm.value).toBeNull();
             expect(vm.selected).toBeNull();
-            expect(vm.t("emptyOption")).toBe("Select...");
+            expect(vm.selectedCaption).toBe("");
+            expect(vm.placeholder).toBe("Select...");
         });
 
         it("maps an unavailable selector to the unavailable status", () => {

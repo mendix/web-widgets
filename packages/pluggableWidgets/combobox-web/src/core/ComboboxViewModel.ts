@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { WidgetViewModel } from "./WidgetViewModel";
+import { InputA11y, InputViewModel, WidgetViewModel } from "./WidgetViewModel";
 import {
     LoadingTypeEnum,
     ReadOnlyStyleEnum,
@@ -33,7 +33,6 @@ export interface ComboboxHints {
 
 export type ComboboxTexts = {
     noOptions: [];
-    emptyOption: [];
     clearSelection: [];
     removeSelection: [];
     selectAll: [];
@@ -50,13 +49,24 @@ export interface ComboboxLoading {
     hasMore: boolean;
 }
 
+export interface ComboboxA11y extends InputA11y {
+    /**
+     * The live-region text: the selection, and while the menu is open the option count with the
+     * keyboard instructions, or the no-options text. Composed by the Core so that every View
+     * announces the same thing.
+     */
+    statusMessage: string;
+}
+
 /**
- * The combobox ViewModel. All state lives in the Core, including the open flag, the input text
- * and the highlighted index; a behaviour library such as downshift runs in controlled mode
- * against it. See docs/design/headless-combobox.md, section 3.
+ * The combobox ViewModel: the envelope, the input facet and the combobox body. All state lives in
+ * the Core, including the open flag, the input text and the highlighted index; a behaviour
+ * library such as downshift runs in controlled mode against it.
+ * See docs/design/headless-combobox.md, section 3.
  */
-export interface ComboboxViewModel extends WidgetViewModel<ComboboxHints, ComboboxTexts> {
+export interface ComboboxViewModel extends WidgetViewModel<ComboboxHints, ComboboxTexts>, InputViewModel {
     mode: "single" | "multi";
+    a11y: ComboboxA11y;
 
     // state
     options: readonly ComboboxOptionVM[];
@@ -66,12 +76,17 @@ export interface ComboboxViewModel extends WidgetViewModel<ComboboxHints, Combob
     /** Multi mode: the selected options in the configured order. */
     chips: readonly ComboboxOptionVM[];
     /**
-     * The text the input area shows when nothing is typed: the selected caption in single mode,
-     * the joined captions or an empty string in multi mode, the empty option text when nothing is
-     * selected. A database selector shows its attribute's display value when the value matches no
-     * option, which is why this is not derived from `selected` and `t("emptyOption")` by the View.
+     * The caption of the selection, for the input area while nothing is typed: the selected
+     * option's caption in single mode, the joined captions in multi mode with the "text" style,
+     * an empty string in the "boxes" style and whenever nothing is selected.
      */
     selectedCaption: string;
+    /**
+     * What the input area shows while nothing is selected: the "Empty option text" property, or
+     * for a database combobox the attribute's display value while it matches no option. Not
+     * derived from the texts by the View, so that the display-value rule stays in the Core.
+     */
+    placeholder: string;
     /** The filter text typed in the input. Empty while nothing is typed. */
     inputValue: string;
     isOpen: boolean;
@@ -102,8 +117,6 @@ export interface ComboboxViewModel extends WidgetViewModel<ComboboxHints, Combob
      */
     setInputValue(text: string, reason?: "input" | "reset"): void;
     loadMore(): void;
-    /** The widget received focus from outside: runs the "On enter" action. */
-    enter(): void;
     /** Focus left the widget: runs the "On leave" action and closes the menu. */
     leave(): void;
 }
