@@ -508,4 +508,26 @@ describe("Rich Text runtime behaviour", () => {
             expect(editorKeyDown).not.toHaveBeenCalled();
         });
     });
+
+    describe("font size dropdown", () => {
+        // The class form stores the size without a unit, so loading it must still match the
+        // px options of the dropdown, the same as the inline form.
+        it.each([
+            ["class", `<p><span data-font-size="24" class="has-font-size">Big</span></p>`],
+            ["inline", `<p><span style="font-size: 24px">Big</span></p>`]
+        ] as const)("shows the size of loaded %s mode text", (styleDataFormat, value) => {
+            const { container } = render(
+                <RichText
+                    {...defaultProps}
+                    preset="standard"
+                    styleDataFormat={styleDataFormat}
+                    stringAttribute={new EditableValueBuilder<string>().withValue(value).build()}
+                />
+            );
+
+            expect(container.querySelector(".toolbar-dropdown-button.fontSize .dropdown-label")?.textContent).toBe(
+                "24px"
+            );
+        });
+    });
 });

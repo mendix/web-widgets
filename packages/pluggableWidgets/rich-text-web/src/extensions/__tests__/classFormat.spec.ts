@@ -144,7 +144,7 @@ describe("text-mark extensions — class format", () => {
             name: "FontSize",
             html: '<p><span data-font-size="18" class="has-font-size">x</span></p>',
             attr: "fontSize",
-            value: "18"
+            value: "18px"
         }
     ])("$name: loading the class/data form restores the mark attribute", ({ html, attr, value }) => {
         editor = makeEditor("class");
@@ -168,8 +168,8 @@ describe("text-mark extensions — class format", () => {
             attr: "fontFamily",
             value: "Arial"
         },
-        // The class form stores only the number, so a reload yields the unitless value.
-        { name: "setFontSize", apply: (e: Editor) => e.commands.setFontSize("18px"), attr: "fontSize", value: "18" }
+        // The class form stores only the number; parsing restores the px unit.
+        { name: "setFontSize", apply: (e: Editor) => e.commands.setFontSize("18px"), attr: "fontSize", value: "18px" }
     ])("$name: setContent(getHTML()) round-trip keeps the mark", ({ apply, attr, value }) => {
         editor = makeEditor("class");
         editor.commands.setContent("<p>x</p>");
