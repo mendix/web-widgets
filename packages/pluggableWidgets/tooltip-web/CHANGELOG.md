@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where screen readers did not announce tooltip content on interactive elements.
+
 ## [1.5.1] - 2026-02-10
 
 ### Added
