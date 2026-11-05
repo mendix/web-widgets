@@ -45,8 +45,10 @@
         background-color: attr(data-background-color type(<color>));
     }
 
+    // type(*) inserts the value as tokens, so a list such as `impact, sans-serif` is parsed as
+    // a family list. raw-string would turn it into a single, non-existent family name.
     .has-font-family {
-        font-family: attr(data-font-family raw-string);
+        font-family: attr(data-font-family type(*));
     }
 
     .has-font-size {
@@ -67,7 +69,7 @@
     }
 
     .has-marker-font-family {
-        --rt-marker-font-family: attr(data-marker-font-family raw-string);
+        --rt-marker-font-family: attr(data-marker-font-family type(*));
     }
 
     .has-marker-bold {

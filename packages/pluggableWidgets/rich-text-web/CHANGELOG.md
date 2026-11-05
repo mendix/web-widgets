@@ -24,6 +24,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where the "Enable spell checking" setting had no effect.
 
+- We fixed an issue where text and list markers were shown in the browser's default font instead of the selected font family when the style data format was set to "Class".
+
 ## [5.1.1] - 2026-10-15
 
 ### Fixed
