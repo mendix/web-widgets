@@ -4,7 +4,6 @@ import { Superscript } from "@tiptap/extension-superscript";
 import { TableRow } from "@tiptap/extension-table-row";
 import { TaskItem } from "@tiptap/extension-task-item";
 import { TaskList } from "@tiptap/extension-task-list";
-import { TextStyle } from "@tiptap/extension-text-style";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import {
@@ -43,6 +42,7 @@ import { TextAlign } from "../extensions/TextAlignClass";
 import { TextColorClass } from "../extensions/TextColorClass";
 import { TextDirection } from "../extensions/TextDirection";
 import { TextHighlightClass } from "../extensions/TextHighlightClass";
+import { TextStyleClass } from "../extensions/TextStyleClass";
 import { WordPaste } from "../extensions/WordPaste";
 import { YouTubeResize } from "../extensions/YouTubeResize";
 import { TranslationProvider, useT } from "../utils/i18n";
@@ -66,6 +66,7 @@ export interface EditorProps extends Pick<
     | "advancedConfig"
     | "customFonts"
     | "helpButton"
+    | "spellCheck"
     | "onFocus"
     | "onBlur"
     | "onLoad"
@@ -228,6 +229,7 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
         imageSourceContent,
         enableDefaultUpload,
         dialogStyle = "inline",
+        spellCheck,
         ...others
     } = props;
     const actionRef = useMemo(
@@ -254,6 +256,9 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
     const uploadEnabled = enableDefaultUpload || imageSource == null;
     const configRef = useRef({ enableDefaultUpload: uploadEnabled, editable: !readOnly });
     configRef.current = { enableDefaultUpload: uploadEnabled, editable: !readOnly };
+    // Set only by a genuine edit (`onUpdate`); the external-value sync below uses
+    // `emitUpdate: false`, so it never marks the editor dirty.
+    const isDirtyRef = useRef(false);
 
     const extensions = useMemo(
         () => [
@@ -277,7 +282,7 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
             ListItemMarkerFormat.configure({
                 styleDataFormat
             }),
-            TextStyle,
+            TextStyleClass.configure({ styleDataFormat }),
             Superscript,
             Subscript,
             TaskList,
@@ -368,7 +373,13 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
             },
             content: defaultValue || "",
             editable: !readOnly,
+            editorProps: {
+                // Tiptap only adds `role="textbox"` when the view is created; re-renders
+                // apply these attributes as-is, so keep the role here to not lose it.
+                attributes: { role: "textbox", spellcheck: String(spellCheck) }
+            },
             onUpdate: ({ editor }) => {
+                isDirtyRef.current = true;
                 const html = editor.isEmpty ? "" : editor.getHTML();
                 onUpdate?.(html);
             },
@@ -377,7 +388,8 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
             },
             onBlur: () => {
                 executeAction(actionRef.current.onBlur);
-                if (actionRef.current.onChangeType === "onLeave") {
+                if (actionRef.current.onChangeType === "onLeave" && isDirtyRef.current) {
+                    isDirtyRef.current = false;
                     executeAction(actionRef.current.onChange);
                 }
             },

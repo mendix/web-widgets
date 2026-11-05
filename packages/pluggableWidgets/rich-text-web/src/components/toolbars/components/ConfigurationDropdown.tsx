@@ -37,6 +37,8 @@ export function ConfigurationDropdown({ config }: BaseToolbarButtonProps): React
     // that would steal focus. Keyed by section id.
     const [draftValues, setDraftValues] = useState<Record<string, string>>({});
     const buttonRef = useRef<HTMLButtonElement>(null);
+    // Set on Escape so the blur that follows discards the draft instead of committing it.
+    const skipCommitOnBlurRef = useRef(false);
 
     // Discard a section's draft (revert the input to the last committed value)
     const clearDraft = (sectionId: string): void => {
@@ -63,7 +65,9 @@ export function ConfigurationDropdown({ config }: BaseToolbarButtonProps): React
         } else if (e.key === "Escape") {
             e.preventDefault();
             clearDraft(section.id);
+            skipCommitOnBlurRef.current = true;
             e.currentTarget.blur();
+            skipCommitOnBlurRef.current = false;
         }
     };
 
@@ -148,7 +152,12 @@ export function ConfigurationDropdown({ config }: BaseToolbarButtonProps): React
                                                 const value = e.target.value;
                                                 setDraftValues(prev => ({ ...prev, [section.id]: value }));
                                             }}
-                                            onBlur={e => commitDraft(section, e.target.value)}
+                                            onBlur={e => {
+                                                if (skipCommitOnBlurRef.current) {
+                                                    return;
+                                                }
+                                                commitDraft(section, e.target.value);
+                                            }}
                                             onKeyDown={e => handleDraftKeyDown(e, section)}
                                         />
                                         {section.unit && <span className="configuration-unit">{section.unit}</span>}

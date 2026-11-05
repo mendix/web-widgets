@@ -31,6 +31,18 @@ describe("RichTextFormatStyle.scss table borders", () => {
     });
 });
 
+// A raw-string attr() yields one CSS string, which font-family reads as a single family name,
+// so a list such as `impact, sans-serif` would fall back to the browser default font.
+describe("RichTextFormatStyle.scss font families", () => {
+    const css = compile(join(__dirname, "../ui/RichTextFormatStyle.scss")).css;
+
+    it("inserts the text and list marker font families as a family list", () => {
+        expect(css).toContain("font-family: attr(data-font-family type(*));");
+        expect(css).toContain("--rt-marker-font-family: attr(data-marker-font-family type(*));");
+        expect(css).not.toContain("raw-string");
+    });
+});
+
 // Class style mode saves table, column and cell sizes as data attributes only (no `style`
 // attribute), so the sizes must come from these rules. The attribute selectors keep them
 // off inline-mode tables.

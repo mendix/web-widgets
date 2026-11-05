@@ -1,5 +1,5 @@
 import { Extension, getStyleProperty } from "@tiptap/core";
-import { isSafeCssSize } from "../utils/helpers";
+import { isSafeCssSize, normalizeCssSize } from "../utils/helpers";
 
 export interface FontSizeOptions {
     types: string[];
@@ -40,7 +40,10 @@ export const FontSize = Extension.create<FontSizeOptions>({
                         default: null,
                         parseHTML: element => {
                             if (this.options.styleDataFormat === "class") {
-                                return element.getAttribute("data-font-size") || element.style.fontSize || null;
+                                // The class form stores only the number (see renderHTML), so restore the
+                                // px unit to match the font size dropdown options ("24" -> "24px").
+                                const raw = element.getAttribute("data-font-size") || element.style.fontSize;
+                                return raw ? normalizeCssSize(raw) : null;
                             } else {
                                 const value = getStyleProperty(element, "font-size") ?? element.style.fontSize;
                                 return value?.replace(/['"]+/g, "") || null;
