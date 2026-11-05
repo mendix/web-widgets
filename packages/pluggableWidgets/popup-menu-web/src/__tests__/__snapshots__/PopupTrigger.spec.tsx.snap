@@ -5,9 +5,10 @@ exports[`Popup Trigger renders popup trigger 1`] = `
   <div
     aria-controls=":r1:"
     aria-expanded="true"
-    aria-haspopup="dialog"
+    aria-haspopup="menu"
     class="popupmenu-trigger"
     data-state="open"
+    id=":r2:"
   >
     <button>
       Trigger
