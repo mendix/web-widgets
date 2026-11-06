@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We hid the "Placeholder text" property when the combobox type is set to Boolean, since boolean attributes can never be empty and the placeholder has no effect.
 
+### Fixed
+
+- We improved the screen reader experience of the combobox. The arrow icon is no longer announced as an image, and an empty combobox no longer exposes an empty option to screen reader users.
+
 ## [2.10.0] - 2026-09-21
 
 ### Fixed

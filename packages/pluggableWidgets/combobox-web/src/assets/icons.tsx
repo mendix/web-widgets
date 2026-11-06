@@ -4,7 +4,14 @@ import { CaptionContent } from "../helpers/utils";
 export function ClearButton({ size = 14 }): ReactElement {
     return (
         <span className="widget-combobox-icon-container">
-            <svg width={size} height={size} viewBox="0 0 32 32" className="widget-combobox-clear-button-icon">
+            <svg
+                width={size}
+                height={size}
+                viewBox="0 0 32 32"
+                className="widget-combobox-clear-button-icon"
+                aria-hidden="true"
+                focusable="false"
+            >
                 <path
                     stroke="currentColor"
                     strokeLinecap="round"
@@ -27,6 +34,8 @@ export function DownArrow({ isOpen }: { isOpen?: boolean }): ReactElement {
                 width="16"
                 height="16"
                 viewBox="0 0 32 32"
+                aria-hidden="true"
+                focusable="false"
             >
                 <path d="M16 23.41L4.29004 11.71L5.71004 10.29L16 20.59L26.29 10.29L27.71 11.71L16 23.41Z" />
             </svg>
