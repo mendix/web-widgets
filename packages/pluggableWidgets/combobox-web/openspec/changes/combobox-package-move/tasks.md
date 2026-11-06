@@ -8,11 +8,12 @@
 - [x] 2.1 `packages/kits/widget-kit`: `WidgetViewModel.ts`, `focusBoundaryProps.ts`, `useObservableSnapshot.ts` and its spec; package, tsconfig, Jest and ESLint files; README.
 - [x] 2.2 `packages/kits/combobox-kit`: `core`, `helpers`, `hooks`, `conformance`, `sandbox` moved; `components` to `atlas` with `icons.tsx`; `helpers/Preview` to `preview`; the four entries; `typings/ComboboxProps.ts` with its spec; `AGENTS.md`; package, tsconfig, Jest and ESLint files, the strict MobX Jest setup.
 - [x] 2.3 Imports rewritten across the 91 moved files; the Behavior spec hosts `ComboboxView` over `useComboboxCore`; the Behavior root props and `BareView` use `focusBoundaryProps`.
-- [x] 2.4 `combobox-web`: `Combobox.tsx`, the editor config and preview and `uiRegistry.ts` import from the package entries; the three specs mock the floating hook through the package path; `typings/combobox-ui.d.ts` points at the package; dependencies reduced to `@mendix/combobox-kit`, `downshift` and `mobx` as dev dependencies.
+- [x] 2.4 `combobox-web`: `Combobox.tsx`, the editor config and preview import from the package entries; the three specs mock the floating hook through the package path; dependencies reduced to `@mendix/combobox-kit`, `downshift` and `mobx` as dev dependencies.
+- [x] 2.5 The name-suffix trial (`uiRegistry.ts`, the `@combobox-ui/*` typings and the external dynamic imports) is removed: the test project in CI has no `node_modules`, so mxbuild could not bundle the widget. The widget always renders the Atlas view until step 8.
 
 ## 3. Refactoring
 
-- [ ] 3.1 Step 8: the `uiVariant` property and the registry decision replace the name-suffix trial.
+- [ ] 3.1 Step 8: the `uiVariant` property and the registry decision; the dynamic imports return with them, in a form mxbuild can resolve.
 - [ ] 3.2 A narrower core config replaces the copied generated typings.
 
 ## 4. Verification
