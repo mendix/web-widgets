@@ -166,7 +166,9 @@ export class RefFilterStore extends BaseSelectStore {
             );
         } else {
             this.setFetchReady(true);
-            this.loadMore();
+            // The runtime restores the last used limit when the user returns to the page,
+            // so reset it to the default (no limit) to load all options.
+            this.datasource.setLimit(undefined);
         }
 
         return dispose;
@@ -184,7 +186,9 @@ export class RefFilterStore extends BaseSelectStore {
                     ? contains(attribute(this.searchAttrId), literal(search))
                     : undefined;
             this.datasource.setFilter(cond);
-            this.datasource.setLimit(this.searchSize);
+            if (this.lazyMode) {
+                this.datasource.setLimit(this.searchSize);
+            }
         };
 
         return [data, effect, { delay: 300 }];

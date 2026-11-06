@@ -52,9 +52,9 @@ export interface ColumnsType {
     hidable: HidableEnum;
     allowEventPropagation: boolean;
     width: WidthEnum;
+    size: number;
     minWidth: MinWidthEnum;
     minWidthLimit: number;
-    size: number;
     alignment: AlignmentEnum;
     columnClass?: ListExpressionValue<string>;
     wrapText: boolean;
@@ -99,9 +99,9 @@ export interface ColumnsPreviewType {
     hidable: HidableEnum;
     allowEventPropagation: boolean;
     width: WidthEnum;
+    size: number | null;
     minWidth: MinWidthEnum;
     minWidthLimit: number | null;
-    size: number | null;
     alignment: AlignmentEnum;
     columnClass: string;
     wrapText: boolean;
