@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the widget failed to connect with an HTTP 401 error when the Pusher REST service requires authentication.
+
 ## [4.0.0] - 2026-07-15
 
 ### Added
