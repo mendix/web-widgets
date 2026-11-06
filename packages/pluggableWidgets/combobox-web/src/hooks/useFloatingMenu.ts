@@ -35,7 +35,8 @@ export function useFloatingMenu(open: boolean): ReturnType<typeof useFloating> {
         placement: "bottom-start",
         strategy: "fixed",
         middleware,
-        whileElementsMounted: autoUpdate
+        // The menu stays mounted while closed, so only track its position when open.
+        whileElementsMounted: open ? autoUpdate : undefined
     });
 
     const floatingStyles =

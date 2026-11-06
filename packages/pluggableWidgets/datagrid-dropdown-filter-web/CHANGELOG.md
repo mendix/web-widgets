@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where pages with many drop-down filters became slow to scroll.
+
 ## [3.11.3] - 2026-07-27
 
 ### Fixed

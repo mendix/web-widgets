@@ -26,6 +26,7 @@ export function useFloatingMenu<T extends ReferenceType = HTMLDivElement>(
         placement: "bottom-start",
         strategy: "fixed",
         middleware,
-        whileElementsMounted: autoUpdate
+        // The menu stays mounted while closed, so only track its position when open.
+        whileElementsMounted: open ? autoUpdate : undefined
     });
 }
