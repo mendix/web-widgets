@@ -163,6 +163,33 @@ describe("Image", () => {
             expect(lightbox).toBeInTheDocument();
         });
 
+        it("does not apply the sizing of the image on the page to the lightbox image", async () => {
+            const { getByRole, getAllByRole } = render(
+                <Image
+                    {...imageProps}
+                    onClickType="enlarge"
+                    width={50}
+                    widthUnit="percentage"
+                    height={0}
+                    heightUnit="auto"
+                    style={{ width: "50%", height: "auto", maxHeight: "250px", minHeight: "10px", opacity: 0.9 }}
+                />
+            );
+            const thumbnail = getByRole("button");
+            expect(thumbnail).toHaveStyle({ width: "50%", maxHeight: "250px" });
+
+            await user.click(thumbnail);
+
+            // The thumbnail has role "button"; the only image is the one in the lightbox.
+            const [lightboxImage] = getAllByRole("img") as HTMLImageElement[];
+            expect(lightboxImage.tagName).toBe("IMG");
+            expect(lightboxImage.style.width).toBe("");
+            expect(lightboxImage.style.height).toBe("");
+            expect(lightboxImage.style.maxHeight).toBe("");
+            expect(lightboxImage.style.minHeight).toBe("");
+            expect(lightboxImage.style.opacity).toBe("0.9");
+        });
+
         it("closes the lightbox when the user clicks on the close button after opening it", async () => {
             const { container, getByRole } = render(<Image {...imageProps} onClickType="enlarge" />);
             const image = getByRole("button");

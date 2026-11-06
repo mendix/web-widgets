@@ -1,4 +1,4 @@
-import { cloneElement, CSSProperties, FunctionComponent, ReactNode, useCallback } from "react";
+import { CSSProperties, FunctionComponent, ReactNode, useCallback } from "react";
 import { ImageContentProps, ImageUi } from "./ui";
 import { DisplayAsEnum, HeightUnitEnum, OnClickTypeEnum, WidthUnitEnum } from "../../../typings/ImageProps";
 import { useLightboxState } from "../../utils/lightboxState";
@@ -38,6 +38,26 @@ function processImageLink(imageLink: string | undefined, displayAs: DisplayAsEnu
     const url = new URL(imageLink);
     url.searchParams.append("thumb", "true");
     return url.href;
+}
+
+/**
+ * The enlarged image must not inherit the sizing of the image on the page: a percentage width would resolve
+ * against the shrink-to-fit lightbox and a max height would cap it. Its size comes from `Image.scss` instead.
+ */
+function getLightboxImageStyle(style: CSSProperties | undefined): CSSProperties | undefined {
+    if (!style) {
+        return style;
+    }
+    const {
+        width: _width,
+        height: _height,
+        minWidth: _minWidth,
+        minHeight: _minHeight,
+        maxWidth: _maxWidth,
+        maxHeight: _maxHeight,
+        ...rest
+    } = style;
+    return rest;
 }
 
 export const Image: FunctionComponent<ImageProps> = ({
@@ -135,7 +155,20 @@ export const Image: FunctionComponent<ImageProps> = ({
             {content}
             {!previewMode && lightboxIsOpen && (
                 <Lightbox isOpen={lightboxIsOpen} onClose={onCloseLightbox}>
-                    {type === "image" ? cloneElement(content, { image, onClick: undefined }) : content}
+                    {type === "image" ? (
+                        <ImageUi.ContentImage
+                            className={classNames({ "img-thumbnail": displayAs === "thumbnail" })}
+                            image={image}
+                            height={height}
+                            heightUnit="auto"
+                            width={width}
+                            widthUnit="auto"
+                            style={getLightboxImageStyle(style)}
+                            altText={altText}
+                        />
+                    ) : (
+                        content
+                    )}
                 </Lightbox>
             )}
         </ImageUi.Wrapper>
