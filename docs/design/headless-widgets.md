@@ -1,0 +1,412 @@
+# Headless widgets: replaceable UI for pluggable widgets
+
+Status: exploration, not yet scheduled. First target: combobox, see [headless-combobox.md](./headless-combobox.md).
+
+This document is the widget-agnostic concept. Per-widget documents hold the concrete contract, examples, migration plan, and questions for one widget.
+
+## 1. Problem
+
+Every widget in this repository is a monolith. One component owns the Mendix binding (EditableValue, ListValue, ActionValue), the lifecycle, the keyboard and ARIA behaviour, the popover positioning, and the HTML structure styled with Atlas UI classes. Atlas is coupled to an outdated Bootstrap, so the markup and class structure of every widget is dictated by it.
+
+App developers increasingly want widgets to render in their own design system: Material UI, Ant Design, Tailwind, or a corporate component library. Today the only option is to override Atlas CSS against undocumented class names. Changing the HTML structure is impossible.
+
+## 2. Goal
+
+Split each widget into a part we own, which keeps the lifecycle, the Mendix API binding, and the hard behaviour, and a part the app developer may replace, which renders the HTML. Ship our own Atlas rendering as the default so existing apps see no change.
+
+App developers never rebuild widgets. They write or adjust a View as a file in their own project, with our package in `node_modules`, and the widget picks it up. We stay in control of the Core and the Marketplace widget.
+
+Non-goals for the first iteration:
+
+- Data grid. Its surface is too large to prove the concept on.
+- Studio Pro design-mode preview of custom UIs. The editor preview keeps its own simplified rendering.
+- A visual theming tool. This is a code-level contract.
+
+## 3. Vocabulary
+
+| Term          | Meaning                                                                                                           |
+| ------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **Core**      | Headless object per widget. Owns all state, the Mendix binding, and the lifecycle. Implemented with MobX.         |
+| **ViewModel** | Plain, immutable object the Core exposes. State plus stable commands. The only required public contract.          |
+| **View**      | React component that renders a ViewModel. We ship the Atlas View. App developers may ship their own.              |
+| **Behavior**  | Optional hook that turns a ViewModel into DOM prop getters: keyboard handling and ARIA attributes.                |
+| **Popover**   | Optional hook that positions a floating element. Wraps floating-ui.                                               |
+| **Classes**   | Typed map of CSS hook names, one per rendered part. Overridable.                                                  |
+| **Parts**     | Components the Atlas View is assembled from, one per thing worth replacing as a whole. Individually replaceable.  |
+| **Host**      | Whatever creates a Core and mounts a View. The pluggable widget is the host in apps; our test harness is another. |
+| **Variant**   | Free-string name of a View, set per widget instance in Studio Pro through the `uiVariant` property.               |
+
+"Headless" follows the industry use of the word (Headless UI, Radix Primitives, React Aria, Downshift).
+
+## 4. Layering
+
+```
+Mendix props ──▶ Core (MobX store, Mendix binding, all state)
+                   │
+                   ├── ViewModel            plain data + stable commands        REQUIRED
+                   ├── useXBehavior(vm)      keyboard + ARIA prop getters        optional
+                   ├── useXPopover(vm)       floating refs + styles              optional
+                   ├── classes()            CSS hook names                       optional
+                   └── parts                one component per replaceable thing  optional
+                              │
+                              ▼
+                           View  (Atlas default, or app developer's)
+```
+
+Rules that keep the layering honest:
+
+1. The Core knows nothing about HTML. No class names, no refs, no DOM events.
+2. The ViewModel contains plain data and functions. No MobX observables, no React nodes except where a slot explicitly carries one.
+3. The Atlas View is built only from the ViewModel and the optional helpers. If the Atlas View needs something the ViewModel does not expose, the ViewModel is incomplete.
+4. Behavior, Popover, Classes, and Parts are each a function of the ViewModel. None of them hold model state.
+5. Studio Pro properties that only describe Atlas presentation are exposed as advisory `hints`. A custom View may ignore them.
+6. Behavior and Popover belong to the Atlas View. They are its keyboard handling, ARIA and positioning, shipped beside it and reusable by a raw-markup View, but not part of the contract: a View built on a component library brings its own, and the conformance suite (section 11) pins what the widget promises either way. downshift and floating-ui are therefore dependencies of the Atlas View, never of the Core.
+
+## 5. State ownership
+
+All state lives in the Core, including UI-looking state such as open flags, input text, and highlighted index. Reasons:
+
+- Mendix often cares about it. Input text may drive a datasource filter and an event; a leave event may close a menu.
+- A View built on a component library (Material UI, Ant) runs that library in controlled mode against the ViewModel. Such libraries accept open, input value, and value as controlled props.
+- One source of truth makes conformance tests (section 11) meaningful regardless of the View.
+
+Third-party behaviour libraries such as downshift may stay, but in fully controlled mode: the Core is the source of truth and the library reduces DOM events into Core commands.
+
+## 6. Reactivity: MobX inside, plain objects outside
+
+The Core is a MobX store. MobX is never exposed. The Mendix client bundles its own MobX version and widgets bundle another. `observer` from one copy cannot see observables from another, so exposing a MobX object would force every app developer onto our exact MobX instance.
+
+### 6.1 Snapshot hook
+
+The Core exposes `viewModel` as a MobX `computed`. A computed caches, so two reads with no state change in between return the same reference. That is exactly the contract `useSyncExternalStore` needs.
+
+```ts
+function useWidgetViewModel<VM>(core: { viewModel: VM }): VM {
+    const subscribe = useCallback((onChange: () => void) => reaction(() => core.viewModel, onChange), [core]);
+    const getSnapshot = useCallback(() => core.viewModel, [core]);
+    return useSyncExternalStore(subscribe, getSnapshot);
+}
+```
+
+A selector variant is offered next to it, built on `useSyncExternalStoreWithSelector`, so sub-components subscribe to a slice only:
+
+```ts
+const isOpen = useWidgetState(core, vm => vm.isOpen);
+```
+
+### 6.2 Structural sharing
+
+The ViewModel is a tree of computeds, not one big computed. Each slice is its own cached getter. Per-item slices are cached by id with `computedFn`.
+
+```ts
+class SomeCore {
+    get headerSlice() {
+        return { value: this.store.inputValue, isOpen: this.store.isOpen };
+    }
+    get itemsSlice() {
+        return this.store.visibleIds.map(id => this.itemSlice(id));
+    }
+    itemSlice = computedFn((id: string) => ({
+        id,
+        caption: this.store.caption(id),
+        selected: this.store.isSelected(id)
+    }));
+    get viewModel() {
+        return { ...this.headerSlice, items: this.itemsSlice, ...this.commands };
+    }
+}
+```
+
+A change in one slice rebuilds that slice and the top-level object. Every other slice and every unchanged item keep their reference, so `React.memo` in a View skips them. This is what keeps plain-object snapshots cheap enough for lists.
+
+### 6.3 Commands are stable
+
+Commands are bound once in the Core constructor. Their identity never changes, so `onClick={vm.open}` does not defeat memoisation.
+
+### 6.4 Our own Views
+
+Views inside this repository may use `observer` from our MobX copy and read the store directly for fine-grained updates. The Atlas View deliberately does not, for the first iteration. It consumes the ViewModel through the public snapshot hook, so it doubles as the proof that the contract is complete.
+
+### 6.5 Rejected alternative: live ViewModel
+
+A ViewModel whose properties are getters reading observables, with the Core supplying an `observer` wrapper (`core.observe(MyView)`), gives fine-grained tracking without exposing MobX. It is rejected as the default because of the classic footgun: passing the live object to a memoised child that reads a property the parent did not read means the child never updates. Plain snapshots cannot surprise anyone that way. It may return later as an opt-in for power users.
+
+## 7. The ViewModel envelope and the input facet
+
+Every widget's ViewModel starts with the same envelope: the fields every pluggable widget fills, and nothing else. A survey of the 55 widgets in this repository on 2026-11-05 found exactly five, and the Studio Pro core widgets (text box, date picker, action button, tab container, layout grid) fill the same five.
+
+```ts
+interface WidgetViewModel<Hints = {}, Texts extends TextMap = {}> {
+    id: string; // a View puts it on the element the Studio Pro label targets
+    status: "loading" | "ready" | "unavailable";
+    hints: Hints; // advisory, Atlas-presentation properties from Studio Pro
+    t: Translate<Texts>; // all user-facing and ARIA texts, see 7.1
+    tabIndex?: number; // Studio Pro "Tab index" system property, generated for every widget
+}
+```
+
+Input widgets add one facet. It is Studio Pro's own definition of an input widget, the bundle every core input and every pluggable input with the Editability property carries: read-only state, validation feedback, the required flag and label for accessibility, and the on-enter and on-leave events.
+
+```ts
+interface InputViewModel {
+    readOnly: boolean;
+    validation?: string;
+    a11y: { label?: string; required: boolean; describedBy?: string };
+    enter(): void; // the widget received focus from outside: runs the "On enter" action
+    leave(): void; // focus left the widget: runs the "On leave" action
+}
+```
+
+A combobox is `WidgetViewModel & InputViewModel` plus its own body; a data grid, a gallery, a chart or a file uploader is `WidgetViewModel` plus its own body. An input whose XML has no enter or leave action exposes the two commands as commands that run nothing, so that every input View wires focus the same way. There are no further facets. A named facet is justified only when shared code consumes the bundle: the input facet has the focus helper (section 8.5) and the input conformance cases (section 11); a field that one widget fills, such as the combobox's composed live-region message, stays in that widget's ViewModel until a second widget fills it the same way and shared code wants it. Until 2026-11-05 the envelope carried the input fields; the survey showed that only 10 of 55 widgets fill them.
+
+Widget-specific state and commands extend the two. Commands are referentially stable. Nothing in a ViewModel type may mention a behaviour library, a positioning library, Atlas, or class names.
+
+The Studio Pro Class and Style system properties are in neither, because whether a widget receives them depends on the widget. A widget with the Label system property is rendered by the client inside a form-group wrapper that carries the label, the Class and the Style; the widget never sees them, and its one duty is to put `id` on the element the label targets, so that `<label for>` links to it. A widget without the Label system property receives `class` and `style` directly, and that widget adds `className` and `style` to its own ViewModel for its Views to spread on their root. Rating and signature are inputs without the Label property and get them; markdown is a display widget with the Label property and does not. Until 2026-11-04 the envelope declared both fields; hosting five combobox Views in Studio Pro showed the combobox Core never filled them.
+
+Two rules follow for every View, ours or theirs. The View's root element fills its container: the client's wrapper is a flex column, and a root without a width of its own shrinks to its content. And an input View wires the focus boundary (section 8.5) so that `enter` and `leave` fire; `leave` is what closes an open menu and runs the Mendix action, and the conformance suite checks it.
+
+### 7.1 Texts
+
+Every text a View may need, including ARIA labels and live-region fragments, comes through one function on the envelope:
+
+```ts
+type TextMap = Record<string, readonly unknown[]>; // key -> parameter tuple
+
+type Translate<Texts extends TextMap> = <K extends keyof Texts>(key: K, ...params: Texts[K]) => string;
+
+// usage
+vm.t("noOptions"); // "No options found"
+vm.t("optionsAvailable", 12); // "Number of options available: 12"
+```
+
+Rules:
+
+- **Keys and parameter arity are typed per widget.** Each widget declares its `TextMap`. A View author or an agent sees every available text in autocompletion, and a wrong parameter count fails to compile.
+- **ARIA texts are ordinary texts.** Labels for clear, remove, select-all, and the live-region fragments are all keys. Nothing is hidden inside Behavior.
+- **A composed live-region message is a convenience, not a replacement.** Where a widget's Core composes a status message from several fragments and runtime state, it exposes the result as `a11y.statusMessage` on that widget's ViewModel, built through `t`. Behavior feeds it to the live region; a View without Behavior reads it directly. The atomic keys stay available.
+- **Views bring their own strings for anything we do not define.** `t` only knows our keys. A custom View that wants an extra tooltip uses the app's own mechanism.
+- **Parameter substitution is not our concern.** Placeholders, formatting, and language selection are done by the platform. We pass a key and parameters and get a string.
+
+Where the strings come from is a platform matter. Mendix is introducing system text translations with an API of roughly this shape. We consume that API and wrap it, so the ViewModel shape stays ours and never exposes the platform type directly. Implementation details, including how the current per-instance text template properties map onto it, are deliberately left for later.
+
+A range slider shows how small the widget-specific part can be, and that the envelope scales down:
+
+```ts
+interface RangeSliderViewModel extends WidgetViewModel<{ tooltipMode: "always" | "hover" | "never" }> {
+    value: readonly [number, number];
+    min: number;
+    max: number;
+    step: number;
+    marks: ReadonlyArray<{ value: number; label?: string }>;
+    orientation: "horizontal" | "vertical";
+    setValue(next: readonly [number, number]): void; // live, while dragging
+    commit(): void; // write to attributes and fire onChange
+}
+```
+
+Complex widgets compose: a data grid ViewModel would hold column, row, pagination, and filter ViewModels, each with its own snapshot hook, so the structural sharing of section 6.2 applies one level deeper.
+
+## 8. Optional helpers
+
+All helpers are functions of the ViewModel. A View picks the subset it needs. The Atlas View uses all of them.
+
+### 8.1 Behavior
+
+Behavior reads ViewModel state, calls ViewModel commands, and returns DOM attributes and handlers for the View to spread onto whichever elements it chooses. The shape is prop getters, the pattern downshift and React Aria use: one `getXProps()` per interactive element, returning `role`, `aria-*`, `id`, event handlers, a `ref` where focus management needs one, and the state data attributes from section 8.3.
+
+It is a hook, not a field on the ViewModel, for three reasons. It needs DOM refs and effects such as restoring focus. It is optional, so a View built on a component library never calls it. Keeping it out of the ViewModel keeps the ViewModel pure data, which is what makes it serializable, loggable, and testable without a DOM.
+
+It ships with the Atlas View (section 4, rule 6). A View that spreads its getters keeps the Atlas keyboard handling and ARIA; a View on a component library never calls it and brings the equivalent, which the conformance suite checks. What stays with every View, Behavior or not, is the guard that keeps a click inside the menu from blurring the input: the menu swallows `mousedown`, because `leave` closes the widget and a menu is usually rendered outside the root element.
+
+### 8.2 Popover
+
+Positioning is a separate hook from Behavior on purpose. Ant and Material UI bring their own popper but may still want our keyboard handling, or the reverse. The hook returns `setReference`, `setFloating`, `styles`, and `isPositioned`.
+
+### 8.3 Classes and state attributes
+
+The Classes map has one key per rendered part. Nothing for colours or sizes. Atlas framework classes such as `form-control` are not in the map; they belong to the Atlas View alone. Published names are API: renaming one is a breaking change of the npm package.
+
+Structural identity goes in classes. State goes in boolean data attributes: `data-open`, `data-highlighted`, `data-selected`, `data-disabled`, `data-loading`, `data-empty`, `data-active`, `data-invalid`. Modifier classes such as `widget-x-item-highlighted` are retired. This is what makes every styling approach work without translation:
+
+```scss
+// Atlas SCSS
+.widget-x-menu-item[data-highlighted] {
+    background: $brand-primary-light;
+}
+```
+
+```html
+<!-- Tailwind -->
+<li class="px-3 py-2 data-[highlighted]:bg-blue-50 data-[selected]:font-semibold"></li>
+```
+
+Overrides replace the default class for that key, they do not append. A Tailwind user does not want the Atlas class left behind dragging Atlas rules with it. Appending is explicit: `menuItem: cx(defaultClasses.menuItem, "extra")`.
+
+### 8.4 Parts
+
+Parts are the components the Atlas View is assembled from, each one something a View author would replace as a whole: fewer than the Classes keys, since an element with nothing to replace on its own (an icon, the input, a wrapper that only carries wiring) stays inside its part and is reachable through Classes. Each receives its slice of the ViewModel plus the matching Behavior props, and spreads them. Replacing one part keeps keyboard and ARIA working because the props still come from our Behavior. Parts read the resolved Classes through a hook provided by the View, so one override reaches nested elements too.
+
+### 8.5 Focus boundary
+
+`focusBoundaryProps(vm)` takes anything with the input facet's `enter` and `leave` and returns the `onFocus` and `onBlur` handlers that call them when focus comes from outside the element or goes outside, using `relatedTarget` containment. The View spreads them on whichever element it considers its root: one line, no dependency, no element imposed. It is a pure function in the generic package, not an element the host wraps around the View, so a View keeps full control of its markup. Library Views with component-level focus and blur events call the same handlers. Behavior's `getRootProps` is this helper under another name.
+
+## 9. The View contract and the customisation levels
+
+```ts
+interface WidgetViewProps<ViewModel, Classes, Parts> {
+    vm: ViewModel;
+    classes?: Partial<Classes>;
+    parts?: Partial<Parts>;
+}
+```
+
+Every View, ours or theirs, has this signature. That continuity is the point: a View that starts as a two-line class override never has to be thrown away to become a full rewrite.
+
+The View receives the snapshot, not the Core. The host subscribes and re-renders the View with a new `vm` on every change. A View that took the Core would import the snapshot hook, and with it MobX, into its own chunk in the app: a second MobX instance, which does not track observables created by the first, inside the MPK. With the snapshot a level 3b View needs no runtime code from our package at all.
+
+| Level | What the app developer writes                                           | What they keep from us                  |
+| ----- | ----------------------------------------------------------------------- | --------------------------------------- |
+| 0     | CSS against published class names and data attributes. No View file.    | Everything                              |
+| 1     | A View that renders our Atlas View with a `classes` override            | Markup, behaviour, positioning          |
+| 2     | Same, plus one or more `parts` replaced                                 | Behaviour, positioning, remaining parts |
+| 3a    | Their own markup using our Behavior and Popover hooks                   | Keyboard, ARIA, positioning             |
+| 3b    | A component-library widget in controlled mode, using the ViewModel only | Data, Mendix binding, events            |
+
+Concrete examples for each level live in the per-widget documents.
+
+## 10. Hosting and delivery
+
+### 10.1 The widget as a thin wrapper
+
+The npm package is the product. The pluggable widget is the host for it inside apps. The wrapper keeps three responsibilities and sheds everything else:
+
+1. Declare the Studio Pro surface: XML, editor config, editor preview, icons, package metadata.
+2. Kickstart the Core: create on mount, feed container props on every render, subscribe to the snapshot, dispose on unmount. The Core is assembled by a brandi container, the composition root pattern already used by datagrid-web, gallery-web and maps-web: static properties in a frozen config, Mendix values through a props gate, side effects as setup components.
+3. Resolve the View: read the `uiVariant` property, ask the registry, fall back to the Atlas View. The wrapper renders no element of its own: the View's root is the View's, see section 7 for the two rules it follows.
+
+```tsx
+export default function SomeWidget(props: SomeWidgetContainerProps) {
+    const { vm } = useSomeWidgetCore(props);
+    const View = useWidgetView("SomeWidget", props.uiVariant);
+    return <View vm={vm} />;
+}
+```
+
+The registry is in-house for now. The likely end state is that the client resolves `uiVariant` and hands the widget the View component as a prop, so that the widget renders it without importing anything; the mapping and the compilation into the app are then the client's, the Core, the contract, the fallback and the conformance suite stay ours. Whatever the source, it sits behind the one function that resolves a View from props.
+
+Our own test harness and Storybook host the Core with the same lines. If the wrapper needs a private API the harness cannot reach, the design has a hole.
+
+### 10.2 Package layout
+
+A new package type beside `pluggableWidgets` and `shared`:
+
+```
+packages/
+  kits/widget-kit/      @mendix/widget-kit    what every headless widget shares
+    src/WidgetViewModel.ts       the envelope, the input facet, Translate and TextMap
+    src/focusBoundaryProps.ts    the focus boundary helper (section 8.5)
+    src/useObservableSnapshot.ts the snapshot hook a host uses
+  kits/<widget>-kit/    @mendix/<widget>-kit  the widget's package
+    src/main.ts                  "."            the contract, useXCore, the container
+    src/atlas.ts                 "./atlas"      XView, parts, classes, useXBehavior, useXPopover
+    src/conformance.ts           "./conformance" the suite (section 11)
+    src/preview.ts               "./preview"    what the editor preview needs
+    src/core/                    store, providers, ViewModel builder
+    src/hooks/, src/atlas/       the Atlas View and its hooks
+    src/sandbox/                 throwaway Views, tested, not built
+    src/typings/XProps.ts        a copy of the widget's generated typings, guarded by a spec
+    AGENTS.md                    agent-facing guide to the contract
+  pluggableWidgets/<widget>-web/ thin wrapper, XML, editor config and preview, icons, X.scss;
+                                 depends on the package as workspace:* and bundles it into the MPK
+```
+
+Both packages are private workspace packages until step 8 is done, built with `tsc` into `dist` like the shared plugin packages, with a wildcard `exports` map so that every file is importable by path and the four entries by name. The Atlas stylesheet stays in the widget: the MPK is what ships CSS, the client merges it into one `widgets.css`, and a View in the app project styles against the classes the MPK already loaded.
+
+In the first iteration a Core accepts the generated `XContainerProps` directly. That couples the npm package to the XML, so they move together: the package carries a copy of the generated typings as a `.ts` file (declarations are not emitted from a `.d.ts`), and a spec fails when the copy drifts from the widget's generated file. A narrower config type is a later refinement.
+
+### 10.3 Delivery: Views live in the app project
+
+This is the primary and, for now, the only supported route.
+
+- The app developer's View is a source file inside their Mendix project. It is theirs to edit, by hand or by an AI agent. It exports a component and nothing else.
+- Our Core, hooks, Atlas View, parts, and types sit in `node_modules` next to that file. The thin widget sits in the project as the Marketplace MPK. Neither is edited by the app developer.
+- **Compilation is the project bundler's job.** The View file is compiled by the Mendix project bundler at project run or build time, together with everything else, never earlier and never by us. We ship source-compatible packages and types, not a build step.
+- **Duplication is the project bundler's job.** The MPK, the package in `node_modules`, and the View file are bundled in the same pass. We do not design around two copies.
+- **The registry belongs to the client.** It is a client-owned lookup from widget id plus variant name to a View component. The widget only reads from it.
+- **Registration belongs to Studio Pro.** How a View file becomes known to the registry is out of scope for this design. We assume the View is already in the registry when the widget mounts.
+- **For the first iteration both are hardcoded.** Until the client and Studio Pro provide them, the registry is a small window-scoped object we own, following the pattern of `widget-plugin-external-events`, and registration is a hardcoded call in a known place. This is scaffolding to prove the contract, not the design.
+- **`uiVariant` is a free string**, defaulting to `atlas`. A picker or enumeration may come later.
+
+React is enforced by the Mendix client, so a registered View runs on the same React as the widget.
+
+**Rejected for now: the rebuild route.** App developers could scaffold a widget around the Core and ship it with the same widget id. Rejected because we want to stay in control of the widget, and because it puts the app developer in charge of a build pipeline when they should only be in charge of UI.
+
+### 10.4 Least friction: built for agents as much as for people
+
+The app developer, and increasingly their AI agent, should concentrate on the UI and nothing else. The package therefore carries everything an agent needs to produce a correct View without reading our source:
+
+- **Types are the documentation.** Every public type has a JSDoc line per member stating what it is and when it changes.
+- **Examples ship in the package.** One View per customisation level. An agent copies the closest one.
+- **An agent-facing guide ships in the package.** Describes the contract, the levels, the rule that `hints` are advisory, and the data-attribute convention.
+- **Conformance tests run inside the project.** The suite from section 11 is importable, so a View can be tested locally and by the agent before the app runs.
+- **Optional scaffold command.** Writes the level-1 example and a conformance test file into the project. An agent can do the same from the examples folder.
+
+Success test: an agent with only the package in `node_modules` and a one-line request ("make the combobox look like our Tailwind design system") produces a working, accessible View on the first attempt.
+
+### 10.5 Versioning
+
+Two versions after the split. The npm package follows semver on the ViewModel, the Behavior getters, the Parts props, and the Classes map. The MPK remains a Marketplace artifact that pins a core version. Changelog discipline covers both.
+
+## 11. Conformance tests
+
+We cannot guarantee accessibility of a custom View. We can hand the author the test suite we use ourselves. Each package ships a Jest + RTL suite and a Playwright suite that take any View component for that widget and assert the behaviour the widget promises: opening, keyboard navigation, selection, dismissal, ARIA state tracking, lazy loading where applicable. The Atlas View runs the same suite in CI.
+
+Status 2026-11-03: the combobox suite exists, `src/conformance/describeComboboxConformance.tsx` in combobox-web, Jest and RTL, sixteen role-based cases that take any component rendering the ViewModel; the Atlas View and a throwaway second View run it. The Playwright half and the import route for app projects wait for the package move.
+
+Status 2026-11-04: five Views ran in Studio Pro over the combobox ViewModel without a change to it (headless-combobox.md, step 8). Two findings for the suite. It needs a split between the cases every View must pass, written against roles and states, and the cases that assume our Behavior, such as the `aria-activedescendant` tracking of the highlight, which a library View fails by design. And chip keyboard navigation is not covered, so two hand-rolled Views shipped without it unnoticed.
+
+## 12. Rollout order
+
+1. Combobox, internally, with no publishing. Proves Core, ViewModel, Behavior, Popover, Classes, Parts, and the Atlas View split. See [headless-combobox.md](./headless-combobox.md).
+2. A throwaway second View on a component library, run against the conformance suite. The real test of the contract.
+   Status 2026-11-03: done for the combobox, before the package move and without a component library: a hand-rolled View over the ViewModel commands exercises the same surface a library View needs. See `combobox-second-view` in the package.
+3. The in-project delivery route, with the hardcoded registry and registration, in a Mendix test project.
+4. Range slider, to confirm the envelope generalises down.
+5. Publishing to npm.
+6. Remaining widgets one at a time. Data grid last.
+
+## 13. Open questions (generic)
+
+- Does the registry key on widget id, or on a stable headless package name, so that a renamed widget keeps its Views?
+- Where does `useWidgetView` and the temporary registry live: a new shared plugin package, or inside `widget-plugin-platform`?
+- Which widgets after the range slider? Candidates with small surfaces and clear value: switch, rating, badge button, progress bar.
+- `widget-plugin-dropdown-filter` carries a second, private combobox implementation for the data grid filters. Once the headless combobox exists, should the filter controls become Views over the same Core, or stay separate because their model (filter store, not attribute binding) differs?
+- How do we test a View in isolation inside this repo before the registry exists: Storybook, a Jest harness hosting the Core with mocked Mendix values from `widget-plugin-test-utils`, or both?
+- The in-project route needs every View specifier as a static string at the widget's build time: the project bundler resolves the dynamic imports the widget bundle left external, so the registry is a fixed list, not an open extension point. A fixed set of named slots, or one conventional app package that exports the variants by name and that `uiVariant` selects among?
+
+## 14. Decisions log
+
+| Date       | Decision                                                                                                                                                                                                                                                                                                                                                                                                              |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-10-28 | Views live in the app project; the rebuild route is rejected. We stay in control of the Core and the MPK.                                                                                                                                                                                                                                                                                                             |
+| 2026-10-28 | The project bundler compiles the View file and deduplicates the package. We ship no build step.                                                                                                                                                                                                                                                                                                                       |
+| 2026-10-28 | Registry is the client's; registration is Studio Pro's. Both hardcoded in the first iteration.                                                                                                                                                                                                                                                                                                                        |
+| 2026-10-28 | `uiVariant` is a free string.                                                                                                                                                                                                                                                                                                                                                                                         |
+| 2026-10-28 | Editor preview keeps its own simplified rendering.                                                                                                                                                                                                                                                                                                                                                                    |
+| 2026-10-28 | MobX inside the Core, never exposed. Plain snapshot ViewModel with structural sharing is the public contract.                                                                                                                                                                                                                                                                                                         |
+| 2026-10-28 | Atlas View consumes the ViewModel through the public hook, as proof the contract is complete.                                                                                                                                                                                                                                                                                                                         |
+| 2026-10-28 | Combobox first, range slider second, data grid deferred.                                                                                                                                                                                                                                                                                                                                                              |
+| 2026-10-28 | Options carry `caption: string` always and `content?: ReactNode` when configured. Placement is a hint; the Core never decides where content is shown.                                                                                                                                                                                                                                                                 |
+| 2026-10-28 | All texts, ARIA included, come through a typed `t(key, ...params)` on the envelope, wrapping the upcoming platform system-text API. Mechanics out of scope.                                                                                                                                                                                                                                                           |
+| 2026-10-30 | The Core is composed with a brandi container like the data grid and gallery: config, gate, selector family and setup host as bindings. The container never crosses the package boundary.                                                                                                                                                                                                                              |
+| 2026-11-02 | The model derives from the gate and the config as computeds; Mendix values stay behind plain getters so an in-place change is never hidden; writes to Mendix values are setup reactions.                                                                                                                                                                                                                              |
+| 2026-11-02 | State is a data attribute on the element, never a modifier class; the class map keeps the released names as values and the old modifier classes stay for one release, so the step is additive, not breaking; the Core carries custom content, the View places it through a hint.                                                                                                                                      |
+| 2026-11-02 | A part is something worth replacing as a whole, not one component per class key; parts read the resolved classes through a hook the View provides; the Atlas View is one composition for both modes.                                                                                                                                                                                                                  |
+| 2026-11-03 | The second View comes before the package move and brings its own keyboard handling and ARIA instead of a component library: it exercises the ViewModel command surface a library View needs, adds no dependency and can be deleted. The conformance suite is role-based and takes any component that renders the ViewModel; the live-region text is composed by the Core.                                             |
+| 2026-11-04 | Behavior and Popover are the Atlas View's: downshift and floating-ui are its dependencies, not the Core's. The contract is the ViewModel plus the conformance suite; a library View brings its own keyboard handling and ARIA.                                                                                                                                                                                        |
+| 2026-11-04 | `className` and `style` leave the envelope: a widget with the Label system property never receives them, a widget without it adds them to its own ViewModel. The widget's duty towards the label is `id` on the element the label targets.                                                                                                                                                                            |
+| 2026-11-04 | The combobox ViewModel carries `placeholder` next to `selectedCaption`, and the empty option text leaves the text map because the Core resolves it. The highlight is optional input: a View whose library does not report it gets a status message with the option count only. A View ships its own CSS and never global element rules, since a lazily loaded View cannot join the client's merged widget stylesheet. |
+| 2026-11-05 | The View receives the snapshot `vm`, never the Core, so MobX stays inside the MPK and a library View needs no runtime code from the package. The host renders no element of its own; the focus boundary is a pure helper the View spreads on its root, and filling the container is a contract rule.                                                                                                                  |
+| 2026-11-05 | The registry stays in-house for now; the target is a client-resolved View handed to the widget as a prop, behind the same resolving function.                                                                                                                                                                                                                                                                         |
+| 2026-11-05 | One envelope of five fields every widget fills (`id`, `status`, `hints`, `t`, `tabIndex`) and one facet, `InputViewModel`, for Studio Pro's input-widget bundle (`readOnly`, `validation`, `a11y`, `enter`, `leave`). No further facets: a named facet needs shared code that consumes it; a field one widget fills stays in that widget's ViewModel.                                                                 |
+| 2026-11-05 | Step 6 done: `@mendix/widget-kit` (envelope, input facet, focus helper, snapshot hook) and `@mendix/combobox-kit` (core, Atlas View, conformance, preview) as private workspace packages built with `tsc`; the widget is XML, editor files, stylesheet, the wrapper and the trial registry. The generated typings are copied into the package and guarded by a spec; the stylesheet stays with the MPK.               |

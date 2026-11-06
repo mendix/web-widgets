@@ -1,0 +1,133 @@
+import { Big } from "big.js";
+import { matchSorter, MatchSorterOptions } from "match-sorter";
+import { ObjectItem } from "mendix";
+import { SortOrder } from "./types";
+import {
+    ComboboxContainerProps,
+    ComboboxPreviewProps,
+    FilterTypeEnum,
+    SelectedItemsSortingEnum
+} from "../typings/ComboboxProps";
+
+export const DEFAULT_LIMIT_SIZE = 100;
+
+/** A Studio Pro property the selected options source needs; Studio Pro makes it required, so a gap is a bug. */
+export function required<T>(value: T | undefined, property: keyof ComboboxContainerProps): T {
+    if (value === undefined) {
+        throw new Error(`'${property}' is not defined for the configured options source`);
+    }
+    return value;
+}
+
+type ValueType = string | Big | boolean | Date | undefined;
+
+export function getDatasourcePlaceholderText(args: ComboboxPreviewProps): string {
+    const {
+        optionsSourceType,
+        optionsSourceAssociationDataSource,
+        attributeEnumeration,
+        attributeBoolean,
+        databaseAttributeString,
+        emptyOptionText,
+        source,
+        optionsSourceDatabaseDataSource,
+        staticAttribute,
+        optionsSourceStaticDataSource
+    } = args;
+    const emptyStringFormat = emptyOptionText ? `[${emptyOptionText}]` : "Combo box";
+    if (source === "context") {
+        switch (optionsSourceType) {
+            case "association":
+                return (optionsSourceAssociationDataSource as { caption?: string })?.caption || emptyStringFormat;
+            case "enumeration":
+                return `[${optionsSourceType}, ${attributeEnumeration}]`;
+            case "boolean":
+                return `[${optionsSourceType}, ${attributeBoolean}]`;
+            default:
+                return emptyStringFormat;
+        }
+    } else if (source === "database" && optionsSourceDatabaseDataSource) {
+        return (
+            (optionsSourceDatabaseDataSource as { caption?: string })?.caption ||
+            `${source}, ${databaseAttributeString}`
+        );
+    } else if (source === "static") {
+        return (optionsSourceStaticDataSource as { caption?: string })?.caption || `[${source}, ${staticAttribute}]`;
+    }
+    return emptyStringFormat;
+}
+
+export function getFilterTypeOptions(filter: FilterTypeEnum): MatchSorterOptions<string> {
+    switch (filter) {
+        case "contains":
+            return {};
+        case "containsExact":
+            return {
+                threshold: matchSorter.rankings.CONTAINS
+            };
+        case "startsWith":
+            return {
+                threshold: matchSorter.rankings.WORD_STARTS_WITH
+            };
+        case "none":
+            return {
+                threshold: matchSorter.rankings.NO_MATCH
+            };
+    }
+}
+
+export function _valuesIsEqual(valueA: ValueType, valueB: ValueType): boolean {
+    if (valueA === undefined || valueB === undefined) {
+        return valueA === valueB;
+    }
+    if (valueA instanceof Big && valueB instanceof Big) {
+        return valueA.eq(valueB);
+    }
+    if (valueA instanceof Date && valueB instanceof Date) {
+        return valueA.getTime() === valueB.getTime();
+    }
+    return valueA === valueB;
+}
+
+export function sortSelectedItems(
+    values: ObjectItem[] | null | undefined,
+    sortingType: SelectedItemsSortingEnum,
+    sortOrder: SortOrder | undefined,
+    captionGetter: (id: string) => string | undefined
+): string[] | null {
+    if (values) {
+        return sortSelections(
+            values.map(v => (v?.id as string) ?? null),
+            sortingType,
+            sortOrder,
+            captionGetter
+        );
+    } else {
+        return null;
+    }
+}
+
+function sortSelections(
+    newValueIds: string[],
+    sortingType: SelectedItemsSortingEnum,
+    /** Only "asc" sorts ascending; no datasource sort order sorts descending. */
+    sortOrder: SortOrder | undefined,
+    captionGetter: (id: string) => string | undefined
+): string[] {
+    if (sortingType === "caption") {
+        return newValueIds.sort((a, b) => {
+            const captionA = captionGetter(a)?.toString() ?? "";
+            const captionB = captionGetter(b)?.toString() ?? "";
+            return sortOrder === "asc" ? captionA.localeCompare(captionB) : captionB.localeCompare(captionA);
+        });
+    }
+    return newValueIds;
+}
+
+export function getInputLabel(inputId: string): Element | null {
+    return document.querySelector(`label[for="${inputId}"]`);
+}
+
+export function getValidationErrorId(inputId?: string): string | undefined {
+    return inputId ? inputId + "-validation-message" : undefined;
+}
