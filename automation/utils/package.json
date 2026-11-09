@@ -50,7 +50,8 @@
         "oss-clearance": "node bin/rui-oss-clearance.ts",
         "prepare": "tsc",
         "prepare-release": "node bin/rui-prepare-release.ts",
-        "start": "tsc --watch"
+        "start": "tsc --watch",
+        "test": "node --test \"src/**/*.spec.ts\""
     },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",
