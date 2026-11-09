@@ -1,4 +1,5 @@
 import { computed } from "mobx";
+import type { Config, Layout } from "plotly.js-dist-min";
 
 import { EditableChartStore, EditableChartStoreProps } from "@mendix/shared-charts/main";
 import { ComputedAtom, DerivedPropsGate, SetupHost } from "@mendix/widget-plugin-mobx-kit/main";
@@ -32,8 +33,8 @@ function viewModelAtom(store: EditableChartStore, adapter: ChartPropsController)
     return computed(() => {
         return {
             data: toPlotlyData(store.data),
-            layout: store.layout,
-            config: store.config,
+            layout: store.layout as Partial<Layout>,
+            config: store.config as Partial<Config>,
             onClick: adapter.chartOnClick
         };
     });
