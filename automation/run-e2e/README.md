@@ -77,6 +77,16 @@ Please make sure to follow these steps:
 7. Once the project is running, proceed with the next step of the script in the terminal to verify if the desired test project port is listening. If it is, the Playwright GUI will be initiated.
 8. In the Playwright GUI interface, select the test spec and execute it. From there, you can debug or fix the test case in your preferred IDE.
 
+### Running `pnpm run e2e` when the host can't reach Docker containers
+
+On some setups (for example Docker-in-Docker sandboxes) the runtime starts and reports healthy, but every test times out loading the page because the host can't reach containers on Docker bridge networks. Set `E2E_HOST_NETWORK=1` to run the Mendix runtime on the host network instead. Ports `8080` and `8090` must be free:
+
+```sh
+$ E2E_HOST_NETWORK=1 pnpm run e2e
+```
+
+On Linux the runtime containers run as root. After each run, and before the next one, the runner hands the files they write in `tests/` and `results/` back to your user. You don't need `sudo` to clean up the test project.
+
 ### Focusing a test
 
 To focus a test to only execute it instead of the whole suite, for that is possible to use `test.only` annotation in the test specification. You can see more details [here](https://playwright.dev/docs/test-annotations#focus-a-test).
