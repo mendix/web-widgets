@@ -40,8 +40,8 @@ The characterisation specs from `combobox-selector-safety-net` stay the net, ada
 Deliberate, each one a candidate the safety-net change had rated. Flipped expectations are marked in the specs.
 
 1. **Static: an external clear clears the selection.** The old selector kept a stale `currentId` when the attribute was emptied by a microflow (safety-net quirk 1, rated medium). A derivation cannot keep stale state; the CHANGELOG records the fix.
-2. **Database single: `status` is `"loading"` while the datasource loads.** It was `"unavailable"` on the first load and frozen at the previous value on later reloads. The views treat `"loading"` like `"available"`, so the widget renders with the previous page instead of a placeholder on the first load.
-3. **Database single without a bound attribute takes the datasource selection as its value.** Before, the value only existed after `setValue` in the same page visit, so a reload showed nothing selected.
+2. **Database single: `status` is `"loading"` while the datasource loads.** It was `"unavailable"` on the first load and frozen at the previous value on later reloads. The views treat `"loading"` like `"available"`, so the widget renders with the previous page instead of a placeholder on the first load. Reverted for the first load in `combobox-parity-release`: the placeholder shows until the first page arrives.
+3. **Database single without a bound attribute takes the datasource selection as its value.** Before, the value only existed after `setValue` in the same page visit, so a reload showed nothing selected. The CHANGELOG records the fix (`combobox-parity-release`).
 4. **Enumeration: `clearable` while unavailable is the configured value**, not `true` (a pinned quirk with no effect, since nothing renders in that status). Likewise `readOnly` and `validation` read the attribute in every status.
 5. **The lazy-loading limit never-shrink rule is gone.** `LazyLoadProvider` remembered a limit that was overwritten with the current one on every update, so the rule never applied.
 
