@@ -53,6 +53,8 @@ Applying on blur needs care: the input lives in a floating element and the edito
 | decimal (`2.5`)   | rejected, input reverts to current value |
 | above upper bound | clamped to the upper bound               |
 
+A list that already starts at 0 or below (typed as `0. `, or loaded from HTML) shows its stored start in the input, so entering `1` resets it. Only typing such a value is rejected.
+
 Upper bound: `9999`. Higher values are valid HTML, but they push the marker gutter wider than the editor content area at normal widths and are not a realistic use case. The bound is a constant in one place so it can be changed.
 
 The command stores the parent's default `1` for 1 and for `null`. The parent's `renderHTML` omits `start` when it is 1, so the output matches lists that never had a start set.

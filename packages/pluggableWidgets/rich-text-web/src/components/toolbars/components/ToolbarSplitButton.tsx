@@ -39,8 +39,10 @@ export function ToolbarSplitButton({ config }: ToolbarSplitButtonProps): ReactEl
         if (!editor?.isActive("orderedList")) {
             return 1;
         }
+        // Zero and negative starts are shown as stored (a list typed as `0. ` starts at 0), so the
+        // input matches the list's numbering and setting 1 is seen as a change.
         const start = Number(editor.getAttributes("orderedList").start);
-        return Number.isInteger(start) && start > 0 ? start : 1;
+        return Number.isInteger(start) ? start : 1;
     };
 
     // Applies the pending start input value, if any. The draft is cleared first so a later blur
