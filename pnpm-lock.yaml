@@ -1087,6 +1087,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/rollup-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/rollup-web-widgets
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
@@ -1130,6 +1133,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/rollup-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/rollup-web-widgets
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
@@ -1170,6 +1176,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/rollup-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/rollup-web-widgets
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
@@ -1228,6 +1237,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/rollup-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/rollup-web-widgets
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
@@ -1295,6 +1307,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/rollup-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/rollup-web-widgets
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
@@ -1415,6 +1430,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/rollup-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/rollup-web-widgets
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
@@ -1520,6 +1538,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/rollup-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/rollup-web-widgets
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
@@ -1584,6 +1605,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/rollup-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/rollup-web-widgets
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
@@ -2411,6 +2435,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/rollup-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/rollup-web-widgets
       '@mendix/widget-plugin-component-kit':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
@@ -2910,10 +2937,32 @@ importers:
         version: 2.5.22(prettier@3.9.10)
 
   packages/shared/rollup-web-widgets:
+    dependencies:
+      '@rollup/plugin-commonjs':
+        specifier: ^29.0.3
+        version: 29.0.3(rollup@4.62.3)
+      '@rollup/plugin-node-resolve':
+        specifier: ^15.3.1
+        version: 15.3.1(rollup@4.62.3)
+      '@rollup/plugin-replace':
+        specifier: ^6.0.2
+        version: 6.0.3(rollup@4.62.3)
+      '@rollup/plugin-terser':
+        specifier: ^0.4.4
+        version: 0.4.4(rollup@4.62.3)
+      mobx:
+        specifier: 6.12.3
+        version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
+      mobx-react-lite:
+        specifier: 4.0.7
+        version: 4.0.7(patch_hash=47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a)(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      rollup-plugin-license:
+        specifier: ^3.6.0
+        version: 3.7.1(picomatch@4.0.5)(rollup@4.62.3)
     devDependencies:
       '@mendix/pluggable-widgets-tools':
         specifier: 11.13.0
-        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@26.6.6)(canvas@3.2.3)(eslint@10.13.0(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.9.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        version: 11.13.0(patch_hash=1879adf9f5f058d67d2e08e79916d5adce82416899758529f812f4207c064fed)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@types/babel__core@7.20.5)(@types/node@26.6.6)(canvas@3.2.3)(eslint@10.13.0(jiti@2.6.1))(jest-util@30.4.1)(picomatch@4.0.5)(prettier@3.9.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       rollup-plugin-copy:
         specifier: ^3.5.0
         version: 3.5.0
