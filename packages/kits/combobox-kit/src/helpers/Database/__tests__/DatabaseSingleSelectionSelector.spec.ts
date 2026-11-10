@@ -5,6 +5,7 @@ import {
     EditableValueBuilder,
     list,
     listAttribute,
+    ListValueBuilder,
     obj,
     SelectionSingleValueBuilder
 } from "@mendix/widget-plugin-test-utils";
@@ -206,5 +207,40 @@ describe("DatabaseSingleSelectionSelector — writing and read-only", () => {
         expect(selector.caption.get(null)).toBe("Formatted v1");
         expect(selector.validation).toBe("Required");
         expect(selector.clearable).toBe(true);
+    });
+});
+
+describe("DatabaseSingleSelectionSelector — lazy loading", () => {
+    const optionA = obj("A");
+    const values = new Map<string, string>([[optionA.id, "v1"]]);
+
+    beforeEach(() => jest.useFakeTimers());
+    afterEach(() => jest.useRealTimers());
+
+    it("drops the bound-value lookup and requests a full first page on load more", () => {
+        // The lookup narrows the datasource to the bound value, which then reports no more items.
+        const ds = list([]);
+        const props = { ...buildProps({ items: [], values, targetValue: "v1", ds }), lazyLoading: true };
+        const { selector } = createSelector(props);
+        expect(ds.setLimit).toHaveBeenLastCalledWith(1);
+
+        selector.options.loadMore();
+        jest.runAllTimers();
+
+        expect(ds.setFilter).toHaveBeenCalledTimes(1);
+        expect(ds.setFilter).toHaveBeenCalledWith(undefined);
+        expect(ds.setLimit).toHaveBeenLastCalledWith(100);
+        expect(selector.options.isLoading).toBe(true);
+    });
+
+    it("pages as usual on load more when no lookup is active", () => {
+        const ds = new ListValueBuilder().withItems([optionA]).withLimit(100).withHasMore(true).build();
+        const props = { ...buildProps({ items: [optionA], values, targetValue: "v1", ds }), lazyLoading: true };
+        const { selector } = createSelector(props);
+
+        selector.options.loadMore();
+
+        expect(ds.setFilter).not.toHaveBeenCalled();
+        expect(ds.setLimit).toHaveBeenLastCalledWith(200);
     });
 });

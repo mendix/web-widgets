@@ -40,6 +40,8 @@ export class DatasourceOptionsProvider extends BaseOptionsProvider implements Se
     private lastPage: ObjectItem[] = [];
     /** The datasource a page was requested on; the request is pending until new props replace it. */
     private loadRequestedOn?: ListValue = undefined;
+    /** Lazy loading: the datasource is narrowed to the bound value by `loadSelectedValue`, not to a page. */
+    private selectedValueLookup = false;
     private readonly setFilter: (condition: FilterCondition | undefined) => void;
     private readonly abortFilter: () => void;
 
@@ -134,7 +136,14 @@ export class DatasourceOptionsProvider extends BaseOptionsProvider implements Se
 
     loadMore(): void {
         const { ds } = this;
-        if (ds.hasMoreItems) {
+        if (this.selectedValueLookup) {
+            // The bound-value lookup holds a single item and reports no more items: drop it for a real first page.
+            this.selectedValueLookup = false;
+            this.abortFilter();
+            ds.setFilter(undefined);
+            ds.setLimit(DEFAULT_LIMIT_SIZE);
+            this.loadRequestedOn = ds;
+        } else if (ds.hasMoreItems) {
             ds.setLimit(ds.limit + DEFAULT_LIMIT_SIZE);
             if (this.config.lazyLoading) {
                 this.loadRequestedOn = ds;
@@ -146,6 +155,7 @@ export class DatasourceOptionsProvider extends BaseOptionsProvider implements Se
     loadSelectedValue(value: string, attributeId?: ListAttributeValue["id"]): void {
         const id = attributeId ?? this.source.props.captionAttributeId;
         if (this.config.lazyLoading && id) {
+            this.selectedValueLookup = true;
             this.setFilter(datasourceFilter("containsExact", value, id));
             this.ds.setLimit(1);
         }
@@ -183,6 +193,7 @@ export class DatasourceOptionsProvider extends BaseOptionsProvider implements Se
                 term => {
                     const { captionAttributeId } = this.source.props;
                     if (this.config.lazyLoading && captionAttributeId) {
+                        this.selectedValueLookup = false;
                         this.setFilter(
                             term === "" ? undefined : datasourceFilter(this.config.filterType, term, captionAttributeId)
                         );
