@@ -70,6 +70,7 @@
             "@types/big.js": "^6.2.2",
             "@types/node": "~26.6.0",
             "@types/react": ">=18.2.36",
+            "@vscode/markdown-it-katex>katex": "^0.18.7",
             "babel-jest": "^30.0.0",
             "d3-color@<3.1.0": ">=3.1.0",
             "glob@10": "^10.5.0",
