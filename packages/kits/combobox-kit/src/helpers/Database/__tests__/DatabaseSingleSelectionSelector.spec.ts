@@ -183,12 +183,34 @@ describe("DatabaseSingleSelectionSelector — writing and read-only", () => {
         expect(selector.currentId).toBeNull();
     });
 
-    it("reports loading, with no value yet, while the datasource loads", () => {
+    it("is unavailable, with no value yet, while the datasource loads for the first time", () => {
         const props = buildProps({ items, values, targetValue: "v1", ds: list.loading() });
         const { selector } = createSelector(props);
 
-        expect(selector.status).toBe("loading");
+        expect(selector.status).toBe("unavailable");
         expect(selector.currentId).toBeNull();
+    });
+
+    it("reports loading on a later reload and becomes available when it ends", () => {
+        const { selector, setProps } = createSelector(buildProps({ items, values, targetValue: "v1" }));
+        expect(selector.status).toBe("available");
+
+        setProps(buildProps({ items, values, targetValue: "v1", ds: list.loading() }));
+        expect(selector.status).toBe("loading");
+
+        setProps(buildProps({ items, values, targetValue: "v1" }));
+        expect(selector.status).toBe("available");
+    });
+
+    it("becomes available once the first load ends", () => {
+        const { selector, setProps } = createSelector(
+            buildProps({ items, values, targetValue: "v1", ds: list.loading() })
+        );
+        expect(selector.status).toBe("unavailable");
+
+        setProps(buildProps({ items, values, targetValue: "v1" }));
+        expect(selector.status).toBe("available");
+        expect(selector.currentId).toBe(optionA.id);
     });
 
     it("is read-only and loads no options when custom editability is 'never'", () => {

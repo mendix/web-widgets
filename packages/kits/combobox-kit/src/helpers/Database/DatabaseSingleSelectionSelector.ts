@@ -1,6 +1,6 @@
 import { Big } from "big.js";
 import { EditableValue, SelectionSingleValue } from "mendix";
-import { action, autorun, comparer, computed, makeObservable, reaction } from "mobx";
+import { action, autorun, comparer, computed, makeObservable, observable, reaction, when } from "mobx";
 import {
     DerivedPropsGate,
     disposeBatch,
@@ -15,10 +15,13 @@ import { assertCompatibleTypes, getReadonly } from "./utils";
 
 export class DatabaseSingleSelectionSelector extends BaseDatabaseSelector implements SingleSelector, SetupComponent {
     readonly type = "single";
+    /** The datasource has finished loading at least once. */
+    private loaded = false;
 
     constructor(host: SetupComponentHost, gate: DerivedPropsGate<DatabaseGateProps>, config: ComboboxConfig) {
         super(host, gate, config);
-        makeObservable<this, "available">(this, {
+        makeObservable<this, "available" | "loaded">(this, {
+            loaded: observable,
             available: computed,
             readOnly: computed,
             status: computed,
@@ -55,7 +58,9 @@ export class DatabaseSingleSelectionSelector extends BaseDatabaseSelector implem
             return "unavailable";
         }
         if (this.ds.status === "loading") {
-            return "loading";
+            // Until the first page arrives the widget shows its placeholder, as the released
+            // widget did; later reloads keep the control on screen.
+            return this.loaded ? "loading" : "unavailable";
         }
         return this.attr?.status ?? "available";
     }
@@ -99,6 +104,14 @@ export class DatabaseSingleSelectionSelector extends BaseDatabaseSelector implem
     setup(): () => void {
         const [add, disposeAll] = disposeBatch();
         add(autorun(() => this.selectionValue?.setKeepSelection?.(() => true)));
+        add(
+            when(
+                () => this.ds.status !== "loading",
+                action(() => {
+                    this.loaded = true;
+                })
+            )
+        );
         add(
             reaction(
                 () => ({
