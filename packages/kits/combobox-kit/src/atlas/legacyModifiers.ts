@@ -1,8 +1,8 @@
 /**
  * The state modifier classes of the released widget. Each one is emitted next to the data
- * attribute that replaced it, so app CSS written against a modifier keeps matching for one more
- * release; the widget's own SCSS targets the attributes only. Deprecated: to be removed with the
- * next major version together with this file.
+ * attribute that carries the same state, so app CSS written against a modifier keeps matching;
+ * the widget's own SCSS targets the attributes only. Whether and when the modifiers go is a
+ * separate, announced decision; until then they are part of the widget's markup.
  */
 export const legacy = Object.freeze({
     containerOpen: "widget-combobox-input-container-active",

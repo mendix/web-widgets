@@ -2,8 +2,8 @@
  * The class names of the Atlas View, one per element it renders. The values are the names the
  * released widget always had, so app CSS that targets an element keeps matching. State is not a
  * class: it is a data attribute next to the class, `widget-combobox-item[data-highlighted]`
- * instead of `widget-combobox-item-highlighted`; the old modifier classes are still emitted for
- * one release, see legacyModifiers.ts. The View takes overrides per key through its `classes`
+ * next to `widget-combobox-item-highlighted`; the old modifier classes are still emitted, see
+ * legacyModifiers.ts. The View takes overrides per key through its `classes`
  * prop and the parts read the result through `useComboboxClasses`. See
  * docs/design/headless-combobox.md, section 6.
  */

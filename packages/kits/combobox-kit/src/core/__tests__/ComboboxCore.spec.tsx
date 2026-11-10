@@ -143,32 +143,6 @@ describe("ComboboxCore", () => {
         });
     });
 
-    describe("a11y status message", () => {
-        it("announces the selection, and the option count with the instructions while open", () => {
-            const core = createCore(enumerationProps());
-
-            expect(core.viewModel.a11y.statusMessage).toBe("Selected value: Formatted green. ");
-
-            core.viewModel.open();
-            expect(core.viewModel.a11y.statusMessage).toBe(
-                "Selected value: Formatted green. Options available: 3. Use arrows"
-            );
-
-            core.viewModel.setInputValue("zzz");
-            expect(core.viewModel.a11y.statusMessage).toBe("No options");
-        });
-
-        it("announces nothing while nothing is selected and joins the captions of a multi selection", () => {
-            const single = createCore(enumerationProps(new EditableValueBuilder<string>().withUniverse("red").build()));
-            expect(single.viewModel.a11y.statusMessage).toBe("");
-
-            const multi = createCore(
-                associationMultiProps({ attr: new ReferenceSetValueBuilder().withValue([itemA, itemB]).build() })
-            );
-            expect(multi.viewModel.a11y.statusMessage).toBe("Selected value: Apple,Banana. ");
-        });
-    });
-
     describe("multi mode (association)", () => {
         it("derives chips in the stored order and the select-all state", () => {
             const attr = new ReferenceSetValueBuilder().withValue([itemC, itemA]).build();

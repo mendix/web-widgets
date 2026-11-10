@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { InputA11y, InputViewModel, WidgetViewModel } from "@mendix/widget-kit/WidgetViewModel";
+import { InputViewModel, WidgetViewModel } from "@mendix/widget-kit/WidgetViewModel";
 import {
     LoadingTypeEnum,
     ReadOnlyStyleEnum,
@@ -49,15 +49,6 @@ export interface ComboboxLoading {
     hasMore: boolean;
 }
 
-export interface ComboboxA11y extends InputA11y {
-    /**
-     * The live-region text: the selection, and while the menu is open the option count with the
-     * keyboard instructions, or the no-options text. Composed by the Core so that every View
-     * announces the same thing.
-     */
-    statusMessage: string;
-}
-
 /**
  * The combobox ViewModel: the envelope, the input facet and the combobox body. All state lives in
  * the Core, including the open flag, the input text and the highlighted index; a behaviour
@@ -66,7 +57,6 @@ export interface ComboboxA11y extends InputA11y {
  */
 export interface ComboboxViewModel extends WidgetViewModel<ComboboxHints, ComboboxTexts>, InputViewModel {
     mode: "single" | "multi";
-    a11y: ComboboxA11y;
 
     // state
     options: readonly ComboboxOptionVM[];
