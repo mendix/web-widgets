@@ -1,6 +1,7 @@
 import { cpSync, existsSync, mkdirSync, rmSync, statSync } from "node:fs";
 import { fileURLToPath } from "url";
 import copyFiles from "@mendix/rollup-web-widgets/copyFiles.mjs";
+import { withSharedLibs } from "@mendix/rollup-web-widgets/sharedLibs.mjs";
 import url from "@mendix/pluggable-widgets-tools/configs/rollup-plugin-assets.mjs";
 
 // The maps widget package was wrongly named with an uppercase M in the past. We have to keep that
@@ -94,5 +95,5 @@ export default args => {
     // Only the amd bundle extracts a stylesheet.
     fixCssAssetPaths(jsConfig);
 
-    return result;
+    return withSharedLibs(args, result);
 };
