@@ -1,11 +1,10 @@
 import { action, computed, makeObservable, observable, reaction } from "mobx";
-import { Translate, WidgetStatus } from "@mendix/widget-kit/WidgetViewModel";
+import { InputA11y, Translate, WidgetStatus } from "@mendix/widget-kit/WidgetViewModel";
 import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ComboboxConfig } from "./Combobox.config";
 import { ComboboxGateProps } from "./ComboboxGate";
 import {
-    ComboboxA11y,
     ComboboxHints,
     ComboboxLoading,
     ComboboxOptionVM,
@@ -86,7 +85,7 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
     private prevTexts?: TextValues;
     private prevInput?: Input;
     private prevEnvelope?: Envelope;
-    private prevA11y?: ComboboxA11y;
+    private prevA11y?: InputA11y;
     private prevOptions?: readonly ComboboxOptionVM[];
     private prevChips?: readonly ComboboxOptionVM[];
     private prevSelection?: Selection;
@@ -108,22 +107,13 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
         this.t = (key, ...params) => this.translate(key, ...params);
         makeObservable<
             this,
-            | "firstPageRequested"
-            | "texts"
-            | "envelope"
-            | "statusMessage"
-            | "input"
-            | "options"
-            | "selection"
-            | "flags"
-            | "loading"
+            "firstPageRequested" | "texts" | "envelope" | "input" | "options" | "selection" | "flags" | "loading"
         >(this, {
             isOpen: observable,
             highlightedIndex: observable,
             firstPageRequested: observable,
             texts: computed,
             envelope: computed,
-            statusMessage: computed,
             input: computed,
             options: computed,
             selection: computed,
@@ -211,8 +201,7 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
         const a11y = (this.prevA11y = reuse(this.prevA11y, {
             label: props.ariaLabel?.value,
             required: props.ariaRequired.value ?? false,
-            describedBy: selector.validation ? `${config.id}-validation-message` : undefined,
-            statusMessage: this.statusMessage
+            describedBy: selector.validation ? `${config.id}-validation-message` : undefined
         }));
         return (this.prevEnvelope = reuse(this.prevEnvelope, {
             id: config.id,
@@ -222,30 +211,6 @@ export class ComboboxCore<S extends Selector = Selector> implements SetupCompone
             a11y,
             tabIndex: config.tabIndex
         }));
-    }
-
-    /**
-     * The live-region text: the selection, and while the menu is open the option count with the
-     * keyboard instructions, or the no-options text. Composed here so that a View without the
-     * Behavior announces the same thing. See docs/design/headless-combobox.md, section 3.
-     */
-    private get statusMessage(): string {
-        const { selector, multi, t } = this;
-        const ids: string[] = multi
-            ? (multi.currentId ?? [])
-            : selector.currentId === null
-              ? []
-              : [selector.currentId as string];
-        const selected =
-            ids.length > 0 ? `${t("a11ySelectedValue", ids.map(id => selector.caption.get(id)).join(","))}. ` : "";
-        if (!this.isOpen) {
-            return selected;
-        }
-        const count = this.options.length;
-        if (count === 0) {
-            return t("a11yNoOption");
-        }
-        return `${selected}${t("a11yOptionsAvailable", count)}. ${t("a11yInstructions")}`;
     }
 
     private get input(): Input {

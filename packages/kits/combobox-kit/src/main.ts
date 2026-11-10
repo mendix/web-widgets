@@ -1,5 +1,4 @@
 export type {
-    ComboboxA11y,
     ComboboxHints,
     ComboboxLoading,
     ComboboxOptionVM,

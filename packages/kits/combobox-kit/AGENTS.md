@@ -20,7 +20,6 @@ The headless combo box: `combobox-web` is a thin host over this package. Read
 - `src/helpers/`: the selectors and providers per data source family, the Core's internal model.
 - `src/preview/`: the selectors the editor preview uses.
 - `src/hooks/`, `src/atlas/`: the Atlas View and its hooks.
-- `src/sandbox/`: throwaway Views that test the contract; not built into `dist`.
 - `src/typings/ComboboxProps.ts`: a copy of the typings `combobox-web` generates from `Combobox.xml`;
   a spec fails when the two drift. Regenerate in the widget, then copy.
 

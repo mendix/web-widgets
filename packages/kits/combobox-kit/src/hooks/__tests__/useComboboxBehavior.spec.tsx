@@ -1,9 +1,14 @@
 import "@testing-library/jest-dom";
 jest.mock("../useFloatingMenu");
-import { fireEvent, render, RenderResult } from "@testing-library/react";
+import { fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
 import { resetIdCounter } from "downshift";
 import { ReactElement } from "react";
-import { ReferenceSetValueBuilder, actionValue, setupIntersectionObserverStub } from "@mendix/widget-plugin-test-utils";
+import {
+    EditableValueBuilder,
+    ReferenceSetValueBuilder,
+    actionValue,
+    setupIntersectionObserverStub
+} from "@mendix/widget-plugin-test-utils";
 import { ComboboxView } from "../../atlas/ComboboxView";
 import { associationMultiProps, enumerationProps, itemA, itemB } from "../../helpers/__tests__/fixtures";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
@@ -163,5 +168,40 @@ describe("useComboboxBehavior", () => {
         const prevented = !fireEvent.mouseDown(component.getByRole("listbox"));
 
         expect(prevented).toBe(true);
+    });
+
+    it("announces the selection, the option count and the instructions while a single-select is open", async () => {
+        const component = render(<Combobox {...enumerationProps()} />);
+        fireEvent.click(input(component));
+
+        await waitFor(() => {
+            expect(component.getByRole("status")).toHaveTextContent(
+                "Selected value: Formatted green. Options available: 3. Use arrows"
+            );
+        });
+    });
+
+    it("announces that nothing is selected when a single-select opens without a value", async () => {
+        const attribute = new EditableValueBuilder<string>().withUniverse("red", "green", "blue").build();
+        const component = render(<Combobox {...enumerationProps(attribute)} />);
+        fireEvent.click(input(component));
+
+        await waitFor(() => {
+            expect(component.getByRole("status")).toHaveTextContent(
+                "No options selected.Options available: 3. Use arrows"
+            );
+        });
+    });
+
+    it("announces the joined captions of a multi selection and the option count while open", async () => {
+        const attr = new ReferenceSetValueBuilder().withValue([itemA, itemB]).build();
+        const component = render(<Combobox {...associationMultiProps({ attr })} />);
+        fireEvent.click(input(component));
+
+        await waitFor(() => {
+            expect(component.getByRole("status")).toHaveTextContent(
+                "Selected value: Apple,Banana. Options available: 4. Use arrows"
+            );
+        });
     });
 });
