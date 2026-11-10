@@ -1,8 +1,8 @@
 import c from "ansi-colors";
 import findFreePort from "find-free-port";
-import nodeIp from "ip";
 import { execSync } from "node:child_process";
 import { createServer } from "node:net";
+import { networkInterfaces } from "node:os";
 import { fileURLToPath } from "node:url";
 import p from "node:path";
 import sh from "shelljs";
@@ -34,6 +34,13 @@ const HOST_NETWORK = ["1", "true"].includes(String(process.env.E2E_HOST_NETWORK)
 const HOST_NETWORK_RUNTIME_PORT = 8080;
 const HOST_NETWORK_ADMIN_PORT = 8090;
 
+// First external IPv4 address of this machine, so containers can reach the host.
+function getHostIpAddress() {
+    return Object.values(networkInterfaces())
+        .flat()
+        .find(iface => iface?.family === "IPv4" && !iface.internal)?.address;
+}
+
 export async function ci() {
     console.log(c.cyan("Run e2e tests in CI environment"));
 
@@ -64,7 +71,7 @@ export async function ci() {
         ip = "127.0.0.1";
     } else {
         freePort = await findFreePort(3000);
-        ip = nodeIp.address();
+        ip = getHostIpAddress();
     }
 
     if (!ip) {
