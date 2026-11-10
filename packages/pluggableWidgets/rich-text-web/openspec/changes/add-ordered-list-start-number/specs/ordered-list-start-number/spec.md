@@ -70,6 +70,14 @@ The start input SHALL show the start number of the ordered list at the cursor an
 - **WHEN** user opens the dropdown
 - **THEN** the start input shows `1`
 
+#### Scenario: Shows zero or negative start and resets it to 1
+
+- **WHEN** cursor is in a list loaded from `<ol start="0">` or `<ol start="-3">`, or typed as `0. `
+- **WHEN** user opens the dropdown
+- **THEN** the start input shows `0` or `-3`
+- **WHEN** user enters `1` and presses Enter
+- **THEN** the list starts at 1 and has no `start` attribute
+
 #### Scenario: Disabled outside ordered list
 
 - **WHEN** cursor is in a paragraph, bullet list, or task list

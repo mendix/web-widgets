@@ -86,6 +86,20 @@ describe("ToolbarSplitButton start number", () => {
         expect(openDropdown()).toHaveValue(1);
     });
 
+    it.each(["0", "-3"])("shows a start of %p as stored and resets it to 1", start => {
+        editor = makeEditor(`<ol start="${start}"><li><p>a</p></li></ol>`);
+        placeCursorIn(editor, "a");
+        renderSplitButton(editor);
+
+        const input = openDropdown();
+        expect(input).toHaveValue(Number(start));
+
+        fireEvent.change(input, { target: { value: "1" } });
+        fireEvent.keyDown(input, { key: "Enter" });
+
+        expect(listHtml(editor)).toBe("<ol><li><p>a</p></li></ol>");
+    });
+
     it("is disabled outside an ordered list", () => {
         editor = makeEditor("<p>text</p>");
         placeCursorIn(editor, "text");
