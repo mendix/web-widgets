@@ -8,6 +8,8 @@
 - [x] 2.2 `src/sandbox/` deleted; `tsconfig.build.json`, `AGENTS.md` updated.
 - [x] 2.3 `Deprecated` CHANGELOG entry dropped; legacy class comments reworded.
 - [x] 2.4 Design doc status lines.
+- [x] 2.5 Database single-select is unavailable during its first datasource load; three selector specs.
+- [x] 2.6 CHANGELOG `Fixed` line for the selection of a database combo box without a target attribute.
 
 ## 3. Verification
 
