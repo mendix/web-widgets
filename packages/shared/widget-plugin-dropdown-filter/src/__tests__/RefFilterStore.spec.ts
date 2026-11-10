@@ -1,3 +1,27 @@
+jest.mock(
+    "mendix/filters/builders",
+    () => {
+        const node =
+            (type: string) =>
+            (...args: unknown[]) => ({ type, args });
+        return {
+            association: node("association"),
+            attribute: node("attribute"),
+            contains: node("contains"),
+            equals: node("equals"),
+            literal: node("literal"),
+            or: node("or"),
+            and: node("and"),
+            notEqual: node("notEqual")
+        };
+    },
+    { virtual: true }
+);
+
+import { AssociationMetaData, AttributeMetaData, ListValue, ObjectItem } from "mendix";
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
+import { RefFilterStore, RefFilterStoreProps } from "../stores/RefFilterStore";
+
 // describe("RefFilterStore", () => {
 //     afterEach(() => _resetGlobalState());
 
@@ -249,5 +273,118 @@
 // });
 
 describe("RefFilterStore", () => {
-    it.todo("should be implemented");
+    describe("options datasource limit", () => {
+        beforeEach(() => jest.useFakeTimers());
+        afterEach(() => jest.useRealTimers());
+
+        it("does not change the limit in the constructor when lazy loading is off", () => {
+            const { datasource } = setupStore({ fetchOptionsLazy: false }, { run: false });
+            expect(datasource.setLimit).not.toHaveBeenCalled();
+        });
+
+        it("resets a restored limit to the default on setup when lazy loading is off", () => {
+            // The runtime restores the last used limit when the user returns to the page.
+            const { datasource } = setupStore({ fetchOptionsLazy: false }, { limit: 100 });
+            expect(datasource.setLimit).toHaveBeenCalledTimes(1);
+            expect(datasource.setLimit).toHaveBeenLastCalledWith(undefined);
+        });
+
+        it("does not limit options on search or search clear when lazy loading is off", () => {
+            const { store, datasource } = setupStore({ fetchOptionsLazy: false });
+            datasource.setLimit.mockClear();
+
+            store.search.setBuffer("ZZAccount");
+            jest.advanceTimersByTime(SEARCH_DELAY);
+            expect(datasource.setFilter).toHaveBeenCalledTimes(1);
+
+            store.search.clear();
+            jest.advanceTimersByTime(SEARCH_DELAY);
+            expect(datasource.setFilter).toHaveBeenCalledTimes(2);
+            expect(datasource.setFilter).toHaveBeenLastCalledWith(undefined);
+
+            expect(datasource.setLimit).not.toHaveBeenCalled();
+        });
+
+        it("sets limit to 0 in the constructor when lazy loading is on", () => {
+            const { datasource } = setupStore({ fetchOptionsLazy: true }, { run: false });
+            expect(datasource.setLimit).toHaveBeenLastCalledWith(0);
+        });
+
+        it("limits options on search when lazy loading is on", () => {
+            const { store, datasource } = setupStore({ fetchOptionsLazy: true });
+            datasource.setLimit.mockClear();
+
+            store.search.setBuffer("ZZAccount");
+            jest.advanceTimersByTime(SEARCH_DELAY);
+
+            expect(datasource.setLimit).toHaveBeenLastCalledWith(100);
+        });
+    });
+
+    describe("selected options", () => {
+        it("shows the caption of a restored selection outside the first 100 options", () => {
+            const items = Array.from({ length: 150 }, (_, i) => item(`obj_${i}`));
+            const { store } = setupStore({ fetchOptionsLazy: false }, { items });
+
+            store.fromJSON(["obj_149"]);
+
+            expect(store.selectedOptions).toEqual([{ caption: "Caption obj_149", value: "obj_149", selected: true }]);
+        });
+    });
 });
+
+const SEARCH_DELAY = 300;
+
+type MockListValue = ListValue & { setLimit: jest.Mock; setFilter: jest.Mock };
+
+function item(id: string): ObjectItem {
+    return { id } as ObjectItem;
+}
+
+function mockList({
+    items = [],
+    limit = Number.POSITIVE_INFINITY
+}: {
+    items?: ObjectItem[];
+    limit?: number;
+}): MockListValue {
+    const list = {
+        status: "available",
+        items,
+        limit,
+        offset: 0,
+        hasMoreItems: false,
+        filter: undefined,
+        setFilter: jest.fn(),
+        setOffset: jest.fn(),
+        setSortOrder: jest.fn(),
+        requestTotalCount: jest.fn(),
+        reload: jest.fn()
+    } as unknown as MockListValue;
+    list.setLimit = jest.fn((next?: number) => {
+        (list as { limit: number }).limit = next ?? Number.POSITIVE_INFINITY;
+    });
+    return list;
+}
+
+function setupStore(
+    props: Pick<RefFilterStoreProps, "fetchOptionsLazy">,
+    { items, limit, run = true }: { items?: ObjectItem[]; limit?: number; run?: boolean } = {}
+): { store: RefFilterStore; datasource: MockListValue } {
+    const datasource = mockList({ items, limit });
+    const gateProvider = new GateProvider<RefFilterStoreProps>({
+        ...props,
+        refEntity: { id: "Module.Task_Account" } as unknown as AssociationMetaData,
+        refCaption: { get: (obj: ObjectItem) => ({ value: `Caption ${obj.id}` }) },
+        refOptions: datasource,
+        searchAttrId: "Module.Account.Name" as AttributeMetaData["id"]
+    });
+    const store = new RefFilterStore({ gate: gateProvider.gate, initCond: null });
+    if (run) {
+        disposers.push(store.setup());
+    }
+    return { store, datasource };
+}
+
+const disposers: Array<() => void> = [];
+afterEach(() => disposers.splice(0).forEach(dispose => dispose()));
