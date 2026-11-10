@@ -59,7 +59,7 @@ interface ComboboxHints {
 
 interface ComboboxViewModel extends WidgetViewModel<ComboboxHints, ComboboxTexts>, InputViewModel {
     mode: "single" | "multi";
-    a11y: InputA11y & { statusMessage: string }; // the live-region text, composed by the Core
+    a11y: InputA11y; // the live-region text stays in the Atlas Behavior for the parity release, see below
 
     // state
     options: ReadonlyArray<ComboboxOptionVM>;
@@ -117,6 +117,8 @@ interface ComboboxTexts {
 The status message that downshift builds today by concatenating `a11ySelectedValue`, the count, `a11yOptionsAvailable`, and `a11yInstructions` becomes `a11y.statusMessage`, composed by the Core through `t`. A View using our Behavior gets it in the live region; a View without Behavior reads it directly. Parametrised keys replace today's string concatenation, so word order is no longer fixed to English.
 
 Status 2026-11-03: implemented in the package change `combobox-second-view`. The Core composes `a11y.statusMessage` and the Behavior hands it to downshift; the parametrised keys are still English-ordered templates until the system-text API exists.
+
+Status 2026-11-10: reverted for the parity release (package change `combobox-parity-release`). The Core-composed text differed from the released widget in three places, so the Behavior composes the message again with the released wording, including downshift's previous result count and highlighted item; `a11y.statusMessage` leaves the ViewModel and comes back with the first View that runs without the Behavior.
 
 ### Structural sharing slices
 
@@ -434,10 +436,9 @@ packages/
     src/helpers/                   the selectors and providers per data source family
     src/preview/                   the editor preview selectors
     src/hooks/, src/atlas/         the Atlas View and its hooks
-    src/sandbox/                   BareView, tested and not built
     src/typings/ComboboxProps.ts   copy of the widget's generated typings, guarded by a spec
     AGENTS.md
-  pluggableWidgets/combobox-web/   Combobox.tsx wrapper, uiRegistry (trial), XML, editorConfig, editorPreview,
+  pluggableWidgets/combobox-web/   Combobox.tsx wrapper, XML, editorConfig, editorPreview,
                                    icons, ui/Combobox.scss, the three widget specs with their snapshots
 ```
 
@@ -487,10 +488,13 @@ Each step keeps the MPK, the XML, and the existing unit and E2E tests green.
    Status 2026-11-05: done in the package change `combobox-package-move`. Two private workspace packages: `@mendix/widget-kit` holds the envelope, the input facet, `focusBoundaryProps` and `useObservableSnapshot`; `@mendix/combobox-kit` holds the core, helpers, hooks, the Atlas View, the conformance suite, the preview selectors and the sandbox, with the four entries of section 10. The widget keeps the XML, the editor files, the icons, the stylesheet, the wrapper, the trial registry and its three specs, and depends on the package as `workspace:*`; the MPK bundles it and is byte-for-byte the same shape. The Behavior's root props and the bare View use the shared focus helper. 91 files moved with history; the widget's 51 tests and 5 snapshots pass unchanged against `dist`, the package runs 226 and the generic package 3.
 7. **Write the second View.** A throwaway Material UI View in a sandbox, run against the conformance suite. This is the real test of the ViewModel shape.
    Status 2026-11-03: done before step 6, in the package change `combobox-second-view`. `src/conformance/describeComboboxConformance.tsx` is the suite of section 11 of the generic design: sixteen role-based cases over a live Core, run by the Atlas View and by `src/sandbox/BareView.tsx`, a hand-rolled View with its own keyboard handling and ARIA over the ViewModel commands instead of the Material UI View sketched here (same ViewModel surface, no dependency, deletable). The suite found one Atlas gap (`aria-multiselectable` on the multi-select list, fixed) and the status message moved into the Core. The ViewModel needed no change; what a View without the Behavior does itself is recorded in the change's `design.md`.
+   Status 2026-11-10: `BareView` is removed for the parity release (package change `combobox-parity-release`); it was never built into the MPK and is recoverable from history. The conformance suite stays and runs the Atlas View.
 8. **Prove the in-project route.** Add `uiVariant` and the hardcoded first-iteration registry. Put a View file into a Mendix test project with the package in `node_modules`, let the project bundler compile it, hardcode its registration, and confirm the widget renders it with `uiVariant` set.
    Status 2026-11-04: proven ahead of step 6 in a scratch Mendix project, as a trial that is not committed. The widget's Name suffix stood in for `uiVariant` (Class cannot be the switch: with the Label system property the client keeps Class and Style on the form-group wrapper), and a registry of five `lazy(() => import("@combobox-ui/<name>"))` entries, left external by the widget's rollup config, stood in for the registration. Studio Pro's bundler resolves each specifier from the project's `node_modules` into a lazy chunk, so no registration call exists; the price is that the specifiers are a fixed list (section 13). Five Views ran over the ViewModel without a change to it: two hand-rolled (plain CSS, and Tailwind compiled into the chunk), Material UI Autocomplete, Ant Design Select, and the Siemens iX dropdown (web components, token-only CSS). What they taught is folded into the sections above: `placeholder` split from `selectedCaption` (section 3); `className` and `style` dropped from the envelope, the focus boundary made a helper and the full-width root a contract rule (generic document, sections 7 and 8.5), because every View repeated the full-width root, the focus boundary and the menu `mousedown` guard; the highlight as optional input (section 2); downshift as the Atlas View's (section 4); per-View CSS, the conformance split and the chip-navigation gap (generic document, sections 11 and 14).
 
 Publishing to npm comes after step 8.
+
+Status 2026-11-10: the first release of the migrated widget is a parity release. It ships the Core, MobX and the Atlas View with no change for app developers or their users; steps 7 and 8 (a second View, `uiVariant` and the registry) continue after it. The trial registry was removed on 2026-11-06 because the CI test project has no `node_modules`.
 
 ## 13. Open questions (combobox)
 
