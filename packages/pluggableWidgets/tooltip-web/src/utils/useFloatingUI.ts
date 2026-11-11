@@ -7,7 +7,6 @@ import {
     ReferenceElement,
     safePolygon,
     shift,
-    useClick,
     useDismiss,
     useFloating,
     UseFloatingReturn,
@@ -17,6 +16,7 @@ import {
     useRole
 } from "@floating-ui/react";
 import { Dispatch, SetStateAction, useCallback } from "react";
+import { useKeyboardClick } from "./useKeyboardClick";
 import { OpenOnEnum } from "../../typings/TooltipProps";
 interface FloatingProps {
     position: Placement;
@@ -73,7 +73,7 @@ export function useFloatingUI(props: FloatingProps): FloatingPropsReturn {
         handleClose: safePolygon()
     });
     const focus = useFocus(context, { enabled: openOn === "hoverFocus" });
-    const click = useClick(context, { toggle: showTooltip, enabled: openOn === "click" });
+    const click = useKeyboardClick(context, { enabled: openOn === "click" });
     const dismiss = useDismiss(context, { outsidePress: true });
     const role = useRole(context, { role: "tooltip" });
 
