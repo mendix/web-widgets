@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - We added an optional synchronized horizontal scrollbar above the grid, making wide columns easier to reach in tall grids. Enable 'Show top horizontal scrollbar' in Appearance. It is disabled by default and appears only when columns overflow horizontally.
+
 ## [3.11.8] - 2026-10-22
 
 ### Fixed
