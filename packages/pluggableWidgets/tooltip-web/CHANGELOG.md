@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - New Tooltip widgets now default to Open on Hover,focus, so keyboard users can see the tooltip. Existing widgets keep their setting.
 
+- Custom tooltip content now loads together with the page instead of when the tooltip first opens, so screen readers can announce it. Data sources inside custom content run at page load.
+
 ### Fixed
 
 - We fixed an issue where the tooltip in Click mode didn't open when the trigger was an action button: with an action set, it didn't open on click, Enter or Space; without one, it didn't open on Enter or Space.
