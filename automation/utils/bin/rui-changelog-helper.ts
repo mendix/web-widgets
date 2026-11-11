@@ -1,15 +1,17 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
-import { prompt } from "enquirer";
-import { getPackageInfo, PackageListing, selectPackage } from "../src";
+import enquirer from "enquirer";
 import {
     getModuleChangelog,
     getWidgetChangelog,
-    ModuleChangelogFileWrapper,
-    WidgetChangelogFileWrapper
-} from "../src/changelog-parser";
-import { LogSection } from "../src/changelog-parser/types";
-import { oraPromise } from "../src/cli-utils";
+    type ModuleChangelogFileWrapper,
+    type WidgetChangelogFileWrapper
+} from "../src/changelog-parser/index.ts";
+import type { LogSection } from "../src/changelog-parser/types.ts";
+import { oraPromise } from "../src/cli-utils.ts";
+import { getPackageInfo, type PackageListing, selectPackage } from "../src/index.ts";
+
+const { prompt } = enquirer;
 
 async function getChangelogSections(): Promise<LogSection[]> {
     const sections: LogSection[] = [];

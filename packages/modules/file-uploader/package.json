@@ -1,7 +1,7 @@
 {
     "name": "@mendix/file-uploader",
     "moduleName": "File Uploader module",
-    "version": "2.5.0",
+    "version": "2.5.1",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
     "private": true,
@@ -27,12 +27,14 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "fileuploader-web"
     },
+    "type": "module",
     "scripts": {
-        "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
+        "build:module": "node scripts/build.ts",
         "create-gh-release": "rui-create-gh-release",
+        "lint": "tsc --project scripts/tsconfig.json",
         "publish-marketplace": "rui-publish-marketplace",
-        "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
-        "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
+        "push-update": "node scripts/push-update.ts",
+        "release:module": "node scripts/release.ts",
         "update-changelog": "rui-update-changelog-module",
         "verify": "rui-verify-package-format"
     },

@@ -18,6 +18,11 @@ export function copyDefaultFilesPlugin() {
                 src: "Siemens*READMEOSS*.html",
                 dest: "dist/tmp/widgets",
                 flatten: true
+            },
+            {
+                // Maia skill files; shipped only for widgets that have a .maia folder
+                src: ".maia",
+                dest: "dist/tmp/widgets"
             }
         ]
     });

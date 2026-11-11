@@ -20,6 +20,12 @@ export interface UseDropdownOptions {
      * themselves in CSS and must keep their current behaviour.
      */
     trackAvailableHeight?: boolean;
+    /**
+     * Close on Escape. The key is caught in the capture phase and stopped there, so it does not also
+     * reach the editor, whose Fullscreen extension exits fullscreen on Escape. Off by default: some
+     * popovers handle Escape themselves, for example to discard a draft value.
+     */
+    closeOnEscape?: boolean;
 }
 
 export interface UseDropdownReturn {
@@ -51,7 +57,8 @@ export function useDropdown({
     placement = "bottom-start",
     offsetValue = 4,
     referenceElement,
-    trackAvailableHeight = false
+    trackAvailableHeight = false,
+    closeOnEscape = false
 }: UseDropdownOptions): UseDropdownReturn {
     const ignoreClickRef = useRef<HTMLElement | null>(null);
     const [availableHeight, setAvailableHeight] = useState<number | undefined>(undefined);
@@ -115,6 +122,22 @@ export function useDropdown({
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [isOpen, onClose, refs.floating, refs.reference]);
+
+    useEffect(() => {
+        if (!isOpen || !closeOnEscape) return;
+
+        const handleKeyDown = (event: KeyboardEvent): void => {
+            if (event.key !== "Escape") return;
+            event.preventDefault();
+            event.stopPropagation();
+            onClose();
+        };
+
+        document.addEventListener("keydown", handleKeyDown, true);
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown, true);
+        };
+    }, [isOpen, closeOnEscape, onClose]);
 
     return {
         refs: {

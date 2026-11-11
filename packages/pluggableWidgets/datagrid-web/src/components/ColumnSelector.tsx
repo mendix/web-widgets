@@ -31,6 +31,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
         middleware: [
             size({
                 apply({ availableHeight }) {
+                    // eslint-disable-next-line @eslint-react/dom-no-flush-sync -- pattern recommended by Floating UI's size middleware
                     flushSync(() => {
                         setMaxHeight(availableHeight);
                     });

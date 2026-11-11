@@ -1,9 +1,9 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
 import assert from "node:assert/strict";
-import { getPublishedInfo, gh } from "../src";
-import { createDraft, publishDraft } from "../src/api/contributor";
 import chalk from "chalk";
+import { createDraft, publishDraft } from "../src/api/contributor.ts";
+import { getPublishedInfo, gh } from "../src/index.ts";
 
 async function main(): Promise<void> {
     console.log(`Getting package information...`);

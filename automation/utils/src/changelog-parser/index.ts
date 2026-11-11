@@ -1,10 +1,10 @@
 import { readFileSync, writeFileSync } from "fs";
 import { join } from "path";
-import { getPackageInfo } from "../package-info";
-import { Version } from "../version";
-import { parse as parseModuleChangelogFile } from "./parser/module/module";
-import { parse as parseWidgetChangelogFile } from "./parser/widget/widget";
-import {
+import { getPackageInfo } from "../package-info.ts";
+import { Version } from "../version.ts";
+import { parse as parseModuleChangelogFile } from "./parser/module/module.mjs";
+import { parse as parseWidgetChangelogFile } from "./parser/widget/widget.mjs";
+import type {
     LogSection,
     ModuleChangelogFile,
     ModuleReleasedVersionEntry,
@@ -15,7 +15,7 @@ import {
     UnreleasedVersionEntry,
     VersionEntry,
     WidgetChangelogFile
-} from "./types";
+} from "./types.ts";
 
 function formatHeader(header: string): string[] {
     return [
@@ -105,12 +105,11 @@ function mergeUnreleased<T extends UnreleasedVersionEntry>(unreleased: T, sectio
 
 export class WidgetChangelogFileWrapper {
     changelog: WidgetChangelogFile;
+    changelogPath: string;
 
-    private constructor(
-        changelog: WidgetChangelogFile,
-        public changelogPath: string
-    ) {
+    private constructor(changelog: WidgetChangelogFile, changelogPath: string) {
         this.changelog = Object.freeze(changelog);
+        this.changelogPath = changelogPath;
     }
 
     save(): void {
@@ -188,13 +187,12 @@ export class WidgetChangelogFileWrapper {
 export class ModuleChangelogFileWrapper {
     changelog: ModuleChangelogFile;
     moduleName: string;
+    changelogPath: string;
 
-    private constructor(
-        changelog: ModuleChangelogFile,
-        public changelogPath: string
-    ) {
+    private constructor(changelog: ModuleChangelogFile, changelogPath: string) {
         this.changelog = Object.freeze(changelog);
         this.moduleName = changelog.moduleName;
+        this.changelogPath = changelogPath;
     }
 
     save(): void {

@@ -1,0 +1,23 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.0
+ignore:
+    # CVE-2026-93753 / GHSA prototype-poisoning guard bypass in deepmerge <= 4.3.1.
+    # No fixed version exists upstream: 4.3.1 is the latest release (March 2023) and the
+    # fix (TehShrike/deepmerge#274) was closed unmerged, so there is nothing to upgrade to.
+    #
+    # Not reachable in this repository:
+    #   - Runtime use is limited to @mendix/shared-charts and @mendix/custom-chart-web,
+    #     which merge developer-authored Plotly layout/config/trace JSON in the browser.
+    #     That source is already a fully trusted configuration channel, so an
+    #     attacker-controlled prototype on the merge result grants no capability the
+    #     source does not already have directly.
+    #   - The bug does not modify global Object.prototype. Only the single returned
+    #     object gets a different prototype, and nothing downstream makes a trust
+    #     decision from an inherited property.
+    #   - The remaining copies are dev-only and never shipped: @rollup/plugin-node-resolve
+    #     (build time) and jest-config (test time).
+    #
+    # Revisit if deepmerge is ever used to merge end-user or request-supplied data.
+    SNYK-JS-DEEPMERGE-19964053:
+        - "*":
+              reason: "Not reachable: deepmerge only merges developer-authored Plotly chart config (already a trusted channel); global Object.prototype is never modified; remaining copies are build/test-only. No fixed version exists upstream (PR #274 closed unmerged)."

@@ -82,6 +82,7 @@ export interface AreaChartContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     series: SeriesType[];
+    refreshInterval: number;
     enableAdvancedOptions: boolean;
     showPlaygroundSlot: boolean;
     playground?: ReactNode;
@@ -110,6 +111,7 @@ export interface AreaChartPreviewProps {
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
     series: SeriesPreviewType[];
+    refreshInterval: number | null;
     enableAdvancedOptions: boolean;
     showPlaygroundSlot: boolean;
     playground: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };

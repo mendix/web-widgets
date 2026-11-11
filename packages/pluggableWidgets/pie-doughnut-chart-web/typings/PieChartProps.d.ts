@@ -25,6 +25,7 @@ export interface PieChartContainerProps {
     seriesSortOrder: SeriesSortOrderEnum;
     seriesColorAttribute?: ListExpressionValue<string>;
     seriesItemSelection?: SelectionSingleValue;
+    refreshInterval: number;
     enableAdvancedOptions: boolean;
     showPlaygroundSlot: boolean;
     playground?: ReactNode;
@@ -60,6 +61,7 @@ export interface PieChartPreviewProps {
     seriesSortOrder: SeriesSortOrderEnum;
     seriesColorAttribute: string;
     seriesItemSelection: "None" | "Single";
+    refreshInterval: number | null;
     enableAdvancedOptions: boolean;
     showPlaygroundSlot: boolean;
     playground: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };

@@ -1,6 +1,6 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
-import { Jira } from "../src/jira";
+import { Jira } from "../src/jira.ts";
 
 /**
  * Jira version creation has historically 404'd transiently and must never block

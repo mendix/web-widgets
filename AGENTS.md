@@ -22,7 +22,7 @@ Monorepo of official Mendix pluggable web widgets. pnpm workspaces + Turbo.
 
 ## Development Setup
 
-- Node >=24, pnpm 10.x
+- Node >=26, pnpm 10.x
 - Set MX_PROJECT_PATH to Mendix project dir for live reload
 - Run `pnpm start` inside widget package for dev build
 

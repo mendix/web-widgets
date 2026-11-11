@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
 import { pushUpdateToTestProject, runModuleSteps } from "@mendix/automation-utils/steps";
 

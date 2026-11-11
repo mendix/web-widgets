@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We hid the "Placeholder text" property when the combobox type is set to Boolean, since boolean attributes can never be empty and the placeholder has no effect.
 
+### Fixed
+
+- We fixed an issue where pages with many combo boxes became slow to scroll.
+
 ## [2.10.0] - 2026-09-21
 
 ### Fixed

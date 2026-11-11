@@ -152,7 +152,8 @@ function parseSanitizationConfig(config?: string): Config {
     } catch (e) {
         console.error(e);
         throw new Error(
-            'Can not parse "Configuration for HTML sanitization" value. Please check your widget configuration.'
+            'Can not parse "Configuration for HTML sanitization" value. Please check your widget configuration.',
+            { cause: e }
         );
     }
 }

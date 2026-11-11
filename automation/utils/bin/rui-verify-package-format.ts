@@ -1,5 +1,6 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
+import chalk from "chalk";
 import { ZodError } from "zod";
 import {
     getModuleChangelog,
@@ -9,9 +10,8 @@ import {
     ModulePackageSchema,
     PackageSchema,
     PublishedPackageSchema
-} from "../src";
-import { verify as verifyWidget } from "../src/verify-widget-manifest";
-import chalk from "chalk";
+} from "../src/index.ts";
+import { verify as verifyWidget } from "../src/verify-widget-manifest.ts";
 
 async function main(): Promise<void> {
     const path = process.cwd();
@@ -74,7 +74,7 @@ async function main(): Promise<void> {
             }
             // Just for new line
             console.log("");
-            throw new Error("Verification failed");
+            throw new Error("Verification failed", { cause: error });
         }
 
         throw error;

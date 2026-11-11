@@ -1,8 +1,8 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
 import { writeFile } from "fs/promises";
-import { getPackageInfo } from "../src";
-import { getWidgetChangelog } from "../src/changelog-parser";
+import { getWidgetChangelog } from "../src/changelog-parser/index.ts";
+import { getPackageInfo } from "../src/index.ts";
 
 async function main(): Promise<void> {
     const info = await getPackageInfo(process.cwd());

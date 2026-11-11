@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
 import {
     copyActionsFiles,
@@ -9,7 +9,7 @@ import {
     writeModuleVersion
 } from "@mendix/automation-utils/steps";
 
-import { bundleXLSX } from "./steps/bundle-xlsx";
+import { bundleXLSX } from "./steps/bundle-xlsx.ts";
 
 async function main(): Promise<void> {
     await runModuleSteps({

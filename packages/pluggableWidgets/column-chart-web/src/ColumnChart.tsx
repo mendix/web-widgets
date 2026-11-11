@@ -1,4 +1,11 @@
-import { ChartWidget, ChartWidgetProps, containerPropsEqual, usePlotChartDataSeries } from "@mendix/shared-charts/main";
+import {
+    ChartWidget,
+    ChartWidgetProps,
+    containerPropsEqual,
+    seriesDataSources,
+    usePlotChartDataSeries,
+    useRefreshInterval
+} from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import classNames from "classnames";
 import { memo, ReactElement, useCallback, useMemo } from "react";
@@ -32,6 +39,8 @@ const columnChartSeriesOptions: ChartWidgetProps["seriesOptions"] = {
 // disable eslint rule to have nice component name in component tree at devtools
 
 export const ColumnChart = memo(function ColumnChart(props: ColumnChartContainerProps): ReactElement | null {
+    useRefreshInterval(seriesDataSources(props.series), props.refreshInterval);
+
     const layoutOptions = useMemo(
         () => ({
             ...columnChartLayoutOptions,

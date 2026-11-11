@@ -1,13 +1,16 @@
 import crossZip from "cross-zip";
 import execa from "execa";
-import { config, ls, popd, pushd } from "shelljs";
+import shelljs from "shelljs";
+
+// shelljs is CommonJS, so named imports are not available under native ESM
+const { config } = shelljs;
 
 // Enable fast fail for all shelljs commands
 config.fatal = true;
 // Export all except exec as we will execa to execute commands
 // KNOWN ISSUES:
 // - mv don't throw error  https://github.com/shelljs/shelljs/issues/878
-export {
+export const {
     cat,
     cd,
     chmod,
@@ -37,7 +40,7 @@ export {
     touch,
     uniq,
     which
-} from "shelljs";
+} = shelljs;
 export { config as shelljsConfig };
 
 export function exec(command: string, options?: execa.Options): execa.ExecaChildProcess {

@@ -1,12 +1,12 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
-import { gh } from "../src/github";
-import { includeReadmeOssIntoMpk } from "../src/oss-clearance";
-import { rm } from "../src/shell";
 import { mkdtemp, stat } from "node:fs/promises";
-import { join } from "node:path";
 import { tmpdir } from "node:os";
+import { join } from "node:path";
 import chalk from "chalk";
+import { gh } from "../src/github.ts";
+import { includeReadmeOssIntoMpk } from "../src/oss-clearance.ts";
+import { rm } from "../src/shell.ts";
 
 /**
  * This script processes GitHub release artifacts to include READMEOSS HTML files into MPK files.

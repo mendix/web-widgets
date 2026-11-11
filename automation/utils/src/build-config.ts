@@ -1,6 +1,6 @@
 import { join } from "node:path";
 import chalk from "chalk";
-import { getModuleInfo, getWidgetInfo, ModuleInfo, WidgetInfo } from "./package-info";
+import { getModuleInfo, getWidgetInfo, type ModuleInfo, type WidgetInfo } from "./package-info.ts";
 
 export interface Output<Dirs, Files> {
     dirs: Dirs;

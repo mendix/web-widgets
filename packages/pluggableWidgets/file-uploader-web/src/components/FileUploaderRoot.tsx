@@ -57,6 +57,12 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
                     );
                 })}
             </div>
+
+            <div className={"sr-only"} role={"status"} aria-live={"polite"} aria-atomic={"true"}>
+                {/* alternate a trailing non-breaking space so a repeated message is announced again */}
+                {rootStore.announcement.text}
+                {rootStore.announcement.seq % 2 === 1 ? "\u00A0" : ""}
+            </div>
         </div>
     );
 });

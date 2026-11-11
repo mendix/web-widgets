@@ -1,4 +1,4 @@
-import { Version } from "../version";
+import type { Version } from "../version.ts";
 
 export interface ReleasedVersionEntry {
     type: "normal";

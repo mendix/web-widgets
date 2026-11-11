@@ -1,13 +1,13 @@
 import { basename, join } from "path";
-import { ModuleInfo } from "./package-info";
-import { exec, find } from "./shell";
-import { Version } from "./version";
+import type { ModuleInfo } from "./package-info.ts";
+import { exec, find } from "./shell.ts";
+import type { Version } from "./version.ts";
 
 async function ensureMxBuildDockerImageExists(version: string): Promise<void> {
     const existingImages = (await exec(`docker image ls -q mxbuild:${version}`, { stdio: "pipe" })).stdout.trim();
     if (!existingImages) {
         console.log(`Creating new mxbuild:${version} docker image...`);
-        const dockerfilePath = join(__dirname, "../docker/mxbuild.Dockerfile");
+        const dockerfilePath = join(import.meta.dirname, "../docker/mxbuild.Dockerfile");
         await exec(
             `docker build -f ${dockerfilePath} ` +
                 `--build-arg MENDIX_VERSION=${version} ` +

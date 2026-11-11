@@ -4,6 +4,7 @@ export type * from "./helpers/EditorStore";
 export type * from "./helpers/playground-context";
 export type * from "./helpers/useEditorStore";
 export * from "./hooks/usePlotChartDataSeries";
+export * from "./hooks/useRefreshInterval";
 export * from "./utils/compareAttrValuesAsc";
 export * from "./utils/configs";
 export * from "./utils/chartStyles";

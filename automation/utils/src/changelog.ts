@@ -1,6 +1,6 @@
-import { gh } from "./github";
-import { PublishedInfo } from "./package-info";
-import { exec, popd, pushd } from "./shell";
+import { gh } from "./github.ts";
+import type { PublishedInfo } from "./package-info.ts";
+import { exec, popd, pushd } from "./shell.ts";
 
 export async function updateChangelogsAndCreatePR(
     info: PublishedInfo,

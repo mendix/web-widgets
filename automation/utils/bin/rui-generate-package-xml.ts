@@ -1,10 +1,10 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 
-import { writeClientPackageXml, ClientPackageXML } from "../src/package-xml-v2";
-import { getWidgetInfo } from "../src/package-info";
-import { readPropertiesFile } from "../src/package-xml-v2/properties-xml";
-import path from "node:path";
 import { existsSync } from "node:fs";
+import path from "node:path";
+import { getWidgetInfo } from "../src/package-info.ts";
+import { type ClientPackageXML, writeClientPackageXml } from "../src/package-xml-v2/index.ts";
+import { readPropertiesFile } from "../src/package-xml-v2/properties-xml.ts";
 
 async function generatePackageXml(): Promise<void> {
     const widgetDir = process.cwd();
@@ -54,6 +54,6 @@ async function main() {
     }
 }
 
-if (require.main === module) {
+if (import.meta.main) {
     main();
 }

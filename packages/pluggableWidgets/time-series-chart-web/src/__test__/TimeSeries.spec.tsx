@@ -22,6 +22,7 @@ describe("The TimeSeries widget", () => {
         return render(
             <TimeSeries
                 name="time-series-test"
+                refreshInterval={0}
                 class="time-series-class"
                 lines={configs.map(setupBasicSeries)}
                 showLegend={false}

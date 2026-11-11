@@ -1,3 +1,3 @@
-export * as shell from "./shell";
-export * as utils from "./utils";
-export * as steps from "./steps";
+export * as shell from "./shell.ts";
+export * as utils from "./utils.ts";
+export * as steps from "./steps.ts";

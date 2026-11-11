@@ -1,6 +1,6 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
-import { GitHub } from "../src/github";
+import { GitHub } from "../src/github.ts";
 
 const ALLOWED_FILENAMES = new Set(["package.xml", "CHANGELOG.md", "package.json"]);
 

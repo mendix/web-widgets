@@ -6,6 +6,88 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [6.4.0] Charts - 2026-10-28
+
+### AreaChart
+
+#### Added
+
+- We added a "Refresh time (in seconds)" property that periodically reloads the chart data.
+
+#### Fixed
+
+- We fixed an issue where the chart in design mode overlapped other widgets on the page. The design mode preview now follows the configured width and height and stays within its parent.
+
+### BarChart
+
+#### Added
+
+- We added a "Refresh time (in seconds)" property that periodically reloads the chart data.
+
+#### Fixed
+
+- We fixed an issue where the chart in design mode overlapped other widgets on the page. The design mode preview now follows the configured width and height and stays within its parent.
+
+### BubbleChart
+
+#### Added
+
+- We added a "Refresh time (in seconds)" property that periodically reloads the chart data.
+
+#### Fixed
+
+- We fixed an issue where the chart in design mode overlapped other widgets on the page. The design mode preview now follows the configured width and height and stays within its parent.
+
+### ColumnChart
+
+#### Added
+
+- We added a "Refresh time (in seconds)" property that periodically reloads the chart data.
+
+#### Fixed
+
+- We fixed an issue where the chart in design mode overlapped other widgets on the page. The design mode preview now follows the configured width and height and stays within its parent.
+
+### HeatMap
+
+#### Added
+
+- We added a "Refresh time (in seconds)" property that periodically reloads the chart data.
+
+#### Fixed
+
+- We fixed an issue where the chart in design mode overlapped other widgets on the page. The design mode preview now follows the configured width and height and stays within its parent.
+
+### LineChart
+
+#### Added
+
+- We added a "Refresh time (in seconds)" property that periodically reloads the chart data.
+
+#### Fixed
+
+- We fixed an issue where the chart in design mode overlapped other widgets on the page. The design mode preview now follows the configured width and height and stays within its parent.
+
+### PieChart
+
+#### Added
+
+- We added a "Refresh time (in seconds)" property that periodically reloads the chart data.
+
+#### Fixed
+
+- We fixed an issue where the chart in design mode overlapped other widgets on the page. The design mode preview now follows the configured width and height and stays within its parent.
+
+### TimeSeries
+
+#### Added
+
+- We added a "Refresh time (in seconds)" property that periodically reloads the chart data.
+
+#### Fixed
+
+- We fixed an issue where the chart in design mode overlapped other widgets on the page. The design mode preview now follows the configured width and height and stays within its parent.
+
 ## [6.3.2] Charts - 2026-07-27
 
 ### [6.3.2] CustomChart

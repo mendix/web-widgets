@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.9] - 2026-11-04
+
+### Fixed
+
+- We fixed an issue where the "Refresh time (in seconds)" property had no effect and the gallery did not reload its data periodically.
+
+## [3.11.8] - 2026-10-22
+
+### Fixed
+
+- We fixed an issue where clicking a label inside the item content, such as the label of a checkbox, triggered the double click action with a single click.
+
 ## [3.11.7] - 2026-10-02
 
 ### Fixed

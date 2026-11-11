@@ -26,6 +26,7 @@ describe("The ColumnChart widget", () => {
         return render(
             <ColumnChart
                 name="column-chart-test"
+                refreshInterval={0}
                 class="column-chart-class"
                 barmode="group"
                 series={configs.map(setupBasicColumnSeries)}

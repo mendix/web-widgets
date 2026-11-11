@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the table toolbar did not appear when the cursor was in a table and the custom toolbar was set to "Advanced" with a "Table" item.
+
+- We fixed an issue where an item added more than once to the "Advanced" custom toolbar was shown more than once, and clicking one of its buttons, such as "Table" or "Link", opened a picker or dialog under every copy. Each item is now shown once.
+
+- We fixed an issue where pressing Escape did not close the insert table picker, or the insert link, image and video dialogs when the dialog style was "Inline".
+
+## [5.1.1] - 2026-10-15
+
+### Fixed
+
+- We fixed an issue where the editor and its toolbar did not become read-only or editable when the editability of its attribute changed after the page was loaded, for example with conditional editability.
+
+- We fixed an issue where, with multiple Rich Text widgets on a page, toggling fullscreen or pressing Escape in one editor changed the fullscreen mode of a different editor, and the fullscreen button showed the wrong state.
+
+- We fixed an issue where table and cell border settings had no effect when the style data format was set to "Class".
+
+- We fixed an issue where table, column and cell sizes were saved as inline styles when the style data format was set to "Class".
+
 ## [5.1.0] - 2026-09-29
 
 ### Added

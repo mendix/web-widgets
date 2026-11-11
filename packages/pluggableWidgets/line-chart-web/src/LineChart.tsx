@@ -1,4 +1,11 @@
-import { ChartWidget, ChartWidgetProps, traceEqual, usePlotChartDataSeries } from "@mendix/shared-charts/main";
+import {
+    ChartWidget,
+    ChartWidgetProps,
+    seriesDataSources,
+    traceEqual,
+    usePlotChartDataSeries,
+    useRefreshInterval
+} from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import { defaultEqual, flatEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import classNames from "classnames";
@@ -28,6 +35,8 @@ export const LineChart = memo(
     // disable eslint rule to have nice component name in component tree at devtools
 
     function LineChart(props: LineChartContainerProps): ReactElement | null {
+        useRefreshInterval(seriesDataSources(props.lines), props.refreshInterval);
+
         const chartLines = usePlotChartDataSeries(
             props.lines,
             useCallback((line, dataPoints, { getExpressionValue }) => {

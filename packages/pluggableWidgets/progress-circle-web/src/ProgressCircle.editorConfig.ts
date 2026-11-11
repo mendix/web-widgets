@@ -87,6 +87,7 @@ export function check(values: ProgressCirclePreviewProps): Problem[] {
             });
         }
         if (
+            !values.allowValueAboveMax &&
             values.staticCurrentValue !== null &&
             values.staticMaxValue !== null &&
             values.staticCurrentValue > values.staticMaxValue

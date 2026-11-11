@@ -80,6 +80,7 @@ export interface TimeSeriesContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     lines: LinesType[];
+    refreshInterval: number;
     enableAdvancedOptions: boolean;
     showPlaygroundSlot: boolean;
     playground?: ReactNode;
@@ -110,6 +111,7 @@ export interface TimeSeriesPreviewProps {
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
     lines: LinesPreviewType[];
+    refreshInterval: number | null;
     enableAdvancedOptions: boolean;
     showPlaygroundSlot: boolean;
     playground: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };

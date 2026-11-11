@@ -42,6 +42,7 @@ export interface HeatMapContainerProps {
     seriesDataSource: ListValue;
     seriesValueAttribute: ListAttributeValue<Big>;
     seriesItemSelection?: SelectionSingleValue;
+    refreshInterval: number;
     horizontalAxisAttribute?: ListAttributeValue<string>;
     horizontalSortAttribute?: ListAttributeValue<Big | string | Date>;
     horizontalSortOrder: HorizontalSortOrderEnum;
@@ -85,6 +86,7 @@ export interface HeatMapPreviewProps {
     seriesDataSource: {} | { caption: string } | { type: string } | null;
     seriesValueAttribute: string;
     seriesItemSelection: "None" | "Single";
+    refreshInterval: number | null;
     horizontalAxisAttribute: string;
     horizontalSortAttribute: string;
     horizontalSortOrder: HorizontalSortOrderEnum;

@@ -1,124 +1,118 @@
 import { expect, test } from "@mendix/run-e2e/fixtures";
-import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
+import { DataGridPage } from "../pages/DataGridPage";
 
 test.describe("datagrid-web filtering single select", () => {
+    /** @type {DataGridPage} */
+    let grid;
+
     test.beforeEach(async ({ page }) => {
+        grid = new DataGridPage(page, "dataGrid21");
         await page.goto("/p/filtering-single");
-        await waitForMendixApp(page);
     });
 
     test("compares with a screenshot baseline and checks if all datagrid and filter elements are rendered as expected", async ({
         page
     }) => {
-        await expect(page.locator(".mx-name-dataGrid21")).toBeVisible();
+        await expect(grid.root).toBeVisible();
 
         await expect(page).toHaveScreenshot(`datagridFilteringSingle.png`);
     });
 
     test("filter rows that have Yes in Pets column", async ({ page }) => {
-        const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const option = label => page.locator(`[role="option"]:has-text("${label}")`);
-        const booleanSelect = () => page.locator('.mx-name-drop_downFilter2[role="combobox"]');
-
-        await booleanSelect().click();
-        await option("Yes").click({ delay: 1 });
-        await expect(column(3)).toHaveText(["Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"]);
+        // drop_downFilter widgets are siblings of the grid, not children — page-scoped selector is required.
+        await page.locator('.mx-name-drop_downFilter2[role="combobox"]').click();
+        await page.getByRole("option", { name: "Yes", exact: true }).click({ delay: 1 });
+        await expect(grid.columnCells(3)).toHaveText([
+            "Yes",
+            "Yes",
+            "Yes",
+            "Yes",
+            "Yes",
+            "Yes",
+            "Yes",
+            "Yes",
+            "Yes",
+            "Yes"
+        ]);
     });
 
     test("filter rows that have No in Pets column", async ({ page }) => {
-        const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const booleanSelect = () => page.locator('.mx-name-drop_downFilter2[role="combobox"]');
-
-        await booleanSelect().click();
+        // drop_downFilter widgets are siblings of the grid, not children — page-scoped selector is required.
+        await page.locator('.mx-name-drop_downFilter2[role="combobox"]').click();
         await page.getByRole("option", { name: "No", exact: true }).click();
-        await expect(column(3).first()).toHaveText("No");
-        const columnTexts = await column(3).allTextContents();
+        await expect(grid.columnCells(3).first()).toHaveText("No");
+        const columnTexts = await grid.columnCells(3).allTextContents();
         columnTexts.forEach(text => expect(text).toBe("No"));
     });
 
     test("reset filter state when empty option is clicked", async ({ page }) => {
-        const rows = async () => {
-            return page.locator('.mx-name-dataGrid21 [role="row"]');
-        };
-        const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const option = label => page.locator(`[role="option"]:has-text("${label}")`);
-        const booleanSelect = () => page.locator('.mx-name-drop_downFilter2[role="combobox"]');
-
-        await booleanSelect().click();
-        await option("Yes").click({ delay: 20 });
-        const rowCount = await rows();
-        await expect(rowCount).toHaveCount(11);
-        await expect(column(3)).toHaveText(["Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"]);
-        await booleanSelect().click({ delay: 20 });
+        // drop_downFilter widgets are siblings of the grid, not children — page-scoped selector is required.
+        await page.locator('.mx-name-drop_downFilter2[role="combobox"]').click();
+        await page.getByRole("option", { name: "Yes", exact: true }).click({ delay: 20 });
+        await expect(grid.rows).toHaveCount(11);
+        await expect(grid.columnCells(3)).toHaveText([
+            "Yes",
+            "Yes",
+            "Yes",
+            "Yes",
+            "Yes",
+            "Yes",
+            "Yes",
+            "Yes",
+            "Yes",
+            "Yes"
+        ]);
+        await page.locator('.mx-name-drop_downFilter2[role="combobox"]').click({ delay: 20 });
         await page.getByRole("row", { name: "Pets (bool)" }).getByRole("option").first().click();
-        await expect(column(3)).toHaveText(["Yes", "Yes", "Yes", "No", "Yes", "No", "No", "Yes", "No", "Yes"]);
+        await expect(grid.columnCells(3)).toHaveText([
+            "Yes",
+            "Yes",
+            "Yes",
+            "No",
+            "Yes",
+            "No",
+            "No",
+            "Yes",
+            "No",
+            "Yes"
+        ]);
     });
 
     test("filter rows that have Cyan in Color column", async ({ page }) => {
-        const rows = async () => {
-            return page.locator('.mx-name-dataGrid21 [role="row"]');
-        };
-        const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const option = label => page.locator(`[role="option"]:has-text("${label}")`);
-        const enumSelect = () => page.locator('.mx-name-drop_downFilter1[role="combobox"]');
-
-        await enumSelect().click();
-        await option("Cyan").click({ delay: 1 });
-        const rowCount = await rows();
-        await expect(rowCount).toHaveCount(6);
-        const columnTexts = await column(2).allTextContents();
+        // drop_downFilter widgets are siblings of the grid, not children — page-scoped selector is required.
+        await page.locator('.mx-name-drop_downFilter1[role="combobox"]').click();
+        await page.getByRole("option", { name: "Cyan", exact: true }).click({ delay: 1 });
+        await expect(grid.rows).toHaveCount(6);
+        const columnTexts = await grid.columnCells(2).allTextContents();
         columnTexts.forEach(text => expect(text).toBe("Cyan"));
     });
 
     test("filter rows that have Black in Color column", async ({ page }) => {
-        const rows = async () => {
-            return page.locator('.mx-name-dataGrid21 [role="row"]');
-        };
-        const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const option = label => page.locator(`[role="option"]:has-text("${label}")`);
-        const enumSelect = () => page.locator('.mx-name-drop_downFilter1[role="combobox"]');
-
-        await enumSelect().click();
-        await option("Black").click({ delay: 1 });
-        const rowCount = await rows();
-        await expect(rowCount).toHaveCount(9);
-        const columnTexts = await column(2).allTextContents();
+        // drop_downFilter widgets are siblings of the grid, not children — page-scoped selector is required.
+        await page.locator('.mx-name-drop_downFilter1[role="combobox"]').click();
+        await page.getByRole("option", { name: "Black", exact: true }).click({ delay: 1 });
+        await expect(grid.rows).toHaveCount(9);
+        const columnTexts = await grid.columnCells(2).allTextContents();
         columnTexts.forEach(text => expect(text).toBe("Black"));
     });
 
     test("filter rows that match selected role", async ({ page }) => {
-        const rows = async () => {
-            return page.locator('.mx-name-dataGrid21 [role="row"]');
-        };
-        const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const option = label => page.locator(`[role="option"]:has-text("${label}")`);
-        const roleSelect = () => page.locator('.mx-name-drop_downFilter3[role="combobox"]');
-
-        const rowCount = await rows();
-        await expect(rowCount).toHaveCount(11);
-        await roleSelect().click();
-        await option("Trader").click({ delay: 1 });
-        const rowCount2 = await rows();
-        await expect(rowCount2).toHaveCount(8);
-        const columnTexts = await column(4).allTextContents();
+        await expect(grid.rows).toHaveCount(11);
+        // drop_downFilter widgets are siblings of the grid, not children — page-scoped selector is required.
+        await page.locator('.mx-name-drop_downFilter3[role="combobox"]').click();
+        await page.getByRole("option", { name: "Trader", exact: true }).click({ delay: 1 });
+        await expect(grid.rows).toHaveCount(8);
+        const columnTexts = await grid.columnCells(4).allTextContents();
         columnTexts.forEach(text => expect(text).toContain("Trader"));
     });
 
     test("filter rows that match selected company", async ({ page }) => {
-        const rows = async () => {
-            return page.locator('.mx-name-dataGrid21 [role="row"]');
-        };
-        const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const option = label => page.locator(`[role="option"]:has-text("${label}")`);
-        const companySelect = () => page.locator('.mx-name-drop_downFilter4[role="combobox"]');
-
-        const rowCount = await rows();
-        await expect(rowCount).toHaveCount(11);
-        await companySelect().click();
-        await option("PETsMART Inc").click({ delay: 1 });
-        const rowCount2 = await rows();
-        await expect(rowCount2).toHaveCount(9);
-        const columnTexts = await column(5).allTextContents();
+        await expect(grid.rows).toHaveCount(11);
+        // drop_downFilter widgets are siblings of the grid, not children — page-scoped selector is required.
+        await page.locator('.mx-name-drop_downFilter4[role="combobox"]').click();
+        await page.getByRole("option", { name: "PETsMART Inc", exact: true }).click({ delay: 1 });
+        await expect(grid.rows).toHaveCount(9);
+        const columnTexts = await grid.columnCells(5).allTextContents();
         columnTexts.forEach(text => expect(text).toBe("PETsMART Inc"));
     });
 });

@@ -46,7 +46,7 @@ export async function dev() {
         }
     }
 
-    // We add local node_modules/.bin to PATH to make cypress bin is available for
+    // We add local node_modules/.bin to PATH to make playwright bin available for
     // any package in monorepo.
     const packageBinariesPath = fileURLToPath(new URL("../node_modules/.bin", import.meta.url));
     process.env.PATH += `${delimiter}${packageBinariesPath}`;

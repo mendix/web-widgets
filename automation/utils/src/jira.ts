@@ -1,4 +1,4 @@
-import nodefetch, { RequestInit } from "node-fetch";
+import nodefetch, { type RequestInit } from "node-fetch";
 
 export interface JiraVersion {
     id: string;
@@ -63,7 +63,7 @@ export class Jira {
         try {
             response = await nodefetch(url, httpsOptions);
         } catch (error) {
-            throw new Error(`API request failed: ${(error as Error).message}`);
+            throw new Error(`API request failed: ${(error as Error).message}`, { cause: error });
         }
 
         if (!response.ok) {

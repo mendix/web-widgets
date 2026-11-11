@@ -1,5 +1,4 @@
 // Atlas UI compatible variable naming for data widgets
-
 // Brand colors
 $brand-primary: #264ae5 !default;
 $brand-danger: #e33f4e !default;
@@ -9,7 +8,7 @@ $color-contrast: #000 !default;
 $color-base: #fff !default;
 $gray-primary: #ced0d3 !default;
 $brand-default: $gray-primary !default;
-$color-default-lighter: mix($brand-default, $color-base, 10%) !default;
+$color-default-lighter: #fafafb !default;
 
 // Background
 $bg-color: $color-default-lighter !default;
@@ -20,12 +19,14 @@ $hover-color: #f8f8f8 !default;
 $selected-color: #dadcde !default;
 $label-info-color: $color-base !default;
 $color-default-light: $grid-bg-hover !default;
+$color-primary-light: #d4dbfa !default;
 $color-primary-lighter: $brand-light !default;
 
 // Text and icon colors
+$gray-lighter: #f8f8f8 !default;
 $gray-dark: #606671 !default;
 $gray-darker: #3b4251 !default;
-$caption-color: #0a1325 !default;
+$font-color-default: #0a1325 !default;
 $form-input-placeholder-color: #757575 !default;
 $form-input-border-color: $brand-primary !default;
 $btn-primary-color: $color-base !default;
@@ -43,12 +44,16 @@ $spacing-medium: 16px !default;
 $spacing-large: 24px !default;
 $spacing-larger: 32px !default;
 
+// Breakpoints (lengths, used in media queries)
+$screen-md: 768px !default;
+$screen-lg: 992px !default;
+
 // Gallery specific spacing
 $gallery-gap: $spacing-small !default;
 
 // Effects and animations
 $dragging-color-effect: rgba(10, 19, 37, 0.8) !default;
-$shadow-color: rgba($gray-primary, 0.66) !default;
+$shadow-color: rgba(231, 231, 233, 0.66) !default;
 $export-alert-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) !default;
 $skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2d2d2 100%) !default;
 

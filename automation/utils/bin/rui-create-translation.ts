@@ -1,10 +1,10 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 import { mkdir, writeFile } from "fs/promises";
 import path from "node:path";
 import { dirname } from "path";
-import { getPackageFileContent, PackageSchema } from "../src";
-import { readXml } from "../src/package-xml";
-import { findCaptionsAndDescriptions, getWidgetXMLName, type Result } from "../src/widget-file-xml";
+import { getPackageFileContent, PackageSchema } from "../src/index.ts";
+import { readXml } from "../src/package-xml.ts";
+import { findCaptionsAndDescriptions, getWidgetXMLName, type Result } from "../src/widget-file-xml.ts";
 async function main(): Promise<void> {
     console.log(`Creating translation i18n format...`);
     const path = process.cwd();
@@ -43,10 +43,8 @@ export async function createTranslation(cwd: string) {
     if (widgetXMLName) {
         const obj = await readXml(path.join(cwd, "src", widgetXMLName));
         const res = findCaptionsAndDescriptions(obj);
-        let fileName = "result";
-        if (obj && typeof obj === "object" && obj["widget"] && obj["widget"]["@_id"]) {
-            fileName = obj["widget"]["@_id"].toLowerCase();
-        }
+        const widgetId = (obj as { widget?: { "@_id"?: string } } | undefined)?.widget?.["@_id"];
+        const fileName = widgetId ? widgetId.toLowerCase() : "result";
         writeResultToFile(res, `dist/locales/en-US/${fileName}.json`);
         writeResultToFile(res, `../../../dist/locales/en-US/${fileName}.json`);
     }

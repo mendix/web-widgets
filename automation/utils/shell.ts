@@ -1,1 +1,1 @@
-export * from "./src/shell";
+export * from "./src/shell.ts";

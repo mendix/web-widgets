@@ -58,6 +58,7 @@ function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCr
         customAspectHeight: dynamic.available(new Big(1)),
         boundaryWidth: 300,
         boundaryHeight: 300,
+        initialCropSize: 80,
         resizableEnabled: true,
         zoomEnabled: true,
         showZoomSlider: true,
@@ -295,6 +296,17 @@ describe("ImageCropperStore", () => {
             expect(store.liveCrop).toBeDefined();
             const seeded = store.liveCrop!;
             expect(seeded.width / seeded.height).toBeCloseTo((3 / 2) * (300 / 400), 5);
+            dispose();
+        });
+
+        it("seeds at the configured initial crop size once the ratio resolves", () => {
+            const { store, gate, dispose } = makeStore({ ...pendingCustom, initialCropSize: 50 });
+            store.initFromImageLoad(PERCENT_CROP, PIXEL_CROP);
+
+            gate.setProps(makeProps({ ...resolvedCustom(3, 2), initialCropSize: 50 }));
+            // 3:2 on the 400x300 fake image is width-limited: half of the full-width box.
+            expect(store.liveCrop!.width).toBeCloseTo(50, 5);
+            expect(store.liveCrop!.x).toBeCloseTo(25, 5);
             dispose();
         });
 

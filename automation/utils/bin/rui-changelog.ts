@@ -1,9 +1,9 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
-import { getPackageChangelog, getWidgetChangelog } from "../src/changelog-parser";
-import { SubComponentEntry } from "../src/changelog-parser/types";
-import { listPackages, resolvePackagePath } from "../src/monorepo";
-import { getPackageInfo, isReleasable } from "../src/package-info";
+import { getPackageChangelog, getWidgetChangelog } from "../src/changelog-parser/index.ts";
+import type { SubComponentEntry } from "../src/changelog-parser/types.ts";
+import { listPackages, resolvePackagePath } from "../src/monorepo.ts";
+import { getPackageInfo, isReleasable } from "../src/package-info.ts";
 
 /**
  * A module's own CHANGELOG.md never carries unreleased subcomponent entries:

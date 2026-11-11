@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- An "Initial crop size (%)" property now sets the size of the crop box when it first appears and after Reset. The default is 80%, the same as before.
+
+### Fixed
+
+- The initial crop box no longer fills the full image height for aspect ratios narrower than the image (for example, 1:1 on a landscape image). It now covers the configured percentage of the largest box that fits.
+
 ## [1.1.0] - 2026-08-11
 
 ### Added

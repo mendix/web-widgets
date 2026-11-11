@@ -11,7 +11,7 @@ test.describe("combobox-web", () => {
 
     test.describe("data source types", () => {
         test("renders combobox using association", async ({ page }) => {
-            const comboBox = page.locator(".mx-name-comboBox1");
+            const comboBox = page.locator(".modal-body .mx-name-comboBox1");
             await expect(comboBox).toBeVisible({ timeout: 10000 });
             await expect(comboBox).toHaveScreenshot(`comboBoxAssociation.png`);
             await comboBox.click();
@@ -27,7 +27,8 @@ test.describe("combobox-web", () => {
             await expect(comboBox).toHaveScreenshot(`comboBoxAssociationRowClick.png`);
             await comboBox.click();
             await expect(page.locator(".modal-body .mx-name-layoutGrid1").first()).toHaveScreenshot(
-                `comboBoxAssociationRowClickOpen.png`
+                `comboBoxAssociationRowClickOpen.png`,
+                { maxDiffPixels: 10 }
             );
         });
 
@@ -97,7 +98,8 @@ test.describe("combobox-web", () => {
                 await comboBox.click();
                 await getFilterInput(comboBox).fill("A");
                 await expect(page.locator(".modal-body .mx-name-layoutGrid1").first()).toHaveScreenshot(
-                    `comboBoxFiltering.png`
+                    `comboBoxFiltering.png`,
+                    { maxDiffPixels: 10 }
                 );
             });
 

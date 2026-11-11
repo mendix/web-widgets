@@ -2,18 +2,18 @@ import { readFile, writeFile } from "node:fs/promises";
 import { dirname, join, parse, relative, resolve } from "path";
 import chalk from "chalk";
 import {
-    CommonBuildConfig,
+    type CommonBuildConfig,
     getModuleConfigs,
     getWidgetConfigs,
-    ModuleBuildConfig,
-    WidgetBuildConfig
-} from "./build-config";
-import { cloneRepo, cloneRepoShallow, setLocalGitUserInfo } from "./git";
-import { copyMpkFiles, getMpkPaths } from "./monorepo";
-import { createModuleMpkInDocker } from "./mpk";
-import { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info";
-import { addFilesToPackageXml, PackageType } from "./package-xml";
-import { chmod, cp, ensureFileExists, exec, find, mkdir, popd, pushd, rm, unzip, zip } from "./shell";
+    type ModuleBuildConfig,
+    type WidgetBuildConfig
+} from "./build-config.ts";
+import { cloneRepo, cloneRepoShallow, setLocalGitUserInfo } from "./git.ts";
+import { copyMpkFiles, getMpkPaths } from "./monorepo.ts";
+import { createModuleMpkInDocker } from "./mpk.ts";
+import type { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info.ts";
+import { addFilesToPackageXml, type PackageType } from "./package-xml.ts";
+import { chmod, cp, ensureFileExists, exec, find, mkdir, popd, pushd, rm, unzip, zip } from "./shell.ts";
 
 type Step<Info, Config> = (params: { info: Info; config: Config }) => Promise<void>;
 

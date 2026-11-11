@@ -11,20 +11,20 @@ import { HelpButton } from "./components/HelpButton";
 import { TableGridToolbarButton } from "./components/TableGrid";
 import { ToolbarButton } from "./components/ToolbarButton";
 import {
-    SECONDARY_TOOLBAR_GROUP,
     ToolbarContext,
     DropdownCommand,
     ToolbarGroupConfig,
     ToolbarButtonConfig,
     getFilteredToolbarGroups,
+    getSecondaryToolbarGroups,
     ToolbarGroupsConfig,
     TOOLBAR_GROUPS
 } from "./ToolbarConfig";
 import { PresetEnum, ToolbarConfigEnum, AdvancedConfigType, CustomFontsType } from "../../../typings/RichTextProps";
 import "./Toolbar.scss";
-// eslint-disable-next-line import/order
+// eslint-disable-next-line import-x/order
 import { ToolbarDropdown } from "./components/ToolbarDropdown";
-// eslint-disable-next-line import/order
+// eslint-disable-next-line import-x/order
 import { ToolbarSplitButton } from "./components/ToolbarSplitButton";
 
 interface ToolbarProps extends PropsWithChildren {
@@ -178,13 +178,7 @@ export default function Toolbar(props: ToolbarProps): ReactElement | null {
     // (preset "full", or custom with every group enabled).
     const showHelpButton = helpButton !== false && filteredGroups.length === TOOLBAR_GROUPS.length;
 
-    const filteredSecondaryGroups = useMemo(
-        () =>
-            SECONDARY_TOOLBAR_GROUP.filter(group =>
-                filteredGroups.some(filteredGroup => filteredGroup.name === group.parentName)
-            ),
-        [filteredGroups]
-    );
+    const filteredSecondaryGroups = useMemo(() => getSecondaryToolbarGroups(filteredGroups), [filteredGroups]);
 
     useEffect(() => {
         if (!editor) {

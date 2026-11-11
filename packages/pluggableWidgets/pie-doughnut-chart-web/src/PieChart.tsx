@@ -1,4 +1,4 @@
-import { ChartWidget, ChartWidgetProps } from "@mendix/shared-charts/main";
+import { ChartWidget, ChartWidgetProps, useRefreshInterval } from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import classNames from "classnames";
 import { ReactElement } from "react";
@@ -29,6 +29,8 @@ const pieChartSeriesOptions: ChartWidgetProps["seriesOptions"] = {
 };
 
 export function PieChart(props: PieChartContainerProps): ReactElement | null {
+    useRefreshInterval([props.seriesDataSource], props.refreshInterval);
+
     const pieChartData = usePieChartDataSeries({
         holeRadius: props.holeRadius,
         customSeriesOptions: props.customSeriesOptions,

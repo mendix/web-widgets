@@ -1,9 +1,9 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
-import { bumpPackageJson, bumpXml, hasPackageXml } from "../src/bump-version";
-import { resolvePackagePath } from "../src/monorepo";
-import { getPackageInfo, isReleasable } from "../src/package-info";
-import { Version, versionRegex } from "../src/version";
+import { bumpPackageJson, bumpXml, hasPackageXml } from "../src/bump-version.ts";
+import { resolvePackagePath } from "../src/monorepo.ts";
+import { getPackageInfo, isReleasable } from "../src/package-info.ts";
+import { Version, versionRegex } from "../src/version.ts";
 
 async function bumpPackage(path: string, version: string): Promise<void> {
     bumpPackageJson(path, version);

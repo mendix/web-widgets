@@ -1,9 +1,9 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 
 import { writeFile } from "fs/promises";
-import { getPackageInfo, listPackages, Version } from "../src";
-import { getModuleChangelog, getWidgetChangelog } from "../src/changelog-parser";
-import { SubComponentEntry } from "../src/changelog-parser/types";
+import { getModuleChangelog, getWidgetChangelog } from "../src/changelog-parser/index.ts";
+import type { SubComponentEntry } from "../src/changelog-parser/types.ts";
+import { getPackageInfo, listPackages, type Version } from "../src/index.ts";
 
 function alreadyReleased(name: string, version: Version): string {
     return `[${name}] Failed to update changelog: version ${version.format()} already released`;

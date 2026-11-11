@@ -1,14 +1,16 @@
 import chalk from "chalk";
-import { prompt } from "enquirer";
+import enquirer from "enquirer";
 import {
     getModuleChangelog,
     getPackageChangelog,
-    ModuleChangelogFileWrapper,
-    WidgetChangelogFileWrapper
-} from "./changelog-parser";
-import { listPackages, PackageListing } from "./monorepo";
-import { getModuleInfo, getPackageInfo, getWidgetInfo, ModuleInfo, WidgetInfo } from "./package-info";
-import { exec } from "./shell";
+    type ModuleChangelogFileWrapper,
+    type WidgetChangelogFileWrapper
+} from "./changelog-parser/index.ts";
+import { listPackages, type PackageListing } from "./monorepo.ts";
+import { getModuleInfo, getPackageInfo, getWidgetInfo, type ModuleInfo, type WidgetInfo } from "./package-info.ts";
+import { exec } from "./shell.ts";
+
+const { prompt } = enquirer;
 
 type WidgetPkg = {
     type: "widget";

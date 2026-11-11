@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { ReactElement, createRef, useState } from "react";
+import { ReactElement, useRef, useState } from "react";
 import { type Crop } from "react-image-crop";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { ImageCropperPreviewProps } from "../typings/ImageCropperProps";
@@ -7,6 +7,7 @@ import CropperPlaceholderIcon from "./assets/cropper-placeholder.svg";
 import { CropArea } from "./components/CropArea";
 import { resolveAspectRatio, toCropAspect } from "./utils/aspectRatio";
 import { describeConfig } from "./utils/describeConfig";
+import { DEFAULT_INITIAL_CROP_SIZE } from "./utils/initialCrop";
 
 declare function require(name: string): string;
 
@@ -19,7 +20,7 @@ const PREVIEW_BOUNDARY_HEIGHT = 170;
 function StaticCropPreview(props: { imageUrl: string; values: ImageCropperPreviewProps }): ReactElement {
     const { imageUrl, values } = props;
     const [crop, setCrop] = useState<Crop | undefined>(undefined);
-    const imageRef = createRef<HTMLImageElement>();
+    const imageRef = useRef<HTMLImageElement>(null);
 
     // Preview only has the expression *text* (no runtime data). Numeric literals render a real
     // ratio; an attribute/expression path can't be evaluated here, so it falls back to free aspect.
@@ -47,6 +48,7 @@ function StaticCropPreview(props: { imageUrl: string; values: ImageCropperPrevie
                 onCropChange={setCrop}
                 onCropComplete={() => undefined}
                 aspect={aspect}
+                initialCropSize={values.initialCropSize ?? DEFAULT_INITIAL_CROP_SIZE}
                 circular={values.cropShape === "circle"}
                 resizable={false}
                 boundaryWidth={values.boundaryWidth ?? PREVIEW_BOUNDARY_WIDTH}

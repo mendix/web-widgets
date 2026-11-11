@@ -76,21 +76,19 @@ export function executeCommand(
 
 let checkedDojo = false;
 export function useDojoOnNavigation(cb: () => void): void {
-    if (!checkedDojo) {
+    useEffect(() => {
         if (!window.dojo) {
-            console.error("GoogleTagWidget: `window.dojo` is not found. Tracking page changes is disabled.");
+            if (!checkedDojo) {
+                console.error("GoogleTagWidget: `window.dojo` is not found. Tracking page changes is disabled.");
+                checkedDojo = true;
+            }
+            return;
         }
-        checkedDojo = true;
-    }
 
-    if (window.dojo) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        useEffect(() => {
-            const handle = window.dojo.connect(window.mx.ui.getContentForm(), "onNavigation", cb);
+        const handle = window.dojo.connect(window.mx.ui.getContentForm(), "onNavigation", cb);
 
-            return () => {
-                window.dojo.disconnect(handle);
-            };
-        }, [cb]);
-    }
+        return () => {
+            window.dojo.disconnect(handle);
+        };
+    }, [cb]);
 }
