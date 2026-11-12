@@ -161,6 +161,7 @@ export interface DatagridContainerProps {
     dynamicPage?: EditableValue<Big>;
     totalCountValue?: EditableValue<Big>;
     dynamicItemCount?: EditableValue<Big>;
+    showTopScrollbar: boolean;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     rowClass?: ListExpressionValue<string>;
@@ -231,6 +232,7 @@ export interface DatagridPreviewProps {
     dynamicPage: string;
     totalCountValue: string;
     dynamicItemCount: string;
+    showTopScrollbar: boolean;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     rowClass: string;

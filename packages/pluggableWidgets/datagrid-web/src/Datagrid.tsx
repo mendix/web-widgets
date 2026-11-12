@@ -16,7 +16,7 @@ const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
 
     useDataGridJSActions();
 
-    return <Widget onExportCancel={abortExport} />;
+    return <Widget onExportCancel={abortExport} showTopScrollbar={props.showTopScrollbar} />;
 });
 
 DatagridRoot.displayName = "DatagridComponent";
