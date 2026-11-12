@@ -116,12 +116,12 @@ test.describe("combobox-web single selection keyboard navigation", () => {
         await expect(combobox.selectedText).toHaveText(caption);
     });
 
-    test("shows the no options placeholder when the filter matches nothing", async () => {
+    test("renders no empty option when the filter matches nothing and no text is configured", async () => {
         await combobox.open();
         await combobox.filter("zzz");
 
         await expect(combobox.options).toHaveCount(0);
-        await expect(combobox.noOptionsPlaceholder).toHaveCount(1);
+        await expect(combobox.noOptionsPlaceholder).toHaveCount(0);
         await expect(combobox.input).toHaveAttribute("aria-expanded", "true");
 
         await combobox.filter("");
