@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Breaking changes
+
+- We removed the "Default font family" and "Default font size" settings, as they had no effect. After updating, Studio Pro asks to update the widget, and any values set for these settings are dropped. When the selected text has no font family or font size, the toolbar now shows the "Font Family" and "Font Size" placeholders.
+
 ### Fixed
 
 - We fixed an issue where the table toolbar did not appear when the cursor was in a table and the custom toolbar was set to "Advanced" with a "Table" item.
@@ -13,6 +17,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - We fixed an issue where an item added more than once to the "Advanced" custom toolbar was shown more than once, and clicking one of its buttons, such as "Table" or "Link", opened a picker or dialog under every copy. Each item is now shown once.
 
 - We fixed an issue where pressing Escape did not close the insert table picker, or the insert link, image and video dialogs when the dialog style was "Inline".
+
+- We fixed an issue where text color, font family and font size were lost after saving and reopening content when the style data format was set to "Class".
+
+- We fixed an issue where the On change action ran when leaving the editor without changing its content.
+
+- We fixed an issue where pressing Escape in a text or number field of a configuration dropdown, such as the table configuration, saved the typed value instead of discarding it.
+
+- We fixed an issue where the character count in the status bar included trailing empty lines and spaces.
+
+- We fixed an issue where embedding a Google Maps link as a video produced an invalid embed address.
+
+- We fixed an issue where the "Enable spell checking" setting had no effect.
+
+- We fixed an issue where text and list markers were shown in the browser's default font instead of the selected font family when the style data format was set to "Class".
 
 ## [5.1.1] - 2026-10-15
 

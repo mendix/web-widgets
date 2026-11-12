@@ -123,6 +123,35 @@ describe("Rich Text runtime behaviour", () => {
             expect(onChange.execute).toHaveBeenCalledTimes(1);
         });
 
+        it("does not execute onChange on blur without an edit when onChangeType is onLeave", () => {
+            const onChange = actionValue();
+            const onBlur = actionValue();
+            const { container } = render(
+                <RichText {...defaultProps} onChangeType="onLeave" onChange={onChange} onBlur={onBlur} />
+            );
+            flush();
+
+            fireEvent.focus(getEditorDom(container));
+            fireEvent.blur(getEditorDom(container));
+
+            expect(onChange.execute).not.toHaveBeenCalled();
+            expect(onBlur.execute).toHaveBeenCalledTimes(1);
+        });
+
+        it("executes onChange on leave once per edit when onChangeType is onLeave", () => {
+            const onChange = actionValue();
+            const { container } = render(<RichText {...defaultProps} onChangeType="onLeave" onChange={onChange} />);
+
+            fireEvent.focus(getEditorDom(container));
+            edit(container, "<p>edited</p>");
+            fireEvent.blur(getEditorDom(container));
+            expect(onChange.execute).toHaveBeenCalledTimes(1);
+
+            fireEvent.focus(getEditorDom(container));
+            fireEvent.blur(getEditorDom(container));
+            expect(onChange.execute).toHaveBeenCalledTimes(1);
+        });
+
         it("executes onChange on edit and not on blur when onChangeType is onDataChange", () => {
             const onChange = actionValue();
             const { container } = render(
@@ -176,6 +205,7 @@ describe("Rich Text runtime behaviour", () => {
 
             rerender(<RichText {...defaultProps} onChangeType="onLeave" {...second} />);
             fireEvent.focus(getEditorDom(container));
+            edit(container, "<p>edited</p>");
             fireEvent.blur(getEditorDom(container));
 
             expect(second.onFocus.execute).toHaveBeenCalledTimes(1);
@@ -476,6 +506,44 @@ describe("Rich Text runtime behaviour", () => {
 
             expect(container.querySelector(".table-grid-selector")).not.toBeInTheDocument();
             expect(editorKeyDown).not.toHaveBeenCalled();
+        });
+    });
+
+    describe("font size dropdown", () => {
+        // The editor cannot know the size the theme gives unformatted text, so it shows the
+        // placeholder instead of guessing one of the options.
+        it("shows the placeholder for text without a font size", () => {
+            const { container } = render(
+                <RichText
+                    {...defaultProps}
+                    preset="standard"
+                    stringAttribute={new EditableValueBuilder<string>().withValue("<p>Plain</p>").build()}
+                />
+            );
+
+            expect(container.querySelector(".toolbar-dropdown-button.fontSize .dropdown-label")?.textContent).toBe(
+                "Font Size"
+            );
+        });
+
+        // The class form stores the size without a unit, so loading it must still match the
+        // px options of the dropdown, the same as the inline form.
+        it.each([
+            ["class", `<p><span data-font-size="24" class="has-font-size">Big</span></p>`],
+            ["inline", `<p><span style="font-size: 24px">Big</span></p>`]
+        ] as const)("shows the size of loaded %s mode text", (styleDataFormat, value) => {
+            const { container } = render(
+                <RichText
+                    {...defaultProps}
+                    preset="standard"
+                    styleDataFormat={styleDataFormat}
+                    stringAttribute={new EditableValueBuilder<string>().withValue(value).build()}
+                />
+            );
+
+            expect(container.querySelector(".toolbar-dropdown-button.fontSize .dropdown-label")?.textContent).toBe(
+                "24px"
+            );
         });
     });
 });
