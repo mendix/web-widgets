@@ -58,7 +58,8 @@ test.describe("combobox-web menu features on the city overview", () => {
         // "land" occurs inside a caption but at the start of none.
         await combobox.filter("land");
         await expect(combobox.options).toHaveCount(0);
-        await expect(combobox.noOptionsPlaceholder).toHaveCount(1);
+        // No "no options" text is configured, so no empty option is exposed.
+        await expect(combobox.noOptionsPlaceholder).toHaveCount(0);
     });
 
     test("renders the configured custom content inside every option", async () => {
