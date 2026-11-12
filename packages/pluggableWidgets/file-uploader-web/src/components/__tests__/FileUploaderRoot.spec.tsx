@@ -13,6 +13,7 @@ jest.mock("../../utils/mx-data", () => ({
     fetchDocumentUrl: jest.fn(),
     fetchImageThumbnail: jest.fn(),
     fetchMxObject: jest.fn(),
+    subscribeToFileName: jest.fn(() => jest.fn()),
     removeObject: jest.fn(),
     saveFile: jest.fn(),
     fileHasContents: jest.fn()

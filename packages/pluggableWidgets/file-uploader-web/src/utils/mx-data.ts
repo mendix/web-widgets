@@ -39,6 +39,11 @@ export function fetchMxObject(objectItem: ObjectItem): Promise<MxObject> {
     });
 }
 
+export function subscribeToFileName(guid: string, callback: () => void): () => void {
+    const handle = (window as any).mx.data.subscribe({ guid, attr: "Name", callback });
+    return () => (window as any).mx.data.unsubscribe(handle);
+}
+
 export async function fetchDocumentUrl(mxObject: MxObject): Promise<string> {
     return (window as any).mx.data.getDocumentUrl(
         mxObject.getGuid(),
