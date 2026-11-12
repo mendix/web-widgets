@@ -49,9 +49,9 @@
                         <enumerationValue key="end">End</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="openOn" type="enumeration" defaultValue="hover">
+                <property key="openOn" type="enumeration" defaultValue="hoverFocus">
                     <caption>Open on</caption>
-                    <description>How the tooltip is triggered - click, hover, hover and focus. On mobile device “hover” will be triggered on touch.</description>
+                    <description>How the tooltip is triggered. Hover,focus opens it on mouse hover and on keyboard focus, so keyboard users can see it. Hover opens it on mouse hover only. Click opens it on click, Enter or Space. On mobile devices, hover is triggered on touch.</description>
                     <enumerationValues>
                         <enumerationValue key="click">Click</enumerationValue>
                         <enumerationValue key="hover">Hover</enumerationValue>
