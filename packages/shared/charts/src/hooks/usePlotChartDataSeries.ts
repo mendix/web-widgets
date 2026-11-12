@@ -8,7 +8,7 @@ import {
     ListValue,
     ObjectItem
 } from "mendix";
-import { Datum, PlotData } from "plotly.js-dist-min";
+import { Data, Datum } from "plotly.js-dist-min";
 import { useEffect, useState } from "react";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
@@ -22,10 +22,10 @@ export type PlotChartDataPoints = {
     x: Datum[];
     y: Datum[];
     hovertext: string[] | undefined;
-    hoverinfo: PlotData["hoverinfo"];
+    hoverinfo: Extract<Data, { hoverinfo?: unknown }>["hoverinfo"];
     dataSourceItems: ObjectItem[];
     // We want this optional.
-    name?: PlotData["name"];
+    name?: Extract<Data, { name?: unknown }>["name"];
 };
 
 interface DataSourceItemGroup {
@@ -63,7 +63,7 @@ type MapperHelpers = {
     ): DynamicValue<T>["value"];
 };
 
-export type SeriesMapper<T> = (serie: T, dataPoints: PlotChartDataPoints, helpers: MapperHelpers) => Partial<PlotData>;
+export type SeriesMapper<T> = (serie: T, dataPoints: PlotChartDataPoints, helpers: MapperHelpers) => Partial<Data>;
 
 export function usePlotChartDataSeries<T extends PlotDataSeries>(
     series: T[],

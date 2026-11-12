@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We updated the underlying charting library (Plotly.js) to version 4, which includes security fixes. Chart text colors on filled areas may be chosen slightly differently to improve contrast.
+- Breaking: Plotly.js 4 removed Mapbox map traces (use `scattermap`, `choroplethmap` and `densitymap` instead), changed how color strings are parsed (for example `rgb()` with fractional values and `hsv()` colors are no longer valid), removed the Chart Studio configuration options (`showLink`, `linkText`, `sendData`, `showSources`, `showEditInChartStudio`), and changed the defaults of `layout.geo.fitbounds` and `splom.axis.matches`. Review any custom Plotly JSON in your charts. See the [Plotly.js v4 migration guide](https://plotly.com/javascript/guides/migrating-to-v4/).
+
 ## [6.3.2] - 2026-07-27
 
 ### Fixed

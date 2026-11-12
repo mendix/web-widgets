@@ -1,11 +1,11 @@
-import type { Annotations } from "plotly.js-dist-min";
+import type { Annotation } from "plotly.js-dist-min";
 
 export function createHeatMapAnnotation(
     x?: string,
     y?: string,
     text?: string,
     colorValue?: string
-): Partial<Annotations> {
+): Partial<Annotation> {
     return {
         xref: "x",
         yref: "y",
