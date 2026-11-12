@@ -2,11 +2,19 @@ import c from "ansi-colors";
 import findFreePort from "find-free-port";
 import nodeIp from "ip";
 import { execSync } from "node:child_process";
+import { createServer } from "node:net";
 import { fileURLToPath } from "node:url";
 import p from "node:path";
 import sh from "shelljs";
 import parseArgs from "yargs-parser";
-import { createDeploymentBundle, prepareImage, startPlaywright, startRuntime } from "./docker-utils.mjs";
+import {
+    createDeploymentBundle,
+    getFullImageName,
+    prepareImage,
+    restoreWorkspaceOwnership,
+    startPlaywright,
+    startRuntime
+} from "./docker-utils.mjs";
 import { setupTestProject } from "./setup-test-project.mjs";
 import { updateTestProject } from "./update-test-project.mjs";
 import { fetchWithReport } from "./utils.mjs";
@@ -17,6 +25,14 @@ const { ls } = sh;
 // Path to the docker directory (contains docker-compose.yml + Dockerfiles)
 const DOCKER_DIR = fileURLToPath(new URL("../docker", import.meta.url));
 const COMPOSE_FILE = p.join(DOCKER_DIR, "docker-compose.yml");
+const COMPOSE_HOSTNET_FILE = p.join(DOCKER_DIR, "docker-compose.hostnet.yml");
+
+// Opt-in: run mxruntime on the host network instead of publishing a port.
+// For machines where the host can't reach Docker bridge networks.
+const HOST_NETWORK = ["1", "true"].includes(String(process.env.E2E_HOST_NETWORK).toLowerCase());
+// Ports the runtime binds directly in host-network mode (see docker/m2ee.yml).
+const HOST_NETWORK_RUNTIME_PORT = 8080;
+const HOST_NETWORK_ADMIN_PORT = 8090;
 
 export async function ci() {
     console.log(c.cyan("Run e2e tests in CI environment"));
@@ -39,8 +55,17 @@ export async function ci() {
     const options = parseArgs(process.argv.slice(2), parseArgsOptions);
     const mendixVersion = await getMendixVersion(options);
 
-    const freePort = await findFreePort(3000);
-    const ip = nodeIp.address();
+    let freePort;
+    let ip;
+    if (HOST_NETWORK) {
+        console.log(c.yellow("E2E_HOST_NETWORK is set: running mxruntime on the host network."));
+        await assertPortsFree([HOST_NETWORK_RUNTIME_PORT, HOST_NETWORK_ADMIN_PORT]);
+        freePort = HOST_NETWORK_RUNTIME_PORT;
+        ip = "127.0.0.1";
+    } else {
+        freePort = await findFreePort(3000);
+        ip = nodeIp.address();
+    }
 
     if (!ip) {
         throw new Error("Could not determine local ip address!");
@@ -51,6 +76,11 @@ export async function ci() {
     } catch (e) {
         throw new Error("To run e2e test locally, make sure docker is running. Exiting now...", { cause: e });
     }
+
+    // Files left by a previous (possibly interrupted) run may be root-owned;
+    // reclaim them so the test project can be cleaned up and re-downloaded.
+    const mxbuildImage = await prepareImage("mxbuild", mendixVersion);
+    restoreWorkspaceOwnership(mxbuildImage);
 
     if (options.setupProject) {
         await setupTestProject();
@@ -82,6 +112,10 @@ async function runWithCompose({ mendixVersion, ip, freePort }) {
         throw new Error(`No .mpr file found matching ${config.mprFileGlob}`);
     }
 
+    const composeFiles = [COMPOSE_FILE, ...(HOST_NETWORK ? [COMPOSE_HOSTNET_FILE] : [])]
+        .map(file => `-f "${file}"`)
+        .join(" ");
+
     const mprRelPath = projectFile; // relative to process.cwd() → /source mount
     const workspace = process.cwd();
 
@@ -100,20 +134,24 @@ async function runWithCompose({ mendixVersion, ip, freePort }) {
         console.log(c.gray(`  workspace    : ${workspace}`));
         console.log(c.gray(`  mpr          : ${mprRelPath}`));
         console.log(c.gray(`  runtime port : ${freePort}`));
+        if (HOST_NETWORK) {
+            console.log(c.gray(`  network      : host`));
+        }
 
         // Compose starts mxbuild first (via depends_on), then boots mxruntime.
         // Only wait on mxruntime – including mxbuild confuses Compose since its
         // clean exit is treated as a failure by --wait.
-        execSync(`docker compose -f "${COMPOSE_FILE}" up --wait mxruntime`, { stdio: "inherit", env: composeEnv });
+        execSync(`docker compose ${composeFiles} up --wait mxruntime`, { stdio: "inherit", env: composeEnv });
 
         console.log(c.green("Runtime is healthy. Starting Playwright..."));
         startPlaywright(ip, freePort);
     } finally {
         console.log(c.cyan("Tearing down Docker Compose services..."));
-        execSync(`docker compose -f "${COMPOSE_FILE}" down --volumes --remove-orphans`, {
+        execSync(`docker compose ${composeFiles} down --volumes --remove-orphans`, {
             stdio: "inherit",
             env: composeEnv
         });
+        restoreWorkspaceOwnership(getFullImageName("mxbuild", mendixVersion));
     }
 }
 
@@ -129,12 +167,15 @@ async function runWithDockerRaw({ mendixVersion, ip, freePort }) {
         const projectFile = ls(config.mprFileGlob).toString();
         createDeploymentBundle(mxbuildImage, projectFile);
 
-        runtimeContainerId = await startRuntime(mxruntimeImage, mendixVersion, ip, freePort);
+        runtimeContainerId = await startRuntime(mxruntimeImage, mendixVersion, ip, freePort, {
+            hostNetwork: HOST_NETWORK
+        });
         startPlaywright(ip, freePort);
     } finally {
         if (runtimeContainerId) {
             execSync(`docker rm -f ${runtimeContainerId}`);
         }
+        restoreWorkspaceOwnership(getFullImageName("mxbuild", mendixVersion));
     }
 }
 
@@ -155,5 +196,19 @@ async function getMendixVersion(options) {
         return versionMap.latest;
     } else {
         throw new Error(`Couldn't fetch mendix-versions.json: ${versionMapResponse.statusText}`);
+    }
+}
+
+async function assertPortsFree(ports) {
+    for (const port of ports) {
+        const free = await new Promise(resolve => {
+            const server = createServer()
+                .once("error", () => resolve(false))
+                .once("listening", () => server.close(() => resolve(true)))
+                .listen(port);
+        });
+        if (!free) {
+            throw new Error(`E2E_HOST_NETWORK needs port ${port} free for the Mendix runtime, but it is in use.`);
+        }
     }
 }
