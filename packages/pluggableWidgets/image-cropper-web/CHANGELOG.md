@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-09
+
 ### Added
 
 - An "Initial crop size (%)" property now sets the size of the crop box when it first appears and after Reset. The default is 80%, the same as before.
