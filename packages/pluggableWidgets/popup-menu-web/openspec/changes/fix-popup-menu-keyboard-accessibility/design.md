@@ -42,7 +42,7 @@ The Atlas theme (`_pop-up-menu.scss`) already defines `:focus` styles for `.popu
 - Typeahead (first-letter navigation). This could be a follow-up via `useTypeahead`.
 - Making non-focusable trigger content (e.g. a container without an action, Text, Image) keyboard-reachable, or opening the menu when trigger content stops event propagation (e.g. a button or container with its own On click action). This is the app developer's responsibility.
 - Moving ARIA attributes onto the focused element inside the trigger content (see D2 limitation).
-- **Interactive elements inside custom item content** (buttons, links, inputs, containers with their own On click action). They aren't part of arrow-key navigation, and Enter/Space on the item runs only the widget-level action (D4). Because the item is `role="menuitem"`, assistive technology treats them as presentational. They stay in the native Tab order: Tab from their item reaches them, and once focused they behave natively. This is a known limitation. Proper support (forwarding activation, or a separate popover content type) is possible future work.
+- **Interactive elements inside custom item content** (buttons, links, inputs, containers with their own On click action). They aren't part of arrow-key navigation, and Enter/Space on the item runs only the widget-level action (D4). `menuitem` doesn't make its children presentational (unlike `button` or `option`), so assistive technology still exposes them as separate controls inside the item, e.g. a button inside a menu item. They stay in the native Tab order: Tab from their item reaches them, and once focused they behave natively. This is a known limitation. Proper support (forwarding activation, or a separate popover content type) is possible future work.
 - Changing the Atlas theme.
 
 ## Decisions
@@ -55,11 +55,13 @@ All handlers run in the **bubble** phase on the wrapper:
 
 - `useClick(context, { enabled: trigger === "onclick", keyboardHandlers: false })`. Mouse clicks work as before, and `useClick`'s key handling (which drops `defaultPrevented`/`<button>` events) is off.
 - **`PopupTrigger`'s `onKeyDown`, in both Click and Hover modes:**
-    - Enter/Space: toggle the menu, ignoring `defaultPrevented` and the target tag. Content may prevent default for its own reasons (Mendix buttons always do).
+    - Enter/Space: toggle the menu, ignoring `defaultPrevented`. Content may prevent default for its own reasons (Mendix buttons always do). The one exception is a text-entry target (text input, textarea, select, contenteditable; see below).
     - Escape (menu open): close, keep focus (D5).
 - **Arrow Down/Up are handled by `useListNavigation`** (D2). Its reference `onKeyDown` opens the menu on Arrow Down/Up (`openOnArrowKeyDown`, default `true`), doesn't check `defaultPrevented`, and records the key so that on open it focuses the first item (Arrow Down) or the last item (Arrow Up). It also records Enter/Space as the opening key, so the Enter/Space open focuses the first item. `useInteractions` runs the hook handlers and then the `onKeyDown` passed to `getReferenceProps`, so both run.
 - **No double toggle:** content that _doesn't_ prevent default (e.g. a plain HTML button) still gets a browser-synthesized click (Enter: after keydown, Space: after keyup). Handling a key sets `keyboardActivationRef`. `usePopup` wraps `useClick`'s reference `onClick` and ignores a click with `detail === 0` while the ref is set. The ref is cleared on the next tick after keyup. Enter isn't prevented, so the content's own behavior is untouched.
 - **Space scroll:** `preventDefault` on Space only when the target isn't a native button or typeable element.
+- **Text box in the trigger:** Enter and Space belong to a text-entry target (typing, form submit, opening a native select), so the trigger handler ignores them there. Arrow Down/Up still open the menu and move focus into it. A mouse click into the text box still opens the menu, as in v4.3.1, but doesn't make the first item active, so focus stays in the text box. Only the event target's type is checked (`isTextEntry`); the content itself isn't modified.
+- **Nothing to show:** when no item is visible (all hidden, or only dividers), the menu doesn't open: `open` is `visibility && hasItems`, and an open request is dropped while there are no items, so the menu doesn't pop up later when an item becomes visible. The trigger keeps `aria-expanded="false"` instead of exposing an empty `role="menu"`. A nested menu without items isn't linked to its parent item (D6), so the item doesn't announce a submenu.
 
 - _Alternative: keep `useClick` keyboard handlers._ Rejected: they drop exactly the event Mendix sends (a `defaultPrevented` keydown on a `<button>`).
 - _Alternative: capture-phase handlers, or making the wrapper focusable when content isn't._ Rejected: both work around trigger content, which we treat as a black box.
@@ -130,7 +132,7 @@ Keyboard activation that closes the menu returns focus to the trigger (D3). With
 
 "Close on" (`clickCloseOn`/`hoverCloseOn`) decides whether activating an item, by click or by Enter/Space, also closes the menu. Leaving the menu always closes it, whatever the setting. The property captions only mention clicking, so the Mendix docs (task 7.2) state that Enter/Space follows the same setting, and that an action that opens a dialog closes the menu regardless.
 
-- _Alternative: forward activation (`.click()`) to the first interactive descendant of custom content._ Rejected for now: it needs DOM queries into Mendix-rendered content, can hit non-actionable or multiple elements, and still leaves them presentational under `menuitem`. Candidate for future work.
+- _Alternative: forward activation (`.click()`) to the first interactive descendant of custom content._ Rejected for now: it needs DOM queries into Mendix-rendered content, can hit non-actionable or multiple elements, and still leaves them exposed as nested controls inside the `menuitem`. Candidate for future work.
 - _Alternative: for custom items without a widget action, don't make the `<li>` a menuitem and let inner focusables participate in Tab order._ Rejected: arrow navigation becomes inconsistent across items.
 
 ### D5. Escape closes the menu containing focus
@@ -169,7 +171,8 @@ A Pop-up Menu placed in a custom item's content renders as a child `FloatingNode
 ## Risks / Trade-offs
 
 - [`event.detail === 0` heuristic for suppressing the synthetic click] → Scoped to "a key press was just handled by D1" (ref cleared after keyup) rather than all `detail === 0` clicks, so programmatic clicks still work.
-- [Interactive elements inside custom item content aren't keyboard-operable and are presentational to AT] → Accepted known limitation (Non-Goals). The Mendix docs state that keyboard users can only trigger the item's own On click action, and that advanced-mode content is announced as the menuitem's text.
+- [Interactive elements inside custom item content aren't keyboard-operable and are exposed to AT as nested controls] → Accepted known limitation (Non-Goals). The Mendix docs state that keyboard users can only trigger the item's own On click action, and that screen readers may announce such content as separate controls inside the menu item.
+- [A parent item (custom item with a nested Pop-up Menu) also has its own widget-level On click action] → The action is unreachable: Right Arrow/Enter/Space open the submenu (spec: "Enter on parent item opens submenu"), and a mouse click lands on the nested trigger. Studio Pro can't warn about it, because the nested menu sits inside the content slot. The Mendix docs state that a parent item's own action isn't run.
 - [`modal={false}` drops the focus trap after mouse open] → The previous trap was partial (focus guards with no tabbable content) and didn't help keyboard users. Non-modal is the APG behavior.
 - [An action that takes focus now closes the menu under "Close on: Click outside", for mouse clicks too] → Intentional (Goals): leaving the menu always closes it. Stated in the changelog and the Mendix docs (task 7.2).
 - [The Shift+Tab `onFocus` handlers depend on Floating UI's `closeOnFocusOut` exemptions] → Unit tests cover Shift+Tab from the top level and from a submenu (with non-focusable and focusable nested trigger), and clicking the trigger while focus is in the menu. A Floating UI upgrade that changes the exemptions shows up there.

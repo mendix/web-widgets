@@ -2,7 +2,7 @@
 
 ### Requirement: Parent item exposes its submenu
 
-A custom item whose content contains a nested Pop-up Menu SHALL act as that submenu's parent item. It SHALL expose `aria-haspopup="menu"` and `aria-expanded` reflecting the submenu's open state.
+A custom item whose content contains a nested Pop-up Menu with at least one visible item SHALL act as that submenu's parent item. It SHALL expose `aria-haspopup="menu"` and `aria-expanded` reflecting the submenu's open state. A nested Pop-up Menu without visible items SHALL NOT be linked: the item has no `aria-haspopup` and behaves like a leaf item.
 
 #### Scenario: Parent item ARIA state
 
@@ -11,9 +11,15 @@ A custom item whose content contains a nested Pop-up Menu SHALL act as that subm
 - **WHEN** the nested menu opens
 - **THEN** the item has `aria-expanded="true"`
 
+#### Scenario: Empty nested menu is not exposed
+
+- **WHEN** a custom item contains a nested Pop-up Menu whose items are all hidden
+- **THEN** the item has no `aria-haspopup`
+- **AND** Right Arrow on the item does nothing
+
 ### Requirement: Right Arrow opens a submenu
 
-When focus is on a parent item, Right Arrow, Enter or Space SHALL open its submenu and move focus to the submenu's first item. This SHALL work regardless of the nested menu's "Open on" setting (Click or Hover). Right Arrow on an item without a submenu SHALL do nothing.
+When focus is on a parent item, Right Arrow, Enter or Space SHALL open its submenu and move focus to the submenu's first item. This SHALL work regardless of the nested menu's "Open on" setting (Click or Hover). Right Arrow on an item without a submenu SHALL do nothing. Opening the submenu takes precedence over the parent item's own widget-level On click action, which is therefore not run (a known limitation, stated in the Mendix docs).
 
 #### Scenario: Right Arrow expands and moves in
 

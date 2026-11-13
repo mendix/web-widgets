@@ -2,7 +2,7 @@
 
 ### Requirement: Keyboard opens the menu from the trigger
 
-Trigger content is treated as a black box. It is assumed to be focusable and to let key events propagate to the trigger. Under that assumption, when focus is on the trigger content, the widget SHALL open the menu in response to Enter, Space, Arrow Down and Arrow Up, in both "Open on: Click" and "Open on: Hover" modes. This SHALL hold even if the content calls `preventDefault()` on the key event. The widget MUST NOT inspect or modify the trigger content. A single key press SHALL open the menu exactly once. It MUST NOT open and immediately close it, for example because of a follow-up synthetic click.
+Trigger content is treated as a black box. It is assumed to be focusable and to let key events propagate to the trigger. Under that assumption, when focus is on the trigger content, the widget SHALL open the menu in response to Enter, Space, Arrow Down and Arrow Up, in both "Open on: Click" and "Open on: Hover" modes. This SHALL hold even if the content calls `preventDefault()` on the key event. The widget MUST NOT modify the trigger content, and MAY only check whether the key event's target is a text-entry element. When it is (text input, textarea, select or contenteditable), Enter and Space SHALL go to that element and MUST NOT toggle the menu; Arrow Down and Arrow Up still open it. A single key press SHALL open the menu exactly once. It MUST NOT open and immediately close it, for example because of a follow-up synthetic click.
 
 #### Scenario: Enter opens the menu
 
@@ -33,6 +33,26 @@ Trigger content is treated as a black box. It is assumed to be focusable and to 
 - **WHEN** the trigger content is a native `<button>`
 - **AND** the user presses Enter or Space while it has focus
 - **THEN** the menu is open after the key press completes
+
+#### Scenario: Text box in the trigger keeps Enter and Space
+
+- **WHEN** the trigger content contains a text box that has focus
+- **AND** the user types text including spaces, or presses Enter
+- **THEN** the text box receives the input and keeps focus
+- **AND** the menu does not open
+
+#### Scenario: Arrow Down opens the menu from a text box
+
+- **WHEN** the trigger content contains a text box that has focus
+- **AND** the user presses Arrow Down
+- **THEN** the menu opens and its first item has focus
+
+#### Scenario: Clicking a text box in the trigger keeps focus there
+
+- **WHEN** "Open on" is "Click" and the trigger content contains a text box
+- **AND** the user clicks into the text box
+- **THEN** the menu opens
+- **AND** focus stays in the text box, so the user can type
 
 #### Scenario: Hover-mode menu opens from keyboard
 
@@ -153,6 +173,28 @@ Tab and Shift+Tab SHALL follow the browser's native tab order. Only one menu ite
 - **WHEN** the menu was opened by click and focus is on a menu item
 - **AND** the user clicks the trigger again
 - **THEN** the menu closes and does not reopen
+
+### Requirement: A menu without visible items does not open
+
+When no item is visible (every item is hidden by its visibility expression, or basic mode has only dividers), the menu SHALL NOT open from the keyboard, a click, hover or the Menu toggle. The trigger SHALL keep `aria-expanded="false"`, and no `role="menu"` element SHALL be rendered. An open attempt while the menu is empty MUST NOT make the menu open later when an item becomes visible.
+
+#### Scenario: All items hidden
+
+- **WHEN** every item is hidden
+- **AND** the user presses Enter on the trigger or clicks it
+- **THEN** the menu does not open, the trigger has `aria-expanded="false"`, and focus stays on the trigger
+
+#### Scenario: Only dividers
+
+- **WHEN** basic mode has only dividers visible
+- **AND** the user presses Enter on the trigger
+- **THEN** the menu does not open
+
+#### Scenario: Item becomes visible after an open attempt
+
+- **WHEN** the user pressed Enter on the trigger while every item was hidden
+- **AND** an item becomes visible afterwards
+- **THEN** the menu stays closed until the user opens it again
 
 ### Requirement: Trigger exposes popup state to assistive technology
 

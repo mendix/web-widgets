@@ -53,4 +53,15 @@
 ## 7. Docs and release notes
 
 - [x] 7.1 Add a `Fixed` entry to `CHANGELOG.md` under Unreleased (keyboard opening, item navigation/activation, submenu keyboard support, menu announced to screen readers, and the menu closing when an item's action opens a dialog under "Close on: Click outside")
-- [ ] 7.2 Update the Pop-up Menu page in the Mendix docs (separate docs repository) with a keyboard-support section: key table, trigger requirement (the trigger content must be focusable and must not stop event propagation, e.g. no own On click action), one-submenu-per-item note, Enter/Space follows "Close on" like a click, an action that opens a dialog closes the menu, and the known limitation for interactive elements inside custom item content
+- [ ] 7.2 Update the Pop-up Menu page in the Mendix docs (separate docs repository) with a keyboard-support section: key table, trigger requirement (the trigger content must be focusable and must not stop event propagation, e.g. no own On click action), one-submenu-per-item note, Enter/Space follows "Close on" like a click, an action that opens a dialog closes the menu, the known limitation for interactive elements inside custom item content (screen readers may announce them as separate controls inside the menu item), a parent item's own On click action not being run, a text box in the trigger opening the menu with Arrow Down (Enter/Space stay in the text box), and a menu without visible items not opening
+
+## 8. Review fixes (PR #2447)
+
+- [x] 8.1 Text box in the trigger: Enter/Space on a text-entry target don't toggle the menu; a click into it opens the menu without moving focus (`isTextEntry`)
+- [x] 8.2 A menu without visible items doesn't open (`open = visibility && hasItems`, open requests dropped while empty); an empty nested menu isn't linked to its parent item
+- [x] 8.3 Unit tests for 8.1 and 8.2, checked to fail without the fix
+- [x] 8.4 Correct the "presentational to AT" wording for content inside custom items (`menuitem` children stay exposed)
+- [x] 8.5 Document that a parent item's own On click action isn't run
+- [ ] 8.6 Focus lost after a dialog opened from a "Close on: Click outside" menu is dismissed: under investigation (the Mendix dialog's focus restore targets the removed menu item)
+- [ ] 8.7 Trigger popup state not announced (ARIA on the wrapper, focus on the content): under investigation
+- [ ] 8.8 e2e for the text-box trigger and empty-menu cases on `/p/keyboard-triggers` and `/p/keyboard-items`
