@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { forwardRef } from "react";
 import { ModalProps } from "react-overlays/esm/Modal";
@@ -161,6 +161,75 @@ describe("Image", () => {
             await userEvent.click(image);
             const lightbox = container.querySelector(".mx-image-viewer-lightbox-backdrop");
             expect(lightbox).toBeInTheDocument();
+        });
+
+        it("does not apply the sizing of the image on the page to the lightbox image", async () => {
+            const { getByRole, getAllByRole } = render(
+                <Image
+                    {...imageProps}
+                    onClickType="enlarge"
+                    width={50}
+                    widthUnit="percentage"
+                    height={0}
+                    heightUnit="auto"
+                    style={{ width: "50%", height: "auto", maxHeight: "250px", minHeight: "10px", opacity: 0.9 }}
+                />
+            );
+            const thumbnail = getByRole("button");
+            expect(thumbnail).toHaveStyle({ width: "50%", maxHeight: "250px" });
+
+            await user.click(thumbnail);
+
+            // The thumbnail has role "button"; the only image is the one in the lightbox.
+            const [lightboxImage] = getAllByRole("img") as HTMLImageElement[];
+            expect(lightboxImage.tagName).toBe("IMG");
+            expect(lightboxImage.style.width).toBe("");
+            expect(lightboxImage.style.height).toBe("");
+            expect(lightboxImage.style.maxHeight).toBe("");
+            expect(lightboxImage.style.minHeight).toBe("");
+            expect(lightboxImage.style.opacity).toBe("0.9");
+        });
+
+        it("does not apply the aspect ratio or object fit of the image on the page to the lightbox image", async () => {
+            const { getByRole, getAllByRole } = render(
+                <Image
+                    {...imageProps}
+                    onClickType="enlarge"
+                    style={{ aspectRatio: "1 / 1", objectFit: "cover", objectPosition: "top" }}
+                />
+            );
+            await user.click(getByRole("button"));
+
+            const [lightboxImage] = getAllByRole("img") as HTMLImageElement[];
+            expect(lightboxImage.style.aspectRatio).toBe("");
+            expect(lightboxImage.style.objectFit).toBe("");
+            expect(lightboxImage.style.objectPosition).toBe("");
+        });
+
+        it("keeps the thumbnail class and adds the lightbox image class", async () => {
+            const { getByRole, getAllByRole } = render(
+                <Image {...imageProps} onClickType="enlarge" displayAs="thumbnail" />
+            );
+            expect(getByRole("button").getAttribute("src")).toContain("thumb=true");
+            await user.click(getByRole("button"));
+
+            const [lightboxImage] = getAllByRole("img") as HTMLImageElement[];
+            expect(lightboxImage).toHaveClass("img-thumbnail", "mx-image-viewer-lightbox-image");
+            expect(lightboxImage.getAttribute("src")).not.toContain("thumb=true");
+        });
+
+        it("shows the lightbox image at least at the size of the image on the page", async () => {
+            const { getByRole, getAllByRole } = render(<Image {...imageProps} onClickType="enlarge" />);
+            const imageOnPage = getByRole("button");
+            jest.spyOn(imageOnPage, "getBoundingClientRect").mockReturnValue({ width: 560, height: 420 } as DOMRect);
+            await user.click(imageOnPage);
+
+            const [lightboxImage] = getAllByRole("img") as HTMLImageElement[];
+            Object.defineProperty(lightboxImage, "naturalWidth", { value: 400 });
+            Object.defineProperty(lightboxImage, "naturalHeight", { value: 300 });
+            fireEvent.load(lightboxImage);
+
+            expect(lightboxImage.getAttribute("style")).toContain("min(560px");
         });
 
         it("closes the lightbox when the user clicks on the close button after opening it", async () => {
