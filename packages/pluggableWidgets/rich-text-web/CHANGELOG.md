@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [5.2.0] - 2026-11-13
+
 ### Breaking changes
 
 - We removed the "Default font family" and "Default font size" settings, as they had no effect. After updating, Studio Pro asks to update the widget, and any values set for these settings are dropped. When the selected text has no font family or font size, the toolbar now shows the "Font Family" and "Font Size" placeholders.
