@@ -1,6 +1,6 @@
 import { basename, join } from "path";
 import type { ModuleInfo } from "./package-info.ts";
-import { exec, find } from "./shell.ts";
+import { exec, findFiles } from "./shell.ts";
 import type { Version } from "./version.ts";
 
 async function ensureMxBuildDockerImageExists(version: string): Promise<void> {
@@ -28,7 +28,7 @@ export async function createModuleMpkInDocker(
 
     console.log(`Creating module ${moduleName} using mxbuild:${version}...`);
     // Build testProject via mxbuild
-    const mprPath = find(`${sourceDir}/*.mpr`)[0];
+    const [mprPath] = findFiles(`${sourceDir}/*.mpr`);
     const projectFile = basename(mprPath);
     const args = [
         // update widgets
@@ -61,5 +61,5 @@ export async function createMPK(tmpFolder: string, info: ModuleInfo, excludeFile
         info.marketplace.minimumMXVersion,
         excludeFilesRegExp
     );
-    return find(join(tmpFolder, info.mpkName))[0];
+    return findFiles(join(tmpFolder, info.mpkName))[0];
 }

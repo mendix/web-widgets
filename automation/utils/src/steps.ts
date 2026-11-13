@@ -1,5 +1,5 @@
-import { readFile, writeFile } from "node:fs/promises";
-import { dirname, join, parse, relative, resolve } from "path";
+import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { basename, dirname, join, parse, relative, resolve } from "path";
 import chalk from "chalk";
 import {
     type CommonBuildConfig,
@@ -13,7 +13,7 @@ import { copyMpkFiles, getMpkPaths } from "./monorepo.ts";
 import { createModuleMpkInDocker } from "./mpk.ts";
 import type { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info.ts";
 import { addFilesToPackageXml, type PackageType } from "./package-xml.ts";
-import { chmod, cp, ensureFileExists, exec, find, mkdir, popd, pushd, rm, unzip, zip } from "./shell.ts";
+import { ensureFileExists, exec, makeWritableRecursive, move, unzip, zip } from "./shell.ts";
 
 type Step<Info, Config> = (params: { info: Info; config: Config }) => Promise<void>;
 
@@ -39,7 +39,7 @@ export const logStep = (name: string): void => console.info(`[step]: ${name}`);
 export async function removeDist({ config }: CommonStepParams): Promise<void> {
     logStep("Remove dist");
 
-    rm("-rf", config.paths.dist);
+    await rm(config.paths.dist, { recursive: true, force: true });
 }
 
 export async function cloneTestProject({ info, config }: CommonStepParams): Promise<void> {
@@ -47,7 +47,7 @@ export async function cloneTestProject({ info, config }: CommonStepParams): Prom
 
     const { testProject } = info;
     const clone = process.env.CI ? cloneRepoShallow : cloneRepo;
-    rm("-rf", config.paths.targetProject);
+    await rm(config.paths.targetProject, { recursive: true, force: true });
     await clone({
         remoteUrl: testProject!.githubUrl,
         branch: testProject!.branchName,
@@ -86,10 +86,10 @@ export function copyFilesToMpk(
 
         console.log(`Input MPK: ${relative(paths.package, mpk)}`);
 
-        ensureFileExists(output.files.mpk);
+        await ensureFileExists(output.files.mpk);
 
-        rm("-rf", target);
-        mkdir("-p", target);
+        await rm(target, { recursive: true, force: true });
+        await mkdir(target, { recursive: true });
 
         console.info("Unzip module mpk");
         await unzip(mpk, target);
@@ -99,8 +99,8 @@ export function copyFilesToMpk(
             const dest = resolve(target, file.pkgPath);
 
             console.info(`Copy ${join(file.filePath)} to ${join(file.pkgPath)}`);
-            mkdir("-p", dirname(dest));
-            cp(source, dest);
+            await mkdir(dirname(dest), { recursive: true });
+            await cp(source, dest);
         }
 
         console.info(`Update file entries in package.xml`);
@@ -111,9 +111,9 @@ export function copyFilesToMpk(
         );
 
         console.info("Create module zip archive");
-        rm(mpk);
+        await rm(mpk);
         await zip(target, mpk);
-        rm("-rf", target);
+        await rm(target, { recursive: true, force: true });
     };
 }
 
@@ -124,17 +124,16 @@ export async function copyThemesourceToProject({ config }: ModuleStepParams): Pr
 
     const { output, paths } = config;
     console.info("Remove module themesource in targetProject");
-    rm("-rf", output.dirs.themesource);
+    await rm(output.dirs.themesource, { recursive: true, force: true });
     console.info("Copy module themesource to targetProject");
-    mkdir("-p", output.dirs.themesource);
-    cp("-R", `${paths.themesource}/*`, output.dirs.themesource);
+    await cp(paths.themesource, output.dirs.themesource, { recursive: true });
 }
 
 export function copyActionsFiles(files: string[]): (params: ModuleStepParams) => Promise<void> {
     return async ({ config }) => {
         logStep("Copy JS Action(s) files");
         const { paths, output } = config;
-        mkdir("-p", join(output.dirs.javascriptsource, "actions"));
+        await mkdir(join(output.dirs.javascriptsource, "actions"), { recursive: true });
 
         for (const file of files) {
             const src = join(paths.javascriptsource, "actions", file);
@@ -175,28 +174,30 @@ async function insertWidgetsIntoMpk(
     const packageXml = join(tmpDir, "package.xml");
     const packageFilePaths = widgetPaths.map(p => `widgets/${parse(p).base}`);
 
-    rm("-rf", tmpDir);
+    await rm(tmpDir, { recursive: true, force: true });
     console.info("Unzip module mpk");
     await unzip(mpk, tmpDir);
-    mkdir("-p", widgetsOut);
-    chmod("-R", "a+rw", tmpDir);
+    await mkdir(widgetsOut, { recursive: true });
+    await makeWritableRecursive(tmpDir);
 
     console.info(`Add ${widgetPaths.length} widgets to ${mpkEntry.base}`);
-    cp(widgetPaths, widgetsOut);
+    for (const widgetPath of widgetPaths) {
+        await cp(widgetPath, join(widgetsOut, basename(widgetPath)));
+    }
 
     if (additionalFiles) {
         for (const { src, destRelative } of additionalFiles) {
-            cp(src, join(tmpDir, destRelative));
+            await cp(src, join(tmpDir, destRelative));
         }
     }
 
     console.info(`Add file entries to package.xml`);
     await addFilesToPackageXml(packageXml, packageFilePaths, "modelerProject");
-    rm(mpk);
+    await rm(mpk);
 
     console.info("Create module zip archive");
     await zip(tmpDir, mpk);
-    rm("-rf", tmpDir);
+    await rm(tmpDir, { recursive: true, force: true });
 }
 
 export async function addWidgetsToMpk({ config }: ModuleStepParams): Promise<void> {
@@ -229,10 +230,8 @@ export async function moveModuleToDist({ info, config }: ModuleStepParams): Prom
     const { output, paths } = config;
 
     console.info(`Move ${info.mpkName} to dist`);
-    mkdir("-p", join(paths.dist, info.version.format()));
-    // Can't use mv because of https://github.com/shelljs/shelljs/issues/878
-    cp(output.files.modulePackage, output.files.mpk);
-    rm(output.files.modulePackage);
+    await mkdir(join(paths.dist, info.version.format()), { recursive: true });
+    await move(output.files.modulePackage, output.files.mpk);
 }
 
 export async function pushUpdateToTestProject({ info, config }: ModuleStepParams): Promise<void> {
@@ -245,10 +244,9 @@ export async function pushUpdateToTestProject({ info, config }: ModuleStepParams
         return;
     }
 
-    const { paths } = config;
-    pushd(paths.targetProject);
+    const cwd = config.paths.targetProject;
 
-    const status = (await exec(`git status --porcelain`, { stdio: "pipe" })).stdout.trim();
+    const status = (await exec(`git status --porcelain`, { cwd, stdio: "pipe" })).stdout.trim();
 
     if (status === "") {
         console.warn(chalk.yellow("Nothing to commit"));
@@ -256,17 +254,16 @@ export async function pushUpdateToTestProject({ info, config }: ModuleStepParams
         return;
     }
 
-    await setLocalGitUserInfo();
-    await exec(`git add .`);
-    await exec(`git commit -m "Automated update for ${info.mxpackage.name} module [${info.version}]"`);
-    await exec(`git push origin`);
-    popd();
+    await setLocalGitUserInfo(cwd);
+    await exec(`git add .`, { cwd });
+    await exec(`git commit -m "Automated update for ${info.mxpackage.name} module [${info.version}]"`, { cwd });
+    await exec(`git push origin`, { cwd });
 }
 
 export async function writeModuleVersion({ config, info }: ModuleStepParams): Promise<void> {
     logStep("Write module version");
 
-    mkdir("-p", config.output.dirs.themesource);
+    await mkdir(config.output.dirs.themesource, { recursive: true });
     await writeFile(join(config.output.dirs.themesource, ".version"), info.version.format());
 }
 
@@ -276,9 +273,9 @@ export async function copyModuleLicense({ config }: ModuleStepParams): Promise<v
     const { paths, output } = config;
     const license = join(paths.package, "LICENSE");
 
-    ensureFileExists(license);
-    mkdir("-p", output.dirs.themesource);
-    cp(license, output.dirs.themesource);
+    await ensureFileExists(license);
+    await mkdir(output.dirs.themesource, { recursive: true });
+    await cp(license, join(output.dirs.themesource, "LICENSE"));
 }
 
 export async function writeVersionAndLicenseToJSActions({ config, info }: ModuleStepParams): Promise<void> {
@@ -286,10 +283,10 @@ export async function writeVersionAndLicenseToJSActions({ config, info }: Module
     const { paths, output } = config;
     const license = join(paths.package, "LICENSE");
 
-    ensureFileExists(license);
+    await ensureFileExists(license);
 
-    mkdir("-p", output.dirs.javascriptsource);
-    cp(license, output.dirs.javascriptsource);
+    await mkdir(output.dirs.javascriptsource, { recursive: true });
+    await cp(license, join(output.dirs.javascriptsource, "LICENSE"));
     await writeFile(join(config.output.dirs.javascriptsource, ".version"), info.version.format());
 }
 

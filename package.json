@@ -64,6 +64,7 @@
             "@mendix/pluggable-widgets-tools>eslint-plugin-react": "-",
             "@mendix/pluggable-widgets-tools>eslint-plugin-react-hooks": "-",
             "@mendix/pluggable-widgets-tools>prettier": "-",
+            "@mendix/pluggable-widgets-tools>shx": "-",
             "@prettier/plugin-xml": ">=3.4.1",
             "@testing-library/dom": "^10.4.1",
             "@testing-library/react": "^16.3.2",

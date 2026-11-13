@@ -1,12 +1,12 @@
 import { createHash } from "node:crypto";
 import { createReadStream } from "node:fs";
-import { mkdtemp, stat } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, rm, stat } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { pipeline } from "node:stream/promises";
 import { basename, join, parse } from "path";
 import { globSync } from "glob";
 import type { GitHubReleaseAsset } from "./github.ts";
-import { chmod, cp, exec, mkdir, mv, rm, unzip, zip } from "./shell.ts";
+import { exec, makeWritableRecursive, move, unzip, zip } from "./shell.ts";
 
 export async function computeSha256(filePath: string): Promise<string> {
     const hash = createHash("sha256");
@@ -64,7 +64,7 @@ export async function createSBomGeneratorFolderStructure(
 ): Promise<[folder: string, assetPath: string]> {
     const tmpFolder = await mkdtemp(join(tmpdir(), "tmp_OSS_Clearance_Artifacts_"));
     const artifactsFolder = join(tmpFolder, "SBOM_GENERATOR", assetNameAndVersion);
-    await mkdir("-p", artifactsFolder);
+    await mkdir(artifactsFolder, { recursive: true });
     return [tmpFolder, join(artifactsFolder, `${assetNameAndVersion}.mpk`)];
 }
 
@@ -92,10 +92,10 @@ export async function generateSBomArtifactsInFolder(
     const ossArtifactZip = join(resultsFolder, archiveName);
 
     // move to final destination
-    await mv(ossArtifactZip, finalPath);
+    await move(ossArtifactZip, finalPath);
 
     // removing tmp folder
-    await rm("-rf", tmpFolder);
+    await rm(tmpFolder, { recursive: true, force: true });
 }
 
 export async function includeReadmeOssIntoMpk(readmeOssPath: string, mpkPath: string): Promise<void> {
@@ -103,16 +103,16 @@ export async function includeReadmeOssIntoMpk(readmeOssPath: string, mpkPath: st
     const unzipTarget = join(mpkEntry.dir, "tmp");
 
     // unzip
-    rm("-rf", unzipTarget);
+    await rm(unzipTarget, { recursive: true, force: true });
     await unzip(mpkPath, unzipTarget);
-    chmod("-R", "a+rw", unzipTarget);
+    await makeWritableRecursive(unzipTarget);
 
     // Copy the READMEOSS file to the target directory
-    cp(readmeOssPath, unzipTarget);
+    await cp(readmeOssPath, join(unzipTarget, basename(readmeOssPath)));
 
     // zip it back
     await zip(unzipTarget, mpkPath);
 
     // remove tmp folder
-    rm("-rf", unzipTarget);
+    await rm(unzipTarget, { recursive: true, force: true });
 }
