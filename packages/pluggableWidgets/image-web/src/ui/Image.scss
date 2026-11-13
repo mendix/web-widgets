@@ -45,13 +45,18 @@
     left: 50%;
     transform: translate(-50%, -50%);
 
-    // Show the image at its natural size, scaled down to fit the viewport.
-    img {
+    --mx-image-viewer-lightbox-max-width: 90vw;
+    --mx-image-viewer-lightbox-max-height: 85vh;
+
+    // Show the image at its natural size, scaled down to fit the viewport. The class selector is needed to win
+    // over Atlas rules with the same specificity, such as `img.img-thumbnail { max-width: 100% }`.
+    // `LightboxImage` sets a width when the image on the page is larger than the natural size.
+    .mx-image-viewer-lightbox-image {
         display: block;
         width: auto;
         height: auto;
-        max-width: 90vw;
-        max-height: 85vh;
+        max-width: var(--mx-image-viewer-lightbox-max-width);
+        max-height: var(--mx-image-viewer-lightbox-max-height);
     }
 }
 
