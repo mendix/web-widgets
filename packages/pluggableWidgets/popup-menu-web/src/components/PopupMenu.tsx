@@ -16,11 +16,14 @@ interface SubmenuOpenEvent {
 
 function PopupMenuComponent(props: PopupMenuContainerProps): ReactElement {
     const [visibility, setVisibility] = useState(props.menuToggle);
-    const open = visibility;
     const hasItems = hasMenuItems(props);
+    // A menu without visible items stays closed, so the trigger doesn't announce an empty menu.
+    const open = visibility && hasItems;
+    // Refuse to open an empty menu, so it doesn't pop up later when an item becomes visible.
+    const onOpenChange = useCallback((next: boolean) => setVisibility(next && hasItems), [hasItems]);
     const popup = usePopup({
         open,
-        onOpenChange: setVisibility,
+        onOpenChange,
         placement: props.position,
         trigger: props.trigger,
         clippingStrategy: props.clippingStrategy,
@@ -47,20 +50,21 @@ function PopupMenuComponent(props: PopupMenuContainerProps): ReactElement {
     }, [props.menuToggle]);
 
     // Link a nested menu to the parent menu item, so the item can open it from the keyboard.
+    // An empty submenu isn't linked, so the parent item doesn't announce a popup it can't open.
     useEffect(() => {
-        if (!parentItem) {
+        if (!parentItem || !hasItems) {
             return;
         }
         return parentItem.registerSubmenu(nodeId, {
             open: () => {
                 // List navigation focuses the active item once the menu is rendered.
-                setActiveIndex(hasItems ? 0 : null);
-                setVisibility(true);
+                setActiveIndex(0);
+                onOpenChange(true);
             },
             contains: node => !!floatingRef.current?.contains(node),
             isOpen: open
         });
-    }, [parentItem, nodeId, open, hasItems, setActiveIndex, floatingRef]);
+    }, [parentItem, nodeId, open, hasItems, setActiveIndex, floatingRef, onOpenChange]);
 
     // A nested menu returns focus to its parent item.
     useLayoutEffect(() => {

@@ -18,8 +18,9 @@ import {
     useListNavigation,
     useRole
 } from "@floating-ui/react";
-import { MutableRefObject, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { MouseEvent, MutableRefObject, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { ClippingStrategyEnum, HoverCloseOnEnum, TriggerEnum } from "../../typings/PopupMenuProps";
+import { isTextEntry } from "../utils/isTextEntry";
 
 interface PopupOptions {
     placement: Placement;
@@ -90,9 +91,10 @@ export function usePopup({
     const click = useClick(context, { enabled: trigger === "onclick", keyboardHandlers: false });
     const guardedClick = useMemo(
         () =>
-            wrapClick(click, keyboardActivationRef, () => {
-                // Opening by click focuses the first item (APG menu button).
-                if (!open) {
+            wrapClick(click, keyboardActivationRef, event => {
+                // Opening by click focuses the first item (APG menu button), unless the click
+                // went into a text box in the trigger: focus stays there so the user can type.
+                if (!open && !isTextEntry(event.target)) {
                     setActiveIndex(hasItems ? 0 : null);
                 }
             }),
@@ -150,7 +152,7 @@ export function usePopup({
 function wrapClick(
     props: ElementProps,
     keyboardActivationRef: MutableRefObject<boolean>,
-    onPointerClick: () => void
+    onPointerClick: (event: MouseEvent) => void
 ): ElementProps {
     const onClick = props.reference?.onClick;
     if (!onClick) {
@@ -164,7 +166,7 @@ function wrapClick(
                 if (keyboardActivationRef.current && event.detail === 0) {
                     return;
                 }
-                onPointerClick();
+                onPointerClick(event);
                 onClick(event);
             }
         }

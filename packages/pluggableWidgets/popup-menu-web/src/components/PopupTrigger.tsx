@@ -2,6 +2,7 @@ import { useFloatingTree, useMergeRefs } from "@floating-ui/react";
 import { FocusEvent, forwardRef, KeyboardEvent, PropsWithChildren, ReactElement, RefObject } from "react";
 import { useMouseDownRef } from "../hooks/useMouseDownRef";
 import { usePopupContext } from "../hooks/usePopupContext";
+import { isTextEntry } from "../utils/isTextEntry";
 import { stopEscapeKeyUp } from "../utils/stopEscapeKeyUp";
 
 export const PopupTrigger = forwardRef(
@@ -29,6 +30,10 @@ export const PopupTrigger = forwardRef(
 
         const onKeyDown = (e: KeyboardEvent<HTMLDivElement>): void => {
             // Trigger content may call preventDefault (Mendix buttons always do), so it isn't checked here.
+            if ((e.key === "Enter" || e.key === " ") && isTextEntry(e.target)) {
+                // Enter and Space belong to the text box (typing, form submit). Arrow keys still open the menu.
+                return;
+            }
             if (e.key === "Enter" || e.key === " ") {
                 keyboardActivationRef.current = true;
                 // The synthetic click follows keydown (Enter) or keyup (Space). Keyup may land in the menu.

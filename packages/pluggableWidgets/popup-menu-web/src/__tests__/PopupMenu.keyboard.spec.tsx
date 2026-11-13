@@ -60,6 +60,11 @@ const trigger = (): HTMLElement => screen.getByRole("button", { name: "Trigger" 
 const item = (name: string): HTMLElement => screen.getByRole("menuitem", { name });
 const queryMenu = (): HTMLElement | null => screen.queryByRole("menu");
 
+/** Lets pending effects and animation frames (e.g. list navigation moving focus) run. */
+async function settle(): Promise<void> {
+    await act(() => new Promise(resolve => setTimeout(resolve, 50)));
+}
+
 async function openWith(user: UserEvent, key: string): Promise<void> {
     trigger().focus();
     await user.keyboard(key);
@@ -193,6 +198,88 @@ describe("Popup Menu keyboard interaction", () => {
             expect(wrapper).toHaveAttribute("aria-expanded", "true");
             expect(wrapper).toHaveAttribute("aria-controls", queryMenu()!.id);
             expect(queryMenu()).toHaveAttribute("aria-labelledby", wrapper.id);
+        });
+
+        describe("with a text box in the trigger", () => {
+            const textBox = (): HTMLElement => screen.getByRole("textbox", { name: "Search" });
+
+            function renderTextBoxTrigger(): void {
+                renderPage(props({ menuTrigger: <input aria-label="Search" /> }));
+            }
+
+            it.each([
+                ["Space", "a ", "a "],
+                ["Enter", "a{Enter}", "a"]
+            ])("lets %s go to the text box without opening the menu", async (_, keys, value) => {
+                renderTextBoxTrigger();
+                textBox().focus();
+
+                await user.keyboard(keys);
+                await settle();
+
+                expect(queryMenu()).not.toBeInTheDocument();
+                expect(textBox()).toHaveFocus();
+                expect(textBox()).toHaveValue(value);
+            });
+
+            it("opens with Arrow Down and focuses the first item", async () => {
+                renderTextBoxTrigger();
+                textBox().focus();
+
+                await user.keyboard("{ArrowDown}");
+
+                await waitFor(() => expect(item("One")).toHaveFocus());
+            });
+
+            it("opens on click but keeps focus in the text box", async () => {
+                renderTextBoxTrigger();
+
+                await user.click(textBox());
+                await waitFor(() => expect(queryMenu()).toBeInTheDocument());
+                await settle();
+                await user.keyboard("xyz");
+
+                expect(textBox()).toHaveFocus();
+                expect(textBox()).toHaveValue("xyz");
+            });
+        });
+
+        describe("without visible items", () => {
+            it.each([
+                ["all items hidden", [{ ...basicItem("Hidden"), visible: dynamic.available(false) }]],
+                ["only dividers", [divider, divider]]
+            ])("doesn't open with Enter or a click when %s", async (_, basicItems) => {
+                const { container } = renderPage(props({ basicItems }));
+                const wrapper = container.querySelector(".popupmenu-trigger")!;
+                trigger().focus();
+
+                await user.keyboard("{Enter}");
+
+                expect(wrapper).toHaveAttribute("aria-expanded", "false");
+                expect(container.querySelector("[role=menu]")).not.toBeInTheDocument();
+                expect(trigger()).toHaveFocus();
+
+                await user.click(trigger());
+
+                expect(wrapper).toHaveAttribute("aria-expanded", "false");
+                expect(container.querySelector("[role=menu]")).not.toBeInTheDocument();
+            });
+
+            it("doesn't open by itself once an item becomes visible after an open attempt", async () => {
+                const hidden = { ...basicItem("Late"), visible: dynamic.available(false) };
+                const { rerender } = renderPage(props({ basicItems: [hidden] }));
+                trigger().focus();
+                await user.keyboard("{Enter}");
+
+                rerender(
+                    <div>
+                        <PopupMenu {...props({ basicItems: [{ ...hidden, visible: dynamic.available(true) }] })} />
+                        <button>After</button>
+                    </div>
+                );
+
+                expect(queryMenu()).not.toBeInTheDocument();
+            });
         });
     });
 
@@ -563,6 +650,27 @@ describe("Popup Menu keyboard interaction", () => {
             await user.keyboard("{ArrowRight}");
 
             await waitFor(() => expect(alpha).toHaveAttribute("aria-expanded", "true"));
+        });
+
+        it("doesn't expose an empty submenu on the parent item", async () => {
+            const emptyNested = (
+                <PopupMenu
+                    {...props({
+                        menuTrigger: <span>Empty</span>,
+                        basicItems: [{ ...basicItem("Hidden"), visible: dynamic.available(false) }]
+                    })}
+                />
+            );
+            renderPage(props({ advancedMode: true, customItems: [{ content: emptyNested }] }));
+            await openWith(user, "{ArrowDown}");
+            const [parent] = parents();
+            await waitFor(() => expect(parent).toHaveFocus());
+
+            expect(parent).not.toHaveAttribute("aria-haspopup");
+
+            await user.keyboard("{ArrowRight}");
+
+            expect(screen.getAllByRole("menu")).toHaveLength(1);
         });
 
         it.each([
