@@ -62,6 +62,6 @@
 - [x] 8.3 Unit tests for 8.1 and 8.2, checked to fail without the fix
 - [x] 8.4 Correct the "presentational to AT" wording for content inside custom items (`menuitem` children stay exposed)
 - [x] 8.5 Document that a parent item's own On click action isn't run
-- [ ] 8.6 Focus lost after a dialog opened from a "Close on: Click outside" menu is dismissed: under investigation (the Mendix dialog's focus restore targets the removed menu item)
+- [ ] 8.6 Focus lost after a dialog opened from a "Close on: Click outside" menu is dismissed: under investigation (the Mendix dialog's focus restore targets the removed menu item); covered by a `test.fixme` e2e on `/p/keyboard-dialog-focus`
 - [ ] 8.7 Trigger popup state not announced (ARIA on the wrapper, focus on the content): under investigation
-- [ ] 8.8 e2e for the text-box trigger and empty-menu cases on `/p/keyboard-triggers` and `/p/keyboard-items`
+- [x] 8.8 e2e for the text-box trigger (`/p/keyboard-textbox-trigger`) and empty-menu cases (`/p/keyboard-empty-menu`)
