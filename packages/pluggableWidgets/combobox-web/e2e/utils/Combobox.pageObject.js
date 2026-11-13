@@ -7,6 +7,9 @@
  *
  * The filter input is addressed by `role=combobox`: a plain `input` locator also matches the
  * checkbox inside every option once a multi-select menu is open.
+ *
+ * State is a data attribute next to the element class (`data-open`, `data-empty`), never a
+ * modifier class; assert on the attribute.
  */
 export default class Combobox {
     constructor(locator) {

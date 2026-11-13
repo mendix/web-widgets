@@ -1,5 +1,7 @@
 import "@testing-library/jest-dom";
-jest.mock("../hooks/useFloatingMenu");
+jest.mock("@mendix/combobox-kit/hooks/useFloatingMenu", () =>
+    jest.requireActual("@mendix/combobox-kit/hooks/__mocks__/useFloatingMenu")
+);
 import { act, fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
 import { resetIdCounter } from "downshift";
 import {
@@ -20,8 +22,12 @@ async function getToggleButton(component: RenderResult): Promise<Element> {
 }
 
 async function getVisibleValueNode(component: RenderResult): Promise<HTMLDivElement> {
-    const custom = component.container.querySelector(".widget-combobox-placeholder-custom") as HTMLDivElement;
-    const text = component.container.querySelector(".widget-combobox-placeholder-text") as HTMLDivElement;
+    const custom = component.container.querySelector(
+        ".widget-combobox-placeholder-text[data-custom]"
+    ) as HTMLDivElement;
+    const text = component.container.querySelector(
+        ".widget-combobox-placeholder-text:not([data-custom])"
+    ) as HTMLDivElement;
 
     return custom ?? text;
 }

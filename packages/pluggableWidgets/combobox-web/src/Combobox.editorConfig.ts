@@ -9,7 +9,7 @@ import {
 import { ComboboxPreviewProps } from "../typings/ComboboxProps";
 import IconSVG from "./assets/StructurePreviewIcon.svg";
 import IconSVGDark from "./assets/StructurePreviewIconDark.svg";
-import { getDatasourcePlaceholderText } from "./helpers/utils";
+import { getDatasourcePlaceholderText } from "@mendix/combobox-kit/preview";
 
 const LAZY_LOADING_CONFIG: Array<keyof ComboboxPreviewProps> = ["lazyLoading", "loadingType"];
 const DATABASE_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
