@@ -109,6 +109,28 @@ describe("zip and unzip", () => {
         assert.equal(await readFile(join(tmp, "unzipped", "widgets", "a.mpk"), "utf-8"), "a");
     });
 
+    it("handles spaces in the archive, directory and entry paths", async () => {
+        await writeTree(tmp, { "my content/sub dir/a file.txt": "a" });
+        const archive = join(tmp, "my output", "out file.mpk");
+        await mkdir(join(tmp, "my output"));
+
+        await zip(join(tmp, "my content"), archive);
+        await unzip(archive, join(tmp, "my unzipped"));
+
+        assert.equal(await readFile(join(tmp, "my unzipped", "sub dir", "a file.txt"), "utf-8"), "a");
+    });
+
+    it("keeps binary content intact", async () => {
+        const bytes = Buffer.from(Array.from({ length: 256 }, (_, i) => i));
+        await mkdir(join(tmp, "content"));
+        await writeFile(join(tmp, "content", "data.bin"), bytes);
+
+        await zip(join(tmp, "content"), join(tmp, "out.zip"));
+        await unzip(join(tmp, "out.zip"), join(tmp, "unzipped"));
+
+        assert.deepEqual(await readFile(join(tmp, "unzipped", "data.bin")), bytes);
+    });
+
     it("restores the working directory after zipping", async () => {
         await writeTree(tmp, { "content/a.txt": "a" });
         const cwd = process.cwd();
