@@ -55,6 +55,25 @@ test.describe("Popup-menu-web keyboard", () => {
             await expect(menuOf(page, "pop_upMenu1")).toBeHidden();
             await expect(trigger).toBeFocused();
         });
+
+        test("exposes the popup state on the focused trigger button", async ({ page }) => {
+            const trigger = page.locator(".mx-name-btnBasicTrigger");
+            await expect(trigger).toHaveAttribute("aria-haspopup", "menu");
+            await expect(trigger).toHaveAttribute("aria-expanded", "false");
+
+            await trigger.focus();
+            await trigger.press("Enter");
+
+            await expect(trigger).toHaveAttribute("aria-expanded", "true");
+            await expect(trigger).toHaveAttribute(
+                "aria-controls",
+                await menuOf(page, "pop_upMenu1").getAttribute("id")
+            );
+
+            await page.keyboard.press("Escape");
+
+            await expect(trigger).toHaveAttribute("aria-expanded", "false");
+        });
     });
 
     test.describe("items", () => {

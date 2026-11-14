@@ -2,8 +2,6 @@ import { test, expect } from "@mendix/run-e2e/fixtures";
 
 /** The menu of a Pop-up Menu widget, without its nested submenus. */
 const menuOf = (page, name) => page.locator(`.mx-name-${name} > .widget-popupmenu-root > .popupmenu-menu`);
-/** The element that carries aria-expanded for the trigger content. */
-const triggerWrapperOf = (page, name) => page.locator(`.mx-name-${name} > .popupmenu-trigger`);
 
 test.describe("Popup-menu-web keyboard: menu without visible items", () => {
     test.beforeEach(async ({ page }) => {
@@ -25,16 +23,17 @@ test.describe("Popup-menu-web keyboard: menu without visible items", () => {
 
                     await button.press(key);
 
-                    await expect(triggerWrapperOf(page, popup)).toHaveAttribute("aria-expanded", "false");
+                    await expect(button).toHaveAttribute("aria-expanded", "false");
                     await expect(menuOf(page, popup)).toHaveCount(0);
                     await expect(button).toBeFocused();
                 });
             }
 
             test("doesn't open on click", async ({ page }) => {
-                await page.locator(`.mx-name-${trigger}`).click();
+                const button = page.locator(`.mx-name-${trigger}`);
+                await button.click();
 
-                await expect(triggerWrapperOf(page, popup)).toHaveAttribute("aria-expanded", "false");
+                await expect(button).toHaveAttribute("aria-expanded", "false");
                 await expect(menuOf(page, popup)).toHaveCount(0);
             });
         });
@@ -68,7 +67,7 @@ test.describe("Popup-menu-web keyboard: menu without visible items", () => {
             // ...and not remembered: the menu stays closed when the item becomes visible.
             await page.locator(".mx-name-cbShowLateItem input").check();
             await expect(page.locator(".mx-name-cbShowLateItem input")).toBeChecked();
-            await expect(triggerWrapperOf(page, "popupLateItem")).toHaveAttribute("aria-expanded", "false");
+            await expect(button).toHaveAttribute("aria-expanded", "false");
             await expect(menuOf(page, "popupLateItem")).toHaveCount(0);
 
             await button.click();

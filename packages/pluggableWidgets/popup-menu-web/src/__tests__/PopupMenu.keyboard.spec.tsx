@@ -1,7 +1,7 @@
 import { act, fireEvent, render, RenderResult, screen, waitFor } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { ActionValue } from "mendix";
-import { KeyboardEvent, ReactElement, ReactNode } from "react";
+import { KeyboardEvent, ReactElement, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { actionValue, dynamic } from "@mendix/widget-plugin-test-utils";
 import { BasicItemsType, PopupMenuContainerProps } from "../../typings/PopupMenuProps";
 import { PopupMenu } from "../components/PopupMenu";
@@ -21,6 +21,15 @@ function PreventDefaultButton({ children }: { children: ReactNode }): ReactEleme
             {children}
         </button>
     );
+}
+
+/** Mounts a given DOM element, to check what is left on it after unmount. */
+function ExternalButton({ element }: { element: HTMLElement }): ReactElement {
+    const hostRef = useRef<HTMLSpanElement>(null);
+    useLayoutEffect(() => {
+        hostRef.current!.appendChild(element);
+    }, [element]);
+    return <span ref={hostRef} />;
 }
 
 function basicItem(caption: string, action?: ActionValue): BasicItemsType {
@@ -185,19 +194,74 @@ describe("Popup Menu keyboard interaction", () => {
             expect(item("One")).toHaveFocus();
         });
 
-        it("exposes popup state on the trigger wrapper", async () => {
+        it("exposes popup state on the trigger button", async () => {
             const { container } = renderPage(props());
             const wrapper = container.querySelector(".popupmenu-trigger")!;
 
-            expect(wrapper).toHaveAttribute("aria-haspopup", "menu");
-            expect(wrapper).toHaveAttribute("aria-expanded", "false");
-            expect(trigger()).not.toHaveAttribute("aria-haspopup");
+            expect(trigger()).toHaveAttribute("aria-haspopup", "menu");
+            expect(trigger()).toHaveAttribute("aria-expanded", "false");
+            expect(trigger()).not.toHaveAttribute("aria-controls");
+            expect(wrapper).not.toHaveAttribute("aria-haspopup");
+            expect(wrapper).not.toHaveAttribute("aria-expanded");
 
             await openWith(user, "{Enter}");
 
-            expect(wrapper).toHaveAttribute("aria-expanded", "true");
-            expect(wrapper).toHaveAttribute("aria-controls", queryMenu()!.id);
+            expect(trigger()).toHaveAttribute("aria-expanded", "true");
+            expect(trigger()).toHaveAttribute("aria-controls", queryMenu()!.id);
             expect(queryMenu()).toHaveAttribute("aria-labelledby", wrapper.id);
+
+            await user.keyboard("{Escape}");
+
+            expect(trigger()).toHaveAttribute("aria-expanded", "false");
+            expect(trigger()).not.toHaveAttribute("aria-controls");
+        });
+
+        it("exposes popup state on a link in the trigger", () => {
+            renderPage(props({ menuTrigger: <a href="#menu">Link trigger</a> }));
+
+            expect(screen.getByRole("link", { name: "Link trigger" })).toHaveAttribute("aria-haspopup", "menu");
+        });
+
+        it("keeps popup state on the trigger wrapper when the trigger has no button", () => {
+            const { container } = renderPage(props({ menuTrigger: <input aria-label="Search" /> }));
+
+            expect(container.querySelector(".popupmenu-trigger")).toHaveAttribute("aria-haspopup", "menu");
+            expect(screen.getByRole("textbox", { name: "Search" })).not.toHaveAttribute("aria-haspopup");
+        });
+
+        it("moves popup state to a button that replaces the trigger content", async () => {
+            const swapper = new EventTarget();
+            function SwappingTrigger(): ReactElement {
+                const [second, setSecond] = useState(false);
+                useEffect(() => {
+                    const swap = (): void => setSecond(true);
+                    swapper.addEventListener("swap", swap);
+                    return () => swapper.removeEventListener("swap", swap);
+                }, []);
+                return second ? <button key="second">Second</button> : <button key="first">First</button>;
+            }
+            renderPage(props({ menuTrigger: <SwappingTrigger /> }));
+            const first = screen.getByRole("button", { name: "First" });
+            expect(first).toHaveAttribute("aria-haspopup", "menu");
+
+            act(() => {
+                swapper.dispatchEvent(new Event("swap"));
+            });
+
+            const second = screen.getByRole("button", { name: "Second" });
+            await waitFor(() => expect(second).toHaveAttribute("aria-haspopup", "menu"));
+            expect(second).toHaveAttribute("aria-expanded", "false");
+        });
+
+        it("removes popup state from the trigger button on unmount", () => {
+            const button = document.createElement("button");
+            const { unmount } = renderPage(props({ menuTrigger: <ExternalButton element={button} /> }));
+            expect(button).toHaveAttribute("aria-haspopup", "menu");
+
+            unmount();
+
+            expect(button).not.toHaveAttribute("aria-haspopup");
+            expect(button).not.toHaveAttribute("aria-expanded");
         });
 
         describe("with a text box in the trigger", () => {
@@ -250,18 +314,17 @@ describe("Popup Menu keyboard interaction", () => {
                 ["only dividers", [divider, divider]]
             ])("doesn't open with Enter or a click when %s", async (_, basicItems) => {
                 const { container } = renderPage(props({ basicItems }));
-                const wrapper = container.querySelector(".popupmenu-trigger")!;
                 trigger().focus();
 
                 await user.keyboard("{Enter}");
 
-                expect(wrapper).toHaveAttribute("aria-expanded", "false");
+                expect(trigger()).toHaveAttribute("aria-expanded", "false");
                 expect(container.querySelector("[role=menu]")).not.toBeInTheDocument();
                 expect(trigger()).toHaveFocus();
 
                 await user.click(trigger());
 
-                expect(wrapper).toHaveAttribute("aria-expanded", "false");
+                expect(trigger()).toHaveAttribute("aria-expanded", "false");
                 expect(container.querySelector("[role=menu]")).not.toBeInTheDocument();
             });
 
@@ -646,6 +709,8 @@ describe("Popup Menu keyboard interaction", () => {
             expect(alpha).toHaveAttribute("aria-haspopup", "menu");
             expect(alpha).toHaveAttribute("aria-expanded", "false");
             expect(leaf).not.toHaveAttribute("aria-haspopup");
+            // The nested trigger doesn't repeat the state the parent item carries.
+            expect(alpha.querySelector("[aria-haspopup], [aria-expanded]")).toBeNull();
 
             await user.keyboard("{ArrowRight}");
 
@@ -667,6 +732,7 @@ describe("Popup Menu keyboard interaction", () => {
             await waitFor(() => expect(parent).toHaveFocus());
 
             expect(parent).not.toHaveAttribute("aria-haspopup");
+            expect(parent.querySelector("[aria-haspopup]")).toBeNull();
 
             await user.keyboard("{ArrowRight}");
 

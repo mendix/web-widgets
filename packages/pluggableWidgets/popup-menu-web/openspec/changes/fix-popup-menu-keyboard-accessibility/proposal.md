@@ -23,7 +23,7 @@ Code investigation confirmed the root causes:
 - Escape closes the menu that contains focus. In a submenu it closes that level and returns focus to the parent item. At the top level it closes the menu and returns focus to the trigger element that had focus before opening. Escape is ignored when focus is outside the widget, so it doesn't compete with other Escape handlers such as Mendix pop-up pages.
 - Nested Pop-up Menus (a Pop-up Menu inside a custom item) become keyboard submenus. The parent item exposes `aria-haspopup`/`aria-expanded`. Right Arrow (or Enter/Space) opens the submenu and focuses its first item. Left Arrow or Escape closes it and returns focus to the parent item. Opening one submenu auto-closes any sibling submenu.
 - The focus indicator is visible on items during arrow navigation.
-- The trigger wrapper exposes `aria-haspopup="menu"`, `aria-expanded` and `aria-controls`, and the menu is labelled by it. These attributes stay on the widget's own wrapper, not on the trigger content (known limitation).
+- The button inside the trigger exposes `aria-haspopup="menu"`, `aria-expanded` and `aria-controls`, so screen readers announce the menu state on the focused element. The menu is labelled by the trigger wrapper.
 - No XML/property changes. No new dependencies. Mouse and hover behavior is unchanged apart from focus moving to the first item on click open and the menu closing when an action moves focus.
 
 ## Capabilities

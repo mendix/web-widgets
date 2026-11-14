@@ -10,7 +10,7 @@
 - [x] 2.1 In `usePopup.ts`, set `useClick(..., { enabled: trigger === "onclick", keyboardHandlers: false })`, switch `useRole` to `{ role: "menu" }`, and set `useDismiss(..., { escapeKey: false })`
 - [x] 2.2 In `PopupTrigger.tsx`, add a bubble-phase `onKeyDown` passed through `getReferenceProps` (both open modes): Enter/Space toggle, Escape closes when open. Don't bail on `defaultPrevented` or `<button>` targets. Arrows are handled by `useListNavigation` (task 3.1)
 - [x] 2.3 Add the `keyboardActivation` ref so a follow-up keyboard-synthesized click (`detail === 0`) doesn't toggle again; prevent Space scroll only for non-button, non-typeable targets
-- [x] 2.4 Verify `useRole` puts `aria-haspopup="menu"`, `aria-expanded`, `aria-controls` on the trigger wrapper and `aria-labelledby` on the menu (no changes to trigger content)
+- [x] 2.4 Verify `useRole` puts `aria-haspopup="menu"`, `aria-expanded`, `aria-controls` on the trigger reference and `aria-labelledby` on the menu (moved to the trigger button in 8.7)
 
 ## 3. Menu navigation, focus, Tab and Escape
 
@@ -63,5 +63,5 @@
 - [x] 8.4 Correct the "presentational to AT" wording for content inside custom items (`menuitem` children stay exposed)
 - [x] 8.5 Document that a parent item's own On click action isn't run
 - [ ] 8.6 Focus lost after a dialog opened from a "Close on: Click outside" menu is dismissed: under investigation (the Mendix dialog's focus restore targets the removed menu item); covered by a `test.fixme` e2e on `/p/keyboard-dialog-focus`
-- [ ] 8.7 Trigger popup state not announced (ARIA on the wrapper, focus on the content): under investigation
+- [x] 8.7 Trigger popup state not announced (ARIA on the wrapper, focus on the content): `useTriggerAria` sets it on the first button or link inside the trigger, wrapper fallback; unit tests and an E2E check on `/p/keyboard`
 - [x] 8.8 e2e for the text-box trigger (`/p/keyboard-textbox-trigger`) and empty-menu cases (`/p/keyboard-empty-menu`)

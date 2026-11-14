@@ -1,7 +1,8 @@
 import { useFloatingTree, useMergeRefs } from "@floating-ui/react";
-import { FocusEvent, forwardRef, KeyboardEvent, PropsWithChildren, ReactElement, RefObject } from "react";
+import { FocusEvent, forwardRef, KeyboardEvent, PropsWithChildren, ReactElement, RefObject, useState } from "react";
 import { useMouseDownRef } from "../hooks/useMouseDownRef";
 import { usePopupContext } from "../hooks/usePopupContext";
+import { PopupAria, useTriggerAria } from "../hooks/useTriggerAria";
 import { isTextEntry } from "../utils/isTextEntry";
 import { stopEscapeKeyUp } from "../utils/stopEscapeKeyUp";
 
@@ -9,7 +10,8 @@ export const PopupTrigger = forwardRef(
     ({ children }: PropsWithChildren, propRef: RefObject<HTMLDivElement>): ReactElement => {
         const { getReferenceProps, open, refs, isNested, setOpen, keyboardActivationRef } = usePopupContext();
         const childrenRef = (children as any).ref;
-        const ref = useMergeRefs([refs.setReference, propRef, childrenRef]);
+        const [wrapper, setWrapper] = useState<HTMLDivElement | null>(null);
+        const ref = useMergeRefs([refs.setReference, propRef, childrenRef, setWrapper]);
         const tree = useFloatingTree();
         const [mouseDownRef, onMouseDown] = useMouseDownRef();
 
@@ -56,22 +58,31 @@ export const PopupTrigger = forwardRef(
             });
         };
 
+        const {
+            "aria-haspopup": hasPopup,
+            "aria-expanded": expanded,
+            "aria-controls": controls,
+            ...referenceProps
+        } = getReferenceProps?.({
+            onClick: e => {
+                e.stopPropagation();
+            },
+            onKeyDown,
+            onFocus,
+            onMouseDown,
+            // A nested menu is exposed by the parent menu item, not by its trigger.
+            ...(isNested && { role: undefined })
+        }) ?? {};
+        const aria: PopupAria = {
+            "aria-haspopup": toAttribute(hasPopup),
+            "aria-expanded": toAttribute(expanded),
+            "aria-controls": toAttribute(controls)
+        };
+        // The menu button state goes on the button inside the trigger, see useTriggerAria.
+        useTriggerAria(wrapper, isNested ? null : aria);
+
         return (
-            <div
-                className={"popupmenu-trigger"}
-                ref={ref}
-                data-state={open ? "open" : "closed"}
-                {...getReferenceProps?.({
-                    onClick: e => {
-                        e.stopPropagation();
-                    },
-                    onKeyDown,
-                    onFocus,
-                    onMouseDown,
-                    // A nested menu is exposed by the parent menu item, not by its trigger.
-                    ...(isNested && { role: undefined })
-                })}
-            >
+            <div className={"popupmenu-trigger"} ref={ref} data-state={open ? "open" : "closed"} {...referenceProps}>
                 {children}
             </div>
         );
@@ -89,4 +100,8 @@ function isButtonOrTypeable(target: EventTarget): boolean {
         target.tagName === "SELECT" ||
         target.isContentEditable
     );
+}
+
+function toAttribute(value: unknown): string | undefined {
+    return value === undefined || value === null ? undefined : String(value);
 }

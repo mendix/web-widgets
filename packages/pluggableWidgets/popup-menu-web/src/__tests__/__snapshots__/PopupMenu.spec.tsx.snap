@@ -6,15 +6,16 @@ exports[`Popup Menu renders popup menu 1`] = `
     class="popupmenu mx-popup-menu"
   >
     <div
-      aria-controls=":r1:"
-      aria-expanded="true"
-      aria-haspopup="menu"
       class="popupmenu-trigger"
       data-floating-ui-inert=""
       data-state="open"
       id=":r2:"
     >
-      <button>
+      <button
+        aria-controls=":r1:"
+        aria-expanded="true"
+        aria-haspopup="menu"
+      >
         Trigger
       </button>
     </div>

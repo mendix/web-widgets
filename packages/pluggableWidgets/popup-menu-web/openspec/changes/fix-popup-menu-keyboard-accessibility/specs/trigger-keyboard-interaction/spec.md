@@ -198,14 +198,29 @@ When no item is visible (every item is hidden by its visibility expression, or b
 
 ### Requirement: Trigger exposes popup state to assistive technology
 
-The trigger wrapper SHALL expose `aria-haspopup="menu"`, `aria-expanded` (`true`/`false`) and, while open, `aria-controls` referencing the menu. The menu SHALL be labelled by the trigger wrapper via `aria-labelledby`. The widget MUST NOT add attributes to elements inside the trigger content.
+The first button or link inside the trigger content SHALL expose `aria-haspopup="menu"`, `aria-expanded` (`true`/`false`) and, while open, `aria-controls` referencing the menu. When the trigger content has no button or link, the trigger wrapper SHALL expose them instead. The menu SHALL be labelled by the trigger wrapper via `aria-labelledby`. The widget MUST NOT add any other attributes to elements inside the trigger content, and MUST remove the ones it added when it unmounts.
 
 #### Scenario: Expanded state reflects visibility
 
 - **WHEN** the menu is closed
-- **THEN** the trigger wrapper has `aria-haspopup="menu"` and `aria-expanded="false"`
+- **THEN** the trigger button has `aria-haspopup="menu"` and `aria-expanded="false"`, and the trigger wrapper has neither
 - **WHEN** the menu is opened
-- **THEN** it has `aria-expanded="true"` and `aria-controls` referencing the menu element id
+- **THEN** the trigger button has `aria-expanded="true"` and `aria-controls` referencing the menu element id
+
+#### Scenario: Trigger content is replaced
+
+- **WHEN** the Mendix client replaces the trigger button with another one (e.g. conditional visibility)
+- **THEN** the new button has `aria-haspopup="menu"` and the current `aria-expanded`
+
+#### Scenario: Trigger without a button
+
+- **WHEN** the trigger content is a text box
+- **THEN** the trigger wrapper has `aria-haspopup="menu"` and `aria-expanded`, and the text box has neither
+
+#### Scenario: Nested menu trigger
+
+- **WHEN** a Pop-up Menu is nested in a custom item
+- **THEN** neither its trigger wrapper nor its trigger content has `aria-haspopup` or `aria-expanded`; the parent item carries them
 
 #### Scenario: Menu has accessible name
 
