@@ -9,6 +9,9 @@
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
     },
+    "scripts": {
+        "test": "node --test \"__tests__/*.spec.mjs\""
+    },
     "dependencies": {
         "@rollup/plugin-commonjs": "^29.0.3",
         "@rollup/plugin-node-resolve": "^15.3.1",
