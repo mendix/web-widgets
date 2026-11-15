@@ -20,7 +20,7 @@ CHECKLIST:
     - If yes, if necessary, please create a PR with updates in the documentation (https://github.com/mendix/docs).
     - If no, ignore.
  - Is your change a bug fix or a new feature?
-    - If yes, please add a description (last section in the template) of what should be tested and what steps are needed to test it.
+    - If yes, please describe in the Verification section what should be tested and what steps are needed to test it.
     - If no, ignore.
 -->
 
@@ -54,18 +54,37 @@ Uncomment relevant sections below by removing `<!--` at the beginning of the lin
 
 ---
 
-<!---
-Describe your changes in detail.
-Try to explain WHAT and WHY you change, fix or refactor.
+<!--
+A one-minute briefing for the reviewer, under ~40 lines. Delete sections that don't apply.
 -->
 
-### Description
+### Why
+
+<!-- The problem or goal, from the app developer's or user's point of view. Link the issue or JIRA story. -->
+
+### What changed
+
+<!-- The behavior change, not a file list. Name the key symbol, XML property or class when one carries the change. -->
+
+### Scope
+
+<!-- The packages touched, and anything deliberately left out of this PR. -->
+
+### Tradeoffs
+
+<!-- Only the alternatives you rejected that a reviewer would otherwise ask about. -->
+
+### Blast radius
 
 <!--
-Please uncomment and fill in the following section
-to describe which part of the package needs to be tested
-and how it can be tested.
+What else this could affect, and why it's safe: consuming widgets of a changed shared package,
+XML contract for existing apps, CSS classes used by themes, modules bundling the widget.
+Write "None outside <package>" when that's true.
 -->
+
+### Verification
+
 <!--
-### What should be covered while testing?
+What you ran (unit tests, e2e, manual check in a Mendix project) and what it showed.
+For bug fixes and features: what QA should test, with steps.
 -->

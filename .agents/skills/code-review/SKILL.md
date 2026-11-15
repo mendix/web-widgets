@@ -59,6 +59,7 @@ Apps already using a widget in Studio Pro depend on its XML contract. Flag as **
 
 - **Title**: JIRA format `[XX-000]: description` or conventional commits (`feat:`, `fix:`, etc.)
 - **Template adherence**: lint/test run locally, new tests added, related PRs linked
+- **Body**: the template's briefing sections are filled in where they apply (Why, What changed, Verification). A change to a `packages/shared/*` export, widget XML, or a CSS class needs a real **Blast radius** section, not an empty one. Ask under **Questions**. Don't file a finding.
 - **Multi-package PRs**: validate each changed package separately (see "Multi-package PRs")
 
 ### CI checks
@@ -119,6 +120,18 @@ Conventions are in `docs/requirements/frontend-guidelines.md`. Flag only deviati
 - `!important` used
 - CSS class not prefixed with the widget name
 
+### Code comments
+
+Rules are in `AGENTS.md` ("Code Comments"). Comments should explain only why. Flag as Low, on added lines only:
+
+- Comments that narrate what the next line does, or section banners
+- Commented-out code
+- `TODO`/`FIXME` without an issue link
+- `eslint-disable` or `@ts-ignore`/`@ts-expect-error` without a reason. Raise it to Medium when the suppressed rule protects correctness, such as `react-hooks/exhaustive-deps` or `react-hooks/rules-of-hooks`.
+- A long comment that explains surprising code in this repo, when a rename, extraction, or narrower type would make the code obvious. Suggest the reshape.
+
+Don't flag comments that explain a reason the code can't show (a runtime, browser, or third-party quirk), doc comments on shared-package exports, or license headers.
+
 ### Unit tests
 
 Files live in `src/**/__tests__/*.spec.ts(x)` and run with Jest + RTL.
@@ -140,6 +153,7 @@ Files live in `src/**/__tests__/*.spec.ts(x)` and run with Jest + RTL.
 **What to flag**
 
 - Feature or fix without tests (Medium)
+- Tests that check the implementation instead of behavior (see "Testing" in `AGENTS.md`). Flag a test that would still pass if the behavior broke: an expected value computed by the code under test, an assertion on data the test built, or `toBeTruthy()` where an exact value is known. Also flag a test that would fail on a pure refactor: spying on private helpers or internal call order, or asserting on internal store fields that the UI doesn't expose.
 - Manual mock objects instead of builders — brittle, miss status edge cases
 - Enzyme patterns (`shallow`, `mount`, `instance()`)
 - Snapshot tests on dynamic content (dates, IDs, async state)
