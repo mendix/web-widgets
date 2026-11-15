@@ -7,7 +7,14 @@
             transition:
                 grid-template-rows 220ms ease,
                 opacity 180ms ease;
-            will-change: grid-template-rows, opacity;
+
+            &:has([data-overlay-content]) {
+                // While opacity transitions the body is its own stacking context, so a
+                // popup open inside of it (e.g. combobox menu) would be painted under
+                // the next node. Lift the body that has an open popup above its siblings.
+                position: relative;
+                z-index: 1;
+            }
 
             > ul,
             > div {
