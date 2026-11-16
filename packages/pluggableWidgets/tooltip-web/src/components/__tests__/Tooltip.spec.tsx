@@ -1,4 +1,4 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import userEvent from "@testing-library/user-event";
@@ -313,6 +313,86 @@ describe("Tooltip", () => {
             await user.keyboard("{Escape}");
             expect(screen.queryByRole("tooltip")).toBeNull();
             expect(button).toHaveFocus();
+        });
+
+        it("toggles once when Enter is held down", async () => {
+            render(
+                <Tooltip
+                    {...defaultTooltipProps}
+                    openOn="click"
+                    trigger={<button type="button">Native button</button>}
+                />
+            );
+            const button = screen.getByRole("button", { name: "Native button" });
+
+            // Holding a key sends one keydown, then repeated keydowns with repeat set
+            fireEvent.keyDown(button, { key: "Enter" });
+            fireEvent.keyDown(button, { key: "Enter", repeat: true });
+            fireEvent.keyDown(button, { key: "Enter", repeat: true });
+            fireEvent.keyDown(button, { key: "Enter", repeat: true });
+            fireEvent.keyUp(button, { key: "Enter" });
+            expect(screen.queryByRole("tooltip")).toBeInTheDocument();
+        });
+
+        it("a click in a text box opens the tooltip and a second click doesn't close it", async () => {
+            render(<Tooltip {...defaultTooltipProps} openOn="click" trigger={<input aria-label="Name" />} />);
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+            const input = screen.getByRole("textbox", { name: "Name" });
+
+            await user.click(input);
+            expect(screen.queryByRole("tooltip")).toBeInTheDocument();
+            await user.click(input);
+            expect(screen.queryByRole("tooltip")).toBeInTheDocument();
+        });
+
+        it("Space on a check box opens the tooltip and doesn't close it on the next Space", async () => {
+            render(
+                <Tooltip
+                    {...defaultTooltipProps}
+                    openOn="click"
+                    trigger={<input type="checkbox" aria-label="Agree" />}
+                />
+            );
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+            const checkbox = screen.getByRole("checkbox", { name: "Agree" });
+
+            await user.keyboard("{Tab}");
+            await user.keyboard(" ");
+            expect(checkbox).toBeChecked();
+            expect(screen.queryByRole("tooltip")).toBeInTheDocument();
+
+            await user.keyboard(" ");
+            expect(checkbox).not.toBeChecked();
+            expect(screen.queryByRole("tooltip")).toBeInTheDocument();
+        });
+
+        it("Enter on a nested tooltip's trigger opens only the nested tooltip", async () => {
+            render(
+                <Tooltip
+                    {...defaultTooltipProps}
+                    openOn="click"
+                    textMessage="Outer text"
+                    trigger={
+                        <div>
+                            <Tooltip
+                                {...defaultTooltipProps}
+                                openOn="click"
+                                textMessage="Inner text"
+                                trigger={<button type="button">Inner button</button>}
+                            />
+                        </div>
+                    }
+                />
+            );
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+            await user.keyboard("{Tab}");
+            expect(screen.getByRole("button", { name: "Inner button" })).toHaveFocus();
+            await user.keyboard("{Enter}");
+            expect(screen.getAllByRole("tooltip").map(tooltip => tooltip.textContent)).toEqual(["Inner text"]);
+
+            await user.keyboard("{Enter}");
+            expect(screen.queryByRole("tooltip")).toBeNull();
         });
     });
 

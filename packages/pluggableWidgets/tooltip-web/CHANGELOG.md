@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where the tooltip in Click mode didn't open when the trigger was an action button: with an action set, it didn't open on click, Enter or Space; without one, it didn't open on Enter or Space.
 
+- We fixed an issue where holding Enter on a trigger in Click mode made the tooltip flicker.
+
+- We fixed an issue where a click in a text box or on a check box in Click mode closed the tooltip. A click there now opens the tooltip but doesn't close it.
+
+- We fixed an issue where Enter or Space on a tooltip nested inside another Click tooltip also opened the outer tooltip.
+
 ## [1.5.1] - 2026-02-10
 
 ### Added

@@ -12,8 +12,32 @@ const ACTIVATABLE_SELECTOR = [
     '[role="link"]'
 ].join(",");
 
+// Form controls that a user types in or changes. A click on them opens the tooltip but never closes it,
+// so moving the cursor in a text box or ticking a check box doesn't hide it.
+const FORM_CONTROL_SELECTOR = "input, textarea, select, label";
+
 function isActivatable(target: EventTarget | null): boolean {
     return target instanceof HTMLElement && !target.isContentEditable && target.matches(ACTIVATABLE_SELECTOR);
+}
+
+function isFormControl(target: EventTarget | null): boolean {
+    return (
+        target instanceof HTMLElement &&
+        !isActivatable(target) &&
+        (target.isContentEditable || target.closest(FORM_CONTROL_SELECTOR) !== null)
+    );
+}
+
+/**
+ * True when the event comes from this tooltip's own trigger, not from a tooltip nested inside it.
+ * Without this check, Enter on a nested trigger toggles the outer tooltip too.
+ */
+function isOwnEvent(event: KeyboardEvent<Element> | MouseEvent<Element>): boolean {
+    const target = event.target;
+    if (!(target instanceof Element)) {
+        return false;
+    }
+    return target.closest(".widget-tooltip") === event.currentTarget.closest(".widget-tooltip");
 }
 
 interface UseKeyboardClickProps {
@@ -45,11 +69,22 @@ export function useKeyboardClick(
         const toggle = (event: KeyboardEvent<Element> | MouseEvent<Element>): void => {
             onOpenChange(!open, event.nativeEvent, "click");
         };
+        const openOnly = (event: MouseEvent<Element>): void => {
+            if (!open) {
+                onOpenChange(true, event.nativeEvent, "click");
+            }
+        };
 
         return {
             onKeyDownCapture(event: KeyboardEvent<Element>) {
                 keyToggledRef.current = false;
-                if (!isActivatable(event.target)) {
+                if (!isOwnEvent(event) || !isActivatable(event.target)) {
+                    return;
+                }
+                if (event.repeat) {
+                    // Holding a key sends repeated keydowns. Toggle once per press and skip the native
+                    // click a repeated Enter dispatches on a button.
+                    keyToggledRef.current = event.key === "Enter";
                     return;
                 }
                 if (event.key === "Enter") {
@@ -60,7 +95,7 @@ export function useKeyboardClick(
                 }
             },
             onKeyUpCapture(event: KeyboardEvent<Element>) {
-                if (event.key !== " " || !spaceDownRef.current) {
+                if (event.key !== " " || !spaceDownRef.current || !isOwnEvent(event)) {
                     return;
                 }
                 spaceDownRef.current = false;
@@ -80,6 +115,13 @@ export function useKeyboardClick(
             onClickCapture(event: MouseEvent<Element>) {
                 if (keyToggledRef.current) {
                     keyToggledRef.current = false;
+                    return;
+                }
+                if (!isOwnEvent(event)) {
+                    return;
+                }
+                if (isFormControl(event.target)) {
+                    openOnly(event);
                     return;
                 }
                 toggle(event);
