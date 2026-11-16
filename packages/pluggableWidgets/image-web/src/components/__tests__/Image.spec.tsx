@@ -91,6 +91,24 @@ describe("Image", () => {
         expect(image.asFragment()).toMatchSnapshot();
     });
 
+    it("applies a height in viewport units to the image", () => {
+        const { getByRole } = render(<Image {...imageProps} height={30} heightUnit="viewport" />);
+        expect(getByRole("img")).toHaveStyle({ height: "30vh" });
+    });
+
+    it("applies a height in viewport units to the background image", () => {
+        const { container } = render(
+            <Image
+                {...imageProps}
+                height={30}
+                heightUnit="viewport"
+                renderAsBackground
+                backgroundImageContent={<div>Image content</div>}
+            />
+        );
+        expect(container.querySelector(".mx-image-background")).toHaveStyle({ height: "30vh" });
+    });
+
     it("renders the structure with a glyph icon", () => {
         const image = render(<Image {...glyphiconProps} />);
         expect(image.asFragment()).toMatchSnapshot();
