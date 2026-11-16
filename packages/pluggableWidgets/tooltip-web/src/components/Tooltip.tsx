@@ -29,15 +29,24 @@ export interface TooltipProps {
 
 const FOCUSABLE_SELECTOR = 'button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
+const MEDIA_SELECTOR = "img, svg, video, canvas, iframe, input, select, textarea";
+
 const getDescribedByIds = (element: HTMLElement): string[] =>
     element.getAttribute("aria-describedby")?.split(/\s+/).filter(Boolean) ?? [];
+
+const hasRenderedContent = (element: HTMLElement): boolean =>
+    !!element.textContent?.trim() || !!element.querySelector(MEDIA_SELECTOR);
 
 export const Tooltip = (props: TooltipProps): ReactElement => {
     const { trigger, htmlMessage, textMessage, openOn, position, preview, renderMethod } = props;
     const [showTooltip, setShowTooltip] = useState(preview ?? false);
     const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
+    const [hasVisibleContent, setHasVisibleContent] = useState(false);
     const content = renderMethod === "text" ? textMessage : htmlMessage;
-    const hasTooltipContent = !!content;
+    const hasTooltipContent = renderMethod === "text" ? !!textMessage?.trim() : !!htmlMessage;
+    // The preview always shows its content so the drop zone stays usable
+    const isContentVisible = !!preview || hasVisibleContent;
+    const isOpen = showTooltip && isContentVisible;
     const triggerWrapperRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement | null>(null);
 
@@ -52,7 +61,7 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
         staticSide
     } = useFloatingUI({
         position,
-        showTooltip,
+        showTooltip: isOpen,
         setShowTooltip,
         arrowElement,
         openOn
@@ -64,7 +73,7 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
     // Trigger widgets can render late or reset the attribute, so keep watching the wrapper.
     useEffect(() => {
         const wrapper = triggerWrapperRef.current;
-        if (preview || !hasTooltipContent || !contentId || !wrapper) {
+        if (preview || !hasTooltipContent || !hasVisibleContent || !contentId || !wrapper) {
             return;
         }
 
@@ -97,7 +106,7 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
                 }
             });
         };
-    }, [hasTooltipContent, contentId, preview]);
+    }, [hasTooltipContent, hasVisibleContent, contentId, preview]);
 
     // Merge our ref with floating-ui's ref
     const setTriggerRef = useCallback(
@@ -114,15 +123,26 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
     const setContentRef = useCallback(
         (node: HTMLDivElement | null) => {
             contentRef.current = node;
-            refs?.setFloating?.(showTooltip ? node : null);
+            refs?.setFloating?.(isOpen ? node : null);
         },
-        [refs, showTooltip]
+        [refs, isOpen]
     );
 
-    // Set through the DOM because React versions handle the inert prop differently
+    // Custom widgets can be hidden by conditional visibility, so check what the content actually renders
     useLayoutEffect(() => {
-        contentRef.current?.toggleAttribute("inert", !showTooltip);
-    }, [hasTooltipContent, showTooltip]);
+        const element = contentRef.current;
+        if (!element) {
+            setHasVisibleContent(false);
+            return;
+        }
+
+        const updateVisibleContent = (): void => setHasVisibleContent(hasRenderedContent(element));
+        updateVisibleContent();
+        const observer = new MutationObserver(updateVisibleContent);
+        observer.observe(element, { characterData: true, childList: true, subtree: true });
+
+        return () => observer.disconnect();
+    }, [hasTooltipContent]);
 
     return (
         <div className={classNames(props.class, "widget-tooltip", `widget-tooltip-${position}`)}>
@@ -135,18 +155,18 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
             >
                 {trigger}
             </div>
-            {/* Always in the DOM so aria-describedby can reference it, visible only while open */}
+            {/* Always in the DOM so aria-describedby can reference it, display: none while closed */}
             {hasTooltipContent ? (
                 <div
-                    className={showTooltip ? "widget-tooltip-content" : "widget-tooltip-sr-only"}
+                    className={isOpen ? "widget-tooltip-content" : undefined}
                     ref={setContentRef}
-                    style={showTooltip ? floatingStyles : undefined}
+                    style={isOpen ? floatingStyles : undefined}
                     {...floatingProps}
-                    aria-hidden={showTooltip ? undefined : true}
-                    data-overlay-content={showTooltip ? true : undefined}
+                    hidden={!isOpen}
+                    data-overlay-content={isOpen ? true : undefined}
                 >
                     {content}
-                    {showTooltip && (
+                    {isOpen && (
                         <div
                             className={`widget-tooltip-arrow-${staticSide}`}
                             ref={setArrowElement}
