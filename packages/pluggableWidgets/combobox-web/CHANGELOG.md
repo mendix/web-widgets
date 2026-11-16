@@ -6,13 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where a combo box with static values kept showing its previous selection after the attribute was cleared by a microflow or nanoflow.
+- We fixed an issue where pages with many combo boxes became slow to scroll.
+- We fixed an issue where a combo box with a database data source and no target attribute showed no value when it was shown again, or when its selection was changed elsewhere, even though an item was still selected in its data source.
+
 ### Changed
 
 - We hid the "Placeholder text" property when the combobox type is set to Boolean, since boolean attributes can never be empty and the placeholder has no effect.
-
-### Fixed
-
-- We fixed an issue where pages with many combo boxes became slow to scroll.
 
 ## [2.10.0] - 2026-09-21
 
