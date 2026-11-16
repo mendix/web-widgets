@@ -9,6 +9,15 @@ $header-color-hover: #264ae5;
     border-color: $border-color;
     border-width: 1px;
     border-bottom-style: solid;
+    // The content row animates between 0fr and 1fr, so the browser sizes the content at all times.
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+
+    > .widget-accordion-group-content-wrapper {
+        // Lets the row shrink to 0. Holds no padding, so nothing shows when collapsed.
+        min-height: 0;
+    }
 
     &.widget-accordion-group-collapsed {
         > .widget-accordion-group-header > .widget-accordion-group-header-button,
@@ -20,7 +29,21 @@ $header-color-hover: #264ae5;
         }
 
         > .widget-accordion-group-content-wrapper {
-            display: none;
+            // Keeps collapsed content out of the tab order and hidden from screen readers.
+            visibility: hidden;
+        }
+    }
+
+    &.widget-accordion-group-collapsed,
+    &.widget-accordion-group-collapsing {
+        grid-template-rows: auto 0fr;
+    }
+
+    &.widget-accordion-group-collapsed,
+    &.widget-accordion-group-expanding,
+    &.widget-accordion-group-collapsing {
+        > .widget-accordion-group-content-wrapper {
+            overflow: hidden;
         }
     }
 
@@ -41,10 +64,10 @@ $header-color-hover: #264ae5;
 
     &.widget-accordion-group-expanding,
     &.widget-accordion-group-collapsing {
-        > .widget-accordion-group-content-wrapper {
-            height: 0;
-            overflow: hidden;
-            transition: height 0.2s ease 50ms;
+        transition: grid-template-rows 0.2s ease;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
         }
     }
 
