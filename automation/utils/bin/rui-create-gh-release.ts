@@ -4,7 +4,7 @@ import { updateChangelogsAndCreatePR } from "../src/changelog.ts";
 import { gh } from "../src/github.ts";
 import { addRemoteWithAuthentication } from "../src/index.ts";
 import { getPublishedInfo } from "../src/package-info.ts";
-import { exec, find } from "../src/shell.ts";
+import { exec, findFiles } from "../src/shell.ts";
 
 async function resolveChangelogBranch(releaseTag: string, remoteName: string): Promise<string> {
     const { stdout } = await exec(`git rev-parse --abbrev-ref HEAD`, { stdio: "pipe" });
@@ -75,10 +75,7 @@ async function main(): Promise<void> {
     // Create release
     console.log("Creating Github release...");
 
-    const mpk = find(join(path, "dist", version, "*.mpk")).toString();
-    if (!mpk) {
-        throw new Error("MPK file not found");
-    }
+    const [mpk] = findFiles(join(path, "dist", version, "*.mpk"));
 
     await gh.createGithubReleaseFrom({
         title: `${appName} v${version}`,
