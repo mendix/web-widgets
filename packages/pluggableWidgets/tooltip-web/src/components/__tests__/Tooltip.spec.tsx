@@ -128,6 +128,57 @@ describe("Tooltip", () => {
             });
             expect(screen.queryByRole("tooltip")).toBeNull();
         });
+
+        it("stays open while focus moves into custom content, and closes when focus leaves it", async () => {
+            render(
+                <Tooltip
+                    {...defaultTooltipProps}
+                    openOn="hoverFocus"
+                    trigger={buttonTrigger}
+                    renderMethod="custom"
+                    htmlMessage={<button type="button">Inside tooltip</button>}
+                    textMessage={undefined}
+                />
+            );
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+            await user.keyboard("{Tab}");
+            expect(screen.queryByRole("tooltip")).toBeInTheDocument();
+
+            await user.keyboard("{Tab}");
+            act(() => {
+                jest.advanceTimersByTime(100);
+            });
+            expect(screen.getByRole("button", { name: "Inside tooltip" })).toHaveFocus();
+            expect(screen.queryByRole("tooltip")).toBeInTheDocument();
+
+            await user.keyboard("{Tab}");
+            act(() => {
+                jest.advanceTimersByTime(100);
+            });
+            expect(screen.queryByRole("tooltip")).toBeNull();
+        });
+
+        it("Escape inside custom content closes the tooltip and moves focus back to the trigger", async () => {
+            render(
+                <Tooltip
+                    {...defaultTooltipProps}
+                    openOn="hoverFocus"
+                    trigger={buttonTrigger}
+                    renderMethod="custom"
+                    htmlMessage={<button type="button">Inside tooltip</button>}
+                    textMessage={undefined}
+                />
+            );
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+            await user.keyboard("{Tab}{Tab}");
+            expect(screen.getByRole("button", { name: "Inside tooltip" })).toHaveFocus();
+
+            await user.keyboard("{Escape}");
+            expect(screen.queryByRole("tooltip")).toBeNull();
+            expect(screen.getByRole("button", { name: "Trigger button" })).toHaveFocus();
+        });
     });
 
     describe("keyboard in click mode", () => {
@@ -393,6 +444,27 @@ describe("Tooltip", () => {
 
             await user.keyboard("{Enter}");
             expect(screen.queryByRole("tooltip")).toBeNull();
+        });
+
+        it("Escape inside custom content closes the tooltip and moves focus back to the trigger", async () => {
+            render(
+                <Tooltip
+                    {...defaultTooltipProps}
+                    openOn="click"
+                    trigger={<button type="button">Native button</button>}
+                    renderMethod="custom"
+                    htmlMessage={<button type="button">Inside tooltip</button>}
+                    textMessage={undefined}
+                />
+            );
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+            await user.keyboard("{Tab}{Enter}{Tab}");
+            expect(screen.getByRole("button", { name: "Inside tooltip" })).toHaveFocus();
+
+            await user.keyboard("{Escape}");
+            expect(screen.queryByRole("tooltip")).toBeNull();
+            expect(screen.getByRole("button", { name: "Native button" })).toHaveFocus();
         });
     });
 

@@ -20,6 +20,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where Enter or Space on a tooltip nested inside another Click tooltip also opened the outer tooltip.
 
+- We fixed an issue where pressing Escape while focus was inside custom tooltip content moved focus to the top of the page. Focus now returns to the trigger.
+
+- We fixed an issue where pressing Tab from a Hover,focus trigger into custom tooltip content closed the tooltip and moved focus to the top of the page. The tooltip now stays open while focus is inside its content.
+
 ## [1.5.1] - 2026-02-10
 
 ### Added

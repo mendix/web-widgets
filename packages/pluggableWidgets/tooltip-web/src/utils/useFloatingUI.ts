@@ -15,7 +15,7 @@ import {
     useInteractions,
     useRole
 } from "@floating-ui/react";
-import { Dispatch, SetStateAction, useCallback } from "react";
+import { Dispatch, FocusEvent, SetStateAction, useCallback, useEffect, useRef } from "react";
 import { useKeyboardClick } from "./useKeyboardClick";
 import { OpenOnEnum } from "../../typings/TooltipProps";
 interface FloatingProps {
@@ -36,8 +36,24 @@ interface InternalFloatingProps {
     };
     blurFocusEvents: {
         onFocus: () => void;
-        onBlur: () => void;
+        onBlur: (event: FocusEvent<Element>) => void;
     };
+    floatingFocusEvents: {
+        onBlur: (event: FocusEvent<Element>) => void;
+    };
+}
+
+const FOCUSABLE_SELECTOR = [
+    "button:not([disabled])",
+    "a[href]",
+    "input:not([disabled]):not([type='hidden'])",
+    "select:not([disabled])",
+    "textarea:not([disabled])",
+    "[tabindex]:not([tabindex='-1'])"
+].join(",");
+
+function contains(parent: Element | null | undefined, child: EventTarget | null): boolean {
+    return !!parent && child instanceof Node && parent.contains(child);
 }
 
 type FloatingPropsReturn = Partial<UseFloatingReturn<ReferenceElement>> &
@@ -46,11 +62,29 @@ type FloatingPropsReturn = Partial<UseFloatingReturn<ReferenceElement>> &
 
 export function useFloatingUI(props: FloatingProps): FloatingPropsReturn {
     const { position, showTooltip, setShowTooltip, arrowElement, openOn } = props;
+    const elementsRef = useRef<{ reference: Element | null; floating: HTMLElement | null }>({
+        reference: null,
+        floating: null
+    });
+
+    const onOpenChange = useCallback(
+        (open: boolean, _event?: Event, reason?: string): void => {
+            const { reference, floating } = elementsRef.current;
+            // Escape removes the tooltip content. If focus was inside it, the browser drops focus to the
+            // top of the page, so move it back to the trigger first.
+            if (!open && reason === "escape-key" && contains(floating, document.activeElement)) {
+                reference?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR)?.focus();
+            }
+            setShowTooltip(open);
+        },
+        [setShowTooltip]
+    );
+
     const { refs, floatingStyles, context, middlewareData, placement } = useFloating({
         strategy: "fixed",
         placement: position,
         open: showTooltip,
-        onOpenChange: setShowTooltip,
+        onOpenChange,
         middleware: [
             offset(8),
             flip({
@@ -77,9 +111,25 @@ export function useFloatingUI(props: FloatingProps): FloatingPropsReturn {
     const dismiss = useDismiss(context, { outsidePress: true });
     const role = useRole(context, { role: "tooltip" });
 
+    useEffect(() => {
+        elementsRef.current = { reference: refs.domReference.current, floating: refs.floating.current };
+    });
+
     const onShow = useCallback(() => setShowTooltip(true), [setShowTooltip]);
-    const onHide = useCallback(() => setShowTooltip(false), [setShowTooltip]);
-    const blurFocusEvents = { onFocus: onShow, onBlur: onHide };
+    // Keep the tooltip open while focus moves between the trigger and its content, so a keyboard user can
+    // reach a button inside custom content. Close it when focus leaves both.
+    const onFocusOut = useCallback(
+        (event: FocusEvent<Element>) => {
+            const next = event.relatedTarget;
+            if (contains(refs.domReference.current, next) || contains(refs.floating.current, next)) {
+                return;
+            }
+            setShowTooltip(false);
+        },
+        [refs, setShowTooltip]
+    );
+    const blurFocusEvents = { onFocus: onShow, onBlur: onFocusOut };
+    const floatingFocusEvents = { onBlur: onFocusOut };
 
     const side = placement.split("-")[0];
     const alignment = placement.split("-")[1];
@@ -104,6 +154,7 @@ export function useFloatingUI(props: FloatingProps): FloatingPropsReturn {
     return {
         arrowStyles,
         blurFocusEvents,
+        floatingFocusEvents,
         floatingStyles,
         getFloatingProps,
         getReferenceProps,
