@@ -11,6 +11,8 @@ function getStyle(value: string | number, type: WidthUnitEnum | HeightUnitEnum):
         return value;
     } else if (type === "percentage") {
         return value + "%";
+    } else if (type === "viewport") {
+        return value + "vh";
     }
 
     return "";
