@@ -7,6 +7,8 @@ import { Tooltip, TooltipProps } from "../Tooltip";
 
 jest.useFakeTimers();
 
+const getContentElement = (): HTMLElement | null => document.querySelector(".widget-tooltip-trigger + div");
+
 describe("Tooltip", () => {
     let defaultTooltipProps: TooltipProps;
 
@@ -571,7 +573,7 @@ describe("Tooltip", () => {
 
         it("renders sr-only content for screen readers before tooltip is shown", () => {
             render(<Tooltip {...defaultTooltipProps} />);
-            const srOnlyContent = document.querySelector(".widget-tooltip-sr-only");
+            const srOnlyContent = getContentElement();
 
             expect(srOnlyContent).toBeInTheDocument();
             expect(srOnlyContent).toHaveTextContent(defaultTooltipProps.textMessage as string);
@@ -579,7 +581,7 @@ describe("Tooltip", () => {
 
         it("sr-only content is always in DOM even when tooltip is not visible", () => {
             render(<Tooltip {...defaultTooltipProps} openOn="click" />);
-            const srOnlyContent = document.querySelector(".widget-tooltip-sr-only");
+            const srOnlyContent = getContentElement();
 
             // Content should exist before tooltip is shown
             expect(srOnlyContent).toBeInTheDocument();
@@ -589,7 +591,7 @@ describe("Tooltip", () => {
         it("sr-only content matches the text message", () => {
             const customMessage = "Custom accessibility message";
             render(<Tooltip {...defaultTooltipProps} textMessage={customMessage} />);
-            const srOnlyContent = document.querySelector(".widget-tooltip-sr-only");
+            const srOnlyContent = getContentElement();
 
             expect(srOnlyContent).toHaveTextContent(customMessage);
         });
@@ -604,7 +606,7 @@ describe("Tooltip", () => {
                     textMessage={undefined}
                 />
             );
-            const srOnlyContent = document.querySelector(".widget-tooltip-sr-only");
+            const srOnlyContent = getContentElement();
 
             expect(srOnlyContent).toHaveTextContent("Custom HTML Content");
         });
@@ -641,23 +643,25 @@ describe("Tooltip", () => {
             expect(onMount).toHaveBeenCalledTimes(1);
         });
 
-        it("makes content inert and aria-hidden only while closed", async () => {
+        it("hides content with display: none only while closed", async () => {
             render(<Tooltip {...defaultTooltipProps} />);
             const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-            const closedContent = document.querySelector(".widget-tooltip-sr-only");
+            const closedContent = getContentElement();
 
-            expect(closedContent).toHaveAttribute("inert");
-            expect(closedContent).toHaveAttribute("aria-hidden", "true");
+            expect(closedContent).toHaveAttribute("hidden");
+            expect(closedContent).not.toHaveAttribute("inert");
+            expect(closedContent).not.toHaveAttribute("aria-hidden");
 
             await user.click(screen.getByTestId("tooltip-trigger"));
             const openContent = screen.getByRole("tooltip");
 
             expect(openContent).toBe(closedContent);
+            expect(openContent).not.toHaveAttribute("hidden");
             expect(openContent).not.toHaveAttribute("inert");
             expect(openContent).not.toHaveAttribute("aria-hidden");
         });
 
-        it("places focusable elements in closed custom content inside the inert element", () => {
+        it("places focusable elements in closed custom content inside the hidden element", () => {
             render(
                 <Tooltip
                     {...defaultTooltipProps}
@@ -667,7 +671,7 @@ describe("Tooltip", () => {
                 />
             );
 
-            expect(screen.getByText("Inside tooltip").closest("[inert]")).toBeInTheDocument();
+            expect(screen.getByText("Inside tooltip").closest("[hidden]")).toBeInTheDocument();
         });
 
         it("ignores custom content in text mode when the text is empty", async () => {
@@ -697,6 +701,91 @@ describe("Tooltip", () => {
 
             expect(screen.getAllByText("Drop zone")).toHaveLength(1);
             expect(screen.getByTestId("tooltip-trigger")).not.toHaveAttribute("aria-describedby");
+        });
+
+        it("adds no description and does not open when custom content renders nothing", async () => {
+            const EmptyWidget = (): null => null;
+            render(
+                <Tooltip
+                    {...defaultTooltipProps}
+                    renderMethod="custom"
+                    htmlMessage={<EmptyWidget />}
+                    textMessage={undefined}
+                />
+            );
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+            const triggerElement = screen.getByTestId("tooltip-trigger");
+
+            expect(triggerElement).not.toHaveAttribute("aria-describedby");
+
+            await user.click(triggerElement);
+            expect(screen.queryByRole("tooltip")).toBeNull();
+        });
+
+        it("follows custom content as it is shown and hidden", async () => {
+            const ConditionalWidget = ({ visible }: { visible: boolean }): ReactElement | null =>
+                visible ? <span>Conditional content</span> : null;
+            const renderTooltip = (visible: boolean): ReactElement => (
+                <Tooltip
+                    {...defaultTooltipProps}
+                    renderMethod="custom"
+                    htmlMessage={<ConditionalWidget visible={visible} />}
+                    textMessage={undefined}
+                />
+            );
+            const { rerender } = render(renderTooltip(false));
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+            const triggerElement = screen.getByTestId("tooltip-trigger");
+
+            await act(async () => {
+                rerender(renderTooltip(true));
+            });
+            expect(triggerElement).toHaveAttribute("aria-describedby", getContentElement()?.id);
+
+            await user.click(triggerElement);
+            expect(screen.getByRole("tooltip")).toHaveTextContent("Conditional content");
+
+            await act(async () => {
+                rerender(renderTooltip(false));
+            });
+            expect(triggerElement).not.toHaveAttribute("aria-describedby");
+            expect(screen.queryByRole("tooltip")).toBeNull();
+        });
+
+        it("renders no content and adds no description for whitespace-only text", () => {
+            render(<Tooltip {...defaultTooltipProps} textMessage="   " />);
+
+            expect(getContentElement()).toBeNull();
+            expect(screen.getByTestId("tooltip-trigger")).not.toHaveAttribute("aria-describedby");
+        });
+
+        it("treats custom content with only an image as visible", () => {
+            render(
+                <Tooltip
+                    {...defaultTooltipProps}
+                    renderMethod="custom"
+                    htmlMessage={<img alt="Help" src="help.png" />}
+                    textMessage={undefined}
+                />
+            );
+
+            expect(screen.getByTestId("tooltip-trigger")).toHaveAttribute("aria-describedby", getContentElement()?.id);
+        });
+
+        it("shows empty custom content in preview", () => {
+            const EmptyWidget = (): null => null;
+            render(
+                <Tooltip
+                    {...defaultTooltipProps}
+                    preview
+                    renderMethod="custom"
+                    htmlMessage={<EmptyWidget />}
+                    textMessage={undefined}
+                />
+            );
+
+            expect(getContentElement()).toBeInTheDocument();
+            expect(getContentElement()).not.toHaveAttribute("hidden");
         });
 
         it("adds aria-describedby to all focusable elements in trigger", () => {
@@ -737,7 +826,7 @@ describe("Tooltip", () => {
             const trigger = <input aria-describedby="help-text" data-testid="input" />;
             const { rerender } = render(<Tooltip {...defaultTooltipProps} trigger={trigger} />);
             const input = screen.getByTestId("input");
-            const contentId = document.querySelector(".widget-tooltip-sr-only")?.id;
+            const contentId = getContentElement()?.id;
 
             expect(input).toHaveAttribute("aria-describedby", `help-text ${contentId}`);
 
@@ -757,7 +846,7 @@ describe("Tooltip", () => {
 
         it("adds aria-describedby to focusable elements that mount later", async () => {
             const { rerender } = render(<Tooltip {...defaultTooltipProps} trigger={<span>Loading</span>} />);
-            const contentId = document.querySelector(".widget-tooltip-sr-only")?.id;
+            const contentId = getContentElement()?.id;
 
             await act(async () => {
                 rerender(<Tooltip {...defaultTooltipProps} trigger={<button data-testid="button">Button</button>} />);
@@ -769,7 +858,7 @@ describe("Tooltip", () => {
         it("adds the tooltip back when the trigger resets aria-describedby", async () => {
             render(<Tooltip {...defaultTooltipProps} trigger={<button data-testid="button">Button</button>} />);
             const button = screen.getByTestId("button");
-            const contentId = document.querySelector(".widget-tooltip-sr-only")?.id;
+            const contentId = getContentElement()?.id;
 
             await act(async () => {
                 button.setAttribute("aria-describedby", "validation-message");
