@@ -3,12 +3,6 @@ import { act, render, RenderResult } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { Accordion, AccordionProps } from "../Accordion";
 
-global.ResizeObserver = jest.fn().mockImplementation(() => ({
-    observe: jest.fn(),
-    unobserve: jest.fn(),
-    disconnect: jest.fn()
-}));
-
 describe("Accordion", () => {
     let defaultProps: AccordionProps;
     let user: UserEvent;

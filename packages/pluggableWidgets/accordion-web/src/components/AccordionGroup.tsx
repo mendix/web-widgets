@@ -1,7 +1,16 @@
 import classNames from "classnames";
-import { Key, KeyboardEvent, ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import {
+    Key,
+    KeyboardEvent,
+    ReactElement,
+    ReactNode,
+    TransitionEvent,
+    useCallback,
+    useEffect,
+    useRef,
+    useState
+} from "react";
 import { LoadContentEnum } from "typings/AccordionProps";
-import { CallResizeObserver, useDebouncedResizeObserver } from "../utils/resizeObserver";
 import "../ui/accordion-main.scss";
 
 export const enum Target {
@@ -37,60 +46,65 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
     const [renderCollapsed, setRenderCollapsed] = useState(props.collapsed);
     const previousRenderCollapsed = useRef(renderCollapsed);
     const animatingContent = useRef<boolean>(false);
+    const fallbackTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
     const rootRef = useRef<HTMLDivElement>(null);
-    const contentWrapperRef = useRef<HTMLDivElement>(null);
-    const contentRef = useRef<HTMLDivElement>(null);
     const renderContent = useRef(loadContent === "always");
 
-    renderContent.current ||= !renderCollapsed;
-    useDebouncedResizeObserver(CallResizeObserver, { renderCollapsed, contentWrapperRef, contentRef });
+    // Render content as soon as expanding starts, so it is present during the whole animation.
+    renderContent.current ||= !props.collapsed || !renderCollapsed;
+
+    const clearFallbackTimer = useCallback((): void => {
+        clearTimeout(fallbackTimerRef.current);
+        fallbackTimerRef.current = undefined;
+    }, []);
+
+    useEffect(() => clearFallbackTimer, [clearFallbackTimer]);
 
     const completeTransitioning = useCallback((): void => {
-        if (contentWrapperRef.current && rootRef.current && animatingContent.current) {
+        if (rootRef.current && animatingContent.current) {
+            clearFallbackTimer();
             if (!renderCollapsed) {
                 rootRef.current.classList.add("widget-accordion-group-collapsed");
                 rootRef.current.classList.remove("widget-accordion-group-collapsing");
                 setRenderCollapsed(true);
             } else {
                 rootRef.current.classList.remove("widget-accordion-group-expanding");
-                contentWrapperRef.current.style.height = "";
                 setRenderCollapsed(false);
             }
 
             animatingContent.current = false;
         }
-    }, [renderCollapsed]);
+    }, [renderCollapsed, clearFallbackTimer]);
+
+    const onTransitionEnd = useCallback(
+        (event: TransitionEvent<HTMLElement>): void => {
+            // Ignore transitions bubbling up from the header icon or the content.
+            if (event.target === event.currentTarget && event.propertyName === "grid-template-rows") {
+                completeTransitioning();
+            }
+        },
+        [completeTransitioning]
+    );
 
     useEffect(() => {
-        if (
-            props.collapsed !== renderCollapsed &&
-            rootRef.current &&
-            contentWrapperRef.current &&
-            contentRef.current &&
-            animateContent
-        ) {
+        if (props.collapsed !== renderCollapsed && rootRef.current && animateContent) {
             animatingContent.current = true;
             if (props.collapsed) {
-                contentWrapperRef.current.style.height = `${contentRef.current.getBoundingClientRect().height}px`;
                 rootRef.current.classList.add("widget-accordion-group-collapsing");
-
-                setTimeout(() => {
-                    if (contentWrapperRef.current) {
-                        contentWrapperRef.current.style.height = "";
-                    }
-                }, 50);
             } else {
                 rootRef.current.classList.add("widget-accordion-group-expanding");
                 rootRef.current.classList.remove("widget-accordion-group-collapsed");
+            }
 
-                setTimeout(() => {
-                    if (contentWrapperRef.current && contentRef.current) {
-                        contentWrapperRef.current.style.height = `${
-                            contentRef.current.getBoundingClientRect().height
-                        }px`;
-                    }
-                }, 50);
+            // transitionend does not fire when there is no transition (prefers-reduced-motion, a theme
+            // override, an unsupported browser) or when the group is not rendered (for example in a hidden tab).
+            const transitionTime = getTransitionTime(rootRef.current);
+            clearFallbackTimer();
+            if (transitionTime === 0) {
+                completeTransitioning();
+            } else {
+                fallbackTimerRef.current = setTimeout(completeTransitioning, transitionTime + 100);
             }
         } else if (props.collapsed !== renderCollapsed && (!animateContent || !props.visible)) {
             setRenderCollapsed(props.collapsed);
@@ -104,7 +118,7 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
                 completeTransitioning();
             }
         }
-    }, [props.collapsed, props.visible, renderCollapsed, animateContent, completeTransitioning]);
+    }, [props.collapsed, props.visible, renderCollapsed, animateContent, completeTransitioning, clearFallbackTimer]);
 
     useEffect(() => {
         if (renderCollapsed !== previousRenderCollapsed.current) {
@@ -159,6 +173,7 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
                 },
                 props.dynamicClassName
             )}
+            onTransitionEnd={onTransitionEnd}
         >
             <header className={"widget-accordion-group-header"}>
                 <div
@@ -186,18 +201,30 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
                 </div>
             </header>
             <div
-                ref={contentWrapperRef}
                 id={`${props.id}ContentWrapper`}
                 className={"widget-accordion-group-content-wrapper"}
                 data-focusindex={0}
-                onTransitionEnd={completeTransitioning}
                 role="region"
                 aria-labelledby={`${props.id}HeaderButton`}
             >
-                <div ref={contentRef} className={"widget-accordion-group-content"}>
-                    {renderContent.current && props.content}
-                </div>
+                <div className={"widget-accordion-group-content"}>{renderContent.current && props.content}</div>
             </div>
         </section>
     );
+}
+
+/** Longest transition (duration + delay) in milliseconds currently applied to the element. */
+function getTransitionTime(element: HTMLElement): number {
+    const style = window.getComputedStyle(element);
+    const toMs = (value: string): number[] =>
+        value.split(",").map(time => {
+            const parsed = parseFloat(time);
+            if (Number.isNaN(parsed)) {
+                return 0;
+            }
+            return time.trim().endsWith("ms") ? parsed : parsed * 1000;
+        });
+    const durations = toMs(style.transitionDuration);
+    const delays = toMs(style.transitionDelay);
+    return Math.max(0, ...durations.map((duration, i) => duration + (delays[i % delays.length] ?? 0)));
 }
