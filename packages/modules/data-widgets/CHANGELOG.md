@@ -6,9 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.10] DataWidgets - 2026-11-17
+
 ### Fixed
 
 - We fixed an issue where the pagination text in Data Grid 2 and Gallery was hard to read in dark themes. The pagination text now follows the theme's default font color, so the `$caption-color` variable no longer applies to it. To keep a custom pagination color, set `color` on `.pagination-bar` in your theme.
+
+### DatagridDropdownFilter
+
+#### Fixed
+
+- We fixed an issue where pages with many drop-down filters became slow to scroll.
+
+- We fixed an issue where, with lazy loading turned off, the drop-down filter loaded only part of the options after the user returned to the page. Because of this, a selected option could lose its caption and the filter was no longer applied to the data grid.
 
 ## [3.11.9] DataWidgets - 2026-11-04
 
