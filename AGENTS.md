@@ -16,6 +16,27 @@ Monorepo of official Mendix pluggable web widgets. pnpm workspaces + Turbo.
 - Jest + RTL for unit tests (src/\*_/**tests**/_.spec.ts)
 - Playwright for E2E (e2e/\*.spec.js)
 
+## Code Comments
+
+Keep comments to a minimum. Code says what it does. A comment explains only why, when the code can't.
+
+- **Keep:** a reason the code can't show, such as a Mendix runtime or browser quirk, a third-party bug, or a non-obvious ordering constraint. Link the issue when one exists.
+- **Keep:** doc comments on exports of shared packages, and license headers.
+- **Keep:** lint suppressions that give a reason: `// eslint-disable-next-line <rule> -- <why>`.
+- **Remove:** narration of what the next line does, section banners, commented-out code, and `TODO`s without an issue link.
+- When code in this repo needs a comment to be understood, prefer a better name, an extracted function, or a narrower type over the comment.
+
+## Testing
+
+Test behavior, not implementation. Assert what users of the code can observe: rendered output and ARIA state, values passed to `setValue`, executed actions, and a store's public state. Don't assert private helpers, internal call order, or intermediate data.
+
+Judge each test against two imaginary edits:
+
+- **Break the behavior** (a wrong value, an action skipped or run twice). The test must fail. If it still passes, it proves nothing. The usual causes are a loose assertion, an expected value computed by the code under test, or an assertion on data the test built itself.
+- **Change only the internals** and keep every observable result. The test must still pass. If it fails, it's pinned to the implementation.
+
+Drive components through RTL queries and user events. Derive expected values from the requirement. Pair "this never happens" with a case where it does.
+
 ## E2E Test Rules (Playwright)
 
 - docs/requirements/e2e-test-guidelines.md — Full rules + template
