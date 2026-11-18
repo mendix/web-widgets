@@ -12,9 +12,9 @@ export function Placeholder(): ReactElement {
     );
 }
 
-export function NoOptionsPlaceholder(props: PropsWithChildren): ReactElement | null {
-    // Without text there is nothing to announce, so don't expose an empty option.
-    if (!props.children) {
+export function NoOptionsPlaceholder(props: { children?: string }): ReactElement | null {
+    // Blank text would still be reachable as an empty option by screen readers.
+    if (!props.children?.trim()) {
         return null;
     }
 

@@ -6,10 +6,14 @@ import { MultiSelection } from "./components/MultiSelection/MultiSelection";
 import { Placeholder } from "./components/Placeholder";
 import { SingleSelection } from "./components/SingleSelection/SingleSelection";
 import { SelectionBaseProps } from "./helpers/types";
+import { textOrFallback } from "./helpers/utils";
 import { useActionEvents } from "./hooks/useActionEvents";
 import { useGetSelector } from "./hooks/useGetSelector";
 
 import "./ui/Combobox.scss";
+
+const DEFAULT_CLEAR_SELECTION_LABEL = "Clear selection";
+const DEFAULT_REMOVE_VALUE_LABEL = "Remove value";
 
 export default function Combobox(props: ComboboxContainerProps): ReactElement {
     const selector = useGetSelector(props);
@@ -28,15 +32,15 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
         ariaLabel: props.ariaLabel?.value,
         a11yConfig: {
             ariaLabels: {
-                clearSelection: props.clearButtonAriaLabel?.value ?? "",
-                removeSelection: props.removeValueAriaLabel?.value ?? "",
+                clearSelection: textOrFallback(props.clearButtonAriaLabel?.value, DEFAULT_CLEAR_SELECTION_LABEL),
+                removeSelection: textOrFallback(props.removeValueAriaLabel?.value, DEFAULT_REMOVE_VALUE_LABEL),
                 selectAll: props.selectAllButtonCaption?.value ?? ""
             },
             a11yStatusMessage: {
                 a11ySelectedValue: props.a11ySelectedValue?.value ?? "",
                 a11yOptionsAvailable: props.a11yOptionsAvailable?.value ?? "",
                 a11yInstructions: props.a11yInstructions?.value ?? "",
-                a11yNoOption: props.noOptionsText?.value ?? ""
+                a11yNoOption: textOrFallback(props.noOptionsText?.value, props.a11yNoOptions?.value ?? "")
             }
         },
         menuFooterContent: props.showFooter ? props.menuFooterContent : undefined

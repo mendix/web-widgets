@@ -111,6 +111,7 @@ export interface ComboboxContainerProps {
     removeValueAriaLabel?: DynamicValue<string>;
     a11ySelectedValue?: DynamicValue<string>;
     a11yOptionsAvailable?: DynamicValue<string>;
+    a11yNoOptions?: DynamicValue<string>;
     a11yInstructions?: DynamicValue<string>;
     lazyLoading: boolean;
     loadingType: LoadingTypeEnum;
@@ -175,6 +176,7 @@ export interface ComboboxPreviewProps {
     removeValueAriaLabel: string;
     a11ySelectedValue: string;
     a11yOptionsAvailable: string;
+    a11yNoOptions: string;
     a11yInstructions: string;
     lazyLoading: boolean;
     loadingType: LoadingTypeEnum;

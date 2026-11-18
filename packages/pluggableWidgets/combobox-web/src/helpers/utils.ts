@@ -7,6 +7,10 @@ import { MultiSelector, SortOrder } from "./types";
 
 export const DEFAULT_LIMIT_SIZE = 100;
 
+export function textOrFallback(text: string | undefined, fallback: string): string {
+    return text?.trim() ? text : fallback;
+}
+
 type ValueType = string | Big | boolean | Date | undefined;
 
 export function getSelectedCaptionsPlaceholder(selector: MultiSelector, selectedItems: string[]): string {

@@ -389,6 +389,14 @@
                         <translation lang="nl_NL">Aantal beschikbare opties:</translation>
                     </translations>
                 </property>
+                <property key="a11yNoOptions" type="textTemplate" required="false">
+                    <caption>No options available</caption>
+                    <description>Announced when no options match and "No options text" is empty.</description>
+                    <translations>
+                        <translation lang="en_US">No options available.</translation>
+                        <translation lang="nl_NL">Geen opties beschikbaar.</translation>
+                    </translations>
+                </property>
                 <property key="a11yInstructions" type="textTemplate" required="false">
                     <caption>Instructions</caption>
                     <description>Instructions to be read after announcing the status.</description>
