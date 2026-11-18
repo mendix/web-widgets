@@ -5,6 +5,7 @@ QA testing of WC-3404 found three problems with `unify-tooltip-content-rendering
 1. **Keyboard trap.** With Custom content that contains a focusable widget, Tab and Shift+Tab stop moving focus around the trigger, even while the tooltip is closed or after closing it with Escape. In 1.5.1, Tab moves on normally. QA reports that the Mendix client moves focus to the next element in page order itself, which is now inside the closed, `inert` content, and that adding `display: none` restored normal tabbing in browser tests.
 2. **Empty description and empty tooltip.** When conditional visibility hides all Custom content widgets, the trigger still references an empty element, and focusing it opens an empty tooltip about 12px high.
 3. **Whitespace-only text.** In Text mode, text such as `' '` gives the trigger an empty description.
+4. **Nested tooltips.** A tooltip inside another tooltip's trigger gets both tooltips' text as its description, so screen readers read both.
 
 ## What Changes
 
@@ -12,6 +13,7 @@ QA testing of WC-3404 found three problems with `unify-tooltip-content-rendering
 - Treat content as empty when it renders no text and no media, and update this when its widgets show or hide.
 - With empty content, add no `aria-describedby` and do not open the tooltip.
 - Trim Text mode content before deciding whether it exists.
+- Skip focusable elements that belong to a nested tooltip when adding `aria-describedby`.
 
 ## Capabilities
 
@@ -21,7 +23,7 @@ QA testing of WC-3404 found three problems with `unify-tooltip-content-rendering
 
 ### Modified Capabilities
 
-- `tooltip-screen-reader-description`: Closed content is hidden with `display: none`, and content that renders nothing visible counts as no content.
+- `tooltip-screen-reader-description`: Closed content is hidden with `display: none`, content that renders nothing visible counts as no content, and nested tooltips keep their own description.
 
 ## Impact
 
