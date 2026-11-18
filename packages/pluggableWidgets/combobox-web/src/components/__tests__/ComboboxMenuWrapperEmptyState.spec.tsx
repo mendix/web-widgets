@@ -18,6 +18,12 @@ describe("ComboboxMenuWrapper empty state", () => {
         expect(container.querySelector('[role="option"]')).toBeNull();
     });
 
+    it("does not expose an empty option when the no-options text is only whitespace", () => {
+        const { container } = render(<ComboboxMenuWrapper {...baseProps} noOptionsText="   " />);
+
+        expect(container.querySelector('[role="option"]')).toBeNull();
+    });
+
     it("exposes the no-options text as an option when it is set", () => {
         const { getByRole } = render(<ComboboxMenuWrapper {...baseProps} noOptionsText="No options" />);
 

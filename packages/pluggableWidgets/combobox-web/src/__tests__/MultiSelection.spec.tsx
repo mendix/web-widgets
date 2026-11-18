@@ -157,6 +157,29 @@ describe("Combo box (Association)", () => {
         fireEvent.click(clearButton);
         expect(defaultProps.attributeAssociation?.value).toEqual([]);
     });
+    it("gives the clear and remove buttons a default name when their labels are empty", async () => {
+        defaultProps.attributeAssociation = new ReferenceSetValueBuilder().withValue([obj("111"), obj("222")]).build();
+        defaultProps.selectedItemsStyle = "boxes";
+        defaultProps.clearButtonAriaLabel = dynamic.available("");
+        defaultProps.removeValueAriaLabel = dynamic.available(" ");
+        const component = render(<Combobox {...defaultProps} />);
+
+        expect(await component.findByRole("button", { name: "Clear selection" })).toBeInTheDocument();
+        expect(component.getAllByRole("button", { name: "Remove value" })).toHaveLength(2);
+    });
+    it("announces the no-options status message when no options text is empty", async () => {
+        defaultProps.selectAllButton = false;
+        defaultProps.optionsSourceAssociationDataSource = list([]);
+        defaultProps.noOptionsText = dynamic.available("");
+        defaultProps.a11yNoOptions = dynamic.available("No options available.");
+        const component = render(<Combobox {...defaultProps} />);
+        fireEvent.click(await getInput(component));
+
+        expect(component.queryAllByRole("option")).toHaveLength(0);
+        await waitFor(() => {
+            expect(document.getElementById("a11y-status-message")).toHaveTextContent("No options available.");
+        });
+    });
     it("selects all items with the Select All button", async () => {
         const component = render(<Combobox {...defaultProps} />);
         const input = await getInput(component);
