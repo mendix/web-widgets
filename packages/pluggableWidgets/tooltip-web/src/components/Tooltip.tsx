@@ -77,8 +77,14 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
             return;
         }
 
+        // Elements of a nested tooltip get that tooltip's description, not this one
+        const owner = wrapper.closest(".widget-tooltip");
+
         const applyDescription = (): void => {
             wrapper.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR).forEach(element => {
+                if (element.closest(".widget-tooltip") !== owner) {
+                    return;
+                }
                 const ids = getDescribedByIds(element);
                 if (!ids.includes(contentId)) {
                     element.setAttribute("aria-describedby", [...ids, contentId].join(" "));
