@@ -143,6 +143,16 @@ Keep `--branch`: without it, `-L 1` returns the newest run on _any_ branch.
 
 Wait (re-poll, don't ask the user to check) until `status == completed`. Report the conclusion and the draft release URL.
 
+The workflow's last step (`Merge changelogs PR`) merges the changelog/version-bump PR into `main` right away — without waiting for PR checks, after verifying it only touches `CHANGELOG.md`/`package.json`/`package.xml`. Confirm before moving on to OSS clearance:
+
+```bash
+gh pr list --head "tmp/<release-tag>" --state all --json number,state,url
+```
+
+Expect `MERGED`. Still `OPEN` → read that step's log (`gh run view <databaseId> --log | grep -A20 "Merge changelogs PR"`): unexpected files or a merge conflict with `main`. Report it — merging by hand is the user's job (branch protection).
+
+**Abandoned draft:** `main` already carries `<version>` and its changelog section, so the same version can't be re-cut (`rui-bump-version` requires a greater version, and the changelog has no unreleased entries left). Release the next patch instead.
+
 ### Phase 4 — OSS clearance SBOM (autonomous prep, manual submission)
 
 ```bash
@@ -197,13 +207,7 @@ Find the run matching this tag/branch.
 
 - `conclusion: success` → doesn't mean the version is live yet. Confirm: `marketplace-mcp`'s `get_content_versions` with `contentId` = `appNumber` from Phase 0, check `<version>` is listed. If `marketplace-mcp` isn't connected or errors, ask the user to check the widget's Marketplace listing page for `<version>`. Don't declare done until one of the two confirms it.
 
-    Then verify changelog PR merged:
-
-    ```bash
-    gh pr list --head "tmp/<release-tag>" --json number,state
-    ```
-
-    Still open after successful publish → check whether `merge-changelogs-pr` step ran. Don't merge it yourself: branch protection requires team approvals — tell the user it's on them.
+    The changelog PR should already be merged since Phase 3; `PublishMarketplace.yml` retries the merge as a fallback. If it's still open, tell the user — don't merge it yourself (branch protection).
 
 - `conclusion: failure` → **check run history before escalating**:
     ```bash

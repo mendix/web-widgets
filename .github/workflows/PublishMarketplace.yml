@@ -48,7 +48,7 @@ jobs:
             - name: Install dependencies
               run: pnpm install
             - name: Include OSS README in MPK artifact
-              run:  pnpm run include-oss-in-artifact
+              run: pnpm run include-oss-in-artifact
               env:
                   GH_PAT: ${{ secrets.GITHUB_TOKEN }}
             - name: Run publish script
@@ -59,6 +59,7 @@ jobs:
                   CPAPI_USER_OPENID: ${{ secrets.SRV_WIDGETS_OPENID }}
                   CPAPI_PASS: ${{ secrets.CPAPI_PASS }}
                   GH_PAT: ${{ secrets.GITHUB_TOKEN }}
+            # Normally already merged by "Create draft release"; kept as a fallback (no-op when merged).
             - name: Merge changelogs PR
               run: pnpm run merge-changelogs-pr ${{ env.TAG }}
               env:
