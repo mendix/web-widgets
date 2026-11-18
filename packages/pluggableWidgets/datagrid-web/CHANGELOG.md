@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- The aria labels in the "Texts" tab ("Filter section", "Export progress", "Cancel data export", "Select row label", "Select all label", "Single selection column label", "Selecting all label" and "Cancel selection label") are now system texts. You translate and change them once for the whole app in the system texts editor, and you can still override them for a single data grid. The data grid now requires Studio Pro 11.18 or newer.
+
+- The filter section now has the accessible name "Filters" by default.
+
+### Fixed
+
+- We fixed an issue where the "Selecting all label" property was ignored and the progress dialog used the "Select all label" text instead.
+
 ## [3.11.8] - 2026-10-22
 
 ### Fixed
