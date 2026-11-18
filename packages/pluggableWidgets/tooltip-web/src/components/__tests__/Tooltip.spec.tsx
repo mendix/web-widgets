@@ -822,6 +822,33 @@ describe("Tooltip", () => {
             expect(ariaDescribedBy2).toBe(ariaDescribedBy3);
         });
 
+        it("does not add its description to elements of a nested tooltip", () => {
+            render(
+                <Tooltip
+                    {...defaultTooltipProps}
+                    textMessage="Outer text"
+                    trigger={
+                        <div>
+                            <Tooltip
+                                {...defaultTooltipProps}
+                                renderMethod="custom"
+                                textMessage={undefined}
+                                htmlMessage={<button type="button">Inside inner tooltip</button>}
+                                trigger={<button type="button">Inner button</button>}
+                            />
+                        </div>
+                    }
+                />
+            );
+
+            const innerButton = screen.getByRole("button", { name: "Inner button" });
+            const describedBy = innerButton.getAttribute("aria-describedby")?.split(" ") ?? [];
+
+            expect(describedBy).toHaveLength(1);
+            expect(document.getElementById(describedBy[0])).toHaveTextContent("Inside inner tooltip");
+            expect(screen.getByText("Inside inner tooltip")).not.toHaveAttribute("aria-describedby");
+        });
+
         it("keeps an existing aria-describedby and restores it when the content is removed", () => {
             const trigger = <input aria-describedby="help-text" data-testid="input" />;
             const { rerender } = render(<Tooltip {...defaultTooltipProps} trigger={trigger} />);
