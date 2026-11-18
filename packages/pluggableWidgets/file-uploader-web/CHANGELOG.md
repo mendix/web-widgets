@@ -6,9 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where custom file formats with hyphenated extensions, such as .tar-gz, were not accepted.
+
+### Added
+
+- You can now paste a file into the focused drop zone to upload it. Pasted files go through the same file type and size checks.
+
 ### Changed
 
 - We updated the react-dropzone library to version 20.
+
+- When a custom file format combines a wildcard MIME type with extensions, for example image/* with .png, only files with those extensions are accepted. Before, any file of that type was accepted.
 
 ## [2.5.1] - 2026-10-13
 
