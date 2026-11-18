@@ -17,10 +17,12 @@
 
 ## 3. Manual QA
 
-- [ ] 3.1 Tooltip opens, closes and positions as before in all `Open on` modes
-- [ ] 3.2 VoiceOver and NVDA announce the tooltip text on focusable triggers in all `Open on` modes, and browse mode does not reach the hidden element
-- [ ] 3.3 Custom content with a data-loading widget: check for duplicate ids and doubled requests
-- [ ] 3.4 Custom content with a link or button: focus must not land on the hidden copy
-- [ ] 3.5 Text box with a validation message inside the trigger: message stays announced
-- [ ] 3.6 Trigger shown later through conditional visibility: tooltip text is announced
-- [ ] 3.7 Hidden text is never visible, and no scrollbars or layout shifts appear
+The reviewer and QA approvals on PR 2175 (2026-11-18) cover this section. QA tested the final merged behavior, which includes the later changes in this package.
+
+- [x] 3.1 Tooltip opens, closes and positions as before in all `Open on` modes
+- [x] 3.2 VoiceOver and NVDA announce the tooltip text on focusable triggers in all `Open on` modes, and browse mode does not reach the hidden element
+- [x] 3.3 Custom content with a data-loading widget: check for duplicate ids and doubled requests
+- [x] 3.4 Custom content with a link or button: focus must not land on the hidden copy
+- [x] 3.5 Text box with a validation message inside the trigger: message stays announced
+- [x] 3.6 Trigger shown later through conditional visibility: tooltip text is announced
+- [x] 3.7 Hidden text is never visible, and no scrollbars or layout shifts appear

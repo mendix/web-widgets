@@ -20,8 +20,10 @@
 
 ## 3. Manual QA
 
-- [ ] 3.1 Tooltip opens, closes and positions as on `main` in all `Open on` modes
-- [ ] 3.2 VoiceOver and NVDA announce text and custom content on focus with the tooltip closed and open
-- [ ] 3.3 Custom content with a data-loading widget: one request and no duplicate ids
-- [ ] 3.4 Custom content with a link or button: closed content takes no focus, open content is usable
-- [ ] 3.5 Studio Pro preview shows one custom content drop zone
+The reviewer and QA approvals on PR 2175 (2026-11-18) cover this section. QA tested the final merged behavior, which includes the later changes in this package.
+
+- [x] 3.1 Tooltip opens, closes and positions as on `main` in all `Open on` modes
+- [x] 3.2 VoiceOver and NVDA announce text and custom content on focus with the tooltip closed and open
+- [x] 3.3 Custom content with a data-loading widget: one request and no duplicate ids
+- [x] 3.4 Custom content with a link or button: closed content takes no focus, open content is usable
+- [x] 3.5 Studio Pro preview shows one custom content drop zone

@@ -34,6 +34,25 @@ When the content for the selected render method exists, the widget SHALL keep ex
 - **WHEN** the render method is `text` and the text contains only whitespace
 - **THEN** the content element is not rendered and no description is added
 
+### Requirement: Focusable trigger elements are described by the tooltip
+
+The widget SHALL add the hidden element's id to `aria-describedby` on every focusable element inside the trigger, except elements that belong to a tooltip nested inside the trigger.
+
+#### Scenario: Trigger with several focusable elements
+
+- **WHEN** the trigger contains several buttons and links
+- **THEN** each of them references the hidden element through `aria-describedby`
+
+#### Scenario: Element mounts later
+
+- **WHEN** a focusable element is added to the trigger after the widget has mounted
+- **THEN** that element also references the hidden element
+
+#### Scenario: Tooltip nested inside the trigger
+
+- **WHEN** the trigger contains another tooltip
+- **THEN** the nested tooltip's trigger and content elements reference only the nested tooltip's content, not the outer tooltip's
+
 ## ADDED Requirements
 
 ### Requirement: Empty rendered content is treated as no content
