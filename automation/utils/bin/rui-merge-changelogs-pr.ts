@@ -1,11 +1,49 @@
 #!/usr/bin/env node
 
-import { GitHub } from "../src/github.ts";
+import { setTimeout as sleep } from "node:timers/promises";
+import { GitHub, type GitHubPR, MergePRError } from "../src/github.ts";
 
 const ALLOWED_FILENAMES = new Set(["package.xml", "CHANGELOG.md", "package.json"]);
 
+// Right after a PR is opened GitHub may still be computing mergeability and answers 405.
+const MERGE_ATTEMPTS = 6;
+const MERGE_RETRY_DELAY_MS = 10_000;
+
 /** Thrown when the script should stop gracefully without failing the workflow. */
 class SkipError extends Error {}
+
+// Draft releases have no git tag yet, so look up by head branch first (names mirror
+// resolveChangelogBranch in rui-create-gh-release) and use the tag only for published releases.
+async function findChangelogPR(gh: GitHub, tag: string): Promise<GitHubPR | undefined> {
+    for (const branch of [`tmp/${tag}`, `${tag}-update-changelog`]) {
+        const pr = await gh.getPRByHeadBranch(branch);
+        if (pr) {
+            return pr;
+        }
+    }
+
+    try {
+        return await gh.getPRByReleaseTag(tag);
+    } catch {
+        return undefined;
+    }
+}
+
+async function mergeWithRetry(gh: GitHub, prNumber: number): Promise<void> {
+    for (let attempt = 1; ; attempt++) {
+        try {
+            await gh.mergePR(prNumber, "squash");
+            return;
+        } catch (e) {
+            const retriable = e instanceof MergePRError && e.status === 405;
+            if (!retriable || attempt === MERGE_ATTEMPTS) {
+                throw e;
+            }
+            console.warn(`PR #${prNumber} is not mergeable yet (attempt ${attempt}/${MERGE_ATTEMPTS}), retrying...`);
+            await sleep(MERGE_RETRY_DELAY_MS);
+        }
+    }
+}
 
 async function main(): Promise<void> {
     const tag = process.argv[2];
@@ -19,9 +57,8 @@ async function main(): Promise<void> {
     const gh = new GitHub();
     await gh.ensureAuth();
 
-    // 1. Fetch PR by release tag
-    console.log(`\nLooking up PR for tag: ${tag}`);
-    const pr = await gh.getPRByReleaseTag(tag);
+    console.log(`\nLooking up changelog PR for: ${tag}`);
+    const pr = await findChangelogPR(gh, tag);
 
     if (!pr) {
         throw new SkipError(`No PR found for tag "${tag}". Skipping.`);
@@ -37,7 +74,6 @@ async function main(): Promise<void> {
         throw new SkipError(`PR #${pr.number} is already ${pr.state}. Skipping.`);
     }
 
-    // 2. Validate changed files
     console.log(`\nFetching changed files for PR #${pr.number}...`);
     const files = await gh.listPRChangedFiles(pr.number);
     const filenames = files.map(f => f.filename);
@@ -53,9 +89,9 @@ async function main(): Promise<void> {
     console.log(`Changed files (${filenames.length}):`);
     filenames.forEach(f => console.log(`  ✓ ${f}`));
 
-    // 3. Merge
+    // Checks are not awaited: the PR only touches release metadata, and flaky checks must not block a release.
     console.log(`\nMerging PR #${pr.number}...`);
-    await gh.mergePR(pr.number, "squash");
+    await mergeWithRetry(gh, pr.number);
     console.log(`\n✅ PR #${pr.number} merged successfully.`);
 }
 
