@@ -2,10 +2,7 @@ import { makeAutoObservable } from "mobx";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 
-type Props = Pick<
-    DatagridContainerProps,
-    "exportDialogLabel" | "cancelExportLabel" | "selectRowLabel" | "selectAllRowsLabel" | "itemSelection" | "onClick"
->;
+type Props = Pick<DatagridContainerProps, "itemSelection" | "onClick">;
 
 type Gate = DerivedPropsGate<Props>;
 
@@ -17,22 +14,6 @@ export class GridBasicData {
     constructor(gate: Gate) {
         this.gate = gate;
         makeAutoObservable(this);
-    }
-
-    get exportDialogLabel(): string | undefined {
-        return this.gate.props.exportDialogLabel?.value;
-    }
-
-    get cancelExportLabel(): string | undefined {
-        return this.gate.props.cancelExportLabel?.value;
-    }
-
-    get selectRowLabel(): string | undefined {
-        return this.gate.props.selectRowLabel?.value;
-    }
-
-    get selectAllRowsLabel(): string | undefined {
-        return this.gate.props.selectAllRowsLabel?.value;
     }
 
     get gridInteractive(): boolean {

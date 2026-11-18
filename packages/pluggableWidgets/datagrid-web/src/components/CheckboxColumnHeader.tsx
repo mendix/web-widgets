@@ -19,7 +19,7 @@ export function CheckboxColumnHeader(): ReactElement {
                 <Checkbox />
             </If>
             <If condition={selectionHelper?.type === "Single"}>
-                <span className="sr-only">{singleSelectionColumnLabel || "Select single row"}</span>
+                <span className="sr-only">{singleSelectionColumnLabel}</span>
             </If>
         </div>
     );
@@ -37,7 +37,7 @@ const Checkbox = observer(function Checkbox(): ReactNode {
         <ThreeStateCheckBox
             value={selectionHelper.selectionStatus}
             onChange={() => selectActions.selectPage()}
-            aria-label={selectAllRowsLabel || "Select all rows"}
+            aria-label={selectAllRowsLabel}
         />
     );
 });
