@@ -180,19 +180,24 @@ describe("publishRelease", () => {
         assert.deepEqual(reported, [`${releaseId} after 1 request(s)`]);
     });
 
-    it("deletes the draft and exits when the process is terminated during the upload", async () => {
-        const fixture = join(import.meta.dirname, "fixtures", "publish-until-signal.ts");
-        const child = spawn(process.execPath, [fixture, mpkPath], { stdio: ["ignore", "pipe", "pipe"] });
-        let output = "";
-        child.stdout.on("data", chunk => {
-            output += chunk;
-            if (output.includes("PUT ") && !child.killed) {
-                child.kill("SIGTERM");
-            }
-        });
-        const exitCode = await new Promise<number | null>(resolve => child.on("exit", resolve));
+    it(
+        "deletes the draft and exits when the process is terminated during the upload",
+        // Windows has no POSIX signals: kill("SIGTERM") ends the process without running handlers.
+        { skip: process.platform === "win32" },
+        async () => {
+            const fixture = join(import.meta.dirname, "fixtures", "publish-until-signal.ts");
+            const child = spawn(process.execPath, [fixture, mpkPath], { stdio: ["ignore", "pipe", "pipe"] });
+            let output = "";
+            child.stdout.on("data", chunk => {
+                output += chunk;
+                if (output.includes("PUT ") && !child.killed) {
+                    child.kill("SIGTERM");
+                }
+            });
+            const exitCode = await new Promise<number | null>(resolve => child.on("exit", resolve));
 
-        assert.equal(exitCode, 143);
-        assert.match(output, new RegExp(`DELETE /v1/releases/${releaseId}`));
-    });
+            assert.equal(exitCode, 143);
+            assert.match(output, new RegExp(`DELETE /v1/releases/${releaseId}`));
+        }
+    );
 });
