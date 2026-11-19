@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the content of an accordion group could be cut off or jump when its height changed, for example when validation messages appeared. Groups set to load content when expanded now also show their content from the start of the expand animation.
+
 ## [2.3.6] - 2026-09-15
 
 ### Fixed

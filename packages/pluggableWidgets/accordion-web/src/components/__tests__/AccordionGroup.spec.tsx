@@ -1,13 +1,7 @@
 import "@testing-library/jest-dom";
-import { act, render, RenderResult } from "@testing-library/react";
+import { act, createEvent, fireEvent, render, RenderResult } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { AccordionGroup, AccordionGroupProps, Target } from "../AccordionGroup";
-
-global.ResizeObserver = jest.fn().mockImplementation(() => ({
-    observe: jest.fn(),
-    unobserve: jest.fn(),
-    disconnect: jest.fn()
-}));
 
 describe("AccordionGroup", () => {
     const defaultAccordionGroupProps: AccordionGroupProps = {
@@ -388,6 +382,143 @@ describe("AccordionGroup", () => {
             });
 
             expect(accordionGroup.queryByText("Widgets")).toBeInTheDocument();
+        });
+    });
+
+    describe("animated", () => {
+        const animatedProps: AccordionGroupProps = {
+            ...defaultAccordionGroupProps,
+            animateContent: true,
+            collapsible: true,
+            toggleCollapsed: jest.fn()
+        };
+
+        function mockTransitionDuration(duration: string): void {
+            const original = window.getComputedStyle;
+            jest.spyOn(window, "getComputedStyle").mockImplementation(element => {
+                const style = original(element);
+                return { ...style, transitionDuration: duration, transitionDelay: "0s" } as CSSStyleDeclaration;
+            });
+        }
+
+        function getGroup(result: RenderResult): HTMLElement {
+            return result.container.querySelector(".widget-accordion-group") as HTMLElement;
+        }
+
+        function fireTransitionEnd(element: Element, propertyName = "grid-template-rows"): void {
+            const event = createEvent.transitionEnd(element);
+            Object.defineProperty(event, "propertyName", { value: propertyName });
+            fireEvent(element, event);
+        }
+
+        beforeEach(() => {
+            jest.useFakeTimers();
+        });
+
+        afterEach(() => {
+            jest.restoreAllMocks();
+            jest.useRealTimers();
+        });
+
+        it("expands with a transition and completes on transitionend", () => {
+            mockTransitionDuration("0.2s");
+            const onToggleCompletion = jest.fn();
+            const result = render(<AccordionGroup {...animatedProps} onToggleCompletion={onToggleCompletion} />);
+
+            result.rerender(
+                <AccordionGroup {...animatedProps} collapsed={false} onToggleCompletion={onToggleCompletion} />
+            );
+            const group = getGroup(result);
+            expect(group).toHaveClass("widget-accordion-group-expanding");
+            expect(group).not.toHaveClass("widget-accordion-group-collapsed");
+            expect(onToggleCompletion).not.toHaveBeenCalled();
+
+            act(() => fireTransitionEnd(group));
+
+            expect(group).not.toHaveClass("widget-accordion-group-expanding");
+            expect(onToggleCompletion).toHaveBeenCalledTimes(1);
+            expect(onToggleCompletion).toHaveBeenCalledWith(false);
+
+            act(() => jest.runAllTimers());
+            expect(onToggleCompletion).toHaveBeenCalledTimes(1);
+        });
+
+        it("collapses with a transition and completes on transitionend", () => {
+            mockTransitionDuration("0.2s");
+            const onToggleCompletion = jest.fn();
+            const result = render(
+                <AccordionGroup {...animatedProps} collapsed={false} onToggleCompletion={onToggleCompletion} />
+            );
+
+            result.rerender(<AccordionGroup {...animatedProps} collapsed onToggleCompletion={onToggleCompletion} />);
+            const group = getGroup(result);
+            expect(group).toHaveClass("widget-accordion-group-collapsing");
+            expect(group).not.toHaveClass("widget-accordion-group-collapsed");
+
+            act(() => fireTransitionEnd(group));
+
+            expect(group).toHaveClass("widget-accordion-group-collapsed");
+            expect(group).not.toHaveClass("widget-accordion-group-collapsing");
+            expect(onToggleCompletion).toHaveBeenCalledTimes(1);
+            expect(onToggleCompletion).toHaveBeenCalledWith(true);
+        });
+
+        it("ignores transitionend events from other properties and from the content", () => {
+            mockTransitionDuration("0.2s");
+            const onToggleCompletion = jest.fn();
+            const result = render(<AccordionGroup {...animatedProps} onToggleCompletion={onToggleCompletion} />);
+            result.rerender(
+                <AccordionGroup {...animatedProps} collapsed={false} onToggleCompletion={onToggleCompletion} />
+            );
+            const group = getGroup(result);
+
+            act(() => {
+                fireTransitionEnd(group, "border-radius");
+                fireTransitionEnd(result.getByText("content"));
+            });
+
+            expect(group).toHaveClass("widget-accordion-group-expanding");
+            expect(onToggleCompletion).not.toHaveBeenCalled();
+        });
+
+        it("completes when transitionend does not fire", () => {
+            mockTransitionDuration("0.2s");
+            const onToggleCompletion = jest.fn();
+            const result = render(<AccordionGroup {...animatedProps} onToggleCompletion={onToggleCompletion} />);
+            result.rerender(
+                <AccordionGroup {...animatedProps} collapsed={false} onToggleCompletion={onToggleCompletion} />
+            );
+
+            act(() => jest.advanceTimersByTime(400));
+
+            expect(getGroup(result)).not.toHaveClass("widget-accordion-group-expanding");
+            expect(onToggleCompletion).toHaveBeenCalledTimes(1);
+        });
+
+        it("completes immediately when there is no transition, such as with reduced motion", () => {
+            mockTransitionDuration("0s");
+            const onToggleCompletion = jest.fn();
+            const result = render(
+                <AccordionGroup {...animatedProps} collapsed={false} onToggleCompletion={onToggleCompletion} />
+            );
+
+            result.rerender(<AccordionGroup {...animatedProps} collapsed onToggleCompletion={onToggleCompletion} />);
+
+            const group = getGroup(result);
+            expect(group).toHaveClass("widget-accordion-group-collapsed");
+            expect(group).not.toHaveClass("widget-accordion-group-collapsing");
+            expect(onToggleCompletion).toHaveBeenCalledTimes(1);
+        });
+
+        it("renders content from the start of expanding when loading content when expanded", () => {
+            mockTransitionDuration("0.2s");
+            const result = render(<AccordionGroup {...animatedProps} loadContent="whenExpanded" />);
+            expect(result.queryByText("content")).not.toBeInTheDocument();
+
+            result.rerender(<AccordionGroup {...animatedProps} loadContent="whenExpanded" collapsed={false} />);
+
+            expect(getGroup(result)).toHaveClass("widget-accordion-group-expanding");
+            expect(result.getByText("content")).toBeInTheDocument();
         });
     });
 });
