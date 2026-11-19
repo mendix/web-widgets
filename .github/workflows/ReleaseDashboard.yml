@@ -13,17 +13,16 @@ concurrency:
     group: release-dashboard
     cancel-in-progress: true
 
-permissions:
-    # GitHub lists draft releases only to tokens with push access.
-    contents: write
-    pull-requests: read
-    pages: write
-    id-token: write
+permissions: {}
 
 jobs:
     build:
         name: Collect release status
         runs-on: ubuntu-latest
+        permissions:
+            # GitHub lists draft releases only to tokens with push access.
+            contents: write
+            pull-requests: read
         steps:
             - name: Checkout
               uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -55,6 +54,9 @@ jobs:
         name: Deploy to GitHub Pages
         needs: build
         runs-on: ubuntu-latest
+        permissions:
+            pages: write
+            id-token: write
         environment:
             name: github-pages
             url: ${{ steps.deployment.outputs.page_url }}
