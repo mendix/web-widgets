@@ -26,9 +26,9 @@ export function UploadInfo({ status, error }: UploadInfoProps): ReactElement {
             );
         case "validationError":
             return <span className={"upload-status error"}>{error}</span>;
-        case "queued":
-            return <span className={"upload-status"}>{translations.get("uploadQueuedMessage")}</span>;
-        case "existingFile":
+        case "pending":
+            return <span className={"upload-status"}>{translations.get("uploadPendingMessage")}</span>;
+        case "creating":
         default:
             return <span className={"upload-status"}></span>;
     }

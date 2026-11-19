@@ -1,67 +1,85 @@
+import { obj } from "@mendix/widget-plugin-test-utils";
+import { makeFile } from "../../__tests__/testProps";
+import { saveFile } from "../../utils/mx-data";
 import { FileStore } from "../FileStore";
-import { FileUploaderStore } from "../FileUploaderStore";
 
 jest.mock("../../utils/mx-data", () => ({
-    fetchDocumentUrl: jest.fn(),
-    fetchImageThumbnail: jest.fn(),
-    fetchMxObject: jest.fn(),
-    removeObject: jest.fn(),
-    saveFile: jest.fn(),
-    fileHasContents: jest.fn()
+    saveFile: jest.fn()
 }));
 
-function makeRootStore(uploadMode: "files" | "images" = "files"): FileUploaderStore & { dismissFile: jest.Mock } {
-    return {
-        dismissFile: jest.fn(),
-        _uploadMode: uploadMode,
-        uploadMode,
-        isReadOnly: false
-    } as unknown as FileUploaderStore & { dismissFile: jest.Mock };
-}
+const saveFileMock = saveFile as jest.Mock;
 
-describe("FileStore.dismiss()", () => {
-    it("calls dismissFile on root store with itself", () => {
-        const rootStore = makeRootStore();
-        const store = FileStore.newFileWithValidationError(new File([], "test.txt"), "bad format", rootStore as any);
-        store.dismiss();
-        expect(rootStore.dismissFile).toHaveBeenCalledTimes(1);
-        expect(rootStore.dismissFile).toHaveBeenCalledWith(store);
-    });
-});
-
-describe("FileStore.imagePreviewUrl thumbnail fallback", () => {
-    function makeImageStore(): FileStore {
-        const rootStore = makeRootStore("images");
-        const store = FileStore.newFile(new File([], "img.jpg"), rootStore as any);
-        (store as any)._thumbnailUrl = "http://cdn/thumb.jpg";
-        (store as any)._documentUrl = "http://host/doc.jpg";
-        return store;
-    }
-
-    it("returns thumbnailUrl when no error has occurred", () => {
-        const store = makeImageStore();
-        expect(store.imagePreviewUrl).toBe("http://cdn/thumb.jpg");
+describe("FileStore", () => {
+    beforeEach(() => {
+        saveFileMock.mockReset();
     });
 
-    it("returns documentUrl after handleThumbnailError()", () => {
-        const store = makeImageStore();
-        store.handleThumbnailError();
-        expect(store.imagePreviewUrl).toBe("http://host/doc.jpg");
+    test("a new file starts in 'creating' and uses the blob for name and size", () => {
+        const store = FileStore.newFile(makeFile("report.pdf", "12345"));
+
+        expect(store.fileStatus).toBe("creating");
+        expect(store.title).toBe("report.pdf");
+        expect(store.size).toBe(5);
+        expect(store.mimeType).toBe("application/pdf");
     });
 
-    it("returns documentUrl on repeated handleThumbnailError() calls (no loop)", () => {
-        const store = makeImageStore();
-        store.handleThumbnailError();
-        store.handleThumbnailError();
-        expect(store.imagePreviewUrl).toBe("http://host/doc.jpg");
+    test("setCreated stores the object and marks the file pending", () => {
+        const store = FileStore.newFile(makeFile());
+        store.setCreated(obj("a"));
+
+        expect(store.fileStatus).toBe("pending");
+        expect(store.objectItemId).toBe(obj("a").id);
     });
 
-    it("returns undefined in files uploadMode even after handleThumbnailError()", () => {
-        const rootStore = makeRootStore("files");
-        const store = FileStore.newFile(new File([], "doc.pdf"), rootStore as any);
-        (store as any)._thumbnailUrl = "http://cdn/thumb.jpg";
-        (store as any)._documentUrl = "http://host/doc.pdf";
-        store.handleThumbnailError();
-        expect(store.imagePreviewUrl).toBeUndefined();
+    test("only files without an object can be dismissed", () => {
+        expect(FileStore.newFileWithValidationError(makeFile(), "bad").canDismiss).toBe(true);
+        expect(FileStore.newRejectedFile(makeFile()).canDismiss).toBe(true);
+
+        const pending = FileStore.newFile(makeFile());
+        pending.setCreated(obj("a"));
+        expect(pending.canDismiss).toBe(false);
+    });
+
+    test("keeps the validation error message", () => {
+        expect(FileStore.newFileWithValidationError(makeFile(), "bad format").errorDescription).toBe("bad format");
+    });
+
+    describe("uploadContent", () => {
+        function uploadingStore(): FileStore {
+            const store = FileStore.newFile(makeFile("a.txt"));
+            store.setCreated(obj("a"));
+            store.setUploading();
+            return store;
+        }
+
+        test("uploads the blob into the object and marks the file done", async () => {
+            saveFileMock.mockResolvedValue(undefined);
+            const store = uploadingStore();
+
+            await expect(store.uploadContent()).resolves.toBe(true);
+
+            expect(saveFileMock).toHaveBeenCalledWith(obj("a"), store.file);
+            expect(store.fileStatus).toBe("done");
+        });
+
+        test("marks the file failed when the upload fails", async () => {
+            saveFileMock.mockRejectedValue(new Error("network"));
+            jest.spyOn(console, "warn").mockImplementation(() => {});
+            const store = uploadingStore();
+
+            await expect(store.uploadContent()).resolves.toBe(false);
+
+            expect(store.fileStatus).toBe("uploadingError");
+        });
+
+        test("does nothing unless the file is uploading", async () => {
+            const store = FileStore.newFile(makeFile());
+            store.setCreated(obj("a"));
+
+            await expect(store.uploadContent()).resolves.toBe(false);
+
+            expect(saveFileMock).not.toHaveBeenCalled();
+            expect(store.fileStatus).toBe("pending");
+        });
     });
 });

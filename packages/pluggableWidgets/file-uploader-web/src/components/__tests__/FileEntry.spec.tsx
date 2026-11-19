@@ -1,93 +1,70 @@
 import "@testing-library/jest-dom";
-import { Big } from "big.js";
 import { fireEvent, render } from "@testing-library/react";
-import { dynamic } from "@mendix/widget-plugin-test-utils";
-import { FileUploaderContainerProps } from "../../../typings/FileUploaderProps";
+import { obj } from "@mendix/widget-plugin-test-utils";
+import { buildProps, makeFile } from "../../__tests__/testProps";
 import { FileStore } from "../../stores/FileStore";
 import { TranslationsStoreProvider } from "../../utils/useTranslationsStore";
 import { FileEntryContainer } from "../FileEntry";
 
 jest.mock("../../utils/mx-data", () => ({
-    fetchDocumentUrl: jest.fn(),
-    fetchImageThumbnail: jest.fn(),
-    fetchMxObject: jest.fn(),
-    removeObject: jest.fn(),
-    saveFile: jest.fn(),
-    fileHasContents: jest.fn()
+    saveFile: jest.fn()
 }));
+
+const dismissFile = jest.fn();
 
 jest.mock("../../utils/useRootStore", () => ({
-    useRootStore: () => ({ maxTotalFiles: 5, isReadOnly: false })
+    useRootStore: () => ({ maxTotalFiles: 5, dismissFile })
 }));
 
-function makeFakeProps(): FileUploaderContainerProps {
-    return {
-        name: "fileUploader1",
-        uploadMode: "images",
-        maxFileSize: 10,
-        maxFilesPerUpload: dynamic.available(new Big(5)),
-        readOnlyMode: false,
-        objectCreationTimeout: 30,
-        allowedFileFormats: "",
-        removeButtonTextMessage: dynamic.available("Remove"),
-        downloadButtonTextMessage: dynamic.available("Download"),
-        unavailableCreateActionMessage: dynamic.available("Unavailable"),
-        uploadFailureTooManyFilesMessage: dynamic.available("Too many"),
-        uploadFailureInvalidFileFormatMessage: dynamic.available("Invalid format"),
-        uploadFailureFileIsTooBigMessage: dynamic.available("Too big")
-    } as unknown as FileUploaderContainerProps;
-}
-
-function makeImageStore(thumbnailUrl: string): FileStore {
-    const rootStore = {
-        dismissFile: jest.fn(),
-        _uploadMode: "images",
-        uploadMode: "images",
-        isReadOnly: false,
-        isFileUploadLimitReached: false
-    } as any;
-    const store = FileStore.newFile(new File([], "img.jpg"), rootStore);
-    (store as any)._thumbnailUrl = thumbnailUrl;
-    (store as any)._documentUrl = "http://host/doc.jpg";
-    return store;
-}
-
-function renderWithTranslations(store: FileStore): ReturnType<typeof render> {
-    const props = makeFakeProps();
+function renderEntry(store: FileStore): ReturnType<typeof render> {
     return render(
-        <TranslationsStoreProvider props={props}>
+        <TranslationsStoreProvider props={buildProps()}>
             <FileEntryContainer store={store} />
         </TranslationsStoreProvider>
     );
 }
 
-describe("FileEntryContainer thumbnail onError", () => {
-    it("calls store.handleThumbnailError() when the img fires an error event", () => {
-        const store = makeImageStore("http://cdn/thumb.jpg");
-        const spy = jest.spyOn(store, "handleThumbnailError");
-
-        const { container } = renderWithTranslations(store);
-
-        // img has alt="" so RTL assigns role "presentation" — query directly
-        const img = container.querySelector("img.image-preview")!;
-        expect(img).not.toBeNull();
-        fireEvent.error(img);
-
-        expect(spy).toHaveBeenCalledTimes(1);
+describe("FileEntry", () => {
+    beforeEach(() => {
+        dismissFile.mockReset();
     });
 
-    it("does not render an img when no thumbnail is set", () => {
-        const rootStore = {
-            dismissFile: jest.fn(),
-            _uploadMode: "images",
-            uploadMode: "images",
-            isReadOnly: false,
-            isFileUploadLimitReached: false
-        } as any;
-        const store = FileStore.newFile(new File([], "doc.pdf"), rootStore);
+    test("shows name, size and the ready message for a pending file", () => {
+        const store = FileStore.newFile(makeFile("report.txt", "12345"));
+        store.setCreated(obj("a"));
 
-        const { container } = renderWithTranslations(store);
+        const { container } = renderEntry(store);
 
-        expect(container.querySelector("img.image-preview")).toBeNull();
+        expect(container.querySelector(".entry-details-main-name")).toHaveTextContent("report.txt");
+        expect(container.querySelector(".entry-details-main-size")).not.toBeEmptyDOMElement();
+        expect(container.querySelector(".upload-status")).toHaveTextContent("Ready to upload.");
+    });
+
+    test("has no remove button for a pending file", () => {
+        const store = FileStore.newFile(makeFile());
+        store.setCreated(obj("a"));
+
+        const { queryByRole } = renderEntry(store);
+
+        expect(queryByRole("button")).not.toBeInTheDocument();
+    });
+
+    test("a rejected file can be removed from the list", () => {
+        const store = FileStore.newFileWithValidationError(makeFile("bad.exe"), "bad format");
+
+        const { getByRole } = renderEntry(store);
+        fireEvent.click(getByRole("button", { name: "Remove this file" }));
+
+        expect(dismissFile).toHaveBeenCalledWith(store);
+    });
+
+    test("shows the progress bar while uploading", () => {
+        const store = FileStore.newFile(makeFile());
+        store.setCreated(obj("a"));
+        store.setUploading();
+
+        const { container } = renderEntry(store);
+
+        expect(container.querySelector(".upload-status")).toHaveTextContent("Uploading...");
     });
 });

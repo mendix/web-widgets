@@ -1,21 +1,10 @@
-import { Big } from "big.js";
-import { ListActionValue, ObjectItem } from "mendix";
+import { ObjectItem } from "mendix";
 import mimeTypes from "mime-types";
-import { action, computed, makeObservable, observable, runInAction } from "mobx";
-
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import { FileUploaderStore } from "./FileUploaderStore";
-import {
-    fetchDocumentUrl,
-    fetchImageThumbnail,
-    fetchMxObject,
-    MxObject,
-    removeObject,
-    saveFile
-} from "../utils/mx-data";
+import { action, makeObservable, observable } from "mobx";
+import { saveFile } from "../utils/mx-data";
 
 export type FileStatus =
-    "existingFile" | "missing" | "queued" | "uploading" | "done" | "uploadingError" | "validationError" | "rejected";
+    "creating" | "pending" | "uploading" | "done" | "uploadingError" | "validationError" | "rejected";
 
 let fileKey = 0;
 
@@ -23,274 +12,99 @@ function getFileKey(): number {
     return fileKey++;
 }
 
+/** One file added by the user in this session. */
 export class FileStore {
     fileStatus: FileStatus;
-
-    private _file?: File = undefined;
-    private _objectItem?: ObjectItem = undefined;
-    private _mxObject?: MxObject = undefined;
-    private _thumbnailUrl?: string = undefined;
-    private _documentUrl?: string = undefined;
-    private _thumbnailFailed: boolean = false;
-    private _rootStore: FileUploaderStore;
-
-    key: number;
-
     errorDescription?: string = undefined;
+    readonly key: number;
 
-    constructor(type: FileStatus, rootStore: FileUploaderStore, file?: File, objectItem?: ObjectItem) {
+    private _objectItem?: ObjectItem = undefined;
+
+    private constructor(
+        type: FileStatus,
+        public readonly file: File,
+        errorDescription?: string
+    ) {
         this.key = getFileKey();
-        this._file = file;
-        this._objectItem = objectItem;
-        this._rootStore = rootStore;
         this.fileStatus = type;
+        this.errorDescription = errorDescription;
 
-        makeObservable<this, "_mxObject" | "_thumbnailUrl" | "_documentUrl" | "_thumbnailFailed">(this, {
+        makeObservable<this, "setDone">(this, {
             fileStatus: observable,
-            _mxObject: observable,
             errorDescription: observable,
-            _thumbnailUrl: observable,
-            _documentUrl: observable,
-            _thumbnailFailed: observable,
-            canRemove: computed,
-            canRetry: computed,
-            imagePreviewUrl: computed,
-            upload: action,
-            fetchMxObject: action,
-            markMissing: action,
-            setQueued: action,
-            retry: action,
-            dismiss: action,
-            handleThumbnailError: action
+            setCreated: action,
+            setFailed: action,
+            setUploading: action,
+            setDone: action
         });
-    }
-
-    markMissing(): void {
-        if (this.fileStatus === "existingFile" || this.fileStatus === "done") {
-            this._rootStore.announce("removeSuccessMessage");
-        }
-
-        // a failed upload stays a failed upload when its object is gone
-        if (this.fileStatus !== "uploadingError") {
-            this.fileStatus = "missing";
-        }
-
-        this._mxObject = undefined;
-        this._objectItem = undefined;
-    }
-
-    setQueued(): void {
-        this.errorDescription = undefined;
-        this.fileStatus = "queued";
-    }
-
-    get canRetry(): boolean {
-        return this.fileStatus === "rejected" && !this._rootStore.isFileUploadLimitReached;
-    }
-
-    retry(): void {
-        if (!this.canRetry) {
-            return;
-        }
-        this.setQueued();
-    }
-
-    dismiss(): void {
-        this._rootStore.dismissFile(this);
-    }
-
-    canExecute(listAction: ListActionValue): boolean {
-        if (!this._objectItem) {
-            return false;
-        }
-
-        return listAction.get(this._objectItem).canExecute;
-    }
-
-    executeAction(listAction?: ListActionValue): void {
-        if (listAction && this._objectItem) {
-            executeAction(listAction.get(this._objectItem));
-        }
-    }
-
-    validate(): boolean {
-        return !(this.fileStatus !== "queued" || !this._file);
-    }
-
-    async upload(): Promise<void> {
-        if (this.fileStatus !== "queued") {
-            return;
-        }
-
-        // set status
-        runInAction(() => {
-            this.fileStatus = "uploading";
-        });
-
-        // create object
-        try {
-            this._objectItem = await this._rootStore.objectCreationHelper.request();
-        } catch (_e: unknown) {
-            runInAction(() => {
-                this.fileStatus = "uploadingError";
-                this._rootStore.announce("uploadFailureGenericMessage");
-                this._rootStore.objectCreationHelper.reportCreationFailure();
-            });
-            return;
-        }
-
-        // upload content to object
-        try {
-            await saveFile(this._objectItem, this._file!);
-            await this.fetchMxObject();
-
-            runInAction(() => {
-                this.fileStatus = "done";
-                this._rootStore.announce("uploadSuccessMessage");
-                this._rootStore.objectCreationHelper.reportUploadSuccess(this._objectItem!);
-            });
-        } catch (_e: unknown) {
-            runInAction(() => {
-                this.fileStatus = "uploadingError";
-                this._rootStore.announce("uploadFailureGenericMessage");
-                this._rootStore.objectCreationHelper.reportUploadFailure(this._objectItem!);
-            });
-        }
     }
 
     get title(): string {
-        if (this._mxObject) {
-            return this._mxObject.get2("Name")?.toString();
-        }
-
-        return this._file?.name ?? "...";
+        return this.file.name;
     }
 
     get size(): number {
-        if (this._mxObject) {
-            return (this._mxObject.get2("Size") as Big)?.toNumber();
-        }
-
-        return this._file?.size ?? -1;
+        return this.file.size;
     }
 
     get mimeType(): string {
         return mimeTypes.lookup(this.title) || "application/octet-stream";
     }
 
-    get objectItemId(): string | undefined {
+    get objectItemId(): ObjectItem["id"] | undefined {
         return this._objectItem?.id;
     }
 
-    get canRemove(): boolean {
-        return (!this._rootStore.isReadOnly && this.fileStatus === "existingFile") || this.fileStatus === "done";
+    /** Files without an object can be removed from the list. Files with an object can't (no delete API yet). */
+    get canDismiss(): boolean {
+        return this.fileStatus === "validationError" || this.fileStatus === "rejected";
     }
 
-    get canDownload(): boolean {
-        return this.fileStatus === "done" || this.fileStatus === "existingFile";
+    setCreated(item: ObjectItem): void {
+        this._objectItem = item;
+        this.fileStatus = "pending";
     }
 
-    get canExecuteActions(): boolean {
-        return !!this._objectItem;
+    setFailed(): void {
+        this.fileStatus = "uploadingError";
     }
 
-    async remove(): Promise<void> {
-        if (!this.canRemove || !this._objectItem) {
-            return;
+    setUploading(): void {
+        this.fileStatus = "uploading";
+    }
+
+    /** Uploads the content into the object. The object must already be committed. */
+    async uploadContent(): Promise<boolean> {
+        if (this.fileStatus !== "uploading" || !this._objectItem) {
+            return false;
         }
 
         try {
-            await removeObject(this._objectItem);
-            runInAction(() => {
-                // the datasource update may have already reported this removal
-                if (this.fileStatus !== "missing" && this._rootStore.files.includes(this)) {
-                    this._rootStore.announce("removeSuccessMessage");
-                }
-                this._rootStore.dismissFile(this);
-            });
+            await saveFile(this._objectItem, this.file);
+            this.setDone();
+            return true;
         } catch (e: unknown) {
-            console.error("Could not remove object:", e);
+            console.warn(`Uploading file content to ${this._objectItem.id} has failed.`, e);
+            // TODO: the object is already committed but has no contents. Decide whether to delete it,
+            // let the app handle it with an action, or keep it as is.
+            this.setFailed();
+            return false;
         }
     }
 
-    async fetchMxObject(): Promise<void> {
-        if (this._objectItem) {
-            const obj = await fetchMxObject(this._objectItem!);
-            runInAction(() => {
-                this._mxObject = obj;
-                this.updateThumbnailUrl();
-            });
-        }
+    private setDone(): void {
+        this.fileStatus = "done";
     }
 
-    handleThumbnailError(): void {
-        this._thumbnailFailed = true;
+    static newFile(file: File): FileStore {
+        return new FileStore("creating", file);
     }
 
-    async updateThumbnailUrl(): Promise<void> {
-        if (this._rootStore.uploadMode !== "images") {
-            return;
-        }
-
-        this._thumbnailUrl = undefined;
-        this._thumbnailFailed = false;
-        if (this._mxObject) {
-            const [thumbnailUrl, documentUrl] = await Promise.all([
-                fetchImageThumbnail(this._mxObject),
-                fetchDocumentUrl(this._mxObject)
-            ]);
-            runInAction(() => {
-                this._thumbnailUrl = thumbnailUrl;
-                this._documentUrl = documentUrl;
-            });
-        }
+    static newRejectedFile(file: File): FileStore {
+        return new FileStore("rejected", file);
     }
 
-    async getDownloadUrl(): Promise<string | undefined> {
-        if (this._mxObject) {
-            return fetchDocumentUrl(this._mxObject);
-        }
-    }
-
-    get imagePreviewUrl(): string | undefined {
-        if (this._rootStore.uploadMode !== "images") {
-            return;
-        }
-
-        if (this._thumbnailFailed) {
-            return this._documentUrl;
-        }
-        if (this._thumbnailUrl) {
-            return this._thumbnailUrl;
-        }
-        if (this._file && this.mimeType.startsWith("image/")) {
-            return URL.createObjectURL(this._file!);
-        }
-
-        return undefined;
-    }
-
-    static existingFile(objectItem: ObjectItem, rootStore: FileUploaderStore): FileStore {
-        const store = new FileStore("existingFile", rootStore, undefined, objectItem);
-        store.fetchMxObject();
-
-        return store;
-    }
-
-    static newFile(file: File, rootStore: FileUploaderStore): FileStore {
-        return new FileStore("queued", rootStore, file, undefined);
-    }
-
-    static newRejectedFile(file: File, rootStore: FileUploaderStore): FileStore {
-        return new FileStore("rejected", rootStore, file, undefined);
-    }
-
-    static newFileWithValidationError(file: File, errorMessage: string, rootStore: FileUploaderStore): FileStore {
-        const store = new FileStore("validationError", rootStore, file, undefined);
-        runInAction(() => {
-            store.errorDescription = errorMessage;
-        });
-
-        return store;
+    static newFileWithValidationError(file: File, errorMessage: string): FileStore {
+        return new FileStore("validationError", file, errorMessage);
     }
 }

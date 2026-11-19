@@ -1,128 +1,64 @@
 import classNames from "classnames";
 import { observer } from "mobx-react-lite";
-import { KeyboardEvent, MouseEvent, ReactElement, ReactNode, useCallback } from "react";
-import { ActionsBar } from "./ActionsBar";
+import { ReactElement, useCallback } from "react";
+import { ActionButton } from "./ActionButton";
 import { FileIcon } from "./FileIcon";
 import { ProgressBar } from "./ProgressBar";
 import { UploadInfo } from "./UploadInfo";
-import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
-import { FileStatus, FileStore } from "../stores/FileStore";
+import { FileStore } from "../stores/FileStore";
 import { fileSize } from "../utils/fileSize";
+import { useRootStore } from "../utils/useRootStore";
+import { useTranslationsStore } from "../utils/useTranslationsStore";
 
 interface FileEntryContainerProps {
     store: FileStore;
-    actions?: FileUploaderContainerProps["customButtons"];
 }
 
-export const FileEntryContainer = observer(({ store, actions }: FileEntryContainerProps): ReactElement | null => {
-    const defaultAction = actions?.find(a => {
-        return a.buttonIsDefault;
-    });
+export const FileEntryContainer = observer(({ store }: FileEntryContainerProps): ReactElement => {
+    const rootStore = useRootStore();
+    const translations = useTranslationsStore();
 
-    const defaultListAction = defaultAction?.buttonActionFile ?? defaultAction?.buttonActionImage;
-
-    const onDefaultAction = useCallback(() => {
-        store.executeAction(defaultListAction);
-    }, [store, defaultListAction]);
-
-    if (store.fileStatus === "missing") {
-        return null;
-    }
-
-    return (
-        <FileEntry
-            title={store.title}
-            size={store.size}
-            thumbnail={store.imagePreviewUrl}
-            mimeType={store.mimeType}
-            fileStatus={store.fileStatus}
-            errorMessage={store.errorDescription}
-            defaultAction={defaultListAction && store.canExecute(defaultListAction) ? onDefaultAction : undefined}
-            actions={<ActionsBar actions={actions} store={store} />}
-            onThumbnailError={() => store.handleThumbnailError()}
-        />
-    );
-});
-
-interface FileEntryProps {
-    title: string;
-    size: number;
-    thumbnail?: string;
-    mimeType: string;
-
-    fileStatus: FileStatus;
-    errorMessage?: string;
-
-    defaultAction?: () => void;
-    onThumbnailError?: () => void;
-
-    actions?: ReactNode;
-}
-
-function FileEntry(props: FileEntryProps): ReactElement {
-    const { defaultAction } = props;
-
-    const onClick = useCallback(
-        (e: MouseEvent<HTMLDivElement>) => {
-            e.stopPropagation();
-            e.preventDefault();
-            defaultAction?.();
-        },
-        [defaultAction]
-    );
-
-    const onKeyDown = useCallback(
-        (e: KeyboardEvent<HTMLDivElement>) => {
-            if (e.code === "Enter" || e.code === "Space") {
-                e.stopPropagation();
-                e.preventDefault();
-                defaultAction?.();
-            }
-        },
-        [defaultAction]
-    );
+    const onDismiss = useCallback(() => {
+        rootStore.dismissFile(store);
+    }, [rootStore, store]);
 
     return (
         <div
             className={classNames("file-entry", {
-                invalid: props.fileStatus === "validationError"
+                invalid: store.fileStatus === "validationError"
             })}
-            title={props.title}
-            tabIndex={defaultAction ? 0 : undefined}
-            onClick={defaultAction ? onClick : undefined}
-            onKeyDown={defaultAction ? onKeyDown : undefined}
+            title={store.title}
         >
             <div className={"entry-details"}>
-                <div
-                    className={classNames("entry-details-preview", {
-                        "preview-icon": !props.thumbnail
-                    })}
-                >
-                    {props.thumbnail ? (
-                        <img
-                            className={"image-preview"}
-                            src={props.thumbnail}
-                            alt=""
-                            onError={props.onThumbnailError}
-                        />
-                    ) : (
-                        <FileIcon mimeType={props.mimeType} />
-                    )}
+                <div className={"entry-details-preview preview-icon"}>
+                    <FileIcon mimeType={store.mimeType} />
                 </div>
 
                 <div className={"entry-details-main"}>
-                    <div className={"entry-details-main-name"}>{props.title}</div>
-                    <div className={"entry-details-main-size"}>{props.size !== -1 && fileSize(props.size)}</div>
+                    <div className={"entry-details-main-name"}>{store.title}</div>
+                    <div className={"entry-details-main-size"}>{fileSize(store.size)}</div>
                 </div>
 
-                {props.actions}
+                {store.canDismiss && (
+                    <div className={"entry-details-actions"}>
+                        <ActionButton
+                            icon={<span className={"remove-icon"} aria-hidden />}
+                            title={translations.get("removeButtonTextMessage")}
+                            action={onDismiss}
+                            isDisabled={false}
+                        />
+                    </div>
+                )}
             </div>
             <div className={"entry-progress"}>
-                <ProgressBar visible={props.fileStatus === "uploading"} indeterminate />
+                <ProgressBar
+                    visible={store.fileStatus === "uploading" || store.fileStatus === "creating"}
+                    indeterminate
+                />
             </div>
             <div className={"entry-upload-info"}>
-                <UploadInfo status={props.fileStatus} error={props.errorMessage} />
+                <UploadInfo status={store.fileStatus} error={store.errorDescription} />
             </div>
         </div>
     );
-}
+});

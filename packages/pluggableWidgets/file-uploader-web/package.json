@@ -18,7 +18,7 @@
     },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
-        "minimumMXVersion": "10.22.0.68245",
+        "minimumMXVersion": "11.17.0",
         "appName": "File Uploader"
     },
     "testProject": {
@@ -26,7 +26,6 @@
         "branchName": "fileuploader-web"
     },
     "scripts": {
-        "add-nf-defaults": "node nf-defaults.mjs add",
         "build": "pluggable-widgets-tools build:web",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
@@ -35,7 +34,6 @@
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "release": "pluggable-widgets-tools release:web",
-        "remove-nf-defaults": "node nf-defaults.mjs remove",
         "start": "pluggable-widgets-tools start:server",
         "test": "pluggable-widgets-tools test:unit:web",
         "update-changelog": "rui-update-changelog-widget",

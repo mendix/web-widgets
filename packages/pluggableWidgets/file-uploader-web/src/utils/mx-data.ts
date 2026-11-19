@@ -1,61 +1,12 @@
-import { Big } from "big.js";
 import { ObjectItem } from "mendix";
 
-export type MxObject = {
-    getGuid(): string;
-    getEntity(): string;
-    get(name: string): string | Big | boolean;
-    get2(name: string): string | Big | boolean;
-};
-
+/**
+ * Uploads the file content into a committed `System.FileDocument` object.
+ *
+ * TODO: replace once the Pluggable Widgets API can upload file contents (`mx.data` is not available in strict mode).
+ */
 export function saveFile(item: ObjectItem, fileToUpload: File): Promise<void> {
     return new Promise<void>((resolve, reject) => {
         (window as any).mx.data.saveDocument(item.id, fileToUpload.name, {}, fileToUpload, resolve, reject);
-    });
-}
-
-export function removeObject(item: ObjectItem): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-        (window as any).mx.data.remove({
-            guid: item.id,
-            callback: resolve,
-            error: reject
-        });
-    });
-}
-
-export function fileHasContents(item: ObjectItem): boolean {
-    const obj = (item as any)[Object.getOwnPropertySymbols(item)[0]];
-    return !!obj.get2("HasContents");
-}
-
-export function fetchMxObject(objectItem: ObjectItem): Promise<MxObject> {
-    return new Promise<MxObject>((resolve, reject) => {
-        (window as any).mx.data.get({
-            guid: objectItem.id,
-            callback: resolve,
-            error: reject
-        });
-    });
-}
-
-export async function fetchDocumentUrl(mxObject: MxObject): Promise<string> {
-    return (window as any).mx.data.getDocumentUrl(
-        mxObject.getGuid(),
-        mxObject.get("changedDate"),
-        false,
-        mxObject.get2("Name")
-    );
-}
-
-export async function fetchImageThumbnail(mxObject: MxObject): Promise<string> {
-    const docUrl = await (window as any).mx.data.getDocumentUrl(
-        mxObject.getGuid(),
-        mxObject.get("changedDate"),
-        true,
-        mxObject.get2("Name")
-    );
-    return new Promise<string>((resolve, reject) => {
-        (window as any).mx.data.getImageUrl(docUrl, resolve, reject);
     });
 }

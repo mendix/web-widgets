@@ -3,11 +3,9 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, DynamicValue, ListActionValue, ListValue, WebIcon } from "mendix";
+import { ActionValue, DynamicValue, ListValue } from "mendix";
 import { Big } from "big.js";
 import { CSSProperties } from "react";
-
-export type UploadModeEnum = "files" | "images";
 
 export type ConfigModeEnum = "simple" | "advanced";
 
@@ -32,15 +30,6 @@ export interface AllowedFileFormatsType {
     typeFormatDescription: DynamicValue<string>;
 }
 
-export interface CustomButtonsType {
-    buttonCaption: DynamicValue<string>;
-    buttonIcon: DynamicValue<WebIcon>;
-    buttonActionFile?: ListActionValue;
-    buttonActionImage?: ListActionValue;
-    buttonIsDefault: boolean;
-    buttonIsVisible: DynamicValue<boolean>;
-}
-
 export interface AllowedFileFormatsPreviewType {
     configMode: ConfigModeEnum;
     predefinedType: PredefinedTypeEnum;
@@ -49,39 +38,22 @@ export interface AllowedFileFormatsPreviewType {
     typeFormatDescription: string;
 }
 
-export interface CustomButtonsPreviewType {
-    buttonCaption: string;
-    buttonIcon:
-        | { type: "glyph"; iconClass: string }
-        | { type: "image"; imageUrl: string; iconUrl: string }
-        | { type: "icon"; iconClass: string }
-        | undefined;
-    buttonActionFile: {} | null;
-    buttonActionImage: {} | null;
-    buttonIsDefault: boolean;
-    buttonIsVisible: string;
-}
-
 export interface FileUploaderContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    uploadMode: UploadModeEnum;
-    associatedFiles: ListValue;
-    associatedImages: ListValue;
-    readOnlyMode: boolean;
-    createFileAction?: ActionValue;
-    createImageAction?: ActionValue;
+    files: ListValue;
+    uploadAction?: ActionValue;
     allowedFileFormats: AllowedFileFormatsType[];
     maxFilesPerUpload?: DynamicValue<Big>;
-    maxFilesPerBatch?: DynamicValue<Big>;
     maxFileSize: number;
     dropzoneIdleMessage: DynamicValue<string>;
     dropzoneAcceptedMessage: DynamicValue<string>;
     dropzoneRejectedMessage: DynamicValue<string>;
+    uploadButtonCaptionMessage: DynamicValue<string>;
+    uploadPendingMessage: DynamicValue<string>;
     uploadInProgressMessage: DynamicValue<string>;
-    uploadQueuedMessage: DynamicValue<string>;
     uploadSuccessMessage: DynamicValue<string>;
     uploadFailureGenericMessage: DynamicValue<string>;
     uploadFailureInvalidFileFormatMessage: DynamicValue<string>;
@@ -89,18 +61,8 @@ export interface FileUploaderContainerProps {
     uploadFailureTooManyFilesMessage: DynamicValue<string>;
     uploadLimitReachedMessage: DynamicValue<string>;
     unavailableCreateActionMessage: DynamicValue<string>;
-    downloadButtonTextMessage: DynamicValue<string>;
     removeButtonTextMessage: DynamicValue<string>;
-    retryButtonTextMessage: DynamicValue<string>;
-    removeSuccessMessage: DynamicValue<string>;
-    removeErrorMessage: DynamicValue<string>;
-    objectCreationTimeout: number;
-    onUploadSuccessFile?: ListActionValue;
-    onUploadSuccessImage?: ListActionValue;
-    onUploadFailureFile?: ListActionValue;
-    onUploadFailureImage?: ListActionValue;
-    enableCustomButtons: boolean;
-    customButtons: CustomButtonsType[];
+    uploadActionTimeout: number;
 }
 
 export interface FileUploaderPreviewProps {
@@ -114,21 +76,17 @@ export interface FileUploaderPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
-    uploadMode: UploadModeEnum;
-    associatedFiles: {} | { caption: string } | { type: string } | null;
-    associatedImages: {} | { caption: string } | { type: string } | null;
-    readOnlyMode: boolean;
-    createFileAction: {} | null;
-    createImageAction: {} | null;
+    files: {} | { caption: string } | { type: string } | null;
+    uploadAction: {} | null;
     allowedFileFormats: AllowedFileFormatsPreviewType[];
     maxFilesPerUpload: string;
-    maxFilesPerBatch: string;
     maxFileSize: number | null;
     dropzoneIdleMessage: string;
     dropzoneAcceptedMessage: string;
     dropzoneRejectedMessage: string;
+    uploadButtonCaptionMessage: string;
+    uploadPendingMessage: string;
     uploadInProgressMessage: string;
-    uploadQueuedMessage: string;
     uploadSuccessMessage: string;
     uploadFailureGenericMessage: string;
     uploadFailureInvalidFileFormatMessage: string;
@@ -136,16 +94,6 @@ export interface FileUploaderPreviewProps {
     uploadFailureTooManyFilesMessage: string;
     uploadLimitReachedMessage: string;
     unavailableCreateActionMessage: string;
-    downloadButtonTextMessage: string;
     removeButtonTextMessage: string;
-    retryButtonTextMessage: string;
-    removeSuccessMessage: string;
-    removeErrorMessage: string;
-    objectCreationTimeout: number | null;
-    onUploadSuccessFile: {} | null;
-    onUploadSuccessImage: {} | null;
-    onUploadFailureFile: {} | null;
-    onUploadFailureImage: {} | null;
-    enableCustomButtons: boolean;
-    customButtons: CustomButtonsPreviewType[];
+    uploadActionTimeout: number | null;
 }

@@ -7,33 +7,13 @@
     <icon />
     <properties>
         <propertyGroup caption="General">
-            <property key="uploadMode" type="enumeration" defaultValue="files">
-                <caption>Upload mode</caption>
-                <description />
-                <enumerationValues>
-                    <enumerationValue key="files">Files</enumerationValue>
-                    <enumerationValue key="images">Images</enumerationValue>
-                </enumerationValues>
+            <property key="files" type="datasource" isList="true" allowCreate="true">
+                <caption>Files</caption>
+                <description>List of a System.FileDocument specialization. The widget creates a new object of this entity for every file the user adds.</description>
             </property>
-            <property key="associatedFiles" type="datasource" isList="true" defaultType="Association" defaultValue="FileUploader.FileUploadContext/FileUploader.UploadedFile_FileUploadContext/FileUploader.UploadedFile">
-                <caption>Associated files</caption>
-                <description />
-            </property>
-            <property key="associatedImages" type="datasource" isList="true" defaultType="Association" defaultValue="FileUploader.FileUploadContext/FileUploader.UploadedImage_FileUploadContext/FileUploader.UploadedImage">
-                <caption>Associated images</caption>
-                <description />
-            </property>
-            <property key="readOnlyMode" type="boolean" defaultValue="false">
-                <caption>Read-only mode</caption>
-                <description />
-            </property>
-            <property key="createFileAction" type="action" defaultValue="FileUploader.ACT_CreateUploadedFileDocument" defaultType="CallNanoflow">
-                <caption>Action to create new files</caption>
-                <description>Nanoflow that creates a file object, associates it to the current object and commits it.</description>
-            </property>
-            <property key="createImageAction" type="action" defaultValue="FileUploader.ACT_CreateUploadedImageDocument" defaultType="CallNanoflow">
-                <caption>Action to create new images</caption>
-                <description>Nanoflow that creates an image object, associates it to the current object and commits it.</description>
+            <property key="uploadAction" type="action">
+                <caption>On upload</caption>
+                <description>Runs when the user clicks the Upload button, before the file contents are uploaded. It must commit the new file objects, for example with the Save changes action.</description>
             </property>
             <property key="allowedFileFormats" type="object" isList="true" required="false">
                 <caption>Allowed file formats</caption>
@@ -82,12 +62,7 @@
             </property>
             <property key="maxFilesPerUpload" type="expression" defaultValue="10" required="false">
                 <caption>Maximum number of files</caption>
-                <description>Maximum total number of files that can be associated at once. Leave empty or set to 0 for unlimited. Use this to cap the total number of attachments.</description>
-                <returnType type="Integer" />
-            </property>
-            <property key="maxFilesPerBatch" type="expression" required="false">
-                <caption>Maximum concurrent uploads</caption>
-                <description>Maximum number of files uploading simultaneously. Remaining files wait in a queue and upload automatically as slots free up. Leave empty or set to 0 for unlimited.</description>
+                <description>Maximum number of files a user can add before uploading. Leave empty or set to 0 for unlimited.</description>
                 <returnType type="Integer" />
             </property>
             <property key="maxFileSize" type="integer" defaultValue="25">
@@ -120,20 +95,28 @@
                     <translation lang="nl_NL">Sommige bestanden kunnen mogelijk niet worden geüpload.</translation>
                 </translations>
             </property>
+            <property key="uploadButtonCaptionMessage" type="textTemplate">
+                <caption>Upload button</caption>
+                <description />
+                <translations>
+                    <translation lang="en_US">Upload</translation>
+                    <translation lang="nl_NL">Uploaden</translation>
+                </translations>
+            </property>
+            <property key="uploadPendingMessage" type="textTemplate">
+                <caption>Ready to upload</caption>
+                <description>Shown for a file that was added but not uploaded yet.</description>
+                <translations>
+                    <translation lang="en_US">Ready to upload.</translation>
+                    <translation lang="nl_NL">Klaar om te uploaden.</translation>
+                </translations>
+            </property>
             <property key="uploadInProgressMessage" type="textTemplate">
                 <caption>Uploading in progress</caption>
                 <description />
                 <translations>
                     <translation lang="en_US">Uploading...</translation>
                     <translation lang="nl_NL">Uploaden...</translation>
-                </translations>
-            </property>
-            <property key="uploadQueuedMessage" type="textTemplate">
-                <caption>Upload queued</caption>
-                <description />
-                <translations>
-                    <translation lang="en_US">Waiting...</translation>
-                    <translation lang="nl_NL">Wachten...</translation>
                 </translations>
             </property>
             <property key="uploadSuccessMessage" type="textTemplate">
@@ -184,21 +167,12 @@
                     <translation lang="nl_NL">Maximum aantal bestanden van ### bereikt.</translation>
                 </translations>
             </property>
-
             <property key="unavailableCreateActionMessage" type="textTemplate">
-                <caption>Action to create new files is not available or failed</caption>
+                <caption>File creation is not available</caption>
                 <description />
                 <translations>
                     <translation lang="en_US">Can&apos;t upload files at this time. Please contact your system administrator.</translation>
                     <translation lang="nl_NL">Kan op dit moment geen bestanden uploaden. Neem contact op met uw systeembeheerder.</translation>
-                </translations>
-            </property>
-            <property key="downloadButtonTextMessage" type="textTemplate">
-                <caption>Download button</caption>
-                <description />
-                <translations>
-                    <translation lang="en_US">Download this file</translation>
-                    <translation lang="nl_NL">Download dit bestand</translation>
                 </translations>
             </property>
             <property key="removeButtonTextMessage" type="textTemplate">
@@ -209,90 +183,11 @@
                     <translation lang="nl_NL">Verwijder dit bestand</translation>
                 </translations>
             </property>
-            <property key="retryButtonTextMessage" type="textTemplate">
-                <caption>Retry button</caption>
-                <description />
-                <translations>
-                    <translation lang="en_US">Retry upload</translation>
-                    <translation lang="nl_NL">Opnieuw proberen</translation>
-                </translations>
-            </property>
-            <property key="removeSuccessMessage" type="textTemplate">
-                <caption>File removal success</caption>
-                <description>Announced to screen reader users when a file is removed. Not shown in the file list.</description>
-                <translations>
-                    <translation lang="en_US">Removed successfully.</translation>
-                    <translation lang="nl_NL">Succesvol verwijderd.</translation>
-                </translations>
-            </property>
-            <property key="removeErrorMessage" type="textTemplate">
-                <caption>File removal failure</caption>
-                <description />
-                <translations>
-                    <translation lang="en_US">An error occurred while removing this file.</translation>
-                    <translation lang="nl_NL">Er is een fout opgetreden bij het verwijderen van dit bestand.</translation>
-                </translations>
-            </property>
         </propertyGroup>
         <propertyGroup caption="Advanced">
-            <property key="objectCreationTimeout" type="integer" defaultValue="10">
-                <caption>Object creation timeout</caption>
-                <description>Consider uploads unsuccessful if the Action to create new files/images does not create new objects within the configured amount of seconds.</description>
-            </property>
-
-            <property key="onUploadSuccessFile" type="action" dataSource="associatedFiles">
-                <caption>On upload success</caption>
-                <description>The action to be called if file content uploaded successfully.</description>
-            </property>
-            <property key="onUploadSuccessImage" type="action" dataSource="associatedImages">
-                <caption>On upload success</caption>
-                <description>The action to be called if image content uploaded successfully.</description>
-            </property>
-            <property key="onUploadFailureFile" type="action" dataSource="associatedFiles" defaultValue="FileUploader.ACT_DeleteUploadedFileDocument" defaultType="CallNanoflow">
-                <caption>On upload failure</caption>
-                <description>The action to be called if file content upload was not successful.</description>
-            </property>
-            <property key="onUploadFailureImage" type="action" dataSource="associatedImages" defaultValue="FileUploader.ACT_DeleteUploadedImageDocument" defaultType="CallNanoflow">
-                <caption>On upload failure</caption>
-                <description>The action to be called if image content upload was not successful.</description>
-            </property>
-
-            <property key="enableCustomButtons" type="boolean" defaultValue="false">
-                <caption>Enable custom buttons</caption>
-                <description />
-            </property>
-            <property key="customButtons" type="object" isList="true" required="false">
-                <caption>Custom buttons</caption>
-                <description />
-                <properties>
-                    <propertyGroup caption="General">
-                        <property key="buttonCaption" type="textTemplate">
-                            <caption>Caption</caption>
-                            <description />
-                        </property>
-                        <property key="buttonIcon" type="icon">
-                            <caption>Icon</caption>
-                            <description />
-                        </property>
-                        <property key="buttonActionFile" type="action" dataSource="../associatedFiles">
-                            <caption>Action</caption>
-                            <description />
-                        </property>
-                        <property key="buttonActionImage" type="action" dataSource="../associatedImages">
-                            <caption>Action</caption>
-                            <description />
-                        </property>
-                        <property key="buttonIsDefault" type="boolean" defaultValue="false">
-                            <caption>Default file action</caption>
-                            <description>When set to Yes, the action will be triggered by clicking on the file entry.</description>
-                        </property>
-                        <property key="buttonIsVisible" type="expression" defaultValue="true">
-                            <caption>Visible</caption>
-                            <description>The button will be hidden when false is returned.</description>
-                            <returnType type="Boolean" />
-                        </property>
-                    </propertyGroup>
-                </properties>
+            <property key="uploadActionTimeout" type="integer" defaultValue="10">
+                <caption>Upload action timeout</caption>
+                <description>Consider uploads unsuccessful if the On upload action does not finish within the configured amount of seconds.</description>
             </property>
         </propertyGroup>
     </properties>

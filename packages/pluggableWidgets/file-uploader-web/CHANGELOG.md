@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Breaking changes
+
+- The widget is rewritten and now requires Studio Pro 11.17 or later. For earlier versions, use File Uploader 2.x. Pages with File Uploader 2.x must be reconfigured.
+
+- The widget now creates file objects itself. Configure "Files" with a list data source of your own `System.FileDocument` specialization. The data source no longer needs an association to a context object, and the "Action to create new files" nanoflow is no longer needed. Users need create access on the entity.
+
+- Files are uploaded when the user clicks the new Upload button, no longer as soon as they are dropped. Set "On upload" to the Save changes action, so the new file objects are committed before their contents are uploaded.
+
+- The widget lists only the files added on the page. To show existing files, use a Gallery or Data Grid 2 on the same entity.
+
+- Image uploads, read-only mode, download, remove and retry buttons, custom action buttons, the upload success and failure actions, and the concurrent upload limit are removed. Files can't be removed before they are uploaded.
+
 ## [2.5.1] - 2026-10-13
 
 ### Fixed

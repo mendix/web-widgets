@@ -23,6 +23,10 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
         [rootStore]
     );
 
+    const onUpload = useCallback(() => {
+        rootStore.upload();
+    }, [rootStore]);
+
     let warningMessage: string | undefined;
     let statusMessage: string | undefined;
     if (rootStore.isFileUploadLimitReached) {
@@ -35,33 +39,36 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
 
     return (
         <div className={classNames(props.class, "widget-file-uploader")} style={props.style}>
-            {!rootStore.isReadOnly && (
-                <Dropzone
-                    onDrop={onDrop}
-                    warningMessage={warningMessage}
-                    statusMessage={statusMessage}
-                    maxSize={rootStore.maxFileSize}
-                    acceptFileTypes={prepareAcceptForDropzone(rootStore.acceptedFileTypes)}
-                    disabled={rootStore.isFileUploadLimitReached}
-                />
-            )}
+            <Dropzone
+                onDrop={onDrop}
+                warningMessage={warningMessage}
+                statusMessage={statusMessage}
+                maxSize={rootStore.maxFileSize}
+                acceptFileTypes={prepareAcceptForDropzone(rootStore.acceptedFileTypes)}
+                disabled={rootStore.isFileUploadLimitReached || rootStore.isUploading}
+            />
 
             <div className={"files-list"}>
-                {rootStore.sortedFiles.map(fileStore => {
-                    return (
-                        <FileEntryContainer
-                            store={fileStore}
-                            key={fileStore.key}
-                            actions={props.enableCustomButtons ? props.customButtons : undefined}
-                        />
-                    );
-                })}
+                {rootStore.sortedFiles.map(fileStore => (
+                    <FileEntryContainer store={fileStore} key={fileStore.key} />
+                ))}
+            </div>
+
+            <div className={"upload-actions"}>
+                <button
+                    type="button"
+                    className={"btn btn-primary upload-button"}
+                    disabled={!rootStore.canUpload}
+                    onClick={onUpload}
+                >
+                    {translations.get("uploadButtonCaptionMessage")}
+                </button>
             </div>
 
             <div className={"sr-only"} role={"status"} aria-live={"polite"} aria-atomic={"true"}>
                 {/* alternate a trailing non-breaking space so a repeated message is announced again */}
                 {rootStore.announcement.text}
-                {rootStore.announcement.seq % 2 === 1 ? "\u00A0" : ""}
+                {rootStore.announcement.seq % 2 === 1 ? " " : ""}
             </div>
         </div>
     );

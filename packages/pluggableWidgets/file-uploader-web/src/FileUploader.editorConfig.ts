@@ -1,4 +1,4 @@
-import { hideNestedPropertiesIn, hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
+import { hideNestedPropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 import { FileUploaderPreviewProps } from "../typings/FileUploaderProps";
 import { parseAllowedFormats } from "./utils/parseAllowedFormats";
 import { predefinedFormats } from "./utils/predefinedFormats";
@@ -7,46 +7,7 @@ export function getProperties(
     values: FileUploaderPreviewProps,
     properties: Properties /* , target: Platform*/
 ): Properties {
-    if (!values.readOnlyMode) {
-        if (values.uploadMode === "files") {
-            hidePropertiesIn(properties, values, ["associatedImages", "createImageAction"]);
-            processAllowedFormats(values, properties);
-        } else {
-            hidePropertiesIn(properties, values, ["associatedFiles", "createFileAction", "allowedFileFormats"]);
-        }
-    } else {
-        hidePropertiesIn(properties, values, [
-            values.uploadMode === "files" ? "associatedImages" : "associatedFiles",
-            "createImageAction",
-            "createFileAction",
-            "allowedFileFormats",
-            "maxFilesPerUpload",
-            "maxFilesPerBatch",
-            "maxFileSize",
-            "objectCreationTimeout"
-        ]);
-    }
-
-    if (values.uploadMode === "files") {
-        hidePropertiesIn(properties, values, ["onUploadSuccessImage", "onUploadFailureImage"]);
-    } else {
-        hidePropertiesIn(properties, values, ["onUploadSuccessFile", "onUploadFailureFile"]);
-    }
-
-    if (values.enableCustomButtons) {
-        values.customButtons.forEach((_button, index) => {
-            hideNestedPropertiesIn(
-                properties,
-                values,
-                "customButtons",
-                index,
-                values.uploadMode === "files" ? ["buttonActionImage"] : ["buttonActionFile"]
-            );
-        });
-    } else {
-        hidePropertiesIn(properties, values, ["customButtons"]);
-    }
-
+    processAllowedFormats(values, properties);
     return properties;
 }
 
@@ -80,35 +41,15 @@ function processAllowedFormats(values: FileUploaderPreviewProps, properties: Pro
 
 export function check(values: FileUploaderPreviewProps): Problem[] {
     const errors: Problem[] = [];
-    // Add errors to the above array to throw errors in Studio and Studio Pro.
 
-    if (!values.readOnlyMode) {
-        if (values.allowedFileFormats.length) {
-            try {
-                parseAllowedFormats(values.allowedFileFormats);
-            } catch (e: unknown) {
-                if (e instanceof Error) {
-                    errors.push({
-                        property: "allowedFileFormats",
-                        message: e.message
-                    });
-                }
-            }
-        }
-
-        if (values.enableCustomButtons) {
-            // check that at max one actions is default
-            const defaultIdx = new Set<number>();
-            values.customButtons.forEach((_button, index) => {
-                if (_button.buttonIsDefault) {
-                    defaultIdx.add(index);
-                }
-            });
-
-            if (defaultIdx.size > 1) {
+    if (values.allowedFileFormats.length) {
+        try {
+            parseAllowedFormats(values.allowedFileFormats);
+        } catch (e: unknown) {
+            if (e instanceof Error) {
                 errors.push({
-                    property: `customButtons`,
-                    message: `Only one default button is allowed.`
+                    property: "allowedFileFormats",
+                    message: e.message
                 });
             }
         }
@@ -142,5 +83,5 @@ function mimeConfigColumnText(mime: string, exts: string): string {
 // }
 
 export function getCustomCaption(_values: FileUploaderPreviewProps): string {
-    return `File uploader (${_values.uploadMode}${_values.readOnlyMode && ", read only"})`;
+    return "File uploader";
 }

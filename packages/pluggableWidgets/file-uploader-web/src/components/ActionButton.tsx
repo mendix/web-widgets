@@ -1,7 +1,5 @@
 import classNames from "classnames";
-import { ListActionValue } from "mendix";
 import { MouseEvent, ReactElement, useCallback } from "react";
-import { FileStore } from "../stores/FileStore";
 
 interface ActionButtonProps {
     icon: ReactElement;
@@ -29,27 +27,5 @@ export function ActionButton({ action, icon, title, isDisabled }: ActionButtonPr
         >
             {icon}
         </button>
-    );
-}
-
-interface FileActionButtonProps {
-    store: FileStore;
-    listAction?: ListActionValue;
-    title?: string;
-    icon: ReactElement;
-}
-
-export function FileActionButton({ listAction, store, title, icon }: FileActionButtonProps): ReactElement {
-    const action = useCallback(() => {
-        store.executeAction(listAction);
-    }, [store, listAction]);
-
-    return (
-        <ActionButton
-            icon={icon}
-            title={title}
-            action={action}
-            isDisabled={!(!listAction || store.canExecute(listAction))}
-        />
     );
 }
