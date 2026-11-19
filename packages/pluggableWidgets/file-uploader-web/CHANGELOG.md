@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.6.0] - 2026-11-19
+
 ### Fixed
 
 - We fixed an issue where custom file formats with hyphenated extensions, such as .tar-gz, were not accepted.
