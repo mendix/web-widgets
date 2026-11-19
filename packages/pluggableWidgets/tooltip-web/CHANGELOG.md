@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-11-18
+
 ### Changed
 
 - New Tooltip widgets now default to Open on Hover,focus, so keyboard users can see the tooltip. Existing widgets keep their setting.
