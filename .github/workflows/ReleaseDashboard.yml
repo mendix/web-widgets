@@ -1,0 +1,64 @@
+name: Release dashboard
+
+on:
+    push:
+        branches: [main]
+    release:
+        types: [created, edited, published, deleted]
+    schedule:
+        - cron: "0 6 * * 1-5"
+    workflow_dispatch:
+
+concurrency:
+    group: release-dashboard
+    cancel-in-progress: true
+
+permissions:
+    # GitHub lists draft releases only to tokens with push access.
+    contents: write
+    pull-requests: read
+    pages: write
+    id-token: write
+
+jobs:
+    build:
+        name: Collect release status
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+              with:
+                  ref: main
+                  fetch-depth: 0
+            - name: Setup pnpm
+              uses: pnpm/action-setup@a3252b78c470c02df07e9d59298aecedc3ccdd6d # v3.0.0
+            - name: Setup node
+              uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+              with:
+                  node-version-file: ".nvmrc"
+                  cache: "pnpm"
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile --filter @mendix/automation-utils
+            - name: Collect status
+              run: |
+                  mkdir -p _site
+                  cp automation/release-dashboard/index.html _site/
+                  node automation/utils/bin/rui-release-status.ts _site/status.json
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Upload Pages artifact
+              uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
+              with:
+                  path: _site
+
+    deploy:
+        name: Deploy to GitHub Pages
+        needs: build
+        runs-on: ubuntu-latest
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+            - name: Deploy
+              id: deployment
+              uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
