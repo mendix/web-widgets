@@ -65,6 +65,12 @@ export function isUserFacing(commit: Commit): boolean {
     return !NON_USER_FACING_TYPES.has(commit.type);
 }
 
+/** User-facing commits made after a draft release was cut, so they are not part of it. */
+export function userFacingCommitsAfter(commits: Commit[], draftCreatedAt: string): Commit[] {
+    const cutAt = Date.parse(draftCreatedAt);
+    return commits.filter(commit => isUserFacing(commit) && Date.parse(commit.date) > cutAt);
+}
+
 export function draftStage(draft: DraftInfo): DraftStage {
     if (draft.changelogPr?.state === "open") {
         return "changelog-pr-open";

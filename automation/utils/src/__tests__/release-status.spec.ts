@@ -7,7 +7,8 @@ import {
     draftStage,
     isReleaseCommit,
     isUserFacing,
-    parseCommit
+    parseCommit,
+    userFacingCommitsAfter
 } from "../release-status.ts";
 
 const commit = (subject: string): Commit => parseCommit("abc", "2026-11-10T10:00:00Z", subject);
@@ -102,5 +103,22 @@ describe("classifyTarget", () => {
             classifyTarget({ ...base, commits: [commit("test: add case"), commit("chore: lint")] }),
             "up-to-date"
         );
+    });
+});
+
+describe("userFacingCommitsAfter", () => {
+    const at = (date: string, subject = "fix: keep focus"): Commit => parseCommit("abc", date, subject);
+
+    it("compares instants, not strings, across time zone offsets", () => {
+        const before = at("2026-11-17T10:00:00+01:00");
+        const after = at("2026-11-17T10:45:00+01:00");
+
+        assert.deepEqual(userFacingCommitsAfter([before, after], "2026-11-17T09:30:00Z"), [after]);
+    });
+
+    it("leaves out tests and chores merged after the draft", () => {
+        const test = at("2026-11-18T00:00:00Z", "test: add case");
+
+        assert.deepEqual(userFacingCommitsAfter([test], "2026-11-17T00:00:00Z"), []);
     });
 });

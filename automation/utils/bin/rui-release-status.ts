@@ -12,7 +12,7 @@ import {
     classifyTarget,
     draftStage,
     isReleaseCommit,
-    isUserFacing,
+    userFacingCommitsAfter,
     parseCommit
 } from "../src/release-status.ts";
 
@@ -241,7 +241,7 @@ async function main(): Promise<void> {
             draft: draft ? { ...draft, stage: draftStage(draft) } : null,
             unreleased,
             commits,
-            commitsAfterDraft: draft ? commits.filter(c => isUserFacing(c) && c.date > draft.createdAt) : []
+            commitsAfterDraft: draft ? userFacingCommitsAfter(commits, draft.createdAt) : []
         });
     }
 
