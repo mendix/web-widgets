@@ -162,7 +162,6 @@ BaseOptionsProvider<T, P> (standalone implementations)
 | **useDownshiftSingleSelectProps** | `src/hooks/useDownshiftSingleSelectProps.ts` | Wraps Downshift useCombobox for single-select                                                      |
 | **useDownshiftMultiSelectProps**  | `src/hooks/useDownshiftMultiSelectProps.ts`  | Wraps Downshift useMultipleSelection + useCombobox                                                 |
 | **useLazyLoading**                | `src/hooks/useLazyLoading.ts`                | Infinite scroll via useInfiniteControl from grid plugin                                            |
-| **useMenuStyle**                  | `src/hooks/useMenuStyle.ts`                  | Dynamic dropdown positioning with debounced style updates                                          |
 
 ### Data Flow
 
@@ -182,7 +181,6 @@ SingleSelection / MultiSelection
   │
   ├─ useDownshift*Props(selector) → Downshift state (isOpen, inputValue, etc.)
   ├─ useLazyLoading(selector.options) → onScroll handler
-  ├─ useMenuStyle() → dropdown positioning
   │
   ↓ getInputProps, getMenuProps, getItemProps
 ComboboxWrapper + Menu components
@@ -229,7 +227,6 @@ selector.setValue(selectedItem)
 | --------------------------- | ----------------------------- | ----------------------------------- |
 | Debounced filter input      | useGetSelector                | 200ms (configurable)                |
 | Debounced datasource filter | BaseDatasourceOptionsProvider | 200ms (configurable)                |
-| Debounced menu position     | useMenuStyle                  | 32ms (~60fps)                       |
 | Memoized Downshift config   | useDownshift\*Props           | useMemo with selector deps          |
 | Singleton selector          | useGetSelector                | useRef (created once)               |
 | Lazy loading                | useLazyLoading                | useInfiniteControl from grid plugin |
@@ -372,7 +369,6 @@ pnpm run format  — Prettier
 - `src/hooks/useDownshiftSingleSelectProps.ts`
 - `src/hooks/useDownshiftMultiSelectProps.ts`
 - `src/hooks/useLazyLoading.ts`
-- `src/hooks/useMenuStyle.ts`
 
 ### Selectors
 
