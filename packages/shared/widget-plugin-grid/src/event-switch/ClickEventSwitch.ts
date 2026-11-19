@@ -13,7 +13,7 @@ export class ClickEventSwitch<Context, Element> {
         const awaitTime = 320; // ms, approx 1/3 of a second
         const sameGestureWindow = 5; // ms
         let startTime = -Infinity;
-        let previous: { detail: number; timeStamp: number } | undefined;
+        let previous: { detail: number; timeStamp: number; forwardsTo: EventTarget | null } | undefined;
 
         return {
             eventName: "onClick",
@@ -21,13 +21,18 @@ export class ClickEventSwitch<Context, Element> {
                 const isSameGesture =
                     previous !== undefined &&
                     previous.detail === event.detail &&
-                    event.timeStamp - previous.timeStamp < sameGestureWindow;
+                    ((previous.forwardsTo !== null && previous.forwardsTo === event.target) ||
+                        event.timeStamp - previous.timeStamp < sameGestureWindow);
 
                 if (isSameGesture) {
                     return;
                 }
 
-                previous = { detail: event.detail, timeStamp: event.timeStamp };
+                previous = {
+                    detail: event.detail,
+                    timeStamp: event.timeStamp,
+                    forwardsTo: forwardedControl(event.target)
+                };
 
                 if (event.timeStamp - startTime > awaitTime) {
                     onClick.forEach(entry => this.runEntry(entry, ctx, event));
@@ -46,4 +51,15 @@ export class ClickEventSwitch<Context, Element> {
             entry.handler(ctx, event);
         }
     }
+}
+
+// The browser re-dispatches a click on a <label> to its control. Event timestamps can't tell the two
+// apart reliably (jsdom rounds them to whole ms, a busy main thread delays the second one), the target can.
+function forwardedControl(target: EventTarget | null): Element | null {
+    if (typeof (target as Element | null)?.closest !== "function") {
+        return null;
+    }
+    const element = target as Element;
+    const control = element.closest("label")?.control ?? null;
+    return control && !control.contains(element) ? control : null;
 }
