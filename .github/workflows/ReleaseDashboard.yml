@@ -3,10 +3,14 @@ name: Release dashboard
 on:
     push:
         branches: [main]
-    release:
-        types: [created, edited, published, deleted]
+    # Not the `release` event: it never fires for drafts, and on publish its ref is the
+    # tag, which the github-pages environment rejects. workflow_run always runs on main.
+    workflow_run:
+        workflows: ["Create draft release", "Publishes a package to marketplace"]
+        types: [completed]
+    # Attaching the OSS readme happens locally and triggers nothing, so poll for it.
     schedule:
-        - cron: "0 6 * * 1-5"
+        - cron: "0 6-18 * * 1-5"
     workflow_dispatch:
 
 concurrency:
