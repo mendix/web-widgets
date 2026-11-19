@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { MouseEvent } from "react";
 import { ClickEntry, ClickEventSwitch } from "../ClickEventSwitch";
 
@@ -5,8 +8,16 @@ type Ctx = { name: string };
 
 const ctx: Ctx = { name: "ctx" };
 
-function click(detail: number, timeStamp: number): MouseEvent<Element> {
-    return { detail, timeStamp } as MouseEvent<Element>;
+function click(detail: number, timeStamp: number, target: EventTarget | null = null): MouseEvent<Element> {
+    return { detail, timeStamp, target } as MouseEvent<Element>;
+}
+
+function labelledCheckbox(): { label: HTMLLabelElement; checkbox: HTMLInputElement } {
+    document.body.innerHTML = `<label for="cb"><span>Toggle</span></label><input id="cb" type="checkbox" />`;
+    return {
+        label: document.querySelector("label")!,
+        checkbox: document.querySelector("input")!
+    };
 }
 
 function setup(entries: Array<ClickEntry<Ctx, Element>>): (event: MouseEvent<Element>) => void {
@@ -93,6 +104,26 @@ describe("ClickEventSwitch", () => {
 
             expect(onSingle).toHaveBeenCalledTimes(1);
             expect(onDouble).toHaveBeenCalledTimes(0);
+        });
+
+        it("runs the click entries once when the click forwarded from a label arrives late", () => {
+            const { label, checkbox } = labelledCheckbox();
+
+            dispatch(click(1, 100, label.firstElementChild));
+            dispatch(click(1, 120, checkbox));
+
+            expect(onSingle).toHaveBeenCalledTimes(1);
+            expect(onDouble).toHaveBeenCalledTimes(0);
+        });
+
+        it("treats a second click on the checkbox itself as a double tap", () => {
+            const { checkbox } = labelledCheckbox();
+
+            dispatch(click(1, 100, checkbox));
+            dispatch(click(1, 250, checkbox));
+
+            expect(onSingle).toHaveBeenCalledTimes(1);
+            expect(onDouble).toHaveBeenCalledTimes(1);
         });
 
         it("does not collapse a double click into the click before it", () => {
