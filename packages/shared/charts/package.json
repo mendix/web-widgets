@@ -38,8 +38,8 @@
         "classnames": "^2.5.1",
         "deepmerge": "^4.3.1",
         "mobx": "6.12.3",
-        "plotly.js-dist-min": "^3.0.0",
-        "react-plotly.js": "^2.6.0"
+        "plotly.js-dist-min": "^4.2.0",
+        "react-plotly.js": "^4.1.0"
     },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",
@@ -55,9 +55,8 @@
         "@rollup/plugin-replace": "^6.0.2",
         "@rollup/plugin-terser": "^0.4.4",
         "@types/jest": "^30.0.0",
-        "@types/plotly.js-dist-min": "^2.3.4",
-        "@types/react-plotly.js": "^2.6.3",
         "copy-and-watch": "^0.1.6",
+        "plotly.js": "^4.2.0",
         "rimraf": "^4.4.1",
         "rollup": "*",
         "rollup-plugin-copy": "^3.5.0",
