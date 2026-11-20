@@ -18,7 +18,7 @@
     },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
-        "minimumMXVersion": "9.24.0.2965",
+        "minimumMXVersion": "11.18.0",
         "appName": "Gallery"
     },
     "testProject": {

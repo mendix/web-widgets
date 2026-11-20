@@ -249,18 +249,29 @@
         </propertyGroup>
         <propertyGroup caption="Texts">
             <propertyGroup caption="Aria labels">
-                <property key="filterSectionTitle" type="textTemplate" required="false">
-                    <caption>Filter section</caption>
-                    <description>Assistive technology will read this upon reaching a filtering or sorting section.</description>
-                </property>
-                <property key="emptyMessageTitle" type="textTemplate" required="false">
-                    <caption>Empty message</caption>
-                    <description>Assistive technology will read this upon reaching an empty message section.</description>
-                </property>
-                <property key="ariaLabelListBox" type="textTemplate" required="false">
-                    <caption>Content description</caption>
-                    <description>Assistive technology will read this upon reaching gallery.</description>
-                </property>
+                <systemProperty key="Text">
+                    <text key="filterSectionTitle">
+                        <caption>Filter section</caption>
+                        <translations>
+                            <translation lang="en_US">Filters</translation>
+                            <translation lang="nl_NL">Filters</translation>
+                        </translations>
+                    </text>
+                    <text key="emptyMessageTitle">
+                        <caption>Empty message</caption>
+                        <translations>
+                            <translation lang="en_US">No items</translation>
+                            <translation lang="nl_NL">Geen items</translation>
+                        </translations>
+                    </text>
+                    <text key="ariaLabelListBox">
+                        <caption>Content description</caption>
+                        <translations>
+                            <translation lang="en_US">Gallery</translation>
+                            <translation lang="nl_NL">Galerij</translation>
+                        </translations>
+                    </text>
+                </systemProperty>
                 <property key="ariaLabelItem" type="textTemplate" dataSource="datasource" required="false">
                     <caption>Item description</caption>
                     <description>Assistive technology will read this upon reaching each gallery item.</description>

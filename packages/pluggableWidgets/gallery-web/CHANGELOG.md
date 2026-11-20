@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- The aria labels in the "Texts" tab ("Filter section", "Empty message" and "Content description") are now system texts. You translate and change them once for the whole app in the system texts editor, and you can still override them for a single gallery. The gallery now requires Studio Pro 11.18 or newer.
+
+- The filter section, the empty message and the list of items now have the accessible names "Filters", "No items" and "Gallery" by default.
+
+### Fixed
+
+- We fixed an issue where the "Filter section" aria label was not applied to the filter section.
+
 ## [3.11.9] - 2026-11-04
 
 ### Fixed

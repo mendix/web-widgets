@@ -35,11 +35,20 @@ export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
 export type StateStorageTypeEnum = "attribute" | "localStorage";
 
+export interface Translations {
+    filterSectionTitle: [];
+    emptyMessageTitle: [];
+    ariaLabelListBox: [];
+}
+
 export interface GalleryContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
+    texts: {
+        translate: <K extends keyof Translations>(key: K, ...params: Translations[K]) => string;
+    };
     filtersPlaceholder?: ReactNode;
     content?: ListWidgetValue;
     datasource: ListValue;
@@ -77,9 +86,6 @@ export interface GalleryContainerProps {
     stateStorageAttr?: EditableValue<string>;
     storeFilters: boolean;
     storeSort: boolean;
-    filterSectionTitle?: DynamicValue<string>;
-    emptyMessageTitle?: DynamicValue<string>;
-    ariaLabelListBox?: DynamicValue<string>;
     ariaLabelItem?: ListExpressionValue<string>;
     selectedCountTemplateSingular?: DynamicValue<string>;
     selectedCountTemplatePlural?: DynamicValue<string>;
@@ -135,9 +141,6 @@ export interface GalleryPreviewProps {
     onConfigurationChange: {} | null;
     storeFilters: boolean;
     storeSort: boolean;
-    filterSectionTitle: string;
-    emptyMessageTitle: string;
-    ariaLabelListBox: string;
     ariaLabelItem: string;
     selectedCountTemplateSingular: string;
     selectedCountTemplatePlural: string;

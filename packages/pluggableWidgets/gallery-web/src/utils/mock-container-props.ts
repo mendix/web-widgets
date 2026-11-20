@@ -1,10 +1,26 @@
 import { list } from "@mendix/widget-plugin-test-utils";
-import { GalleryContainerProps } from "../../typings/GalleryProps";
+import { GalleryContainerProps, Translations } from "../../typings/GalleryProps";
+
+/** English defaults of the Gallery system texts, as declared in Gallery.xml. */
+export const defaultSystemTexts: { [K in keyof Translations]: string } = {
+    filterSectionTitle: "Filters",
+    emptyMessageTitle: "No items",
+    ariaLabelListBox: "Gallery"
+};
+
+/** Mock of the `texts` prop that the Mendix runtime passes for system texts. */
+export function mockTexts(overrides?: Partial<typeof defaultSystemTexts>): GalleryContainerProps["texts"] {
+    const texts = { ...defaultSystemTexts, ...overrides };
+    return {
+        translate: (key, ..._params) => texts[key]
+    };
+}
 
 export function mockContainerProps(): GalleryContainerProps {
     return {
         class: "gallery-test-class",
         name: "gallery_1",
+        texts: mockTexts(),
         tabIndex: 0,
         datasource: list(20),
         refreshInterval: 0,
