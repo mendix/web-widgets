@@ -1,15 +1,13 @@
-import { DynamicValue } from "mendix";
 import { makeAutoObservable } from "mobx";
 import { ReactNode } from "react";
 import { ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
+import { TextsService } from "../model/services/Texts.service";
 
 export class EmptyPlaceholderViewModel {
     constructor(
-        private gate: DerivedPropsGate<{
-            emptyMessageTitle?: DynamicValue<string>;
-            emptyPlaceholder?: ReactNode;
-        }>,
-        private itemCount: ComputedAtom<number>
+        private gate: DerivedPropsGate<{ emptyPlaceholder?: ReactNode }>,
+        private itemCount: ComputedAtom<number>,
+        private texts: TextsService
     ) {
         makeAutoObservable(this);
     }
@@ -21,7 +19,7 @@ export class EmptyPlaceholderViewModel {
         return this.gate.props.emptyPlaceholder;
     }
 
-    get sectionAriaLabel(): string | undefined {
-        return this.gate.props.emptyMessageTitle?.value;
+    get sectionAriaLabel(): string {
+        return this.texts.emptyMessageAriaLabel;
     }
 }

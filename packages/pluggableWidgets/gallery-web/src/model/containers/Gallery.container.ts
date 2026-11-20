@@ -139,7 +139,7 @@ const _05_viewBindings: BindingGroup = {
     inject() {
         injected(GalleryRootViewModel, CORE.mainGate);
         injected(GalleryItemViewModel, CORE.mainGate);
-        injected(EmptyPlaceholderViewModel, CORE.mainGate, CORE.data.itemCount);
+        injected(EmptyPlaceholderViewModel, CORE.mainGate, CORE.data.itemCount, CORE.texts);
     },
     define(container) {
         container.bind(GY.galleryRootVM).toInstance(GalleryRootViewModel).inTransientScope();
