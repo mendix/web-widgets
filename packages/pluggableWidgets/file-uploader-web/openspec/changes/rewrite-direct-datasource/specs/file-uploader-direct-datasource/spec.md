@@ -64,7 +64,7 @@ The widget SHALL list only the files added since the widget was rendered. It SHA
 
 ### Requirement: Ready files cannot be removed
 
-The widget SHALL NOT offer a remove action for a file that has an object. Files rejected by validation or by the file limit have no object, and SHALL offer a dismiss action.
+Unless the experimental On remove action is configured, the widget SHALL NOT offer a remove action for a file that has an object. Files rejected by validation or by the file limit have no object, and SHALL offer a dismiss action.
 
 #### Scenario: Ready file
 
@@ -75,3 +75,27 @@ The widget SHALL NOT offer a remove action for a file that has an object. Files 
 
 - **WHEN** a file was rejected because of its format
 - **THEN** it has a remove button that removes it from the list
+
+### Requirement: Experimental per-file actions
+
+When "On upload (per file)" is configured, the widget SHALL run it once per pending file, with that file's object, and upload that file's content after its action has finished, instead of running "On upload". When "On remove" is configured, the widget SHALL offer a remove button for pending files that runs the action with the file's object and removes the file from the list after the action has finished.
+
+#### Scenario: Upload per file
+
+- **WHEN** "On upload (per file)" is configured and the user clicks Upload with two ready files
+- **THEN** the action runs for the first file's object, its content is uploaded, then the same happens for the second file
+
+#### Scenario: Per-file action fails
+
+- **WHEN** the action can't run for one file
+- **THEN** that file shows an error and the other files are still uploaded
+
+#### Scenario: Remove a ready file
+
+- **WHEN** "On remove" is configured and the user clicks remove on a ready file
+- **THEN** the action runs with the file's object and the file leaves the list after the action has finished
+
+#### Scenario: Remove fails
+
+- **WHEN** the remove action does not finish within the timeout
+- **THEN** the file stays in the list, ready to upload

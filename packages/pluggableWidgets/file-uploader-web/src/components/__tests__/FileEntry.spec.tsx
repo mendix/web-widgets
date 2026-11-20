@@ -11,9 +11,11 @@ jest.mock("../../utils/mx-data", () => ({
 }));
 
 const dismissFile = jest.fn();
+const removeFile = jest.fn();
+const canRemove = jest.fn(() => false);
 
 jest.mock("../../utils/useRootStore", () => ({
-    useRootStore: () => ({ maxTotalFiles: 5, dismissFile })
+    useRootStore: () => ({ maxTotalFiles: 5, dismissFile, removeFile, canRemove })
 }));
 
 function renderEntry(store: FileStore): ReturnType<typeof render> {
@@ -27,6 +29,8 @@ function renderEntry(store: FileStore): ReturnType<typeof render> {
 describe("FileEntry", () => {
     beforeEach(() => {
         dismissFile.mockReset();
+        removeFile.mockReset();
+        canRemove.mockReturnValue(false);
     });
 
     test("shows name, size and the ready message for a pending file", () => {
@@ -56,6 +60,18 @@ describe("FileEntry", () => {
         fireEvent.click(getByRole("button", { name: "Remove this file" }));
 
         expect(dismissFile).toHaveBeenCalledWith(store);
+    });
+
+    test("a pending file can be removed with the On remove action", () => {
+        canRemove.mockReturnValue(true);
+        const store = FileStore.newFile(makeFile());
+        store.setCreated(obj("a"));
+
+        const { getByRole } = renderEntry(store);
+        fireEvent.click(getByRole("button", { name: "Remove this file" }));
+
+        expect(removeFile).toHaveBeenCalledWith(store);
+        expect(dismissFile).not.toHaveBeenCalled();
     });
 
     test("shows the progress bar while uploading", () => {

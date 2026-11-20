@@ -184,10 +184,20 @@
                 </translations>
             </property>
         </propertyGroup>
+        <propertyGroup caption="Experimental">
+            <property key="uploadItemAction" type="action" dataSource="files" required="false">
+                <caption>On upload (per file)</caption>
+                <description>Experimental. Runs once for every file when the user clicks the Upload button, with the new file object as its object. It must commit that object, for example with a nanoflow that commits $currentObject. When set, the On upload action is not used.</description>
+            </property>
+            <property key="removeAction" type="action" dataSource="files" required="false">
+                <caption>On remove</caption>
+                <description>Experimental. Shows a remove button on files that are not uploaded yet. Runs with the new file object as its object. It must delete or roll back that object, for example with the Delete object action.</description>
+            </property>
+        </propertyGroup>
         <propertyGroup caption="Advanced">
             <property key="uploadActionTimeout" type="integer" defaultValue="10">
                 <caption>Upload action timeout</caption>
-                <description>Consider uploads unsuccessful if the On upload action does not finish within the configured amount of seconds.</description>
+                <description>Consider an upload or remove unsuccessful if its action does not finish within the configured amount of seconds.</description>
             </property>
         </propertyGroup>
     </properties>

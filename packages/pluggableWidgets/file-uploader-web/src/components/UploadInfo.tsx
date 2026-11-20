@@ -29,6 +29,7 @@ export function UploadInfo({ status, error }: UploadInfoProps): ReactElement {
         case "pending":
             return <span className={"upload-status"}>{translations.get("uploadPendingMessage")}</span>;
         case "creating":
+        case "removing":
         default:
             return <span className={"upload-status"}></span>;
     }

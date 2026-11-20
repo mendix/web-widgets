@@ -55,6 +55,14 @@ export function check(values: FileUploaderPreviewProps): Problem[] {
         }
     }
 
+    if (values.uploadAction !== null && values.uploadItemAction !== null) {
+        errors.push({
+            property: "uploadItemAction",
+            severity: "warning",
+            message: "On upload (per file) is set, so On upload is not used. Set only one of them."
+        });
+    }
+
     return errors;
 }
 

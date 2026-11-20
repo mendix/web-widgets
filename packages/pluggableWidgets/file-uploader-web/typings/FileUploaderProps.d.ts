@@ -3,7 +3,7 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, DynamicValue, ListValue } from "mendix";
+import { ActionValue, DynamicValue, ListActionValue, ListValue } from "mendix";
 import { Big } from "big.js";
 import { CSSProperties } from "react";
 
@@ -62,6 +62,8 @@ export interface FileUploaderContainerProps {
     uploadLimitReachedMessage: DynamicValue<string>;
     unavailableCreateActionMessage: DynamicValue<string>;
     removeButtonTextMessage: DynamicValue<string>;
+    uploadItemAction?: ListActionValue;
+    removeAction?: ListActionValue;
     uploadActionTimeout: number;
 }
 
@@ -95,5 +97,7 @@ export interface FileUploaderPreviewProps {
     uploadLimitReachedMessage: string;
     unavailableCreateActionMessage: string;
     removeButtonTextMessage: string;
+    uploadItemAction: {} | null;
+    removeAction: {} | null;
     uploadActionTimeout: number | null;
 }

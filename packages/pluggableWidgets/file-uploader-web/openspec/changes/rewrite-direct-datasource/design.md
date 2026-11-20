@@ -50,6 +50,15 @@ The widget keeps its own `FileStore` per added file, holding the `File` blob and
 
 There is no API to delete or roll back an uncommitted created object. A file hidden from the list would still be committed by Save changes, as an empty document. The PoC offers no remove for ready files. Files that failed validation, or were over the limit, have no object and can still be dismissed.
 
+### 6a. Experimental: linked actions per file
+
+To test per-item commit and remove on Studio Pro 11.17, two optional actions linked to `files` (`dataSource="files"`, so they are `ListActionValue`) are added in an Experimental group:
+
+- `uploadItemAction` ("On upload (per file)"): when set, it replaces `uploadAction`. On Upload, files are handled one by one in list order: run `uploadItemAction.get(item)`, wait for it, then upload the content. A file whose action can't run or doesn't finish fails on its own; the others continue. The editor warns when both actions are set.
+- `removeAction` ("On remove"): when set, a pending file gets a remove button. It runs `removeAction.get(item)` and removes the file from the list once the action has finished. On failure the file stays pending. Not available while uploading or while another file is being removed.
+
+`ActionRunner.run()` now takes a getter instead of an `ActionValue`, and `update()` re-reads it on every props update. This is needed because a linked action's value per item is new on every props update. Not verified: whether `get()` works for objects in `createdItems` (it may throw; the widget treats that as "can't execute"), and whether Studio Pro offers "Delete object" for a linked action.
+
 ### 7. Commit succeeds, content upload fails
 
 Not handled. The object stays committed without contents. A TODO in `FileStore.uploadContent` marks the spot.

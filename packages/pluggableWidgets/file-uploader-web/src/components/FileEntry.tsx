@@ -18,9 +18,15 @@ export const FileEntryContainer = observer(({ store }: FileEntryContainerProps):
     const rootStore = useRootStore();
     const translations = useTranslationsStore();
 
-    const onDismiss = useCallback(() => {
-        rootStore.dismissFile(store);
+    const onRemove = useCallback(() => {
+        if (store.canDismiss) {
+            rootStore.dismissFile(store);
+        } else {
+            rootStore.removeFile(store);
+        }
     }, [rootStore, store]);
+
+    const showRemove = store.canDismiss || rootStore.canRemove(store);
 
     return (
         <div
@@ -39,22 +45,19 @@ export const FileEntryContainer = observer(({ store }: FileEntryContainerProps):
                     <div className={"entry-details-main-size"}>{fileSize(store.size)}</div>
                 </div>
 
-                {store.canDismiss && (
+                {showRemove && (
                     <div className={"entry-details-actions"}>
                         <ActionButton
                             icon={<span className={"remove-icon"} aria-hidden />}
                             title={translations.get("removeButtonTextMessage")}
-                            action={onDismiss}
+                            action={onRemove}
                             isDisabled={false}
                         />
                     </div>
                 )}
             </div>
             <div className={"entry-progress"}>
-                <ProgressBar
-                    visible={store.fileStatus === "uploading" || store.fileStatus === "creating"}
-                    indeterminate
-                />
+                <ProgressBar visible={["creating", "removing", "uploading"].includes(store.fileStatus)} indeterminate />
             </div>
             <div className={"entry-upload-info"}>
                 <UploadInfo status={store.fileStatus} error={store.errorDescription} />

@@ -1,5 +1,5 @@
 import { Big } from "big.js";
-import { ListValue, ObjectItem } from "mendix";
+import { ActionValue, ListActionValue, ListValue, ObjectItem } from "mendix";
 import { actionValue, dynamic, ListValueBuilder, obj } from "@mendix/widget-plugin-test-utils";
 import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
 import { CreatableListValue } from "../utils/creatableListValue";
@@ -63,4 +63,31 @@ export function makeFile(name = "a.txt", content = "data"): File {
 /** Resolves after pending promise callbacks have run. Works with fake timers. */
 export function flushPromises(): Promise<void> {
     return new Promise(resolve => jest.requireActual("timers").setImmediate(resolve));
+}
+
+export type MockListAction = ListActionValue & {
+    get: jest.Mock<ActionValue, [ObjectItem]>;
+    /** Sets the value returned for every item from now on, as on new props. */
+    setState: (canExecute: boolean, isExecuting: boolean) => void;
+    /** Every value of the action that was executed, in order. */
+    executed: ObjectItem[];
+};
+
+/** A linked action (`dataSource="files"`). Each `get(item)` returns the current state; `execute` records the item. */
+export function mockListAction(canExecute = true): MockListAction {
+    const state = { canExecute, isExecuting: false };
+    const executed: ObjectItem[] = [];
+    const get = jest.fn((item: ObjectItem) => {
+        const value = actionValue(state.canExecute, state.isExecuting);
+        (value.execute as jest.Mock).mockImplementation(() => executed.push(item));
+        return value;
+    });
+    return {
+        get,
+        executed,
+        setState: (c: boolean, e: boolean) => {
+            state.canExecute = c;
+            state.isExecuting = e;
+        }
+    } as unknown as MockListAction;
 }

@@ -4,7 +4,7 @@ import { action, makeObservable, observable } from "mobx";
 import { saveFile } from "../utils/mx-data";
 
 export type FileStatus =
-    "creating" | "pending" | "uploading" | "done" | "uploadingError" | "validationError" | "rejected";
+    "creating" | "pending" | "removing" | "uploading" | "done" | "uploadingError" | "validationError" | "rejected";
 
 let fileKey = 0;
 
@@ -35,6 +35,8 @@ export class FileStore {
             setCreated: action,
             setFailed: action,
             setUploading: action,
+            setRemoving: action,
+            setPending: action,
             setDone: action
         });
     }
@@ -51,11 +53,18 @@ export class FileStore {
         return mimeTypes.lookup(this.title) || "application/octet-stream";
     }
 
+    get objectItem(): ObjectItem | undefined {
+        return this._objectItem;
+    }
+
     get objectItemId(): ObjectItem["id"] | undefined {
         return this._objectItem?.id;
     }
 
-    /** Files without an object can be removed from the list. Files with an object can't (no delete API yet). */
+    /**
+     * Files without an object can be removed from the list. Files with an object can only be removed
+     * with the experimental On remove action (see `FileUploaderStore.canRemove`).
+     */
     get canDismiss(): boolean {
         return this.fileStatus === "validationError" || this.fileStatus === "rejected";
     }
@@ -71,6 +80,15 @@ export class FileStore {
 
     setUploading(): void {
         this.fileStatus = "uploading";
+    }
+
+    setRemoving(): void {
+        this.fileStatus = "removing";
+    }
+
+    /** Back to pending, for example after a remove action has failed. */
+    setPending(): void {
+        this.fileStatus = "pending";
     }
 
     /** Uploads the content into the object. The object must already be committed. */

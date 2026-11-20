@@ -18,6 +18,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Image uploads, read-only mode, download, remove and retry buttons, custom action buttons, the upload success and failure actions, and the concurrent upload limit are removed. Files can't be removed before they are uploaded.
 
+### Added
+
+- Experimental: "On upload (per file)" runs an action for every file with its file object, instead of one "On upload" action for all files. "On remove" adds a remove button to files that are not uploaded yet, and runs an action with the file object.
+
 ## [2.5.1] - 2026-10-13
 
 ### Fixed

@@ -3,7 +3,15 @@ import { ActionValue } from "mendix";
 import { FileRejection } from "react-dropzone";
 import { actionValue, dynamic } from "@mendix/widget-plugin-test-utils";
 import { FileUploaderContainerProps } from "../../../typings/FileUploaderProps";
-import { buildProps, creatableList, flushPromises, makeFile, plainList } from "../../__tests__/testProps";
+import {
+    buildProps,
+    creatableList,
+    flushPromises,
+    makeFile,
+    MockListAction,
+    mockListAction,
+    plainList
+} from "../../__tests__/testProps";
 import { saveFile } from "../../utils/mx-data";
 import { FileUploaderStore } from "../FileUploaderStore";
 import { TranslationsStore } from "../TranslationsStore";
@@ -26,6 +34,19 @@ function buildStore(overrides: Partial<FileUploaderContainerProps> = {}): {
 /** Simulates the platform re-rendering the widget with a new upload action value. */
 function rerenderWithAction(store: FileUploaderStore, props: FileUploaderContainerProps, action: ActionValue): void {
     store.updateProps({ ...props, uploadAction: action });
+}
+
+/** Simulates the platform reporting a linked action as executing, then finished, on new props. */
+async function finishListAction(
+    store: FileUploaderStore,
+    props: FileUploaderContainerProps,
+    listAction: MockListAction
+): Promise<void> {
+    listAction.setState(true, true);
+    store.updateProps(props);
+    listAction.setState(true, false);
+    store.updateProps(props);
+    await flushPromises();
 }
 
 function invalidTypeRejection(name: string): FileRejection {
@@ -266,6 +287,144 @@ describe("FileUploaderStore", () => {
             await store.upload();
 
             expect(uploadAction.execute).not.toHaveBeenCalled();
+        });
+    });
+
+    describe("upload per file (experimental)", () => {
+        async function perFileStore(count: number): Promise<{
+            store: FileUploaderStore;
+            props: FileUploaderContainerProps;
+            uploadItemAction: MockListAction;
+            uploadAction: ActionValue;
+        }> {
+            const uploadItemAction = mockListAction();
+            const uploadAction = actionValue(true, false);
+            const { store, props } = buildStore({ uploadItemAction, uploadAction });
+            store.processDrop(
+                Array.from({ length: count }, (_, i) => makeFile(`f${i}.txt`)),
+                []
+            );
+            await flushPromises();
+            return { store, props, uploadItemAction, uploadAction };
+        }
+
+        test("is used instead of the On upload action", async () => {
+            const { store, uploadAction } = await perFileStore(1);
+
+            expect(store.isUploadPerFile).toBe(true);
+            store.upload();
+
+            expect(uploadAction.execute).not.toHaveBeenCalled();
+        });
+
+        test("runs the action for each file object, uploading each content after its action", async () => {
+            const { store, props, uploadItemAction } = await perFileStore(2);
+            const [first, second] = store.files; // in list order
+
+            const uploading = store.upload();
+            expect(uploadItemAction.executed).toEqual([first.objectItem]);
+            expect(saveFileMock).not.toHaveBeenCalled();
+
+            await finishListAction(store, props, uploadItemAction);
+            expect(saveFileMock).toHaveBeenCalledTimes(1);
+            expect(uploadItemAction.executed).toEqual([first.objectItem, second.objectItem]);
+
+            await finishListAction(store, props, uploadItemAction);
+            await uploading;
+
+            expect(saveFileMock).toHaveBeenCalledTimes(2);
+            expect(store.files.map(f => f.fileStatus)).toEqual(["done", "done"]);
+            expect(store.announcement.text).toBe("Uploaded successfully.");
+        });
+
+        test("fails only the file whose action can't run", async () => {
+            const { store, props, uploadItemAction } = await perFileStore(2);
+            const [first, second] = store.files;
+            const getDefault = uploadItemAction.get.getMockImplementation()!;
+            uploadItemAction.get.mockImplementation(item => {
+                const value = getDefault(item);
+                return item === first.objectItem ? { ...value, canExecute: false } : value;
+            });
+
+            const uploading = store.upload();
+            await flushPromises();
+            await finishListAction(store, props, uploadItemAction);
+            await uploading;
+
+            expect(first.fileStatus).toBe("uploadingError");
+            expect(second.fileStatus).toBe("done");
+            expect(store.announcement.text).toBe("An error occurred during uploading.");
+        });
+
+        test("canUpload is false when no file's action can execute", async () => {
+            const uploadItemAction = mockListAction(false);
+            const { store } = buildStore({ uploadItemAction });
+            store.processDrop([makeFile()], []);
+            await flushPromises();
+
+            expect(store.canUpload).toBe(false);
+        });
+    });
+
+    describe("removeFile (experimental)", () => {
+        async function removableStore(): Promise<{
+            store: FileUploaderStore;
+            props: FileUploaderContainerProps;
+            removeAction: MockListAction;
+        }> {
+            const removeAction = mockListAction();
+            const { store, props } = buildStore({ removeAction });
+            store.processDrop([makeFile()], []);
+            await flushPromises();
+            return { store, props, removeAction };
+        }
+
+        test("canRemove is false without the On remove action", async () => {
+            const { store } = buildStore();
+            store.processDrop([makeFile()], []);
+            await flushPromises();
+
+            expect(store.canRemove(store.files[0])).toBe(false);
+        });
+
+        test("runs the action with the file object and removes the file once it has finished", async () => {
+            const { store, props, removeAction } = await removableStore();
+            const file = store.files[0];
+            expect(store.canRemove(file)).toBe(true);
+
+            const removing = store.removeFile(file);
+            expect(removeAction.executed).toEqual([file.objectItem]);
+            expect(file.fileStatus).toBe("removing");
+            expect(store.canUpload).toBe(false);
+
+            await finishListAction(store, props, removeAction);
+            await removing;
+
+            expect(store.files).toHaveLength(0);
+        });
+
+        test("keeps the file pending when the action does not finish in time", async () => {
+            jest.useFakeTimers();
+            const { store } = await removableStore();
+            const file = store.files[0];
+
+            const removing = store.removeFile(file);
+            jest.advanceTimersByTime(10001);
+            await removing;
+
+            expect(store.files).toEqual([file]);
+            expect(file.fileStatus).toBe("pending");
+        });
+
+        test("is not possible while uploading", async () => {
+            const removeAction = mockListAction();
+            const { store } = buildStore({ removeAction });
+            store.processDrop([makeFile(), makeFile("b.txt")], []);
+            await flushPromises();
+
+            store.upload();
+
+            expect(store.files.every(f => !store.canRemove(f))).toBe(true);
         });
     });
 });

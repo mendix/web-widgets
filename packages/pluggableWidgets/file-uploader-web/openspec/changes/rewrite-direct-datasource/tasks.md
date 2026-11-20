@@ -37,6 +37,17 @@
 - [ ] 5.5 User without create access: message shown
 - [ ] 5.6 Formats, size and count limits
 
+## 7. Experimental linked actions
+
+- [x] 7.1 XML: `uploadItemAction` and `removeAction` linked to `files`, Experimental group; regenerate typings
+- [x] 7.2 `ActionRunner` takes an action getter so linked values are re-read on every props update
+- [x] 7.3 Store: per-file upload, `canRemove`, `removeFile`; `removing` status
+- [x] 7.4 `FileEntry` remove button for pending files; editor warning when both upload actions are set
+- [x] 7.5 Unit tests
+- [ ] 7.6 Windows: `get(createdItem)` works and the per-file action receives the new object
+- [ ] 7.7 Windows: nanoflow committing `$currentObject` as On upload (per file); contents uploaded
+- [ ] 7.8 Windows: "Delete object" (or a nanoflow) as On remove on an uncommitted object; not committed by a later Save changes
+
 ## 6. Documentation
 
 - [x] 6.1 `CHANGELOG.md`: breaking change entries under Unreleased
