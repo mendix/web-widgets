@@ -4,8 +4,8 @@
  * @author Mendix Widgets Framework Team
  */
 import { ActionValue, DynamicValue, ListActionValue, ListValue } from "mendix";
+import { ComponentType, CSSProperties, ReactNode } from "react";
 import { Big } from "big.js";
-import { CSSProperties } from "react";
 
 export type ConfigModeEnum = "simple" | "advanced";
 
@@ -44,14 +44,13 @@ export interface FileUploaderContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     files: ListValue;
-    uploadAction?: ActionValue;
     allowedFileFormats: AllowedFileFormatsType[];
     maxFilesPerUpload?: DynamicValue<Big>;
     maxFileSize: number;
+    actions?: ReactNode;
     dropzoneIdleMessage: DynamicValue<string>;
     dropzoneAcceptedMessage: DynamicValue<string>;
     dropzoneRejectedMessage: DynamicValue<string>;
-    uploadButtonCaptionMessage: DynamicValue<string>;
     uploadPendingMessage: DynamicValue<string>;
     uploadInProgressMessage: DynamicValue<string>;
     uploadSuccessMessage: DynamicValue<string>;
@@ -62,9 +61,10 @@ export interface FileUploaderContainerProps {
     uploadLimitReachedMessage: DynamicValue<string>;
     unavailableCreateActionMessage: DynamicValue<string>;
     removeButtonTextMessage: DynamicValue<string>;
+    uploadAction?: ActionValue;
     uploadItemAction?: ListActionValue;
     removeAction?: ListActionValue;
-    uploadActionTimeout: number;
+    removeActionTimeout: number;
 }
 
 export interface FileUploaderPreviewProps {
@@ -79,14 +79,13 @@ export interface FileUploaderPreviewProps {
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
     files: {} | { caption: string } | { type: string } | null;
-    uploadAction: {} | null;
     allowedFileFormats: AllowedFileFormatsPreviewType[];
     maxFilesPerUpload: string;
     maxFileSize: number | null;
+    actions: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     dropzoneIdleMessage: string;
     dropzoneAcceptedMessage: string;
     dropzoneRejectedMessage: string;
-    uploadButtonCaptionMessage: string;
     uploadPendingMessage: string;
     uploadInProgressMessage: string;
     uploadSuccessMessage: string;
@@ -97,7 +96,8 @@ export interface FileUploaderPreviewProps {
     uploadLimitReachedMessage: string;
     unavailableCreateActionMessage: string;
     removeButtonTextMessage: string;
+    uploadAction: {} | null;
     uploadItemAction: {} | null;
     removeAction: {} | null;
-    uploadActionTimeout: number | null;
+    removeActionTimeout: number | null;
 }

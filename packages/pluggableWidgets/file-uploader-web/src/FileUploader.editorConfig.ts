@@ -55,11 +55,21 @@ export function check(values: FileUploaderPreviewProps): Problem[] {
         }
     }
 
-    if (values.uploadAction !== null && values.uploadItemAction !== null) {
+    if (values.removeAction === null) {
         errors.push({
-            property: "uploadItemAction",
+            property: "removeAction",
             severity: "warning",
-            message: "On upload (per file) is set, so On upload is not used. Set only one of them."
+            message:
+                "Set On remove to the Delete object action. Otherwise a file the user removes is still committed, without contents."
+        });
+    }
+
+    if (values.actions.widgetCount === 0) {
+        errors.push({
+            property: "actions",
+            severity: "warning",
+            message:
+                "Add a button with the Save changes action to Action widgets, or commit the file objects in another way. File contents are uploaded after the objects are committed."
         });
     }
 

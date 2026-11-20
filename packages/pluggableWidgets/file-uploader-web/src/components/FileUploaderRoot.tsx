@@ -23,10 +23,6 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
         [rootStore]
     );
 
-    const onUpload = useCallback(() => {
-        rootStore.upload();
-    }, [rootStore]);
-
     let warningMessage: string | undefined;
     let statusMessage: string | undefined;
     if (rootStore.isFileUploadLimitReached) {
@@ -54,16 +50,7 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
                 ))}
             </div>
 
-            <div className={"upload-actions"}>
-                <button
-                    type="button"
-                    className={"btn btn-primary upload-button"}
-                    disabled={!rootStore.canUpload}
-                    onClick={onUpload}
-                >
-                    {translations.get("uploadButtonCaptionMessage")}
-                </button>
-            </div>
+            {props.actions && <div className={"upload-actions"}>{props.actions}</div>}
 
             <div className={"sr-only"} role={"status"} aria-live={"polite"} aria-atomic={"true"}>
                 {/* alternate a trailing non-breaking space so a repeated message is announced again */}

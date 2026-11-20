@@ -19,6 +19,7 @@ export class FileStore {
     readonly key: number;
 
     private _objectItem?: ObjectItem = undefined;
+    private _seenInCreatedItems = false;
 
     private constructor(
         type: FileStatus,
@@ -62,11 +63,20 @@ export class FileStore {
     }
 
     /**
-     * Files without an object can be removed from the list. Files with an object can only be removed
-     * with the experimental On remove action (see `FileUploaderStore.canRemove`).
+     * Files without an object can be dismissed from the list. Files with an uncommitted object are
+     * removed through `FileUploaderStore.removeFile`.
      */
     get canDismiss(): boolean {
         return this.fileStatus === "validationError" || this.fileStatus === "rejected";
+    }
+
+    /** The object was listed in the datasource's `createdItems`, so it is not committed yet. */
+    get seenInCreatedItems(): boolean {
+        return this._seenInCreatedItems;
+    }
+
+    markSeenInCreatedItems(): void {
+        this._seenInCreatedItems = true;
     }
 
     setCreated(item: ObjectItem): void {

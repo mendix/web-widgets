@@ -12,15 +12,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - The widget now creates file objects itself. Configure "Files" with a list data source of your own `System.FileDocument` specialization. The data source no longer needs an association to a context object, and the "Action to create new files" nanoflow is no longer needed. Users need create access on the entity.
 
-- Files are uploaded when the user clicks the new Upload button, no longer as soon as they are dropped. Set "On upload" to the Save changes action, so the new file objects are committed before their contents are uploaded.
+- Files are uploaded after the new file objects are committed, no longer as soon as they are dropped. Place a button with the Save changes action in the new "Action widgets" area below the file list. The widget has no upload button of its own.
 
 - The widget lists only the files added on the page. To show existing files, use a Gallery or Data Grid 2 on the same entity.
 
-- Image uploads, read-only mode, download, remove and retry buttons, custom action buttons, the upload success and failure actions, and the concurrent upload limit are removed. Files can't be removed before they are uploaded.
+- Image uploads, read-only mode, download and retry buttons, custom action buttons, the upload success and failure actions, and the concurrent upload limit are removed. Files that are not uploaded yet can be removed. Set the new "On remove" event to the Delete object action, so a removed file is not committed.
 
 ### Added
 
-- Experimental: "On upload (per file)" runs an action for every file with its file object, instead of one "On upload" action for all files. "On remove" adds a remove button to files that are not uploaded yet, and runs an action with the file object.
+- New "Events" tab. "On upload" runs once after files are uploaded. "On upload (per file)" runs for every uploaded file, with its file object. "On remove" runs when the user removes a file that is not uploaded yet, with its file object.
 
 ## [2.5.1] - 2026-10-13
 

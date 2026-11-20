@@ -25,33 +25,37 @@ The widget SHALL accept files only when the `files` datasource reports `canCreat
 - **THEN** the "File creation is not available" message is shown
 - **AND** no file is added to the list
 
-### Requirement: Upload button commits, then uploads
+### Requirement: Contents are uploaded after the app commits the objects
 
-The widget SHALL show an Upload button. The button SHALL be enabled only when at least one file is ready to upload, no file is still being created, no upload is in progress, and `uploadAction` can execute. Clicking it SHALL run `uploadAction` once, SHALL wait until the action has finished, and SHALL then upload each ready file's content into its object.
+The widget SHALL NOT render an Upload button. It SHALL render the "Action widgets" below the file list. A pending file SHALL count as committed when its object was listed in the datasource's `createdItems` and is no longer listed. The widget SHALL then upload the content of each committed file into its object, one after the other.
 
 #### Scenario: Successful upload
 
-- **WHEN** two files are ready and the user clicks Upload
-- **AND** the upload action starts executing and then finishes
+- **WHEN** two files are ready and the user clicks a Save changes button in the action widgets
+- **AND** both objects leave `createdItems`
 - **THEN** the content of both files is uploaded into their objects
 - **AND** both files show the "Uploaded successfully" message
 
-#### Scenario: Upload action does not finish in time
+#### Scenario: Object not listed yet
 
-- **WHEN** the upload action has not finished within `uploadActionTimeout` seconds
-- **THEN** every file being uploaded shows the generic upload failure message
-- **AND** no file content is uploaded
+- **WHEN** a new object is missing from `createdItems` before it was ever listed there
+- **THEN** the file stays ready to upload
 
 #### Scenario: Content upload fails
 
-- **WHEN** the upload action has finished and uploading one file's content fails
+- **WHEN** uploading one committed file's content fails
 - **THEN** that file shows the generic upload failure message
 - **AND** the other files are still uploaded
 
-#### Scenario: Nothing ready
+### Requirement: Upload events
 
-- **WHEN** no file is ready to upload
-- **THEN** the Upload button is disabled
+After the contents of committed files are uploaded, the widget SHALL run "On upload (per file)" with the object of each successfully uploaded file, and SHALL run "On upload" once.
+
+#### Scenario: Events after upload
+
+- **WHEN** two committed files are uploaded successfully
+- **THEN** "On upload (per file)" runs for each file object
+- **AND** "On upload" runs once
 
 ### Requirement: The list shows only files added in this session
 
@@ -62,37 +66,27 @@ The widget SHALL list only the files added since the widget was rendered. It SHA
 - **WHEN** the datasource already contains file objects
 - **THEN** the file list is empty until the user adds files
 
-### Requirement: Ready files cannot be removed
+### Requirement: Files can be removed before upload
 
-Unless the experimental On remove action is configured, the widget SHALL NOT offer a remove action for a file that has an object. Files rejected by validation or by the file limit have no object, and SHALL offer a dismiss action.
-
-#### Scenario: Ready file
-
-- **WHEN** a file is ready to upload
-- **THEN** it has no remove button
+Every file that is ready to upload, and every rejected or invalid file, SHALL have a remove button. For a ready file, the widget SHALL run "On remove" with its object when configured, and SHALL remove the file from the list after the action has finished. Without "On remove", it SHALL only remove the file from the list.
 
 #### Scenario: Rejected file
 
 - **WHEN** a file was rejected because of its format
 - **THEN** it has a remove button that removes it from the list
 
-### Requirement: Experimental per-file actions
+#### Scenario: Remove without On remove
 
-When "On upload (per file)" is configured, the widget SHALL run it once per pending file, with that file's object, and upload that file's content after its action has finished, instead of running "On upload". When "On remove" is configured, the widget SHALL offer a remove button for pending files that runs the action with the file's object and removes the file from the list after the action has finished.
+- **WHEN** "On remove" is not configured and the user removes a ready file
+- **THEN** the file leaves the list
 
-#### Scenario: Upload per file
+### Requirement: On remove
 
-- **WHEN** "On upload (per file)" is configured and the user clicks Upload with two ready files
-- **THEN** the action runs for the first file's object, its content is uploaded, then the same happens for the second file
-
-#### Scenario: Per-file action fails
-
-- **WHEN** the action can't run for one file
-- **THEN** that file shows an error and the other files are still uploaded
+When "On remove" is configured, removing a ready file SHALL run it with the file's object, and the file SHALL stay in the list until the action has finished.
 
 #### Scenario: Remove a ready file
 
-- **WHEN** "On remove" is configured and the user clicks remove on a ready file
+- **WHEN** "On remove" is configured and the user removes a ready file
 - **THEN** the action runs with the file's object and the file leaves the list after the action has finished
 
 #### Scenario: Remove fails

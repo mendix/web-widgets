@@ -11,10 +11,6 @@
                 <caption>Files</caption>
                 <description>List of a System.FileDocument specialization. The widget creates a new object of this entity for every file the user adds.</description>
             </property>
-            <property key="uploadAction" type="action">
-                <caption>On upload</caption>
-                <description>Runs when the user clicks the Upload button, before the file contents are uploaded. It must commit the new file objects, for example with the Save changes action.</description>
-            </property>
             <property key="allowedFileFormats" type="object" isList="true" required="false">
                 <caption>Allowed file formats</caption>
                 <description>No restrictions if left empty.</description>
@@ -69,6 +65,10 @@
                 <caption>Maximum file size (MB)</caption>
                 <description>Reject files that are bigger than specified size.</description>
             </property>
+            <property key="actions" type="widgets" required="false">
+                <caption>Action widgets</caption>
+                <description>Widgets shown below the file list, for example a button with the Save changes action. File contents are uploaded after the new file objects are committed.</description>
+            </property>
         </propertyGroup>
         <propertyGroup caption="Texts">
             <property key="dropzoneIdleMessage" type="textTemplate">
@@ -95,17 +95,9 @@
                     <translation lang="nl_NL">Sommige bestanden kunnen mogelijk niet worden geüpload.</translation>
                 </translations>
             </property>
-            <property key="uploadButtonCaptionMessage" type="textTemplate">
-                <caption>Upload button</caption>
-                <description />
-                <translations>
-                    <translation lang="en_US">Upload</translation>
-                    <translation lang="nl_NL">Uploaden</translation>
-                </translations>
-            </property>
             <property key="uploadPendingMessage" type="textTemplate">
                 <caption>Ready to upload</caption>
-                <description>Shown for a file that was added but not uploaded yet.</description>
+                <description>Shown for a file that was added but not committed and uploaded yet.</description>
                 <translations>
                     <translation lang="en_US">Ready to upload.</translation>
                     <translation lang="nl_NL">Klaar om te uploaden.</translation>
@@ -184,20 +176,24 @@
                 </translations>
             </property>
         </propertyGroup>
-        <propertyGroup caption="Experimental">
+        <propertyGroup caption="Events">
+            <property key="uploadAction" type="action" required="false">
+                <caption>On upload</caption>
+                <description>Runs once after the contents of the committed files are uploaded.</description>
+            </property>
             <property key="uploadItemAction" type="action" dataSource="files" required="false">
                 <caption>On upload (per file)</caption>
-                <description>Experimental. Runs once for every file when the user clicks the Upload button, with the new file object as its object. It must commit that object, for example with a nanoflow that commits $currentObject. When set, the On upload action is not used.</description>
+                <description>Runs after the content of a file is uploaded, with the file object as its object.</description>
             </property>
             <property key="removeAction" type="action" dataSource="files" required="false">
                 <caption>On remove</caption>
-                <description>Experimental. Shows a remove button on files that are not uploaded yet. Runs with the new file object as its object. It must delete or roll back that object, for example with the Delete object action.</description>
+                <description>Runs when the user removes a file that is not uploaded yet, with the file object as its object. Set it to the Delete object action. Otherwise the file object stays on the page and is committed without contents.</description>
             </property>
         </propertyGroup>
         <propertyGroup caption="Advanced">
-            <property key="uploadActionTimeout" type="integer" defaultValue="10">
-                <caption>Upload action timeout</caption>
-                <description>Consider an upload or remove unsuccessful if its action does not finish within the configured amount of seconds.</description>
+            <property key="removeActionTimeout" type="integer" defaultValue="10">
+                <caption>Remove action timeout</caption>
+                <description>Consider a remove unsuccessful if the On remove action does not finish within the configured amount of seconds.</description>
             </property>
         </propertyGroup>
     </properties>

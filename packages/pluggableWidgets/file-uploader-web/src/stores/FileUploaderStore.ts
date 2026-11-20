@@ -25,7 +25,8 @@ export class FileUploaderStore {
     private _uploadAction: ActionValue | undefined;
     private _uploadItemAction: ListActionValue | undefined;
     private _removeAction: ListActionValue | undefined;
-    private _actionRunner: ActionRunner;
+    private _removeRunner: ActionRunner;
+    private _uploadQueue: FileStore[] = [];
     private translations: TranslationsStore;
 
     constructor(props: FileUploaderContainerProps, translations: TranslationsStore) {
@@ -37,7 +38,7 @@ export class FileUploaderStore {
         this._uploadAction = props.uploadAction;
         this._uploadItemAction = props.uploadItemAction;
         this._removeAction = props.removeAction;
-        this._actionRunner = new ActionRunner(props.uploadActionTimeout);
+        this._removeRunner = new ActionRunner(props.removeActionTimeout);
         this.acceptedFileTypes = parseAllowedFormats(props.allowedFileFormats);
         this.translations = translations;
 
@@ -59,8 +60,6 @@ export class FileUploaderStore {
             dismissFile: action,
             announce: action,
             canCreateFiles: computed,
-            canUpload: computed,
-            isUploadPerFile: computed,
             maxTotalFiles: computed,
             activeCount: computed,
             isFileUploadLimitReached: computed,
@@ -76,44 +75,16 @@ export class FileUploaderStore {
         this._uploadItemAction = props.uploadItemAction;
         this._removeAction = props.removeAction;
         this.translations.updateProps(props);
-        this._actionRunner.update();
+        this._removeRunner.update();
+        this.detectCommittedFiles();
     }
 
     dispose(): void {
-        this._actionRunner.dispose();
+        this._removeRunner.dispose();
     }
 
     get canCreateFiles(): boolean {
         return canCreate(this._datasource);
-    }
-
-    /** Experimental: the On upload (per file) action is configured and replaces the On upload action. */
-    get isUploadPerFile(): boolean {
-        return !!this._uploadItemAction;
-    }
-
-    get canUpload(): boolean {
-        if (this.isUploading || this.files.some(f => f.fileStatus === "creating" || f.fileStatus === "removing")) {
-            return false;
-        }
-        const pending = this.files.filter(f => f.fileStatus === "pending");
-        if (pending.length === 0) {
-            return false;
-        }
-        if (this.isUploadPerFile) {
-            return pending.some(f => !!this.uploadItemActionFor(f)()?.canExecute);
-        }
-        return !!this._uploadAction?.canExecute;
-    }
-
-    /** Experimental: a pending file can be removed with the On remove action. */
-    canRemove(file: FileStore): boolean {
-        return (
-            !!this._removeAction &&
-            file.fileStatus === "pending" &&
-            !this.isUploading &&
-            !this.files.some(f => f.fileStatus === "removing")
-        );
     }
 
     get maxFileSize(): number {
@@ -158,9 +129,52 @@ export class FileUploaderStore {
         };
     }
 
+    /** Removes a file without an object (rejected or invalid) from the list. */
     dismissFile(file: FileStore): void {
         if (file.canDismiss) {
             this.files = this.files.filter(f => f !== file);
+        }
+    }
+
+    /** A file whose object is not committed yet can be removed. */
+    canRemove(file: FileStore): boolean {
+        return file.fileStatus === "pending" && !this.files.some(f => f.fileStatus === "removing");
+    }
+
+    /**
+     * Removes a file whose object is not committed yet. With On remove configured, runs it with the file
+     * object (expected: Delete object) and removes the file from the list once it has finished.
+     * Without it, the file is only removed from the list: its object stays on the page and a later
+     * Save changes commits it without contents.
+     */
+    async removeFile(file: FileStore): Promise<void> {
+        if (!this.canRemove(file)) {
+            return;
+        }
+
+        if (!this._removeAction) {
+            console.warn(
+                `'${this._widgetName}': 'On remove' is not configured. The removed file's object is still committed by Save changes.`
+            );
+            runInAction(() => {
+                this.files = this.files.filter(f => f !== file);
+            });
+            return;
+        }
+
+        file.setRemoving();
+        try {
+            await this._removeRunner.run(this.itemActionFor(() => this._removeAction, file));
+            runInAction(() => {
+                this.files = this.files.filter(f => f !== file);
+            });
+        } catch (e: unknown) {
+            console.error(
+                `The 'On remove' action did not finish. Please check if '${this._widgetName}' widget is configured correctly.`,
+                e
+            );
+            file.setPending();
+            this.announce("uploadFailureGenericMessage");
         }
     }
 
@@ -201,99 +215,87 @@ export class FileUploaderStore {
     }
 
     /**
-     * Experimental: runs the On remove action for one pending file and removes it from the list once
-     * the action has finished. The action is expected to delete or roll back the object.
+     * The widget doesn't run the commit itself: the app commits the new objects, for example with a
+     * Save changes button in the action widgets. A committed object is no longer in `createdItems`.
+     * A file counts as committed once its object was seen in `createdItems` and is gone again,
+     * because the props right after `create()` may not list the new object yet.
      */
-    async removeFile(file: FileStore): Promise<void> {
-        if (!this.canRemove(file)) {
+    private detectCommittedFiles(): void {
+        const ds = this._datasource;
+        if (!isCreatable(ds)) {
             return;
         }
+        const createdIds = new Set(ds.createdItems.map(item => item.id));
 
-        file.setRemoving();
-        try {
-            await this._actionRunner.run(this.itemActionFor(() => this._removeAction, file));
-            runInAction(() => {
-                this.files = this.files.filter(f => f !== file);
-            });
-        } catch (e: unknown) {
-            console.error(
-                `The 'On remove' action did not finish. Please check if '${this._widgetName}' widget is configured correctly.`,
-                e
-            );
-            file.setPending();
-            this.announce("uploadFailureGenericMessage");
+        const committed: FileStore[] = [];
+        for (const file of this.files) {
+            const id = file.objectItemId;
+            if (file.fileStatus !== "pending" || !id) {
+                continue;
+            }
+            if (createdIds.has(id)) {
+                file.markSeenInCreatedItems();
+            } else if (file.seenInCreatedItems) {
+                committed.push(file);
+            }
+        }
+
+        if (committed.length > 0) {
+            committed.forEach(f => f.setUploading());
+            this._uploadQueue.push(...committed);
+            this.processUploadQueue();
         }
     }
 
-    /** Uploads every pending file: commits the objects with the configured action, then uploads the contents. */
-    async upload(): Promise<void> {
-        if (!this.canUpload) {
+    /** Uploads the contents of committed files one by one, then runs the On upload event. */
+    private async processUploadQueue(): Promise<void> {
+        if (this.isUploading) {
             return;
         }
-
-        const toUpload = this.files.filter(f => f.fileStatus === "pending");
         runInAction(() => {
             this.isUploading = true;
-            toUpload.forEach(f => f.setUploading());
         });
 
-        const failed = this.isUploadPerFile ? await this.uploadPerFile(toUpload) : await this.uploadBatch(toUpload);
+        let failed = 0;
+        let file: FileStore | undefined;
+        while ((file = this._uploadQueue.shift())) {
+            if (await file.uploadContent()) {
+                this.executeItemEvent(file);
+            } else {
+                failed++;
+            }
+        }
 
         runInAction(() => {
             this.isUploading = false;
         });
         this.announce(failed > 0 ? "uploadFailureGenericMessage" : "uploadSuccessMessage");
+
+        if (this._uploadAction?.canExecute) {
+            this._uploadAction.execute();
+        }
     }
 
-    /** Runs the On upload action once, then uploads the content of every file. Returns the number of failed files. */
-    private async uploadBatch(toUpload: FileStore[]): Promise<number> {
+    private executeItemEvent(file: FileStore): void {
+        const itemAction = this.itemActionFor(() => this._uploadItemAction, file)();
+        if (itemAction?.canExecute) {
+            itemAction.execute();
+        }
+    }
+
+    private async createObject(fileStore: FileStore): Promise<void> {
+        const ds = this._datasource;
         try {
-            await this._actionRunner.run(() => this._uploadAction);
+            if (!isCreatable(ds)) {
+                throw new Error("The 'Files' data source does not allow creating objects.");
+            }
+            const item = await ds.create();
+            fileStore.setCreated(item);
         } catch (e: unknown) {
-            console.error(
-                `The 'On upload' action did not finish. Please check if '${this._widgetName}' widget is configured correctly.`,
-                e
-            );
-            runInAction(() => toUpload.forEach(f => f.setFailed()));
-            return toUpload.length;
+            console.warn("Creating a file object has failed.", e);
+            fileStore.setFailed();
+            this.announce("uploadFailureGenericMessage");
         }
-
-        let failed = 0;
-        for (const file of toUpload) {
-            if (!(await file.uploadContent())) {
-                failed++;
-            }
-        }
-        return failed;
-    }
-
-    /**
-     * Experimental: for every file, runs the On upload (per file) action with the file object, then uploads
-     * its content. Returns the number of failed files.
-     */
-    private async uploadPerFile(toUpload: FileStore[]): Promise<number> {
-        let failed = 0;
-        for (const file of toUpload) {
-            try {
-                await this._actionRunner.run(this.uploadItemActionFor(file));
-            } catch (e: unknown) {
-                console.error(
-                    `The 'On upload (per file)' action did not finish for ${file.objectItemId}. Please check if '${this._widgetName}' widget is configured correctly.`,
-                    e
-                );
-                file.setFailed();
-                failed++;
-                continue;
-            }
-            if (!(await file.uploadContent())) {
-                failed++;
-            }
-        }
-        return failed;
-    }
-
-    private uploadItemActionFor(file: FileStore): ActionGetter {
-        return this.itemActionFor(() => this._uploadItemAction, file);
     }
 
     /**
@@ -314,21 +316,6 @@ export class FileUploaderStore {
                 return undefined;
             }
         };
-    }
-
-    private async createObject(fileStore: FileStore): Promise<void> {
-        const ds = this._datasource;
-        try {
-            if (!isCreatable(ds)) {
-                throw new Error("The 'Files' data source does not allow creating objects.");
-            }
-            const item = await ds.create();
-            fileStore.setCreated(item);
-        } catch (e: unknown) {
-            console.warn("Creating a file object has failed.", e);
-            fileStore.setFailed();
-            this.announce("uploadFailureGenericMessage");
-        }
     }
 
     private describeRejection(rejection: FileRejection): string {

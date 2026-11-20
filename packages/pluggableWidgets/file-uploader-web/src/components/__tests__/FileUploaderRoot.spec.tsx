@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom";
-import { act, fireEvent, render } from "@testing-library/react";
-import { actionValue } from "@mendix/widget-plugin-test-utils";
+import { act, render } from "@testing-library/react";
 import { FileUploaderContainerProps } from "../../../typings/FileUploaderProps";
 import { buildProps, creatableList, flushPromises, makeFile } from "../../__tests__/testProps";
 import { FileUploaderStore } from "../../stores/FileUploaderStore";
@@ -29,30 +28,16 @@ function renderRoot(overrides: Partial<FileUploaderContainerProps> = {}): Return
 }
 
 describe("FileUploaderRoot", () => {
-    describe("Upload button", () => {
-        test("is disabled without files", () => {
-            const { getByRole } = renderRoot();
+    test("renders the action widgets below the file list", () => {
+        const { container } = renderRoot({ actions: <button type="button">Save</button> });
 
-            expect(getByRole("button", { name: "Upload" })).toBeDisabled();
-        });
+        expect(container.querySelector(".upload-actions")).toHaveTextContent("Save");
+    });
 
-        test("is enabled once a file is ready and runs the upload action", async () => {
-            const uploadAction = actionValue(true, false);
-            const { getByRole } = renderRoot({ uploadAction });
+    test("has no upload button of its own", () => {
+        const { queryByRole } = renderRoot();
 
-            await act(async () => {
-                mockRootStore.processDrop([makeFile()], []);
-                await flushPromises();
-            });
-
-            const button = getByRole("button", { name: "Upload" });
-            expect(button).toBeEnabled();
-
-            fireEvent.click(button);
-
-            expect(uploadAction.execute).toHaveBeenCalledTimes(1);
-            expect(button).toBeDisabled();
-        });
+        expect(queryByRole("button", { name: "Upload" })).not.toBeInTheDocument();
     });
 
     test("shows the unavailable message when files can't be created", () => {

@@ -16,6 +16,11 @@ export function creatableList(canCreate: CreatableListValue["canCreate"] = "avai
     }) as MockCreatableList;
 }
 
+/** The same datasource on new props, now listing `createdItems`. */
+export function withCreatedItems(list: MockCreatableList, createdItems: ObjectItem[]): MockCreatableList {
+    return Object.assign(Object.create(Object.getPrototypeOf(list)), list, { createdItems });
+}
+
 export function plainList(): ListValue {
     return new ListValueBuilder().withItems([]).build();
 }
@@ -27,14 +32,12 @@ export function buildProps(overrides: Partial<FileUploaderContainerProps> = {}):
         style: undefined,
         tabIndex: 0,
         files: creatableList(),
-        uploadAction: actionValue(true, false),
         allowedFileFormats: [],
         maxFilesPerUpload: dynamic.available(new Big(5)),
         maxFileSize: 25,
         dropzoneIdleMessage: dynamic.available("Drag and drop files here"),
         dropzoneAcceptedMessage: dynamic.available("All files can be uploaded."),
         dropzoneRejectedMessage: dynamic.available("Some files may not be uploadable."),
-        uploadButtonCaptionMessage: dynamic.available("Upload"),
         uploadPendingMessage: dynamic.available("Ready to upload."),
         uploadInProgressMessage: dynamic.available("Uploading..."),
         uploadSuccessMessage: dynamic.available("Uploaded successfully."),
@@ -51,7 +54,7 @@ export function buildProps(overrides: Partial<FileUploaderContainerProps> = {}):
             "Can't upload files at this time. Please contact your system administrator."
         ),
         removeButtonTextMessage: dynamic.available("Remove this file"),
-        uploadActionTimeout: 10,
+        removeActionTimeout: 10,
         ...overrides
     };
 }

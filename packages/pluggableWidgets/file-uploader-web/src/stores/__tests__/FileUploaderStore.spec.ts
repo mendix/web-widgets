@@ -1,5 +1,4 @@
 import { Big } from "big.js";
-import { ActionValue } from "mendix";
 import { FileRejection } from "react-dropzone";
 import { actionValue, dynamic } from "@mendix/widget-plugin-test-utils";
 import { FileUploaderContainerProps } from "../../../typings/FileUploaderProps";
@@ -8,9 +7,11 @@ import {
     creatableList,
     flushPromises,
     makeFile,
+    MockCreatableList,
     MockListAction,
     mockListAction,
-    plainList
+    plainList,
+    withCreatedItems
 } from "../../__tests__/testProps";
 import { saveFile } from "../../utils/mx-data";
 import { FileUploaderStore } from "../FileUploaderStore";
@@ -29,11 +30,6 @@ function buildStore(overrides: Partial<FileUploaderContainerProps> = {}): {
     const props = buildProps(overrides);
     const store = new FileUploaderStore(props, new TranslationsStore(props));
     return { store, props };
-}
-
-/** Simulates the platform re-rendering the widget with a new upload action value. */
-function rerenderWithAction(store: FileUploaderStore, props: FileUploaderContainerProps, action: ActionValue): void {
-    store.updateProps({ ...props, uploadAction: action });
 }
 
 /** Simulates the platform reporting a linked action as executing, then finished, on new props. */
@@ -79,14 +75,12 @@ describe("FileUploaderStore", () => {
             expect(store.files.map(f => f.fileStatus)).toEqual(["pending", "pending"]);
         });
 
-        test("does not commit or upload on drop", async () => {
-            const uploadAction = actionValue(true, false);
-            const { store } = buildStore({ uploadAction });
+        test("does not upload on drop", async () => {
+            const { store } = buildStore();
 
             store.processDrop([makeFile()], []);
             await flushPromises();
 
-            expect(uploadAction.execute).not.toHaveBeenCalled();
             expect(saveFileMock).not.toHaveBeenCalled();
         });
 
@@ -177,66 +171,68 @@ describe("FileUploaderStore", () => {
         });
     });
 
-    describe("canUpload", () => {
-        test("is false without pending files", () => {
-            expect(buildStore().store.canUpload).toBe(false);
-        });
-
-        test("is false while a file is still being created", () => {
-            const files = creatableList();
-            files.create.mockReturnValue(new Promise(() => {}));
-            const { store } = buildStore({ files });
-
-            store.processDrop([makeFile()], []);
-
-            expect(store.canUpload).toBe(false);
-        });
-
-        test("is false when the upload action can't execute", async () => {
-            const { store } = buildStore({ uploadAction: actionValue(false, false) });
-            store.processDrop([makeFile()], []);
-            await flushPromises();
-
-            expect(store.canUpload).toBe(false);
-        });
-
-        test("is true with pending files and an executable action", async () => {
-            const { store } = buildStore();
-            store.processDrop([makeFile()], []);
-            await flushPromises();
-
-            expect(store.canUpload).toBe(true);
-        });
-    });
-
-    describe("upload", () => {
-        async function storeWithPendingFiles(count: number): Promise<{
+    describe("upload after commit", () => {
+        async function storeWithPendingFiles(
+            count: number,
+            overrides: Partial<FileUploaderContainerProps> = {}
+        ): Promise<{
             store: FileUploaderStore;
             props: FileUploaderContainerProps;
-            uploadAction: ActionValue;
+            files: MockCreatableList;
         }> {
-            const uploadAction = actionValue(true, false);
-            const { store, props } = buildStore({ uploadAction });
+            const files = creatableList();
+            const { store, props } = buildStore({ files, ...overrides });
             store.processDrop(
                 Array.from({ length: count }, (_, i) => makeFile(`f${i}.txt`)),
                 []
             );
             await flushPromises();
-            return { store, props, uploadAction };
+            return { store, props, files };
         }
 
-        test("runs the action once, then uploads every file", async () => {
-            const { store, props, uploadAction } = await storeWithPendingFiles(2);
+        /** Props as the platform passes them: the objects listed in `createdItems`, then committed. */
+        function showCreated(
+            store: FileUploaderStore,
+            props: FileUploaderContainerProps,
+            files: MockCreatableList
+        ): void {
+            const items = store.files.map(f => f.objectItem!).filter(Boolean);
+            store.updateProps({ ...props, files: withCreatedItems(files, items) });
+        }
 
-            const uploading = store.upload();
-            expect(uploadAction.execute).toHaveBeenCalledTimes(1);
-            expect(store.isUploading).toBe(true);
-            expect(store.files.map(f => f.fileStatus)).toEqual(["uploading", "uploading"]);
+        async function commit(
+            store: FileUploaderStore,
+            props: FileUploaderContainerProps,
+            files: MockCreatableList
+        ): Promise<void> {
+            store.updateProps({ ...props, files: withCreatedItems(files, []) });
+            await flushPromises();
+        }
+
+        test("does not upload while the objects are only created", async () => {
+            const { store, props, files } = await storeWithPendingFiles(2);
+
+            showCreated(store, props, files);
+            await flushPromises();
+
             expect(saveFileMock).not.toHaveBeenCalled();
+            expect(store.files.map(f => f.fileStatus)).toEqual(["pending", "pending"]);
+        });
 
-            rerenderWithAction(store, props, actionValue(true, true));
-            rerenderWithAction(store, props, actionValue(true, false));
-            await uploading;
+        test("does not treat an object missing from the first props as committed", async () => {
+            const { store, props, files } = await storeWithPendingFiles(1);
+
+            await commit(store, props, files);
+
+            expect(saveFileMock).not.toHaveBeenCalled();
+            expect(store.files[0].fileStatus).toBe("pending");
+        });
+
+        test("uploads the contents once the objects leave createdItems", async () => {
+            const { store, props, files } = await storeWithPendingFiles(2);
+
+            showCreated(store, props, files);
+            await commit(store, props, files);
 
             expect(saveFileMock).toHaveBeenCalledTimes(2);
             expect(store.files.map(f => f.fileStatus)).toEqual(["done", "done"]);
@@ -244,158 +240,69 @@ describe("FileUploaderStore", () => {
             expect(store.announcement.text).toBe("Uploaded successfully.");
         });
 
-        test("does not upload content before the action has finished", async () => {
-            const { store, props } = await storeWithPendingFiles(1);
-
-            store.upload();
-            rerenderWithAction(store, props, actionValue(true, true));
-            await flushPromises();
-
-            expect(saveFileMock).not.toHaveBeenCalled();
-        });
-
-        test("fails all files when the action does not finish in time", async () => {
-            jest.useFakeTimers();
-            const { store } = await storeWithPendingFiles(2);
-
-            const uploading = store.upload();
-            jest.advanceTimersByTime(10001);
-            await uploading;
-
-            expect(saveFileMock).not.toHaveBeenCalled();
-            expect(store.files.map(f => f.fileStatus)).toEqual(["uploadingError", "uploadingError"]);
-            expect(store.isUploading).toBe(false);
-        });
-
         test("continues with the other files when one content upload fails", async () => {
-            const { store, props } = await storeWithPendingFiles(2);
+            const { store, props, files } = await storeWithPendingFiles(2);
             saveFileMock.mockRejectedValueOnce(new Error("network"));
 
-            const uploading = store.upload();
-            rerenderWithAction(store, props, actionValue(true, true));
-            rerenderWithAction(store, props, actionValue(true, false));
-            await uploading;
+            showCreated(store, props, files);
+            await commit(store, props, files);
 
             expect(store.files.map(f => f.fileStatus).sort()).toEqual(["done", "uploadingError"]);
             expect(store.announcement.text).toBe("An error occurred during uploading.");
         });
 
-        test("does nothing when nothing can be uploaded", async () => {
+        test("runs On upload once and On upload (per file) for each uploaded file", async () => {
             const uploadAction = actionValue(true, false);
-            const { store } = buildStore({ uploadAction });
-
-            await store.upload();
-
-            expect(uploadAction.execute).not.toHaveBeenCalled();
-        });
-    });
-
-    describe("upload per file (experimental)", () => {
-        async function perFileStore(count: number): Promise<{
-            store: FileUploaderStore;
-            props: FileUploaderContainerProps;
-            uploadItemAction: MockListAction;
-            uploadAction: ActionValue;
-        }> {
             const uploadItemAction = mockListAction();
-            const uploadAction = actionValue(true, false);
-            const { store, props } = buildStore({ uploadItemAction, uploadAction });
-            store.processDrop(
-                Array.from({ length: count }, (_, i) => makeFile(`f${i}.txt`)),
-                []
-            );
-            await flushPromises();
-            return { store, props, uploadItemAction, uploadAction };
-        }
+            const { store, props, files } = await storeWithPendingFiles(2, { uploadAction, uploadItemAction });
 
-        test("is used instead of the On upload action", async () => {
-            const { store, uploadAction } = await perFileStore(1);
+            showCreated(store, props, files);
+            await commit(store, props, files);
 
-            expect(store.isUploadPerFile).toBe(true);
-            store.upload();
-
-            expect(uploadAction.execute).not.toHaveBeenCalled();
+            expect(uploadAction.execute).toHaveBeenCalledTimes(1);
+            expect(uploadItemAction.executed).toEqual(store.files.map(f => f.objectItem));
         });
 
-        test("runs the action for each file object, uploading each content after its action", async () => {
-            const { store, props, uploadItemAction } = await perFileStore(2);
-            const [first, second] = store.files; // in list order
+        test("does not run On upload (per file) for a failed file", async () => {
+            const uploadItemAction = mockListAction();
+            const { store, props, files } = await storeWithPendingFiles(1, { uploadItemAction });
+            saveFileMock.mockRejectedValueOnce(new Error("network"));
 
-            const uploading = store.upload();
-            expect(uploadItemAction.executed).toEqual([first.objectItem]);
-            expect(saveFileMock).not.toHaveBeenCalled();
+            showCreated(store, props, files);
+            await commit(store, props, files);
 
-            await finishListAction(store, props, uploadItemAction);
-            expect(saveFileMock).toHaveBeenCalledTimes(1);
-            expect(uploadItemAction.executed).toEqual([first.objectItem, second.objectItem]);
-
-            await finishListAction(store, props, uploadItemAction);
-            await uploading;
-
-            expect(saveFileMock).toHaveBeenCalledTimes(2);
-            expect(store.files.map(f => f.fileStatus)).toEqual(["done", "done"]);
-            expect(store.announcement.text).toBe("Uploaded successfully.");
-        });
-
-        test("fails only the file whose action can't run", async () => {
-            const { store, props, uploadItemAction } = await perFileStore(2);
-            const [first, second] = store.files;
-            const getDefault = uploadItemAction.get.getMockImplementation()!;
-            uploadItemAction.get.mockImplementation(item => {
-                const value = getDefault(item);
-                return item === first.objectItem ? { ...value, canExecute: false } : value;
-            });
-
-            const uploading = store.upload();
-            await flushPromises();
-            await finishListAction(store, props, uploadItemAction);
-            await uploading;
-
-            expect(first.fileStatus).toBe("uploadingError");
-            expect(second.fileStatus).toBe("done");
-            expect(store.announcement.text).toBe("An error occurred during uploading.");
-        });
-
-        test("canUpload is false when no file's action can execute", async () => {
-            const uploadItemAction = mockListAction(false);
-            const { store } = buildStore({ uploadItemAction });
-            store.processDrop([makeFile()], []);
-            await flushPromises();
-
-            expect(store.canUpload).toBe(false);
+            expect(uploadItemAction.executed).toEqual([]);
         });
     });
 
-    describe("removeFile (experimental)", () => {
-        async function removableStore(): Promise<{
+    describe("removeFile", () => {
+        async function pendingStore(overrides: Partial<FileUploaderContainerProps> = {}): Promise<{
             store: FileUploaderStore;
             props: FileUploaderContainerProps;
-            removeAction: MockListAction;
         }> {
-            const removeAction = mockListAction();
-            const { store, props } = buildStore({ removeAction });
+            const { store, props } = buildStore(overrides);
             store.processDrop([makeFile()], []);
             await flushPromises();
-            return { store, props, removeAction };
+            return { store, props };
         }
 
-        test("canRemove is false without the On remove action", async () => {
-            const { store } = buildStore();
-            store.processDrop([makeFile()], []);
-            await flushPromises();
+        test("without On remove, removes the file from the list only", async () => {
+            const { store } = await pendingStore();
+            expect(store.canRemove(store.files[0])).toBe(true);
 
-            expect(store.canRemove(store.files[0])).toBe(false);
+            await store.removeFile(store.files[0]);
+
+            expect(store.files).toHaveLength(0);
         });
 
-        test("runs the action with the file object and removes the file once it has finished", async () => {
-            const { store, props, removeAction } = await removableStore();
+        test("runs On remove with the file object and removes the file once it has finished", async () => {
+            const removeAction = mockListAction();
+            const { store, props } = await pendingStore({ removeAction });
             const file = store.files[0];
-            expect(store.canRemove(file)).toBe(true);
 
             const removing = store.removeFile(file);
             expect(removeAction.executed).toEqual([file.objectItem]);
             expect(file.fileStatus).toBe("removing");
-            expect(store.canUpload).toBe(false);
 
             await finishListAction(store, props, removeAction);
             await removing;
@@ -403,9 +310,9 @@ describe("FileUploaderStore", () => {
             expect(store.files).toHaveLength(0);
         });
 
-        test("keeps the file pending when the action does not finish in time", async () => {
+        test("keeps the file pending when On remove does not finish in time", async () => {
             jest.useFakeTimers();
-            const { store } = await removableStore();
+            const { store } = await pendingStore({ removeAction: mockListAction() });
             const file = store.files[0];
 
             const removing = store.removeFile(file);
@@ -416,15 +323,17 @@ describe("FileUploaderStore", () => {
             expect(file.fileStatus).toBe("pending");
         });
 
-        test("is not possible while uploading", async () => {
-            const removeAction = mockListAction();
-            const { store } = buildStore({ removeAction });
-            store.processDrop([makeFile(), makeFile("b.txt")], []);
+        test("a removed file is not uploaded after the commit", async () => {
+            const files = creatableList();
+            const { store, props } = await pendingStore({ files });
+            const item = store.files[0].objectItem!;
+            store.updateProps({ ...props, files: withCreatedItems(files, [item]) });
+
+            await store.removeFile(store.files[0]);
+            store.updateProps({ ...props, files: withCreatedItems(files, []) });
             await flushPromises();
 
-            store.upload();
-
-            expect(store.files.every(f => !store.canRemove(f))).toBe(true);
+            expect(saveFileMock).not.toHaveBeenCalled();
         });
     });
 });
