@@ -41,9 +41,7 @@ jobs:
                   node-version-file: ".nvmrc"
                   cache: "pnpm"
             - name: Install dependencies
-              # automation-utils' prepare script runs tsc, which a filtered install doesn't provide.
-              # The status script runs as plain .ts and needs no build.
-              run: pnpm install --frozen-lockfile --filter @mendix/automation-utils --ignore-scripts
+              run: pnpm install --frozen-lockfile --filter @mendix/automation-utils
             - name: Collect status
               run: |
                   mkdir -p _site
