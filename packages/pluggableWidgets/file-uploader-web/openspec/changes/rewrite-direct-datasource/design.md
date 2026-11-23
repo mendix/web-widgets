@@ -36,6 +36,10 @@ The sample proves `create()`, `canCreate`, `createdItems`, linked attributes on 
 
 The widget can't call or observe the Save changes button. A committed object is no longer in `createdItems`, so on every props update the widget compares its pending files with `createdItems`. A file counts as committed when its object was listed in `createdItems` on an earlier props update and is missing now. The "seen first" rule is needed because the props right after `create()` resolves may not list the new object yet. Not verified on 11.17: that `createdItems` drops committed objects. Earlier versions of this change ran a widget-owned `uploadAction` from an Upload button and waited for `isExecuting`; that was replaced after Windows testing.
 
+### 3a. Per-file Upload button (current)
+
+Windows testing showed that `mx.data.saveDocument` accepts an uncommitted object from `create()`, stores the content and commits the object. Detecting a Save changes through `createdItems` did not work. So each pending file now has an Upload button next to its remove button: it calls `saveDocument` for that file (`FileUploaderStore.uploadFile`). Uploads run one after the other; files clicked during an upload are queued. `UPLOAD_ON_CREATE` in `src/utils/flags.ts` (off) uploads right after `create()` instead. The `createdItems` detection and the action widgets slot are still in the code, but are no longer needed for uploads.
+
 ### 4. Events
 
 The "Events" group holds three optional actions:

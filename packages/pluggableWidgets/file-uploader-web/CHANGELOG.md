@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - The widget now creates file objects itself. Configure "Files" with a list data source of your own `System.FileDocument` specialization. The data source no longer needs an association to a context object, and the "Action to create new files" nanoflow is no longer needed. Users need create access on the entity.
 
-- Files are uploaded after the new file objects are committed, no longer as soon as they are dropped. Place a button with the Save changes action in the new "Action widgets" area below the file list. The widget has no upload button of its own.
+- Files are no longer uploaded as soon as they are dropped. Each added file has an Upload button next to its remove button. Uploading a file also commits its object, so no Save changes action is needed.
 
 - The widget lists only the files added on the page. To show existing files, use a Gallery or Data Grid 2 on the same entity.
 

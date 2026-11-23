@@ -67,7 +67,7 @@
             </property>
             <property key="actions" type="widgets" required="false">
                 <caption>Action widgets</caption>
-                <description>Widgets shown below the file list, for example a button with the Save changes action. File contents are uploaded after the new file objects are committed.</description>
+                <description>Widgets shown below the file list.</description>
             </property>
         </propertyGroup>
         <propertyGroup caption="Texts">
@@ -165,6 +165,14 @@
                 <translations>
                     <translation lang="en_US">Can&apos;t upload files at this time. Please contact your system administrator.</translation>
                     <translation lang="nl_NL">Kan op dit moment geen bestanden uploaden. Neem contact op met uw systeembeheerder.</translation>
+                </translations>
+            </property>
+            <property key="uploadButtonTextMessage" type="textTemplate">
+                <caption>Upload button</caption>
+                <description />
+                <translations>
+                    <translation lang="en_US">Upload this file</translation>
+                    <translation lang="nl_NL">Upload dit bestand</translation>
                 </translations>
             </property>
             <property key="removeButtonTextMessage" type="textTemplate">

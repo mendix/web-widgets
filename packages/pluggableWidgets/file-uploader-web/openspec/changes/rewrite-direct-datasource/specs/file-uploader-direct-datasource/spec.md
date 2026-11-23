@@ -47,6 +47,21 @@ The widget SHALL NOT render an Upload button. It SHALL render the "Action widget
 - **THEN** that file shows the generic upload failure message
 - **AND** the other files are still uploaded
 
+### Requirement: Each file has an Upload button
+
+Every file that is ready to upload SHALL have an Upload button next to its remove button. Clicking it SHALL upload that file's content into its object with `saveDocument`, which also commits the object. Other files SHALL stay ready to upload.
+
+#### Scenario: Upload one file
+
+- **WHEN** two files are ready and the user clicks Upload on one of them
+- **THEN** only that file's content is uploaded and it shows "Uploaded successfully"
+- **AND** the other file stays ready to upload
+
+#### Scenario: Upload while another upload runs
+
+- **WHEN** the user clicks Upload on a second file while the first is uploading
+- **THEN** the second file is uploaded after the first
+
 ### Requirement: Upload events
 
 After the contents of committed files are uploaded, the widget SHALL run "On upload (per file)" with the object of each successfully uploaded file, and SHALL run "On upload" once.

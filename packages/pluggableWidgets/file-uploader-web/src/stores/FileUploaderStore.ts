@@ -7,6 +7,7 @@ import { TranslationsStore } from "./TranslationsStore";
 import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
 import { ActionGetter, ActionRunner } from "../utils/ActionRunner";
 import { canCreate, isCreatable } from "../utils/creatableListValue";
+import { UPLOAD_ON_CREATE } from "../utils/flags";
 import { parseAllowedFormats } from "../utils/parseAllowedFormats";
 import { FileCheckFormat } from "../utils/predefinedFormats";
 
@@ -134,6 +135,24 @@ export class FileUploaderStore {
         if (file.canDismiss) {
             this.files = this.files.filter(f => f !== file);
         }
+    }
+
+    /** A file whose object is created and not uploaded yet can be uploaded. */
+    canUploadFile(file: FileStore): boolean {
+        return file.fileStatus === "pending";
+    }
+
+    /**
+     * Uploads the content of one file into its uncommitted object. `saveDocument` also commits the object,
+     * so no Save changes is needed.
+     */
+    uploadFile(file: FileStore): void {
+        if (!this.canUploadFile(file)) {
+            return;
+        }
+        file.setUploading();
+        this._uploadQueue.push(file);
+        this.processUploadQueue();
     }
 
     /** A file whose object is not committed yet can be removed. */
@@ -291,6 +310,9 @@ export class FileUploaderStore {
             }
             const item = await ds.create();
             fileStore.setCreated(item);
+            if (UPLOAD_ON_CREATE) {
+                this.uploadFile(fileStore);
+            }
         } catch (e: unknown) {
             console.warn("Creating a file object has failed.", e);
             fileStore.setFailed();

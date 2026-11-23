@@ -21,6 +21,13 @@ jest.mock("../../utils/mx-data", () => ({
     saveFile: jest.fn()
 }));
 
+const mockFlags = { UPLOAD_ON_CREATE: false };
+jest.mock("../../utils/flags", () => ({
+    get UPLOAD_ON_CREATE() {
+        return mockFlags.UPLOAD_ON_CREATE;
+    }
+}));
+
 const saveFileMock = saveFile as jest.Mock;
 
 function buildStore(overrides: Partial<FileUploaderContainerProps> = {}): {
@@ -59,6 +66,7 @@ describe("FileUploaderStore", () => {
 
     afterEach(() => {
         jest.useRealTimers();
+        mockFlags.UPLOAD_ON_CREATE = false;
     });
 
     describe("processDrop", () => {
@@ -334,6 +342,55 @@ describe("FileUploaderStore", () => {
             await flushPromises();
 
             expect(saveFileMock).not.toHaveBeenCalled();
+        });
+    });
+
+    describe("uploadFile", () => {
+        test("uploads only the chosen file, without a commit", async () => {
+            const uploadItemAction = mockListAction();
+            const { store } = buildStore({ uploadItemAction });
+            store.processDrop([makeFile("a.txt"), makeFile("b.txt")], []);
+            await flushPromises();
+            const [first, second] = store.files;
+
+            expect(store.canUploadFile(first)).toBe(true);
+            store.uploadFile(first);
+            expect(first.fileStatus).toBe("uploading");
+            await flushPromises();
+
+            expect(saveFileMock).toHaveBeenCalledTimes(1);
+            expect(first.fileStatus).toBe("done");
+            expect(second.fileStatus).toBe("pending");
+            expect(uploadItemAction.executed).toEqual([first.objectItem]);
+            expect(store.canUploadFile(first)).toBe(false);
+        });
+
+        test("uploads files clicked while another upload runs", async () => {
+            const { store } = buildStore();
+            store.processDrop([makeFile("a.txt"), makeFile("b.txt")], []);
+            await flushPromises();
+
+            store.uploadFile(store.files[0]);
+            store.uploadFile(store.files[1]);
+            await flushPromises();
+
+            expect(saveFileMock).toHaveBeenCalledTimes(2);
+            expect(store.files.map(f => f.fileStatus)).toEqual(["done", "done"]);
+        });
+    });
+
+    describe("upload on create", () => {
+        test("uploads each content right after its object is created, without a commit", async () => {
+            mockFlags.UPLOAD_ON_CREATE = true;
+            const uploadAction = actionValue(true, false);
+            const { store } = buildStore({ uploadAction });
+
+            store.processDrop([makeFile("a.txt"), makeFile("b.txt")], []);
+            await flushPromises();
+
+            expect(saveFileMock).toHaveBeenCalledTimes(2);
+            expect(store.files.map(f => f.fileStatus)).toEqual(["done", "done"]);
+            expect(uploadAction.execute).toHaveBeenCalled();
         });
     });
 });

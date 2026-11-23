@@ -64,15 +64,6 @@ export function check(values: FileUploaderPreviewProps): Problem[] {
         });
     }
 
-    if (values.actions.widgetCount === 0) {
-        errors.push({
-            property: "actions",
-            severity: "warning",
-            message:
-                "Add a button with the Save changes action to Action widgets, or commit the file objects in another way. File contents are uploaded after the objects are committed."
-        });
-    }
-
     return errors;
 }
 

@@ -13,9 +13,11 @@ jest.mock("../../utils/mx-data", () => ({
 const dismissFile = jest.fn();
 const removeFile = jest.fn();
 const canRemove = jest.fn(() => false);
+const uploadFile = jest.fn();
+const canUploadFile = jest.fn(() => false);
 
 jest.mock("../../utils/useRootStore", () => ({
-    useRootStore: () => ({ maxTotalFiles: 5, dismissFile, removeFile, canRemove })
+    useRootStore: () => ({ maxTotalFiles: 5, dismissFile, removeFile, canRemove, uploadFile, canUploadFile })
 }));
 
 function renderEntry(store: FileStore): ReturnType<typeof render> {
@@ -31,6 +33,8 @@ describe("FileEntry", () => {
         dismissFile.mockReset();
         removeFile.mockReset();
         canRemove.mockReturnValue(false);
+        uploadFile.mockReset();
+        canUploadFile.mockReturnValue(false);
     });
 
     test("shows name, size and the ready message for a pending file", () => {
@@ -72,6 +76,19 @@ describe("FileEntry", () => {
 
         expect(removeFile).toHaveBeenCalledWith(store);
         expect(dismissFile).not.toHaveBeenCalled();
+    });
+
+    test("a pending file can be uploaded with its upload button", () => {
+        canUploadFile.mockReturnValue(true);
+        canRemove.mockReturnValue(true);
+        const store = FileStore.newFile(makeFile());
+        store.setCreated(obj("a"));
+
+        const { getByRole } = renderEntry(store);
+        expect(getByRole("button", { name: "Remove this file" })).toBeInTheDocument();
+        fireEvent.click(getByRole("button", { name: "Upload this file" }));
+
+        expect(uploadFile).toHaveBeenCalledWith(store);
     });
 
     test("shows the progress bar while uploading", () => {

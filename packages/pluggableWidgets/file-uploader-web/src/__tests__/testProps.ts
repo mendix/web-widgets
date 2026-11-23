@@ -53,6 +53,7 @@ export function buildProps(overrides: Partial<FileUploaderContainerProps> = {}):
         unavailableCreateActionMessage: dynamic.available(
             "Can't upload files at this time. Please contact your system administrator."
         ),
+        uploadButtonTextMessage: dynamic.available("Upload this file"),
         removeButtonTextMessage: dynamic.available("Remove this file"),
         removeActionTimeout: 10,
         ...overrides

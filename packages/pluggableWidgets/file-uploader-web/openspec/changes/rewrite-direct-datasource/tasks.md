@@ -56,6 +56,16 @@
 - [ ] 8.6 Windows: Save changes in action widgets removes objects from `createdItems`; contents uploaded
 - [ ] 8.7 Windows: On upload and On upload (per file) run after the upload
 
+## 9. Per-file Upload button
+
+- [x] 9.1 Windows: `saveDocument` on an uncommitted created object stores the content and commits it (test build `UPLOAD_ON_CREATE`)
+- [x] 9.2 XML: `uploadButtonTextMessage`; regenerate typings
+- [x] 9.3 Store: `canUploadFile`, `uploadFile`; `UPLOAD_ON_CREATE` off
+- [x] 9.4 `FileEntry`: Upload button next to the remove button
+- [x] 9.5 Unit tests
+- [ ] 9.6 Windows: upload single files with the button; events run
+- [ ] 9.7 Decide: remove `createdItems` detection and the action widgets slot
+
 ## 6. Documentation
 
 - [x] 6.1 `CHANGELOG.md`: breaking change entries under Unreleased

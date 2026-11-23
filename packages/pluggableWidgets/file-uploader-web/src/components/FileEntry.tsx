@@ -26,7 +26,12 @@ export const FileEntryContainer = observer(({ store }: FileEntryContainerProps):
         }
     }, [rootStore, store]);
 
+    const onUpload = useCallback(() => {
+        rootStore.uploadFile(store);
+    }, [rootStore, store]);
+
     const showRemove = store.canDismiss || rootStore.canRemove(store);
+    const showUpload = rootStore.canUploadFile(store);
 
     return (
         <div
@@ -45,14 +50,24 @@ export const FileEntryContainer = observer(({ store }: FileEntryContainerProps):
                     <div className={"entry-details-main-size"}>{fileSize(store.size)}</div>
                 </div>
 
-                {showRemove && (
+                {(showUpload || showRemove) && (
                     <div className={"entry-details-actions"}>
-                        <ActionButton
-                            icon={<span className={"remove-icon"} aria-hidden />}
-                            title={translations.get("removeButtonTextMessage")}
-                            action={onRemove}
-                            isDisabled={false}
-                        />
+                        {showUpload && (
+                            <ActionButton
+                                icon={<span className={"file-action-icon glyphicon glyphicon-upload"} aria-hidden />}
+                                title={translations.get("uploadButtonTextMessage")}
+                                action={onUpload}
+                                isDisabled={false}
+                            />
+                        )}
+                        {showRemove && (
+                            <ActionButton
+                                icon={<span className={"remove-icon"} aria-hidden />}
+                                title={translations.get("removeButtonTextMessage")}
+                                action={onRemove}
+                                isDisabled={false}
+                            />
+                        )}
                     </div>
                 )}
             </div>

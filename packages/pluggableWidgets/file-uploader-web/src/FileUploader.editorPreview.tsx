@@ -10,7 +10,7 @@ export function preview(props: FileUploaderPreviewProps): ReactElement {
                 <p className={"upload-text"}>{props.dropzoneIdleMessage}</p>
             </div>
             <div className={"upload-actions"}>
-                <props.actions.renderer caption="Place a Save changes button here">
+                <props.actions.renderer caption="Place widgets here">
                     <div />
                 </props.actions.renderer>
             </div>
