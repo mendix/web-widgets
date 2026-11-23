@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [7.0.0] - 2026-11-23
+
 ### Changed
 
 - We updated the underlying charting library (Plotly.js) to version 4, which includes security fixes. Chart text colors on filled areas may be chosen slightly differently to improve contrast.
