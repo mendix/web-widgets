@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-11-23
+
 ### Changed
 
 - We updated markdown-it and KaTeX dependencies to mitigate potential security vulnerabilities.
