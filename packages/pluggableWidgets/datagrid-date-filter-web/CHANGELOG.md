@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the "Between" filter excluded records on the end date when that date was the day daylight saving time ends.
+
 ## [3.11.5] - 2026-09-10
 
 ### Changed

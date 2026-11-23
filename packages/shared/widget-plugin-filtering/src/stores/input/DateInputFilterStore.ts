@@ -290,22 +290,16 @@ function parseDateValue(value: string | null): Date | undefined {
     return date.toString() === "Invalid Date" ? undefined : date;
 }
 
-/**
- * Adds 1 day and returns a new date
- * @param date
- */
+// Local calendar arithmetic: a day is 23 or 25 hours long when daylight saving time changes.
 function addDay(date: Date): Date {
     const newDate = new Date(date.getTime());
-    newDate.setUTCDate(newDate.getUTCDate() + 1);
+    newDate.setDate(newDate.getDate() + 1);
     return newDate;
 }
-/**
- * Subtracts 1 day and returns a new date
- * @param date
- */
+
 function subDay(date: Date): Date {
     const newDate = new Date(date.getTime());
-    newDate.setUTCDate(newDate.getUTCDate() - 1);
+    newDate.setDate(newDate.getDate() - 1);
     return newDate;
 }
 
