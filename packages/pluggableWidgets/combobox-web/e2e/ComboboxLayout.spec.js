@@ -18,6 +18,8 @@ function truncation(caption) {
 
 test.describe("combobox-web layout with long selected values", () => {
     test.beforeEach(async ({ page }) => {
+        // The page is shared by every test in the worker, and another spec resizes it.
+        await page.setViewportSize({ width: 1280, height: 720 });
         await page.goto("/p/combobox-layout");
         await expect(page.locator(".mx-name-comboLong")).toBeVisible({ timeout: 10000 });
     });
