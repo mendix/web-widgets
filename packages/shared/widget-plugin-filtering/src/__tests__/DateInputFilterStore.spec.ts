@@ -198,4 +198,40 @@ describe("DateInputFilterStore", () => {
             expect(store.arg2.value).toEqual(new Date("2024-09-30T00:00:00.000Z"));
         });
     });
+
+    describe("between range on days when daylight saving time changes", () => {
+        let attr: ListAttributeValue<Date>;
+        let store: DateInputFilterStore;
+
+        beforeEach(() => {
+            attr = listAttribute(() => new Date());
+            attr.id = attrId("attr_dst");
+            store = new DateInputFilterStore([attr], null);
+        });
+
+        it("uses the start of the next calendar day as the upper bound when DST ends on the end date", () => {
+            store.filterFunction = "between";
+            store.arg1.value = new Date(2026, 9, 19);
+            store.arg2.value = new Date(2026, 9, 25);
+            expect(store.condition).toEqual(
+                and(
+                    dayGreaterThanOrEqual(attribute(attr.id), literal(new Date(2026, 9, 19))),
+                    dayLessThan(attribute(attr.id), literal(new Date(2026, 9, 26))),
+                    equals(literal("__RANGE_MARKER__"), literal("__RANGE_MARKER__"))
+                )
+            );
+        });
+
+        it("restores the end date from view state when DST starts on the end date", () => {
+            const exp = and(
+                dayGreaterThanOrEqual(attribute(attr.id), literal(new Date(2026, 2, 23))),
+                dayLessThan(attribute(attr.id), literal(new Date(2026, 2, 30))),
+                equals(literal("__RANGE_MARKER__"), literal("__RANGE_MARKER__"))
+            );
+            store.fromViewState(exp);
+            expect(store.filterFunction).toBe("between");
+            expect(store.arg1.value).toEqual(new Date(2026, 2, 23));
+            expect(store.arg2.value).toEqual(new Date(2026, 2, 29));
+        });
+    });
 });
