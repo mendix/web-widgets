@@ -4,8 +4,8 @@
  * @author Mendix Widgets Framework Team
  */
 import { ActionValue, DynamicValue, ListActionValue, ListValue } from "mendix";
-import { ComponentType, CSSProperties, ReactNode } from "react";
 import { Big } from "big.js";
+import { CSSProperties } from "react";
 
 export type ConfigModeEnum = "simple" | "advanced";
 
@@ -47,7 +47,6 @@ export interface FileUploaderContainerProps {
     allowedFileFormats: AllowedFileFormatsType[];
     maxFilesPerUpload?: DynamicValue<Big>;
     maxFileSize: number;
-    actions?: ReactNode;
     dropzoneIdleMessage: DynamicValue<string>;
     dropzoneAcceptedMessage: DynamicValue<string>;
     dropzoneRejectedMessage: DynamicValue<string>;
@@ -83,7 +82,6 @@ export interface FileUploaderPreviewProps {
     allowedFileFormats: AllowedFileFormatsPreviewType[];
     maxFilesPerUpload: string;
     maxFileSize: number | null;
-    actions: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     dropzoneIdleMessage: string;
     dropzoneAcceptedMessage: string;
     dropzoneRejectedMessage: string;

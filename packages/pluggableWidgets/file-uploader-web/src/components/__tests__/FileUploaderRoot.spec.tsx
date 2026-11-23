@@ -28,12 +28,6 @@ function renderRoot(overrides: Partial<FileUploaderContainerProps> = {}): Return
 }
 
 describe("FileUploaderRoot", () => {
-    test("renders the action widgets below the file list", () => {
-        const { container } = renderRoot({ actions: <button type="button">Save</button> });
-
-        expect(container.querySelector(".upload-actions")).toHaveTextContent("Save");
-    });
-
     test("has no upload button of its own", () => {
         const { queryByRole } = renderRoot();
 

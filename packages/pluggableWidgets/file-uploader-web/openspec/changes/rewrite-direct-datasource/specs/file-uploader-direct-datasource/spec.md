@@ -25,28 +25,6 @@ The widget SHALL accept files only when the `files` datasource reports `canCreat
 - **THEN** the "File creation is not available" message is shown
 - **AND** no file is added to the list
 
-### Requirement: Contents are uploaded after the app commits the objects
-
-The widget SHALL NOT render an Upload button. It SHALL render the "Action widgets" below the file list. A pending file SHALL count as committed when its object was listed in the datasource's `createdItems` and is no longer listed. The widget SHALL then upload the content of each committed file into its object, one after the other.
-
-#### Scenario: Successful upload
-
-- **WHEN** two files are ready and the user clicks a Save changes button in the action widgets
-- **AND** both objects leave `createdItems`
-- **THEN** the content of both files is uploaded into their objects
-- **AND** both files show the "Uploaded successfully" message
-
-#### Scenario: Object not listed yet
-
-- **WHEN** a new object is missing from `createdItems` before it was ever listed there
-- **THEN** the file stays ready to upload
-
-#### Scenario: Content upload fails
-
-- **WHEN** uploading one committed file's content fails
-- **THEN** that file shows the generic upload failure message
-- **AND** the other files are still uploaded
-
 ### Requirement: Each file has an Upload button
 
 Every file that is ready to upload SHALL have an Upload button next to its remove button. Clicking it SHALL upload that file's content into its object with `saveDocument`, which also commits the object. Other files SHALL stay ready to upload.

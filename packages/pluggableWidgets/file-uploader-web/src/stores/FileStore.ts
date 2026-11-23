@@ -19,7 +19,6 @@ export class FileStore {
     readonly key: number;
 
     private _objectItem?: ObjectItem = undefined;
-    private _seenInCreatedItems = false;
 
     private constructor(
         type: FileStatus,
@@ -68,15 +67,6 @@ export class FileStore {
      */
     get canDismiss(): boolean {
         return this.fileStatus === "validationError" || this.fileStatus === "rejected";
-    }
-
-    /** The object was listed in the datasource's `createdItems`, so it is not committed yet. */
-    get seenInCreatedItems(): boolean {
-        return this._seenInCreatedItems;
-    }
-
-    markSeenInCreatedItems(): void {
-        this._seenInCreatedItems = true;
     }
 
     setCreated(item: ObjectItem): void {

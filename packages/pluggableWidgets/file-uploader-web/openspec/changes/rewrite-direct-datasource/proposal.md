@@ -13,7 +13,7 @@ Package: `packages/pluggableWidgets/file-uploader-web`
 - **BREAKING** New property set. Removed: `uploadMode`, `associatedFiles`, `associatedImages`, `readOnlyMode`, `createFileAction`, `createImageAction`, `maxFilesPerBatch`, `objectCreationTimeout`, `onUploadSuccess*`, `onUploadFailure*`, `enableCustomButtons`, `customButtons`, and the download, retry and removal texts.
 - New `files` datasource (`isList="true" allowCreate="true"`). Any list datasource of a `System.FileDocument` specialization: database, XPath, microflow, nanoflow or association.
 - Each file the user adds creates one uncommitted object with `files.create()`. Nothing is committed or uploaded yet.
-- No Upload button. An "Action widgets" slot below the file list holds the app's own Save changes button. When an object leaves `createdItems` (committed), the widget uploads that file's content into it.
+- Each file has an Upload button next to its remove button. It uploads that file's content with `saveDocument`, which also commits the object.
 - "Events" group: On upload (once after uploads), On upload (per file) and On remove, the last two linked to `files`. Ready files can be removed; with On remove set to Delete object, the object is not committed.
 - The widget lists only the files added in the current session. Showing existing files is left to the app (for example a Gallery or Data Grid 2 on the same entity).
 - Kept: allowed file formats, maximum file size, maximum number of files, the dropzone and the status announcements.
@@ -39,8 +39,8 @@ None. The existing `file-uploader-action-buttons` and `file-uploader-status-anno
 **User-facing changes**:
 
 - Requires Studio Pro 11.17 or later.
-- Files are uploaded after the app commits them (a Save changes button in Action widgets), no longer on drop.
-- App developers configure a datasource on their own `System.FileDocument` specialization place a Save changes button in "Action widgets", and set "On remove" to Delete object. Users need create access on that entity.
+- Files are uploaded after the app commits them (with each file's Upload button), no longer on drop.
+- App developers configure a datasource on their own `System.FileDocument` specialization and set "On remove" to Delete object. Users need create access on that entity.
 - Images, read-only mode, download, retry, custom buttons and the upload success and failure actions are not available in the PoC.
 
 **Non-goals (PoC)**:

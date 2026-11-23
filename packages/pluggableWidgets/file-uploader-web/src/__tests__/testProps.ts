@@ -16,11 +16,6 @@ export function creatableList(canCreate: CreatableListValue["canCreate"] = "avai
     }) as MockCreatableList;
 }
 
-/** The same datasource on new props, now listing `createdItems`. */
-export function withCreatedItems(list: MockCreatableList, createdItems: ObjectItem[]): MockCreatableList {
-    return Object.assign(Object.create(Object.getPrototypeOf(list)), list, { createdItems });
-}
-
 export function plainList(): ListValue {
     return new ListValueBuilder().withItems([]).build();
 }

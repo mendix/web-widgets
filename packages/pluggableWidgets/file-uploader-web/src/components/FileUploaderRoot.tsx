@@ -50,8 +50,6 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
                 ))}
             </div>
 
-            {props.actions && <div className={"upload-actions"}>{props.actions}</div>}
-
             <div className={"sr-only"} role={"status"} aria-live={"polite"} aria-atomic={"true"}>
                 {/* alternate a trailing non-breaking space so a repeated message is announced again */}
                 {rootStore.announcement.text}

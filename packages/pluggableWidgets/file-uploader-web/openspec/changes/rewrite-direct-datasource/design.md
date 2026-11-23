@@ -28,17 +28,19 @@ The sample proves `create()`, `canCreate`, `createdItems`, linked attributes on 
 
 1. The user drops or selects files. Each file is validated (format, size, count) as before.
 2. For each accepted file: `files.create()`. The file shows "Ready to upload". If `create()` fails, it shows the generic failure.
-3. The app commits the objects, normally with a Save changes button the app developer places in the "Action widgets" slot below the file list (like the sample's action widgets slot). The widget has no Upload button of its own.
+3. The user clicks the Upload button of a file (decision 3a). Before 3a, the app committed the objects with a Save changes button in an "Action widgets" slot; that slot is removed.
 4. The widget notices the commit (decision 3) and uploads each committed file's content into its object, one after the other, with `mx.data.saveDocument`.
 5. Each file shows "Uploaded successfully" or the generic failure. Then the On upload (per file) event runs for each uploaded file, and On upload runs once.
 
-### 3. Detecting the commit through `createdItems`
+### 3. Detecting the commit through `createdItems` (removed)
+
+Removed after Windows testing: uploads now start from the per-file Upload button (3a). Kept for history:
 
 The widget can't call or observe the Save changes button. A committed object is no longer in `createdItems`, so on every props update the widget compares its pending files with `createdItems`. A file counts as committed when its object was listed in `createdItems` on an earlier props update and is missing now. The "seen first" rule is needed because the props right after `create()` resolves may not list the new object yet. Not verified on 11.17: that `createdItems` drops committed objects. Earlier versions of this change ran a widget-owned `uploadAction` from an Upload button and waited for `isExecuting`; that was replaced after Windows testing.
 
 ### 3a. Per-file Upload button (current)
 
-Windows testing showed that `mx.data.saveDocument` accepts an uncommitted object from `create()`, stores the content and commits the object. Detecting a Save changes through `createdItems` did not work. So each pending file now has an Upload button next to its remove button: it calls `saveDocument` for that file (`FileUploaderStore.uploadFile`). Uploads run one after the other; files clicked during an upload are queued. `UPLOAD_ON_CREATE` in `src/utils/flags.ts` (off) uploads right after `create()` instead. The `createdItems` detection and the action widgets slot are still in the code, but are no longer needed for uploads.
+Windows testing showed that `mx.data.saveDocument` accepts an uncommitted object from `create()`, stores the content and commits the object. Detecting a Save changes through `createdItems` did not work. So each pending file now has an Upload button next to its remove button: it calls `saveDocument` for that file (`FileUploaderStore.uploadFile`). Uploads run one after the other; files clicked during an upload are queued. `UPLOAD_ON_CREATE` in `src/utils/flags.ts` (off) uploads right after `create()` instead. The action widgets slot and the `createdItems` detection are removed.
 
 ### 4. Events
 
@@ -48,7 +50,7 @@ The "Events" group holds three optional actions:
 - `uploadItemAction` ("On upload (per file)", linked to `files`): runs with the file object after its content was uploaded. Not run for a file whose upload failed.
 - `removeAction` ("On remove", linked to `files`): see decision 6.
 
-The editor warns when "Action widgets" is empty, since nothing would commit the objects.
+The editor warns when On remove is not set.
 
 ### 5. List shows session files only
 
@@ -75,7 +77,6 @@ Not handled. The object stays committed without contents. A TODO in `FileStore.u
 
 ## Risks / Trade-offs
 
-- [Commit detection] If `createdItems` keeps committed objects, contents are never uploaded. → Verify on Windows.
 - [`isExecuting` not observed] If both prop changes arrive in one render, the On remove wait times out. → Verify on Windows.
 - [`saveDocument` on a created object] It is not verified that a committed object from `create()` accepts content through `saveDocument`. → Verify on Windows.
 - [`@beta` API] The API may change. → The shim keeps it in one file.

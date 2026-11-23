@@ -65,10 +65,6 @@
                 <caption>Maximum file size (MB)</caption>
                 <description>Reject files that are bigger than specified size.</description>
             </property>
-            <property key="actions" type="widgets" required="false">
-                <caption>Action widgets</caption>
-                <description>Widgets shown below the file list.</description>
-            </property>
         </propertyGroup>
         <propertyGroup caption="Texts">
             <property key="dropzoneIdleMessage" type="textTemplate">

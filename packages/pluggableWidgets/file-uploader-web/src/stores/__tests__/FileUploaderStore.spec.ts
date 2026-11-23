@@ -7,11 +7,9 @@ import {
     creatableList,
     flushPromises,
     makeFile,
-    MockCreatableList,
     MockListAction,
     mockListAction,
-    plainList,
-    withCreatedItems
+    plainList
 } from "../../__tests__/testProps";
 import { saveFile } from "../../utils/mx-data";
 import { FileUploaderStore } from "../FileUploaderStore";
@@ -179,81 +177,39 @@ describe("FileUploaderStore", () => {
         });
     });
 
-    describe("upload after commit", () => {
+    describe("upload events and failures", () => {
+        async function uploadAll(store: FileUploaderStore): Promise<void> {
+            store.files.forEach(f => store.uploadFile(f));
+            await flushPromises();
+        }
+
         async function storeWithPendingFiles(
             count: number,
             overrides: Partial<FileUploaderContainerProps> = {}
-        ): Promise<{
-            store: FileUploaderStore;
-            props: FileUploaderContainerProps;
-            files: MockCreatableList;
-        }> {
-            const files = creatableList();
-            const { store, props } = buildStore({ files, ...overrides });
+        ): Promise<FileUploaderStore> {
+            const { store } = buildStore(overrides);
             store.processDrop(
                 Array.from({ length: count }, (_, i) => makeFile(`f${i}.txt`)),
                 []
             );
             await flushPromises();
-            return { store, props, files };
+            return store;
         }
 
-        /** Props as the platform passes them: the objects listed in `createdItems`, then committed. */
-        function showCreated(
-            store: FileUploaderStore,
-            props: FileUploaderContainerProps,
-            files: MockCreatableList
-        ): void {
-            const items = store.files.map(f => f.objectItem!).filter(Boolean);
-            store.updateProps({ ...props, files: withCreatedItems(files, items) });
-        }
+        test("announces success after the queued uploads", async () => {
+            const store = await storeWithPendingFiles(2);
 
-        async function commit(
-            store: FileUploaderStore,
-            props: FileUploaderContainerProps,
-            files: MockCreatableList
-        ): Promise<void> {
-            store.updateProps({ ...props, files: withCreatedItems(files, []) });
-            await flushPromises();
-        }
+            await uploadAll(store);
 
-        test("does not upload while the objects are only created", async () => {
-            const { store, props, files } = await storeWithPendingFiles(2);
-
-            showCreated(store, props, files);
-            await flushPromises();
-
-            expect(saveFileMock).not.toHaveBeenCalled();
-            expect(store.files.map(f => f.fileStatus)).toEqual(["pending", "pending"]);
-        });
-
-        test("does not treat an object missing from the first props as committed", async () => {
-            const { store, props, files } = await storeWithPendingFiles(1);
-
-            await commit(store, props, files);
-
-            expect(saveFileMock).not.toHaveBeenCalled();
-            expect(store.files[0].fileStatus).toBe("pending");
-        });
-
-        test("uploads the contents once the objects leave createdItems", async () => {
-            const { store, props, files } = await storeWithPendingFiles(2);
-
-            showCreated(store, props, files);
-            await commit(store, props, files);
-
-            expect(saveFileMock).toHaveBeenCalledTimes(2);
-            expect(store.files.map(f => f.fileStatus)).toEqual(["done", "done"]);
             expect(store.isUploading).toBe(false);
             expect(store.announcement.text).toBe("Uploaded successfully.");
         });
 
         test("continues with the other files when one content upload fails", async () => {
-            const { store, props, files } = await storeWithPendingFiles(2);
+            const store = await storeWithPendingFiles(2);
             saveFileMock.mockRejectedValueOnce(new Error("network"));
 
-            showCreated(store, props, files);
-            await commit(store, props, files);
+            await uploadAll(store);
 
             expect(store.files.map(f => f.fileStatus).sort()).toEqual(["done", "uploadingError"]);
             expect(store.announcement.text).toBe("An error occurred during uploading.");
@@ -262,10 +218,9 @@ describe("FileUploaderStore", () => {
         test("runs On upload once and On upload (per file) for each uploaded file", async () => {
             const uploadAction = actionValue(true, false);
             const uploadItemAction = mockListAction();
-            const { store, props, files } = await storeWithPendingFiles(2, { uploadAction, uploadItemAction });
+            const store = await storeWithPendingFiles(2, { uploadAction, uploadItemAction });
 
-            showCreated(store, props, files);
-            await commit(store, props, files);
+            await uploadAll(store);
 
             expect(uploadAction.execute).toHaveBeenCalledTimes(1);
             expect(uploadItemAction.executed).toEqual(store.files.map(f => f.objectItem));
@@ -273,11 +228,10 @@ describe("FileUploaderStore", () => {
 
         test("does not run On upload (per file) for a failed file", async () => {
             const uploadItemAction = mockListAction();
-            const { store, props, files } = await storeWithPendingFiles(1, { uploadItemAction });
+            const store = await storeWithPendingFiles(1, { uploadItemAction });
             saveFileMock.mockRejectedValueOnce(new Error("network"));
 
-            showCreated(store, props, files);
-            await commit(store, props, files);
+            await uploadAll(store);
 
             expect(uploadItemAction.executed).toEqual([]);
         });
@@ -329,19 +283,6 @@ describe("FileUploaderStore", () => {
 
             expect(store.files).toEqual([file]);
             expect(file.fileStatus).toBe("pending");
-        });
-
-        test("a removed file is not uploaded after the commit", async () => {
-            const files = creatableList();
-            const { store, props } = await pendingStore({ files });
-            const item = store.files[0].objectItem!;
-            store.updateProps({ ...props, files: withCreatedItems(files, [item]) });
-
-            await store.removeFile(store.files[0]);
-            store.updateProps({ ...props, files: withCreatedItems(files, []) });
-            await flushPromises();
-
-            expect(saveFileMock).not.toHaveBeenCalled();
         });
     });
 

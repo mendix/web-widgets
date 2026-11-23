@@ -77,7 +77,6 @@ export class FileUploaderStore {
         this._removeAction = props.removeAction;
         this.translations.updateProps(props);
         this._removeRunner.update();
-        this.detectCommittedFiles();
     }
 
     dispose(): void {
@@ -233,40 +232,7 @@ export class FileUploaderStore {
         }
     }
 
-    /**
-     * The widget doesn't run the commit itself: the app commits the new objects, for example with a
-     * Save changes button in the action widgets. A committed object is no longer in `createdItems`.
-     * A file counts as committed once its object was seen in `createdItems` and is gone again,
-     * because the props right after `create()` may not list the new object yet.
-     */
-    private detectCommittedFiles(): void {
-        const ds = this._datasource;
-        if (!isCreatable(ds)) {
-            return;
-        }
-        const createdIds = new Set(ds.createdItems.map(item => item.id));
-
-        const committed: FileStore[] = [];
-        for (const file of this.files) {
-            const id = file.objectItemId;
-            if (file.fileStatus !== "pending" || !id) {
-                continue;
-            }
-            if (createdIds.has(id)) {
-                file.markSeenInCreatedItems();
-            } else if (file.seenInCreatedItems) {
-                committed.push(file);
-            }
-        }
-
-        if (committed.length > 0) {
-            committed.forEach(f => f.setUploading());
-            this._uploadQueue.push(...committed);
-            this.processUploadQueue();
-        }
-    }
-
-    /** Uploads the contents of committed files one by one, then runs the On upload event. */
+    /** Uploads the queued files one by one, then runs the On upload event. */
     private async processUploadQueue(): Promise<void> {
         if (this.isUploading) {
             return;

@@ -53,7 +53,7 @@
 - [x] 8.3 Store: detect commit through `createdItems` (seen, then gone); upload queue; run events after upload
 - [x] 8.4 Remove button always shown for pending files; editor warnings for missing On remove and empty action widgets
 - [x] 8.5 Unit tests
-- [ ] 8.6 Windows: Save changes in action widgets removes objects from `createdItems`; contents uploaded
+- [x] 8.6 Windows: Save changes in action widgets did not trigger uploads; replaced by section 9
 - [ ] 8.7 Windows: On upload and On upload (per file) run after the upload
 
 ## 9. Per-file Upload button
@@ -64,7 +64,8 @@
 - [x] 9.4 `FileEntry`: Upload button next to the remove button
 - [x] 9.5 Unit tests
 - [ ] 9.6 Windows: upload single files with the button; events run
-- [ ] 9.7 Decide: remove `createdItems` detection and the action widgets slot
+- [x] 9.7 Remove the action widgets slot
+- [x] 9.8 Remove the `createdItems` detection
 
 ## 6. Documentation
 
