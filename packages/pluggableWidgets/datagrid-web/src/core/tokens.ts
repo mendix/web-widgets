@@ -34,7 +34,6 @@ import { DatagridConfig } from "./configs/Datagrid.config";
 import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { TextsService } from "./services/Texts.service";
 import { MainGateProps } from "../../typings/MainGateProps";
-import { WidgetRootViewModel } from "../features/base/WidgetRoot.viewModel";
 import { ColumnGroupStore } from "../features/columns/ColumnGroupStore";
 import { GridColumn } from "../features/columns/GridColumn";
 import { DatasourceParamsController } from "../features/datasource/DatasourceParamsController";
@@ -48,6 +47,7 @@ import { CellEventsController } from "../features/row-interaction/CellEventsCont
 import { CheckboxEventsController } from "../features/row-interaction/CheckboxEventsController";
 import { SelectAllBarViewModel } from "../features/selection/select-all/SelectAllBar.viewModel";
 import { SelectionProgressDialogViewModel } from "../features/selection/select-all/SelectionProgressDialog.viewModel";
+import { WidgetRootViewModel } from "../ui/WidgetRoot.viewModel";
 
 /** Tokens to resolve dependencies from the container. */
 

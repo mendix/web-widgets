@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { ReactNode } from "react";
 import { useSelectionDialogViewModel } from "./injection-hooks";
-import { PseudoModal } from "../../../components/PseudoModal";
+import { PseudoModal } from "../../../ui/PseudoModal";
 import { ExportAlert } from "../../data-export/ExportAlert";
 
 export const SelectionProgressDialog = observer(function SelectionProgressDialog(): ReactNode {

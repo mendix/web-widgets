@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { CellElement, CellElementProps } from "../../components/CellElement";
+import { CellElement, CellElementProps } from "../../ui/CellElement";
 
 export type SelectorCellProps = CellElementProps;
 
