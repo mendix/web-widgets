@@ -11,7 +11,7 @@ import {
     useRowKey,
     useRows,
     useSelectActions
-} from "../core/hooks/injection-hooks";
+} from "../features/core/hooks/injection-hooks";
 
 export const RowsRenderer = observer(function RowsRenderer(): ReactElement {
     const rows = useRows().get();

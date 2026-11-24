@@ -33,21 +33,21 @@ import { ComputedAtom, DerivedPropsGate, Emitter } from "@mendix/widget-plugin-m
 import { DatagridConfig } from "./configs/Datagrid.config";
 import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { TextsService } from "./services/Texts.service";
-import { MainGateProps } from "../../typings/MainGateProps";
-import { WidgetRootViewModel } from "../features/base/WidgetRoot.viewModel";
-import { EmptyPlaceholderViewModel } from "../features/empty-message/EmptyPlaceholder.viewModel";
-import { PaginationConfig } from "../features/pagination/pagination.config";
-import { GridPersonalizationStore } from "../features/personalization/GridPersonalizationStore";
-import { CellEventsController } from "../features/row-interaction/CellEventsController";
-import { CheckboxEventsController } from "../features/row-interaction/CheckboxEventsController";
-import { SelectAllBarViewModel } from "../features/select-all/SelectAllBar.viewModel";
-import { SelectionProgressDialogViewModel } from "../features/select-all/SelectionProgressDialog.viewModel";
-import { ColumnGroupStore } from "../helpers/state/ColumnGroupStore";
-import { RowClassProvider, RowKeyProvider } from "../model/models/rows.model";
-import { DatasourceParamsController } from "../model/services/DatasourceParamsController";
-import { DerivedLoaderController, DerivedLoaderControllerConfig } from "../model/services/DerivedLoaderController";
-import { GridSizeStore } from "../model/stores/GridSize.store";
-import { GridColumn } from "../typings/GridColumn";
+import { MainGateProps } from "../../../typings/MainGateProps";
+import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
+import { RowClassProvider, RowKeyProvider } from "../../model/models/rows.model";
+import { DatasourceParamsController } from "../../model/services/DatasourceParamsController";
+import { DerivedLoaderController, DerivedLoaderControllerConfig } from "../../model/services/DerivedLoaderController";
+import { GridSizeStore } from "../../model/stores/GridSize.store";
+import { GridColumn } from "../../typings/GridColumn";
+import { WidgetRootViewModel } from "../base/WidgetRoot.viewModel";
+import { EmptyPlaceholderViewModel } from "../empty-message/EmptyPlaceholder.viewModel";
+import { PaginationConfig } from "../pagination/pagination.config";
+import { GridPersonalizationStore } from "../personalization/GridPersonalizationStore";
+import { CellEventsController } from "../row-interaction/CellEventsController";
+import { CheckboxEventsController } from "../row-interaction/CheckboxEventsController";
+import { SelectAllBarViewModel } from "../select-all/SelectAllBar.viewModel";
+import { SelectionProgressDialogViewModel } from "../select-all/SelectionProgressDialog.viewModel";
 
 /** Tokens to resolve dependencies from the container. */
 

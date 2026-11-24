@@ -1,7 +1,7 @@
 import { computed } from "mobx";
 import { CSSProperties } from "react";
 import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
-import { DatagridConfig } from "../../core/configs/Datagrid.config";
+import { DatagridConfig } from "../../features/core/configs/Datagrid.config";
 import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
 import { GridColumn } from "../../typings/GridColumn";
 import { GridSizeStore } from "../stores/GridSize.store";

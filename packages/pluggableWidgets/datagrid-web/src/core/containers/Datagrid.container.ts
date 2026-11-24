@@ -29,6 +29,8 @@ import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { MainGateProps } from "../../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../../features/base/WidgetRoot.viewModel";
+import { DatagridConfig } from "../../features/core/configs/Datagrid.config";
+import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../../features/core/tokens";
 import { EmptyPlaceholderViewModel } from "../../features/empty-message/EmptyPlaceholder.viewModel";
 import { paginationConfig } from "../../features/pagination/pagination.config";
 import { GridPersonalizationStore } from "../../features/personalization/GridPersonalizationStore";
@@ -42,8 +44,6 @@ import { DatasourceParamsController } from "../../model/services/DatasourceParam
 import { DerivedLoaderController } from "../../model/services/DerivedLoaderController";
 import { SelectionGate } from "../../model/services/SelectionGate.service";
 import { GridSizeStore } from "../../model/stores/GridSize.store";
-import { DatagridConfig } from "../configs/Datagrid.config";
-import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
 
 interface InitDependencies {
     props: MainGateProps;

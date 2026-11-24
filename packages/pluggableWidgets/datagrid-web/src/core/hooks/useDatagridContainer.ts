@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { CORE_TOKENS as CORE } from "../../features/core/tokens";
 import { createDatagridContainer } from "../containers/createDatagridContainer";
-import { CORE_TOKENS as CORE } from "../tokens";
 
 export function useDatagridContainer(props: DatagridContainerProps): Container {
     const [container, selectAllModule, mainProvider] = useConst(() => createDatagridContainer(props));

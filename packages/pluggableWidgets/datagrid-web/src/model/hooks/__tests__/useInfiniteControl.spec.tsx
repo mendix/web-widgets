@@ -9,7 +9,7 @@ const mockBumpPage = jest.fn();
 const mockLockGridContainerHeight = jest.fn();
 const mockGridContainerRef = createRef<HTMLDivElement>();
 
-jest.mock("../../../core/hooks/injection-hooks", () => ({
+jest.mock("../../../features/core/hooks/injection-hooks", () => ({
     useGridSizeStore: () => ({
         hasVirtualScrolling: true,
         gridContainerRef: mockGridContainerRef,

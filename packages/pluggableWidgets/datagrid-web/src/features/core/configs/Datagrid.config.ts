@@ -1,7 +1,7 @@
 import { SelectionMode, SelectionType } from "@mendix/widget-plugin-grid/selection";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { DatagridContainerProps, LoadingTypeEnum } from "../../../typings/DatagridProps";
-import { type SelectionMethod } from "../../features/row-interaction/base";
+import { DatagridContainerProps, LoadingTypeEnum } from "../../../../typings/DatagridProps";
+import { type SelectionMethod } from "../../row-interaction/base";
 
 /** Config for static values that don't change at runtime. */
 export interface DatagridConfig {
