@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { ContainerProvider } from "brandi-react";
 import { setupIntersectionObserverStub } from "@mendix/widget-plugin-test-utils";
-import { createDatagridContainer } from "../../model/containers/createDatagridContainer";
+import { createDatagridContainer } from "../../core/containers/createDatagridContainer";
 import { mockContainerProps } from "../../utils/test-utils";
 import { Grid } from "../Grid";
 

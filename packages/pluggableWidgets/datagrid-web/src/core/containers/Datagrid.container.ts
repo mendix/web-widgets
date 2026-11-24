@@ -36,13 +36,13 @@ import { creteCheckboxEventsController } from "../../features/row-interaction/Ch
 import { SelectAllModule } from "../../features/select-all/SelectAllModule.container";
 import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
 import { GridPersonalizationStore } from "../../helpers/state/GridPersonalizationStore";
+import { gridStyleAtom } from "../../model/models/grid.model";
+import { rowClassProvider, rowKeyProvider } from "../../model/models/rows.model";
+import { DatasourceParamsController } from "../../model/services/DatasourceParamsController";
+import { DerivedLoaderController } from "../../model/services/DerivedLoaderController";
+import { SelectionGate } from "../../model/services/SelectionGate.service";
+import { GridSizeStore } from "../../model/stores/GridSize.store";
 import { DatagridConfig } from "../configs/Datagrid.config";
-import { gridStyleAtom } from "../models/grid.model";
-import { rowClassProvider, rowKeyProvider } from "../models/rows.model";
-import { DatasourceParamsController } from "../services/DatasourceParamsController";
-import { DerivedLoaderController } from "../services/DerivedLoaderController";
-import { SelectionGate } from "../services/SelectionGate.service";
-import { GridSizeStore } from "../stores/GridSize.store";
 import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
 
 interface InitDependencies {

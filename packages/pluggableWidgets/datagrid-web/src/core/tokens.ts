@@ -30,6 +30,8 @@ import {
 } from "@mendix/widget-plugin-grid/select-all/select-all.model";
 import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-counter/SelectionCounter.viewModel-atoms";
 import { ComputedAtom, DerivedPropsGate, Emitter } from "@mendix/widget-plugin-mobx-kit/main";
+import { DatagridSetupService } from "./services/DatagridSetup.service";
+import { TextsService } from "./services/Texts.service";
 import { MainGateProps } from "../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../features/empty-message/EmptyPlaceholder.viewModel";
@@ -43,11 +45,9 @@ import { GridPersonalizationStore } from "../helpers/state/GridPersonalizationSt
 import { DatasourceParamsController } from "../model/services/DatasourceParamsController";
 import { GridColumn } from "../typings/GridColumn";
 import { DatagridConfig } from "./configs/Datagrid.config";
-import { RowClassProvider, RowKeyProvider } from "./models/rows.model";
-import { DatagridSetupService } from "./services/DatagridSetup.service";
-import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./services/DerivedLoaderController";
-import { TextsService } from "./services/Texts.service";
-import { GridSizeStore } from "./stores/GridSize.store";
+import { RowClassProvider, RowKeyProvider } from "../model/models/rows.model";
+import { DerivedLoaderController, DerivedLoaderControllerConfig } from "../model/services/DerivedLoaderController";
+import { GridSizeStore } from "../model/stores/GridSize.store";
 
 /** Tokens to resolve dependencies from the container. */
 

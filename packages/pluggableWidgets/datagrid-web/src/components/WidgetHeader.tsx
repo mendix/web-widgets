@@ -1,7 +1,7 @@
 import { PropsWithChildren, ReactElement } from "react";
 import { getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
 import { getGlobalSelectionContext, useCreateSelectionContextValue } from "@mendix/widget-plugin-grid/selection";
-import { useDatagridFilterAPI, useMainGate, useSelectionHelper, useTexts } from "../model/hooks/injection-hooks";
+import { useDatagridFilterAPI, useMainGate, useSelectionHelper, useTexts } from "../core/hooks/injection-hooks";
 
 const Selection = getGlobalSelectionContext();
 const FilterAPI = getGlobalFilterContextObject();

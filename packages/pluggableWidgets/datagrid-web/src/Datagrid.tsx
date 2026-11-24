@@ -3,10 +3,10 @@ import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Widget } from "./components/Widget";
+import { useColumnsStore, useExportProgressService } from "./core/hooks/injection-hooks";
+import { useDatagridContainer } from "./core/hooks/useDatagridContainer";
+import { useDataGridJSActions } from "./core/hooks/useDataGridJSActions";
 import { useDataExport } from "./features/data-export/useDataExport";
-import { useDataGridJSActions } from "./model/hooks/useDataGridJSActions";
-import { useColumnsStore, useExportProgressService } from "./model/hooks/injection-hooks";
-import { useDatagridContainer } from "./model/hooks/useDatagridContainer";
 
 const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
     const columnsStore = useColumnsStore();
