@@ -9,7 +9,7 @@ export class LocalStoragePersonalizationStorage implements PersonalizationStorag
         return data ? JSON.parse(data) : undefined;
     }
 
-    updateSettings(newSettings: any): void {
+    updateSettings(newSettings: unknown): void {
         const newSettingsJson = JSON.stringify(newSettings);
         if (localStorage.getItem(this.key) !== newSettingsJson) {
             localStorage.setItem(this.key, newSettingsJson);

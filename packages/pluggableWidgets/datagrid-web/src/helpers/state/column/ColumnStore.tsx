@@ -95,7 +95,6 @@ export class ColumnStore implements GridColumn {
         this._dynamicText = props.dynamicText;
     }
 
-    // old props
     get alignment(): AlignmentEnum {
         return this.baseInfo.alignment;
     }
@@ -112,7 +111,6 @@ export class ColumnStore implements GridColumn {
         return this.baseInfo.draggable;
     }
 
-    // hiding
     get canHide(): boolean {
         return this.baseInfo.hidable;
     }
@@ -121,7 +119,6 @@ export class ColumnStore implements GridColumn {
         this.isHidden = !this.isHidden;
     }
 
-    // size
     get canResize(): boolean {
         // column is not resizable if it is at the end of the grid
         return this.baseInfo.resizable && !this.parentStore.isLastVisible(this);
@@ -131,7 +128,6 @@ export class ColumnStore implements GridColumn {
         this.size = size;
     }
 
-    // sorting
     get canSort(): boolean {
         return this.baseInfo.sortable && !!this._attribute?.sortable;
     }

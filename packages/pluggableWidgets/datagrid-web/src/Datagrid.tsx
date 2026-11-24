@@ -4,7 +4,7 @@ import { ReactElement } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Widget } from "./components/Widget";
 import { useDataExport } from "./features/data-export/useDataExport";
-import { useDataGridJSActions } from "./helpers/useDataGridJSActions";
+import { useDataGridJSActions } from "./model/hooks/useDataGridJSActions";
 import { useColumnsStore, useExportProgressService } from "./model/hooks/injection-hooks";
 import { useDatagridContainer } from "./model/hooks/useDatagridContainer";
 

@@ -18,27 +18,20 @@ export class ColumnsSortingStore {
 
     getDirection(columnId: ColumnId): [SortDirection, number] | undefined {
         const ruleIndex = this.rules.findIndex(r => r[0] === columnId);
-        if (ruleIndex === -1) {
-            return undefined;
-        }
-        const [, dir] = this.rules.at(ruleIndex)!;
-
-        return [dir, ruleIndex + 1];
+        const rule = this.rules[ruleIndex];
+        return rule ? [rule[1], ruleIndex + 1] : undefined;
     }
 
     toggleSort(columnId: ColumnId): void {
         const [[cId, dir] = []] = this.rules;
         if (!cId || cId !== columnId) {
-            // was not sorted or sorted by a different column
             this.rules = [[columnId, "asc"]];
             return;
         }
         if (dir === "asc") {
-            // sorted by asc, flip to desc
             this.rules = [[columnId, "desc"]];
             return;
         }
-        // sorted by desc, disable
         this.rules = [];
     }
 }
