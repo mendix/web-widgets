@@ -3,8 +3,8 @@ import { ReactElement } from "react";
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import { useCustomPagination, usePaginationConfig } from "../core/hooks/injection-hooks";
 import { Pagination } from "../features/pagination/Pagination";
-import { useSelectionCounterViewModel } from "../features/selection-counter/injection-hooks";
-import { SelectionCounter } from "../features/selection-counter/SelectionCounter";
+import { useSelectionCounterViewModel } from "../features/selection/counter/injection-hooks";
+import { SelectionCounter } from "../features/selection/counter/SelectionCounter";
 
 export const WidgetTopBar = observer(function WidgetTopBar(): ReactElement {
     const pgConfig = usePaginationConfig();

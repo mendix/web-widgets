@@ -2,7 +2,7 @@ import { DatagridContainer } from "./Datagrid.container";
 import { RootContainer } from "./Root.container";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { MainGateProps } from "../../../typings/MainGateProps";
-import { SelectAllModule } from "../../features/select-all/SelectAllModule.container";
+import { SelectAllModule } from "../../features/selection/select-all/SelectAllModule.container";
 import { datagridConfig } from "../configs/Datagrid.config";
 import { MainGateProvider } from "../services/MainGateProvider.service";
 
