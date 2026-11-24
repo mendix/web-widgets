@@ -172,7 +172,8 @@ function getPackages({ onlyChanged = false } = {}) {
         const base = execSync("git merge-base origin/main HEAD", { encoding: "utf-8" }).trim();
         return `--filter "...[${base}]"`;
     })();
-    const args = [`--recursive`, `--json`, `--depth -1`, `--filter !web-widgets`, sinceFilter].filter(v => !!v);
+    // pnpm 12 treats a leading negative filter as "everything else", so the exclusion must follow the selector.
+    const args = [`--recursive`, `--json`, `--depth -1`, sinceFilter, `--filter !web-widgets`].filter(v => !!v);
     const command = [`pnpm ls`, ...args].join(" ");
 
     const listing = execSync(command, { encoding: "utf-8" });
