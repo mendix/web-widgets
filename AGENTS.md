@@ -43,7 +43,7 @@ Drive components through RTL queries and user events. Derive expected values fro
 
 ## Development Setup
 
-- Node >=26, pnpm 10.x
+- Node >=26, pnpm 12.x
 - Set MX_PROJECT_PATH to Mendix project dir for live reload
 - Run `pnpm start` inside widget package for dev build
 

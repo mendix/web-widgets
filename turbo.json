@@ -11,7 +11,7 @@
         "TAG",
         "PACKAGE"
     ],
-    "globalDependencies": ["automation/**", ".npmrc", ".nvmrc", ".github/**", "package.json"],
+    "globalDependencies": ["automation/**", "pnpm-workspace.yaml", ".nvmrc", ".github/**", "package.json"],
     "tasks": {
         "update-changelog": {
             "cache": false

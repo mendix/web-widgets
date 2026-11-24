@@ -4,3 +4,86 @@ packages:
     - "automation/*"
 catalog:
     rollup: "3.29"
+
+autoInstallPeers: true
+bail: true
+dedupePeerDependents: false
+linkWorkspacePackages: true
+nodeLinker: isolated
+sharedWorkspaceLockfile: true
+workspaceConcurrency: 4
+strictPeerDependencies: false
+shamefullyHoist: true
+
+hoistPattern:
+    - "*"
+
+publicHoistPattern:
+    - "*eslint*"
+    - "*prettier*"
+    - "*enzyme*"
+    - "*jest*"
+    # mime and make-dir are needed by PWT configs/rollup-plugin-assets.js; remove once it is replaced with the official plugin
+    - mime
+    - make-dir
+    # babel issues can only be fixed with public hoisting for now
+    - "*babel*"
+    - big.js
+    - "*rollup*"
+    - "@types/node"
+    - "@types/big.js"
+
+peerDependencyRules:
+    allowedVersions:
+        react: ">=18.0.0 <19.0.0"
+        react-dom: ">=18.0.0 <19.0.0"
+    ignoreMissing:
+        - react-native
+
+allowBuilds:
+    "@swc/core": true
+    canvas: true
+    "@parcel/watcher": false
+    core-js: false
+    es5-ext: false
+    unrs-resolver: false
+
+overrides:
+    "@babel/core@7": "7.29.7"
+    "@codemirror/state": "^6.5.2"
+    "@codemirror/view": "^6.38.1"
+    "@mendix/pluggable-widgets-tools": "11.13.0"
+    "@mendix/pluggable-widgets-tools>@babel/eslint-parser": "-"
+    "@mendix/pluggable-widgets-tools>@testing-library/react-native": "-"
+    "@mendix/pluggable-widgets-tools>eslint": "-"
+    "@mendix/pluggable-widgets-tools>eslint-config-prettier": "-"
+    "@mendix/pluggable-widgets-tools>eslint-plugin-jest": "-"
+    "@mendix/pluggable-widgets-tools>eslint-plugin-prettier": "-"
+    "@mendix/pluggable-widgets-tools>eslint-plugin-promise": "-"
+    "@mendix/pluggable-widgets-tools>eslint-plugin-react": "-"
+    "@mendix/pluggable-widgets-tools>eslint-plugin-react-hooks": "-"
+    "@mendix/pluggable-widgets-tools>prettier": "-"
+    "@mendix/pluggable-widgets-tools>shx": "-"
+    "@prettier/plugin-xml": ">=3.4.1"
+    "@testing-library/dom": "^10.4.1"
+    "@testing-library/react": "^16.3.2"
+    "@types/big.js": "^6.2.2"
+    "@types/node": "~26.6.0"
+    "@types/react": ">=18.2.36"
+    "@vscode/markdown-it-katex>katex": "^0.18.7"
+    babel-jest: "^30.0.0"
+    "d3-color@<3.1.0": ">=3.1.0"
+    "glob@10": "^10.5.0"
+    react: ">=18.0.0 <19.0.0"
+    "react-big-calendar@1>clsx": "2.1.1"
+    react-dom: ">=18.0.0 <19.0.0"
+    typescript: ">5.8.0 <6.0.0"
+
+patchedDependencies:
+    "@mendix/pluggable-widgets-tools@11.13.0": patches/@mendix__pluggable-widgets-tools@11.13.0.patch
+    cross-zip@4.0.1: patches/cross-zip@4.0.1.patch
+    mime-types@2.1.35: patches/mime-types@2.1.35.patch
+    mobx-react-lite@4.0.7: patches/mobx-react-lite@4.0.7.patch
+    mobx@6.12.3: patches/mobx@6.12.3.patch
+    react-dropzone: patches/react-dropzone.patch
+    rollup-plugin-license@3.7.1: patches/rollup-plugin-license@3.7.1.patch
