@@ -3,7 +3,6 @@ import { Grid } from "./Grid";
 import { GridBody } from "./GridBody";
 import { GridHeader } from "./GridHeader";
 import { RowsRenderer } from "./RowsRenderer";
-import { WidgetContent } from "./WidgetContent";
 import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
@@ -13,6 +12,7 @@ import { RefreshStatus } from "../features/datasource/RefreshStatus";
 import { EmptyPlaceholder } from "../features/empty-message/EmptyPlaceholder";
 import { SelectAllBar } from "../features/selection/select-all/SelectAllBar";
 import { SelectionProgressDialog } from "../features/selection/select-all/SelectionProgressDialog";
+import { WidgetContent } from "../ui/WidgetContent";
 
 export function Widget(props: { onExportCancel?: () => void }): ReactElement {
     return (
