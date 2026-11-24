@@ -12,10 +12,10 @@ import {
 } from "react";
 import { ColumnResizerProps } from "./ColumnResizer";
 import { ColumnId, GridColumn } from "./GridColumn";
-import { useColumn, useColumnsStore, useDatagridConfig } from "../../core/hooks/injection-hooks";
 import { FaArrowsAltV } from "../../ui/icons/FaArrowsAltV";
 import { FaLongArrowAltDown } from "../../ui/icons/FaLongArrowAltDown";
 import { FaLongArrowAltUp } from "../../ui/icons/FaLongArrowAltUp";
+import { useColumn, useColumnsStore, useDatagridConfig } from "../core/hooks/injection-hooks";
 
 export interface HeaderProps {
     isLast?: boolean;
