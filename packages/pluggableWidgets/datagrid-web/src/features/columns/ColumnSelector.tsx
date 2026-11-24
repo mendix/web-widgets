@@ -10,7 +10,7 @@ import {
 import { ReactElement, useEffect, useMemo, useState } from "react";
 import { flushSync } from "react-dom";
 import { GridColumn } from "./GridColumn";
-import { FaEye } from "../../components/icons/FaEye";
+import { FaEye } from "../../ui/icons/FaEye";
 
 export interface ColumnSelectorProps {
     columns: GridColumn[];
