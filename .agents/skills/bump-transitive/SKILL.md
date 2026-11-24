@@ -1,6 +1,6 @@
 ---
 name: bump-transitive
-description: Surgically bump a vulnerable transitive dependency to its latest patch per major using pnpm.overrides, then clean up without leaving override traces in package.json.
+description: Surgically bump a vulnerable transitive dependency to its latest patch per major using pnpm overrides, then clean up without leaving override traces in pnpm-workspace.yaml.
 ---
 
 # Fix Vulnerable Transitive Dependency
@@ -48,18 +48,15 @@ Object.entries(majors).forEach(([m, vers]) => {
 
 Cross-reference with the advisory's "Fixed in" versions — use whichever is higher.
 
-### 3. Add overrides to root package.json
+### 3. Add overrides to pnpm-workspace.yaml
 
-In the `pnpm.overrides` section of the root `package.json`, add one entry per major using the `@major` selector syntax:
+In the `overrides` section of the root `pnpm-workspace.yaml`, add one entry per major using the `@major` selector syntax:
 
-```json
-"pnpm": {
-  "overrides": {
-    "<package>@1": "1.x.y",
-    "<package>@2": "2.x.y",
+```yaml
+overrides:
+    "<package>@1": "1.x.y"
+    "<package>@2": "2.x.y"
     "<package>@5": "5.x.y"
-  }
-}
 ```
 
 Only add majors that are actually present in the lockfile.
@@ -72,7 +69,7 @@ pnpm install
 
 This writes the pinned versions into `pnpm-lock.yaml`.
 
-### 5. Remove the overrides from package.json
+### 5. Remove the overrides from pnpm-workspace.yaml
 
 Delete the entries added in step 3. The lockfile now has the correct versions recorded and will enforce them on its own.
 
@@ -82,7 +79,7 @@ Delete the entries added in step 3. The lockfile now has the correct versions re
 pnpm install
 ```
 
-This removes the override snapshot from the lockfile's config block and leaves a clean state: no trace of the rewrite in `package.json`, no stale override metadata in the lockfile.
+This removes the override snapshot from the lockfile's config block and leaves a clean state: no trace of the rewrite in `pnpm-workspace.yaml`, no stale override metadata in the lockfile.
 
 ### 7. Verify
 

@@ -110,7 +110,7 @@ Also confirm the generated `typings/<Widget>Props.d.ts`, `src/<Widget>.editorCon
 - rapid repeated input
 - datasource reloads that replace every item
 
-**Pinned and patched libraries.** Read the version you actually ship. The root `package.json` pins versions through `pnpm.overrides` and patches others through `pnpm.patchedDependencies`, with the patch files in `patches/`.
+**Pinned and patched libraries.** Read the version you actually ship. The root `pnpm-workspace.yaml` pins versions through `overrides` and patches others through `patchedDependencies`, with the patch files in `patches/`.
 
 ### 4. Rate each risk honestly
 
