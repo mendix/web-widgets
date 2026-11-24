@@ -12,8 +12,8 @@ import { action, computed, makeObservable, observable } from "mobx";
 import { ComponentPropsWithoutRef, KeyboardEvent, ReactElement, ReactNode } from "react";
 import { BaseColumnInfo } from "./BaseColumnInfo";
 import { AlignmentEnum, ColumnsType } from "../../../../typings/DatagridProps";
+import { ColumnPersonalizationSettings } from "../../../features/personalization/personalization-settings";
 import { ColumnId, GridColumn } from "../../../typings/GridColumn";
-import { ColumnPersonalizationSettings } from "../../../typings/personalization-settings";
 import { SortDirection } from "../../../typings/sorting";
 import { IColumnParentStore } from "../ColumnGroupStore";
 

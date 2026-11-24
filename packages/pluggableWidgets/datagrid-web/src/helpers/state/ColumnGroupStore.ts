@@ -11,8 +11,11 @@ import { ColumnFilterStore } from "./column/ColumnFilterStore";
 import { ColumnStore } from "./column/ColumnStore";
 import { ColumnsSortingStore, sortInstructionsToSortRules, sortRulesToSortInstructions } from "./ColumnsSortingStore";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import {
+    ColumnFilterSettings,
+    ColumnPersonalizationSettings
+} from "../../features/personalization/personalization-settings";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
-import { ColumnFilterSettings, ColumnPersonalizationSettings } from "../../typings/personalization-settings";
 import { SortInstruction } from "../../typings/sorting";
 import { StaticInfo } from "../../typings/static-info";
 
