@@ -11,12 +11,12 @@ import {
     useCallback
 } from "react";
 import { ColumnResizerProps } from "./ColumnResizer";
-import { FaArrowsAltV } from "./icons/FaArrowsAltV";
-import { FaLongArrowAltDown } from "./icons/FaLongArrowAltDown";
-import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
+import { ColumnId, GridColumn } from "./GridColumn";
+import { FaArrowsAltV } from "../../components/icons/FaArrowsAltV";
+import { FaLongArrowAltDown } from "../../components/icons/FaLongArrowAltDown";
+import { FaLongArrowAltUp } from "../../components/icons/FaLongArrowAltUp";
 
-import { useColumn, useColumnsStore, useDatagridConfig } from "../core/hooks/injection-hooks";
-import { ColumnId, GridColumn } from "../typings/GridColumn";
+import { useColumn, useColumnsStore, useDatagridConfig } from "../../core/hooks/injection-hooks";
 
 export interface HeaderProps {
     isLast?: boolean;

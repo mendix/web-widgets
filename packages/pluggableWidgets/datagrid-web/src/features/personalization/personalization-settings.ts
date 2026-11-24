@@ -1,5 +1,5 @@
 import { FilterData } from "@mendix/filter-commons/typings/settings";
-import { ColumnId } from "../../typings/GridColumn";
+import { ColumnId } from "../columns/GridColumn";
 import { SortDirection, SortRule } from "../sorting/sorting";
 
 export interface ColumnPersonalizationSettings {

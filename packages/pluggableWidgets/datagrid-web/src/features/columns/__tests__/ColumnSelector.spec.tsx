@@ -1,7 +1,7 @@
 import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ColumnSelector, ColumnSelectorProps } from "../ColumnSelector";
+import { ColumnId, GridColumn } from "../GridColumn";
 
 beforeAll(() => {
     Object.defineProperty(global, "ResizeObserver", {
