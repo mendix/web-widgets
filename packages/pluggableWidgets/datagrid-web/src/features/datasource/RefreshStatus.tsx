@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { ReactNode } from "react";
-import { useLoaderViewModel } from "../core/hooks/injection-hooks";
+import { useLoaderViewModel } from "../../core/hooks/injection-hooks";
 
 export const RefreshStatus = observer(function RefreshStatus(): ReactNode {
     const loaderVM = useLoaderViewModel();
