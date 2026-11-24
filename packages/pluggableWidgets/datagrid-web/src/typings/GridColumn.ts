@@ -21,17 +21,14 @@ export interface GridColumn {
     isAvailable: boolean;
     wrapText: boolean;
 
-    // hiding
     canHide: boolean;
     isHidden: boolean;
     toggleHidden(): void;
 
-    // sorting
     canSort: boolean;
     sortDir: SortDirection | undefined;
     toggleSort(): void;
 
-    // sizing
     canResize: boolean;
     size: number | undefined;
     setSize(size: number): void;

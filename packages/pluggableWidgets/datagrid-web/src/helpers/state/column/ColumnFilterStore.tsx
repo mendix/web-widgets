@@ -23,7 +23,7 @@ const { Provider } = getGlobalFilterContextObject();
 
 export class ColumnFilterStore implements IColumnFilterStore {
     private _widget: ReactNode;
-    private _error: APIError | null;
+    private _error: APIError | null = null;
     private _filterStore: FilterStore | null = null;
     private _context: FilterAPI;
     private _filterHost: ObservableFilterHost;
@@ -31,15 +31,11 @@ export class ColumnFilterStore implements IColumnFilterStore {
     constructor(props: ColumnsType, info: StaticInfo, filterHost: ObservableFilterHost) {
         this._filterHost = filterHost;
         this._widget = props.filter;
-        const storeResult = this.createFilterStore(props, null);
-        if (storeResult === null) {
-            this._error = this._filterStore = null;
-        } else if (storeResult.hasError) {
+        const storeResult = this.createFilterStore(props);
+        if (storeResult?.hasError) {
             this._error = storeResult.error;
-            this._filterStore = null;
         } else {
-            this._error = null;
-            this._filterStore = storeResult.value;
+            this._filterStore = storeResult?.value ?? null;
         }
         this._context = this.createContext(this._filterStore, info);
 
@@ -56,12 +52,9 @@ export class ColumnFilterStore implements IColumnFilterStore {
         return disposeAll;
     }
 
-    private createFilterStore(
-        props: ColumnsType,
-        dsViewState: FilterCondition | null
-    ): ReturnType<typeof attrgroupFilterStore> | null {
+    private createFilterStore(props: ColumnsType): ReturnType<typeof attrgroupFilterStore> | null {
         if (isListAttributeValue(props.attribute)) {
-            return attrgroupFilterStore(props.attribute.type, props.attribute, dsViewState);
+            return attrgroupFilterStore(props.attribute.type, props.attribute, null);
         }
 
         return null;

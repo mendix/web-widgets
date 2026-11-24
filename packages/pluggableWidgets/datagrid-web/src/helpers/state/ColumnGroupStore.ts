@@ -129,7 +129,6 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore, 
         const columnTarget = this._allColumnsById.get(target)!;
         columnSource.orderWeight = columnTarget.orderWeight + (placement === "after" ? 1 : -1);
 
-        // normalize columns
         this._allColumnsOrdered.forEach((column, idx) => {
             column.orderWeight = idx * 10;
         });
@@ -144,7 +143,6 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore, 
     }
 
     get loaded(): boolean {
-        // check if all columns loaded, then we can render
         return this._allColumns.every(c => c.loaded);
     }
 
@@ -155,12 +153,12 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore, 
     get availableColumns(): ColumnStore[] {
         // columns that are not hidden by visibility expression
         // visible field name is misleading, it means available
-        return [...this._allColumnsOrdered].filter(column => column.isAvailable);
+        return this._allColumnsOrdered.filter(column => column.isAvailable);
     }
 
     get visibleColumns(): ColumnStore[] {
         // list of columns that are available and not in the set of hidden columns
-        return [...this.availableColumns].filter(column => !column.isHidden);
+        return this.availableColumns.filter(column => !column.isHidden);
     }
 
     get sortInstructions(): SortInstruction[] | undefined {

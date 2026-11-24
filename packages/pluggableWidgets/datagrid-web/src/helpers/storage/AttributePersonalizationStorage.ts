@@ -39,7 +39,7 @@ export class AttributePersonalizationStorage implements PersonalizationStorage {
         }
     }
 
-    updateSettings(newSettings: any): void {
+    updateSettings(newSettings: unknown): void {
         // Prevent saving empty string or null to the attribute
         newSettings = newSettings === "" || newSettings === null ? undefined : newSettings;
         if (this._storageAttr && !this._storageAttr.readOnly) {
