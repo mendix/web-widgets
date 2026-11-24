@@ -1,5 +1,5 @@
 import { ListValue } from "mendix";
-import { ColumnId } from "./GridColumn";
+import { ColumnId } from "../../typings/GridColumn";
 
 export type SortInstruction = ListValue["sortOrder"] extends Array<infer T> ? T : never;
 

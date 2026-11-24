@@ -1,7 +1,7 @@
 import { action, makeObservable, observable } from "mobx";
-import { ColumnStore } from "./column/ColumnStore";
+import { SortDirection, SortInstruction, SortRule } from "./sorting";
+import { ColumnStore } from "../../helpers/state/column/ColumnStore";
 import { ColumnId } from "../../typings/GridColumn";
-import { SortDirection, SortInstruction, SortRule } from "../../typings/sorting";
 
 export class ColumnsSortingStore {
     rules: SortRule[] = [];

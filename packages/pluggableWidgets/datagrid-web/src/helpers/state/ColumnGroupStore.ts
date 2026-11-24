@@ -9,14 +9,18 @@ import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/wi
 
 import { ColumnFilterStore } from "./column/ColumnFilterStore";
 import { ColumnStore } from "./column/ColumnStore";
-import { ColumnsSortingStore, sortInstructionsToSortRules, sortRulesToSortInstructions } from "./ColumnsSortingStore";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import {
     ColumnFilterSettings,
     ColumnPersonalizationSettings
 } from "../../features/personalization/personalization-settings";
+import {
+    ColumnsSortingStore,
+    sortInstructionsToSortRules,
+    sortRulesToSortInstructions
+} from "../../features/sorting/ColumnsSortingStore";
+import { SortInstruction } from "../../features/sorting/sorting";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
-import { SortInstruction } from "../../typings/sorting";
 import { StaticInfo } from "../../typings/static-info";
 
 export interface IColumnGroupStore {
