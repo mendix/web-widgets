@@ -1,0 +1,36 @@
+{
+    "name": "@mendix/widget-harness",
+    "version": "0.1.0",
+    "description": "Live in-memory data store and browser host page for exercising pluggable widgets without a Mendix runtime.",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "type": "module",
+    "scripts": {
+        "dev": "vite --config host/vite.config.ts",
+        "format": "prettier --write .",
+        "lint": "eslint src/ host/ e2e/ package.json",
+        "test:e2e": "playwright test",
+        "typecheck": "tsc --noEmit -p tsconfig.core.json"
+    },
+    "dependencies": {
+        "big.js": "^6.2.2",
+        "mendix": "10.24.75382"
+    },
+    "devDependencies": {
+        "@mendix/datagrid-text-filter-web": "workspace:*",
+        "@mendix/datagrid-web": "workspace:*",
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/tsconfig-web-widgets": "workspace:*",
+        "@playwright/test": "^1.60.0",
+        "react": "18.3.1",
+        "react-dom": "18.3.1",
+        "sass": "1.102.0",
+        "vite": "7.3.7"
+    }
+}

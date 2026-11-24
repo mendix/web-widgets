@@ -1,0 +1,12 @@
+@import "../../../modules/data-widgets/src/themesource/datawidgets/web/variables";
+@import "../../../modules/data-widgets/src/themesource/datawidgets/web/pagination-bar";
+@import "../../../modules/data-widgets/src/themesource/datawidgets/web/datagrid";
+@import "../../../modules/data-widgets/src/themesource/datawidgets/web/datagrid-filters";
+@import "../../../modules/data-widgets/src/themesource/datawidgets/web/datagrid-dropdown-filter";
+@import "../../../modules/data-widgets/src/themesource/datawidgets/web/refresh-indicator";
+@import "../../../modules/data-widgets/src/themesource/datawidgets/web/three-state-checkbox";
+
+body {
+    font-family: sans-serif;
+    margin: 16px;
+}
