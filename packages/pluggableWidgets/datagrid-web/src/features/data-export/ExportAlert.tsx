@@ -2,8 +2,8 @@ import * as Progress from "@radix-ui/react-progress";
 import classNames from "classnames";
 import { CSSProperties, ReactElement, useState } from "react";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { CloseIcon } from "./icons/CloseIcon";
-import { WarningIcon } from "./icons/WarningIcon";
+import { CloseIcon } from "../../components/icons/CloseIcon";
+import { WarningIcon } from "../../components/icons/WarningIcon";
 
 export type ExportAlertProps = {
     alertLabel: string;
