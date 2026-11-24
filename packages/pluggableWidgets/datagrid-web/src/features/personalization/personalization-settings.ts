@@ -1,23 +1,12 @@
 import { FilterData } from "@mendix/filter-commons/typings/settings";
-import { ColumnId } from "../columns/GridColumn";
-import { SortDirection, SortRule } from "../columns/sorting";
-
-export interface ColumnPersonalizationSettings {
-    columnId: ColumnId;
-    size: number | undefined;
-    hidden: boolean;
-    orderWeight: number;
-    sortDir: SortDirection | undefined;
-    sortWeight: number | undefined;
-}
+import { ColumnFilterSettings } from "../columns/column-settings";
+import { ColumnId, SortRule } from "../columns/GridColumn";
 
 interface ColumnPersonalizationStorageSettings {
     columnId: ColumnId;
     size: number | undefined;
     hidden: boolean;
 }
-
-export type ColumnFilterSettings = Array<[key: ColumnId, data: FilterData]>;
 
 export type CustomFilterSettings = Array<[key: string, data: FilterData]>;
 

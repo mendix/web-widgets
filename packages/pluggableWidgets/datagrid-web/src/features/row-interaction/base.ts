@@ -1,8 +1,7 @@
 import { ObjectItem } from "mendix";
 import { ClickTrigger } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { SelectionMode, SelectionType } from "@mendix/widget-plugin-grid/selection";
-
-export type SelectionMethod = "rowClick" | "checkbox" | "none";
+import { type SelectionMethod } from "../core/configs/Datagrid.config";
 
 interface BaseEventContext {
     item: ObjectItem;
