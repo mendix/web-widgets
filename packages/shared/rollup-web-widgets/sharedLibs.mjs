@@ -6,8 +6,6 @@ import commonjs from "@rollup/plugin-commonjs";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import replace from "@rollup/plugin-replace";
 import terser from "@rollup/plugin-terser";
-import license from "rollup-plugin-license";
-import { licenseCustomTemplate } from "@mendix/pluggable-widgets-tools/configs/helpers/rollup-helper.mjs";
 
 const require = createRequire(import.meta.url);
 
@@ -76,7 +74,9 @@ function describeLibrary(name, selected) {
         input: join(dirname(pkgJsonPath), pkg.module ?? pkg.main),
         dir,
         amdFile: join(dir, "amd", `${name}.js`),
-        esmFile: join(dir, "esm", `${name}.mjs`)
+        esmFile: join(dir, "esm", `${name}.mjs`),
+        /** Files rendered into the shared bundle, filled when it builds. */
+        modules: new Set()
     };
 }
 
@@ -112,19 +112,27 @@ function sharedLibBundle(lib, byName, production) {
                 values: { "process.env.NODE_ENV": JSON.stringify(production ? "production" : "development") }
             }),
             production ? terser() : null,
-            production
-                ? license({
-                      thirdParty: {
-                          includePrivate: true,
-                          output: [
-                              { file: join(OUT_DIR, lib.dir, "dependencies.txt") },
-                              { file: join(OUT_DIR, lib.dir, "dependencies.json"), template: licenseCustomTemplate }
-                          ]
-                      }
-                  })
-                : null
+            recordModules(lib.modules)
         ],
         output: [output("es"), output("amd")]
+    };
+}
+
+function recordModules(modules) {
+    return {
+        name: "mendix-shared-libs-modules",
+        generateBundle(_options, bundle) {
+            for (const chunk of Object.values(bundle)) {
+                if (chunk.type !== "chunk") {
+                    continue;
+                }
+                for (const [id, module] of Object.entries(chunk.modules)) {
+                    if (module.renderedLength > 0) {
+                        modules.add(id);
+                    }
+                }
+            }
+        }
     };
 }
 
@@ -136,6 +144,24 @@ function sharedLibsConsumer(shared) {
 
     return {
         name: "mendix-shared-libs",
+
+        buildStart(options) {
+            // mxbuild reads only the MPK root dependencies.{json,txt} (SBOM, licence notice), which PWT's
+            // license plugin writes from the widget bundle; the shared libraries ship in the same MPK.
+            const licensePlugin = options.plugins.find(plugin => plugin.name === "rollup-plugin-license");
+            if (!licensePlugin) {
+                return;
+            }
+            if (typeof licensePlugin.api?.scanDependencies !== "function") {
+                this.error("withSharedLibs: rollup-plugin-license lacks api.scanDependencies, check patches/.");
+            }
+            for (const lib of shared) {
+                if (lib.modules.size === 0) {
+                    this.error(`withSharedLibs: the shared "${lib.name}" bundle must build before the widget.`);
+                }
+                licensePlugin.api.scanDependencies([...lib.modules]);
+            }
+        },
 
         options(options) {
             const original = options.external;

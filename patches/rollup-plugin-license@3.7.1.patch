@@ -1,0 +1,37 @@
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index 37520e20fe87db3b3590a136285621cae0abcccb..feacd0bb71223f9387bd1b44cf61c8723161773d 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -347,6 +347,11 @@ export interface Options {
+   thirdParty?: ThirdParty;
+ }
+ 
+-declare function rollupPluginLicense(options: Options): Plugin;
++export interface LicensePluginApi {
++  /** Scan modules (by id/path) as if they were part of the bundle. */
++  scanDependencies(ids: string[]): void;
++}
++
++declare function rollupPluginLicense(options: Options): Plugin<LicensePluginApi>;
+ 
+ export default rollupPluginLicense;
+diff --git a/dist/index.js b/dist/index.js
+index 10e1d1dc4261e13cb27e5b396df8853ff0795a0a..f0eb5a1936a7bfceeef15b77e0a116b5ba3ee50d 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -1358,6 +1358,15 @@ function rollupPluginLicense(options = {}) {
+      * @type {string}
+      */
+     name: plugin.name,
++    /**
++     * Inter-plugin API: lets other plugins report modules that ship next to the
++     * bundle (e.g. externals bundled separately) so they are listed as well.
++     */
++    api: {
++      scanDependencies(ids) {
++        plugin.scanDependencies(ids);
++      },
++    },
+     /**
+      * Function called by rollup when the final bundle is generated: it is used
+      * to prepend the banner file on the generated bundle.
