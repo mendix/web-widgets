@@ -17,6 +17,8 @@ import { AttributePersonalizationStorage } from "../storage/AttributePersonaliza
 import { LocalStoragePersonalizationStorage } from "../storage/LocalStoragePersonalizationStorage";
 import { PersonalizationStorage } from "../storage/PersonalizationStorage";
 
+const SCHEMA_VERSION: GridPersonalizationStorageSettings["schemaVersion"] = 3;
+
 type RequiredProps = Pick<
     DatagridContainerProps,
     "name" | "configurationStorageType" | "storeFiltersInPersonalization" | "configurationAttribute"
@@ -25,7 +27,6 @@ type RequiredProps = Pick<
 export class GridPersonalizationStore implements SetupComponent {
     private readonly gridName: string;
     private readonly gridColumnsHash: string;
-    private readonly schemaVersion: GridPersonalizationStorageSettings["schemaVersion"] = 3;
     private readonly storeFilters: boolean;
     private readonly storage: PersonalizationStorage;
 
@@ -140,7 +141,7 @@ export class GridPersonalizationStore implements SetupComponent {
             "name" in settings &&
             "settingsHash" in settings &&
             "schemaVersion" in settings &&
-            settings.schemaVersion === this.schemaVersion
+            settings.schemaVersion === SCHEMA_VERSION
         );
     }
 
@@ -188,7 +189,7 @@ function toStorageFormat(
 
     return {
         name: gridName,
-        schemaVersion: 3,
+        schemaVersion: SCHEMA_VERSION,
         settingsHash: gridColumnsHash,
         columns: columnsSettings.map(c => ({
             columnId: c.columnId,

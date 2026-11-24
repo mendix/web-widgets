@@ -4,6 +4,6 @@ type RequiredProps = Pick<DatagridContainerProps, "configurationAttribute">;
 
 export interface PersonalizationStorage {
     settings: unknown;
-    updateSettings(newSettings: any): void;
+    updateSettings(newSettings: unknown): void;
     updateProps?(props: RequiredProps): void;
 }
