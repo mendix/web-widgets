@@ -13,8 +13,8 @@ import { ComponentPropsWithoutRef, KeyboardEvent, ReactElement, ReactNode } from
 import { BaseColumnInfo } from "./BaseColumnInfo";
 import { AlignmentEnum, ColumnsType } from "../../../../typings/DatagridProps";
 import { ColumnPersonalizationSettings } from "../../../features/personalization/personalization-settings";
+import { SortDirection } from "../../../features/sorting/sorting";
 import { ColumnId, GridColumn } from "../../../typings/GridColumn";
-import { SortDirection } from "../../../typings/sorting";
 import { IColumnParentStore } from "../ColumnGroupStore";
 
 export class ColumnStore implements GridColumn {
