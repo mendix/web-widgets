@@ -9,12 +9,7 @@ import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/wi
 
 import { ColumnFilterStore } from "./column/ColumnFilterStore";
 import { ColumnStore } from "./column/ColumnStore";
-import {
-    ColumnsSortingStore,
-    IColumnSortingStore,
-    sortInstructionsToSortRules,
-    sortRulesToSortInstructions
-} from "./ColumnsSortingStore";
+import { ColumnsSortingStore, sortInstructionsToSortRules, sortRulesToSortInstructions } from "./ColumnsSortingStore";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ColumnFilterSettings, ColumnPersonalizationSettings } from "../../typings/personalization-settings";
@@ -36,7 +31,7 @@ export interface IColumnGroupStore {
 export interface IColumnParentStore {
     isLastVisible(column: ColumnStore): boolean;
     isResizing: boolean;
-    sorting: IColumnSortingStore;
+    sorting: ColumnsSortingStore;
 }
 
 interface DynamicProps {

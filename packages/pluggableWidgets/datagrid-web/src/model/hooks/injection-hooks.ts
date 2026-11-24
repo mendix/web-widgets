@@ -1,7 +1,6 @@
 import { createInjectionHooks } from "brandi-react";
 import { CORE_TOKENS as CORE, DG_TOKENS as DG } from "../tokens";
 
-export const [useBasicData] = createInjectionHooks(DG.basicDate);
 export const [useColumnsStore] = createInjectionHooks(CORE.columnsStore);
 export const [useDatagridConfig] = createInjectionHooks(CORE.config);
 export const [useDatagridFilterAPI] = createInjectionHooks(DG.filterAPI);

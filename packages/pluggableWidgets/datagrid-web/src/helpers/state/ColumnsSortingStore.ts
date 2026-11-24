@@ -3,12 +3,7 @@ import { ColumnStore } from "./column/ColumnStore";
 import { ColumnId } from "../../typings/GridColumn";
 import { SortDirection, SortInstruction, SortRule } from "../../typings/sorting";
 
-export interface IColumnSortingStore {
-    getDirection(columnId: ColumnId): [SortDirection, number] | undefined;
-    toggleSort(columnId: ColumnId): void;
-}
-
-export class ColumnsSortingStore implements IColumnSortingStore {
+export class ColumnsSortingStore {
     rules: SortRule[] = [];
 
     constructor(initialRules: SortRule[]) {

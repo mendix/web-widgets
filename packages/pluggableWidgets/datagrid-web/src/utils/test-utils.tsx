@@ -2,7 +2,8 @@ import { dynamic, list, listAttribute, listExpression } from "@mendix/widget-plu
 import { ColumnsType, DatagridContainerProps } from "../../typings/DatagridProps";
 import { ColumnStore } from "../helpers/state/column/ColumnStore";
 import { IColumnParentStore } from "../helpers/state/ColumnGroupStore";
-import { ColumnId, GridColumn } from "../typings/GridColumn";
+import { ColumnsSortingStore } from "../helpers/state/ColumnsSortingStore";
+import { GridColumn } from "../typings/GridColumn";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {
@@ -38,14 +39,7 @@ export function mockGridColumn(c: ColumnsType, index: number): GridColumn {
             return false;
         },
         isResizing: false,
-        sorting: {
-            getDirection(_columnId: ColumnId): ["asc" | "desc", number] | undefined {
-                return undefined;
-            },
-            toggleSort(_columnId: ColumnId): void {
-                return undefined;
-            }
-        }
+        sorting: new ColumnsSortingStore([])
     };
 
     return new ColumnStore(index, c, parentStore);
