@@ -1,7 +1,7 @@
 import { RefObject, UIEvent, useCallback, useEffect } from "react";
 import { useGridSizeStore } from "@mendix/datagrid-web/src/core/hooks/injection-hooks";
 import { useOnScreen } from "@mendix/widget-plugin-hooks/useOnScreen";
-import { VIRTUAL_SCROLLING_OFFSET } from "../stores/GridSize.store";
+import { VIRTUAL_SCROLLING_OFFSET } from "./GridSize.store";
 
 export function useInfiniteControl(): [trackTableScrolling: ((e: any) => void) | undefined] {
     const gridSizeStore = useGridSizeStore();

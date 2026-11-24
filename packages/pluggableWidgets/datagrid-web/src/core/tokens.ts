@@ -41,13 +41,13 @@ import { DatasourceParamsController } from "../features/datasource/DatasourcePar
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "../features/datasource/DerivedLoaderController";
 import { RowClassProvider, RowKeyProvider } from "../features/datasource/rows.model";
 import { EmptyPlaceholderViewModel } from "../features/empty-message/EmptyPlaceholder.viewModel";
+import { GridSizeStore } from "../features/pagination/GridSize.store";
 import { PaginationConfig } from "../features/pagination/pagination.config";
 import { GridPersonalizationStore } from "../features/personalization/GridPersonalizationStore";
 import { CellEventsController } from "../features/row-interaction/CellEventsController";
 import { CheckboxEventsController } from "../features/row-interaction/CheckboxEventsController";
 import { SelectAllBarViewModel } from "../features/select-all/SelectAllBar.viewModel";
 import { SelectionProgressDialogViewModel } from "../features/select-all/SelectionProgressDialog.viewModel";
-import { GridSizeStore } from "../model/stores/GridSize.store";
 
 /** Tokens to resolve dependencies from the container. */
 
