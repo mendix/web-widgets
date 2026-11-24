@@ -3,7 +3,7 @@ import { reaction } from "mobx";
 import { QueryService } from "@mendix/widget-plugin-grid/main";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { SortInstruction } from "../../features/sorting/sorting";
+import { SortInstruction } from "../sorting/sorting";
 
 interface ObservableFilterStore {
     filter: FilterCondition | undefined;

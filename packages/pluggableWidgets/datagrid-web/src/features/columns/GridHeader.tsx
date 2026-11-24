@@ -5,8 +5,8 @@ import { ColumnSelector } from "./ColumnSelector";
 import { ColumnId } from "./GridColumn";
 import { Header } from "./Header";
 import { CheckboxColumnHeader } from "../../components/CheckboxColumnHeader";
-import { HeaderSkeletonLoader } from "../../components/loader/HeaderSkeletonLoader";
 import { useColumnsStore, useDatagridConfig, useGridSizeStore } from "../../core/hooks/injection-hooks";
+import { HeaderSkeletonLoader } from "../datasource/loader/HeaderSkeletonLoader";
 
 export function GridHeader(): ReactElement {
     const { columnsHidable, id: gridId } = useDatagridConfig();

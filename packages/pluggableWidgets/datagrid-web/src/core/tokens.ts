@@ -37,6 +37,9 @@ import { MainGateProps } from "../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../features/base/WidgetRoot.viewModel";
 import { ColumnGroupStore } from "../features/columns/ColumnGroupStore";
 import { GridColumn } from "../features/columns/GridColumn";
+import { DatasourceParamsController } from "../features/datasource/DatasourceParamsController";
+import { DerivedLoaderController, DerivedLoaderControllerConfig } from "../features/datasource/DerivedLoaderController";
+import { RowClassProvider, RowKeyProvider } from "../features/datasource/rows.model";
 import { EmptyPlaceholderViewModel } from "../features/empty-message/EmptyPlaceholder.viewModel";
 import { PaginationConfig } from "../features/pagination/pagination.config";
 import { GridPersonalizationStore } from "../features/personalization/GridPersonalizationStore";
@@ -44,9 +47,6 @@ import { CellEventsController } from "../features/row-interaction/CellEventsCont
 import { CheckboxEventsController } from "../features/row-interaction/CheckboxEventsController";
 import { SelectAllBarViewModel } from "../features/select-all/SelectAllBar.viewModel";
 import { SelectionProgressDialogViewModel } from "../features/select-all/SelectionProgressDialog.viewModel";
-import { RowClassProvider, RowKeyProvider } from "../model/models/rows.model";
-import { DatasourceParamsController } from "../model/services/DatasourceParamsController";
-import { DerivedLoaderController, DerivedLoaderControllerConfig } from "../model/services/DerivedLoaderController";
 import { GridSizeStore } from "../model/stores/GridSize.store";
 
 /** Tokens to resolve dependencies from the container. */
