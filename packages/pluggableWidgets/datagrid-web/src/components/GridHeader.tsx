@@ -1,12 +1,12 @@
 import { ReactElement, useState } from "react";
 import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
-import { HeaderSkeletonLoader } from "./loader/HeaderSkeletonLoader";
 import { ColumnProvider } from "../features/columns/ColumnProvider";
 import { ColumnResizer } from "../features/columns/ColumnResizer";
 import { ColumnSelector } from "../features/columns/ColumnSelector";
 import { ColumnId } from "../features/columns/GridColumn";
 import { Header } from "../features/columns/Header";
 import { useColumnsStore, useDatagridConfig, useGridSizeStore } from "../features/core/hooks/injection-hooks";
+import { HeaderSkeletonLoader } from "../features/datasource/loader/HeaderSkeletonLoader";
 
 export function GridHeader(): ReactElement {
     const { columnsHidable, id: gridId } = useDatagridConfig();

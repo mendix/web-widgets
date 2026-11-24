@@ -19,7 +19,7 @@ import { columnCount, visibleColumnsCountAtom } from "../../features/columns/col
 import { DatagridSetupService } from "../../features/core/services/DatagridSetup.service";
 import { TextsService } from "../../features/core/services/Texts.service";
 import { CORE_TOKENS as CORE } from "../../features/core/tokens";
-import { rowsAtom } from "../../model/models/rows.model";
+import { rowsAtom } from "../../features/datasource/rows.model";
 import { PageSizeStore } from "../../model/stores/PageSize.store";
 
 // datasource
