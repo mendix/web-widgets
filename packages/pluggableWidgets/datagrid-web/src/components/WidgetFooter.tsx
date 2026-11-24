@@ -2,9 +2,9 @@ import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import { Pagination } from "./Pagination";
+import { useCustomPagination, usePaginationConfig, usePaginationVM, useTexts } from "../core/hooks/injection-hooks";
 import { useSelectionCounterViewModel } from "../features/selection-counter/injection-hooks";
 import { SelectionCounter } from "../features/selection-counter/SelectionCounter";
-import { useCustomPagination, usePaginationConfig, usePaginationVM, useTexts } from "../model/hooks/injection-hooks";
 
 export const WidgetFooter = observer(function WidgetFooter(): ReactElement | null {
     const pgConfig = usePaginationConfig();

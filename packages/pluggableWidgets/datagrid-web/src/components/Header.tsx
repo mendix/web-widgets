@@ -15,7 +15,7 @@ import { FaArrowsAltV } from "./icons/FaArrowsAltV";
 import { FaLongArrowAltDown } from "./icons/FaLongArrowAltDown";
 import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
 
-import { useColumn, useColumnsStore, useDatagridConfig } from "../model/hooks/injection-hooks";
+import { useColumn, useColumnsStore, useDatagridConfig } from "../core/hooks/injection-hooks";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 
 export interface HeaderProps {

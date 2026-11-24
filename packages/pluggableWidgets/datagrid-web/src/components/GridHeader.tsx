@@ -5,7 +5,7 @@ import { ColumnResizer } from "./ColumnResizer";
 import { ColumnSelector } from "./ColumnSelector";
 import { Header } from "./Header";
 import { HeaderSkeletonLoader } from "./loader/HeaderSkeletonLoader";
-import { useColumnsStore, useDatagridConfig, useGridSizeStore } from "../model/hooks/injection-hooks";
+import { useColumnsStore, useDatagridConfig, useGridSizeStore } from "../core/hooks/injection-hooks";
 import { ColumnId } from "../typings/GridColumn";
 
 export function GridHeader(): ReactElement {
