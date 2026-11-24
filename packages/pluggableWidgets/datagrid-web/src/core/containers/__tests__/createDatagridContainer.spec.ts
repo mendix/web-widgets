@@ -1,6 +1,6 @@
 import { list } from "@mendix/widget-plugin-test-utils";
+import { mockContainerProps } from "../../../__tests__/test-utils";
 import { SelectAllModule } from "../../../features/selection/select-all/SelectAllModule.container";
-import { mockContainerProps } from "../../../utils/test-utils";
 import { MainGateProvider } from "../../services/MainGateProvider.service";
 import { CORE_TOKENS as CORE } from "../../tokens";
 import { createDatagridContainer } from "../createDatagridContainer";

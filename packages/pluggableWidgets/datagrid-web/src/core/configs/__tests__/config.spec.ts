@@ -1,4 +1,4 @@
-import { mockContainerProps } from "../../../utils/test-utils";
+import { mockContainerProps } from "../../../__tests__/test-utils";
 import { datagridConfig } from "../Datagrid.config";
 
 describe("datagridConfig", () => {
