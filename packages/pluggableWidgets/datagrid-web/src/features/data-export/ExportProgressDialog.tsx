@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
-import { ExportAlert } from "../../components/ExportAlert";
+import { ExportAlert } from "./ExportAlert";
 import { PseudoModal } from "../../components/PseudoModal";
 import { useExportProgressService, useTexts } from "../../core/hooks/injection-hooks";
 
