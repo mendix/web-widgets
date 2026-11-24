@@ -1,4 +1,4 @@
-import { AlignmentEnum, HidableEnum, MinWidthEnum, WidthEnum } from "../../typings/DatagridProps";
+import { AlignmentEnum, HidableEnum, MinWidthEnum, WidthEnum } from "../../../typings/DatagridProps";
 
 interface BaseColumnProps {
     sortable: boolean;
