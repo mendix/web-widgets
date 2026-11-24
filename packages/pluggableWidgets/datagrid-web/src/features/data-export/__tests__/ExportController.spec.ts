@@ -3,7 +3,7 @@ jest.mock("../DSExportRequest");
 
 import { TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { list } from "@mendix/widget-plugin-test-utils";
-import { column } from "../../../utils/test-utils";
+import { column } from "../../../__tests__/test-utils";
 import { DSExportRequest } from "../DSExportRequest";
 import { ExportController } from "../ExportController";
 

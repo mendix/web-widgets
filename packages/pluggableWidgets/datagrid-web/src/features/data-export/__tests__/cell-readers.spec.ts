@@ -3,7 +3,7 @@ jest.mock("mendix", () => ({}), { virtual: true });
 import { Big } from "big.js";
 import { ObjectItem } from "mendix";
 import { listAttribute, listExpression, dynamic, obj } from "@mendix/widget-plugin-test-utils";
-import { column } from "../../../utils/test-utils";
+import { column } from "../../../__tests__/test-utils";
 import { readChunk, ExcelCell } from "../cell-readers";
 
 function readSingleCell(col: ReturnType<typeof column>, item?: ObjectItem): ExcelCell {
