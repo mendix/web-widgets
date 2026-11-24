@@ -7,18 +7,13 @@ import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 
 import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 
-import { ColumnStore } from "./ColumnStore";
-import { ColumnId, GridColumn } from "./GridColumn";
+import { ColumnFilterSettings, ColumnPersonalizationSettings } from "./column-settings";
+import { ColumnFilterStore } from "./ColumnFilterStore";
+import { ColumnsSortingStore } from "./ColumnsSortingStore";
+import { ColumnStore, IColumnParentStore } from "./ColumnStore";
+import { ColumnId, GridColumn, SortInstruction, SortRule } from "./GridColumn";
+import { StaticInfo } from "./static-info";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { ColumnFilterStore } from "../filtering/ColumnFilterStore";
-import { StaticInfo } from "../filtering/static-info";
-import { ColumnFilterSettings, ColumnPersonalizationSettings } from "../personalization/personalization-settings";
-import {
-    ColumnsSortingStore,
-    sortInstructionsToSortRules,
-    sortRulesToSortInstructions
-} from "../sorting/ColumnsSortingStore";
-import { SortInstruction } from "../sorting/sorting";
 
 export interface IColumnGroupStore {
     loaded: boolean;
@@ -30,12 +25,6 @@ export interface IColumnGroupStore {
 
     swapColumns(source: ColumnId, target: [ColumnId, "after" | "before"]): void;
     setIsResizing(status: boolean): void;
-}
-
-export interface IColumnParentStore {
-    isLastVisible(column: ColumnStore): boolean;
-    isResizing: boolean;
-    sorting: ColumnsSortingStore;
 }
 
 interface DynamicProps {
@@ -223,4 +212,45 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore, 
             }
         });
     }
+}
+
+export function sortInstructionsToSortRules(
+    sortInstructions: SortInstruction[] | undefined,
+    allColumns: ColumnStore[]
+): SortRule[] {
+    if (!sortInstructions || !sortInstructions.length) {
+        return [];
+    }
+
+    return sortInstructions
+        .map((si): SortRule | undefined => {
+            const [attrId, dir] = si;
+            const cId = allColumns.find(c => c.attrId === attrId)?.columnId;
+            if (!cId) {
+                return undefined;
+            }
+
+            return [cId, dir];
+        })
+        .filter((r): r is SortRule => !!r);
+}
+
+export function sortRulesToSortInstructions(
+    sortRules: SortRule[],
+    allColumns: ColumnStore[]
+): SortInstruction[] | undefined {
+    if (!sortRules.length) {
+        return undefined;
+    }
+
+    return sortRules
+        .map((rule): SortInstruction | undefined => {
+            const [cId, dir] = rule;
+            const attrId = allColumns.find(c => c.columnId === cId)?.attrId;
+            if (!attrId) {
+                return undefined;
+            }
+            return [attrId, dir];
+        })
+        .filter((si): si is SortInstruction => !!si);
 }

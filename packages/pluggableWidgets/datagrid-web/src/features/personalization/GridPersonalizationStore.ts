@@ -5,14 +5,14 @@ import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/Ob
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { getHash } from "./columns-hash";
-import { ColumnPersonalizationSettings, GridPersonalizationStorageSettings } from "./personalization-settings";
+import { GridPersonalizationStorageSettings } from "./personalization-settings";
 import { AttributePersonalizationStorage } from "./storage/AttributePersonalizationStorage";
 import { LocalStoragePersonalizationStorage } from "./storage/LocalStoragePersonalizationStorage";
 import { PersonalizationStorage } from "./storage/PersonalizationStorage";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { ColumnPersonalizationSettings } from "../columns/column-settings";
 import { ColumnGroupStore } from "../columns/ColumnGroupStore";
-import { ColumnId } from "../columns/GridColumn";
-import { SortRule } from "../sorting/sorting";
+import { ColumnId, SortRule } from "../columns/GridColumn";
 
 const SCHEMA_VERSION: GridPersonalizationStorageSettings["schemaVersion"] = 3;
 

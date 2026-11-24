@@ -11,11 +11,16 @@ import {
 import { action, computed, makeObservable, observable } from "mobx";
 import { ComponentPropsWithoutRef, KeyboardEvent, ReactElement, ReactNode } from "react";
 import { BaseColumnInfo } from "./BaseColumnInfo";
-import { IColumnParentStore } from "./ColumnGroupStore";
-import { ColumnId, GridColumn } from "./GridColumn";
+import { ColumnPersonalizationSettings } from "./column-settings";
+import { ColumnsSortingStore } from "./ColumnsSortingStore";
+import { ColumnId, GridColumn, SortDirection } from "./GridColumn";
 import { AlignmentEnum, ColumnsType } from "../../../typings/DatagridProps";
-import { ColumnPersonalizationSettings } from "../personalization/personalization-settings";
-import { SortDirection } from "../sorting/sorting";
+
+export interface IColumnParentStore {
+    isLastVisible(column: ColumnStore): boolean;
+    isResizing: boolean;
+    sorting: ColumnsSortingStore;
+}
 
 export class ColumnStore implements GridColumn {
     columnIndex: number;
