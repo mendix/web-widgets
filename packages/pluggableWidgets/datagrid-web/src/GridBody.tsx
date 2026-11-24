@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import { Fragment, PropsWithChildren, ReactElement, ReactNode } from "react";
-import { RowSkeletonLoader } from "./loader/RowSkeletonLoader";
 import {
     useDatagridConfig,
     useGridSizeStore,
@@ -8,8 +7,9 @@ import {
     useLoaderViewModel,
     usePaginationVM,
     useVisibleColumnsCount
-} from "../features/core/hooks/injection-hooks";
-import { SpinnerLoader } from "../features/datasource/loader/SpinnerLoader";
+} from "./features/core/hooks/injection-hooks";
+import { SpinnerLoader } from "./features/datasource/loader/SpinnerLoader";
+import { RowSkeletonLoader } from "./RowSkeletonLoader";
 
 export const GridBody = observer(function GridBody(props: PropsWithChildren): ReactElement {
     const { children } = props;

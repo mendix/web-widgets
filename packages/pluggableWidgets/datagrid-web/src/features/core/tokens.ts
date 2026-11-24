@@ -34,7 +34,7 @@ import { DatagridConfig } from "./configs/Datagrid.config";
 import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { TextsService } from "./services/Texts.service";
 import { MainGateProps } from "../../../typings/MainGateProps";
-import { WidgetRootViewModel } from "../base/WidgetRoot.viewModel";
+import { WidgetRootViewModel } from "../../WidgetRoot.viewModel";
 import { ColumnGroupStore } from "../columns/ColumnGroupStore";
 import { GridColumn } from "../columns/GridColumn";
 import { DatasourceParamsController } from "../datasource/DatasourceParamsController";

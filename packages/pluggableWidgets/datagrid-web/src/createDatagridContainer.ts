@@ -1,10 +1,10 @@
 import { DatagridContainer } from "./Datagrid.container";
 import { RootContainer } from "./Root.container";
-import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { MainGateProps } from "../../../typings/MainGateProps";
-import { datagridConfig } from "../../features/core/configs/Datagrid.config";
-import { MainGateProvider } from "../../features/core/services/MainGateProvider.service";
-import { SelectAllModule } from "../../features/selection/select-all/SelectAllModule.container";
+import { DatagridContainerProps } from "../typings/DatagridProps";
+import { MainGateProps } from "../typings/MainGateProps";
+import { datagridConfig } from "./features/core/configs/Datagrid.config";
+import { MainGateProvider } from "./features/core/services/MainGateProvider.service";
+import { SelectAllModule } from "./features/selection/select-all/SelectAllModule.container";
 
 export function createDatagridContainer(
     props: DatagridContainerProps

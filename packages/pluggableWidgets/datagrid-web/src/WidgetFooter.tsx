@@ -6,10 +6,10 @@ import {
     usePaginationConfig,
     usePaginationVM,
     useTexts
-} from "../features/core/hooks/injection-hooks";
-import { Pagination } from "../features/pagination/Pagination";
-import { useSelectionCounterViewModel } from "../features/selection/counter/injection-hooks";
-import { SelectionCounter } from "../features/selection/counter/SelectionCounter";
+} from "./features/core/hooks/injection-hooks";
+import { Pagination } from "./features/pagination/Pagination";
+import { useSelectionCounterViewModel } from "./features/selection/counter/injection-hooks";
+import { SelectionCounter } from "./features/selection/counter/SelectionCounter";
 
 export const WidgetFooter = observer(function WidgetFooter(): ReactElement | null {
     const pgConfig = usePaginationConfig();

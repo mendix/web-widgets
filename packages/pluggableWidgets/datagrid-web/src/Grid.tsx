@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import { observer } from "mobx-react-lite";
 import { PropsWithChildren, ReactElement } from "react";
-import { useDatagridConfig, useGridSizeStore, useGridStyle } from "../features/core/hooks/injection-hooks";
-import { useInfiniteControl } from "../features/pagination/useInfiniteControl";
+import { useDatagridConfig, useGridSizeStore, useGridStyle } from "./features/core/hooks/injection-hooks";
+import { useInfiniteControl } from "./features/pagination/useInfiniteControl";
 
 export const Grid = observer(function Grid(props: PropsWithChildren): ReactElement {
     const config = useDatagridConfig();

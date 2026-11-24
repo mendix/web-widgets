@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
 import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
-import { Row } from "./Row";
 import {
     useCellEventsHandler,
     useColumnsStore,
@@ -11,7 +10,8 @@ import {
     useRowKey,
     useRows,
     useSelectActions
-} from "../features/core/hooks/injection-hooks";
+} from "./features/core/hooks/injection-hooks";
+import { Row } from "./Row";
 
 export const RowsRenderer = observer(function RowsRenderer(): ReactElement {
     const rows = useRows().get();
