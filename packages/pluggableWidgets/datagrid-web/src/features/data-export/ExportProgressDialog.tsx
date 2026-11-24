@@ -1,8 +1,9 @@
 import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
+import { useExportProgressService } from "./tokens";
 import { ExportAlert } from "../../ui/ExportAlert";
 import { PseudoModal } from "../../ui/PseudoModal";
-import { useExportProgressService, useTexts } from "../core/hooks/injection-hooks";
+import { useTexts } from "../core/tokens";
 
 export const ExportProgressDialog = observer(function ExportProgressDialog(props: {
     onExportCancel?: () => void;

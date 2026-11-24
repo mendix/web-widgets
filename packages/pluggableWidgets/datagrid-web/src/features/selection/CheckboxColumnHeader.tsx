@@ -2,7 +2,8 @@ import { observer } from "mobx-react-lite";
 import { Fragment, ReactElement, ReactNode } from "react";
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import { ThreeStateCheckBox } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
-import { useDatagridConfig, useSelectActions, useSelectionHelper, useTexts } from "../core/hooks/injection-hooks";
+import { useSelectActions, useSelectionHelper } from "./tokens";
+import { useDatagridConfig, useTexts } from "../core/tokens";
 
 export function CheckboxColumnHeader(): ReactElement {
     const { selectAllCheckboxEnabled, checkboxColumnEnabled } = useDatagridConfig();

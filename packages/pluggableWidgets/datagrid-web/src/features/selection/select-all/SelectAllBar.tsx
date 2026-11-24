@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { useSelectAllBarViewModel } from "./injection-hooks";
+import { useSelectAllBarViewModel } from "./tokens";
 
 export const SelectAllBar = observer(function SelectAllBar() {
     const vm = useSelectAllBarViewModel();

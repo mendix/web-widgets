@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { observer } from "mobx-react-lite";
 import { ReactNode } from "react";
-import { useEmptyPlaceholderVM } from "./injection-hooks";
+import { useEmptyPlaceholderVM } from "./tokens";
 
 export const EmptyPlaceholder = observer(function EmptyPlaceholder(): ReactNode {
     const vm = useEmptyPlaceholderVM();

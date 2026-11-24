@@ -4,7 +4,7 @@ import { act, renderHook } from "@testing-library/react";
 import Big from "big.js";
 import { TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { actionValue, list } from "@mendix/widget-plugin-test-utils";
-import { IColumnGroupStore } from "../../columns/ColumnGroupStore";
+import type { IColumnGroupStore } from "../../columns/tokens";
 import type { AfterExportArgs, BeforeExportArgs } from "../ExportController";
 import { getExportRegistry } from "../registry";
 import { useDataExport } from "../useDataExport";

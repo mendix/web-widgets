@@ -1,16 +1,11 @@
 import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
 import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
-import {
-    useCellEventsHandler,
-    useColumnsStore,
-    useDatagridConfig,
-    useFocusService,
-    useRowClass,
-    useRowKey,
-    useRows,
-    useSelectActions
-} from "./features/core/hooks/injection-hooks";
+import { useColumnsStore } from "./features/columns/tokens";
+import { useDatagridConfig, useRows } from "./features/core/tokens";
+import { useRowClass, useRowKey } from "./features/datasource/tokens";
+import { useCellEventsHandler, useFocusService } from "./features/row-interaction/tokens";
+import { useSelectActions } from "./features/selection/tokens";
 import { Row } from "./Row";
 
 export const RowsRenderer = observer(function RowsRenderer(): ReactElement {

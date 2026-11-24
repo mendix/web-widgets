@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { ReactNode } from "react";
 import { Pagination as PaginationComponent } from "@mendix/widget-plugin-grid/components/Pagination";
-import { usePaginationVM } from "../core/hooks/injection-hooks";
+import { usePaginationVM } from "./tokens";
 
 export const Pagination = observer(function Pagination(): ReactNode {
     const paging = usePaginationVM();

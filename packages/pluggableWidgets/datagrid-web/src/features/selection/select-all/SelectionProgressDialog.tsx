@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { ReactNode } from "react";
-import { useSelectionDialogViewModel } from "./injection-hooks";
+import { useSelectionDialogViewModel } from "./tokens";
 import { ExportAlert } from "../../../ui/ExportAlert";
 import { PseudoModal } from "../../../ui/PseudoModal";
 
