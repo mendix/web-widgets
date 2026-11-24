@@ -9,9 +9,9 @@ import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { SelectAllBarViewModel } from "./SelectAllBar.viewModel";
 import { SelectionProgressDialogViewModel } from "./SelectionProgressDialog.viewModel";
-import { MainGateProps } from "../../../typings/MainGateProps";
-import { DatagridConfig } from "../core/configs/Datagrid.config";
-import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../core/tokens";
+import { MainGateProps } from "../../../../typings/MainGateProps";
+import { DatagridConfig } from "../../core/configs/Datagrid.config";
+import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../../core/tokens";
 
 injected(
     selectAllTextsStore,
