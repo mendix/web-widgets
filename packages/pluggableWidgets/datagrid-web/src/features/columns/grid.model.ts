@@ -3,8 +3,8 @@ import { CSSProperties } from "react";
 import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import { GridColumn } from "./GridColumn";
-import { GridSizeStore } from "../../model/stores/GridSize.store";
 import { DatagridConfig } from "../core/configs/Datagrid.config";
+import { GridSizeStore } from "../pagination/GridSize.store";
 
 export function gridStyleAtom(
     columns: ColumnGroupStore,
