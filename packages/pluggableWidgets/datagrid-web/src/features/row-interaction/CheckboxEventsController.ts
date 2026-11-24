@@ -12,9 +12,10 @@ import {
     SelectionType
 } from "@mendix/widget-plugin-grid/selection";
 import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
-import { CheckboxContext, SelectionMethod } from "./base";
+import { CheckboxContext } from "./base";
 import { checkboxHandlers } from "./checkbox-handlers";
 import { createFocusTargetHandlers } from "./focus-target-handlers";
+import { SelectionMethod } from "../core/configs/Datagrid.config";
 
 export class CheckboxEventsController {
     constructor(

@@ -1,7 +1,7 @@
 import { Fragment, ReactElement } from "react";
+import { SelectorCell } from "./features/columns/SelectorCell";
 import { useDatagridConfig } from "./features/core/hooks/injection-hooks";
 import { SkeletonLoader } from "./features/datasource/loader/SkeletonLoader";
-import { SelectorCell } from "./features/selection/SelectorCell";
 import { CellElement } from "./ui/CellElement";
 
 type RowSkeletonLoaderProps = {

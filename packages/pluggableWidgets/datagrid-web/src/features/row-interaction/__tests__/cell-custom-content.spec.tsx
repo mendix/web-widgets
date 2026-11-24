@@ -3,7 +3,8 @@ import userEvent, { UserEvent } from "@testing-library/user-event";
 import { ObjectItem } from "mendix";
 import { ClickTrigger } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { objectItems } from "@mendix/widget-plugin-test-utils";
-import { CellContext, SelectionMethod } from "../base";
+import { SelectionMethod } from "../../core/configs/Datagrid.config";
+import { CellContext } from "../base";
 import { CellEventsController } from "../CellEventsController";
 
 interface Setup {

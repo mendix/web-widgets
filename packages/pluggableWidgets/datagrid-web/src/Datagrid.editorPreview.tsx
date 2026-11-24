@@ -5,10 +5,10 @@ import { createContext, CSSProperties, PropsWithChildren, ReactElement, ReactNod
 import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps";
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import { Pagination as PagingButtons } from "@mendix/widget-plugin-grid/components/Pagination";
-import { ColumnPreview } from "./features/preview/ColumnPreview";
+import { ColumnPreview } from "./editor/ColumnPreview";
 import { FaArrowsAltV } from "./ui/icons/FaArrowsAltV";
 import { FaEye } from "./ui/icons/FaEye";
-import "./features/preview/DatagridPreview.scss";
+import "./editor/DatagridPreview.scss";
 
 declare module "mendix/preview/Selectable" {
     interface SelectableProps<T> {

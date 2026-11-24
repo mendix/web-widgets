@@ -4,8 +4,8 @@ import { ReactElement } from "react";
 import { SelectActionsService } from "@mendix/widget-plugin-grid/main";
 import { DataCell } from "./DataCell";
 import { GridColumn } from "./features/columns/GridColumn";
+import { SelectorCell } from "./features/columns/SelectorCell";
 import { CheckboxCell } from "./features/selection/CheckboxCell";
-import { SelectorCell } from "./features/selection/SelectorCell";
 import { EventsController } from "./ui/CellComponent";
 
 export interface RowProps {
