@@ -15,10 +15,10 @@ import {
 } from "@mendix/widget-plugin-grid/core/models/selection.model";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 
+import { columnCount, visibleColumnsCountAtom } from "../../features/columns/columns.model";
 import { DatagridSetupService } from "../../features/core/services/DatagridSetup.service";
 import { TextsService } from "../../features/core/services/Texts.service";
 import { CORE_TOKENS as CORE } from "../../features/core/tokens";
-import { columnCount, visibleColumnsCountAtom } from "../../model/models/columns.model";
 import { rowsAtom } from "../../model/models/rows.model";
 import { PageSizeStore } from "../../model/stores/PageSize.store";
 

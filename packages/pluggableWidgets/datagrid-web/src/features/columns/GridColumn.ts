@@ -1,7 +1,7 @@
 import { ObjectItem } from "mendix";
 import { ReactElement } from "react";
 import { SortDirection } from "./sorting";
-import { AlignmentEnum } from "../../typings/DatagridProps";
+import { AlignmentEnum } from "../../../typings/DatagridProps";
 
 export type ColumnId = string & { __columnIdTag: never };
 

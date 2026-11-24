@@ -1,10 +1,10 @@
 import { computed } from "mobx";
 import { CSSProperties } from "react";
 import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
-import { DatagridConfig } from "../../features/core/configs/Datagrid.config";
-import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
-import { GridColumn } from "../../typings/GridColumn";
-import { GridSizeStore } from "../stores/GridSize.store";
+import { ColumnGroupStore } from "./ColumnGroupStore";
+import { GridColumn } from "./GridColumn";
+import { GridSizeStore } from "../../model/stores/GridSize.store";
+import { DatagridConfig } from "../core/configs/Datagrid.config";
 
 export function gridStyleAtom(
     columns: ColumnGroupStore,

@@ -29,6 +29,8 @@ import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { MainGateProps } from "../../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../../features/base/WidgetRoot.viewModel";
+import { ColumnGroupStore } from "../../features/columns/ColumnGroupStore";
+import { gridStyleAtom } from "../../features/columns/grid.model";
 import { DatagridConfig } from "../../features/core/configs/Datagrid.config";
 import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../../features/core/tokens";
 import { EmptyPlaceholderViewModel } from "../../features/empty-message/EmptyPlaceholder.viewModel";
@@ -37,8 +39,6 @@ import { GridPersonalizationStore } from "../../features/personalization/GridPer
 import { createCellEventsController } from "../../features/row-interaction/CellEventsController";
 import { creteCheckboxEventsController } from "../../features/row-interaction/CheckboxEventsController";
 import { SelectAllModule } from "../../features/select-all/SelectAllModule.container";
-import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
-import { gridStyleAtom } from "../../model/models/grid.model";
 import { rowClassProvider, rowKeyProvider } from "../../model/models/rows.model";
 import { DatasourceParamsController } from "../../model/services/DatasourceParamsController";
 import { DerivedLoaderController } from "../../model/services/DerivedLoaderController";
