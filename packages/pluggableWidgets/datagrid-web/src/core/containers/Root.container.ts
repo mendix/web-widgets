@@ -17,7 +17,7 @@ import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-
 
 import { columnCount, visibleColumnsCountAtom } from "../../features/columns/columns.model";
 import { rowsAtom } from "../../features/datasource/rows.model";
-import { PageSizeStore } from "../../model/stores/PageSize.store";
+import { PageSizeStore } from "../../features/pagination/PageSize.store";
 import { DatagridSetupService } from "../services/DatagridSetup.service";
 import { TextsService } from "../services/Texts.service";
 import { CORE_TOKENS as CORE } from "../tokens";
