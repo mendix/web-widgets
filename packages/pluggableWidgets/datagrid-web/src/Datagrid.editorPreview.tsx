@@ -7,8 +7,8 @@ import { If } from "@mendix/widget-plugin-component-kit/If";
 import { Pagination as PagingButtons } from "@mendix/widget-plugin-grid/components/Pagination";
 import { FaArrowsAltV } from "./components/icons/FaArrowsAltV";
 import { FaEye } from "./components/icons/FaEye";
-import { ColumnPreview } from "./helpers/ColumnPreview";
-import "./ui/DatagridPreview.scss";
+import { ColumnPreview } from "./editor/ColumnPreview";
+import "./editor/DatagridPreview.scss";
 
 declare module "mendix/preview/Selectable" {
     interface SelectableProps<T> {
