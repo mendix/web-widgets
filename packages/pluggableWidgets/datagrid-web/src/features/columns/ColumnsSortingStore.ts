@@ -1,7 +1,5 @@
 import { action, makeObservable, observable } from "mobx";
-import { ColumnStore } from "./ColumnStore";
-import { ColumnId } from "./GridColumn";
-import { SortDirection, SortInstruction, SortRule } from "./sorting";
+import { ColumnId, SortDirection, SortRule } from "./GridColumn";
 
 export class ColumnsSortingStore {
     rules: SortRule[] = [];
@@ -34,45 +32,4 @@ export class ColumnsSortingStore {
         }
         this.rules = [];
     }
-}
-
-export function sortInstructionsToSortRules(
-    sortInstructions: SortInstruction[] | undefined,
-    allColumns: ColumnStore[]
-): SortRule[] {
-    if (!sortInstructions || !sortInstructions.length) {
-        return [];
-    }
-
-    return sortInstructions
-        .map((si): SortRule | undefined => {
-            const [attrId, dir] = si;
-            const cId = allColumns.find(c => c.attrId === attrId)?.columnId;
-            if (!cId) {
-                return undefined;
-            }
-
-            return [cId, dir];
-        })
-        .filter((r): r is SortRule => !!r);
-}
-
-export function sortRulesToSortInstructions(
-    sortRules: SortRule[],
-    allColumns: ColumnStore[]
-): SortInstruction[] | undefined {
-    if (!sortRules.length) {
-        return undefined;
-    }
-
-    return sortRules
-        .map((rule): SortInstruction | undefined => {
-            const [cId, dir] = rule;
-            const attrId = allColumns.find(c => c.columnId === cId)?.attrId;
-            if (!attrId) {
-                return undefined;
-            }
-            return [attrId, dir];
-        })
-        .filter((si): si is SortInstruction => !!si);
 }

@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { ContainerProvider } from "brandi-react";
 import { setupIntersectionObserverStub } from "@mendix/widget-plugin-test-utils";
+import { mockContainerProps } from "./test-utils";
 import { PagingPositionEnum } from "../../typings/DatagridProps";
 import { createDatagridContainer } from "../createDatagridContainer";
-import { mockContainerProps } from "./test-utils";
 import { WidgetFooter } from "../WidgetFooter";
 
 setupIntersectionObserverStub();

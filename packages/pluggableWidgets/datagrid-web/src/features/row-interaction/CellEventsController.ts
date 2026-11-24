@@ -16,9 +16,10 @@ import {
 
 import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 import { createActionHandlers } from "./action-handlers";
-import { CellContext, SelectionMethod } from "./base";
+import { CellContext } from "./base";
 import { createFocusTargetHandlers } from "./focus-target-handlers";
 import { createSelectHandlers } from "./select-handlers";
+import { SelectionMethod } from "../core/configs/Datagrid.config";
 
 export class CellEventsController {
     constructor(

@@ -1,9 +1,14 @@
-import { ObjectItem } from "mendix";
+import { ListValue, ObjectItem } from "mendix";
 import { ReactElement } from "react";
-import { SortDirection } from "./sorting";
 import { AlignmentEnum } from "../../../typings/DatagridProps";
 
 export type ColumnId = string & { __columnIdTag: never };
+
+export type SortInstruction = ListValue["sortOrder"] extends Array<infer T> ? T : never;
+
+export type SortDirection = SortInstruction[1];
+
+export type SortRule = [columnId: ColumnId, dir: SortDirection];
 
 /**
  * A generic column type for data grid.
