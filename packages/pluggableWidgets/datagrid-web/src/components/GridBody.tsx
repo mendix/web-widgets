@@ -9,7 +9,7 @@ import {
     useLoaderViewModel,
     usePaginationVM,
     useVisibleColumnsCount
-} from "../core/hooks/injection-hooks";
+} from "../features/core/hooks/injection-hooks";
 
 export const GridBody = observer(function GridBody(props: PropsWithChildren): ReactElement {
     const { children } = props;

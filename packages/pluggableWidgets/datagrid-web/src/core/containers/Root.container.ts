@@ -15,12 +15,12 @@ import {
 } from "@mendix/widget-plugin-grid/core/models/selection.model";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 
+import { DatagridSetupService } from "../../features/core/services/DatagridSetup.service";
+import { TextsService } from "../../features/core/services/Texts.service";
+import { CORE_TOKENS as CORE } from "../../features/core/tokens";
 import { columnCount, visibleColumnsCountAtom } from "../../model/models/columns.model";
 import { rowsAtom } from "../../model/models/rows.model";
 import { PageSizeStore } from "../../model/stores/PageSize.store";
-import { DatagridSetupService } from "../services/DatagridSetup.service";
-import { TextsService } from "../services/Texts.service";
-import { CORE_TOKENS as CORE } from "../tokens";
 
 // datasource
 injected(totalCountAtom, CORE.mainGate);

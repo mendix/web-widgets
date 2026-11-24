@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { ContainerProvider } from "brandi-react";
 import { dynamic } from "@mendix/widget-plugin-test-utils";
 import { createDatagridContainer } from "../../core/containers/createDatagridContainer";
-import { CORE_TOKENS } from "../../core/tokens";
+import { CORE_TOKENS } from "../../features/core/tokens";
 import { column, mockContainerProps } from "../../utils/test-utils";
 import { ColumnProvider } from "../ColumnProvider";
 import { ColumnResizer } from "../ColumnResizer";

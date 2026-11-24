@@ -1,11 +1,11 @@
 jest.mock("mendix", () => ({}), { virtual: true });
 jest.mock("../DSExportRequest");
 
-import { list } from "@mendix/widget-plugin-test-utils";
 import { TaskProgressService } from "@mendix/widget-plugin-grid/main";
-import { ExportController } from "../ExportController";
-import { DSExportRequest } from "../DSExportRequest";
+import { list } from "@mendix/widget-plugin-test-utils";
 import { column } from "../../../utils/test-utils";
+import { DSExportRequest } from "../DSExportRequest";
+import { ExportController } from "../ExportController";
 
 const MockDSExportRequest = DSExportRequest as jest.MockedClass<typeof DSExportRequest>;
 
