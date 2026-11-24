@@ -4,7 +4,7 @@ import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import { GridColumn } from "./GridColumn";
 import { DatagridConfig } from "../core/configs/Datagrid.config";
-import { GridSizeStore } from "../pagination/GridSize.store";
+import type { GridSizeStore } from "../pagination/tokens";
 
 export function gridStyleAtom(
     columns: ColumnGroupStore,

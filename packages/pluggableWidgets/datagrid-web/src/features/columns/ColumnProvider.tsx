@@ -3,13 +3,13 @@ import { ContainerProvider } from "brandi-react";
 import { PropsWithChildren, ReactNode } from "react";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { GridColumn } from "./GridColumn";
-import { CORE_TOKENS as CORE } from "../core/tokens";
+import { COLUMNS_TOKENS as COLUMNS } from "./tokens";
 
 /** Provider to bind & provider column store for children at runtime. */
 export function ColumnProvider(props: PropsWithChildren<{ column: GridColumn }>): ReactNode {
     const ct = useConst(() => {
         const container = new Container();
-        container.bind(CORE.column).toConstant(props.column);
+        container.bind(COLUMNS.column).toConstant(props.column);
         return container;
     });
 

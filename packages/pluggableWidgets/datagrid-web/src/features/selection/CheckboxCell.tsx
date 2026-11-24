@@ -1,8 +1,10 @@
 import { ObjectItem } from "mendix";
 import { FocusEvent, ReactElement, useMemo } from "react";
 import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
+import { useSelectActions } from "./tokens";
 import { CellElement, CellElementProps } from "../../ui/CellElement";
-import { useCheckboxEventsHandler, useDatagridConfig, useSelectActions, useTexts } from "../core/hooks/injection-hooks";
+import { useDatagridConfig, useTexts } from "../core/tokens";
+import { useCheckboxEventsHandler } from "../row-interaction/tokens";
 
 export type CheckboxCellProps = CellElementProps & {
     rowIndex: number;

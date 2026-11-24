@@ -16,6 +16,7 @@ import {
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 
 import { columnCount, visibleColumnsCountAtom } from "./features/columns/columns.model";
+import { COLUMNS_TOKENS as COLUMNS } from "./features/columns/tokens";
 import { DatagridSetupService } from "./features/core/services/DatagridSetup.service";
 import { TextsService } from "./features/core/services/Texts.service";
 import { CORE_TOKENS as CORE } from "./features/core/tokens";
@@ -28,7 +29,7 @@ injected(itemCountAtom, CORE.mainGate);
 injected(offsetAtom, CORE.mainGate);
 injected(limitAtom, CORE.mainGate);
 injected(hasMoreItemsAtom, CORE.mainGate);
-injected(visibleColumnsCountAtom, CORE.columnsStore);
+injected(visibleColumnsCountAtom, COLUMNS.columnsStore);
 injected(isAllItemsPresentAtom, CORE.atoms.offset, CORE.atoms.hasMoreItems);
 injected(rowsAtom, CORE.mainGate);
 injected(columnCount, CORE.atoms.visibleColumnsCount, CORE.config);

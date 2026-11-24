@@ -10,9 +10,7 @@ import { AttributePersonalizationStorage } from "./storage/AttributePersonalizat
 import { LocalStoragePersonalizationStorage } from "./storage/LocalStoragePersonalizationStorage";
 import { PersonalizationStorage } from "./storage/PersonalizationStorage";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { ColumnPersonalizationSettings } from "../columns/column-settings";
-import { ColumnGroupStore } from "../columns/ColumnGroupStore";
-import { ColumnId, SortRule } from "../columns/GridColumn";
+import type { ColumnGroupStore, ColumnId, ColumnPersonalizationSettings, SortRule } from "../columns/tokens";
 
 const SCHEMA_VERSION: GridPersonalizationStorageSettings["schemaVersion"] = 3;
 

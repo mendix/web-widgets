@@ -1,6 +1,6 @@
 import { Fragment, ReactElement } from "react";
 import { SelectorCell } from "./features/columns/SelectorCell";
-import { useDatagridConfig } from "./features/core/hooks/injection-hooks";
+import { useDatagridConfig } from "./features/core/tokens";
 import { SkeletonLoader } from "./features/datasource/loader/SkeletonLoader";
 import { CellElement } from "./ui/CellElement";
 

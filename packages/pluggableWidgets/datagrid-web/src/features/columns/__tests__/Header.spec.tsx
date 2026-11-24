@@ -4,10 +4,10 @@ import { ContainerProvider } from "brandi-react";
 import { dynamic } from "@mendix/widget-plugin-test-utils";
 import { column, mockContainerProps } from "../../../__tests__/test-utils";
 import { createDatagridContainer } from "../../../createDatagridContainer";
-import { CORE_TOKENS } from "../../core/tokens";
 import { ColumnProvider } from "../ColumnProvider";
 import { ColumnResizer } from "../ColumnResizer";
 import { Header, HeaderProps } from "../Header";
+import { COLUMNS_TOKENS } from "../tokens";
 
 describe("Header", () => {
     it("renders the structure correctly", () => {
@@ -15,7 +15,7 @@ describe("Header", () => {
             columns: [column("Column 1")]
         });
         const [container] = createDatagridContainer(props);
-        const columns = container.get(CORE_TOKENS.columnsStore);
+        const columns = container.get(COLUMNS_TOKENS.columnsStore);
         const col = columns.visibleColumns[0];
 
         const component = render(
@@ -37,7 +37,7 @@ describe("Header", () => {
             columns: [columnsType]
         });
         const [container] = createDatagridContainer(props);
-        const columns = container.get(CORE_TOKENS.columnsStore);
+        const columns = container.get(COLUMNS_TOKENS.columnsStore);
         const col = columns.visibleColumns[0];
 
         const component = render(
@@ -59,7 +59,7 @@ describe("Header", () => {
             columns: [columnsType]
         });
         const [container] = createDatagridContainer(props);
-        const columns = container.get(CORE_TOKENS.columnsStore);
+        const columns = container.get(COLUMNS_TOKENS.columnsStore);
         const col = columns.visibleColumns[0];
 
         const component = render(
@@ -81,7 +81,7 @@ describe("Header", () => {
             columns: [columnsType]
         });
         const [container] = createDatagridContainer(props);
-        const columns = container.get(CORE_TOKENS.columnsStore);
+        const columns = container.get(COLUMNS_TOKENS.columnsStore);
         const col = columns.visibleColumns[0];
 
         const component = render(
@@ -103,7 +103,7 @@ describe("Header", () => {
             columns: [columnsType]
         });
         const [container] = createDatagridContainer(props);
-        const columns = container.get(CORE_TOKENS.columnsStore);
+        const columns = container.get(COLUMNS_TOKENS.columnsStore);
         const col = columns.visibleColumns[0];
 
         const component = render(
@@ -126,7 +126,7 @@ describe("Header", () => {
             columns: [columnsType]
         });
         const [container] = createDatagridContainer(props);
-        const columns = container.get(CORE_TOKENS.columnsStore);
+        const columns = container.get(COLUMNS_TOKENS.columnsStore);
         const col = columns.visibleColumns[0];
         const spy = jest.spyOn(col, "toggleSort");
 
@@ -152,7 +152,7 @@ describe("Header", () => {
             columns: [columnsType]
         });
         const [container] = createDatagridContainer(props);
-        const columns = container.get(CORE_TOKENS.columnsStore);
+        const columns = container.get(COLUMNS_TOKENS.columnsStore);
         const col = columns.visibleColumns[0];
 
         const component = render(

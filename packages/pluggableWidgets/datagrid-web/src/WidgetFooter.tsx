@@ -1,15 +1,11 @@
 import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
 import { If } from "@mendix/widget-plugin-component-kit/If";
-import {
-    useCustomPagination,
-    usePaginationConfig,
-    usePaginationVM,
-    useTexts
-} from "./features/core/hooks/injection-hooks";
+import { useTexts } from "./features/core/tokens";
 import { Pagination } from "./features/pagination/Pagination";
-import { useSelectionCounterViewModel } from "./features/selection/counter/injection-hooks";
+import { useCustomPagination, usePaginationConfig, usePaginationVM } from "./features/pagination/tokens";
 import { SelectionCounter } from "./features/selection/counter/SelectionCounter";
+import { useSelectionCounterViewModel } from "./features/selection/tokens";
 
 export const WidgetFooter = observer(function WidgetFooter(): ReactElement | null {
     const pgConfig = usePaginationConfig();

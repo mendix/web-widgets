@@ -1,6 +1,6 @@
 import { computed, makeObservable } from "mobx";
 import { QueryService, TaskProgressService } from "@mendix/widget-plugin-grid/main";
-import { IColumnGroupStore } from "../columns/ColumnGroupStore";
+import type { IColumnGroupStore } from "../columns/tokens";
 
 export interface DerivedLoaderControllerConfig {
     showSilentRefresh: boolean;

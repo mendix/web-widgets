@@ -4,8 +4,10 @@ import { ColumnResizer } from "./features/columns/ColumnResizer";
 import { ColumnSelector } from "./features/columns/ColumnSelector";
 import { ColumnId } from "./features/columns/GridColumn";
 import { Header } from "./features/columns/Header";
-import { useColumnsStore, useDatagridConfig, useGridSizeStore } from "./features/core/hooks/injection-hooks";
+import { useColumnsStore } from "./features/columns/tokens";
+import { useDatagridConfig } from "./features/core/tokens";
 import { HeaderSkeletonLoader } from "./features/datasource/loader/HeaderSkeletonLoader";
+import { useGridSizeStore } from "./features/pagination/tokens";
 import { CheckboxColumnHeader } from "./features/selection/CheckboxColumnHeader";
 
 export function GridHeader(): ReactElement {

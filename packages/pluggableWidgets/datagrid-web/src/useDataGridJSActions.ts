@@ -1,5 +1,6 @@
 import { useOnClearSelectionEvent, useOnResetFiltersEvent } from "@mendix/widget-plugin-external-events/hooks";
-import { useDatagridConfig, useSelectActions } from "./features/core/hooks/injection-hooks";
+import { useDatagridConfig } from "./features/core/tokens";
+import { useSelectActions } from "./features/selection/tokens";
 
 export function useDataGridJSActions(): void {
     const info = useDatagridConfig();

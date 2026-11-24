@@ -9,9 +9,11 @@ import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { SelectAllBarViewModel } from "./SelectAllBar.viewModel";
 import { SelectionProgressDialogViewModel } from "./SelectionProgressDialog.viewModel";
+import { SA_TOKENS } from "./tokens";
 import { MainGateProps } from "../../../../typings/MainGateProps";
 import { DatagridConfig } from "../../core/configs/Datagrid.config";
-import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../../core/tokens";
+import { CORE_TOKENS as CORE } from "../../core/tokens";
+import { DATASOURCE_TOKENS as DATASOURCE } from "../../datasource/tokens";
 
 injected(
     selectAllTextsStore,
@@ -50,7 +52,7 @@ injected(
     CORE.selection.isAllItemsSelected
 );
 
-injected(SelectAllService, SA_TOKENS.gate, DG.query, SA_TOKENS.emitter);
+injected(SelectAllService, SA_TOKENS.gate, DATASOURCE.query, SA_TOKENS.emitter);
 
 export class SelectAllModule extends Container {
     id = `SelectAllModule@${generateUUID()}`;
@@ -60,7 +62,7 @@ export class SelectAllModule extends Container {
         this.extend(root);
         this.bind(SA_TOKENS.barStore).toInstance(SelectAllBarStore).inSingletonScope();
         this.bind(SA_TOKENS.emitter).toInstance(selectAllEmitter).inSingletonScope();
-        this.bind(DG.query).toInstance(DatasourceService).inSingletonScope();
+        this.bind(DATASOURCE.query).toInstance(DatasourceService).inSingletonScope();
         this.bind(SA_TOKENS.selectAllService).toInstance(SelectAllService).inSingletonScope();
         this.bind(SA_TOKENS.selectAllTextsStore).toInstance(selectAllTextsStore).inSingletonScope();
         this.bind(SA_TOKENS.selectAllBarVM).toInstance(SelectAllBarViewModel).inSingletonScope();
@@ -84,7 +86,7 @@ export class SelectAllModule extends Container {
         this.bind(CORE.mainGate).toConstant(mainGate);
         this.bind(SA_TOKENS.progressService).toConstant(progressSrv);
         this.bind(SA_TOKENS.gate).toConstant(ownGate.gate);
-        this.bind(DG.queryGate).toConstant(ownGate.gate);
+        this.bind(DATASOURCE.queryGate).toConstant(ownGate.gate);
         this.bind(SA_TOKENS.enableSelectAll).toConstant(config.enableSelectAll);
 
         this.postInit();
