@@ -10,8 +10,8 @@ import { error, value } from "@mendix/widget-plugin-filtering/result-meta";
 import { attrgroupFilterStore, InputFilterStore } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
 import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { ColumnsType } from "../../../../typings/DatagridProps";
-import { StaticInfo } from "../../../typings/static-info";
+import { StaticInfo } from "./static-info";
+import { ColumnsType } from "../../../typings/DatagridProps";
 
 type FilterStore = InputFilterStore | EnumFilterStore;
 
