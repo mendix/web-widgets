@@ -33,15 +33,15 @@ import { ColumnGroupStore } from "../../features/columns/ColumnGroupStore";
 import { gridStyleAtom } from "../../features/columns/grid.model";
 import { DatagridConfig } from "../../features/core/configs/Datagrid.config";
 import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../../features/core/tokens";
+import { DatasourceParamsController } from "../../features/datasource/DatasourceParamsController";
+import { DerivedLoaderController } from "../../features/datasource/DerivedLoaderController";
+import { rowClassProvider, rowKeyProvider } from "../../features/datasource/rows.model";
 import { EmptyPlaceholderViewModel } from "../../features/empty-message/EmptyPlaceholder.viewModel";
 import { paginationConfig } from "../../features/pagination/pagination.config";
 import { GridPersonalizationStore } from "../../features/personalization/GridPersonalizationStore";
 import { createCellEventsController } from "../../features/row-interaction/CellEventsController";
 import { creteCheckboxEventsController } from "../../features/row-interaction/CheckboxEventsController";
 import { SelectAllModule } from "../../features/select-all/SelectAllModule.container";
-import { rowClassProvider, rowKeyProvider } from "../../model/models/rows.model";
-import { DatasourceParamsController } from "../../model/services/DatasourceParamsController";
-import { DerivedLoaderController } from "../../model/services/DerivedLoaderController";
 import { SelectionGate } from "../../model/services/SelectionGate.service";
 import { GridSizeStore } from "../../model/stores/GridSize.store";
 
