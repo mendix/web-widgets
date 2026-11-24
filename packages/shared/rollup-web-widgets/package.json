@@ -18,11 +18,12 @@
         "@rollup/plugin-replace": "^6.0.2",
         "@rollup/plugin-terser": "^0.4.4",
         "mobx": "6.12.3",
-        "mobx-react-lite": "4.0.7",
-        "rollup-plugin-license": "^3.6.0"
+        "mobx-react-lite": "4.0.7"
     },
     "devDependencies": {
         "@mendix/pluggable-widgets-tools": "*",
-        "rollup-plugin-copy": "^3.5.0"
+        "rollup": "^4.62.3",
+        "rollup-plugin-copy": "^3.5.0",
+        "rollup-plugin-license": "^3.7.1"
     }
 }

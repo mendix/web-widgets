@@ -82,11 +82,12 @@
         },
         "patchedDependencies": {
             "@mendix/pluggable-widgets-tools@11.13.0": "patches/@mendix__pluggable-widgets-tools@11.13.0.patch",
+            "cross-zip@4.0.1": "patches/cross-zip@4.0.1.patch",
             "mime-types@2.1.35": "patches/mime-types@2.1.35.patch",
             "mobx-react-lite@4.0.7": "patches/mobx-react-lite@4.0.7.patch",
             "mobx@6.12.3": "patches/mobx@6.12.3.patch",
             "react-dropzone": "patches/react-dropzone.patch",
-            "cross-zip@4.0.1": "patches/cross-zip@4.0.1.patch"
+            "rollup-plugin-license@3.7.1": "patches/rollup-plugin-license@3.7.1.patch"
         },
         "ignoredBuiltDependencies": [
             "@parcel/watcher",

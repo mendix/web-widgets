@@ -1,8 +1,12 @@
 import assert from "node:assert/strict";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { after, describe, it } from "node:test";
+import { after, before, describe, it } from "node:test";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import { rollup } from "rollup";
+import license from "rollup-plugin-license";
+import { licenseCustomTemplate } from "@mendix/pluggable-widgets-tools/configs/helpers/rollup-helper.mjs";
 import { withSharedLibs } from "../sharedLibs.mjs";
 
 const OUT = join("dist", "tmp", "widgets");
@@ -108,6 +112,104 @@ describe("withSharedLibs", () => {
 
         it("passes when the versions match", () => {
             assert.doesNotThrow(() => build(importerWithMobx("6.12.3")));
+        });
+    });
+
+    describe("third-party list at the MPK root (read by mxbuild for the SBOM)", () => {
+        const cwd = process.cwd();
+        const root = mkdtempSync(join(tmpdir(), "shared-libs-licenses-"));
+        const rootJson = () => JSON.parse(readFileSync(join(root, OUT, "dependencies.json"), "utf8"));
+        const rootTxt = () => readFileSync(join(root, OUT, "dependencies.txt"), "utf8");
+        const names = () => rootJson().map(entry => Object.keys(entry)[0]);
+
+        before(() => {
+            writeFileSync(join(root, "package.json"), JSON.stringify({ name: "w", version: "1.0.0" }));
+            process.chdir(root);
+        });
+        after(() => {
+            process.chdir(cwd);
+            rmSync(root, { recursive: true, force: true });
+        });
+
+        function writePackage(name, version) {
+            const dir = join(root, "node_modules", name);
+            mkdirSync(dir, { recursive: true });
+            writeFileSync(
+                join(dir, "package.json"),
+                JSON.stringify({ name, version, license: "MIT", main: "index.js" })
+            );
+            writeFileSync(join(dir, "index.js"), `export const ${name.replace(/\W/g, "")} = 1;`);
+        }
+
+        /** Mirrors the widget configs PWT generates: the production AMD build writes the root list. */
+        function pwtWidgetConfigs(source, production) {
+            const dir = "com/mendix/widget/web/w";
+            writeFileSync(join(root, "W.js"), source);
+            const pwtLicense = license({
+                thirdParty: {
+                    includePrivate: true,
+                    output: [
+                        { file: join(root, OUT, "dependencies.txt") },
+                        { file: join(root, OUT, "dependencies.json"), template: licenseCustomTemplate }
+                    ]
+                }
+            });
+            return [
+                {
+                    input: join(root, "W.js"),
+                    output: { format: "amd", file: join(OUT, dir, "W.js") },
+                    plugins: [nodeResolve(), production ? pwtLicense : null]
+                },
+                {
+                    input: join(root, "W.js"),
+                    output: { format: "es", file: join(OUT, dir, "W.mjs") },
+                    plugins: [nodeResolve()]
+                }
+            ];
+        }
+
+        async function build(source, production = true) {
+            rmSync(join(root, "dist"), { recursive: true, force: true });
+            for (const config of withSharedLibs(
+                { configProduction: production },
+                pwtWidgetConfigs(source, production)
+            )) {
+                const bundle = await rollup({ ...config, onwarn: () => {} });
+                for (const output of [config.output].flat()) {
+                    await bundle.write(output);
+                }
+                await bundle.close();
+            }
+        }
+
+        it("lists the shared libraries next to the widget's own dependencies", async () => {
+            writePackage("own-dep", "1.2.3");
+            await build(
+                `import { owndep } from "own-dep"; import { observable } from "mobx"; import { observer } from "mobx-react-lite"; console.log(owndep, observable, observer);`
+            );
+
+            assert.deepEqual(names().sort(), ["mobx", "mobx-react-lite", "own-dep"]);
+            assert.deepEqual(
+                rootJson().find(entry => entry.mobx),
+                { mobx: { version: "6.12.3", url: "https://mobx.js.org/" } }
+            );
+            const txt = rootTxt();
+            assert.match(txt, /Name: own-dep\nVersion: 1\.2\.3/);
+            assert.match(txt, /Name: mobx\nVersion: 6\.12\.3\nLicense: MIT/);
+            assert.match(txt, /Name: mobx-react-lite\nVersion: 4\.0\.7/);
+        });
+
+        it("lists the shared libraries when the widget has no dependencies of its own", async () => {
+            await build(`import { observable } from "mobx"; console.log(observable);`);
+
+            assert.deepEqual(names(), ["mobx", "mobx-react-lite"]);
+            assert.doesNotMatch(rootTxt(), /No third parties dependencies/);
+        });
+
+        it("leaves development builds without a root list, like PWT does", async () => {
+            await build(`import { observable } from "mobx"; console.log(observable);`, false);
+
+            assert.throws(() => rootJson(), /ENOENT/);
         });
     });
 });
