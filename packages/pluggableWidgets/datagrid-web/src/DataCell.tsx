@@ -3,9 +3,9 @@ import { computed } from "mobx";
 import { observer } from "mobx-react-lite";
 import { ReactElement, ReactNode, useMemo } from "react";
 import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
-import { GridColumn } from "../features/columns/GridColumn";
-import { EventsController } from "../ui/CellComponent";
-import { CellElement } from "../ui/CellElement";
+import { GridColumn } from "./features/columns/GridColumn";
+import { EventsController } from "./ui/CellComponent";
+import { CellElement } from "./ui/CellElement";
 
 interface DataCellProps {
     children?: ReactNode;

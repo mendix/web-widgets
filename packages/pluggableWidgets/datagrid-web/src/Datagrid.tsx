@@ -1,12 +1,12 @@
 import { ContainerProvider } from "brandi-react";
 import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
-import { DatagridContainerProps } from "../typings/DatagridProps";
-import { Widget } from "./components/Widget";
-import { useDatagridContainer } from "./core/hooks/useDatagridContainer";
-import { useDataGridJSActions } from "./core/hooks/useDataGridJSActions";
 import { useColumnsStore, useExportProgressService } from "./features/core/hooks/injection-hooks";
 import { useDataExport } from "./features/data-export/useDataExport";
+import { useDatagridContainer } from "./useDatagridContainer";
+import { useDataGridJSActions } from "./useDataGridJSActions";
+import { Widget } from "./Widget";
+import { DatagridContainerProps } from "../typings/DatagridProps";
 
 const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
     const columnsStore = useColumnsStore();

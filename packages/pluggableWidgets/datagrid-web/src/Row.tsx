@@ -3,10 +3,10 @@ import { ObjectItem } from "mendix";
 import { ReactElement } from "react";
 import { SelectActionsService } from "@mendix/widget-plugin-grid/main";
 import { DataCell } from "./DataCell";
-import { GridColumn } from "../features/columns/GridColumn";
-import { SelectorCell } from "../features/columns/SelectorCell";
-import { CheckboxCell } from "../features/selection/CheckboxCell";
-import { EventsController } from "../ui/CellComponent";
+import { GridColumn } from "./features/columns/GridColumn";
+import { SelectorCell } from "./features/columns/SelectorCell";
+import { CheckboxCell } from "./features/selection/CheckboxCell";
+import { EventsController } from "./ui/CellComponent";
 
 export interface RowProps {
     className?: string;
