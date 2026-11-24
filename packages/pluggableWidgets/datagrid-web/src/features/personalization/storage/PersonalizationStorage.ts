@@ -1,4 +1,4 @@
-import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { DatagridContainerProps } from "../../../../typings/DatagridProps";
 
 type RequiredProps = Pick<DatagridContainerProps, "configurationAttribute">;
 

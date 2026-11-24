@@ -4,18 +4,15 @@ import { error, Result, value } from "@mendix/widget-plugin-filtering/result-met
 import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { ColumnGroupStore } from "./ColumnGroupStore";
+import { getHash } from "./columns-hash";
+import { ColumnPersonalizationSettings, GridPersonalizationStorageSettings } from "./personalization-settings";
+import { AttributePersonalizationStorage } from "./storage/AttributePersonalizationStorage";
+import { LocalStoragePersonalizationStorage } from "./storage/LocalStoragePersonalizationStorage";
+import { PersonalizationStorage } from "./storage/PersonalizationStorage";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
 import { ColumnId } from "../../typings/GridColumn";
-import {
-    ColumnPersonalizationSettings,
-    GridPersonalizationStorageSettings
-} from "../../typings/personalization-settings";
 import { SortRule } from "../../typings/sorting";
-import { getHash } from "../../utils/columns-hash";
-import { AttributePersonalizationStorage } from "../storage/AttributePersonalizationStorage";
-import { LocalStoragePersonalizationStorage } from "../storage/LocalStoragePersonalizationStorage";
-import { PersonalizationStorage } from "../storage/PersonalizationStorage";
 
 const SCHEMA_VERSION: GridPersonalizationStorageSettings["schemaVersion"] = 3;
 

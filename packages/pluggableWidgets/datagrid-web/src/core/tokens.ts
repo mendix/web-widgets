@@ -30,24 +30,24 @@ import {
 } from "@mendix/widget-plugin-grid/select-all/select-all.model";
 import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-counter/SelectionCounter.viewModel-atoms";
 import { ComputedAtom, DerivedPropsGate, Emitter } from "@mendix/widget-plugin-mobx-kit/main";
+import { DatagridConfig } from "./configs/Datagrid.config";
 import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { TextsService } from "./services/Texts.service";
 import { MainGateProps } from "../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../features/empty-message/EmptyPlaceholder.viewModel";
 import { PaginationConfig } from "../features/pagination/pagination.config";
+import { GridPersonalizationStore } from "../features/personalization/GridPersonalizationStore";
 import { CellEventsController } from "../features/row-interaction/CellEventsController";
 import { CheckboxEventsController } from "../features/row-interaction/CheckboxEventsController";
 import { SelectAllBarViewModel } from "../features/select-all/SelectAllBar.viewModel";
 import { SelectionProgressDialogViewModel } from "../features/select-all/SelectionProgressDialog.viewModel";
 import { ColumnGroupStore } from "../helpers/state/ColumnGroupStore";
-import { GridPersonalizationStore } from "../helpers/state/GridPersonalizationStore";
-import { DatasourceParamsController } from "../model/services/DatasourceParamsController";
-import { GridColumn } from "../typings/GridColumn";
-import { DatagridConfig } from "./configs/Datagrid.config";
 import { RowClassProvider, RowKeyProvider } from "../model/models/rows.model";
+import { DatasourceParamsController } from "../model/services/DatasourceParamsController";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "../model/services/DerivedLoaderController";
 import { GridSizeStore } from "../model/stores/GridSize.store";
+import { GridColumn } from "../typings/GridColumn";
 
 /** Tokens to resolve dependencies from the container. */
 
