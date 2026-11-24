@@ -134,6 +134,32 @@ describe("Combo box datasource loading", () => {
         });
     });
 
+    describe("association, single selection with lazy loading", () => {
+        beforeEach(() => jest.useFakeTimers());
+        afterEach(() => jest.useRealTimers());
+
+        it("loads no options until the menu opens, then the first page", () => {
+            const server = new FakeServer();
+            const props = (): ComboboxContainerProps =>
+                associationSingleProps({ ds: server.view(), lazyLoading: true });
+            const component = render(<Combobox {...props()} />);
+            settle(component, props);
+
+            expect(server.limit).toBe(0);
+
+            fireEvent.click(input(component));
+            settle(component, props);
+
+            expect(server.limit).toBe(100);
+            expect(component.getAllByRole("option").map(option => option.textContent)).toEqual([
+                "Apple",
+                "Banana",
+                "Cherry",
+                "Date"
+            ]);
+        });
+    });
+
     describe("association, single selection", () => {
         beforeEach(() => jest.useFakeTimers());
         afterEach(() => jest.useRealTimers());
