@@ -46,8 +46,8 @@ import { PaginationConfig } from "../pagination/pagination.config";
 import { GridPersonalizationStore } from "../personalization/GridPersonalizationStore";
 import { CellEventsController } from "../row-interaction/CellEventsController";
 import { CheckboxEventsController } from "../row-interaction/CheckboxEventsController";
-import { SelectAllBarViewModel } from "../select-all/SelectAllBar.viewModel";
-import { SelectionProgressDialogViewModel } from "../select-all/SelectionProgressDialog.viewModel";
+import { SelectAllBarViewModel } from "../selection/select-all/SelectAllBar.viewModel";
+import { SelectionProgressDialogViewModel } from "../selection/select-all/SelectionProgressDialog.viewModel";
 
 /** Tokens to resolve dependencies from the container. */
 
