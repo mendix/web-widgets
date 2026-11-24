@@ -20,7 +20,7 @@ import { DatagridSetupService } from "../../features/core/services/DatagridSetup
 import { TextsService } from "../../features/core/services/Texts.service";
 import { CORE_TOKENS as CORE } from "../../features/core/tokens";
 import { rowsAtom } from "../../features/datasource/rows.model";
-import { PageSizeStore } from "../../model/stores/PageSize.store";
+import { PageSizeStore } from "../../features/pagination/PageSize.store";
 
 // datasource
 injected(totalCountAtom, CORE.mainGate);

@@ -34,7 +34,6 @@ import { DatagridConfig } from "./configs/Datagrid.config";
 import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { TextsService } from "./services/Texts.service";
 import { MainGateProps } from "../../../typings/MainGateProps";
-import { GridSizeStore } from "../../model/stores/GridSize.store";
 import { WidgetRootViewModel } from "../base/WidgetRoot.viewModel";
 import { ColumnGroupStore } from "../columns/ColumnGroupStore";
 import { GridColumn } from "../columns/GridColumn";
@@ -42,6 +41,7 @@ import { DatasourceParamsController } from "../datasource/DatasourceParamsContro
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "../datasource/DerivedLoaderController";
 import { RowClassProvider, RowKeyProvider } from "../datasource/rows.model";
 import { EmptyPlaceholderViewModel } from "../empty-message/EmptyPlaceholder.viewModel";
+import { GridSizeStore } from "../pagination/GridSize.store";
 import { PaginationConfig } from "../pagination/pagination.config";
 import { GridPersonalizationStore } from "../personalization/GridPersonalizationStore";
 import { CellEventsController } from "../row-interaction/CellEventsController";

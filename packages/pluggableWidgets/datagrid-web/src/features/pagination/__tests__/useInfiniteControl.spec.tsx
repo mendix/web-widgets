@@ -9,7 +9,7 @@ const mockBumpPage = jest.fn();
 const mockLockGridContainerHeight = jest.fn();
 const mockGridContainerRef = createRef<HTMLDivElement>();
 
-jest.mock("../../../features/core/hooks/injection-hooks", () => ({
+jest.mock("../../core/hooks/injection-hooks", () => ({
     useGridSizeStore: () => ({
         hasVirtualScrolling: true,
         gridContainerRef: mockGridContainerRef,
@@ -18,7 +18,7 @@ jest.mock("../../../features/core/hooks/injection-hooks", () => ({
     })
 }));
 
-import { VIRTUAL_SCROLLING_OFFSET } from "../../stores/GridSize.store";
+import { VIRTUAL_SCROLLING_OFFSET } from "../GridSize.store";
 import { useInfiniteControl } from "../useInfiniteControl";
 
 function makeScrollEvent(overrides: {

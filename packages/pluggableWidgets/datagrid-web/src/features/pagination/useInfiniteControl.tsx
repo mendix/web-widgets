@@ -1,7 +1,7 @@
 import { RefObject, UIEvent, useCallback, useEffect } from "react";
 import { useOnScreen } from "@mendix/widget-plugin-hooks/useOnScreen";
-import { useGridSizeStore } from "../../features/core/hooks/injection-hooks";
-import { VIRTUAL_SCROLLING_OFFSET } from "../stores/GridSize.store";
+import { VIRTUAL_SCROLLING_OFFSET } from "./GridSize.store";
+import { useGridSizeStore } from "../core/hooks/injection-hooks";
 
 export function useInfiniteControl(): [trackTableScrolling: ((e: any) => void) | undefined] {
     const gridSizeStore = useGridSizeStore();
