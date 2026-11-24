@@ -28,7 +28,6 @@ import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { MainGateProps } from "../../../typings/MainGateProps";
-import { WidgetRootViewModel } from "../../features/base/WidgetRoot.viewModel";
 import { ColumnGroupStore } from "../../features/columns/ColumnGroupStore";
 import { gridStyleAtom } from "../../features/columns/grid.model";
 import { DatasourceParamsController } from "../../features/datasource/DatasourceParamsController";
@@ -42,6 +41,7 @@ import { createCellEventsController } from "../../features/row-interaction/CellE
 import { creteCheckboxEventsController } from "../../features/row-interaction/CheckboxEventsController";
 import { SelectAllModule } from "../../features/selection/select-all/SelectAllModule.container";
 import { SelectionGate } from "../../features/selection/SelectionGate.service";
+import { WidgetRootViewModel } from "../../ui/WidgetRoot.viewModel";
 import { DatagridConfig } from "../configs/Datagrid.config";
 import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
 

@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import { createRef, CSSProperties } from "react";
 import { TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
-import { type SelectionMethod } from "../row-interaction/base";
+import { type SelectionMethod } from "../features/row-interaction/base";
 
 export class WidgetRootViewModel {
     ref = createRef<HTMLDivElement>();

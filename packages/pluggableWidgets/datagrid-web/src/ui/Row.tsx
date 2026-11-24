@@ -2,11 +2,11 @@ import classNames from "classnames";
 import { ObjectItem } from "mendix";
 import { ReactElement } from "react";
 import { SelectActionsService } from "@mendix/widget-plugin-grid/main";
+import { EventsController } from "./CellComponent";
 import { DataCell } from "./DataCell";
 import { GridColumn } from "../features/columns/GridColumn";
 import { CheckboxCell } from "../features/selection/CheckboxCell";
 import { SelectorCell } from "../features/selection/SelectorCell";
-import { EventsController } from "../typings/CellComponent";
 
 export interface RowProps {
     className?: string;
