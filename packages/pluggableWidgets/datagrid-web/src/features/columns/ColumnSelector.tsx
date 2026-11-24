@@ -9,8 +9,8 @@ import {
 } from "@floating-ui/react";
 import { ReactElement, useEffect, useMemo, useState } from "react";
 import { flushSync } from "react-dom";
-import { GridColumn } from "../typings/GridColumn";
-import { FaEye } from "./icons/FaEye";
+import { GridColumn } from "./GridColumn";
+import { FaEye } from "../../components/icons/FaEye";
 
 export interface ColumnSelectorProps {
     columns: GridColumn[];

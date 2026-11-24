@@ -11,11 +11,11 @@ import {
 import { action, computed, makeObservable, observable } from "mobx";
 import { ComponentPropsWithoutRef, KeyboardEvent, ReactElement, ReactNode } from "react";
 import { BaseColumnInfo } from "./BaseColumnInfo";
-import { AlignmentEnum, ColumnsType } from "../../../../typings/DatagridProps";
-import { ColumnPersonalizationSettings } from "../../../features/personalization/personalization-settings";
-import { SortDirection } from "../../../features/sorting/sorting";
-import { ColumnId, GridColumn } from "../../../typings/GridColumn";
-import { IColumnParentStore } from "../ColumnGroupStore";
+import { IColumnParentStore } from "./ColumnGroupStore";
+import { ColumnId, GridColumn } from "./GridColumn";
+import { AlignmentEnum, ColumnsType } from "../../../typings/DatagridProps";
+import { ColumnPersonalizationSettings } from "../personalization/personalization-settings";
+import { SortDirection } from "../sorting/sorting";
 
 export class ColumnStore implements GridColumn {
     columnIndex: number;

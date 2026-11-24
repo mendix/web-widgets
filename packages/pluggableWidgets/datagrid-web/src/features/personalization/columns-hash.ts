@@ -1,5 +1,5 @@
 import { fnv1aHash } from "@mendix/widget-plugin-grid/utils/fnv-1a-hash";
-import { GridColumn } from "../../typings/GridColumn";
+import { GridColumn } from "../columns/GridColumn";
 
 export function getHash(columns: GridColumn[], gridName: string): string {
     const data = JSON.stringify({

@@ -1,9 +1,9 @@
 import { dynamic, list, listAttribute, listExpression } from "@mendix/widget-plugin-test-utils";
 import { ColumnsType, DatagridContainerProps } from "../../typings/DatagridProps";
+import { IColumnParentStore } from "../features/columns/ColumnGroupStore";
+import { ColumnStore } from "../features/columns/ColumnStore";
+import { GridColumn } from "../features/columns/GridColumn";
 import { ColumnsSortingStore } from "../features/sorting/ColumnsSortingStore";
-import { ColumnStore } from "../helpers/state/column/ColumnStore";
-import { IColumnParentStore } from "../helpers/state/ColumnGroupStore";
-import { GridColumn } from "../typings/GridColumn";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {

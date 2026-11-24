@@ -7,21 +7,18 @@ import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 
 import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 
-import { ColumnStore } from "./column/ColumnStore";
+import { ColumnStore } from "./ColumnStore";
+import { ColumnId, GridColumn } from "./GridColumn";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { ColumnFilterStore } from "../../features/filtering/ColumnFilterStore";
-import { StaticInfo } from "../../features/filtering/static-info";
-import {
-    ColumnFilterSettings,
-    ColumnPersonalizationSettings
-} from "../../features/personalization/personalization-settings";
+import { ColumnFilterStore } from "../filtering/ColumnFilterStore";
+import { StaticInfo } from "../filtering/static-info";
+import { ColumnFilterSettings, ColumnPersonalizationSettings } from "../personalization/personalization-settings";
 import {
     ColumnsSortingStore,
     sortInstructionsToSortRules,
     sortRulesToSortInstructions
-} from "../../features/sorting/ColumnsSortingStore";
-import { SortInstruction } from "../../features/sorting/sorting";
-import { ColumnId, GridColumn } from "../../typings/GridColumn";
+} from "../sorting/ColumnsSortingStore";
+import { SortInstruction } from "../sorting/sorting";
 
 export interface IColumnGroupStore {
     loaded: boolean;
