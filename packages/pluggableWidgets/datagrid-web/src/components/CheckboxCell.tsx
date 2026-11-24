@@ -35,7 +35,7 @@ export function CheckboxCell({ item, rowIndex, lastRow, ...rest }: CheckboxCellP
                 onChange={stub}
                 onFocus={lastRow ? scrollParentOnFocus : undefined}
                 ref={keyNavProps.ref}
-                aria-label={`${selectRowLabel ?? "Select row"} ${rowIndex + 1}`}
+                aria-label={`${selectRowLabel} ${rowIndex + 1}`}
                 {...useMemo(() => checkboxEventsHandler.getProps(item), [item, checkboxEventsHandler])}
             />
         </CellElement>

@@ -169,10 +169,6 @@ function hideSelectionProperties(defaultProperties: Properties, values: Datagrid
             "enableSelectAll"
         ]);
     }
-
-    if (itemSelection !== "Single") {
-        hidePropertyIn(defaultProperties, values, "singleSelectionColumnLabel");
-    }
 }
 
 export const getPreview = (

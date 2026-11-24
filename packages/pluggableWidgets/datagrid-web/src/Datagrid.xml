@@ -451,66 +451,64 @@
         </propertyGroup>
         <propertyGroup caption="Texts">
             <propertyGroup caption="Aria labels">
-                <property key="filterSectionTitle" type="textTemplate" required="false">
-                    <caption>Filter section</caption>
-                    <description>Assistive technology will read this upon reaching a filtering or sorting section.</description>
-                </property>
-                <property key="exportDialogLabel" type="textTemplate" required="false">
-                    <caption>Export progress</caption>
-                    <description>Assistive technology will read this upon reaching a export dialog.</description>
-                    <translations>
-                        <translation lang="en_US">Export progress</translation>
-                        <translation lang="nl_NL">Exportvoortgang</translation>
-                    </translations>
-                </property>
-                <property key="cancelExportLabel" type="textTemplate" required="false">
-                    <caption>Cancel data export</caption>
-                    <description>Assistive technology will read this upon reaching a cancel button.</description>
-                    <translations>
-                        <translation lang="en_US">Cancel data export</translation>
-                        <translation lang="nl_NL">Gegevensexport annuleren</translation>
-                    </translations>
-                </property>
-                <property key="selectRowLabel" type="textTemplate" required="false">
-                    <caption>Select row label</caption>
-                    <description>If selection is enabled, assistive technology will read this upon reaching a checkbox.</description>
-                    <translations>
-                        <translation lang="en_US">Select row</translation>
-                        <translation lang="nl_NL">Rij selecteren</translation>
-                    </translations>
-                </property>
-                <property key="selectAllRowsLabel" type="textTemplate" required="false">
-                    <caption>Select all label</caption>
-                    <description>If selection is enabled, assistive technology will read this upon reaching 'Select all' checkbox.</description>
-                    <translations>
-                        <translation lang="en_US">Select all rows</translation>
-                        <translation lang="nl_NL">Selecteer alle rijen</translation>
-                    </translations>
-                </property>
-                <property key="singleSelectionColumnLabel" type="textTemplate" required="false">
-                    <caption>Single selection column label</caption>
-                    <description>If single selection is enabled, assistive technology will read this for the selection column header.</description>
-                    <translations>
-                        <translation lang="en_US">Select single row</translation>
-                        <translation lang="nl_NL">Selecteer enkele rij</translation>
-                    </translations>
-                </property>
-                <property key="selectingAllLabel" type="textTemplate" required="false">
-                    <caption>Selecting all label</caption>
-                    <description>ARIA label for the progress dialog when selecting all items</description>
-                    <translations>
-                        <translation lang="en_US">Selecting all items...</translation>
-                        <translation lang="nl_NL">Alle items selecteren...</translation>
-                    </translations>
-                </property>
-                <property key="cancelSelectionLabel" type="textTemplate" required="false">
-                    <caption>Cancel selection label</caption>
-                    <description>ARIA label for the cancel button in the selection progress dialog</description>
-                    <translations>
-                        <translation lang="en_US">Cancel selection</translation>
-                        <translation lang="nl_NL">Selectie annuleren</translation>
-                    </translations>
-                </property>
+                <systemProperty key="Text">
+                    <text key="filterSectionTitle">
+                        <caption>Filter section</caption>
+                        <translations>
+                            <translation lang="en_US">Filters</translation>
+                            <translation lang="nl_NL">Filters</translation>
+                        </translations>
+                    </text>
+                    <text key="exportDialogLabel">
+                        <caption>Export progress</caption>
+                        <translations>
+                            <translation lang="en_US">Export progress</translation>
+                            <translation lang="nl_NL">Exportvoortgang</translation>
+                        </translations>
+                    </text>
+                    <text key="cancelExportLabel">
+                        <caption>Cancel data export</caption>
+                        <translations>
+                            <translation lang="en_US">Cancel data export</translation>
+                            <translation lang="nl_NL">Gegevensexport annuleren</translation>
+                        </translations>
+                    </text>
+                    <text key="selectRowLabel">
+                        <caption>Select row label</caption>
+                        <translations>
+                            <translation lang="en_US">Select row</translation>
+                            <translation lang="nl_NL">Rij selecteren</translation>
+                        </translations>
+                    </text>
+                    <text key="selectAllRowsLabel">
+                        <caption>Select all label</caption>
+                        <translations>
+                            <translation lang="en_US">Select all rows</translation>
+                            <translation lang="nl_NL">Selecteer alle rijen</translation>
+                        </translations>
+                    </text>
+                    <text key="singleSelectionColumnLabel">
+                        <caption>Single selection column label</caption>
+                        <translations>
+                            <translation lang="en_US">Select single row</translation>
+                            <translation lang="nl_NL">Selecteer enkele rij</translation>
+                        </translations>
+                    </text>
+                    <text key="selectingAllLabel">
+                        <caption>Selecting all label</caption>
+                        <translations>
+                            <translation lang="en_US">Selecting all items...</translation>
+                            <translation lang="nl_NL">Alle items selecteren...</translation>
+                        </translations>
+                    </text>
+                    <text key="cancelSelectionLabel">
+                        <caption>Cancel selection label</caption>
+                        <translations>
+                            <translation lang="en_US">Cancel selection</translation>
+                            <translation lang="nl_NL">Selectie annuleren</translation>
+                        </translations>
+                    </text>
+                </systemProperty>
             </propertyGroup>
             <propertyGroup caption="Captions">
                 <property key="selectedCountTemplateSingular" type="textTemplate" required="false">

@@ -34,7 +34,7 @@ injected(
 injected(
     SelectionProgressDialogViewModel,
     CORE.setupService,
-    SA_TOKENS.gate,
+    CORE.texts,
     SA_TOKENS.progressService,
     SA_TOKENS.selectAllService
 );

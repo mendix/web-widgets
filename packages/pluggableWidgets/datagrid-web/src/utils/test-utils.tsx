@@ -1,5 +1,5 @@
 import { dynamic, list, listAttribute, listExpression } from "@mendix/widget-plugin-test-utils";
-import { ColumnsType, DatagridContainerProps } from "../../typings/DatagridProps";
+import { ColumnsType, DatagridContainerProps, Translations } from "../../typings/DatagridProps";
 import { ColumnStore } from "../helpers/state/column/ColumnStore";
 import { IColumnParentStore } from "../helpers/state/ColumnGroupStore";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
@@ -51,10 +51,31 @@ export function mockGridColumn(c: ColumnsType, index: number): GridColumn {
     return new ColumnStore(index, c, parentStore);
 }
 
+/** English defaults of the Data Grid system texts, as declared in Datagrid.xml. */
+export const defaultSystemTexts: { [K in keyof Translations]: string } = {
+    filterSectionTitle: "Filters",
+    exportDialogLabel: "Export progress",
+    cancelExportLabel: "Cancel data export",
+    selectRowLabel: "Select row",
+    selectAllRowsLabel: "Select all rows",
+    singleSelectionColumnLabel: "Select single row",
+    selectingAllLabel: "Selecting all items...",
+    cancelSelectionLabel: "Cancel selection"
+};
+
+/** Mock of the `texts` prop that the Mendix runtime passes for system texts. */
+export function mockTexts(overrides?: Partial<typeof defaultSystemTexts>): DatagridContainerProps["texts"] {
+    const texts = { ...defaultSystemTexts, ...overrides };
+    return {
+        translate: (key, ..._params) => texts[key]
+    };
+}
+
 export function mockContainerProps(overrides?: Partial<DatagridContainerProps>): DatagridContainerProps {
     return {
         class: "dg-one",
         name: "datagrid2_1",
+        texts: mockTexts(),
         datasource: list(5),
         refreshInterval: 0,
         columnsFilterable: true,

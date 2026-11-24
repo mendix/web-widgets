@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
+import { Translations } from "../../../typings/DatagridProps";
 import { MainGateProps } from "../../../typings/MainGateProps";
 
 export class TextsService {
@@ -11,28 +12,40 @@ export class TextsService {
         return this.gate.props;
     }
 
-    get exportDialogLabel(): string | undefined {
-        return this.props.exportDialogLabel?.value;
+    private translate<K extends keyof Translations>(key: K, ...params: Translations[K]): string {
+        return this.props.texts.translate(key, ...params);
     }
 
-    get cancelExportLabel(): string | undefined {
-        return this.props.cancelExportLabel?.value;
+    get exportDialogLabel(): string {
+        return this.translate("exportDialogLabel");
     }
 
-    get selectRowLabel(): string | undefined {
-        return this.props.selectRowLabel?.value;
+    get cancelExportLabel(): string {
+        return this.translate("cancelExportLabel");
     }
 
-    get selectAllRowsLabel(): string | undefined {
-        return this.props.selectAllRowsLabel?.value;
+    get selectRowLabel(): string {
+        return this.translate("selectRowLabel");
     }
 
-    get singleSelectionColumnLabel(): string | undefined {
-        return this.props.singleSelectionColumnLabel?.value;
+    get selectAllRowsLabel(): string {
+        return this.translate("selectAllRowsLabel");
     }
 
-    get headerAriaLabel(): string | undefined {
-        return this.props.filterSectionTitle?.value;
+    get singleSelectionColumnLabel(): string {
+        return this.translate("singleSelectionColumnLabel");
+    }
+
+    get selectingAllLabel(): string {
+        return this.translate("selectingAllLabel");
+    }
+
+    get cancelSelectionLabel(): string {
+        return this.translate("cancelSelectionLabel");
+    }
+
+    get headerAriaLabel(): string {
+        return this.translate("filterSectionTitle");
     }
 
     get loadMoreButtonCaption(): string | undefined {
