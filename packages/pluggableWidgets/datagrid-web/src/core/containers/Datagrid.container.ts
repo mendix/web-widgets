@@ -40,8 +40,8 @@ import { paginationConfig } from "../../features/pagination/pagination.config";
 import { GridPersonalizationStore } from "../../features/personalization/GridPersonalizationStore";
 import { createCellEventsController } from "../../features/row-interaction/CellEventsController";
 import { creteCheckboxEventsController } from "../../features/row-interaction/CheckboxEventsController";
-import { SelectAllModule } from "../../features/select-all/SelectAllModule.container";
-import { SelectionGate } from "../../model/services/SelectionGate.service";
+import { SelectAllModule } from "../../features/selection/select-all/SelectAllModule.container";
+import { SelectionGate } from "../../features/selection/SelectionGate.service";
 import { DatagridConfig } from "../configs/Datagrid.config";
 import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
 
