@@ -39,7 +39,6 @@ import { CheckboxEventsController } from "../features/row-interaction/CheckboxEv
 import { SelectAllBarViewModel } from "../features/select-all/SelectAllBar.viewModel";
 import { SelectionProgressDialogViewModel } from "../features/select-all/SelectionProgressDialog.viewModel";
 import { ColumnGroupStore } from "../helpers/state/ColumnGroupStore";
-import { GridBasicData } from "../helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "../helpers/state/GridPersonalizationStore";
 import { DatasourceParamsController } from "../model/services/DatasourceParamsController";
 import { GridColumn } from "../typings/GridColumn";
@@ -91,8 +90,6 @@ export const CORE_TOKENS = {
 
 /** Datagrid tokens. */
 export const DG_TOKENS = {
-    basicDate: token<GridBasicData>("GridBasicData"),
-
     combinedFilter: token<CombinedFilter>("CombinedFilter"),
     combinedFilterConfig: token<CombinedFilterConfig>("CombinedFilterKey"),
 

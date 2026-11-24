@@ -13,15 +13,11 @@ import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { ColumnsType } from "../../../../typings/DatagridProps";
 import { StaticInfo } from "../../../typings/static-info";
 
-export interface IColumnFilterStore {
-    renderFilterWidgets(): ReactNode;
-}
-
 type FilterStore = InputFilterStore | EnumFilterStore;
 
 const { Provider } = getGlobalFilterContextObject();
 
-export class ColumnFilterStore implements IColumnFilterStore {
+export class ColumnFilterStore {
     private _widget: ReactNode;
     private _error: APIError | null;
     private _filterStore: FilterStore | null = null;

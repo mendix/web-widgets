@@ -35,7 +35,6 @@ import { createCellEventsController } from "../../features/row-interaction/CellE
 import { creteCheckboxEventsController } from "../../features/row-interaction/CheckboxEventsController";
 import { SelectAllModule } from "../../features/select-all/SelectAllModule.container";
 import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
-import { GridBasicData } from "../../helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "../../helpers/state/GridPersonalizationStore";
 import { DatagridConfig } from "../configs/Datagrid.config";
 import { gridStyleAtom } from "../models/grid.model";
@@ -71,7 +70,6 @@ const _01_coreBindings: BindingGroup = {
         injected(ColumnGroupStore, CORE.setupService, CORE.mainGate, CORE.config, DG.filterHost);
         injected(DatasourceParamsController, CORE.setupService, DG.query, DG.combinedFilter, CORE.columnsStore);
         injected(DatasourceService, CORE.setupService, DG.queryGate, DG.refreshInterval.optional);
-        injected(GridBasicData, CORE.mainGate);
         injected(
             WidgetRootViewModel,
             CORE.mainGate,
@@ -89,7 +87,6 @@ const _01_coreBindings: BindingGroup = {
         );
     },
     define(container: Container) {
-        container.bind(DG.basicDate).toInstance(GridBasicData).inSingletonScope();
         container.bind(CORE.columnsStore).toInstance(ColumnGroupStore).inSingletonScope();
         container.bind(DG.query).toInstance(DatasourceService).inSingletonScope();
         container.bind(DG.gridSizeStore).toInstance(GridSizeStore).inSingletonScope();
