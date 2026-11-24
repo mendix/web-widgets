@@ -57,7 +57,7 @@
         "@happy-dom/jest-environment": "^19.0.2",
         "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
-        "@mendix/run-e2e": "workspace:^*",
+        "@mendix/run-e2e": "workspace:*",
         "cross-env": "^7.0.3"
     }
 }
