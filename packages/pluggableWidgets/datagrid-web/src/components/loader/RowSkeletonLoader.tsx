@@ -1,8 +1,8 @@
 import { Fragment, ReactElement } from "react";
+import { SkeletonLoader } from "./SkeletonLoader";
+import { SelectorCell } from "../../features/columns/SelectorCell";
 import { useDatagridConfig } from "../../features/core/hooks/injection-hooks";
 import { CellElement } from "../CellElement";
-import { SelectorCell } from "../SelectorCell";
-import { SkeletonLoader } from "./SkeletonLoader";
 
 type RowSkeletonLoaderProps = {
     columnsHidable: boolean;
