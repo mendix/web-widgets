@@ -87,51 +87,56 @@ describe("DatabaseSingleSelectionSelector.updateProps — external target-attrib
         // WC-3355: without this behavior, an external value change (e.g. from a microflow)
         // leaves currentId pointing at the stale option.
         const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
-        const selection = new SelectionSingleValueBuilder().build();
+        const selection = new SelectionSingleValueBuilder();
 
-        selector.updateProps(buildProps({ items, values, targetValue: "v1", selection }));
+        selector.updateProps(buildProps({ items, values, targetValue: "v1", selection: selection.build() }));
         expect(selector.currentId).toBe(optionA.id);
 
-        selector.updateProps(buildProps({ items, values, targetValue: "v2", selection }));
+        selector.updateProps(buildProps({ items, values, targetValue: "v2", selection: selection.build() }));
         expect(selector.currentId).toBe(optionB.id);
     });
 
     it("falls back to loadSelectedValue when new value is not in loaded options", () => {
         const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
-        const selection = new SelectionSingleValueBuilder().build();
+        const selection = new SelectionSingleValueBuilder();
         const soleItems = [optionA];
         const soleValues = new Map<string, string>([[optionA.id, "v1"]]);
 
-        selector.updateProps(buildProps({ items: soleItems, values: soleValues, targetValue: "v1", selection }));
+        selector.updateProps(
+            buildProps({ items: soleItems, values: soleValues, targetValue: "v1", selection: selection.build() })
+        );
         const loadSpy = jest.spyOn(selector.options, "loadSelectedValue");
 
-        selector.updateProps(buildProps({ items: soleItems, values: soleValues, targetValue: "v-unknown", selection }));
+        selector.updateProps(
+            buildProps({ items: soleItems, values: soleValues, targetValue: "v-unknown", selection: selection.build() })
+        );
 
         expect(loadSpy).toHaveBeenCalledWith("v-unknown", expect.anything());
     });
 
     it("clears currentId and selection when targetAttribute.value is cleared externally", () => {
         const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
-        const selection = new SelectionSingleValueBuilder().build();
-        const setSelectionSpy = jest.spyOn(selection, "setSelection");
+        const selection = new SelectionSingleValueBuilder();
 
-        selector.updateProps(buildProps({ items, values, targetValue: "v1", selection }));
+        selector.updateProps(buildProps({ items, values, targetValue: "v1", selection: selection.build() }));
         expect(selector.currentId).toBe(optionA.id);
+        expect(selection.build().selection).toBe(optionA);
+        selector.updateProps(buildProps({ items, values, targetValue: "v1", selection: selection.build() }));
 
-        selector.updateProps(buildProps({ items, values, targetValue: undefined, selection }));
+        selector.updateProps(buildProps({ items, values, targetValue: undefined, selection: selection.build() }));
 
         expect(selector.currentId).toBeNull();
-        expect(setSelectionSpy).toHaveBeenCalledWith(undefined);
+        expect(selection.build().selection).toBeUndefined();
     });
 
     it("does not re-resolve currentId when targetAttribute.value is unchanged", () => {
         const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
-        const selection = new SelectionSingleValueBuilder().build();
+        const selection = new SelectionSingleValueBuilder();
 
-        selector.updateProps(buildProps({ items, values, targetValue: "v1", selection }));
+        selector.updateProps(buildProps({ items, values, targetValue: "v1", selection: selection.build() }));
         const getAllSpy = jest.spyOn(selector.options, "getAll");
 
-        selector.updateProps(buildProps({ items, values, targetValue: "v1", selection }));
+        selector.updateProps(buildProps({ items, values, targetValue: "v1", selection: selection.build() }));
 
         expect(getAllSpy).not.toHaveBeenCalled();
         expect(selector.currentId).toBe(optionA.id);

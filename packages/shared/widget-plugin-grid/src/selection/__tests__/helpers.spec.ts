@@ -1,4 +1,4 @@
-import { ObjectItem, SelectionMultiValue } from "mendix";
+import { ObjectItem } from "mendix";
 import { objectItems, SelectionMultiValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { MultiSelectionHelper } from "../helpers";
 
@@ -7,15 +7,19 @@ describe("MultiSelectionHelper", () => {
         const x = true;
         const _ = false;
         const numberOfItems = 8;
-        let selectionValue: SelectionMultiValue;
+        let selection: SelectionMultiValueBuilder;
         let items: ObjectItem[];
         let helper: MultiSelectionHelper;
-        const gridState = (): boolean[] => items.map(item => helper.isSelected(item));
+        // setSelection leaves the current value untouched; the client passes a new one on the next render.
+        const gridState = (): boolean[] => {
+            helper.updateProps(selection.build(), items);
+            return items.map(item => helper.isSelected(item));
+        };
 
         beforeEach(() => {
             items = objectItems(numberOfItems);
-            selectionValue = new SelectionMultiValueBuilder().build();
-            helper = new MultiSelectionHelper(selectionValue, items);
+            selection = new SelectionMultiValueBuilder();
+            helper = new MultiSelectionHelper(selection.build(), items);
         });
 
         it('selects the range on "selectUpTo" fallowed by "selectUpTo"', () => {

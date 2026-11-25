@@ -8,6 +8,11 @@ export enum FormatterType {
     DateTime = "datetime"
 }
 
+/**
+ * Builds `EditableValue` mocks that behave like the Mendix client: a built value never changes.
+ * `setValue` records the call and updates this builder, so the next `build()` returns a new object
+ * with the new value, which is the object the client would pass on the next render.
+ */
 export class EditableValueBuilder<T extends string | boolean | Date | Big> {
     private readonly editableValue: Writable<EditableValue<T>> = {
         value: undefined,
@@ -24,7 +29,9 @@ export class EditableValueBuilder<T extends string | boolean | Date | Big> {
             config: {} as any
         },
         setValidator: jest.fn(),
-        setValue: jest.fn((value: T) => this.withValue(value)),
+        setValue: jest.fn((value: T) => {
+            this.withValue(value);
+        }),
         setTextValue: jest.fn(),
         setFormatter: jest.fn(),
         isList: false
@@ -67,6 +74,6 @@ export class EditableValueBuilder<T extends string | boolean | Date | Big> {
     }
 
     build(): EditableValue<T> {
-        return this.editableValue;
+        return { ...this.editableValue };
     }
 }

@@ -2,6 +2,11 @@ import type { ObjectItem, Option, ReferenceValue } from "mendix";
 import { Status } from "../constants.js";
 import { Writable } from "./type-utils.js";
 
+/**
+ * Builds `ReferenceValue` mocks that behave like the Mendix client: a built value never changes.
+ * `setValue` records the call and updates this builder, so the next `build()` returns a new object
+ * with the new value, which is the object the client would pass on the next render.
+ */
 export class ReferenceValueBuilder {
     private readonly referenceValue: Writable<ReferenceValue> = {
         value: undefined,
@@ -10,7 +15,9 @@ export class ReferenceValueBuilder {
         validation: undefined,
         readOnly: false,
         setValidator: jest.fn(),
-        setValue: jest.fn(value => this.withValue(value))
+        setValue: jest.fn(value => {
+            this.withValue(value);
+        })
     };
 
     withValue(value: Option<ObjectItem>): ReferenceValueBuilder {
@@ -39,6 +46,6 @@ export class ReferenceValueBuilder {
     }
 
     build(): ReferenceValue {
-        return this.referenceValue;
+        return { ...this.referenceValue };
     }
 }

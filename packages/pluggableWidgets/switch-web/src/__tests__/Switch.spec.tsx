@@ -127,31 +127,29 @@ describe("Switch", () => {
 
         describe("when value is available", () => {
             it("toggles the attributes value onClick", () => {
-                const props = createProps({
-                    booleanAttribute: new EditableValueBuilder<boolean>().withValue(false).build()
-                });
-                const { container } = renderSwitch(props);
+                const attribute = new EditableValueBuilder<boolean>().withValue(false);
+                const props = createProps({ booleanAttribute: attribute.build() });
+                const { container, rerender } = renderSwitch(props);
                 const button = container.querySelector(".widget-switch-btn");
                 fireEvent.click(button!);
-                expect(props.booleanAttribute.setValue).toHaveBeenCalled();
-                expect(props.booleanAttribute.value).toEqual(true);
+                expect(props.booleanAttribute.setValue).toHaveBeenLastCalledWith(true);
+
+                rerender(<Switch {...createProps({ booleanAttribute: attribute.build() })} />);
                 fireEvent.click(button!);
-                expect(props.booleanAttribute.setValue).toHaveBeenCalled();
-                expect(props.booleanAttribute.value).toEqual(false);
+                expect(props.booleanAttribute.setValue).toHaveBeenLastCalledWith(false);
             });
 
             it("toggles the attribute value on space keydown", () => {
-                const props = createProps({
-                    booleanAttribute: new EditableValueBuilder<boolean>().withValue(false).build()
-                });
-                const { container } = renderSwitch(props);
+                const attribute = new EditableValueBuilder<boolean>().withValue(false);
+                const props = createProps({ booleanAttribute: attribute.build() });
+                const { container, rerender } = renderSwitch(props);
                 const button = container.querySelector(".widget-switch-btn");
                 fireEvent.keyDown(button!, { key: " " });
-                expect(props.booleanAttribute.setValue).toHaveBeenCalled();
-                expect(props.booleanAttribute.value).toEqual(true);
+                expect(props.booleanAttribute.setValue).toHaveBeenLastCalledWith(true);
+
+                rerender(<Switch {...createProps({ booleanAttribute: attribute.build() })} />);
                 fireEvent.keyDown(button!, { key: " " });
-                expect(props.booleanAttribute.setValue).toHaveBeenCalled();
-                expect(props.booleanAttribute.value).toEqual(false);
+                expect(props.booleanAttribute.setValue).toHaveBeenLastCalledWith(false);
             });
 
             it("shouldn't toggle the attribute on keydown of any key but space", () => {

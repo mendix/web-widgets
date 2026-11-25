@@ -25,14 +25,21 @@ describe("Combo box (Association)", () => {
         setupIntersectionObserverStub();
     });
     let defaultProps: ComboboxContainerProps;
+    let association: ReferenceSetValueBuilder;
+    // setValue leaves the rendered value untouched; the client re-renders with a new one.
+    function rerenderWithNewValue(component: RenderResult): void {
+        defaultProps = { ...defaultProps, attributeAssociation: association.build() };
+        component.rerender(<Combobox {...defaultProps} />);
+    }
     beforeEach(() => {
         resetIdCounter();
+        association = new ReferenceSetValueBuilder().withValue([obj("111")]);
         defaultProps = {
             name: "comboBox",
             id: "comboBox1",
             source: "context",
             optionsSourceType: "association",
-            attributeAssociation: new ReferenceSetValueBuilder().withValue([obj("111")]).build(),
+            attributeAssociation: association.build(),
             attributeEnumeration: new EditableValueBuilder<string>().build(),
             attributeBoolean: new EditableValueBuilder<boolean>().build(),
             optionsSourceAssociationDataSource: list([obj("111"), obj("222"), obj("333"), obj("444")]),
@@ -139,7 +146,10 @@ describe("Combo box (Association)", () => {
         const option1 = await component.findByText("obj_222");
         fireEvent.click(option1);
         expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalled();
-        expect(defaultProps.attributeAssociation?.value).toEqual([{ id: "obj_111" }, { id: "obj_222" }]);
+        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenLastCalledWith([
+            { id: "obj_111" },
+            { id: "obj_222" }
+        ]);
     });
     it("removes selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
@@ -151,11 +161,15 @@ describe("Combo box (Association)", () => {
         const option1 = await component.findByText("obj_222");
         fireEvent.click(option1);
         expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalled();
-        expect(defaultProps.attributeAssociation?.value).toEqual([{ id: "obj_111" }, { id: "obj_222" }]);
+        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenLastCalledWith([
+            { id: "obj_111" },
+            { id: "obj_222" }
+        ]);
+        rerenderWithNewValue(component);
 
         const clearButton = await component.container.getElementsByClassName("widget-combobox-clear-button")[0];
         fireEvent.click(clearButton);
-        expect(defaultProps.attributeAssociation?.value).toEqual([]);
+        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenLastCalledWith([]);
     });
     it("gives the clear and remove buttons a default name when their labels are empty", async () => {
         defaultProps.attributeAssociation = new ReferenceSetValueBuilder().withValue([obj("111"), obj("222")]).build();
@@ -190,7 +204,12 @@ describe("Combo box (Association)", () => {
         const selectAllButton = await component.container.querySelector(".widget-combobox-menu-header input")!; // component.queryAllByRole("option")[0];
         expect(defaultProps.attributeAssociation?.value).toHaveLength(1);
         fireEvent.click(selectAllButton);
-        expect(defaultProps.attributeAssociation?.value).toHaveLength(4);
+        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenLastCalledWith([
+            { id: "obj_111" },
+            { id: "obj_222" },
+            { id: "obj_333" },
+            { id: "obj_444" }
+        ]);
     });
 
     describe("filter input keys vs chip navigation (WC-3347)", () => {
@@ -320,26 +339,24 @@ describe("Combo box (Association)", () => {
         interface Setup {
             component: RenderResult;
             input: HTMLInputElement;
-            /**
-             * The mocked reference set updates its value in place instead of pushing new
-             * props, so re-render the widget to model the Mendix client feeding the new
-             * value back in — which is what removes the chip from the DOM.
-             */
+            /** Re-renders with the value the Mendix client passes after setValue, which removes the chip. */
             applyValueChange: () => void;
         }
 
         async function setup(objectIds: string[]): Promise<Setup> {
+            const attribute = new ReferenceSetValueBuilder().withValue(objectIds.map(obj));
             const props: ComboboxContainerProps = {
                 ...defaultProps,
                 selectedItemsStyle: "boxes",
-                attributeAssociation: new ReferenceSetValueBuilder().withValue(objectIds.map(obj)).build()
+                attributeAssociation: attribute.build()
             };
             const component = render(<Combobox {...props} />);
             const input = await getInput(component);
             return {
                 component,
                 input,
-                applyValueChange: () => component.rerender(<Combobox {...props} />)
+                applyValueChange: () =>
+                    component.rerender(<Combobox {...props} attributeAssociation={attribute.build()} />)
             };
         }
 
@@ -514,7 +531,7 @@ describe("Combo box (Association)", () => {
             expect(highlighted(component)).toBe("obj_222");
 
             fireEvent.keyDown(input, { key: "Enter" });
-            component.rerender(<Combobox {...defaultProps} />);
+            rerenderWithNewValue(component);
 
             expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalledWith([
                 { id: "obj_111" },
@@ -534,7 +551,7 @@ describe("Combo box (Association)", () => {
             fireEvent.keyDown(input, { key: "ArrowDown" });
 
             fireEvent.keyDown(input, { key: "Enter" });
-            component.rerender(<Combobox {...defaultProps} />);
+            rerenderWithNewValue(component);
 
             expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalledWith([
                 { id: "obj_111" },
