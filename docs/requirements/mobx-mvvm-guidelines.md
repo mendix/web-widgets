@@ -43,7 +43,7 @@ Dependencies are injected through the container (brandi tokens), the same role a
 ### View-models own the logic, views only bind
 
 - Every condition a view would compute (`a && b.c`, choosing between spinner, skeleton and rows, which pagination to show) is a view-model getter.
-- Each binding in a view is a single expression: `vm.ariaSort`, `vm.isVisible`, `onClick={vm.toggleSort}`.
+- Each binding in a view is a single expression: `vm.ariaSort`, `vm.isVisible`, `onClick={vm.toggleSort}`. Create view-models with `makeAutoObservable(this, undefined, { autoBind: true })` so actions passed as handlers keep `this`.
 - Logic that lives in a hook (`useState` drag state, scroll maths, prop-sync effects) moves to a view-model or a feature class.
 - A view reads one view-model. If it needs three stores, it needs a view-model that combines them.
 
@@ -69,7 +69,7 @@ export class ColumnHeaderViewModel {
         private config: { columnsSortable: boolean },
         private drag: ColumnDragViewModel
     ) {
-        makeAutoObservable(this);
+        makeAutoObservable(this, undefined, { autoBind: true });
     }
 
     get canSort(): boolean {
