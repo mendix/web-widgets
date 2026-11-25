@@ -1,6 +1,10 @@
 import { test, expect } from "@mendix/run-e2e/fixtures";
 import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
+// The tests share the data that CreateRandomData deletes and recreates; on parallel workers the
+// two runs can interleave and leave both data sets.
+test.describe.configure({ mode: "default" });
+
 test.describe("column-chart-web", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
