@@ -12,12 +12,15 @@ env:
     CLAUDE_MODEL: eu.anthropic.claude-sonnet-5-5
 
 jobs:
+    # uicontent PRs (release changelogs) are skipped, except AI agent PRs: the agent opens them as
+    # uicontent and adds the hidden marker <!-- ai-agent-pr --> to the PR body.
     auto-review:
         name: AI Code Review
         if: |
             github.event_name == 'pull_request' &&
             github.event.pull_request.head.repo.full_name == 'mendix/web-widgets' &&
-            github.event.pull_request.user.login != 'uicontent' &&
+            (github.event.pull_request.user.login != 'uicontent' ||
+             contains(github.event.pull_request.body, '<!-- ai-agent-pr -->')) &&
             github.event.pull_request.user.login != 'uicontent[bot]' &&
             github.event.pull_request.user.login != 'renovate[bot]' &&
             github.event.pull_request.draft == false
