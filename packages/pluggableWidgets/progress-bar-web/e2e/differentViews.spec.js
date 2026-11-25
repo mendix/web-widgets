@@ -14,10 +14,8 @@ test.describe("Progress Bar", () => {
     test("renders when listens to data grid", async ({ page }) => {
         await page.goto("p/listenToGrid");
 
-        const gridRow = await page.locator(".mx-name-index-0");
-        await gridRow.click();
-
-        const gridCell = await gridRow.locator(".mx-datagrid-data-wrapper");
+        const gridCell = page.locator(".mx-name-grid1 [role='gridcell']").first();
+        await gridCell.click();
         const cellContent = await gridCell.textContent();
 
         const progressBar = await page.locator(".widget-progress-bar.mx-name-progressBar1 .progress-bar");
