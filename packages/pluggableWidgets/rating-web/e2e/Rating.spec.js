@@ -2,6 +2,10 @@ import { test, expect } from "@mendix/run-e2e/fixtures";
 import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("Rating", () => {
+    // Tall enough for the whole page content: the page scrolls inside the layout, and the screenshot
+    // only covers what is visible.
+    test.use({ viewport: { width: 1280, height: 1200 } });
+
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
         await waitForMendixApp(page);
