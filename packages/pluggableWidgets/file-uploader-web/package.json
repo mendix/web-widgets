@@ -1,7 +1,7 @@
 {
     "name": "@mendix/file-uploader-web",
     "widgetName": "FileUploader",
-    "version": "2.5.1",
+    "version": "2.6.0",
     "description": "Upload files via drag-and-drop or file dialog. Supports multiple file uploads and image preview thumbnails.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -44,16 +44,18 @@
     "dependencies": {
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "classnames": "^2.5.1",
+        "file-selector": "^5.0.2",
         "mime-types": "^2.1.35",
         "mobx": "6.12.3",
         "mobx-react-lite": "4.0.7",
-        "react-dropzone": "^14.2.3"
+        "react-dropzone": "^20.1.4"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
         "@mendix/eslint-config-web-widgets": "workspace:*",
         "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/rollup-web-widgets": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
         "@rollup/plugin-json": "^6.1.0",

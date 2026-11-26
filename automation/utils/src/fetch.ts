@@ -39,11 +39,7 @@ export async function fetch<T = unknown>(
         console.log(`Response status Code ${response.status}`);
     }
 
-    if (response.status === 409) {
-        throw new Error(
-            `Fetching Failed (Code ${response.status}). Possible solution: Check & delete drafts in Mendix Marketplace.`
-        );
-    } else if (response.status === 503) {
+    if (response.status === 503) {
         throw new Error(`Fetching Failed. "${url}" is unreachable (Code ${response.status}).`);
     } else if (response.status === 400) {
         console.error(await response.text());

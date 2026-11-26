@@ -6,9 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.10] - 2026-11-17
+
 ### Fixed
 
 - We fixed an issue where pages with many drop-down filters became slow to scroll.
+
+- We fixed an issue where, with lazy loading turned off, the drop-down filter loaded only part of the options after the user returned to the page. Because of this, a selected option could lose its caption and the filter was no longer applied to the data grid.
 
 ## [3.11.3] - 2026-07-27
 

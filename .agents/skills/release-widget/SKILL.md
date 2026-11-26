@@ -143,6 +143,16 @@ Keep `--branch`: without it, `-L 1` returns the newest run on _any_ branch.
 
 Wait (re-poll, don't ask the user to check) until `status == completed`. Report the conclusion and the draft release URL.
 
+The workflow's last step (`Merge changelogs PR`) merges the changelog/version-bump PR into `main` right away — without waiting for PR checks, after verifying it only touches `CHANGELOG.md`/`package.json`/`package.xml`. Confirm before moving on to OSS clearance:
+
+```bash
+gh pr list --head "tmp/<release-tag>" --state all --json number,state,url
+```
+
+Expect `MERGED`. Still `OPEN` → read that step's log (`gh run view <databaseId> --log | grep -A20 "Merge changelogs PR"`): unexpected files or a merge conflict with `main`. Report it — merging by hand is the user's job (branch protection).
+
+**Abandoned draft:** `main` already carries `<version>` and its changelog section, so the same version can't be re-cut (`rui-bump-version` requires a greater version, and the changelog has no unreleased entries left). Release the next patch instead.
+
 ### Phase 4 — OSS clearance SBOM (autonomous prep, manual submission)
 
 ```bash
@@ -179,6 +189,8 @@ gh release view <release-tag> --json assets --jq '.assets[].name'
 
 Require: exactly one `.mpk` file AND one `*READMEOSS*.html` file. If either is missing, **refuse to publish** and tell the user what's missing. If user explicitly says to publish anyway, comply but state clearly this is unverified (no asset-gate passed).
 
+The GitHub release body becomes the Marketplace release notes, converted to simple HTML. Edits to the draft's body are what gets published, and they can't be changed in the Marketplace afterwards through the API. Preview the HTML with `pnpm --filter @mendix/automation-utils run release-notes-html <release-tag>`; an empty body fails the publish.
+
 Once the gate passes, publish:
 
 ```bash
@@ -197,23 +209,25 @@ Find the run matching this tag/branch.
 
 - `conclusion: success` → doesn't mean the version is live yet. Confirm: `marketplace-mcp`'s `get_content_versions` with `contentId` = `appNumber` from Phase 0, check `<version>` is listed. If `marketplace-mcp` isn't connected or errors, ask the user to check the widget's Marketplace listing page for `<version>`. Don't declare done until one of the two confirms it.
 
-    Then verify changelog PR merged:
-
-    ```bash
-    gh pr list --head "tmp/<release-tag>" --json number,state
-    ```
-
-    Still open after successful publish → check whether `merge-changelogs-pr` step ran. Don't merge it yourself: branch protection requires team approvals — tell the user it's on them.
+    The changelog PR should already be merged since Phase 3; `PublishMarketplace.yml` retries the merge as a fallback. If it's still open, tell the user — don't merge it yourself (branch protection).
 
 - `conclusion: failure` → **check run history before escalating**:
+
     ```bash
-    gh run view <databaseId> --log-failed | grep -A3 "Response status Code"
+    gh run view <databaseId> --log-failed | grep -E "Marketplace|release"
     ```
-    If `409` on `POST .../packages/<appNumber>/versions`:
+
+    The publish script creates a Marketplace draft, uploads the MPK, then publishes. If the upload or the publish step fails, or the job is cancelled, the script deletes its own draft, so a rerun starts clean. The draft's release id is written to the run's job summary as soon as it exists.
+
+    If the error is `Marketplace already has a release <version>` (HTTP 409 on create):
     1. Check whether an **earlier run for this exact tag already succeeded**: `gh run list --workflow="Publishes a package to marketplace" --json databaseId,status,conclusion,createdAt,headBranch` filtered to this tag. If yes, the 409 means **version already published** — report that, don't escalate/retry/teardown.
-    2. If no prior success: check for two runs created seconds apart for the same tag (double-trigger). Otherwise stuck server-side state.
-    3. Escalate: report appNumber, tag, endpoint, error, ask whether to (a) dig through logs together and check Marketplace → package page → Manage Versions for a stuck draft, or (b) retry.
+    2. If no prior success: look for a leftover draft. Check the job summaries of earlier failed runs for this tag for a release id whose run didn't log `Deleting draft release`. The Publish API can't list releases, so without an id the draft is only visible under Marketplace → component page → Manage versions.
+    3. Escalate: report appNumber, tag, the error, and any leftover release id. Ask the user to delete the draft (Manage versions, or `DELETE https://marketplace-api.mendix.com/v1/releases/<releaseId>` with a PAT) — never delete it yourself.
     4. Never `gh run rerun` speculatively. Rerun once, only after user confirms they acted (deleted a draft, etc.).
+
+    Other failures carry the API's own message, for example `Widget package version does not match the Release version number` (the MPK's `package.xml` version differs from the release version). Report it as-is; these need a fix and a new release, not a rerun.
+
+- **Name warning** in the job summary (`The Marketplace lists this component as …`): the Publish API can't rename a component, so a changed `marketplace.appName` doesn't reach the listing. Tell the user to rename it in the Marketplace if the rename is intended.
 
 ### Phase 8 — Rollback (human-gated, always — carve-out does not apply here)
 
@@ -230,7 +244,7 @@ Teardown list (present all, confirm once, then execute):
 2. `git push origin --delete <release-tag>` (remote tag)
 3. `git push origin --delete tmp/<release-tag>` (auto-closes any open PR)
 4. Jira version: cannot be deleted via available tooling — tell the user to check `<release-tag>` in Jira manually.
-5. Marketplace: if a draft/version was created there, that's manual — tell the user to check.
+5. Marketplace: a published version can be unpublished with `DELETE https://marketplace-api.mendix.com/v1/releases/<releaseId>`, using the release id from the publish run's job summary (or under Manage versions on the component page). Unpublishing the only release of a component fails until the component is deprecated. Hand this to the user — don't run it.
 
 ## Common Mistakes
 

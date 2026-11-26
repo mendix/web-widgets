@@ -55,8 +55,8 @@ export const getModelerSeriesOptions = (...customSeries: Array<Partial<Data>>): 
 
 export interface CustomLayoutProps {
     showLegend: Layout["showlegend"];
-    xAxisLabel: Layout["xaxis"]["title"];
-    yAxisLabel: Layout["yaxis"]["title"];
+    xAxisLabel: NonNullable<Layout["xaxis"]>["title"];
+    yAxisLabel: NonNullable<Layout["yaxis"]>["title"];
     gridLinesMode: "horizontal" | "vertical" | "none" | "both";
 }
 
@@ -69,11 +69,11 @@ export const getCustomLayoutOptions = ({
 }: CustomLayoutProps): Partial<Layout> => ({
     showlegend: showLegend,
     xaxis: {
-        title: { text: xAxisLabel } as Layout["xaxis"]["title"],
+        title: { text: xAxisLabel } as NonNullable<Layout["xaxis"]>["title"],
         showgrid: gridLinesMode === "both" || gridLinesMode === "vertical"
     },
     yaxis: {
-        title: { text: yAxisLabel } as Layout["yaxis"]["title"],
+        title: { text: yAxisLabel } as NonNullable<Layout["yaxis"]>["title"],
         showgrid: gridLinesMode === "both" || gridLinesMode === "horizontal"
     }
 });

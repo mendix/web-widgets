@@ -1,6 +1,8 @@
+import { cp, mkdir } from "node:fs/promises";
+import { basename } from "node:path";
 import enquirer from "enquirer";
 import { oraPromise } from "./cli-utils.ts";
-import { cp, exec, find, mkdir } from "./shell.ts";
+import { exec, findFiles } from "./shell.ts";
 
 const { prompt } = enquirer;
 
@@ -40,14 +42,15 @@ export async function resolvePackagePath(npmPackageName: string): Promise<string
 
 export async function getMpkPaths(packageNames: string[]): Promise<string[]> {
     const packages = await listPackages(packageNames);
-    const paths = [...find(packages.map(p => `${p.path}/dist/${p.version}/*.mpk`))];
-    return paths;
+    return findFiles(...packages.map(p => `${p.path}/dist/${p.version}/*.mpk`));
 }
 
 export async function copyMpkFiles(packageNames: string[], dest: string): Promise<void> {
     const paths = await getMpkPaths(packageNames);
-    mkdir("-p", dest);
-    cp(paths, dest);
+    await mkdir(dest, { recursive: true });
+    for (const path of paths) {
+        await cp(path, `${dest}/${basename(path)}`);
+    }
 }
 
 export async function selectPackage(): Promise<PackageListing> {

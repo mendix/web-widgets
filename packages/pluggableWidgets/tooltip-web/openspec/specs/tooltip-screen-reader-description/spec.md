@@ -1,0 +1,112 @@
+# tooltip-screen-reader-description Specification
+
+## Purpose
+
+TBD - created by archiving change fix-tooltip-screen-reader-description. Update Purpose after archive.
+
+## Requirements
+
+### Requirement: Tooltip content is available before the tooltip opens
+
+When the content for the selected render method exists, the widget SHALL keep exactly one content element in the DOM, whether or not the tooltip is open. While closed, the element SHALL be hidden with `display: none`, so it cannot take focus or affect keyboard navigation. While open, it SHALL be shown as the tooltip. Text mode content SHALL count as existing only if it is not empty after trimming. When the selected render method has no content, the widget SHALL NOT render the element.
+
+#### Scenario: Tooltip is closed
+
+- **WHEN** the selected render method has content and the tooltip is closed
+- **THEN** the content element is in the DOM and hidden with `display: none`
+
+#### Scenario: Tooltip is open
+
+- **WHEN** the tooltip opens
+- **THEN** the same element is shown as the tooltip and the content appears exactly once in the DOM
+
+#### Scenario: Tabbing past a trigger with focusable custom content
+
+- **WHEN** the tooltip is closed, custom content contains a button, and the user presses Tab on the trigger
+- **THEN** focus moves to the next focusable element after the tooltip, and Shift+Tab from that element moves focus back to the trigger
+
+#### Scenario: Custom widgets across open and close
+
+- **WHEN** the tooltip opens and closes
+- **THEN** custom widgets stay mounted and are not remounted
+
+#### Scenario: Text mode with leftover custom content
+
+- **WHEN** the render method is `text`, the text is empty and custom widgets are configured
+- **THEN** the content element is not rendered and no description is added
+
+#### Scenario: Whitespace-only text
+
+- **WHEN** the render method is `text` and the text contains only whitespace
+- **THEN** the content element is not rendered and no description is added
+
+### Requirement: Focusable trigger elements are described by the tooltip
+
+The widget SHALL add the hidden element's id to `aria-describedby` on every focusable element inside the trigger, except elements that belong to a tooltip nested inside the trigger.
+
+#### Scenario: Trigger with several focusable elements
+
+- **WHEN** the trigger contains several buttons and links
+- **THEN** each of them references the hidden element through `aria-describedby`
+
+#### Scenario: Element mounts later
+
+- **WHEN** a focusable element is added to the trigger after the widget has mounted
+- **THEN** that element also references the hidden element
+
+#### Scenario: Tooltip nested inside the trigger
+
+- **WHEN** the trigger contains another tooltip
+- **THEN** the nested tooltip's trigger and content elements reference only the nested tooltip's content, not the outer tooltip's
+
+### Requirement: Existing descriptions are preserved
+
+The widget SHALL keep other ids in `aria-describedby` on trigger elements. When the description no longer applies, the widget SHALL remove only its own id, and SHALL remove the attribute only if no other ids remain.
+
+#### Scenario: Element already has a description
+
+- **WHEN** a focusable trigger element already has an `aria-describedby` value
+- **THEN** the attribute contains the existing value and the tooltip id
+
+#### Scenario: Attribute is reset
+
+- **WHEN** a trigger widget replaces the `aria-describedby` value of its element
+- **THEN** the widget adds the tooltip id back without removing the new value
+
+#### Scenario: Tooltip content is removed
+
+- **WHEN** tooltip content is no longer available
+- **THEN** the original `aria-describedby` value is left in place, and the attribute is removed from elements that only referenced the tooltip
+
+### Requirement: Studio Pro preview is not affected by the description
+
+The widget SHALL render preview content once and SHALL NOT manage `aria-describedby` in the Studio Pro preview.
+
+#### Scenario: Custom content in preview
+
+- **WHEN** the widget renders in preview with the `custom` render method
+- **THEN** the custom content drop zone appears once and trigger elements get no tooltip description
+
+### Requirement: Empty rendered content is treated as no content
+
+The widget SHALL treat content as empty when the content element has no text after trimming and contains no image, SVG, video, canvas, iframe or form field. With empty content, the widget SHALL NOT add its id to `aria-describedby` and SHALL NOT open the tooltip. The widget SHALL update this when the rendered content changes. In the Studio Pro preview, content SHALL always count as not empty.
+
+#### Scenario: All custom widgets are hidden
+
+- **WHEN** conditional visibility hides every widget in the custom content
+- **THEN** trigger elements do not reference the content element, and focusing, hovering or clicking the trigger does not open a tooltip
+
+#### Scenario: Hidden custom widgets become visible
+
+- **WHEN** a hidden custom content widget becomes visible
+- **THEN** trigger elements reference the content element again, and the tooltip can open
+
+#### Scenario: Custom content with only an image
+
+- **WHEN** custom content renders only an image
+- **THEN** the content counts as not empty
+
+#### Scenario: Empty custom content in preview
+
+- **WHEN** the widget renders in preview with empty custom content
+- **THEN** the custom content drop zone is still shown

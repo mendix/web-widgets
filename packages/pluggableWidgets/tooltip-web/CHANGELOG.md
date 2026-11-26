@@ -6,6 +6,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-11-18
+
+### Changed
+
+- New Tooltip widgets now default to Open on Hover,focus, so keyboard users can see the tooltip. Existing widgets keep their setting.
+
+- Custom tooltip content now loads together with the page instead of when the tooltip first opens, so screen readers can announce it. Data sources inside custom content run at page load.
+
+### Fixed
+
+- We fixed an issue where the tooltip in Click mode didn't open when the trigger was an action button: with an action set, it didn't open on click, Enter or Space; without one, it didn't open on Enter or Space.
+
+- We fixed an issue where holding Enter on a trigger in Click mode made the tooltip flicker.
+
+- We fixed an issue where a click in a text box or on a check box in Click mode closed the tooltip. A click there now opens the tooltip but doesn't close it.
+
+- We fixed an issue where Enter or Space on a tooltip nested inside another Click tooltip also opened the outer tooltip.
+
+- We fixed an issue where pressing Escape while focus was inside custom tooltip content moved focus to the top of the page. Focus now returns to the trigger.
+
+- We fixed an issue where pressing Tab from a Hover,focus trigger into custom tooltip content closed the tooltip and moved focus to the top of the page. The tooltip now stays open while focus is inside its content.
+
+- We fixed an issue where screen readers did not announce tooltip content on interactive elements.
+
 ## [1.5.1] - 2026-02-10
 
 ### Added

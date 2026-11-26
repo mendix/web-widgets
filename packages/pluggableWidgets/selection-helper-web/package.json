@@ -1,7 +1,7 @@
 {
     "name": "@mendix/selection-helper-web",
     "widgetName": "SelectionHelper",
-    "version": "3.11.9",
+    "version": "3.11.10",
     "description": "Makes it easier for users to select multiple items in Gallery widget.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -44,6 +44,7 @@
         "@mendix/eslint-config-web-widgets": "workspace:*",
         "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/rollup-web-widgets": "workspace:*",
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-grid": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",

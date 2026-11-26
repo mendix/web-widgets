@@ -5,8 +5,9 @@ import { ReactElement } from "react";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
 import { ClickTrigger } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { objectItems } from "@mendix/widget-plugin-test-utils";
+import { SelectionMethod } from "../../core/configs/Datagrid.config";
 import { createActionHandlers } from "../action-handlers";
-import { CellContext, SelectionMethod } from "../base";
+import { CellContext } from "../base";
 import { createSelectHandlers } from "../select-handlers";
 
 function setup(jsx: ReactElement): { user: UserEvent } & RenderResult {

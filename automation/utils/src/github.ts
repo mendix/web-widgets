@@ -16,6 +16,15 @@ export interface GitHubPR {
     base: { ref: string };
 }
 
+export class MergePRError extends Error {
+    readonly status: number;
+
+    constructor(message: string, status: number) {
+        super(message);
+        this.status = status;
+    }
+}
+
 export interface GitHubPRFile {
     filename: string;
     status: string;
@@ -37,6 +46,7 @@ export interface GitHubRelease {
     id: string;
     tag_name: string;
     name: string;
+    body: string | null;
     draft: boolean;
     created_at: string;
     published_at: string | null;
@@ -417,6 +427,20 @@ export class GitHub {
         return prs[0];
     }
 
+    /** Most recent PR from the branch, in any state, so merged PRs are found too. */
+    async getPRByHeadBranch(branch: string): Promise<GitHubPR | undefined> {
+        await this.ensureAuth();
+
+        const prs = await fetch<GitHubPR[]>(
+            "GET",
+            `https://api.github.com/repos/${this.owner}/${this.repo}/pulls?state=all&head=${encodeURIComponent(`${this.owner}:${branch}`)}`,
+            undefined,
+            this.ghAPIHeaders
+        );
+
+        return prs[0];
+    }
+
     /**
      * List filenames changed in a PR.
      */
@@ -451,8 +475,9 @@ export class GitHub {
 
         if (!response.ok) {
             const errorText = await response.text();
-            throw new Error(
-                `Failed to merge PR #${prNumber}: ${response.status} ${response.statusText} - ${errorText}`
+            throw new MergePRError(
+                `Failed to merge PR #${prNumber}: ${response.status} ${response.statusText} - ${errorText}`,
+                response.status
             );
         }
     }

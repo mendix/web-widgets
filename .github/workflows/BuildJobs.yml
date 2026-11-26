@@ -65,11 +65,14 @@ jobs:
               run: pnpm run test ${{ env.since_flag }}
             - name: Verify changelog entries
               run: pnpm run -w check-changelogs
+              # Skipped on uicontent PRs (release changelogs), except AI agent PRs (hidden <!-- ai-agent-pr --> marker in the body)
               if: >-
-                ${{ github.event_name == 'pull_request' && github.event.pull_request.user.login != 'uicontent' }}
+                  ${{ github.event_name == 'pull_request' &&
+                      (github.event.pull_request.user.login != 'uicontent' ||
+                       contains(github.event.pull_request.body, '<!-- ai-agent-pr -->')) }}
               env:
-                BASE_SHA: ${{ github.event.pull_request.base.sha }}
-                HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+                  BASE_SHA: ${{ github.event.pull_request.base.sha }}
+                  HEAD_SHA: ${{ github.event.pull_request.head.sha }}
 
     mxversion:
         name: Read versions file
@@ -134,6 +137,10 @@ jobs:
                       turbo-cache-${{ runner.os }}-${{ matrix.target }}
             - name: Install dependencies
               run: pnpm install
+            # Exercises the release scripts' file and zip helpers with the runner's own tooling
+            # (zip/unzip on Linux, PowerShell on Windows), so a break shows up before a release does.
+            - name: Test release scripts
+              run: pnpm --filter @mendix/automation-utils run test
             - name: Run ${{ matrix.target }} task
               run: pnpm run ${{ matrix.target }} --concurrency=1 ${{ env.since_flag }}
               env:

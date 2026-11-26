@@ -6,6 +6,64 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [7.0.0] Charts - 2026-11-23
+
+### AreaChart
+
+#### Changed
+
+- We updated the underlying charting library (Plotly.js) to version 4, which includes security fixes. Chart text colors on filled areas may be chosen slightly differently to improve contrast.
+
+### BarChart
+
+#### Changed
+
+- We updated the underlying charting library (Plotly.js) to version 4, which includes security fixes. Chart text colors on filled areas may be chosen slightly differently to improve contrast.
+
+### BubbleChart
+
+#### Changed
+
+- We updated the underlying charting library (Plotly.js) to version 4, which includes security fixes. Chart text colors on filled areas may be chosen slightly differently to improve contrast.
+
+### ColumnChart
+
+#### Changed
+
+- We updated the underlying charting library (Plotly.js) to version 4, which includes security fixes. Chart text colors on filled areas may be chosen slightly differently to improve contrast.
+
+### CustomChart
+
+#### Changed
+
+- We updated the underlying charting library (Plotly.js) to version 4, which includes security fixes. Chart text colors on filled areas may be chosen slightly differently to improve contrast.
+
+- Breaking: Plotly.js 4 removed Mapbox map traces (use `scattermap`, `choroplethmap` and `densitymap` instead), changed how color strings are parsed (for example `rgb()` with fractional values and `hsv()` colors are no longer valid), removed the Chart Studio configuration options (`showLink`, `linkText`, `sendData`, `showSources`, `showEditInChartStudio`), and changed the defaults of `layout.geo.fitbounds` and `splom.axis.matches`. Review any custom Plotly JSON in your charts. See the [Plotly.js v4 migration guide](https://plotly.com/javascript/guides/migrating-to-v4/).
+
+### HeatMap
+
+#### Changed
+
+- We updated the underlying charting library (Plotly.js) to version 4, which includes security fixes. Chart text colors on filled areas may be chosen slightly differently to improve contrast.
+
+### LineChart
+
+#### Changed
+
+- We updated the underlying charting library (Plotly.js) to version 4, which includes security fixes. Chart text colors on filled areas may be chosen slightly differently to improve contrast.
+
+### PieChart
+
+#### Changed
+
+- We updated the underlying charting library (Plotly.js) to version 4, which includes security fixes. Chart text colors on filled areas may be chosen slightly differently to improve contrast.
+
+### TimeSeries
+
+#### Changed
+
+- We updated the underlying charting library (Plotly.js) to version 4, which includes security fixes. Chart text colors on filled areas may be chosen slightly differently to improve contrast.
+
 ## [6.4.0] Charts - 2026-10-28
 
 ### AreaChart

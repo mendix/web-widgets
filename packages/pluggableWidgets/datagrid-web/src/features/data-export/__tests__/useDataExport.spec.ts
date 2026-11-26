@@ -1,13 +1,13 @@
 jest.mock("mendix", () => ({}), { virtual: true });
 
 import { act, renderHook } from "@testing-library/react";
-import { actionValue, list } from "@mendix/widget-plugin-test-utils";
-import { TaskProgressService } from "@mendix/widget-plugin-grid/main";
-import { IColumnGroupStore } from "../../../helpers/state/ColumnGroupStore";
-import { useDataExport } from "../useDataExport";
-import { getExportRegistry } from "../registry";
-import type { AfterExportArgs, BeforeExportArgs } from "../ExportController";
 import Big from "big.js";
+import { TaskProgressService } from "@mendix/widget-plugin-grid/main";
+import { actionValue, list } from "@mendix/widget-plugin-test-utils";
+import type { IColumnGroupStore } from "../../columns/tokens";
+import type { AfterExportArgs, BeforeExportArgs } from "../ExportController";
+import { getExportRegistry } from "../registry";
+import { useDataExport } from "../useDataExport";
 
 function makeMockProgress(): TaskProgressService {
     return {

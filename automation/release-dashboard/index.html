@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Web Widgets Releases</title>
+        <link
+            rel="icon"
+            href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Ccircle cx=%228%22 cy=%228%22 r=%227%22 fill=%22%23006e93%22/%3E%3C/svg%3E"
+        />
+        <style>
+            /* Colors follow the Siemens iX classic theme tokens. */
+            :root {
+                color-scheme: light dark;
+                --bg: #eff0f1;
+                --surface: #ffffff;
+                --border: rgba(0, 20, 40, 0.2);
+                --text: rgba(0, 10, 20, 0.9);
+                --muted: rgba(0, 10, 20, 0.6);
+                --accent: #006e93;
+                --progress: #006e93;
+                --ready: #2c8500;
+                --warn: #947100;
+                --warn-bar: #ffbb00;
+                --new: #0041b2;
+                --idle: #66727e;
+                --chip-bg: #e2e4e6;
+                --hover: hsla(213, 7%, 68%, 0.2);
+            }
+            @media (prefers-color-scheme: dark) {
+                :root {
+                    --bg: #0f1619;
+                    --surface: #1b2428;
+                    --border: rgba(211, 236, 248, 0.25);
+                    --text: rgba(245, 252, 255, 0.9);
+                    --muted: rgba(229, 247, 255, 0.65);
+                    --accent: #00bde3;
+                    --progress: #00bde3;
+                    --ready: #44cc00;
+                    --warn: #ffbb00;
+                    --warn-bar: #ffbb00;
+                    --new: #357fff;
+                    --idle: #b6b8b9;
+                    --chip-bg: #283236;
+                    --hover: rgba(140, 161, 171, 0.2);
+                }
+            }
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+                background: var(--bg);
+                color: var(--text);
+                font:
+                    14px/1.5 "Segoe UI",
+                    Roboto,
+                    "Helvetica Neue",
+                    Arial,
+                    sans-serif;
+            }
+            a {
+                color: var(--accent);
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+            code {
+                font-family: ui-monospace, Menlo, Consolas, monospace;
+                font-size: 12px;
+            }
+            .page {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 24px 16px 64px;
+            }
+            header h1 {
+                margin: 0 0 4px;
+                font-size: 22px;
+                font-weight: 700;
+            }
+            .meta {
+                color: var(--muted);
+                font-size: 13px;
+            }
+            .summary {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 8px;
+                margin: 20px 0 12px;
+            }
+            .summary button {
+                text-align: left;
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-left: 4px solid var(--c);
+                border-radius: 4px;
+                padding: 10px 12px;
+                color: var(--text);
+                font: inherit;
+                cursor: pointer;
+            }
+            .summary button:hover {
+                background: linear-gradient(var(--hover), var(--hover)), var(--surface);
+            }
+            .summary button[aria-pressed="true"] {
+                outline: 2px solid var(--c);
+                outline-offset: -1px;
+            }
+            .summary strong {
+                display: block;
+                font-size: 22px;
+                line-height: 1.2;
+            }
+            .summary span {
+                color: var(--muted);
+                font-size: 12px;
+            }
+            .toolbar {
+                display: flex;
+                gap: 12px;
+                align-items: center;
+                flex-wrap: wrap;
+                margin-bottom: 16px;
+            }
+            .toolbar input[type="search"] {
+                flex: 1 1 240px;
+                padding: 8px 10px;
+                border: 1px solid var(--border);
+                border-radius: 4px;
+                background: var(--surface);
+                color: var(--text);
+                font: inherit;
+            }
+            .toolbar input[type="search"]:focus {
+                outline: 2px solid var(--accent);
+                outline-offset: -1px;
+            }
+            .toolbar label {
+                color: var(--muted);
+                font-size: 13px;
+                white-space: nowrap;
+            }
+            .alert {
+                border: 1px solid var(--warn-bar);
+                border-radius: 4px;
+                padding: 8px 12px;
+                margin-bottom: 16px;
+            }
+            section > h2 {
+                font-size: 15px;
+                margin: 28px 0 4px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            section > h2::before {
+                content: "";
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: var(--c);
+            }
+            section > p {
+                margin: 0 0 10px;
+                color: var(--muted);
+                font-size: 13px;
+            }
+            .card {
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: 4px;
+                margin-bottom: 8px;
+            }
+            .card > summary {
+                list-style: none;
+                cursor: pointer;
+                padding: 12px 14px;
+                display: flex;
+                gap: 12px;
+                align-items: baseline;
+                flex-wrap: wrap;
+            }
+            .card > summary:hover {
+                background: var(--hover);
+            }
+            .card > summary::-webkit-details-marker {
+                display: none;
+            }
+            .card > summary::before {
+                content: "▸";
+                color: var(--muted);
+                width: 10px;
+            }
+            .card[open] > summary::before {
+                content: "▾";
+            }
+            .name {
+                font-weight: 600;
+            }
+            .pkg {
+                color: var(--muted);
+            }
+            .badges {
+                margin-left: auto;
+                display: flex;
+                gap: 6px;
+                flex-wrap: wrap;
+            }
+            .chip {
+                background: var(--chip-bg);
+                border-radius: 999px;
+                padding: 1px 8px;
+                font-size: 12px;
+                color: var(--muted);
+                white-space: nowrap;
+            }
+            .chip.strong {
+                color: var(--c);
+                font-weight: 600;
+            }
+            .body {
+                padding: 0 14px 14px 36px;
+                display: grid;
+                gap: 14px;
+            }
+            .body h3 {
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: var(--muted);
+                margin: 0 0 6px;
+            }
+            .steps {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+            .steps li {
+                border: 1px solid var(--border);
+                border-radius: 4px;
+                padding: 4px 10px;
+                font-size: 13px;
+                color: var(--muted);
+                opacity: 0.6;
+            }
+            .steps li.done {
+                opacity: 1;
+                color: var(--ready);
+                border-color: var(--ready);
+            }
+            .warn {
+                color: var(--warn);
+            }
+            ul.logs {
+                margin: 0;
+                padding-left: 18px;
+            }
+            ul.logs li + li {
+                margin-top: 4px;
+            }
+            .logtype {
+                font-weight: 600;
+                font-size: 13px;
+                margin-top: 6px;
+            }
+            .sub {
+                font-weight: 600;
+                margin-top: 8px;
+            }
+            table.commits {
+                border-collapse: collapse;
+                width: 100%;
+                font-size: 13px;
+            }
+            table.commits td {
+                padding: 3px 8px 3px 0;
+                vertical-align: top;
+                border-top: 1px solid var(--border);
+            }
+            table.commits tr.quiet td {
+                color: var(--muted);
+            }
+            table.commits td:nth-child(-n + 2) {
+                white-space: nowrap;
+                width: 1%;
+            }
+            .hide-quiet tr.quiet {
+                display: none;
+            }
+            @media (max-width: 600px) {
+                .badges {
+                    margin-left: 0;
+                }
+                .body {
+                    padding-left: 14px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="page">
+            <header>
+                <h1>Web Widgets releases</h1>
+                <div class="meta" id="meta">Loading status…</div>
+            </header>
+            <div id="errors"></div>
+            <div class="summary" id="summary"></div>
+            <div class="toolbar">
+                <input type="search" id="search" placeholder="Filter by widget or module name" aria-label="Filter" />
+                <label><input type="checkbox" id="quiet" /> Show test, chore and docs commits</label>
+            </div>
+            <main id="groups"></main>
+        </div>
+        <script>
+            const STATES = [
+                {
+                    id: "in-progress",
+                    title: "Release in progress",
+                    hint: "A draft GitHub release exists. Merge the changelog PR, attach the OSS readme, then publish.",
+                    color: "--progress"
+                },
+                {
+                    id: "ready",
+                    title: "Ready to release",
+                    hint: "Unreleased changelog entries are on main.",
+                    color: "--ready"
+                },
+                {
+                    id: "needs-changelog",
+                    title: "Changes without changelog",
+                    hint: "Fixes, features or refactors merged since the last release with no unreleased changelog entry. Add one, or confirm it's internal.",
+                    color: "--warn-bar"
+                },
+                {
+                    id: "never-released",
+                    title: "Never released",
+                    hint: "No release tag yet. Check the Marketplace app number before the first release.",
+                    color: "--new"
+                },
+                {
+                    id: "up-to-date",
+                    title: "Up to date",
+                    hint: "Nothing user-facing since the last release.",
+                    color: "--idle"
+                }
+            ];
+            const QUIET_TYPES = new Set(["test", "tests", "chore", "ci", "docs", "style", "build", "e2e"]);
+            const DRAFT_STEPS = [
+                ["created", "Draft created"],
+                ["changelog-pr-open", "Changelog PR merged"],
+                ["awaiting-oss-readme", "OSS readme attached"],
+                ["ready-to-publish", "Published"]
+            ];
+
+            const esc = s =>
+                String(s ?? "").replace(
+                    /[&<>"']/g,
+                    c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]
+                );
+            const day = iso => (iso ? new Date(iso).toLocaleDateString(undefined, { dateStyle: "medium" }) : "");
+            const ago = iso => {
+                const days = Math.floor((Date.now() - new Date(iso)) / 864e5);
+                return days <= 0 ? "today" : days === 1 ? "1 day ago" : `${days} days ago`;
+            };
+            const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+
+            let status;
+            let filter = null;
+
+            function draftBlock(t) {
+                const d = t.draft;
+                if (!d) return "";
+                const doneCount = DRAFT_STEPS.findIndex(([id]) => id === d.stage);
+                const steps = DRAFT_STEPS.map(
+                    ([, label], i) =>
+                        `<li class="${i < doneCount ? "done" : ""}">${i < doneCount ? "✓ " : ""}${esc(label)}</li>`
+                ).join("");
+                const pr = d.changelogPr
+                    ? `<a href="${esc(d.changelogPr.url)}">changelog PR #${d.changelogPr.number}</a> (${esc(d.changelogPr.state)})`
+                    : "no changelog PR found";
+                const missing = [!d.hasMpk && "MPK", !d.hasOssReadme && "READMEOSS"].filter(Boolean);
+                const late = t.commitsAfterDraft.length
+                    ? `<p class="warn">${plural(t.commitsAfterDraft.length, "user-facing commit was", "user-facing commits were")} merged after this draft was cut and won't be in it.</p>`
+                    : "";
+                return `<div><h3>Draft release</h3>
+                    <p><a href="${esc(d.url)}">${esc(d.name)}</a> · created ${esc(day(d.createdAt))} (${esc(ago(d.createdAt))}) · ${pr}${
+                        missing.length ? ` · missing ${esc(missing.join(", "))}` : ""
+                    }</p><ul class="steps">${steps}</ul>${late}</div>`;
+            }
+
+            function changelogBlock(t) {
+                if (!t.unreleased.length) return "";
+                const sections = list =>
+                    list
+                        .map(
+                            s =>
+                                `<div class="logtype">${esc(s.type)}</div><ul class="logs">${s.logs
+                                    .map(l => `<li>${esc(l)}</li>`)
+                                    .join("")}</ul>`
+                        )
+                        .join("");
+                return `<div><h3>Unreleased changelog${t.draft ? " on main" : ""}</h3>${t.unreleased
+                    .map(
+                        g =>
+                            (g.name ? `<div class="sub">${esc(g.name.replace("@mendix/", ""))}</div>` : "") +
+                            sections(g.sections)
+                    )
+                    .join("")}</div>`;
+            }
+
+            function commitsBlock(t, repo) {
+                if (!t.commits.length) return "";
+                const rows = t.commits
+                    .map(c => {
+                        const link = c.pr
+                            ? `<a href="https://github.com/${repo}/pull/${c.pr}">#${c.pr}</a>`
+                            : `<a href="https://github.com/${repo}/commit/${esc(c.sha)}"><code>${esc(c.sha.slice(0, 7))}</code></a>`;
+                        return `<tr class="${QUIET_TYPES.has(c.type) ? "quiet" : ""}"><td>${esc(day(c.date))}</td><td>${link}</td><td>${esc(c.subject)}</td></tr>`;
+                    })
+                    .join("");
+                return `<div><h3>Commits since last version bump</h3><table class="commits">${rows}</table></div>`;
+            }
+
+            function card(t, state, repo) {
+                const userFacing = t.commits.filter(c => !QUIET_TYPES.has(c.type)).length;
+                const entries = t.unreleased.reduce((n, g) => n + g.sections.reduce((m, s) => m + s.logs.length, 0), 0);
+                const badges = [
+                    t.draft && `<span class="chip strong">${esc(t.draft.tag.replace(/^.*-v/, "v"))} draft</span>`,
+                    entries &&
+                        `<span class="chip strong">${plural(entries, "changelog entry", "changelog entries")}</span>`,
+                    userFacing && `<span class="chip">${plural(userFacing, "commit", "commits")}</span>`,
+                    `<span class="chip">${t.lastRelease ? `released ${esc(day(t.lastRelease.date))}` : "no release"}</span>`
+                ]
+                    .filter(Boolean)
+                    .join("");
+                const wraps = t.wraps.length
+                    ? `<div><h3>Bundles</h3>${t.wraps.map(w => `<span class="chip">${esc(w.replace("@mendix/", ""))}</span>`).join(" ")}</div>`
+                    : "";
+                const search = `${t.appName} ${t.name} ${t.wraps.join(" ")}`.toLowerCase();
+                return `<details class="card" style="--c: var(${state.color})" data-search="${esc(search)}">
+                    <summary><span class="name">${esc(t.appName)}</span><span class="pkg"><code>${esc(t.name)}</code> ${esc(
+                        t.version
+                    )}</span><span class="badges">${badges}</span></summary>
+                    <div class="body">
+                        <div class="meta"><a href="https://github.com/${repo}/tree/main/${esc(t.path)}">${esc(t.path)}</a>${
+                            t.lastRelease
+                                ? ` · last release <a href="https://github.com/${repo}/releases/tag/${esc(t.lastRelease.tag)}">${esc(t.lastRelease.tag)}</a>`
+                                : ""
+                        } · <a href="https://marketplace.mendix.com/link/component/${t.appNumber}">Marketplace</a></div>
+                        ${draftBlock(t)}${changelogBlock(t)}${commitsBlock(t, repo)}${wraps}
+                    </div></details>`;
+            }
+
+            function renderGroups() {
+                const repo = status.repo;
+                const html = STATES.map(s => {
+                    const items = status.targets.filter(t => t.state === s.id);
+                    if (!items.length) return "";
+                    return `<section style="--c: var(${s.color})" data-state="${s.id}"><h2>${esc(s.title)} (${items.length})</h2><p>${esc(
+                        s.hint
+                    )}</p>${items.map(t => card(t, s, repo)).join("")}</section>`;
+                }).join("");
+                const unpublished = status.unpublished.length
+                    ? `<section style="--c: var(--idle)" data-state="unpublished"><h2>Not released on its own (${status.unpublished.length})</h2><p>No Marketplace app number and no package bundles it.</p>${status.unpublished
+                          .map(u => `<span class="chip"><code>${esc(u.name)}</code> ${esc(u.version)}</span>`)
+                          .join(" ")}</section>`
+                    : "";
+                document.getElementById("groups").innerHTML = html + unpublished;
+            }
+
+            function renderSummary() {
+                document.getElementById("summary").innerHTML = STATES.map(s => {
+                    const n = status.targets.filter(t => t.state === s.id).length;
+                    return `<button type="button" style="--c: var(${s.color})" data-state="${s.id}" aria-pressed="false"><strong>${n}</strong><span>${esc(
+                        s.title
+                    )}</span></button>`;
+                }).join("");
+            }
+
+            function applyFilters() {
+                const query = document.getElementById("search").value.trim().toLowerCase();
+                document.querySelectorAll("#summary button").forEach(btn => {
+                    btn.setAttribute("aria-pressed", String(btn.dataset.state === filter));
+                });
+                document.querySelectorAll("#groups section").forEach(section => {
+                    const cards = [...section.querySelectorAll(".card")];
+                    cards.forEach(c => (c.hidden = query !== "" && !c.dataset.search.includes(query)));
+                    const stateMatch = !filter || filter === section.dataset.state;
+                    const anyVisible = cards.length === 0 ? query === "" : cards.some(c => !c.hidden);
+                    section.hidden = !stateMatch || !anyVisible;
+                });
+                document
+                    .getElementById("groups")
+                    .classList.toggle("hide-quiet", !document.getElementById("quiet").checked);
+            }
+
+            document.getElementById("summary").addEventListener("click", e => {
+                const btn = e.target.closest("button[data-state]");
+                if (!btn) return;
+                filter = filter === btn.dataset.state ? null : btn.dataset.state;
+                applyFilters();
+            });
+            document.getElementById("search").addEventListener("input", applyFilters);
+            document.getElementById("quiet").addEventListener("change", applyFilters);
+
+            fetch("status.json", { cache: "no-store" })
+                .then(r => {
+                    if (!r.ok) throw new Error(`status.json: HTTP ${r.status}`);
+                    return r.json();
+                })
+                .then(data => {
+                    status = data;
+                    document.getElementById("meta").innerHTML =
+                        `Updated ${esc(new Date(data.generatedAt).toLocaleString())} from <a href="https://github.com/${data.repo}/commit/${esc(
+                            data.head.sha
+                        )}"><code>${esc(data.head.sha.slice(0, 7))}</code></a> ${esc(data.head.subject)}`;
+                    document.getElementById("errors").innerHTML = data.errors
+                        .map(e => `<div class="alert">${esc(e)}</div>`)
+                        .join("");
+                    renderSummary();
+                    renderGroups();
+                    applyFilters();
+                })
+                .catch(err => {
+                    document.getElementById("meta").textContent = `Could not load status: ${err.message}`;
+                });
+        </script>
+    </body>
+</html>

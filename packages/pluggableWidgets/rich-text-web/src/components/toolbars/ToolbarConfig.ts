@@ -372,7 +372,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
                 })),
                 getCurrentValue: editor => {
                     const { fontSize } = editor.getAttributes("textStyle");
-                    return fontSize || "14px";
+                    return fontSize || "";
                 }
             },
             {

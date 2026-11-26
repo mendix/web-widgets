@@ -241,6 +241,14 @@ describe("computeMarkerLength", () => {
         expect(lengthOf(`<ol type="i">${items(38)}</ol>`)).toBe(7); // xxxviii
     });
 
+    it("uses the longest roman marker, which is not always the last one", () => {
+        // viii is wider than the last item's ix.
+        expect(lengthOf(`<ol type="i">${items(9)}</ol>`)).toBe(4);
+        // xcix is wider than the last item's c.
+        expect(lengthOf(`<ol type="i" start="99">${items(2)}</ol>`)).toBe(4);
+        expect(lengthOf(`<ol style="list-style-type: lower-roman" start="99">${items(2)}</ol>`)).toBe(4);
+    });
+
     it("ignores nested items, which belong to their own list", () => {
         expect(lengthOf(`<ol><li><p>a</p><ol>${items(20)}</ol></li></ol>`)).toBe(1);
     });
@@ -289,9 +297,19 @@ describe("marker format serializers", () => {
 });
 
 describe("maxMarkerSizeToAttrs", () => {
-    it("emits nothing when no item has an enlarged marker", () => {
-        expect(maxMarkerSizeToAttrs(null, "inline", 3)).toEqual({});
-        expect(maxMarkerSizeToAttrs(null, "class", 3)).toEqual({});
+    it("emits nothing when no item has an enlarged marker and the counter fits the default gutter", () => {
+        expect(maxMarkerSizeToAttrs(null, "inline")).toEqual({});
+        expect(maxMarkerSizeToAttrs(null, "class")).toEqual({});
+        expect(maxMarkerSizeToAttrs(null, "inline", 2)).toEqual({});
+        expect(maxMarkerSizeToAttrs(null, "class", 2)).toEqual({});
+    });
+
+    it("emits only the character count when the counter is too long for the default gutter", () => {
+        expect(maxMarkerSizeToAttrs(null, "inline", 3)).toEqual({ style: "--rt-marker-chars: 3" });
+        expect(maxMarkerSizeToAttrs(null, "class", 3)).toEqual({
+            "data-marker-chars": "3",
+            class: "has-marker-chars"
+        });
     });
 
     it("omits the character count at 1, keeping the markup as it was before this feature", () => {

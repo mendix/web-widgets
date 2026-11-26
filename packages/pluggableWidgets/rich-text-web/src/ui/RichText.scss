@@ -191,12 +191,19 @@ $rte-warning-text: #8f620b;
                 font-family: var(--rt-marker-font-family, inherit);
             }
 
+            // `--rt-marker-chars` describes one list's own counters. Reset it on the items so a
+            // nested list does not inherit its parent's count, for example a nested `a.` list
+            // under a list that reaches `100.`.
+            li {
+                --rt-marker-chars: initial;
+            }
+
             // Ordered list auto-cycling (6 levels = 2 full cycles)
             ol {
                 // An enlarged marker grows leftward out of this padding, so the gutter has
                 // to grow with it. `--rt-marker-max-size` is the largest marker size among
-                // the list's direct items; when absent, calc() is 0px and this is exactly
-                // the previous `1.5em`.
+                // the list's direct items; when absent, the list's own font size is used,
+                // which with one character gives 1.1em, so the `1.5em` floor applies.
                 //
                 // `--rt-marker-chars` is how many characters the longest counter takes, so a
                 // hundred-item list reserves room for `100.` rather than for `1.`. The
@@ -205,7 +212,7 @@ $rte-warning-text: #8f620b;
                 // marker at every length from 1 to 4 characters at the 98px maximum size.
                 padding-left: max(
                     1.5em,
-                    calc(var(--rt-marker-max-size, 0px) * (0.6 * var(--rt-marker-chars, 1) + 0.5))
+                    calc(var(--rt-marker-max-size, 1em) * (0.6 * var(--rt-marker-chars, 1) + 0.5))
                 );
                 margin: 0.5em 0;
                 list-style-type: decimal;
@@ -235,7 +242,7 @@ $rte-warning-text: #8f620b;
             ul {
                 padding-left: max(
                     1.5em,
-                    calc(var(--rt-marker-max-size, 0px) * (0.6 * var(--rt-marker-chars, 1) + 0.5))
+                    calc(var(--rt-marker-max-size, 1em) * (0.6 * var(--rt-marker-chars, 1) + 0.5))
                 );
                 margin: 0.5em 0;
                 list-style-type: disc;

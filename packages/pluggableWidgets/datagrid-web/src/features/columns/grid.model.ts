@@ -1,0 +1,56 @@
+import { computed } from "mobx";
+import { CSSProperties } from "react";
+import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
+import { ColumnGroupStore } from "./ColumnGroupStore";
+import { GridColumn } from "./GridColumn";
+import { DatagridConfig } from "../core/configs/Datagrid.config";
+import type { GridSizeStore } from "../pagination/tokens";
+
+export function gridStyleAtom(
+    columns: ColumnGroupStore,
+    config: DatagridConfig,
+    gridSizeStore: GridSizeStore
+): ComputedAtom<CSSProperties> {
+    return computed(
+        () =>
+            ({
+                "--widgets-grid-template-columns": templateColumns(columns.visibleColumns, {
+                    checkboxColumn: config.checkboxColumnEnabled,
+                    selectorColumn: config.selectorColumnEnabled
+                }),
+                "--widgets-grid-table-height": asPx(gridSizeStore.gridContainerHeight)
+            }) as CSSProperties
+    );
+}
+
+function asPx(v: number | undefined): string | undefined {
+    if (v === undefined) {
+        return undefined;
+    }
+
+    return `${v}px`;
+}
+
+function templateColumns(
+    columns: GridColumn[],
+    optional: {
+        checkboxColumn: boolean;
+        selectorColumn: boolean;
+    }
+): string {
+    const columnSizes = columns.map(c => c.getCssWidth());
+
+    const sizes: string[] = [];
+
+    if (optional.checkboxColumn) {
+        sizes.push("48px");
+    }
+
+    sizes.push(...columnSizes);
+
+    if (optional.selectorColumn) {
+        sizes.push("54px");
+    }
+
+    return sizes.join(" ");
+}

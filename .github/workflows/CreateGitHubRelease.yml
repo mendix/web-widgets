@@ -28,8 +28,7 @@ jobs:
                   cache: "pnpm"
             - name: Search for package in workspace
               run: >
-                  if [[ -z "$(pnpm ls --json --filter=$PACKAGE)" ]];
-                  then
+                  if [[ -z "$(pnpm ls --json --filter=$PACKAGE)" ]]; then
                     echo "::error::Package $PACKAGE not found in workspace.";
                     exit 1;
                   fi
@@ -42,3 +41,9 @@ jobs:
                   GH_EMAIL: ${{ secrets.GH_EMAIL }}
                   GH_NAME: ${{ secrets.GH_NAME }}
                   GH_PAT: ${{ secrets.GH_PAT }}
+            - name: Merge changelogs PR
+              run: |
+                  VERSION=$(pnpm --silent --filter=$PACKAGE exec node -p 'require("./package.json").version')
+                  pnpm run merge-changelogs-pr "${PACKAGE#@mendix/}-v${VERSION}"
+              env:
+                  GH_PAT: ${{ secrets.GH_PAT }} # needs to act as uicontent user

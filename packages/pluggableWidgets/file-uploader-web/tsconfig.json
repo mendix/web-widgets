@@ -24,7 +24,8 @@
         "useUnknownInCatchVariables": false,
         "exactOptionalPropertyTypes": false,
         "paths": {
-            "react-hot-loader/root": ["./hot-typescript.ts"]
+            "react-hot-loader/root": ["./hot-typescript.ts"],
+            "file-selector/mime": ["./node_modules/file-selector/dist/mime.d.ts"]
         }
     }
 }

@@ -1,10 +1,19 @@
 import classNames from "classnames";
+import { fromEvent } from "file-selector";
+import { COMMON_MIME_TYPES } from "file-selector/mime";
 import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
-import { FileRejection, useDropzone } from "react-dropzone";
+import { DropEvent, FileRejection, useDropzone } from "react-dropzone";
 import { TranslationsStore } from "../stores/TranslationsStore";
 import { MimeCheckFormat } from "../utils/parseAllowedFormats";
 import { useTranslationsStore } from "../utils/useTranslationsStore";
+
+// react-dropzone 18+ only guesses a type from a small built-in table when the browser
+// gives a file no MIME type. Pass the full table so files like .log, .yaml, .flac or .mkv
+// still match their format.
+function getFilesFromEvent(event: DropEvent | FileSystemFileHandle[]): Promise<Array<File | DataTransferItem>> {
+    return fromEvent(event, { mimeTypes: COMMON_MIME_TYPES });
+}
 
 interface DropzoneProps {
     warningMessage?: string;
@@ -21,6 +30,7 @@ export const Dropzone = observer(
             onDrop,
             maxSize: maxSize || undefined,
             accept: acceptFileTypes,
+            getFilesFromEvent,
             disabled
         });
 

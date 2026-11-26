@@ -9,8 +9,21 @@
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
     },
+    "scripts": {
+        "test": "node --test \"__tests__/*.spec.mjs\""
+    },
+    "dependencies": {
+        "@rollup/plugin-commonjs": "^29.0.3",
+        "@rollup/plugin-node-resolve": "^15.3.1",
+        "@rollup/plugin-replace": "^6.0.2",
+        "@rollup/plugin-terser": "^0.4.4",
+        "mobx": "6.12.3",
+        "mobx-react-lite": "4.0.7"
+    },
     "devDependencies": {
         "@mendix/pluggable-widgets-tools": "*",
-        "rollup-plugin-copy": "^3.5.0"
+        "rollup": "^4.62.3",
+        "rollup-plugin-copy": "^3.5.0",
+        "rollup-plugin-license": "^3.7.1"
     }
 }

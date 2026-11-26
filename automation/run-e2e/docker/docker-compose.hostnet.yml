@@ -1,0 +1,10 @@
+# Opt-in override (E2E_HOST_NETWORK=1): run mxruntime on the host network.
+#
+# For machines where the host can't reach containers on Docker bridge
+# networks (e.g. some Docker-in-Docker sandboxes). The runtime then listens
+# directly on host ports 8080 (app) and 8090 (admin), so both must be free.
+
+services:
+    mxruntime:
+        network_mode: host
+        ports: !reset []

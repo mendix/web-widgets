@@ -1,7 +1,7 @@
 {
     "name": "@mendix/bar-chart-web",
     "widgetName": "BarChart",
-    "version": "6.4.0",
+    "version": "7.0.0",
     "description": "Shows difference between the data points for one or more categories.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -41,7 +41,7 @@
         "@mendix/shared-charts": "workspace:*",
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "classnames": "^2.5.1",
-        "plotly.js-dist-min": "^3.0.0"
+        "plotly.js-dist-min": "^4.2.0"
     },
     "devDependencies": {
         "@happy-dom/jest-environment": "^19.0.2",

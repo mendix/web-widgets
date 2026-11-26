@@ -17,6 +17,8 @@
         "rui-package-info": "bin/rui-package-info.ts",
         "rui-prepare-release": "bin/rui-prepare-release.ts",
         "rui-publish-marketplace": "bin/rui-publish-marketplace.ts",
+        "rui-release-notes-html": "bin/rui-release-notes-html.ts",
+        "rui-release-status": "bin/rui-release-status.ts",
         "rui-update-changelog-module": "bin/rui-update-changelog-module.ts",
         "rui-update-changelog-widget": "bin/rui-update-changelog-widget.ts",
         "rui-upload-readme-oss": "bin/rui-upload-readme-oss.ts",
@@ -45,12 +47,13 @@
         "compile:parser:widget": "peggy --format es -o ./src/changelog-parser/parser/widget/widget.mjs ./src/changelog-parser/parser/widget/widget.pegjs",
         "format": "prettier --write .",
         "include-oss-in-artifact": "node bin/rui-include-oss-in-artifact.ts",
-        "lint": "eslint . package.json",
+        "lint": "tsc && eslint . package.json",
         "merge-changelogs-pr": "node bin/rui-merge-changelogs-pr.ts",
         "oss-clearance": "node bin/rui-oss-clearance.ts",
-        "prepare": "tsc",
         "prepare-release": "node bin/rui-prepare-release.ts",
-        "start": "tsc --watch"
+        "release-notes-html": "node bin/rui-release-notes-html.ts",
+        "start": "tsc --watch",
+        "test": "node --test \"src/**/*.spec.ts\""
     },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",
@@ -63,10 +66,11 @@
         "execa": "^5.1.1",
         "fast-xml-parser": "^4.1.3",
         "glob": "^11.1.0",
+        "markdown-it": "^15.0.3",
         "node-fetch": "^2.7.0",
         "ora": "^5.4.1",
         "peggy": "5.1.0",
-        "shelljs": "^0.8.5",
+        "typescript": "*",
         "zod": "^3.25.76"
     }
 }

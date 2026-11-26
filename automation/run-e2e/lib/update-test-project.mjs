@@ -1,14 +1,11 @@
 import crossZip from "cross-zip";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { createWriteStream } from "node:fs";
-import { join, resolve } from "node:path";
-import sh from "shelljs";
+import { cpSync, createWriteStream, existsSync, globSync, mkdirSync, rmSync } from "node:fs";
+import { basename, join, resolve } from "node:path";
 import * as config from "./config.mjs";
 import { fetchGithubRestAPI, fetchWithReport, packageMeta, streamPipe, usetmp } from "./utils.mjs";
 import { atlasCoreReleaseUrl } from "./config.mjs";
-
-const { cp, rm, mkdir, test } = sh;
 
 async function getReleaseByTag(tag) {
     const url = `${atlasCoreReleaseUrl}/tags/${tag}`;
@@ -26,7 +23,7 @@ async function downloadAndExtract(url, downloadPath, extractPath) {
     } catch (e) {
         throw new Error(`Unable to download and extract from ${url}`, { cause: e });
     } finally {
-        rm("-f", downloadPath);
+        rmSync(downloadPath, { force: true });
     }
 }
 
@@ -35,7 +32,9 @@ async function updateAtlasThemeSource() {
     const tag = `atlas-core-v${version}`;
     console.log(`Copying Atlas themesource files from Atlas Core release ${tag}`);
 
-    rm("-rf", config.atlasDirsToRemove);
+    for (const dir of config.atlasDirsToRemove) {
+        rmSync(dir, { recursive: true, force: true });
+    }
 
     const release = await getReleaseByTag(tag);
     if (!release.assets || release.assets.length === 0) {
@@ -48,24 +47,24 @@ async function updateAtlasThemeSource() {
     await downloadAndExtract(browser_download_url, downloadedPath, outPath);
 
     const themeSourcePath = join(outPath, "themesource");
-    if (!test("-d", themeSourcePath)) {
+    if (!existsSync(themeSourcePath)) {
         console.log(`Directory not found: ${themeSourcePath}. Creating it.`);
-        mkdir("-p", themeSourcePath);
+        mkdirSync(themeSourcePath, { recursive: true });
     }
 
-    cp("-r", themeSourcePath, config.testProjectDir);
+    cpSync(themeSourcePath, join(config.testProjectDir, "themesource"), { recursive: true });
 
     // Fix file permissions to ensure Docker can write to theme files
     // The Atlas theme files are copied with read-only permissions
     // but mxbuild needs to write to some generated files during build
-    sh.exec(`chmod -R +w "${config.testProjectDir}/themesource"`, { silent: true });
+    spawnSync("chmod", ["-R", "+w", join(config.testProjectDir, "themesource")]);
 }
 
 async function updateAtlasTheme() {
     const tag = packageMeta.testProject?.atlasThemeTag ?? config.defaultAtlasThemeTag;
     console.log(`Copying Atlas theme files from Atlas UI theme release ${tag}`);
 
-    rm("-rf", "tests/testProject/theme");
+    rmSync("tests/testProject/theme", { recursive: true, force: true });
 
     // Fetch the specific release by tag from GitHub API
     const release = await getReleaseByTag(tag);
@@ -79,16 +78,14 @@ async function updateAtlasTheme() {
     await downloadAndExtract(browser_download_url, downloadedPath, outPath);
 
     const themePath = join(outPath, "theme");
-    if (!test("-d", themePath)) {
+    if (!existsSync(themePath)) {
         console.log(`Directory not found: ${themePath}. Creating it.`);
-        mkdir("-p", themePath);
+        mkdirSync(themePath, { recursive: true });
     }
-    const webPath = join(outPath, "web");
-    const nativePath = join(outPath, "native");
-    cp("-r", webPath, themePath);
-    cp("-r", nativePath, themePath);
+    cpSync(join(outPath, "web"), join(themePath, "web"), { recursive: true });
+    cpSync(join(outPath, "native"), join(themePath, "native"), { recursive: true });
 
-    cp("-r", themePath, config.testProjectDir);
+    cpSync(themePath, join(config.testProjectDir, "theme"), { recursive: true });
 }
 
 async function runReleaseScript() {
@@ -113,10 +110,15 @@ async function runReleaseScript() {
     spawnSync(command, args, { stdio: "inherit", shell: true });
 
     console.log("Copying widget mpk.");
-    const mpkPath = `dist/${version}/*.mpk`;
+    const mpkPaths = globSync(`dist/${version}/*.mpk`);
+    if (mpkPaths.length === 0) {
+        throw new Error(`No mpk found in dist/${version}`);
+    }
     const outDir = join(config.testProjectDir, "widgets");
-    mkdir("-p", outDir);
-    cp("-f", mpkPath, outDir);
+    mkdirSync(outDir, { recursive: true });
+    for (const mpkPath of mpkPaths) {
+        cpSync(mpkPath, join(outDir, basename(mpkPath)));
+    }
 }
 
 async function runUpdateProjectScript() {

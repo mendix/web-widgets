@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added the "No options available" accessibility status message. Screen readers announce it when no options match and "No options text" is empty.
+
 ### Changed
 
 - We hid the "Placeholder text" property when the combobox type is set to Boolean, since boolean attributes can never be empty and the placeholder has no effect.
@@ -13,6 +17,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - We fixed an issue where pages with many combo boxes became slow to scroll.
+
+- We improved the screen reader experience of the combobox. The arrow icon is no longer announced as an image, and an empty combobox no longer exposes an empty option to screen reader users.
+
+- We fixed an issue where a "No options text" made only of spaces showed an empty option that screen readers could still reach.
+
+- We fixed an issue where the clear and remove value buttons had no accessible name when their aria labels were empty. They now fall back to "Clear selection" and "Remove value".
 
 ## [2.10.0] - 2026-09-21
 

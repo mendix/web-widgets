@@ -2,6 +2,9 @@ import { mergeAttributes } from "@tiptap/core";
 import { OrderedList } from "@tiptap/extension-ordered-list";
 import { computeMarkerLength, computeMaxMarkerSize, maxMarkerSizeToAttrs } from "../utils/markerFormat";
 
+/** Largest start number the toolbar accepts. Higher values widen the marker gutter past usable widths. */
+export const MAX_ORDERED_LIST_START = 9999;
+
 export interface OrderedListStyledOptions {
     styleDataFormat: "inline" | "class";
 }
@@ -10,6 +13,7 @@ declare module "@tiptap/core" {
     interface Commands<ReturnType> {
         orderedListStyled: {
             setOrderedListStyle: (styleType: "lower-alpha" | "lower-roman" | null) => ReturnType;
+            setOrderedListStart: (start: number | null) => ReturnType;
         };
     }
 }
@@ -91,6 +95,18 @@ export const OrderedListStyled = OrderedList.extend<OrderedListStyledOptions>({
                     }
 
                     return commands.updateAttributes("orderedList", { listStyleType: styleType });
+                },
+            // Targets the innermost ordered list at the selection. A start of 1 is stored as the
+            // parent's default so `renderHTML` omits the attribute, matching a list that never had
+            // a start number set.
+            setOrderedListStart:
+                (start: number | null) =>
+                ({ commands, editor }) => {
+                    if (!editor.isActive("orderedList")) {
+                        return false;
+                    }
+
+                    return commands.updateAttributes("orderedList", { start: start && start > 1 ? start : 1 });
                 }
         };
     }

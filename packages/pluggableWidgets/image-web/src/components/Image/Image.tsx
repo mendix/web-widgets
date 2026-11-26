@@ -1,4 +1,5 @@
-import { cloneElement, CSSProperties, FunctionComponent, ReactNode, useCallback } from "react";
+import { CSSProperties, FunctionComponent, ReactNode, useCallback, useState } from "react";
+import { ImageSize, LightboxImage } from "./LightboxImage";
 import { ImageContentProps, ImageUi } from "./ui";
 import { DisplayAsEnum, HeightUnitEnum, OnClickTypeEnum, WidthUnitEnum } from "../../../typings/ImageProps";
 import { useLightboxState } from "../../utils/lightboxState";
@@ -61,6 +62,7 @@ export const Image: FunctionComponent<ImageProps> = ({
     backgroundImageContent
 }) => {
     const { lightboxIsOpen, openLightbox, closeLightbox } = useLightboxState();
+    const [sizeOnPage, setSizeOnPage] = useState<ImageSize>();
 
     const onCloseLightbox = useCallback<LightboxProps["onClose"]>(
         event => {
@@ -76,6 +78,8 @@ export const Image: FunctionComponent<ImageProps> = ({
             if (onClickType === "action") {
                 onClick?.();
             } else if (onClickType === "enlarge") {
+                const { width, height } = event.currentTarget.getBoundingClientRect();
+                setSizeOnPage({ width, height });
                 openLightbox();
             }
         },
@@ -135,7 +139,17 @@ export const Image: FunctionComponent<ImageProps> = ({
             {content}
             {!previewMode && lightboxIsOpen && (
                 <Lightbox isOpen={lightboxIsOpen} onClose={onCloseLightbox}>
-                    {type === "image" ? cloneElement(content, { image, onClick: undefined }) : content}
+                    {type === "image" ? (
+                        <LightboxImage
+                            className={classNames({ "img-thumbnail": displayAs === "thumbnail" })}
+                            image={image}
+                            style={style}
+                            altText={altText}
+                            minSize={sizeOnPage}
+                        />
+                    ) : (
+                        content
+                    )}
                 </Lightbox>
             )}
         </ImageUi.Wrapper>

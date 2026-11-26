@@ -333,6 +333,42 @@ test.describe("RichText", () => {
         });
     }
 
+    test("setting a numbered list's start number renumbers it and widens the gutter", async ({ page }) => {
+        await page.goto("/p/advanced");
+        await waitForMendixApp(page);
+
+        const widget = page.locator(".mx-name-richText1");
+        const editor = widget.locator(".tiptap");
+        await editor.scrollIntoViewIfNeeded();
+        await expect(editor).toBeVisible();
+
+        await clearEditor(page, editor);
+
+        await widget.locator('.tiptap-toolbar button[title="Numbered List"]').click();
+        await page.keyboard.type("one");
+        await page.keyboard.press("Enter");
+        await page.keyboard.type("two");
+        await page.keyboard.press("Enter");
+        await page.keyboard.type("three");
+        await expect(editor.locator("ol li")).toHaveCount(3);
+
+        await widget.locator('.tiptap-toolbar button[title="Numbered List - Style options"]').click();
+        const startInput = widget.getByRole("spinbutton", { name: "Start at" });
+        await expect(startInput).toHaveValue("1");
+        await startInput.fill("98");
+        await startInput.press("Enter");
+
+        await expect(startInput).toBeHidden();
+        await expect(editor.locator("ol")).toHaveAttribute("start", "98");
+
+        // The last item renders `100.`, which does not fit the default 1.5em gutter.
+        const { gutter, fontSize } = await editor.locator("ol").evaluate(list => ({
+            gutter: parseFloat(getComputedStyle(list).paddingLeft),
+            fontSize: parseFloat(getComputedStyle(list).fontSize)
+        }));
+        expect(gutter).toBeGreaterThan(1.5 * fontSize);
+    });
+
     test("inserting a YouTube URL renders a framable embed URL", async ({ page }) => {
         await page.goto("/p/advanced");
         await waitForMendixApp(page);

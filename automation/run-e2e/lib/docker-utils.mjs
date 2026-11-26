@@ -1,11 +1,9 @@
-import { execSync, spawn } from "node:child_process";
+import { execSync, spawn, spawnSync } from "node:child_process";
+import { existsSync, readFileSync } from "node:fs";
 import p from "node:path";
 import { fileURLToPath } from "node:url";
 import fetch from "node-fetch";
 import c from "ansi-colors";
-import sh from "shelljs";
-
-const { cat } = sh;
 
 export function getFullImageName(name, mendixVersion) {
     return `${name}:${mendixVersion}`;
@@ -46,6 +44,42 @@ export async function prepareImage(name, mendixVersion) {
     return image;
 }
 
+/**
+ * mxbuild/mxruntime containers run as root and write into the bind-mounted
+ * package dir (tests/testProject, results). On Linux those files end up
+ * owned by root on the host, so the next run can't clean them up.
+ * Hand them back to the current host user by running chown inside a container.
+ */
+export function restoreWorkspaceOwnership(image, paths = ["tests", "results"]) {
+    if (typeof process.getuid !== "function" || process.getuid() === 0) {
+        return;
+    }
+
+    const existing = paths.filter(path => existsSync(p.join(process.cwd(), path)));
+    if (existing.length === 0) {
+        return;
+    }
+
+    const owner = `${process.getuid()}:${process.getgid()}`;
+    const args = [
+        "run",
+        "--rm",
+        "--volume",
+        `${process.cwd()}:/source`,
+        "--entrypoint",
+        "chown",
+        image,
+        "-R",
+        owner,
+        ...existing.map(path => `/source/${path}`)
+    ];
+
+    const result = spawnSync("docker", args, { stdio: "inherit" });
+    if (result.status !== 0) {
+        console.warn(c.yellow(`Could not restore ownership of ${existing.join(", ")} to ${owner}.`));
+    }
+}
+
 export function createDeploymentBundle(mxbuildImage, projectFile) {
     console.log(`Start building deployment bundle.`);
 
@@ -75,7 +109,7 @@ export function createDeploymentBundle(mxbuildImage, projectFile) {
     console.log("Success. Bundle created and all the widgets are updated.");
 }
 
-export async function startRuntime(mxruntimeImage, mendixVersion, ip, freePort) {
+export async function startRuntime(mxruntimeImage, mendixVersion, ip, freePort, { hostNetwork = false } = {}) {
     console.log(`Start mxruntime image`);
 
     const dockerDir = fileURLToPath(new URL("../docker", import.meta.url));
@@ -86,7 +120,8 @@ export async function startRuntime(mxruntimeImage, mendixVersion, ip, freePort) 
         `run`,
         `--tty`,
         [`--workdir`, `/source`],
-        [`--publish`, `${freePort}:8080`],
+        // In host-network mode the runtime listens on the host's 8080 directly.
+        hostNetwork ? [`--network`, `host`] : [`--publish`, `${freePort}:8080`],
         [`--env`, `MENDIX_VERSION=${mendixVersion}`],
         [`--entrypoint`, `/bin/bash`],
         [`--volume`, `${process.cwd()}:/source`],
@@ -107,6 +142,8 @@ export async function startRuntime(mxruntimeImage, mendixVersion, ip, freePort) 
         if (runtimeContainerId) {
             break;
         }
+        // Give `docker run` time to create the container (up to ~30s in total).
+        await new Promise(resolve => setTimeout(resolve, 300));
     }
 
     if (runtimeContainerId === "") {
@@ -129,7 +166,8 @@ export async function startRuntime(mxruntimeImage, mendixVersion, ip, freePort) 
     if (attempts === 0) {
         console.log("Runtime didn't start");
         console.log("Print runtime.log...");
-        console.log(cat("results/runtime.log").toString());
+        const runtimeLog = "results/runtime.log";
+        console.log(existsSync(runtimeLog) ? readFileSync(runtimeLog, "utf-8") : `${runtimeLog} not found`);
         throw new Error("Runtime didn't start in time, exiting now...");
     }
 

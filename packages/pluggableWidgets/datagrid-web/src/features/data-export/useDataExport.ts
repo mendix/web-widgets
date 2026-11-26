@@ -4,7 +4,7 @@ import { TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { ExportController } from "./ExportController";
 import { getExportRegistry } from "./registry";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { IColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
+import type { IColumnGroupStore } from "../columns/tokens";
 
 type ResourceEntry = {
     key: string;

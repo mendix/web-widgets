@@ -42,6 +42,7 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
         customFonts,
         toolbarLocation,
         readOnlyStyle,
+        spellCheck,
         onFocus,
         onBlur,
         onLoad,
@@ -143,6 +144,7 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
                         helpButton={helpButton}
                         advancedConfig={advancedConfig}
                         customFonts={customFonts}
+                        spellCheck={spellCheck}
                         toolbarLocation={
                             stringAttribute.readOnly && readOnlyStyle !== "text" ? "hide" : toolbarLocation
                         }
