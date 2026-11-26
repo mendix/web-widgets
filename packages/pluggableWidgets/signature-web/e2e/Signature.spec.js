@@ -56,7 +56,8 @@ test.describe("signature-web", () => {
     test("clears the canvas when the has signature attribute becomes false", async ({ page }) => {
         const target = canvas(page, "signatureEditable");
         await drawStroke(page, target);
-        await expect(state(page, "Editable")).toContainText("Has signature: Yes");
+        // Wait for the sign end action, so its response can't arrive after the clear and undo it.
+        await expect(state(page, "Editable")).toContainText("Has signature: Yes, signed 1 times");
         await expect.poll(async () => (await paint(target)).pixels).toBeGreaterThan(0);
 
         await page.locator(".mx-name-actionButtonClear").click();
