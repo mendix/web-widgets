@@ -136,7 +136,6 @@ describe("Combo box (Static values)", () => {
 
         const value2 = await getVisibleValueNode(component);
         expect(value2.textContent).toEqual("caption2");
-        expect(defaultProps.staticAttribute?.setValue).toHaveBeenCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
         expect(defaultProps.staticAttribute?.setValue).toHaveBeenLastCalledWith("value2");
     });

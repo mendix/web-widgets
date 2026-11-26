@@ -121,6 +121,7 @@ describe("DatabaseSingleSelectionSelector.updateProps — external target-attrib
         selector.updateProps(buildProps({ items, values, targetValue: "v1", selection: selection.build() }));
         expect(selector.currentId).toBe(optionA.id);
         expect(selection.build().selection).toBe(optionA);
+        // The client renders the widget's own selection change before an outside change lands (seen on Mendix 11.15).
         selector.updateProps(buildProps({ items, values, targetValue: "v1", selection: selection.build() }));
 
         selector.updateProps(buildProps({ items, values, targetValue: undefined, selection: selection.build() }));

@@ -143,7 +143,6 @@ describe("Combo box (Association)", () => {
         fireEvent.click(option1);
         rerenderWithNewValue(component);
         expect(value.textContent).toEqual("obj_222");
-        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
         expect(defaultProps.attributeAssociation?.setValue).toHaveBeenLastCalledWith({ id: "obj_222" });
     });
@@ -160,7 +159,6 @@ describe("Combo box (Association)", () => {
 
         const value = await getVisibleValueNode(component);
         expect(value.textContent).toEqual("obj_222");
-        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
         expect(defaultProps.attributeAssociation?.setValue).toHaveBeenLastCalledWith({ id: "obj_222" });
 

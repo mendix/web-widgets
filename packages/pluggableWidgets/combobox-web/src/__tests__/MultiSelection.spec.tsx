@@ -145,7 +145,6 @@ describe("Combo box (Association)", () => {
         });
         const option1 = await component.findByText("obj_222");
         fireEvent.click(option1);
-        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalled();
         expect(defaultProps.attributeAssociation?.setValue).toHaveBeenLastCalledWith([
             { id: "obj_111" },
             { id: "obj_222" }
@@ -160,7 +159,6 @@ describe("Combo box (Association)", () => {
         });
         const option1 = await component.findByText("obj_222");
         fireEvent.click(option1);
-        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalled();
         expect(defaultProps.attributeAssociation?.setValue).toHaveBeenLastCalledWith([
             { id: "obj_111" },
             { id: "obj_222" }
