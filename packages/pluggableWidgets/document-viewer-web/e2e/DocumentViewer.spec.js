@@ -1,14 +1,26 @@
+import { createRequire } from "node:module";
+import { join } from "node:path";
+import process from "node:process";
 import { test, expect } from "@mendix/run-e2e/fixtures";
+
+// Playwright runs from the package directory.
+const require = createRequire(join(process.cwd(), "package.json"));
+const pdfjsVersion = require("pdfjs-dist/package.json").version;
+const pdfjsWorker = require.resolve("pdfjs-dist/build/pdf.worker.min.mjs");
 
 const viewer = (page, type) => page.locator(`.mx-name-documentViewer${type}`);
 
-// The PDF.js worker loads from unpkg (the widget's default), which can take a while on a cold start.
 async function waitForFirstPdfPage(pdf) {
-    await expect(pdf.locator(".react-pdf__Page")).toContainText("First page of the PDF", { timeout: 30_000 });
+    await expect(pdf.locator(".react-pdf__Page")).toContainText("First page of the PDF", { timeout: 15_000 });
 }
 
 test.describe("document-viewer-web", () => {
     test.beforeEach(async ({ page }) => {
+        // The widget loads the PDF.js worker from unpkg by default; serve the installed copy of that version instead,
+        // so the tests don't depend on the CDN.
+        await page.route(`**/pdfjs-dist@${pdfjsVersion}/build/pdf.worker.min.mjs`, route =>
+            route.fulfill({ path: pdfjsWorker, contentType: "text/javascript" })
+        );
         await page.goto("/");
     });
 
