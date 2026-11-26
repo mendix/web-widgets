@@ -7,11 +7,13 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
   >
     <div
       class="widget-combobox-input-container form-control widget-combobox-multiselect"
+      data-has-selection="true"
       id="downshift-0-toggle-button"
       tabindex="-1"
     >
       <div
         class="widget-combobox-selected-items widget-combobox-text"
+        data-style="text"
       >
         <input
           aria-activedescendant=""
@@ -105,6 +107,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
       </div>
       <ul
         aria-labelledby="comboBox1-label"
+        aria-multiselectable="true"
         class="widget-combobox-menu-list"
         id="downshift-0-menu"
         role="listbox"
@@ -121,11 +124,13 @@ exports[`Combo box (Association) toggles combobox menu on: input CLICK(focus) / 
   >
     <div
       class="widget-combobox-input-container form-control widget-combobox-multiselect"
+      data-has-selection="true"
       id="downshift-0-toggle-button"
       tabindex="-1"
     >
       <div
         class="widget-combobox-selected-items widget-combobox-text"
+        data-style="text"
       >
         <input
           aria-activedescendant=""
@@ -219,6 +224,7 @@ exports[`Combo box (Association) toggles combobox menu on: input CLICK(focus) / 
       </div>
       <ul
         aria-labelledby="comboBox1-label"
+        aria-multiselectable="true"
         class="widget-combobox-menu-list"
         id="downshift-0-menu"
         role="listbox"
@@ -235,11 +241,13 @@ exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1
   >
     <div
       class="widget-combobox-input-container form-control widget-combobox-multiselect"
+      data-has-selection="true"
       id="downshift-0-toggle-button"
       tabindex="-1"
     >
       <div
         class="widget-combobox-selected-items widget-combobox-text"
+        data-style="text"
       >
         <input
           aria-activedescendant=""
@@ -333,6 +341,7 @@ exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1
       </div>
       <ul
         aria-labelledby="comboBox1-label"
+        aria-multiselectable="true"
         class="widget-combobox-menu-list"
         id="downshift-0-menu"
         role="listbox"

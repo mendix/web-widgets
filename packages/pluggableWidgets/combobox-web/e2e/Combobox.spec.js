@@ -117,7 +117,7 @@ test.describe("combobox-web", () => {
                 await page.click(".mx-name-tabPage2");
                 const comboBox = page.locator(".mx-name-comboBox4");
                 await expect(comboBox).toBeVisible({ timeout: 10000 });
-                await comboBox.locator(".widget-combobox-clear-button").nth(3).click();
+                await comboBox.locator("button.widget-combobox-clear-button").click();
                 await expect(page.locator(".modal-body .mx-name-layoutGrid1").first()).toHaveScreenshot(
                     `comboBoxRemoveAllSelection.png`
                 );
@@ -131,7 +131,7 @@ test.describe("combobox-web", () => {
             await expect(comboBox).toBeVisible({ timeout: 10000 });
 
             // check nothing is selected
-            await expect(getSelectedText(comboBox)).toContainClass("widget-combobox-placeholder-empty");
+            await expect(getSelectedText(comboBox)).toHaveAttribute("data-empty", "true");
 
             // open the dropdown
             await page.click(".mx-name-comboBox2");
@@ -147,7 +147,7 @@ test.describe("combobox-web", () => {
             await page.keyboard.press("Backspace");
 
             // check if cleared
-            await expect(getSelectedText(comboBox)).toContainClass("widget-combobox-placeholder-empty");
+            await expect(getSelectedText(comboBox)).toHaveAttribute("data-empty", "true");
         });
 
         test("types filter when selected", async ({ page }) => {
@@ -155,7 +155,7 @@ test.describe("combobox-web", () => {
             await expect(comboBox).toBeVisible({ timeout: 10000 });
 
             // check nothing is selected
-            await expect(getSelectedText(comboBox)).toContainClass("widget-combobox-placeholder-empty");
+            await expect(getSelectedText(comboBox)).toHaveAttribute("data-empty", "true");
 
             // open the dropdown
             await page.click(".mx-name-comboBox2");

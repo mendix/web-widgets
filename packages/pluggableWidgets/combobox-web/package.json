@@ -49,10 +49,7 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
-        "@floating-ui/react": "^0.26.27",
-        "classnames": "^2.5.1",
-        "downshift": "^7.6.2",
-        "match-sorter": "^8.1.0"
+        "@mendix/combobox-kit": "workspace:*"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -61,11 +58,11 @@
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/rollup-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:^*",
-        "@mendix/widget-plugin-component-kit": "workspace:*",
-        "@mendix/widget-plugin-grid": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
-        "cross-env": "^7.0.3"
+        "cross-env": "^7.0.3",
+        "downshift": "^7.6.2",
+        "mobx": "6.12.3"
     }
 }

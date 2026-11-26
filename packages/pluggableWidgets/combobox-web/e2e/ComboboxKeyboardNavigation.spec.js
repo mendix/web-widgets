@@ -136,7 +136,7 @@ test.describe("combobox-web single selection keyboard navigation", () => {
 
         await combobox.clear();
 
-        await expect(combobox.selectedText).toHaveClass(/widget-combobox-placeholder-empty/);
+        await expect(combobox.selectedText).toHaveAttribute("data-empty", "true");
         await expect(combobox.clearButton).toHaveCount(0);
         await expect(combobox.input).toBeFocused();
     });
