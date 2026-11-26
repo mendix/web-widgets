@@ -37,6 +37,8 @@ Judge each test against two imaginary edits:
 
 Drive components through RTL queries and user events. Derive expected values from the requirement. Pair "this never happens" with a case where it does.
 
+Mock Mendix values the way the client delivers them: after `setValue` or any other change, re-render with a new object from the builder (`builder.build()`) and assert the value passed to `setValue`, not `.value` on the old object.
+
 ## E2E Test Rules (Playwright)
 
 - docs/requirements/e2e-test-guidelines.md — Full rules + template
