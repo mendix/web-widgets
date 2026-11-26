@@ -26,14 +26,16 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "custom-chart-web"
+        "branchName": "custom-chart-web-atlas4",
+        "atlasCoreVersion": "4.5.0",
+        "atlasThemeTag": "atlasui-theme-files-2025-10-08"
     },
     "scripts": {
         "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pluggable-widgets-tools build:web",
         "create-gh-release": "rui-create-gh-release",
         "dev": "pluggable-widgets-tools start:web",
-        "e2e": "echo 'FIXME: Finish custom-chart-web e2e test migration'",
-        "e2edev": "echo 'FIXME: Finish custom-chart-web e2e test migration'",
+        "e2e": "MENDIX_VERSION=11.15.0 MODERN_CLIENT=--modern-web-client run-e2e ci",
+        "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
