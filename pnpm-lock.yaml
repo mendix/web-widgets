@@ -1563,6 +1563,9 @@ importers:
       '@mendix/rollup-web-widgets':
         specifier: workspace:*
         version: link:../../shared/rollup-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@rollup/plugin-replace':
         specifier: ^6.0.2
         version: 6.0.3(rollup@4.62.3)
