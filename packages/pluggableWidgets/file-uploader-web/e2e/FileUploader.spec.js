@@ -75,6 +75,9 @@ test.describe("file-uploader-web", () => {
             const uploader = new FileUploader(page, "Files");
 
             await uploader.upload(textFile("one.txt"), textFile("two.txt"), textFile("three.txt"));
+            for (const name of ["one.txt", "two.txt"]) {
+                await expect(uploader.entry(name).locator(".upload-status")).toHaveText("Uploaded successfully.");
+            }
 
             await expect(uploader.entry("three.txt").locator(".upload-status")).toHaveText(
                 "Maximum file count of 2 reached."
