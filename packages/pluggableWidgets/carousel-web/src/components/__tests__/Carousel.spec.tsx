@@ -126,7 +126,7 @@ jest.mock("swiper/react", () => ({
             ].filter(Boolean)
         );
     },
-    SwiperSlide: ({ children, tag = "div", id }: any) => {
+    SwiperSlide: ({ children, tag = "div", id, inert }: any) => {
         let slideIndex = 0;
         const totalSlides = 2;
 
@@ -144,7 +144,8 @@ jest.mock("swiper/react", () => ({
                 role: "listitem",
                 "aria-hidden": slideIndex !== 0 ? "true" : "false",
                 "aria-label": `${slideIndex + 1} / ${totalSlides}`,
-                "data-swiper-slide-index": slideIndex
+                "data-swiper-slide-index": slideIndex,
+                inert
             },
             children
         );
@@ -212,6 +213,14 @@ describe("Carousel", () => {
         );
 
         expect(container.querySelector(".swiper")).not.toHaveClass("swiper-fade");
+    });
+
+    it("makes the slides that are not shown inert", () => {
+        const { getAllByRole } = render(<Carousel {...defaultCarouselProps} />);
+
+        const [shown, hidden] = getAllByRole("listitem", { hidden: true });
+        expect(shown).not.toHaveAttribute("inert");
+        expect(hidden).toHaveAttribute("inert");
     });
 
     afterEach(() => {
