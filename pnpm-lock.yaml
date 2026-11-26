@@ -1717,6 +1717,9 @@ importers:
       '@mendix/rollup-web-widgets':
         specifier: workspace:*
         version: link:../../shared/rollup-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
