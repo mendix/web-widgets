@@ -118,6 +118,23 @@ describe("aggregateDataPoints", () => {
         });
     });
 
+    describe("with the categories on the y axis", () => {
+        it("should aggregate the x values of points with the same y value", () => {
+            const points: PlotChartDataPoints = {
+                x: [10, 14, 6, 8],
+                y: ["Apples", "Pears", "Apples", "Pears"],
+                hovertext: undefined,
+                hoverinfo: "none",
+                dataSourceItems: []
+            };
+
+            const result = aggregateDataPoints("sum", points, "y");
+
+            expect(result.y).toEqual(["Apples", "Pears"]);
+            expect(result.x).toEqual([16, 22]);
+        });
+    });
+
     describe("aggregation types", () => {
         const testData = [5, 10, 15, 20];
         const points = createMockDataPoints(["A", "A", "A", "A"], testData);

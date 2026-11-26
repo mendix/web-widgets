@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where an aggregation function did not combine the bars of the same category.
+
 ## [7.0.0] - 2026-11-23
 
 ### Changed

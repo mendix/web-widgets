@@ -6,8 +6,15 @@ jest.mock("@mendix/shared-charts/main", () => {
     };
 });
 
+import { Big } from "big.js";
+import { ListAttributeValue } from "mendix";
 import { ChartWidget, setupBasicSeries } from "@mendix/shared-charts/main";
-import { listExpression } from "@mendix/widget-plugin-test-utils";
+import {
+    EditableValueBuilder,
+    list,
+    listExpression,
+    ListAttributeValueBuilder
+} from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { render, RenderResult } from "@testing-library/react";
 import { SeriesType } from "../../typings/BarChartProps";
@@ -91,6 +98,41 @@ describe("The BarChart widget", () => {
         lastCallProps = mockCalls[mockCalls.length - 1][0];
         expect(lastCallProps.data).toHaveLength(2);
     });
+
+    it("aggregates the values of bars that share a category", () => {
+        const amounts = [10, 14, 6];
+        const categories = ["Apples", "Pears", "Apples"];
+        const series = setupBasicBarSeries({ aggregationType: "sum" });
+        series.staticDataSource = list(3);
+        series.staticXAttribute = attributeWithValues(amounts.map(amount => new Big(amount)));
+        series.staticYAttribute = attributeWithValues(categories);
+
+        render(
+            <BarChart
+                name="bar-chart-test"
+                refreshInterval={0}
+                class="bar-chart-class"
+                barmode="group"
+                series={[series]}
+                showLegend={false}
+                enableAdvancedOptions={false}
+                widthUnit="percentage"
+                width={0}
+                heightUnit="pixels"
+                height={0}
+                gridLines="none"
+                customLayout=""
+                customConfigurations=""
+                enableThemeConfig={false}
+                showPlaygroundSlot={false}
+            />
+        );
+
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const [bars] = mockCalls[mockCalls.length - 1][0].data;
+        expect(bars.y).toEqual(["Apples", "Pears"]);
+        expect(bars.x).toEqual([16, 14]);
+    });
 });
 
 function setupBasicBarSeries(overwriteConfig: Partial<SeriesType>): SeriesType {
@@ -100,4 +142,12 @@ function setupBasicBarSeries(overwriteConfig: Partial<SeriesType>): SeriesType {
         ...basicSeries,
         staticBarColor: overwriteConfig.staticBarColor ?? undefined
     };
+}
+
+function attributeWithValues<T extends string | Big>(values: T[]): ListAttributeValue<T> {
+    const attribute = new ListAttributeValueBuilder<T>().build();
+    const get = jest.fn();
+    values.forEach(value => get.mockReturnValueOnce(new EditableValueBuilder<T>().withValue(value).build()));
+    attribute.get = get;
+    return attribute;
 }
