@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
+import { dirname, join } from "node:path";
 import { parse as parseModule } from "../src/changelog-parser/parser/module/module.mjs";
 import { parse as parseWidget } from "../src/changelog-parser/parser/widget/widget.mjs";
 import type { ModuleUnreleasedVersionEntry } from "../src/changelog-parser/types.ts";
 import { Version } from "../src/index.ts";
+import type { PackageJsonFileContent } from "../src/package-info.ts";
 import { exec } from "../src/shell.ts";
 
 interface ChangelogChange {
@@ -15,14 +17,21 @@ interface ChangelogChange {
 
 type ChangelogType = "module" | "widget" | "other";
 
-function getChangelogType(filePath: string): ChangelogType {
-    if (filePath.includes("packages/modules/")) {
-        return "module";
+/**
+ * Resolve the changelog format from the package.json next to the changelog, the
+ * same way the release tooling does: `mxpackage.changelogType` wins, otherwise
+ * the format follows `mxpackage.type`. A widget package can bundle other widgets
+ * and keep a module-style changelog, so the folder it lives in is not enough.
+ */
+async function getChangelogType(treeSha: string, filePath: string): Promise<ChangelogType> {
+    const packageJson = await getFileContentFromTree(treeSha, join(dirname(filePath), "package.json"));
+    if (!packageJson) {
+        return "other";
     }
-    if (filePath.includes("packages/pluggableWidgets/")) {
-        return "widget";
-    }
-    return "other";
+
+    const { mxpackage } = JSON.parse(packageJson) as PackageJsonFileContent;
+    const type = mxpackage?.changelogType ?? mxpackage?.type;
+    return type === "module" || type === "widget" ? type : "other";
 }
 
 function compareChangelogContent(change: ChangelogChange): boolean {
@@ -185,11 +194,13 @@ async function main(): Promise<void> {
         return;
     }
 
+    const changelogTypes = new Map<string, ChangelogType>();
     console.log(`Found ${changelogFiles.length} CHANGELOG.md file(s) to check:`);
-    changelogFiles.forEach(file => {
-        const type = getChangelogType(file);
+    for (const file of changelogFiles) {
+        const type = await getChangelogType(mergedTreeSha, file);
+        changelogTypes.set(file, type);
         console.log(`  - ${file} (${type})`);
-    });
+    }
 
     const changes: ChangelogChange[] = [];
     let hasErrors = false;
@@ -227,8 +238,7 @@ async function main(): Promise<void> {
             continue;
         }
 
-        // Determine changelog type
-        const changelogType = getChangelogType(filePath);
+        const changelogType = changelogTypes.get(filePath);
 
         if (changelogType === "module") {
             changes.push({ filePath, oldContent, newContent: mergedContent, type: "module" });
