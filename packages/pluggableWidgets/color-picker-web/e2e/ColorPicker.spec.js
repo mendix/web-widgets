@@ -3,7 +3,7 @@ import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("color-picker-web", () => {
     test.describe("render a picker of mode", () => {
-        test.slow("button", async ({ page, browserName }) => {
+        test("button", async ({ page, browserName }) => {
             const isFirefox = browserName === "firefox";
 
             await page.goto("/p/modePage");

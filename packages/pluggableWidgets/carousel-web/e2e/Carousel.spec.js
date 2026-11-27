@@ -1,4 +1,5 @@
 import { test, expect } from "@mendix/run-e2e/fixtures";
+import { checkAccessibility } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("Carousel", () => {
     test.beforeEach(async ({ page }) => {
@@ -31,9 +32,9 @@ test.describe("Carousel", () => {
         await expect(lightbox).toBeVisible();
     });
 
-    test.skip("check accessibility violations", async ({ page }) => {
-        const carousel = page.locator(".mx-name-carousel2");
-        const snapshot = await carousel.accessibility.snapshot();
-        await expect(snapshot).toHaveNoViolations({ runOnly: { type: "tag", values: ["wcag2a"] } });
+    test("has no accessibility violations", async ({ page }) => {
+        await expect(page.locator(".mx-name-carousel2")).toBeVisible();
+
+        await checkAccessibility(page, ".mx-name-carousel2", { tags: ["wcag2a"] });
     });
 });

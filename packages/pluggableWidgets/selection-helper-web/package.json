@@ -23,12 +23,17 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "gallery-web/main"
+        "branchName": "selection-helper-web-atlas4",
+        "atlasCoreVersion": "4.5.0",
+        "atlasThemeTag": "atlasui-theme-files-2025-10-08"
     },
     "scripts": {
         "build": "pluggable-widgets-tools build:web",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
+        "e2e": "MENDIX_VERSION=11.15.0 MODERN_CLIENT=--modern-web-client run-e2e ci",
+        "e2e-update-project": "pnpm --filter @mendix/data-widgets run build:include-deps",
+        "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "release": "pluggable-widgets-tools release:ts",
@@ -45,6 +50,7 @@
         "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/rollup-web-widgets": "workspace:*",
+        "@mendix/run-e2e": "workspace:*",
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-grid": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",

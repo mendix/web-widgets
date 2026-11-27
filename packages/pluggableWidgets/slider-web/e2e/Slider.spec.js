@@ -52,20 +52,17 @@ test.describe("Slider", () => {
             .evaluate(node => window.getComputedStyle(node).cursor);
         await expect(handleCursor).toContain("not-allowed");
     });
-    // Conditional flag added to skip these tests when running on react client, because those widgets aren't supported in the react client
-    test.skip(process.env.MODERN_CLIENT === true, () => {
-        test("listens to a grid", async ({ page }) => {
-            await page.goto("/p/listen-to-grid");
-            await waitForMendixApp(page);
+    test("listens to a grid", async ({ page }) => {
+        await page.goto("/p/listen-to-grid");
+        await waitForMendixApp(page);
 
-            await expect(page.locator(".mx-name-slider .rc-slider-handle")).toHaveCSS("cursor", /not-allowed/);
+        await expect(page.locator(".mx-name-slider .rc-slider-handle")).toHaveCSS("cursor", /not-allowed/);
 
-            await page.locator(".mx-name-grid td").nth(0).click();
-            await expect(page.locator(".mx-name-slider .rc-slider-handle")).toHaveAttribute("style", /left: 50%;/);
+        await page.locator(".mx-name-grid [role='gridcell']:not(.column-selector)").nth(0).click();
+        await expect(page.locator(".mx-name-slider .rc-slider-handle")).toHaveAttribute("style", /left: 50%;/);
 
-            await page.locator(".mx-name-grid td").nth(1).click();
-            await expect(page.locator(".mx-name-slider .rc-slider-handle")).toHaveAttribute("style", /left: 80%;/);
-        });
+        await page.locator(".mx-name-grid [role='gridcell']:not(.column-selector)").nth(1).click();
+        await expect(page.locator(".mx-name-slider .rc-slider-handle")).toHaveAttribute("style", /left: 80%;/);
     });
 
     test("triggers a microflow after slide", async ({ page }) => {

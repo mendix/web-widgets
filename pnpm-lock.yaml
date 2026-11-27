@@ -611,6 +611,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
@@ -710,6 +713,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
@@ -953,6 +959,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
 
   packages/pluggableWidgets/charts-web:
     dependencies:
@@ -1557,6 +1566,9 @@ importers:
       '@mendix/rollup-web-widgets':
         specifier: workspace:*
         version: link:../../shared/rollup-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@rollup/plugin-replace':
         specifier: ^6.0.2
         version: 6.0.3(rollup@4.62.3)
@@ -1708,6 +1720,9 @@ importers:
       '@mendix/rollup-web-widgets':
         specifier: workspace:*
         version: link:../../shared/rollup-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
@@ -1812,6 +1827,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
 
   packages/pluggableWidgets/heatmap-chart-web:
     dependencies:
@@ -1877,6 +1895,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
@@ -2605,6 +2626,9 @@ importers:
       '@mendix/rollup-web-widgets':
         specifier: workspace:*
         version: link:../../shared/rollup-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@mendix/widget-plugin-component-kit':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit

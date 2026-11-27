@@ -23,14 +23,16 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "fileuploader-web"
+        "branchName": "file-uploader-web-atlas4",
+        "atlasCoreVersion": "4.5.0",
+        "atlasThemeTag": "atlasui-theme-files-2025-10-08"
     },
     "scripts": {
         "add-nf-defaults": "node nf-defaults.mjs add",
         "build": "pluggable-widgets-tools build:web",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
-        "e2e": "echo \"Skipping this e2e test\"",
+        "e2e": "MENDIX_VERSION=11.15.0 MODERN_CLIENT=--modern-web-client run-e2e ci",
         "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
@@ -56,6 +58,7 @@
         "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/rollup-web-widgets": "workspace:*",
+        "@mendix/run-e2e": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
         "@rollup/plugin-json": "^6.1.0",
