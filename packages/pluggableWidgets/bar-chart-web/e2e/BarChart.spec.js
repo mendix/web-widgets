@@ -80,9 +80,7 @@ test.describe("bar-chart-web", () => {
             await expect(chart.legendItems).toHaveText(["North", "South"]);
         });
 
-        test.fixme("aggregates the values of bars that share a category", async ({ page }) => {
-            // The shared aggregation groups points by their x value, which is the value axis of a
-            // horizontal bar chart, so bars that share a category are never combined.
+        test("aggregates the values of bars that share a category", async ({ page }) => {
             const chart = new BarChart(page, "containerAggregation");
             await chart.scrollIntoView();
 
