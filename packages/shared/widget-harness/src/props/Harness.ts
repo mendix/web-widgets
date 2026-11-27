@@ -31,6 +31,8 @@ export interface ActionCall {
 
 export interface ActionOptions {
     canExecute?: boolean;
+    /** Milliseconds `isExecuting` stays true after `execute`. */
+    duration?: number;
     run?: (harness: Harness, item?: ObjectItem, args?: unknown) => void;
 }
 
@@ -52,6 +54,7 @@ export function dynamic<T>(value: T): DynamicValue<T> {
 export class Harness {
     readonly store: DataStore;
     readonly calls: ActionCall[] = [];
+    private readonly executing = new Set<string>();
     private readonly emitter = new Emitter();
     private readonly attributeCache = new Map<string, { version: number; value: ListAttributeValue<any> }>();
     private _version = 0;
@@ -83,7 +86,9 @@ export class Harness {
         attr: string,
         options: { readOnly?: boolean } = {}
     ): ListAttributeValue<T> {
-        const key = `${entity}.${attr}.${options.readOnly ?? false}`;
+        // Values of a list attribute are read-only in the Mendix client.
+        const readOnly = options.readOnly ?? true;
+        const key = `${entity}.${attr}.${readOnly}`;
         const cached = this.attributeCache.get(key);
         if (cached && cached.version === this.store.version) {
             return cached.value;
@@ -107,7 +112,7 @@ export class Harness {
             get: (item: ObjectItem) => {
                 let editable = values.get(item.id);
                 if (!editable) {
-                    editable = this.objectAttribute(this.store.require(item.id), attr, formatter, options.readOnly);
+                    editable = this.objectAttribute(this.store.require(item.id), attr, formatter, readOnly);
                     values.set(item.id, editable);
                 }
                 return editable;
@@ -125,31 +130,41 @@ export class Harness {
         return { get: (item: ObjectItem) => fn(this.store.require(item.id), this) } as ListWidgetValue;
     }
 
-    action(name: string, options: ActionOptions = {}): ActionValue {
-        return {
-            canExecute: options.canExecute ?? true,
-            isExecuting: false,
-            execute: (args?: unknown) => {
-                this.calls.push({ name, args });
-                options.run?.(this, undefined, args);
-                this.bump();
-            }
-        } as ActionValue;
+    /** A live action. Read `.value` when building props; it changes while the action executes. */
+    action(name: string, options: ActionOptions = {}): LiveAction {
+        return new LiveAction(this, name, options);
     }
 
+    /** Call while building props; each `get(item)` reflects whether that item's action is executing. */
     listAction(name: string, options: ActionOptions = {}): ListActionValue {
         return {
             get: (item: ObjectItem) =>
-                ({
-                    canExecute: options.canExecute ?? true,
-                    isExecuting: false,
-                    execute: (args?: unknown) => {
-                        this.calls.push({ name, item: item.id, args });
-                        options.run?.(this, item, args);
-                        this.bump();
-                    }
-                }) as ActionValue
+                this.actionValue(`${name}:${item.id}`, options, () => {
+                    this.calls.push({ name, item: item.id });
+                    options.run?.(this, item);
+                })
         } as ListActionValue;
+    }
+
+    /** @internal */
+    actionValue(key: string, options: ActionOptions, run: (args?: unknown) => void): ActionValue {
+        return {
+            canExecute: options.canExecute ?? true,
+            isExecuting: this.executing.has(key),
+            execute: (args?: unknown) => {
+                if (options.canExecute === false) {
+                    return;
+                }
+                // Like the client: the next props report isExecuting, and a later update clears it.
+                this.executing.add(key);
+                run(args);
+                this.bump();
+                setTimeout(() => {
+                    this.executing.delete(key);
+                    this.bump();
+                }, options.duration ?? 0);
+            }
+        } as ActionValue;
     }
 
     editable<T extends AttributeValue>(options: EditableOptions<T> = {}): LiveEditable<T> {
@@ -158,16 +173,22 @@ export class Harness {
         return editable;
     }
 
-    selectionSingle(): LiveSelection<ObjectItem | undefined, SelectionSingleValue> {
-        const selection = new LiveSelection<ObjectItem | undefined, SelectionSingleValue>("Single", undefined);
+    selectionSingle(list: LiveList): LiveSelection<SelectionSingleValue> {
+        const selection = new LiveSelection<SelectionSingleValue>("Single", list);
         selection.subscribe(() => this.bump());
         return selection;
     }
 
-    selectionMulti(): LiveSelection<ObjectItem[], SelectionMultiValue> {
-        const selection = new LiveSelection<ObjectItem[], SelectionMultiValue>("Multi", []);
+    selectionMulti(list: LiveList): LiveSelection<SelectionMultiValue> {
+        const selection = new LiveSelection<SelectionMultiValue>("Multi", list);
         selection.subscribe(() => this.bump());
         return selection;
+    }
+
+    dynamicValue<T>(value: T): LiveDynamic<T> {
+        const live = new LiveDynamic(value);
+        live.subscribe(() => this.bump());
+        return live;
     }
 
     private objectAttribute(
@@ -269,16 +290,66 @@ export class LiveEditable<T extends AttributeValue> {
     }
 }
 
-export class LiveSelection<T extends ObjectItem | undefined | ObjectItem[], V> {
+export class LiveAction {
+    constructor(
+        private readonly harness: Harness,
+        private readonly name: string,
+        private readonly options: ActionOptions
+    ) {}
+
+    get value(): ActionValue {
+        return this.harness.actionValue(this.name, this.options, args => {
+            this.harness.calls.push({ name: this.name, args });
+            this.options.run?.(this.harness, undefined, args);
+        });
+    }
+}
+
+export class LiveDynamic<T> {
+    private readonly emitter = new Emitter();
+    private snapshot: DynamicValue<T>;
+
+    constructor(value: T) {
+        this.snapshot = dynamic(value);
+    }
+
+    get value(): DynamicValue<T> {
+        return this.snapshot;
+    }
+
+    subscribe = (listener: () => void): (() => void) => this.emitter.subscribe(listener);
+
+    set(value: T): void {
+        this.snapshot = dynamic(value);
+        this.emitter.emit();
+    }
+}
+
+type SelectionOf<V> = V extends SelectionMultiValue ? ObjectItem[] : ObjectItem | undefined;
+
+/**
+ * Selection over a list. As in the Mendix client: selecting objects that are not loaded in the
+ * list throws, an equal selection is ignored, and every load drops selected objects the list no
+ * longer holds unless the `setKeepSelection` predicate keeps them.
+ */
+export class LiveSelection<V extends SelectionSingleValue | SelectionMultiValue> {
     private readonly emitter = new Emitter();
     private snapshot!: V;
-    private current: T;
+    private current: ObjectItem[] = [];
+    private keep: ((item: ObjectItem) => boolean) | undefined;
 
     constructor(
         private readonly type: "Single" | "Multi",
-        initial: T
+        private readonly list: LiveList
     ) {
-        this.current = initial;
+        list.onLoad(items => {
+            const ids = new Set(items.map(item => item.id));
+            const kept = this.current.filter(item => ids.has(item.id) || this.keep?.(item) === true);
+            if (kept.length !== this.current.length) {
+                this.current = kept;
+                this.publish();
+            }
+        });
         this.publish();
     }
 
@@ -286,22 +357,38 @@ export class LiveSelection<T extends ObjectItem | undefined | ObjectItem[], V> {
         return this.snapshot;
     }
 
-    get selection(): T {
-        return this.current;
+    get selection(): SelectionOf<V> {
+        return (this.type === "Multi" ? this.current : this.current[0]) as SelectionOf<V>;
     }
 
     subscribe = (listener: () => void): (() => void) => this.emitter.subscribe(listener);
 
+    private set(value: ObjectItem[] | ObjectItem | undefined): void {
+        const next = value === undefined ? [] : Array.isArray(value) ? value : [value];
+        const loaded = new Set((this.list.value.items ?? []).map(item => item.id));
+        for (const item of next) {
+            if (!loaded.has(item.id)) {
+                throw new Error(`Value ${String(item)} is not assignable to selection of type ${this.type}.`);
+            }
+        }
+        const same =
+            next.length === this.current.length && next.every(item => this.current.some(c => c.id === item.id));
+        if (same) {
+            return;
+        }
+        this.current = next;
+        this.publish();
+    }
+
     private publish(): void {
         this.snapshot = {
             type: this.type,
-            selection: this.current,
-            setSelection: (value: T) => {
-                this.current = value;
-                this.publish();
-            },
-            setKeepSelection: () => undefined
-        } as V;
+            selection: this.selection,
+            setSelection: (value: ObjectItem[] | ObjectItem | undefined) => this.set(value),
+            setKeepSelection: (predicate: ((item: ObjectItem) => boolean) | undefined) => {
+                this.keep = predicate;
+            }
+        } as unknown as V;
         this.emitter.emit();
     }
 }

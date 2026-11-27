@@ -3,17 +3,23 @@ import type { FilterCondition } from "mendix/filters";
 import type { DataStore } from "./DataStore.js";
 import { Emitter } from "./Emitter.js";
 import { query, SortInstruction } from "./evaluate.js";
+import { sameValue } from "./same-value.js";
 
 export interface LiveListOptions {
     entity: string;
     /** Fixed constraint of the data source (the XPath of a database source), combined with `setFilter`. */
     constraint?: FilterCondition;
-    /** Initial sort order, the data source's own sort setting. */
+    /** The data source's own sort order; `setSortOrder(undefined)` restores it. */
     sortOrder?: SortInstruction[];
     limit?: number;
-    /** Milliseconds between a request and the `available` result. */
+    /** Milliseconds a request takes before its result is `available`. */
     delay?: number;
-    /** Reload when the store changes, like a refresh-in-client. Defaults to `true`. */
+    /**
+     * A request that takes longer than this many milliseconds publishes a `loading` value first.
+     * The Mendix client skips the `loading` value for fast responses.
+     */
+    loadingThreshold?: number;
+    /** Reload when the store changes, like the client does after a commit. Defaults to `true`. */
     reloadOnStoreChange?: boolean;
 }
 
@@ -25,21 +31,35 @@ interface Params {
     needTotal: boolean;
 }
 
+interface Result {
+    items: ObjectItem[] | undefined;
+    totalCount: number | undefined;
+    hasMoreItems: boolean | undefined;
+}
+
+export type LoadHook = (items: ObjectItem[]) => void;
+
+const DEFAULT_LOADING_THRESHOLD = 75;
+
 /**
  * A data source over the store. `value` is an immutable `ListValue` snapshot; every change produces
  * a new snapshot and notifies subscribers, the way the Mendix client hands widgets new props.
+ * Snapshots report the parameters of the data they hold: while a request is pending, `loading`
+ * keeps the previous parameters and items.
  */
 export class LiveList {
     private readonly emitter = new Emitter();
-    private params: Params;
+    private readonly loadHooks = new Set<LoadHook>();
+    private applied: Params;
+    private pending: Params;
     private status: ValueStatus = "loading" as ValueStatus;
-    private items: ObjectItem[] | undefined = undefined;
-    private totalCount: number | undefined = undefined;
-    private hasMoreItems: boolean | undefined = undefined;
-    private timer: ReturnType<typeof setTimeout> | undefined;
+    private result: Result = { items: undefined, totalCount: undefined, hasMoreItems: undefined };
+    private fetched: { key: string; rows: number; complete: boolean } | undefined;
+    private loadTimer: ReturnType<typeof setTimeout> | undefined;
+    private loadingTimer: ReturnType<typeof setTimeout> | undefined;
     private snapshot: ListValue;
     private readonly unsubscribeStore: () => void;
-    private readonly delay: number;
+    private delay: number;
     readonly requests: Array<{ kind: string; value: unknown }> = [];
 
     constructor(
@@ -48,17 +68,18 @@ export class LiveList {
     ) {
         store.entity(options.entity);
         this.delay = options.delay ?? 0;
-        this.params = {
+        this.applied = {
             offset: 0,
             limit: options.limit ?? Infinity,
             sortOrder: options.sortOrder ?? [],
             filter: undefined,
             needTotal: false
         };
+        this.pending = this.applied;
         this.snapshot = this.createSnapshot();
         this.unsubscribeStore =
-            options.reloadOnStoreChange === false ? () => undefined : store.subscribe(() => this.request());
-        this.schedule();
+            options.reloadOnStoreChange === false ? () => undefined : store.subscribe(() => this.request({}, true));
+        this.loadTimer = setTimeout(() => this.load(), this.delay);
     }
 
     get value(): ListValue {
@@ -67,14 +88,25 @@ export class LiveList {
 
     subscribe = (listener: () => void): (() => void) => this.emitter.subscribe(listener);
 
+    /** Runs before every `available` value is published, with the items it will hold. */
+    onLoad(hook: LoadHook): () => void {
+        this.loadHooks.add(hook);
+        return () => this.loadHooks.delete(hook);
+    }
+
+    setDelay(ms: number): void {
+        this.delay = ms;
+    }
+
     /** Resolves once the list is `available` with no pending request. */
     settled(): Promise<void> {
-        if (this.timer === undefined && this.status === "available") {
+        const done = (): boolean => this.loadTimer === undefined && this.status === "available";
+        if (done()) {
             return Promise.resolve();
         }
         return new Promise(resolve => {
             const unsubscribe = this.subscribe(() => {
-                if (this.timer === undefined && this.status === "available") {
+                if (done()) {
                     unsubscribe();
                     resolve();
                 }
@@ -83,36 +115,79 @@ export class LiveList {
     }
 
     dispose(): void {
-        clearTimeout(this.timer);
+        clearTimeout(this.loadTimer);
+        clearTimeout(this.loadingTimer);
         this.unsubscribeStore();
     }
 
-    private update(patch: Partial<Params>, kind: string, value: unknown): void {
-        this.requests.push({ kind, value });
-        this.params = { ...this.params, ...patch };
-        this.request();
+    private request(patch: Partial<Params>, force = false): void {
+        const next = { ...this.pending, ...patch };
+        if (!force && sameValue(next, this.pending)) {
+            return;
+        }
+        this.pending = next;
+        clearTimeout(this.loadTimer);
+        clearTimeout(this.loadingTimer);
+        this.loadingTimer = undefined;
+
+        if (!force && this.canServeFromFetched(next)) {
+            this.loadTimer = setTimeout(() => this.load(), 0);
+            return;
+        }
+        this.fetched = force ? undefined : this.fetched;
+        this.loadTimer = setTimeout(() => this.load(), this.delay);
+        const threshold = this.options.loadingThreshold ?? DEFAULT_LOADING_THRESHOLD;
+        if (this.status === "available" && this.delay > threshold) {
+            this.loadingTimer = setTimeout(() => {
+                this.loadingTimer = undefined;
+                this.status = "loading" as ValueStatus;
+                this.publish();
+            }, threshold);
+        }
     }
 
-    private request(): void {
-        this.status = "loading" as ValueStatus;
-        this.publish();
-        this.schedule();
+    private canServeFromFetched(next: Params): boolean {
+        if (next.limit === 0) {
+            return true;
+        }
+        const onlyLimitChanged = sameValue({ ...next, limit: this.applied.limit }, this.applied);
+        if (!onlyLimitChanged || !this.fetched || this.fetched.key !== this.queryKey(next)) {
+            return false;
+        }
+        return this.fetched.complete || next.limit <= this.fetched.rows;
     }
 
-    private schedule(): void {
-        clearTimeout(this.timer);
-        this.timer = setTimeout(() => this.load(), this.delay);
+    private queryKey(params: Params): string {
+        return JSON.stringify([params.offset, params.sortOrder, params.filter]);
     }
 
     private load(): void {
-        this.timer = undefined;
-        const { offset, limit, sortOrder, filter, needTotal } = this.params;
+        this.loadTimer = undefined;
+        clearTimeout(this.loadingTimer);
+        this.loadingTimer = undefined;
+
+        const params = this.pending;
+        const { offset, limit, sortOrder, filter, needTotal } = params;
         const all = query(this.store, this.options.entity, [this.options.constraint, filter], sortOrder);
-        const page = all.slice(offset, limit === Infinity ? undefined : offset + limit);
-        this.items = page.map(obj => this.store.item(obj.id));
-        this.hasMoreItems = offset + page.length < all.length;
-        this.totalCount = needTotal ? all.length : undefined;
+        if (limit === 0) {
+            this.result = { items: [], totalCount: undefined, hasMoreItems: all.length > 0 };
+        } else {
+            const page = all.slice(offset, limit === Infinity ? undefined : offset + limit);
+            const hasMoreItems = offset + page.length < all.length;
+            this.result = {
+                items: page.map(obj => this.store.item(obj.id)),
+                totalCount: needTotal ? all.length : undefined,
+                hasMoreItems
+            };
+            const key = this.queryKey(params);
+            const rows = this.fetched?.key === key ? Math.max(this.fetched.rows, page.length) : page.length;
+            this.fetched = { key, rows, complete: !hasMoreItems || this.fetched?.complete === true };
+        }
+        this.applied = params;
         this.status = "available" as ValueStatus;
+        for (const hook of this.loadHooks) {
+            hook(this.result.items ?? []);
+        }
         this.publish();
     }
 
@@ -121,37 +196,43 @@ export class LiveList {
         this.emitter.emit();
     }
 
+    private log(kind: string, value: unknown): void {
+        this.requests.push({ kind, value });
+    }
+
     private createSnapshot(): ListValue {
-        const { offset, limit, sortOrder, filter } = this.params;
+        const { offset, limit, sortOrder, filter } = this.applied;
         return Object.freeze({
             status: this.status,
             offset,
             limit,
             sortOrder: sortOrder as ListValue["sortOrder"],
             filter,
-            items: this.items,
-            totalCount: this.totalCount,
-            hasMoreItems: this.hasMoreItems,
+            ...this.result,
             setOffset: (value: number) => {
-                if (value !== this.params.offset) {
-                    this.update({ offset: value }, "setOffset", value);
-                }
+                this.log("setOffset", value);
+                this.request({ offset: value });
             },
             setLimit: (value: number | undefined) => {
-                const next = value ?? Infinity;
-                if (next !== this.params.limit) {
-                    this.update({ limit: next }, "setLimit", value);
-                }
+                this.log("setLimit", value);
+                this.request({ limit: value ?? Infinity });
             },
             requestTotalCount: (value: boolean) => {
-                if (value !== this.params.needTotal) {
-                    this.update({ needTotal: value }, "requestTotalCount", value);
-                }
+                this.log("requestTotalCount", value);
+                this.request({ needTotal: value });
             },
-            setSortOrder: (value: ListValue["sortOrder"] | undefined) =>
-                this.update({ sortOrder: (value ?? []) as SortInstruction[] }, "setSortOrder", value),
-            setFilter: (value: FilterCondition | undefined) => this.update({ filter: value }, "setFilter", value),
-            reload: () => this.update({}, "reload", undefined)
+            setSortOrder: (value: ListValue["sortOrder"] | undefined) => {
+                this.log("setSortOrder", value);
+                this.request({ sortOrder: (value ?? this.options.sortOrder ?? []) as SortInstruction[] });
+            },
+            setFilter: (value: FilterCondition | undefined) => {
+                this.log("setFilter", value);
+                this.request({ filter: value });
+            },
+            reload: () => {
+                this.log("reload", undefined);
+                this.request({}, true);
+            }
         }) as ListValue;
     }
 }

@@ -12,6 +12,7 @@ export type InputRecord = Record<string, InputValue> & { id?: string };
  */
 export class DataStore {
     private readonly objects = new Map<GUID, EntityObject>();
+    private readonly removed = new Map<GUID, EntityObject>();
     private readonly items = new Map<GUID, ObjectItem>();
     private readonly emitter = new Emitter();
     private nextId = 1;
@@ -62,8 +63,9 @@ export class DataStore {
         return this.objects.get(id);
     }
 
+    /** Also finds removed objects, so items a list still holds keep their last values until it reloads. */
     require(id: GUID): EntityObject {
-        const obj = this.objects.get(id);
+        const obj = this.objects.get(id) ?? this.removed.get(id);
         if (!obj) {
             throw new Error(`Object "${id}" does not exist`);
         }
@@ -92,7 +94,10 @@ export class DataStore {
     }
 
     remove(id: GUID): void {
-        if (this.objects.delete(id)) {
+        const obj = this.objects.get(id);
+        if (obj) {
+            this.objects.delete(id);
+            this.removed.set(id, obj);
             this.changed();
         }
     }
