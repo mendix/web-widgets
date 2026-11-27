@@ -5,11 +5,17 @@ import {
     EditableValueBuilder,
     list,
     listAttribute,
+    ListValueBuilder,
     obj,
     SelectionSingleValueBuilder
 } from "@mendix/widget-plugin-test-utils";
 import { ComboboxContainerProps } from "../../../../typings/ComboboxProps";
+import { createSelector as createHarness, SelectorHarness } from "../../__tests__/harness";
 import { DatabaseSingleSelectionSelector } from "../DatabaseSingleSelectionSelector";
+
+function createSelector(props: ComboboxContainerProps): SelectorHarness<DatabaseSingleSelectionSelector> {
+    return createHarness<DatabaseSingleSelectionSelector>(props);
+}
 
 type PropsOverrides = {
     items: ObjectItem[];
@@ -67,7 +73,7 @@ function buildProps({ items, values, targetValue, validation, selection, ds }: P
     } as ComboboxContainerProps;
 }
 
-describe("DatabaseSingleSelectionSelector.updateProps — external target-attribute changes", () => {
+describe("DatabaseSingleSelectionSelector — external target-attribute changes", () => {
     const optionA = obj("A");
     const optionB = obj("B");
     const items = [optionA, optionB];
@@ -76,9 +82,8 @@ describe("DatabaseSingleSelectionSelector.updateProps — external target-attrib
         [optionB.id, "v2"]
     ]);
 
-    it("resolves currentId from targetAttribute.value on initial updateProps", () => {
-        const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
-        selector.updateProps(buildProps({ items, values, targetValue: "v1" }));
+    it("resolves currentId from targetAttribute.value on the first props", () => {
+        const { selector } = createSelector(buildProps({ items, values, targetValue: "v1" }));
 
         expect(selector.currentId).toBe(optionA.id);
     });
@@ -86,55 +91,59 @@ describe("DatabaseSingleSelectionSelector.updateProps — external target-attrib
     it("refreshes currentId when targetAttribute.value changes externally after a selection exists", () => {
         // WC-3355: without this behavior, an external value change (e.g. from a microflow)
         // leaves currentId pointing at the stale option.
-        const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
         const selection = new SelectionSingleValueBuilder().build();
-
-        selector.updateProps(buildProps({ items, values, targetValue: "v1", selection }));
+        const { selector, setProps } = createSelector(buildProps({ items, values, targetValue: "v1", selection }));
         expect(selector.currentId).toBe(optionA.id);
 
-        selector.updateProps(buildProps({ items, values, targetValue: "v2", selection }));
+        setProps(buildProps({ items, values, targetValue: "v2", selection }));
         expect(selector.currentId).toBe(optionB.id);
     });
 
     it("falls back to loadSelectedValue when new value is not in loaded options", () => {
-        const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
         const selection = new SelectionSingleValueBuilder().build();
         const soleItems = [optionA];
         const soleValues = new Map<string, string>([[optionA.id, "v1"]]);
-
-        selector.updateProps(buildProps({ items: soleItems, values: soleValues, targetValue: "v1", selection }));
+        const { selector, setProps } = createSelector(
+            buildProps({ items: soleItems, values: soleValues, targetValue: "v1", selection })
+        );
         const loadSpy = jest.spyOn(selector.options, "loadSelectedValue");
 
-        selector.updateProps(buildProps({ items: soleItems, values: soleValues, targetValue: "v-unknown", selection }));
+        setProps(buildProps({ items: soleItems, values: soleValues, targetValue: "v-unknown", selection }));
 
         expect(loadSpy).toHaveBeenCalledWith("v-unknown", expect.anything());
     });
 
     it("clears currentId and selection when targetAttribute.value is cleared externally", () => {
-        const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
         const selection = new SelectionSingleValueBuilder().build();
         const setSelectionSpy = jest.spyOn(selection, "setSelection");
-
-        selector.updateProps(buildProps({ items, values, targetValue: "v1", selection }));
+        const { selector, setProps } = createSelector(buildProps({ items, values, targetValue: "v1", selection }));
         expect(selector.currentId).toBe(optionA.id);
 
-        selector.updateProps(buildProps({ items, values, targetValue: undefined, selection }));
+        setProps(buildProps({ items, values, targetValue: undefined, selection }));
 
         expect(selector.currentId).toBeNull();
         expect(setSelectionSpy).toHaveBeenCalledWith(undefined);
     });
 
-    it("does not re-resolve currentId when targetAttribute.value is unchanged", () => {
-        const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
+    it("keeps currentId and leaves the selection alone when targetAttribute.value is unchanged", () => {
         const selection = new SelectionSingleValueBuilder().build();
+        const setSelectionSpy = jest.spyOn(selection, "setSelection");
+        const { selector, setProps } = createSelector(buildProps({ items, values, targetValue: "v1", selection }));
+        expect(setSelectionSpy).toHaveBeenCalledTimes(1);
 
-        selector.updateProps(buildProps({ items, values, targetValue: "v1", selection }));
-        const getAllSpy = jest.spyOn(selector.options, "getAll");
+        setProps(buildProps({ items, values, targetValue: "v1", selection }));
 
-        selector.updateProps(buildProps({ items, values, targetValue: "v1", selection }));
-
-        expect(getAllSpy).not.toHaveBeenCalled();
         expect(selector.currentId).toBe(optionA.id);
+        expect(setSelectionSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it("takes the datasource selection as the value when no target attribute is bound", () => {
+        const selection = new SelectionSingleValueBuilder().withSelected(optionB).build();
+        const props = { ...buildProps({ items, values, selection }), databaseAttributeString: undefined };
+
+        const { selector } = createSelector(props);
+
+        expect(selector.currentId).toBe(optionB.id);
     });
 });
 
@@ -151,8 +160,7 @@ describe("DatabaseSingleSelectionSelector — writing and read-only", () => {
         const selection = new SelectionSingleValueBuilder().build();
         const setSelection = jest.spyOn(selection, "setSelection");
         const props = buildProps({ items, values, selection });
-        const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
-        selector.updateProps(props);
+        const { selector } = createSelector(props);
 
         selector.setValue(optionA.id);
 
@@ -165,8 +173,7 @@ describe("DatabaseSingleSelectionSelector — writing and read-only", () => {
         const selection = new SelectionSingleValueBuilder().withSelected(optionA).build();
         const setSelection = jest.spyOn(selection, "setSelection");
         const props = buildProps({ items, values, targetValue: "v1", selection });
-        const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
-        selector.updateProps(props);
+        const { selector } = createSelector(props);
         expect(selector.currentId).toBe(optionA.id);
 
         selector.setValue(null);
@@ -176,21 +183,39 @@ describe("DatabaseSingleSelectionSelector — writing and read-only", () => {
         expect(selector.currentId).toBeNull();
     });
 
-    it("ignores updates while a non-lazy datasource is loading", () => {
+    it("is unavailable, with no value yet, while the datasource loads for the first time", () => {
         const props = buildProps({ items, values, targetValue: "v1", ds: list.loading() });
-        const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
-
-        selector.updateProps(props);
+        const { selector } = createSelector(props);
 
         expect(selector.status).toBe("unavailable");
         expect(selector.currentId).toBeNull();
     });
 
+    it("reports loading on a later reload and becomes available when it ends", () => {
+        const { selector, setProps } = createSelector(buildProps({ items, values, targetValue: "v1" }));
+        expect(selector.status).toBe("available");
+
+        setProps(buildProps({ items, values, targetValue: "v1", ds: list.loading() }));
+        expect(selector.status).toBe("loading");
+
+        setProps(buildProps({ items, values, targetValue: "v1" }));
+        expect(selector.status).toBe("available");
+    });
+
+    it("becomes available once the first load ends", () => {
+        const { selector, setProps } = createSelector(
+            buildProps({ items, values, targetValue: "v1", ds: list.loading() })
+        );
+        expect(selector.status).toBe("unavailable");
+
+        setProps(buildProps({ items, values, targetValue: "v1" }));
+        expect(selector.status).toBe("available");
+        expect(selector.currentId).toBe(optionA.id);
+    });
+
     it("is read-only and loads no options when custom editability is 'never'", () => {
         const props = { ...buildProps({ items, values, targetValue: "v1" }), customEditability: "never" as const };
-        const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
-
-        selector.updateProps(props);
+        const { selector } = createSelector(props);
 
         expect(selector.readOnly).toBe(true);
         expect(props.optionsSourceDatabaseDataSource!.setLimit).toHaveBeenCalledWith(0);
@@ -198,13 +223,74 @@ describe("DatabaseSingleSelectionSelector — writing and read-only", () => {
 
     it("resolves captions and passes validation and clearable through", () => {
         const props = buildProps({ items, values, targetValue: "v1", validation: "Required" });
-        const selector = new DatabaseSingleSelectionSelector({ filterInputDebounceInterval: 200 });
-
-        selector.updateProps(props);
+        const { selector } = createSelector(props);
 
         expect(selector.caption.get(optionA.id)).toBe(`caption_${optionA.id}`);
         expect(selector.caption.get(null)).toBe("Formatted v1");
         expect(selector.validation).toBe("Required");
         expect(selector.clearable).toBe(true);
+    });
+});
+
+describe("DatabaseSingleSelectionSelector — lazy loading", () => {
+    const optionA = obj("A");
+    const values = new Map<string, string>([[optionA.id, "v1"]]);
+
+    beforeEach(() => jest.useFakeTimers());
+    afterEach(() => jest.useRealTimers());
+
+    it("drops the bound-value lookup and requests a full first page on load more", () => {
+        // The lookup narrows the datasource to the bound value, which then reports no more items.
+        const ds = list([]);
+        const props = { ...buildProps({ items: [], values, targetValue: "v1", ds }), lazyLoading: true };
+        const { selector } = createSelector(props);
+        expect(ds.setLimit).toHaveBeenLastCalledWith(1);
+
+        selector.options.loadMore();
+        jest.runAllTimers();
+
+        expect(ds.setFilter).toHaveBeenCalledTimes(1);
+        expect(ds.setFilter).toHaveBeenCalledWith(undefined);
+        expect(ds.setLimit).toHaveBeenLastCalledWith(100);
+        expect(selector.options.isLoading).toBe(true);
+    });
+
+    function lookingUpBoundValue(): { ds: ListValue; selector: DatabaseSingleSelectionSelector } {
+        const ds = list([]);
+        const props = { ...buildProps({ items: [], values, targetValue: "v1", ds }), lazyLoading: true };
+        const { selector } = createSelector(props);
+        expect(ds.setLimit).toHaveBeenLastCalledWith(1);
+        return { ds, selector };
+    }
+
+    it("requests a full first page when a search starts before the menu requests it", () => {
+        const { ds, selector } = lookingUpBoundValue();
+
+        selector.options.setSearchTerm("a");
+        selector.options.requestFirstPage();
+        jest.runAllTimers();
+
+        expect(ds.setLimit).toHaveBeenLastCalledWith(100);
+    });
+
+    it("requests a full first page when the menu requests it before a search starts", () => {
+        const { ds, selector } = lookingUpBoundValue();
+
+        selector.options.requestFirstPage();
+        selector.options.setSearchTerm("a");
+        jest.runAllTimers();
+
+        expect(ds.setLimit).toHaveBeenLastCalledWith(100);
+    });
+
+    it("pages as usual on load more when no lookup is active", () => {
+        const ds = new ListValueBuilder().withItems([optionA]).withLimit(100).withHasMore(true).build();
+        const props = { ...buildProps({ items: [optionA], values, targetValue: "v1", ds }), lazyLoading: true };
+        const { selector } = createSelector(props);
+
+        selector.options.loadMore();
+
+        expect(ds.setFilter).not.toHaveBeenCalled();
+        expect(ds.setLimit).toHaveBeenLastCalledWith(200);
     });
 });

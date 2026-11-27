@@ -1,31 +1,31 @@
-import { EditableValue } from "mendix";
+import { computed, makeObservable } from "mobx";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { FilterTypeEnum } from "../../../typings/ComboboxProps";
 import { BaseOptionsProvider } from "../BaseOptionsProvider";
+import { CaptionsProvider } from "../types";
+import { enumerationAttribute, EnumerationGateProps } from "./gate";
 
-export class EnumBoolOptionsProvider<T extends boolean | string> extends BaseOptionsProvider<
-    T,
-    { attribute: EditableValue<string | boolean> }
-> {
-    private isBoolean = false;
-
-    _updateProps(props: { attribute: EditableValue<string | boolean>; filterType: FilterTypeEnum }): void {
-        if (props.attribute.status === "unavailable") {
-            this.options = [];
-        }
-        this.filterType = props.filterType;
-        this.options = (props.attribute.universe ?? []).map(o => o.toString());
-        this.isBoolean = typeof props.attribute.universe?.[0] === "boolean";
+/** The attribute universe as option ids: enumeration keys, or "true" and "false". */
+export class EnumBoolOptionsProvider extends BaseOptionsProvider {
+    constructor(
+        private readonly gate: DerivedPropsGate<EnumerationGateProps>,
+        caption: Pick<CaptionsProvider, "get">,
+        filterType: FilterTypeEnum
+    ) {
+        super(caption, filterType);
+        makeObservable(this, { ids: computed, isBoolean: computed });
     }
 
-    _optionToValue(value: string | null): T | undefined {
-        if (this.isBoolean) {
-            return (value === "true") as T;
-        } else {
-            return (value ?? undefined) as T;
-        }
+    get ids(): string[] {
+        return (enumerationAttribute(this.gate.props).universe ?? []).map(option => option.toString());
     }
 
-    _valueToOption(value: string | boolean | undefined): string | null {
-        return value?.toString() ?? null;
+    get isBoolean(): boolean {
+        return typeof enumerationAttribute(this.gate.props).universe?.[0] === "boolean";
+    }
+
+    /** The attribute value behind an option id. */
+    value(id: string | null): string | boolean | undefined {
+        return this.isBoolean ? id === "true" : (id ?? undefined);
     }
 }

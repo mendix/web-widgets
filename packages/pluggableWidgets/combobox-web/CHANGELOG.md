@@ -24,6 +24,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where the clear and remove value buttons had no accessible name when their aria labels were empty. They now fall back to "Clear selection" and "Remove value".
 
+- We fixed an issue where a combo box with static values kept showing its previous selection after the attribute was cleared by a microflow or nanoflow.
+
+- We fixed an issue where a combo box with a database data source and no target attribute showed no value when it was shown again, or when its selection was changed elsewhere, even though an item was still selected in its data source.
+
 ## [2.10.0] - 2026-09-21
 
 ### Fixed

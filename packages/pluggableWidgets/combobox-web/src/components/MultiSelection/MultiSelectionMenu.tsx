@@ -1,91 +1,70 @@
-import { UseComboboxPropGetters } from "downshift/typings";
-import { CSSProperties, MouseEvent, ReactElement, ReactNode, Ref } from "react";
+import { CSSProperties, ReactElement, ReactNode, Ref } from "react";
 import { Checkbox } from "../../assets/icons";
-import { MultiSelector } from "../../helpers/types";
+import { ComboboxViewModel } from "../../core/ComboboxViewModel";
+import { ComboboxBehavior } from "../../hooks/useComboboxBehavior";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
 import { Loader } from "../Loader";
 
-interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<string>> {
-    isOpen: boolean;
-    selectableItems: string[];
-    selectedItems: string[];
-    highlightedIndex: number | null;
-    selector: MultiSelector;
-    noOptionsText?: string;
-    inputId?: string;
+interface MultiSelectionMenuProps {
+    vm: ComboboxViewModel;
+    behavior: ComboboxBehavior;
     menuHeaderContent?: ReactNode;
-    menuFooterContent?: ReactNode;
-    onOptionClick?: (e: MouseEvent) => void;
-    isLoading: boolean;
-    lazyLoading: boolean;
-    onScroll: (e: any) => void;
     floatingRef?: Ref<HTMLDivElement>;
     floatingStyles?: CSSProperties;
 }
 
 export function MultiSelectionMenu({
-    isOpen,
-    getMenuProps,
-    getItemProps,
-    highlightedIndex,
-    selector,
-    selectableItems,
-    noOptionsText,
-    inputId,
+    vm,
+    behavior,
     menuHeaderContent,
-    menuFooterContent,
-    onOptionClick,
-    isLoading,
-    lazyLoading,
-    onScroll,
     floatingRef,
     floatingStyles
 }: MultiSelectionMenuProps): ReactElement {
+    const { options, loading, isOpen } = vm;
+    const withCheckbox = vm.hints.selectionMethod === "checkbox";
+
     return (
         <ComboboxMenuWrapper
             floatingRef={floatingRef}
             floatingStyles={floatingStyles}
-            getMenuProps={getMenuProps}
-            highlightedIndex={highlightedIndex}
-            isEmpty={selectableItems.length <= 0}
-            isLoading={isLoading}
+            menuProps={behavior.getMenuProps()}
+            highlightedIndex={vm.highlightedIndex}
+            isEmpty={options.length <= 0}
+            isLoading={loading.isLoading}
             isOpen={isOpen}
-            lazyLoading={lazyLoading}
+            lazyLoading={loading.lazy}
             loader={
                 <Loader
-                    isEmpty={selectableItems.length === 0}
-                    isLoading={isLoading}
+                    isEmpty={options.length === 0}
+                    isLoading={loading.isLoading}
                     isOpen={isOpen}
-                    lazyLoading={lazyLoading}
-                    loadingType={selector.loadingType}
-                    withCheckbox={selector.selectionMethod === "checkbox"}
+                    lazyLoading={loading.lazy}
+                    loadingType={vm.hints.loadingType}
+                    withCheckbox={withCheckbox}
                 />
             }
-            menuFooterContent={menuFooterContent}
+            menuFooterContent={vm.slots.menuFooter}
             menuHeaderContent={menuHeaderContent}
-            noOptionsText={noOptionsText}
-            onOptionClick={onOptionClick}
-            onScroll={lazyLoading ? onScroll : undefined}
+            noOptionsText={vm.t("noOptions")}
         >
             {isOpen &&
-                selectableItems.map((item, index) => {
-                    const isActive = highlightedIndex === index;
-                    const isSelected = selector.currentId?.includes(item);
-
+                options.map((option, index) => {
+                    const optionProps = behavior.getOptionProps(index);
                     return (
                         <ComboboxOptionWrapper
-                            key={item}
-                            isHighlighted={isActive}
-                            isSelected={isSelected}
-                            item={item}
-                            getItemProps={getItemProps}
-                            index={index}
+                            key={option.id}
+                            isHighlighted={option.highlighted}
+                            isSelected={optionProps["aria-selected"] as boolean | undefined}
+                            optionProps={optionProps}
                         >
-                            {selector.selectionMethod === "checkbox" && (
-                                <Checkbox checked={isSelected} id={`${inputId}_${item}`} />
+                            {withCheckbox && (
+                                <Checkbox
+                                    checked={optionProps["aria-selected"] as boolean | undefined}
+                                    id={`${vm.id}_${option.id}`}
+                                />
                             )}
-                            {selector.caption.render(item, "options", `${inputId}_${item}`)}
+                            {option.content}
                         </ComboboxOptionWrapper>
                     );
                 })}

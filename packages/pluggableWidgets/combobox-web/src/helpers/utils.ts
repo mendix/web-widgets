@@ -2,8 +2,13 @@ import { Big } from "big.js";
 import { matchSorter, MatchSorterOptions } from "match-sorter";
 import { ObjectItem } from "mendix";
 import { createElement, PropsWithChildren, ReactElement } from "react";
-import { ComboboxPreviewProps, FilterTypeEnum, SelectedItemsSortingEnum } from "typings/ComboboxProps";
-import { MultiSelector, SortOrder } from "./types";
+import { SortOrder } from "./types";
+import {
+    ComboboxContainerProps,
+    ComboboxPreviewProps,
+    FilterTypeEnum,
+    SelectedItemsSortingEnum
+} from "../../typings/ComboboxProps";
 
 export const DEFAULT_LIMIT_SIZE = 100;
 
@@ -11,25 +16,15 @@ export function textOrFallback(text: string | undefined, fallback: string): stri
     return text?.trim() ? text : fallback;
 }
 
-type ValueType = string | Big | boolean | Date | undefined;
-
-export function getSelectedCaptionsPlaceholder(selector: MultiSelector, selectedItems: string[]): string {
-    if (selectedItems.length === 0) {
-        return selector.caption.emptyCaption;
+/** A Studio Pro property the selected options source needs; Studio Pro makes it required, so a gap is a bug. */
+export function required<T>(value: T | undefined, property: keyof ComboboxContainerProps): T {
+    if (value === undefined) {
+        throw new Error(`'${property}' is not defined for the configured options source`);
     }
-
-    if (
-        selector.selectedItemsStyle !== "text" ||
-        selector.customContentType === "yes" ||
-        selector.selectionMethod === "rowclick"
-    ) {
-        return "";
-    }
-
-    const selected = selectedItems.map(v => selector.caption.get(v));
-
-    return selected.join(", ");
+    return value;
 }
+
+type ValueType = string | Big | boolean | Date | undefined;
 
 export interface CaptionContentProps extends PropsWithChildren {
     htmlFor?: string;
@@ -123,7 +118,7 @@ export function _valuesIsEqual(valueA: ValueType, valueB: ValueType): boolean {
 export function sortSelectedItems(
     values: ObjectItem[] | null | undefined,
     sortingType: SelectedItemsSortingEnum,
-    sortOrder: SortOrder,
+    sortOrder: SortOrder | undefined,
     captionGetter: (id: string) => string | undefined
 ): string[] | null {
     if (values) {
@@ -141,7 +136,8 @@ export function sortSelectedItems(
 function sortSelections(
     newValueIds: string[],
     sortingType: SelectedItemsSortingEnum,
-    sortOrder: SortOrder,
+    /** Only "asc" sorts ascending; no datasource sort order sorts descending. */
+    sortOrder: SortOrder | undefined,
     captionGetter: (id: string) => string | undefined
 ): string[] {
     if (sortingType === "caption") {

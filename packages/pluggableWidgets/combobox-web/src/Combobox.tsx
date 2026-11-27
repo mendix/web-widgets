@@ -1,60 +1,20 @@
 import { ReactElement } from "react";
-
 import { ComboboxContainerProps } from "../typings/ComboboxProps";
-
 import { MultiSelection } from "./components/MultiSelection/MultiSelection";
 import { Placeholder } from "./components/Placeholder";
 import { SingleSelection } from "./components/SingleSelection/SingleSelection";
-import { SelectionBaseProps } from "./helpers/types";
-import { textOrFallback } from "./helpers/utils";
-import { useActionEvents } from "./hooks/useActionEvents";
-import { useGetSelector } from "./hooks/useGetSelector";
-
+import { useComboboxCore } from "./hooks/useComboboxCore";
 import "./ui/Combobox.scss";
 
-const DEFAULT_CLEAR_SELECTION_LABEL = "Clear selection";
-const DEFAULT_REMOVE_VALUE_LABEL = "Remove value";
-
 export default function Combobox(props: ComboboxContainerProps): ReactElement {
-    const selector = useGetSelector(props);
-    const actionEvents = useActionEvents({
-        onEnterEvent: props.onEnterEvent,
-        onLeaveEvent: props.onLeaveEvent,
-        selector
-    });
-    const commonProps: Omit<SelectionBaseProps<null>, "selector"> = {
-        tabIndex: props.tabIndex!,
-        inputId: props.id,
-        labelId: `${props.id}-label`,
-        noOptionsText: props.noOptionsText?.value,
-        readOnlyStyle: props.readOnlyStyle,
-        ariaRequired: props.ariaRequired,
-        ariaLabel: props.ariaLabel?.value,
-        a11yConfig: {
-            ariaLabels: {
-                clearSelection: textOrFallback(props.clearButtonAriaLabel?.value, DEFAULT_CLEAR_SELECTION_LABEL),
-                removeSelection: textOrFallback(props.removeValueAriaLabel?.value, DEFAULT_REMOVE_VALUE_LABEL),
-                selectAll: props.selectAllButtonCaption?.value ?? ""
-            },
-            a11yStatusMessage: {
-                a11ySelectedValue: props.a11ySelectedValue?.value ?? "",
-                a11yOptionsAvailable: props.a11yOptionsAvailable?.value ?? "",
-                a11yInstructions: props.a11yInstructions?.value ?? "",
-                a11yNoOption: textOrFallback(props.noOptionsText?.value, props.a11yNoOptions?.value ?? "")
-            }
-        },
-        menuFooterContent: props.showFooter ? props.menuFooterContent : undefined
-    };
+    const { vm } = useComboboxCore(props);
 
-    return (
-        <div className="widget-combobox" {...actionEvents}>
-            {selector.status === "unavailable" ? (
+    if (vm.status === "unavailable") {
+        return (
+            <div className="widget-combobox">
                 <Placeholder />
-            ) : selector.type === "single" ? (
-                <SingleSelection selector={selector} {...commonProps} />
-            ) : (
-                <MultiSelection selector={selector} {...commonProps} />
-            )}
-        </div>
-    );
+            </div>
+        );
+    }
+    return vm.mode === "single" ? <SingleSelection vm={vm} /> : <MultiSelection vm={vm} />;
 }
