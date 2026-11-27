@@ -32,6 +32,7 @@ exports[`Carousel renders correctly 1`] = `
           class="swiper-slide"
           data-swiper-slide-index="1"
           id="carousel-slide-Carousel-2"
+          inert=""
           role="listitem"
         >
           <div>
@@ -114,6 +115,7 @@ exports[`Carousel renders correctly with minimal setup 1`] = `
           class="swiper-slide"
           data-swiper-slide-index="1"
           id="carousel-slide-Carousel-2"
+          inert=""
           role="listitem"
         >
           <div>
@@ -163,6 +165,7 @@ exports[`Carousel renders correctly without navigation 1`] = `
           class="swiper-slide"
           data-swiper-slide-index="1"
           id="carousel-slide-Carousel-2"
+          inert=""
           role="listitem"
         >
           <div>
@@ -231,6 +234,7 @@ exports[`Carousel renders correctly without pagination 1`] = `
           class="swiper-slide"
           data-swiper-slide-index="1"
           id="carousel-slide-Carousel-2"
+          inert=""
           role="listitem"
         >
           <div>
