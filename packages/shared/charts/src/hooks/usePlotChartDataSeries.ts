@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { ExtraTraceProps } from "../components/types";
-import { aggregateDataPoints, AggregationType } from "../utils/aggregations";
+import { aggregateDataPoints, AggregationType, CategoryAxis } from "../utils/aggregations";
 
 // Use "value" prop on EditableValue to extract AttributeValue, as AttributeValue not exported.
 type AttributeValue = EditableValue["value"];
@@ -65,9 +65,15 @@ type MapperHelpers = {
 
 export type SeriesMapper<T> = (serie: T, dataPoints: PlotChartDataPoints, helpers: MapperHelpers) => Partial<Data>;
 
+export interface PlotChartDataSeriesOptions {
+    /** The axis that holds the categories, used to aggregate the series. Defaults to "x". */
+    categoryAxis?: CategoryAxis;
+}
+
 export function usePlotChartDataSeries<T extends PlotDataSeries>(
     series: T[],
-    mapSerie: SeriesMapper<T>
+    mapSerie: SeriesMapper<T>,
+    { categoryAxis = "x" }: PlotChartDataSeriesOptions = {}
 ): PlotChartSeries[] | null {
     const [chartSeries, setChartSeries] = useState<PlotChartSeries[] | null>(null);
 
@@ -75,12 +81,12 @@ export function usePlotChartDataSeries<T extends PlotDataSeries>(
         const loadedSeries = series
             .map(element => {
                 const singleSeriesLoader = element.dataSet === "static" ? loadStaticSeries : loadDynamicSeries;
-                return singleSeriesLoader(element, mapSerie);
+                return singleSeriesLoader(element, mapSerie, categoryAxis);
             })
             .filter((element): element is PlotChartSeries | PlotChartSeries[] => Boolean(element))
             .flat();
         setChartSeries(loadedSeries.length === 0 ? null : loadedSeries);
-    }, [series, mapSerie]);
+    }, [series, mapSerie, categoryAxis]);
 
     return chartSeries;
 }
@@ -89,7 +95,11 @@ function bindListAction(listAction: ListActionValue): (item: ObjectItem) => void
     return item => executeAction(listAction.get(item));
 }
 
-function loadStaticSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDataSeries>): PlotChartSeries | null {
+function loadStaticSeries(
+    series: PlotDataSeries,
+    mapSerie: SeriesMapper<PlotDataSeries>,
+    categoryAxis: CategoryAxis
+): PlotChartSeries | null {
     const { staticName, dataSet, customSeriesOptions, staticOnClickAction: onClickAction } = series;
 
     if (dataSet !== "static") {
@@ -102,7 +112,7 @@ function loadStaticSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDat
     }
 
     const agg = series.aggregationType as AggregationType;
-    const points = agg && agg !== "none" ? aggregateDataPoints(agg, raw) : raw;
+    const points = agg && agg !== "none" ? aggregateDataPoints(agg, raw, categoryAxis) : raw;
 
     return {
         ...(onClickAction ? { onClick: bindListAction(onClickAction) } : undefined),
@@ -112,7 +122,11 @@ function loadStaticSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDat
     } as PlotChartSeries;
 }
 
-function loadDynamicSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDataSeries>): PlotChartSeries[] | null {
+function loadDynamicSeries(
+    series: PlotDataSeries,
+    mapSerie: SeriesMapper<PlotDataSeries>,
+    categoryAxis: CategoryAxis
+): PlotChartSeries[] | null {
     const { dataSet, customSeriesOptions, dynamicOnClickAction: onClickAction } = series;
 
     if (dataSet !== "dynamic") {
@@ -131,7 +145,7 @@ function loadDynamicSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDa
                 return null;
             }
             const agg = series.aggregationType as AggregationType;
-            const points = agg && agg !== "none" ? aggregateDataPoints(agg, raw) : raw;
+            const points = agg && agg !== "none" ? aggregateDataPoints(agg, raw, categoryAxis) : raw;
 
             return {
                 ...(onClickAction ? { onClick: bindListAction(onClickAction) } : undefined),

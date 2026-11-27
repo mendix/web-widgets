@@ -14,12 +14,21 @@ function getXValueKey(xVal: Datum | null): string {
     return (xVal as Date).toISOString();
 }
 
+/** The axis that holds the categories; points with the same value on it are aggregated. */
+export type CategoryAxis = "x" | "y";
+
 export function aggregateDataPoints(
     aggregationType: AggregationType,
-    points: PlotChartDataPoints
+    points: PlotChartDataPoints,
+    categoryAxis: CategoryAxis = "x"
 ): PlotChartDataPoints {
     if (aggregationType === "none") {
         return points;
+    }
+
+    if (categoryAxis === "y") {
+        const aggregated = aggregateDataPoints(aggregationType, { ...points, x: points.y, y: points.x });
+        return { ...aggregated, x: aggregated.y, y: aggregated.x };
     }
 
     type GroupEntry = {
