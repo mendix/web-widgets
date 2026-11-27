@@ -1,0 +1,18 @@
+{
+    "extends": "@mendix/tsconfig-web-widgets/esm-library-with-jsx",
+    "include": [
+        "./node_modules/mendix/index.d.ts",
+        "./src/**/*",
+        "./host/**/*",
+        "./e2e/**/*",
+        "./playwright.config.ts"
+    ],
+    "compilerOptions": {
+        "noEmit": true,
+        "jsx": "react-jsx",
+        "jsxFactory": "",
+        "moduleResolution": "bundler",
+        "module": "ESNext",
+        "types": ["react", "node"]
+    }
+}
