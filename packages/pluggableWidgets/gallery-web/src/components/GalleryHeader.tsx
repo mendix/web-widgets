@@ -3,7 +3,13 @@ import { ReactElement } from "react";
 import { getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
 import { getGlobalSelectionContext, useCreateSelectionContextValue } from "@mendix/widget-plugin-grid/selection";
 import { getGlobalSortContext } from "@mendix/widget-plugin-sorting/react/context";
-import { useFilterAPI, useMainGate, useSelectionHelper, useSortAPI } from "../model/hooks/injection-hooks";
+import {
+    useFilterAPI,
+    useMainGate,
+    useSelectionHelper,
+    useSortAPI,
+    useTextsService
+} from "../model/hooks/injection-hooks";
 
 const SelectionContext = getGlobalSelectionContext();
 const SortAPI = getGlobalSortContext();
@@ -13,6 +19,7 @@ export const GalleryHeader = observer(function GalleryHeader(): ReactElement | n
     const { filtersPlaceholder } = useMainGate().props;
     const filterAPI = useFilterAPI();
     const sortAPI = useSortAPI();
+    const texts = useTextsService();
     const selectionContext = useCreateSelectionContextValue(useSelectionHelper());
 
     if (!filtersPlaceholder) {
@@ -23,7 +30,9 @@ export const GalleryHeader = observer(function GalleryHeader(): ReactElement | n
         <FilterAPI.Provider value={filterAPI}>
             <SortAPI.Provider value={sortAPI}>
                 <SelectionContext.Provider value={selectionContext}>
-                    <section className="widget-gallery-header widget-gallery-filter">{filtersPlaceholder}</section>
+                    <section className="widget-gallery-header widget-gallery-filter" aria-label={texts.headerAriaLabel}>
+                        {filtersPlaceholder}
+                    </section>
                 </SelectionContext.Provider>
             </SortAPI.Provider>
         </FilterAPI.Provider>
