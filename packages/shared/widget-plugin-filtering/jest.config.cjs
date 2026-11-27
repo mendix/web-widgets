@@ -20,6 +20,7 @@ module.exports = {
         "(.+)\\.js": "$1"
     },
     extensionsToTreatAsEsm: [".ts"],
+    globalSetup: "<rootDir>/jest.global-setup.cjs",
     testEnvironment: "jsdom",
     collectCoverage: !process.env.CI,
     coverageProvider: "v8"
