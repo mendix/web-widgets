@@ -319,6 +319,28 @@ $cb-skeleton-dark: #d2d2d2;
                 flex-wrap: nowrap;
             }
 
+            // A nowrap caption in flow widens Auto-fill columns (WC-3664). A minmax(0, 1fr) cell
+            // truncates it there, while auto-width parents still fit it.
+            &:not(.widget-combobox-boxes):not(.widget-combobox-custom-content) {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr);
+                align-items: center;
+
+                > * {
+                    grid-area: 1 / 1;
+                    min-width: 0;
+                }
+
+                // Downshift keeps multi select text after Escape and blur; show it only while focused.
+                .widget-combobox-input {
+                    width: auto;
+
+                    &:not(:focus) {
+                        max-width: 0;
+                    }
+                }
+            }
+
             input:placeholder-shown,
             input:not(:focus) {
                 & + .widget-combobox-placeholder-text {

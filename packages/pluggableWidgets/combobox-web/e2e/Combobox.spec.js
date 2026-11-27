@@ -208,20 +208,25 @@ test.describe("combobox-web", () => {
             await expect(comboBox).toBeVisible({ timeout: 10000 });
 
             // Shrink the viewport so there is little room below the input, forcing the
-            // size() middleware to cap the menu height.
+            // size() middleware to cap the menu height. The page is shared by every test in the worker.
+            const originalViewport = page.viewportSize();
             await page.setViewportSize({ width: 1024, height: 360 });
 
-            await comboBox.click();
-            const menu = page.locator(".mx-name-comboBox2 .widget-combobox-menu").first();
-            await expect(menu).toBeVisible();
+            try {
+                await comboBox.click();
+                const menu = page.locator(".mx-name-comboBox2 .widget-combobox-menu").first();
+                await expect(menu).toBeVisible();
 
-            const box = await menu.boundingBox();
-            const viewport = page.viewportSize();
+                const box = await menu.boundingBox();
+                const viewport = page.viewportSize();
 
-            // Menu bottom stays on screen (respecting the 8px viewport padding).
-            expect(box.y + box.height).toBeLessThanOrEqual(viewport.height);
-            // Menu height is capped below the 320px default because space is limited.
-            expect(box.height).toBeLessThan(320);
+                // Menu bottom stays on screen (respecting the 8px viewport padding).
+                expect(box.y + box.height).toBeLessThanOrEqual(viewport.height);
+                // Menu height is capped below the 320px default because space is limited.
+                expect(box.height).toBeLessThan(320);
+            } finally {
+                await page.setViewportSize(originalViewport);
+            }
         });
 
         test("menu width matches the input width", async ({ page }) => {
