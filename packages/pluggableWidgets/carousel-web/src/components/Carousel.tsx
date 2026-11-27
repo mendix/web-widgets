@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { GUID } from "mendix";
-import { ReactElement, ReactNode, useCallback, useState } from "react";
+import { ReactElement, ReactNode, useCallback, useState, version as reactVersion } from "react";
 import { A11y, Autoplay, EffectFade, Keyboard, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import { PaginationOptions, SwiperOptions } from "swiper/types";
@@ -11,6 +11,10 @@ interface CarouselItem {
     id: GUID;
     content?: ReactNode;
 }
+
+// Hidden slides are inert, so their content can't be focused while they are aria-hidden. React 19 renders `inert`
+// from a boolean; React 18 doesn't know the attribute and only renders it from a string.
+const inertSlideProps = (parseInt(reactVersion, 10) >= 19 ? { inert: true } : { inert: "" }) as { inert?: boolean };
 
 export interface CarouselProps {
     id: string;
@@ -106,7 +110,13 @@ export function Carousel(props: CarouselProps): ReactElement {
                 {...options}
             >
                 {items?.map((item, index) => (
-                    <SwiperSlide tag={"li"} aria-hidden={!isSlideVisible(index)} key={item.id} id={getSlideId(item)}>
+                    <SwiperSlide
+                        key={item.id}
+                        tag={"li"}
+                        aria-hidden={!isSlideVisible(index)}
+                        {...(isSlideVisible(index) ? {} : inertSlideProps)}
+                        id={getSlideId(item)}
+                    >
                         {item.content}
                     </SwiperSlide>
                 ))}

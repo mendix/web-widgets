@@ -64,7 +64,9 @@ export const BarChart = memo(function BarChart(props: BarChartContainerProps): R
                         : undefined
                 }
             };
-        }, [])
+        }, []),
+        // The bars are horizontal: the categories are on the y axis.
+        { categoryAxis: "y" }
     );
 
     return (
