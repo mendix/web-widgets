@@ -10,13 +10,15 @@ const delay = Number(new URLSearchParams(window.location.search).get("delay") ??
 const create: ScenarioFactory = () => {
     const harness = new Harness(peopleSchema, { Person: people });
     const datasource = harness.list({ entity: "Person", delay });
-    const selection = harness.selectionMulti();
+    const selection = harness.selectionMulti(datasource);
     const onClick = harness.listAction("onClickRow");
+    const onSelectionChange = harness.action("onSelectionChange");
+    const firstNameHeader = harness.dynamicValue("First name");
 
     function column(attr: string, header: string, extra: Partial<ColumnsType> = {}): ColumnsType {
         return {
             showContentAs: "attribute",
-            attribute: harness.listAttribute("Person", attr),
+            attribute: attr ? harness.listAttribute("Person", attr) : undefined,
             header: dynamic(header),
             visible: dynamic(true),
             exportType: "default",
@@ -43,7 +45,8 @@ const create: ScenarioFactory = () => {
             datasource: datasource.value,
             refreshInterval: 0,
             columns: [
-                column("firstName", "First name", {
+                column("firstName", "", {
+                    header: firstNameHeader.value,
                     filter: (
                         <DatagridTextFilter
                             name="textFilter1"
@@ -59,12 +62,23 @@ const create: ScenarioFactory = () => {
                 }),
                 column("lastName", "Last name"),
                 column("age", "Age"),
-                column("color", "Color")
+                column("color", "Color"),
+                column("", "Full name", {
+                    showContentAs: "dynamicText",
+                    attribute: undefined,
+                    dynamicText: harness.listExpression(obj => `${obj.values.firstName} ${obj.values.lastName}`)
+                }),
+                column("", "Badge", {
+                    showContentAs: "customContent",
+                    attribute: undefined,
+                    content: harness.listWidget(obj => <span className="age-badge">age {String(obj.values.age)}</span>)
+                })
             ],
             columnsFilterable: true,
             onClickTrigger: "single",
             onClick,
             itemSelection: selection.value,
+            onSelectionChange: onSelectionChange.value,
             itemSelectionMethod: "checkbox",
             autoSelect: false,
             itemSelectionMode: "toggle",
@@ -96,7 +110,7 @@ const create: ScenarioFactory = () => {
     return {
         harness,
         render: () => <Datagrid {...props()} />,
-        expose: { datasource, selection }
+        expose: { datasource, selection, firstNameHeader }
     };
 };
 

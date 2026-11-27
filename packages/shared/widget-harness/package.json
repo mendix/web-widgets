@@ -11,9 +11,11 @@
     },
     "type": "module",
     "scripts": {
+        "build:host": "vite build --config host/vite.config.ts",
         "dev": "vite --config host/vite.config.ts",
         "format": "prettier --write .",
-        "lint": "eslint src/ host/ e2e/ package.json",
+        "lint": "eslint src/ host/ e2e/ probe/ runtime/ package.json",
+        "preview": "vite preview --config host/vite.config.ts",
         "test:e2e": "playwright test",
         "typecheck": "tsc --noEmit -p tsconfig.core.json"
     },

@@ -5,7 +5,8 @@ import { filters } from "../src/main";
 import "./styles.scss";
 
 const scenarios: Record<string, () => Promise<{ default: ScenarioFactory }>> = {
-    "datagrid-basic": () => import("./scenarios/datagrid-basic")
+    "datagrid-basic": () => import("./scenarios/datagrid-basic"),
+    "test-project": () => import("./scenarios/test-project")
 };
 
 function Host({ instance }: { instance: ScenarioInstance }): ReactElement {

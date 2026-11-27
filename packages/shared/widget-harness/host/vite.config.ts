@@ -20,6 +20,10 @@ export default defineConfig({
         ],
         dedupe: ["react", "react-dom", "mobx", "mobx-react-lite"]
     },
+    // Scan every scenario up front so the dependency optimizer doesn't reload the page mid-test.
+    optimizeDeps: { entries: ["main.tsx", "scenarios/*.tsx"] },
+    build: { outDir: "../dist", emptyOutDir: true, sourcemap: true },
+    preview: { port: 5199, strictPort: true },
     server: {
         port: 5199,
         strictPort: true,
