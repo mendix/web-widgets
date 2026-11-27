@@ -135,12 +135,11 @@ describe("prop mocking functions", () => {
             });
         });
 
-        it("returns mock with working setValue", () => {
-            const ref1 = referenceSet();
+        it("records setValue and keeps its own value, as the Mendix client does", () => {
+            const ref1 = referenceSet(builder => builder.withValue([obj("001")]).build());
             ref1.setValue([obj("007")]);
-            expect(ref1.value).toEqual([obj("007")]);
-            ref1.setValue([obj("939")]);
-            expect(ref1.value).toEqual([obj("939")]);
+            expect(ref1.setValue).toHaveBeenCalledWith([obj("007")]);
+            expect(ref1.value).toEqual([obj("001")]);
         });
     });
 

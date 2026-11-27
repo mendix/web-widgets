@@ -35,7 +35,14 @@ describe("Combo box (Static values)", () => {
         setupIntersectionObserverStub();
     });
     let defaultProps: ComboboxContainerProps;
+    let staticAttribute: EditableValueBuilder<string>;
+    // setValue leaves the rendered value untouched; the client re-renders with a new one.
+    function rerenderWithNewValue(component: RenderResult): void {
+        defaultProps = { ...defaultProps, staticAttribute: staticAttribute.build() };
+        component.rerender(<Combobox {...defaultProps} />);
+    }
     beforeEach(() => {
+        staticAttribute = new EditableValueBuilder<string>().withValue("value1");
         resetIdCounter();
         defaultProps = {
             name: "comboBox",
@@ -72,7 +79,7 @@ describe("Combo box (Static values)", () => {
             optionsSourceDatabaseCaptionType: "attribute",
             optionsSourceDatabaseCustomContentType: "yes",
             staticDataSourceCustomContentType: "no",
-            staticAttribute: new EditableValueBuilder<string>().withValue("value1").build(),
+            staticAttribute: staticAttribute.build(),
             optionsSourceStaticDataSource: [
                 {
                     staticDataSourceValue: dynamic.available("value1"),
@@ -125,13 +132,12 @@ describe("Combo box (Static values)", () => {
         const options = await findOptions(component);
         fireEvent.click(options[1]);
 
-        component.rerender(<Combobox {...defaultProps} />);
+        rerenderWithNewValue(component);
 
         const value2 = await getVisibleValueNode(component);
         expect(value2.textContent).toEqual("caption2");
-        expect(defaultProps.staticAttribute?.setValue).toHaveBeenCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
-        expect(defaultProps.staticAttribute?.value).toEqual("value2");
+        expect(defaultProps.staticAttribute?.setValue).toHaveBeenLastCalledWith("value2");
     });
     it("removes selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
@@ -142,9 +148,9 @@ describe("Combo box (Static values)", () => {
         const value = await getVisibleValueNode(component);
         expect(value.textContent).toEqual("caption1");
         expect(component.queryAllByRole("option")).toHaveLength(0);
-        expect(defaultProps.staticAttribute.value).toEqual("value1");
+        expect(defaultProps.staticAttribute.setValue).not.toHaveBeenCalled();
         const clearButton = await component.container.getElementsByClassName("widget-combobox-clear-button")[0];
         fireEvent.click(clearButton);
-        expect(defaultProps.staticAttribute.value).toEqual(undefined);
+        expect(defaultProps.staticAttribute.setValue).toHaveBeenLastCalledWith(undefined);
     });
 });

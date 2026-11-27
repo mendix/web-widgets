@@ -35,14 +35,21 @@ describe("Combo box (Association)", () => {
         setupIntersectionObserverStub();
     });
     let defaultProps: ComboboxContainerProps;
+    let association: ReferenceValueBuilder;
+    // setValue leaves the rendered value untouched; the client re-renders with a new one.
+    function rerenderWithNewValue(component: RenderResult): void {
+        defaultProps = { ...defaultProps, attributeAssociation: association.build() };
+        component.rerender(<Combobox {...defaultProps} />);
+    }
     beforeEach(() => {
         resetIdCounter();
+        association = new ReferenceValueBuilder().withValue(obj("111"));
         defaultProps = {
             name: "comboBox",
             id: "comboBox1",
             source: "context",
             optionsSourceType: "association",
-            attributeAssociation: new ReferenceValueBuilder().withValue(obj("111")).build(),
+            attributeAssociation: association.build(),
             attributeEnumeration: new EditableValueBuilder<string>().build(),
             attributeBoolean: new EditableValueBuilder<boolean>().build(),
             optionsSourceAssociationDataSource: list([obj("111"), obj("222"), obj("333"), obj("444")]),
@@ -134,11 +141,10 @@ describe("Combo box (Association)", () => {
         fireEvent.click(toggleButton);
         const option1 = await component.findByText("obj_222");
         fireEvent.click(option1);
-        component.rerender(<Combobox {...defaultProps} />);
+        rerenderWithNewValue(component);
         expect(value.textContent).toEqual("obj_222");
-        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
-        expect(defaultProps.attributeAssociation?.value).toEqual({ id: "obj_222" });
+        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenLastCalledWith({ id: "obj_222" });
     });
     it("removes selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
@@ -149,24 +155,23 @@ describe("Combo box (Association)", () => {
         const option1 = await component.findByText("obj_222");
         fireEvent.click(option1);
 
-        component.rerender(<Combobox {...defaultProps} />);
+        rerenderWithNewValue(component);
 
         const value = await getVisibleValueNode(component);
         expect(value.textContent).toEqual("obj_222");
-        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
-        expect(defaultProps.attributeAssociation?.value).toEqual({ id: "obj_222" });
+        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenLastCalledWith({ id: "obj_222" });
 
         const clearButton = await component.container.getElementsByClassName("widget-combobox-clear-button")[0];
         fireEvent.click(clearButton);
 
-        component.rerender(<Combobox {...defaultProps} />);
+        rerenderWithNewValue(component);
 
         const labelText = await component.container.querySelector(
             ".widget-combobox-placeholder-text .widget-combobox-caption-text"
         );
         expect(labelText?.innerHTML).toEqual(defaultProps.emptyOptionText?.value);
-        expect(defaultProps.attributeAssociation?.value).toEqual(undefined);
+        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenLastCalledWith(undefined);
     });
 
     describe("with lazy loading", () => {
@@ -254,7 +259,7 @@ describe("Combo box (Association)", () => {
             expect(highlighted(component)).toBe("obj_222");
 
             fireEvent.keyDown(input, { key: "Enter" });
-            component.rerender(<Combobox {...defaultProps} />);
+            rerenderWithNewValue(component);
 
             expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalledWith({ id: "obj_222" });
             expect(component.queryAllByRole("option")).toHaveLength(0);
