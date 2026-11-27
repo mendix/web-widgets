@@ -8,6 +8,7 @@ export interface PackageJsonFileContent {
     mxpackage?: {
         name: string;
         type: "module" | "widget" | "jsactoins";
+        changelogType?: "module" | "widget";
         mpkName?: string;
         dependencies?: string[];
     };
