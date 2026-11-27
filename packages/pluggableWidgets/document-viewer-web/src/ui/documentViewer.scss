@@ -57,6 +57,11 @@ div.widget-document-viewer {
         border: 1px solid var(--gray-darker);
         border-radius: var(--border-radius-default);
         overflow: auto;
+
+        // The PDF page is sized to this width; a stable gutter keeps a scrollbar toggling from resizing it in a loop.
+        &:has(> .#{$root}-pdf-container) {
+            scrollbar-gutter: stable;
+        }
     }
 
     &-pagination {

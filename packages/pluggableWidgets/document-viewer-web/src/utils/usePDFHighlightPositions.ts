@@ -39,7 +39,8 @@ export function usePDFHighlightPositions(
     pdfDoc: PDFDocumentProxy | null,
     currentPage: number,
     zoomLevel: number,
-    matches: SearchMatch[]
+    matches: SearchMatch[],
+    fitWidth?: number
 ): HighlightRect[] {
     const [rects, setRects] = useState<HighlightRect[]>([]);
     // Reuse a single canvas across effect runs for text measurement.
@@ -71,7 +72,10 @@ export function usePDFHighlightPositions(
         (async () => {
             try {
                 const page = await pdfDoc.getPage(currentPage);
-                const viewport = page.getViewport({ scale: zoomLevel });
+                // Same scale react-pdf's <Page width scale> renders with.
+                const fitScale = fitWidth ? fitWidth / page.getViewport({ scale: 1 }).width : 1;
+                const scale = fitScale * zoomLevel;
+                const viewport = page.getViewport({ scale });
                 const textContent = await page.getTextContent();
 
                 // Shared canvas for proportional character-width measurement.
@@ -104,7 +108,7 @@ export function usePDFHighlightPositions(
                     const fontHeight = Math.sqrt(tx[2] ** 2 + tx[3] ** 2);
 
                     // Item width in screen pixels (item.width is in PDF user space).
-                    const itemScreenWidth = item.width * zoomLevel;
+                    const itemScreenWidth = item.width * scale;
 
                     // Build a function that converts a [start,end) substring range
                     // into an {x, w} pair in screen pixels.
@@ -163,7 +167,7 @@ export function usePDFHighlightPositions(
         return () => {
             active = false;
         };
-    }, [pdfDoc, currentPage, zoomLevel, matches]);
+    }, [pdfDoc, currentPage, zoomLevel, matches, fitWidth]);
 
     return rects;
 }

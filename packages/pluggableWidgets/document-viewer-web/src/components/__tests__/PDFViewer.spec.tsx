@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { Document, pdfjs } from "react-pdf";
+import { Document, Page, pdfjs } from "react-pdf";
 import type { DocumentRendererProps } from "../documentRenderer";
 import PDFViewer from "../PDFViewer";
 
@@ -280,5 +280,68 @@ describe("PDFViewer toolbar actions", () => {
             fireEvent.click(zoomIn);
         }
         expect(zoomIn).toBeDisabled();
+    });
+});
+
+describe("PDFViewer fit to width", () => {
+    const containerWidth = 900;
+    const OriginalResizeObserver = window.ResizeObserver;
+    let clientWidthSpy: jest.SpyInstance;
+    let rectSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+        clientWidthSpy = jest.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(containerWidth);
+        rectSpy = jest.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
+            width: containerWidth,
+            height: 600,
+            top: 0,
+            left: 0,
+            right: containerWidth,
+            bottom: 600,
+            x: 0,
+            y: 0,
+            toJSON: () => ({})
+        } as DOMRect);
+        window.ResizeObserver = class {
+            constructor(private readonly callback: ResizeObserverCallback) {}
+            observe(target: Element): void {
+                this.callback(
+                    [{ target, contentRect: { width: containerWidth, height: 600 } } as unknown as ResizeObserverEntry],
+                    this as unknown as ResizeObserver
+                );
+            }
+            unobserve(): void {}
+            disconnect(): void {}
+        } as unknown as typeof ResizeObserver;
+    });
+
+    afterEach(() => {
+        clientWidthSpy.mockRestore();
+        rectSpy.mockRestore();
+        window.ResizeObserver = OriginalResizeObserver;
+    });
+
+    function renderedPageWidth(): number | undefined {
+        const calls = (Page as unknown as jest.Mock).mock.calls;
+        const { width, scale = 1 } = calls[calls.length - 1][0] as { width?: number; scale?: number };
+        return width === undefined ? undefined : width * scale;
+    }
+
+    it("initially renders the page at the width of its container", () => {
+        render(<PDFViewer {...buildProps()} />);
+        act(() => lastDocumentProps().onLoadSuccess({ numPages: 1 }));
+
+        expect(renderedPageWidth()).toBeCloseTo(containerWidth, 0);
+    });
+
+    it("scales the page back to the container width after zooming", () => {
+        render(<PDFViewer {...buildProps()} />);
+        act(() => lastDocumentProps().onLoadSuccess({ numPages: 1 }));
+
+        fireEvent.click(screen.getByLabelText("Zoom in"));
+        fireEvent.click(screen.getByLabelText("Zoom in"));
+        fireEvent.click(screen.getByLabelText("Fit to width"));
+
+        expect(renderedPageWidth()).toBeCloseTo(containerWidth, 0);
     });
 });
