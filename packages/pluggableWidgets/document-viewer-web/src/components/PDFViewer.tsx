@@ -17,6 +17,7 @@ import type { PDFDocumentProxy } from "pdfjs-dist";
 import BaseViewer from "./BaseViewer";
 import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "./documentRenderer";
 import { downloadFile } from "../utils/helpers";
+import { useElementWidth } from "../utils/useElementWidth";
 import { usePDFHighlightPositions } from "../utils/usePDFHighlightPositions";
 import { usePDFSearch } from "../utils/usePDFSearch";
 import { useZoomScale } from "../utils/useZoomScale";
@@ -58,6 +59,7 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [debouncedQuery, setDebouncedQuery] = useState<string>("");
     const searchInputRef = useRef<HTMLInputElement>(null);
+    const [pageContainerRef, pageContainerWidth] = useElementWidth<HTMLDivElement>();
 
     const onDownloadClick = useCallback(() => {
         downloadFile(file.value?.uri);
@@ -182,7 +184,7 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
         setCurrentPage
     );
 
-    const highlightRects = usePDFHighlightPositions(pdfDoc, currentPage, zoomLevel, matches);
+    const highlightRects = usePDFHighlightPositions(pdfDoc, currentPage, zoomLevel, matches, pageContainerWidth);
 
     const searchMatchLabel = debouncedQuery.trim()
         ? isSearching
@@ -299,7 +301,6 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
                         ></button>
                         <button
                             onClick={reset}
-                            disabled={zoomLevel >= 10}
                             className="icons icon-FitToWidth btn btn-icon-only"
                             aria-label={"Fit to width"}
                             title={"Fit to width"}
@@ -308,37 +309,39 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
                 </Fragment>
             }
         >
-            <If condition={!!pdfUrl && pdfjsWorkerUrl?.status === "available"}>
-                <Document
-                    file={pdfUrl}
-                    options={options}
-                    onLoadSuccess={onDocumentLoadSuccess}
-                    onLoadError={() =>
-                        setDocumentStatus({
-                            status: DocumentStatus.error,
-                            message: "Failed to load PDF document"
-                        })
-                    }
-                >
-                    <div className="widget-document-viewer-highlight-layer">
-                        <Page pageNumber={currentPage} scale={zoomLevel} />
-                        {highlightRects.map(rect => (
-                            <div
-                                key={rect.globalMatchIndex}
-                                className={`widget-document-viewer-highlight${
-                                    rect.globalMatchIndex === currentMatchIndex ? " current" : ""
-                                }`}
-                                style={{
-                                    left: rect.x,
-                                    top: rect.y,
-                                    width: rect.width,
-                                    height: rect.height
-                                }}
-                            />
-                        ))}
-                    </div>
-                </Document>
-            </If>
+            <div ref={pageContainerRef} className="widget-document-viewer-pdf-container">
+                <If condition={!!pdfUrl && pdfjsWorkerUrl?.status === "available"}>
+                    <Document
+                        file={pdfUrl}
+                        options={options}
+                        onLoadSuccess={onDocumentLoadSuccess}
+                        onLoadError={() =>
+                            setDocumentStatus({
+                                status: DocumentStatus.error,
+                                message: "Failed to load PDF document"
+                            })
+                        }
+                    >
+                        <div className="widget-document-viewer-highlight-layer">
+                            <Page pageNumber={currentPage} width={pageContainerWidth} scale={zoomLevel} />
+                            {highlightRects.map(rect => (
+                                <div
+                                    key={rect.globalMatchIndex}
+                                    className={`widget-document-viewer-highlight${
+                                        rect.globalMatchIndex === currentMatchIndex ? " current" : ""
+                                    }`}
+                                    style={{
+                                        left: rect.x,
+                                        top: rect.y,
+                                        width: rect.width,
+                                        height: rect.height
+                                    }}
+                                />
+                            ))}
+                        </div>
+                    </Document>
+                </If>
+            </div>
         </BaseViewer>
     );
 };

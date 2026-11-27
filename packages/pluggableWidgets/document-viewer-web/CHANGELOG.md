@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where PDF documents were not displayed at the full width of the widget, and the Fit to width button did not scale the document to the widget's width.
+
 ## [1.3.0] - 2026-08-20
 
 ### Added
