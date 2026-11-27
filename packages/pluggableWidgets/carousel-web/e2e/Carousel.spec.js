@@ -32,9 +32,7 @@ test.describe("Carousel", () => {
         await expect(lightbox).toBeVisible();
     });
 
-    // Hidden slides get aria-hidden="true" but keep focusable content (the clickable image), so axe reports
-    // aria-hidden-focus. The slides need to be made inert as well.
-    test.fixme("has no accessibility violations", async ({ page }) => {
+    test("has no accessibility violations", async ({ page }) => {
         await expect(page.locator(".mx-name-carousel2")).toBeVisible();
 
         await checkAccessibility(page, ".mx-name-carousel2", { tags: ["wcag2a"] });
