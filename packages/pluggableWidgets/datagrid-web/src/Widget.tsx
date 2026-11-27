@@ -8,28 +8,34 @@ import { Grid } from "./Grid";
 import { GridBody } from "./GridBody";
 import { GridHeader } from "./GridHeader";
 import { RowsRenderer } from "./RowsRenderer";
+import { TopHorizontalScrollbar } from "./TopHorizontalScrollbar";
 import { WidgetContent } from "./ui/WidgetContent";
 import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 
-export function Widget(props: { onExportCancel?: () => void }): ReactElement {
+export function Widget(props: { onExportCancel?: () => void; showTopScrollbar: boolean }): ReactElement {
     return (
         <WidgetRoot>
             <WidgetTopBar />
             <WidgetHeader />
+
+            {props.showTopScrollbar ? <TopHorizontalScrollbar /> : null}
+
             <WidgetContent>
                 <Grid>
                     <GridHeader />
                     <SelectAllBar />
                     <RefreshStatus />
+
                     <GridBody>
                         <RowsRenderer />
                         <EmptyPlaceholder />
                     </GridBody>
                 </Grid>
             </WidgetContent>
+
             <WidgetFooter />
             <SelectionProgressDialog />
             <ExportProgressDialog onExportCancel={props.onExportCancel} />
