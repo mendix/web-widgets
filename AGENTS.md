@@ -15,6 +15,7 @@ Monorepo of official Mendix pluggable web widgets. pnpm workspaces + Turbo.
 - Changelogs added during development, version bumps only at release time
 - Jest + RTL for unit tests (src/\*_/**tests**/_.spec.ts)
 - Playwright for E2E (e2e/\*.spec.js)
+- MobX widgets and shared packages: follow docs/requirements/mobx-mvvm-guidelines.md (layers, view-models, effects, observer rules)
 
 ## Code Comments
 
